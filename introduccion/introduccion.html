@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre el Movimiento - Introducción (v2)</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="introduccion.css">
+  <link rel="icon" href="../aadocumentos/ico/casa.ico">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index/index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="../cancionero/cancionero.html" class="menu-item">
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="introduccion.html" class="menu-item active">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="main">
+    <!-- Hero con imagen de fondo (similar cancionero, otros colores) -->
+    <section class="hero-header">
+      <div class="hero-content">
+        <h1 class="hero-title">Sobre el Movimiento de los Focolares</h1>
+        <p class="hero-subtitle">Una historia viva de unidad, fraternidad y esperanza</p>
+      </div>
+    </section>
+
+    <!-- Grilla de 3 columnas con tarjetas compactas -->
+    <div class="intro-container">
+      <div class="cards-grid">
+        <!-- Card 1 -->
+        <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+          <div class="card-header">
+            <div class="card-icon">💣</div>
+            <div class="card-title">
+              <h3>Los Focolares en tiempos de guerra</h3>
+            </div>
+            <span class="card-year">1943</span>
+          </div>
+          <button class="expand-btn" onclick="toggleCard(this)">
+            <span class="btn-text">Leer más</span>
+            <span class="btn-icon">+</span>
+          </button>
+          <div class="card-expanded">
+            <p>En plena Segunda Guerra Mundial, en Trento, una joven llamada Chiara Lubich descubre una nueva forma de vivir el Evangelio.</p>
+            <ul>
+              <li>Refugio antiaéreo, decisión por Dios</li>
+              <li>Comunión de bienes y servicio a los más necesitados</li>
+              <li>Nacimiento de una espiritualidad de unidad</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+          <div class="card-header">
+            <div class="card-icon">👥</div>
+            <div class="card-title">
+              <h3>Las Primeras Compañeras</h3>
+            </div>
+            <span class="card-year">1943-1945</span>
+          </div>
+          <button class="expand-btn" onclick="toggleCard(this)">
+            <span class="btn-text">Leer más</span>
+            <span class="btn-icon">+</span>
+          </button>
+          <div class="card-expanded">
+            <p>Jóvenes tocadas por el testimonio de Chiara, que eligieron la radicalidad del amor evangélico.</p>
+            <ul>
+              <li>Doriana Zamboni, Natalia Dallapiccola, Graziella De Luca</li>
+              <li>Vida compartida, oración y servicio</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+          <div class="card-header">
+            <div class="card-icon">🏠</div>
+            <div class="card-title">
+              <h3>El Primer Focolare</h3>
+            </div>
+            <span class="card-year">1944</span>
+          </div>
+          <button class="expand-btn" onclick="toggleCard(this)">
+            <span class="btn-text">Leer más</span>
+            <span class="btn-icon">+</span>
+          </button>
+          <div class="card-expanded">
+            <p>Pequeño apartamento en Trento donde se vivió comunidad, oración y comunión de bienes.</p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+          <div class="card-header">
+            <div class="card-icon">🌈</div>
+            <div class="card-title">
+              <h3>La Revolución Arcoíris</h3>
+            </div>
+            <span class="card-year">1960-Hoy</span>
+          </div>
+          <button class="expand-btn" onclick="toggleCard(this)">
+            <span class="btn-text">Leer más</span>
+            <span class="btn-icon">+</span>
+          </button>
+          <div class="card-expanded">
+            <p>Los Gen protagonizan una revolución de amor, paz y fraternidad.</p>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+          <div class="card-header">
+            <div class="card-icon">🏛️</div>
+            <div class="card-title">
+              <h3>Reconocimiento de la Iglesia</h3>
+            </div>
+            <span class="card-year">1962</span>
+          </div>
+          <button class="expand-btn" onclick="toggleCard(this)">
+            <span class="btn-text">Leer más</span>
+            <span class="btn-icon">+</span>
+          </button>
+          <div class="card-expanded">
+            <p>Aprobación definitiva como “Obra de María”; apertura a la expansión mundial.</p>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+          <div class="card-header">
+            <div class="card-icon">🌍</div>
+            <div class="card-title">
+              <h3>Expansión Internacional</h3>
+            </div>
+            <span class="card-year">1959-1980</span>
+          </div>
+          <button class="expand-btn" onclick="toggleCard(this)">
+            <span class="btn-text">Leer más</span>
+            <span class="btn-icon">+</span>
+          </button>
+          <div class="card-expanded">
+            <p>Presencia en todos los continentes en menos de 30 años.</p>
+          </div>
+        </div>
+
+          <!-- Dentro de .cards-grid, pegar estas tarjetas adicionales después de las 6 existentes -->
+  <!-- Que todos sean uno -->
+    <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+      <div class="card-header">
+        <div class="card-icon">🙏</div>
+        <div class="card-title">
+          <h3>Que todos sean uno</h3>
+        </div>
+      </div>
+      <button class="expand-btn" onclick="toggleCard(this)">
+        <span class="btn-text">Leer más</span>
+        <span class="btn-icon">+</span>
+      </button>
+      <div class="card-expanded">
+        <p>La espiritualidad de la unidad se basa en las palabras de Jesús: "Que todos sean uno". Esta oración se convierte en el programa de vida del movimiento.</p>
+        <h4>Pilares</h4>
+        <ul>
+          <li>Amar a todos como hermanos</li>
+          <li>Vivir el Evangelio día a día</li>
+          <li>Jesús Abandonado como clave de unidad</li>
+        </ul>
+      </div>
+    </div>
+
+  <!-- Jesús Abandonado -->
+  <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+    <div class="card-header">
+      <div class="card-icon">💔</div>
+      <div class="card-title">
+        <h3>Jesús Abandonado</h3>
+      </div>
+      <span class="card-year">Aspecto Central</span>
+    </div>
+    <button class="expand-btn" onclick="toggleCard(this)">
+      <span class="btn-text">Leer más</span>
+      <span class="btn-icon">+</span>
+    </button>
+    <div class="card-expanded">
+      <p>El grito de Jesús en la cruz ilumina el sufrimiento humano y se convierte en fuente de unidad y amor extremo.</p>
+      <ul>
+        <li>Solidaridad con el dolor</li>
+        <li>Amor que no retrocede ante nada</li>
+        <li>Esperanza en el sufrimiento</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Diálogo Interreligioso -->
+  <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+    <div class="card-header">
+      <div class="card-icon">🕊️</div>
+      <div class="card-title">
+        <h3>Diálogo Interreligioso</h3>
+      </div>
+      <span class="card-year">Desde 1977</span>
+    </div>
+    <button class="expand-btn" onclick="toggleCard(this)">
+      <span class="btn-text">Leer más</span>
+      <span class="btn-icon">+</span>
+    </button>
+    <div class="card-expanded">
+      <p>Apertura al diálogo con todas las religiones a partir de 1977, con respeto y búsqueda del bien común.</p>
+      <h4>Principios</h4>
+      <ul>
+        <li>Respeto absoluto</li>
+        <li>Testimonio de vida</li>
+        <li>Fraternidad práctica</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Economía de Comunión -->
+  <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+    <div class="card-header">
+      <div class="card-icon">💰</div>
+      <div class="card-title">
+        <h3>Economía de Comunión</h3>
+      </div>
+      <span class="card-year">Desde 1991</span>
+    </div>
+    <button class="expand-btn" onclick="toggleCard(this)">
+      <span class="btn-text">Leer más</span>
+      <span class="btn-icon">+</span>
+    </button>
+    <div class="card-expanded">
+      <p>Modelo empresarial que comparte ganancias para erradicar la pobreza y formar en la cultura del dar.</p>
+      <ul>
+        <li>Relaciones fraternas</li>
+        <li>Transparencia total</li>
+        <li>Sostenibilidad ecológica</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Las Ciudades Piloto -->
+  <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+    <div class="card-header">
+      <div class="card-icon">🏙️</div>
+      <div class="card-title">
+        <h3>Las Ciudades Piloto</h3>
+      </div>
+      <span class="card-year">Mundial</span>
+    </div>
+    <button class="expand-btn" onclick="toggleCard(this)">
+      <span class="btn-text">Leer más</span>
+      <span class="btn-icon">+</span>
+    </button>
+    <div class="card-expanded">
+      <p>Laboratorios de fraternidad con economía solidaria, educación integral y diálogo intercultural.</p>
+      <ul>
+        <li>Loppiano (Italia)</li>
+        <li>Mariápolis Ginetta (Brasil)</li>
+        <li>O'Higgins (Argentina)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Escuelas e Universidades -->
+  <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+    <div class="card-header">
+      <div class="card-icon">🎓</div>
+      <div class="card-title">
+        <h3>Escuelas e Universidades</h3>
+      </div>
+      <span class="card-year">Mundial</span>
+    </div>
+    <button class="expand-btn" onclick="toggleCard(this)">
+      <span class="btn-text">Leer más</span>
+      <span class="btn-icon">+</span>
+    </button>
+    <div class="card-expanded">
+      <p>Instituciones que aplican una pedagogía basada en la unidad y el respeto de la persona.</p>
+      <ul>
+        <li>Universidad Sophia (Italia/Filipinas)</li>
+        <li>Escuelas primarias y secundarias</li>
+        <li>Centros de formación profesional</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Cifras Actuales -->
+  <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+    <div class="card-header">
+      <div class="card-icon">📊</div>
+      <div class="card-title">
+        <h3>Cifras Actuales</h3>
+      </div>
+      <span class="card-year">2024</span>
+    </div>
+    <button class="expand-btn" onclick="toggleCard(this)">
+      <span class="btn-text">Leer más</span>
+      <span class="btn-icon">+</span>
+    </button>
+    <div class="card-expanded">
+      <p>Presencia en 194 países y participación de millones de personas en diversas iniciativas.</p>
+      <ul>
+        <li>50.000 focolares y comunidades</li>
+        <li>800 empresas de EdC</li>
+        <li>100 instituciones educativas</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Proyectos de Paz -->
+  <div class="intro-card" data-img="../aadocumentos/imagenes/guitarra.jpg">
+    <div class="card-header">
+      <div class="card-icon">🤝</div>
+      <div class="card-title">
+        <h3>Proyectos de Paz</h3>
+      </div>
+      <span class="card-year">Ongoing</span>
+    </div>
+    <button class="expand-btn" onclick="toggleCard(this)">
+      <span class="btn-text">Leer más</span>
+      <span class="btn-icon">+</span>
+    </button>
+    <div class="card-expanded">
+      <p>Metodologías de reconciliación y diálogo activo en zonas de conflicto.</p>
+      <ul>
+        <li>Encuentro personal, perdón y proyectos comunes</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- Cierre del contenedor principal tras la última card -->
+            </div> <!-- .cards-grid -->
+          </div>   <!-- .intro-container -->
+        </main>
+  
+        <!-- Modal "Leer más" -->
+        <div class="intro-modal-overlay" id="introModalOverlay">
+          <div class="intro-modal">
+            <img id="introModalImage" class="modal-image" src="../aadocumentos/imagenes/guitarra.jpg" alt="Detalle">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="introModalTitle">Título</h3>
+                <button class="modal-close" onclick="closeIntroModal()">✕</button>
+              </div>
+              <p class="modal-subtitle" id="introModalSubtitle"></p>
+              <div id="introModalBody"></div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Scripts -->
+        <script src="introduccion.js"></script>
+      </div>
+      </body>
+      </html>

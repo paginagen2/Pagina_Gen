@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="links.css">
+  <link rel="icon" href="../aadocumentos/ico/casa.ico">
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index/index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="../cancionero/cancionero.html" class="menu-item">
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+
+  <!-- Contenido Principal -->
+  <main class="main">
+    <div class="links_container">
+      
+      <!-- Hero Banner (copiado del index) -->
+      <section class="hero-banner">
+        <div class="hero-content">
+          <h1>📞 Conecta con Nosotros</h1>
+          <p>Enlaces, redes sociales y formas de contacto con la comunidad Gen 2</p>
+        </div>
+      </section>
+
+      <!-- Sección de Contacto Principal -->
+      <section class="contacto-principal" id="contacto">
+        <div class="contacto-card">
+          <div class="contacto-header">
+            <h2>💬 Envíanos un mensaje</h2>
+            <p>¿Tienes dudas, sugerencias o quieres compartir algo? <br>Estamos aquí para escucharte</p>
+          </div>
+
+          <!-- Email Display -->
+          <div class="email-display">
+            <div class="email-container">
+              <span class="email-text">pagina.gen.2@gmail.com</span>
+              <button class="copy-button" onclick="copyEmail()" id="copyBtn">
+                <span id="copyIcon">📋</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Categorías de Contacto -->
+          <div class="categorias-section">
+            <h3>¿Sobre qué tema quieres escribirnos?</h3>
+            <div class="categorias-grid">
+              <button class="categoria-btn" data-category="cancionero" onclick="selectCategory('cancionero')">
+                <span class="categoria-icon">🎸</span>
+                <span class="categoria-text">Reportes del Cancionero</span>
+              </button>
+              <button class="categoria-btn" data-category="animadores" onclick="selectCategory('animadores')">
+                <span class="categoria-icon">🎯</span>
+                <span class="categoria-text">Reportes de Gen Animadores</span>
+              </button>
+              <button class="categoria-btn" data-category="experiencia" onclick="selectCategory('experiencia')">
+                <span class="categoria-icon">💝</span>
+                <span class="categoria-text">Compartir Experiencia</span>
+              </button>
+              <button class="categoria-btn" data-category="biblioteca" onclick="selectCategory('biblioteca')">
+                <span class="categoria-icon">📚</span>
+                <span class="categoria-text">Biblioteca</span>
+              </button>
+              <button class="categoria-btn" data-category="movimiento" onclick="selectCategory('movimiento')">
+                <span class="categoria-icon">❤️</span>
+                <span class="categoria-text">Sobre el Movimiento</span>
+              </button>
+              <button class="categoria-btn" data-category="colaboracion" onclick="selectCategory('colaboracion')">
+                <span class="categoria-icon">🤝</span>
+                <span class="categoria-text">Colaboración</span>
+              </button>
+              <button class="categoria-btn" data-category="mejoras" onclick="selectCategory('mejoras')">
+                <span class="categoria-icon">💡</span>
+                <span class="categoria-text">Mejoras para la Página</span>
+              </button>
+              <button class="categoria-btn" data-category="general" onclick="selectCategory('general')">
+                <span class="categoria-icon">💭</span>
+                <span class="categoria-text">Contacto General</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Área de Sugerencias -->
+          <div class="sugerencias-card" id="sugerenciasArea">
+            <div id="sugerenciaContent">
+              <p class="sugerencia-placeholder">👆 Selecciona una categoría para ver consejos específicos sobre qué incluir en tu mensaje.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Enlaces y Redes Sociales -->
+      <div class="enlaces-grid">
+        
+        <!-- Enlaces Oficiales -->
+        <section class="enlaces-section">
+          <h2 class="section-title">
+            <span class="title-icon">🌍</span>
+            Enlaces Oficiales
+          </h2>
+          <div class="links-container">
+            <a href="https://www.focolare.org/es/" class="link-item" target="_blank">
+              <div class="link-icon">🏛️</div>
+              <div class="link-info">
+                <h4>Movimiento de los Focolares</h4>
+                <p>Sitio oficial mundial del Movimiento</p>
+              </div>
+            </a>
+            <a href="https://mariapolis.org.ar/" class="link-item" target="_blank">
+              <div class="link-icon">🌟</div>
+              <div class="link-info">
+                <h4>Mariapolis Lia</h4>
+                <p>La ciudadela de Argentina</p>
+              </div>
+            </a>
+            <a href="https://edc-online.org" class="link-item" target="_blank">
+              <div class="link-icon">💼</div>
+              <div class="link-info">
+                <h4>Economía de Comunión</h4>
+                <p>Proyecto económico basado en la cultura del dar</p>
+              </div>
+            </a>
+            <a href="https://ciudadnueva.com.ar/" class="link-item" target="_blank">
+              <div class="link-icon">📰</div>
+              <div class="link-info">
+                <h4>Cidudad Nueva</h4>
+                <p>Revista internacional del Movimiento</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Redes Sociales -->
+        <section class="redes-section">
+          <h2 class="section-title">
+            <span class="title-icon">📱</span>
+            Redes Sociales
+          </h2>
+          <div class="redes-container">
+            <a href="https://www.instagram.com/genconosur/" class="red-item instagram" target="_blank">
+              <span class="red-icon">📸</span>
+              <span class="red-name">Instagram</span>
+              <span class="red-handle">@genconosur</span>
+            </a>
+            <a href="https://www.youtube.com/@GenCastellano" class="red-item youtube" target="_blank">
+              <span class="red-icon">📺</span>
+              <span class="red-name">YouTube</span>
+              <span class="red-handle">@GenCastellano</span>
+            </a>
+            <a href="https://chat.whatsapp.com/GSJTSIYxpDIHfrGAZxBRvH" class="red-item whatsapp" target="_blank">
+              <span class="red-icon">💬</span>
+              <span class="red-name">WhatsApp</span>
+              <span class="red-handle">Grupo Gen 2</span>
+            </a>
+            <a href="https://open.spotify.com/intl-es/artist/5wqCshHwIN6nIYkBWRvIym?si=sC8BkTLnQuu9GpgN5ulP1A" class="red-item spotify" target="_blank">
+              <span class="red-icon">💫</span>
+              <span class="red-name">Spotify</span>
+              <span class="red-handle">Canciones Gen 2</span>
+            </a>            
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+  <script src="links.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Digital</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="biblioteca.css">
+  <link rel="icon" href="casa.ico">
+</head>
+
+<body>
+  
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index/index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="../cancionero/cancionero.html" class="menu-item">
+
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="biblioteca.html" class="menu-item active">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="main">
+    <div class="biblioteca_container">
+      
+      <!-- Header -->
+      <div class="div-header">
+        <header class="biblioteca-header">
+          <h1>BIBLIOTECA DIGITAL</h1>
+         <p class="biblioteca-subtitle">Recursos espirituales y formativos del Movimiento</p>
+        </header>
+      </div>
+
+      <!-- Controles de filtrado -->
+      <div class="biblioteca_controles">
+        
+        <!-- Filtros por categoría -->
+        <div class="filtros_section">
+          <div class="filtros_titulo">📚 Filtrar por categoría:</div>
+          <div class="filtros_categoria">
+            <button class="filtro_btn active" data-categoria="todos" onclick="filtrarCategoria('todos')">Todos</button>
+            <button class="filtro_btn" data-categoria="libros" onclick="filtrarCategoria('libros')">📖 Libros</button>
+            <button class="filtro_btn" data-categoria="documentos" onclick="filtrarCategoria('documentos')">📄 Documentos</button>
+            <button class="filtro_btn" data-categoria="audio" onclick="filtrarCategoria('audio')">🎵 Audio</button>
+            <button class="filtro_btn" data-categoria="videos" onclick="filtrarCategoria('videos')">📹 Videos</button>
+          </div>
+        </div>
+
+        <!-- Filtros por temas (colapsables) -->
+        <div class="filtros_section">
+          <div class="filtros_titulo_container">
+            <div class="filtros_titulo">🏷️ Filtrar por temas:</div>
+            <button class="toggle_filtros_btn" id="toggleFiltrosBtn" onclick="toggleFiltrosTemas()">
+              <span id="toggleIcon">▼</span> <span id="toggleText">Ocultar filtros</span>
+            </button>
+          </div>
+          <div class="filtros_atributos" id="filtrosAtributos">
+            <!-- Se cargan dinámicamente desde JavaScript -->
+          </div>
+        </div>
+
+        <!-- Búsqueda -->
+        <div class="busqueda_container">
+          <input type="text" id="busquedaInput" class="busqueda_input" placeholder="Buscar en biblioteca..." onkeyup="buscarArchivos()">
+          <span class="busqueda_icono">🔍</span>
+        </div>
+
+        <!-- Botón para enviar archivos via Google Forms -->
+        <div class="enviar_archivos_section">
+          <button class="btn_enviar_archivos" onclick="abrirFormularioGoogle()">
+            📤 Enviar archivo a la biblioteca
+          </button>
+          <p class="enviar_archivos_info">
+            Se abrirá un formulario de Google para enviar tu archivo de forma segura
+          </p>
+        </div>
+        
+      </div>
+
+      <!-- Contador de resultados -->
+      <div class="resultado_contador">
+        <span id="contadorResultados">Cargando...</span>
+      </div>
+
+      <!-- Grid de archivos -->
+      <div class="biblioteca_grid" id="bibliotecaGrid">
+        <div class="sin_resultados">
+          <div class="sin_resultados_icono">📚</div>
+          <h3>Cargando biblioteca...</h3>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div class="paginacion" id="paginacion" style="display: none;">
+        <button class="pag_btn" id="btnAnterior" onclick="cambiarPagina(-1)" disabled>← Anterior</button>
+        <div class="pag_info">
+          <span>Página <span id="paginaActual">1</span> de <span id="totalPaginas">1</span></span>
+        </div>
+        <button class="pag_btn" id="btnSiguiente" onclick="cambiarPagina(1)">Siguiente →</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Modal para vista previa -->
+  <div class="modal_preview" id="modalPreview">
+    <div class="modal_contenido">
+      <div class="modal_header">
+        <h3 id="modalTitulo">Título del archivo</h3>
+        <button class="modal_cerrar" onclick="cerrarModal()">&times;</button>
+      </div>
+      <div class="modal_body">
+        <iframe id="modalIframe" src=""></iframe>
+      </div>
+      <div class="modal_footer">
+        <a href="#" id="modalDescarga" class="btn_descarga" target="_blank">📥 Descargar archivo</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="biblioteca.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen Animadores - Recursos y Dinámicas</title>
+    <link rel="stylesheet" href="recursos-unificado.css">
+    <script src="../aaglobal/firebase-config.js"></script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index/index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="../cancionero/cancionero.html" class="menu-item">
+
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item active">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <div class="animadores-container">
+            <!-- Header -->
+            <div class="animadores-header">
+                <h2>Recursos para</h2>
+                <h1>Gen Animadores</h1>
+                <p class="subtitle">Herramientas, dinámicas y recursos para animar encuentros juveniles</p>
+            </div>
+
+            <!-- Grid de Recursos -->
+            <div class="recursos-grid">
+                <!-- Dinámicas Grupales -->
+                <div class="recurso-card">
+                    <div class="card-header dinamicas">
+                        <div class="card-icon">👥</div>
+                        <h3>Dinámicas Grupales</h3>
+                        <span class="recursos-count" id="count-dinamicas">Cargando...</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Actividades paso a paso para crear vínculos y favorecer la participación grupal.</p>
+                        <div class="recursos-preview" id="preview-dinamicas">
+                            <div class="loading">Cargando dinámicas...</div>
+                        </div>
+                        <a href="dinamicas-grupales.html" class="ver-todos-btn">Ver todas las dinámicas</a>
+                    </div>
+                </div>
+
+                <!-- Juegos para Encuentros -->
+                <div class="recurso-card">
+                    <div class="card-header juegos">
+                        <div class="card-icon">🎲</div>
+                        <h3>Juegos para Encuentros</h3>
+                        <span class="recursos-count" id="count-juegos">Cargando...</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Juegos divertidos que educan y transmiten valores cristianos.</p>
+                        <div class="recursos-preview" id="preview-juegos">
+                            <div class="loading">Cargando juegos...</div>
+                        </div>
+                        <a href="juegos-encuentros.html" class="ver-todos-btn">Ver todos los juegos</a>
+                    </div>
+                </div>
+
+                <!-- Reflexiones Guiadas -->
+                <div class="recurso-card">
+                    <div class="card-header reflexiones">
+                        <div class="card-icon">🤔</div>
+                        <h3>Reflexiones Guiadas</h3>
+                        <span class="recursos-count" id="count-reflexiones">Cargando...</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Preguntas y técnicas para momentos de reflexión profunda.</p>
+                        <div class="recursos-preview" id="preview-reflexiones">
+                            <div class="loading">Cargando reflexiones...</div>
+                        </div>
+                        <a href="reflexiones-guiadas.html" class="ver-todos-btn">Ver todas las reflexiones</a>
+                    </div>
+                </div>
+
+                <!-- Recursos para Retiros -->
+                <div class="recurso-card">
+                    <div class="card-header retiros">
+                        <div class="card-icon">⛰️</div>
+                        <h3>Recursos para Retiros</h3>
+                        <span class="recursos-count" id="count-retiros">Cargando...</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Programas completos y actividades especiales para retiros.</p>
+                        <div class="recursos-preview" id="preview-retiros">
+                            <div class="loading">Cargando retiros...</div>
+                        </div>
+                        <a href="recursos-retiros.html" class="ver-todos-btn">Ver todos los retiros</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consejos para Animadores -->
+            <div class="ayuda-section">
+                <div class="ayuda-card">
+                    <h3>💡 Consejos para Animadores</h3>
+                    <div class="consejos-grid">
+                        <div class="consejo-item">
+                            <h4>🎯 Preparación</h4>
+                            <p>Prepara siempre el material con anticipación y ten un plan B.</p>
+                        </div>
+                        <div class="consejo-item">
+                            <h4>👂 Escucha</h4>
+                            <p>Mantén una actitud de escucha activa hacia todos los participantes.</p>
+                        </div>
+                        <div class="consejo-item">
+                            <h4>🤝 Flexibilidad</h4>
+                            <p>Adapta las actividades según las necesidades del grupo.</p>
+                        </div>
+                        <div class="consejo-item">
+                            <h4>❤️ Testimonio</h4>
+                            <p>Tu ejemplo personal es el mejor recurso de animación.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Acciones -->
+            <div class="acciones-section">
+                <div class="acciones-grid">
+                    <div class="accion-card">
+                        <h3>📝 ¿Necesitas algo específico?</h3>
+                        <p>Si tienes una situación particular o necesitas un recurso que no encuentras aquí, contáctanos.</p>
+                        <a href="../links/links.html" class="accion-btn solicitar">Solicitar nuevo recurso</a>
+                    </div>
+                    <div class="accion-card">
+                        <h3>➕ Contribuye con la comunidad</h3>
+                        <p>¿Tienes una dinámica exitosa? Compártela con otros animadores de todo el mundo.</p>
+                        <button onclick="mostrarFormularioAgregar()" class="accion-btn agregar">Agregar nueva dinámica</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar recurso completo -->
+    <div id="modalRecurso" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button onclick="cerrarModal()" class="modal-close">✕</button>
+            <div id="contenidoRecurso"></div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar nueva dinámica -->
+    <div id="modalAgregar" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button onclick="cerrarModalAgregar()" class="modal-close">✕</button>
+            <div class="modal-body">
+                <h2>➕ Agregar Nueva Dinámica</h2>
+                <form id="formNuevaDinamica">
+                    <div class="form-group">
+                        <label for="categoria">Categoría:</label>
+                        <select id="categoria" name="categoria" required>
+                            <option value="dinamicas">👥 Dinámicas Grupales</option>
+                            <option value="juegos">🎲 Juegos para Encuentros</option>
+                            <option value="reflexiones">🤔 Reflexiones Guiadas</option>
+                            <option value="retiros">⛰️ Recursos para Retiros</option>
+                        </select>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="titulo">Título:</label>
+                            <input type="text" id="titulo" name="titulo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="duracion">Duración:</label>
+                            <input type="text" id="duracion" name="duracion" placeholder="ej: 15-20 min" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" required></textarea>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="participantes">Participantes:</label>
+                            <input type="text" id="participantes" name="participantes" placeholder="ej: 8-15 personas" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="autor">Tu nombre:</label>
+                            <input type="text" id="autor" name="autor" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="objetivo">Objetivo:</label>
+                        <textarea id="objetivo" name="objetivo" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="materiales">Materiales (uno por línea):</label>
+                        <textarea id="materiales" name="materiales" placeholder="Sillas en círculo&#10;Música suave&#10;Hojas en blanco"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pasos">Pasos a seguir (uno por línea):</label>
+                        <textarea id="pasos" name="pasos" placeholder="Formar un círculo con las sillas&#10;Explicar la dinámica&#10;Comenzar la actividad" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email de contacto:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" onclick="cerrarModalAgregar()" class="btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn-primary">➕ Agregar Recurso</button>
+                    </div>
+                </form>
+                <div id="loadingAgregar" style="display: none; text-align: center; padding: 2rem;">
+                    <div class="loading-icon">⏳</div>
+                    <h3>Guardando en Firebase...</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="recursos-unificado.js"></script>
+</body>
+</html>

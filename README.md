@@ -1,2 +1,2 @@
-# Pagina_Gen
-Es una pagina Gen! (V1)
+# paginagen
+Es una pagina Gen!

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cancionero Gen</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="cancionero.css">
+  <link rel="icon" href="../aadocumentos/ico/casa.ico">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="module" src="../aaglobal/firebase-config-pro.js"></script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index/index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="../cancionero/cancionero.html" class="menu-item active">
+
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="main">
+    <!-- Hero con imagen de fondo -->
+    <section class="hero hero-guitarra">
+      <div class="hero-content">
+        <h1>🎸 Cancionero Gen</h1>
+        <p>Descubre, aprende y comparte las canciones más populares</p>
+      </div>
+    </section>
+
+    <!-- Layout de 2 columnas -->
+    <div class="cancionero-layout">
+      <!-- Columna principal -->
+      <div class="main-column">
+        <!-- Controles simplificados -->
+        <section class="unified-controls">
+          <div class="controls-header">
+            <h2>🔍 Explorar canciones</h2>
+            <div class="header-actions">
+              <button class="add-btn" onclick="mostrarFormulario()">
+                <span>➕</span>
+                Nueva Canción
+              </button>
+            </div>
+          </div>
+          
+          <div class="controls-content">
+            <!-- Búsqueda -->
+            <div class="search-section">
+              <input type="text" id="searchInput" placeholder="🔍 Buscar por título, artista o letra..." class="search-input">
+            </div>
+            
+            <!-- Solo filtros de categoría -->
+            <div class="filters-section">
+              <div class="filter-group">
+                <label>Categoría:</label>
+                <div class="filter-pills">
+                  <button class="filter-pill active" data-categoria="todas">🎶 Todas</button>
+                  <button class="filter-pill" data-categoria="misa">⛪ Misa</button>
+                  <button class="filter-pill" data-categoria="gen">❤️ Gen</button>
+                  <button class="filter-pill" data-categoria="fogon">🔥 Fogón</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Top 5 más populares -->
+        <section class="top-canciones">
+          <div class="section-header">
+            <h2 id="sectionTitle">🏆 Top 5 más populares</h2>
+            <a href="#" class="view-all-link" onclick="mostrarTodas()">Ver todas →</a>
+          </div>
+          
+          <div class="canciones-grid" id="cancionesGrid">
+            <div class="loading-state">
+              <div class="loading-icon">🎵</div>
+              <p>Cargando las mejores canciones...</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Sidebar derecha -->
+      <aside class="sidebar-right">
+        <!-- Botón de acordes -->
+        <div class="acordes-card">
+          <div class="card-header">
+            <h3>🎼 Centro de Acordes</h3>
+          </div>
+          <div class="card-content">
+            <p>Aprende todos los acordes que necesitas</p>
+            <button class="acordes-btn" onclick="abrirAcordes()">
+              <span>🎸</span>
+              Ver Acordes
+            </button>
+          </div>
+        </div>
+
+        <!-- Top artistas -->
+        <div class="artistas-card">
+          <div class="card-header">
+            <h3>🎤 Top Artistas</h3>
+          </div>
+          <div class="artistas-list" id="artistasList">
+            <div class="loading-text">Cargando artistas...</div>
+          </div>
+        </div>
+
+        <!-- Generador de PDF -->
+        <div class="pdf-card">
+          <div class="card-header">
+            <h3>📄 Cancionero PDF</h3>
+          </div>
+          <div class="card-content">
+            <p>Crea tu cancionero personalizado en PDF</p>
+            <button class="pdf-btn" onclick="activarModoSeleccion()" id="btnActivarPDF">
+              <span>📄</span>
+              Generar Cancionero
+            </button>
+            
+            <!-- Controles cuando está en modo selección -->
+            <div class="pdf-controls" id="pdfControls" style="display: none;">
+              <div class="selection-info">
+                <span id="selectionCount">0</span> canciones seleccionadas
+              </div>
+              <div class="pdf-buttons">
+                <button class="btn-generate-pdf" onclick="generarPDF()">
+                  📄 Crear PDF
+                </button>
+                <button class="btn-cancel-selection" onclick="cancelarSeleccion()">
+                  ❌ Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Área para mostrar canciones de artista -->
+    <div class="artista-section" id="artistaSection" style="display: none;">
+      <div class="artista-header">
+        <h2 id="artistaTitulo">🎤 Artista</h2>
+        <button class="back-to-main" onclick="volverAlMain()">← Volver a canciones principales</button>
+      </div>
+      <div class="canciones-grid" id="cancionesArtista">
+        <!-- Canciones del artista se llenan aquí -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Formulario modal simplificado -->
+  <div class="form-overlay" id="formOverlay">
+    <div class="form-container">
+      <div class="form-header">
+        <h2 class="form-title">🎵 Agregar Nueva Canción</h2>
+        <button class="close-btn" onclick="ocultarFormulario()">✕</button>
+      </div>
+      
+      <div class="form-body">
+        <form id="formCancion">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="titulo">Título de la canción *</label>
+              <input type="text" id="titulo" required placeholder="Ej: Alabaré, Como tú...">
+            </div>
+            
+            <div class="form-group">
+              <label for="artista">Artista/Compositor</label>
+              <input type="text" id="artista" placeholder="Ej: Tradicional, Gen...">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="categoria">Categoría *</label>
+            <select id="categoria" required>
+              <option value="">Seleccionar categoría...</option>
+              <option value="misa">⛪ Misa</option>
+              <option value="gen">❤️ Gen</option>
+              <option value="fogon">🔥 Fogón</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="letra">Letra con acordes *</label>
+            <textarea id="letra" required rows="8" placeholder="Ejemplo:&#10;[C]Estrofa ejemplo&#10;[G]Con acordes simples&#10;[Am]Para demostrar [F]formato"></textarea>
+            <div class="form-help">
+              💡 <strong>Tip:</strong> Usa corchetes para los acordes: [C], [G], [Am], [F], etc.
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="ocultarFormulario()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              💾 Guardar Canción
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="status-toast" id="statusToast">
+    <div class="toast" id="toast">
+      <span id="toastIcon">ℹ️</span>
+      <span id="toastMessage">Mensaje</span>
+    </div>
+  </div>
+
+  <script type="module" src="cancionero.js"></script>
+</body>
+</html>

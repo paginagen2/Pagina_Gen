@@ -1,0 +1,984 @@
+/* ===================================
+   VARIABLES CSS UNIFICADAS
+   =================================== */
+:root {
+  /* Colores principales */
+  --primary-color: #FF8C00;
+  --secondary-color: #FF6B35;
+  --accent-color: #FFD700;
+  --primary-red: #FF4500;
+  
+  /* Backgrounds */
+  --bg-light: #FFFFFF;
+  --bg-dark: #181818;
+  --card-bg: #1a1a1a;
+  --border-color: #333;
+  
+  /* Textos */
+  --text-light: #fff;
+  --text-muted: #ccc;
+  --success-color: #4CAF50;
+  --warning-color: #FF6347;
+  
+  /* Gradientes específicos por categoría */
+  --gradient-primary: linear-gradient(135deg, #FF8C00, #FF6B35);
+  --gradient-dinamicas: linear-gradient(135deg, #FF8C00, #FFA500);
+  --gradient-juegos: linear-gradient(135deg, #FF6B35, #FF8C00);
+  --gradient-reflexiones: linear-gradient(135deg, #FFD700, #FFA500);
+  --gradient-retiros: linear-gradient(135deg, #FF4500, #FF6B35);
+}
+
+/* ===================================
+   RESET Y BASE
+   =================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  background-color: #111;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ===================================
+   SIDEBAR (HEREDADO DEL STYLE-OLD)
+   =================================== */
+.sidebar {
+  width: 71px;
+  background-color: var(--card-bg);
+  color: #ffffffa2;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  transition: width 0.3s;
+  overflow: hidden;
+  justify-content: center;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar:hover {
+  width: 265px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+.menu-item.active {
+  background-color: #111;
+  font-weight: bold;
+  border-left: 4px solid var(--primary-color);
+}
+
+.menu-item:hover {
+  background-color: #333;
+  transform: scale(1.05);
+}
+
+.menu-item.active:hover {
+  transform: scale(1.02);
+}
+
+.menu-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.menu-text {
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+}
+
+.sidebar:hover .menu-text {
+  opacity: 1;
+}
+
+/* ===================================
+   MAIN CONTENT
+   =================================== */
+.main {
+  flex: 1;
+  margin-left: 71px;
+  padding: 30px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-width: calc(100vw - 71px);
+  min-height: 100vh;
+}
+
+/* ===================================
+   HEADERS UNIFICADOS
+   =================================== */
+.animadores-header, .recursos-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 3rem 2rem 2rem;
+  border-radius: 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-primary);
+}
+
+.recursos-header.dinamicas { background: var(--gradient-dinamicas); }
+.recursos-header.juegos { background: var(--gradient-juegos); }
+.recursos-header.reflexiones { background: var(--gradient-reflexiones); }
+.recursos-header.retiros { background: var(--gradient-retiros); }
+
+.animadores-header::before, .recursos-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 60%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(15deg);
+}
+
+.animadores-header h1, .recursos-header h1 {
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================
+   BREADCRUMB
+   =================================== */
+.breadcrumb {
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.breadcrumb-nav a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-nav a:hover {
+  color: var(--accent-color);
+}
+
+.breadcrumb-separator {
+  color: var(--text-muted);
+}
+
+/* ===================================
+   BÚSQUEDA
+   =================================== */
+.search-section {
+  margin: 3rem 0;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.search-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-input {
+  flex: 1;
+  background: #333;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  color: white;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-btn {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.search-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===================================
+   GRIDS Y CARDS
+   =================================== */
+.recursos-grid, .recursos-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.recursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  /* Clave para alturas uniformes */
+  align-items: stretch;
+}
+
+.recurso-card, .recurso-detail-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  /* Flexbox para distribución uniforme del contenido */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 450px; /* Altura mínima uniforme */
+}
+
+.recurso-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2);
+  border-color: var(--primary-color);
+}
+
+.recurso-card:hover, .recurso-detail-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2);
+  border-color: var(--primary-color);
+}
+
+.card-header {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.card-header.dinamicas { background: var(--gradient-dinamicas); }
+.card-header.juegos { background: var(--gradient-juegos); }
+.card-header.reflexiones { background: var(--gradient-reflexiones); }
+.card-header.retiros { background: var(--gradient-retiros); }
+
+.card-icon {
+  font-size: 2.5rem;
+  position: absolute;
+  left: 1.5rem;
+}
+
+.card-header h3 {
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-left: 4rem;
+  flex: 1;
+}
+
+.recursos-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ocupa todo el espacio disponible */
+  justify-content: space-between;
+}
+
+.card-content > p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  flex-grow: 1; /* Permite que el texto se expanda */
+}
+
+/* ===================================
+   RECURSOS PREVIEW Y DETALLES
+   =================================== */
+
+/* Los recursos preview deben tener altura fija */
+.recursos-preview {
+  margin-bottom: 1.5rem;
+  min-height: 120px; /* Altura fija para el preview */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.recurso-item, .recurso-detail-item {
+  background: #0f0f0f;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.recurso-item:hover, .recurso-detail-item:hover {
+  background: #222;
+  border-color: var(--primary-color);
+  transform: translateX(5px);
+}
+
+.recurso-item h4, .recurso-detail-item h4 {
+  color: var(--primary-color);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.recurso-item p, .recurso-detail-item p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+
+.recurso-meta {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+  flex-wrap: wrap;
+}
+
+.duracion, .participantes, .dificultad {
+  color: var(--accent-color);
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(255, 215, 0, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+}
+
+.participantes {
+  background: rgba(255, 140, 0, 0.1);
+  color: var(--primary-color);
+}
+
+.firebase-badge {
+  background: rgba(255, 140, 0, 0.2);
+  color: #FF8C00;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+/* ===================================
+   BOTONES
+   =================================== */
+.ver-todos-btn, .volver-btn, .btn-primary, .btn-secondary {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.ver-todos-btn {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  margin-top: auto; /* Empuja el botón hacia abajo */
+}
+
+.volver-btn {
+  background: var(--gradient-reflexiones);
+  margin-bottom: 2rem;
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #666, #888);
+}
+
+.ver-todos-btn:hover, .volver-btn:hover, .btn-primary:hover, .btn-secondary:hover {
+  transform: translateY(-2px);
+  color: white;
+}
+
+.ver-todos-btn:hover {
+  transform: translateY(-2px);
+  color: white;
+}
+
+/* ===================================
+   ESTADOS (LOADING, ERROR, EMPTY)
+   =================================== */
+
+/* Ajuste para los elementos de carga */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.loading-state, .empty-state, .error-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+
+.loading-icon, .empty-icon, .error-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.loading-icon {
+  animation: pulse 2s infinite;
+}
+
+.empty-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ===================================
+   MODAL UNIFICADO
+   =================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  max-width: 800px;
+  max-height: 80vh;
+  width: 90%;
+  overflow-y: auto;
+  position: relative;
+  margin: 2rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-body h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.firebase-indicator {
+  font-size: 1rem;
+  color: #FF8C00;
+}
+
+.modal-section {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.modal-section.destacado {
+  background: #0f0f0f;
+}
+
+.modal-section h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.modal-section ul, .modal-section ol {
+  color: var(--text-muted);
+  margin-left: 1.5rem;
+}
+
+.modal-section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.descripcion {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.meta-item strong {
+  color: var(--accent-color);
+}
+
+.meta-item span {
+  color: var(--text-muted);
+}
+
+.objetivo {
+  margin-bottom: 1.5rem;
+}
+
+.objetivo strong {
+  color: var(--accent-color);
+}
+
+.objetivo span {
+  color: var(--text-muted);
+}
+
+.programa-dia {
+  margin-bottom: 1.5rem;
+}
+
+.programa-dia h4 {
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.modal-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ===================================
+   SECCIÓN DE ACCIONES (GEN-ANIMADORES)
+   =================================== */
+.acciones-section {
+  margin: 3rem 0;
+}
+
+.acciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.accion-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.accion-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-color);
+}
+
+.accion-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+.accion-card p {
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+.accion-btn {
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.accion-btn.solicitar {
+  background: var(--gradient-reflexiones);
+  color: white;
+}
+
+.accion-btn.agregar {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.accion-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+/* ===================================
+   CONSEJOS (GEN-ANIMADORES)
+   =================================== */
+.ayuda-section {
+  margin: 3rem 0;
+}
+
+.ayuda-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  border-left: 4px solid var(--accent-color);
+}
+
+.ayuda-card h3 {
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.consejos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.consejo-item {
+  background: #0f0f0f;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #333;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.consejo-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-color);
+}
+
+.consejo-item h4 {
+  color: var(--accent-color);
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.consejo-item p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ===================================
+   FORMULARIO (GEN-ANIMADORES)
+   =================================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: #333;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.8rem;
+  color: white;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+/* ===================================
+   NOTIFICACIONES
+   =================================== */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  font-weight: 500;
+  max-width: 350px;
+  animation: slideIn 0.3s ease;
+}
+
+/* ===================================
+   ANIMACIONES
+   =================================== */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+  
+  .main {
+    margin-left: 60px;
+    padding: 15px;
+    max-width: calc(100vw - 60px);
+  }
+  
+  .animadores-header h1, .recursos-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .recursos-grid, .recursos-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .consejos-grid, .acciones-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .search-container {
+    flex-direction: column;
+  }
+  
+  .card-header h3 {
+    font-size: 1.1rem;
+    margin-left: 3rem;
+  }
+  
+  .card-icon {
+    font-size: 2rem;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .empty-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 10px;
+  }
+  
+  .animadores-header, .recursos-header {
+    padding: 2rem 1rem;
+  }
+  
+  .modal-content {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+}
+
+/* ===================================
+   RESPONSIVE PARA TARJETAS UNIFORMES
+   =================================== */
+@media (max-width: 768px) {
+  .recursos-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .recurso-card {
+    min-height: 400px; /* Altura menor en móvil */
+  }
+  
+  .recursos-preview {
+    min-height: 100px; /* Preview más pequeño en móvil */
+  }
+}
+
+@media (max-width: 480px) {
+  .recurso-card {
+    min-height: 350px; /* Altura aún menor en pantallas muy pequeñas */
+  }
+  
+  .recursos-preview {
+    min-height: 80px;
+  }
+}
+
+/* ===================================
+   DARK MODE SUPPORT
+   =================================== */
+.dark .modal-content {
+  background: var(--card-bg);
+  color: var(--text-light);
+}
+
+.dark .search-input {
+  background: #222;
+  color: white;
+}

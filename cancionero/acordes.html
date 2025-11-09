@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro de Acordes - Gen 2</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="acordes.css">
+  <link rel="icon" href="../aadocumentos/ico/casa.ico">
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index/index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="cancionero.html" class="menu-item active">
+
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+  <!-- Contenido Principal -->
+  <main class="main">
+    <div class="acordes-container">
+      
+      <!-- Header -->
+      <section class="hero">
+        <div class="hero-content">
+          <h1>🎼 Centro de Acordes</h1>
+          <p>Aprende todos los acordes que necesitas para piano y guitarra</p>
+        </div>
+      </section>
+
+      <!-- Controles -->
+      <section class="acordes-controls">
+        <div class="controls-grid">
+          
+          <!-- Selección de Instrumento -->
+          <div class="control-group">
+            <h3>🎹 Instrumento</h3>
+            <div class="instrument-tabs">
+              <button class="instrument-btn active" data-instrument="piano" onclick="selectInstrument('piano')">
+                🎹 Piano
+              </button>
+              <button class="instrument-btn" data-instrument="guitar" onclick="selectInstrument('guitar')">
+                🎸 Guitarra
+              </button>
+            </div>
+          </div>
+
+          <!-- Tipo de Cifrado -->
+          <div class="control-group">
+            <h3>🔤 Cifrado</h3>
+            <div class="cifrado-tabs">
+              <button class="cifrado-btn active" data-cifrado="americano" onclick="selectCifrado('americano')">
+                🇺🇸 Americano (C, D, E...)
+              </button>
+              <button class="cifrado-btn" data-cifrado="europeo" onclick="selectCifrado('europeo')">
+                🇪🇺 Europeo (Do, Re, Mi...)
+              </button>
+            </div>
+          </div>
+
+          <!-- Filtro por Nota -->
+          <div class="control-group">
+            <h3>🎵 Filtrar por Nota</h3>
+            <div class="notas-filter" id="notasFilter">
+              <!-- Se llena dinámicamente -->
+            </div>
+          </div>
+
+          <!-- Filtro por Tipo -->
+          <div class="control-group">
+            <h3>🎶 Filtrar por Tipo</h3>
+            <div class="tipos-filter">
+              <button class="tipo-btn active" data-tipo="all" onclick="filterByType('all')">Todos</button>
+              <button class="tipo-btn" data-tipo="major" onclick="filterByType('major')">Mayores</button>
+              <button class="tipo-btn" data-tipo="minor" onclick="filterByType('minor')">Menores</button>
+              <button class="tipo-btn" data-tipo="seventh" onclick="filterByType('seventh')">Séptima</button>
+              <button class="tipo-btn" data-tipo="major_seventh" onclick="filterByType('major_seventh')">Séptima Mayor</button>
+              <button class="tipo-btn" data-tipo="diminished" onclick="filterByType('diminished')">Disminuidos</button>
+              <button class="tipo-btn" data-tipo="augmented" onclick="filterByType('augmented')">Aumentados</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Grid de Acordes -->
+      <section class="acordes-grid" id="acordesGrid">
+        <!-- Se llena dinámicamente -->
+      </section>
+
+      <!-- Botón Volver -->
+      <section class="back-section">
+        <a href="cancionero.html" class="back-btn">
+          ← Volver al Cancionero
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="acordes.js"></script>
+</body>
+</html>

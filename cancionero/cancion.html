@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Canción - Cancionero Gen</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="cancion.css">
+  <!-- Eliminar esta línea para evitar declarar dos veces variables/funciones -->
+  <!-- <script src="cancion.js"></script> -->
+  <link rel="icon" href="../aadocumentos/ico/casa.ico">
+</head>
+<body>
+  <!-- Header mejorado -->
+  <header class="cancion-header">
+    <div class="header-content">
+      <a href="cancionero.html" class="back-btn">
+        ← Cancionero
+      </a>
+      
+      <div class="song-info">
+        <h2 id="headerTitulo">Cargando...</h2>
+        <span id="headerArtista" class="artista-link" onclick="abrirArtista()">-</span>
+      </div>
+      
+      <!-- Dentro del header, en .header-actions: agregar el botón antes de los botones de tono -->
+      <div class="header-actions">
+      <button class="action-btn" onclick="toggleCifrado()" id="btnCifrado" title="Cambiar cifrado">
+      C→Do
+      </button>
+      
+      <!-- Botones de tono existentes -->
+      <button class="action-btn" onclick="cambiarTono(-1)" title="Bajar tono">
+        🎵 -
+      </button>
+      <button class="action-btn" onclick="cambiarTono(1)" title="Subir tono">
+        🎵 +
+      </button>
+      <button class="action-btn" onclick="cambiarVelocidad(-1)" title="Velocidad -">⚡ -</button>
+      <button class="action-btn" onclick="cambiarVelocidad(1)" title="Velocidad +">⚡ +</button>
+      <div class="separator"></div>
+      
+      <button class="action-btn" onclick="toggleAutoScroll()" id="btnAutoScroll" title="Auto-scroll">
+        ▶️ Play (A)
+      </button>
+      <button class="action-btn" onclick="resetearConfiguracion()" title="Resetear">
+        ↻ Reset
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index/index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="cancionero.html" class="menu-item active">
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+
+  <!-- Contenido principal -->
+  <main class="cancion-main">
+    
+    <!-- Información compacta -->
+    <!-- Sección info: quitar género -->
+    <section class="cancion-info-compact">
+      <div class="info-row">
+        <div class="info-item">
+          📂 <span id="cancionCategoria">-</span>
+        </div>
+        <!-- Removido género -->
+        <!-- <div class="info-item">
+          🎵 <span id="cancionGenero">-</span>
+        </div> -->
+        <div class="info-item">
+          👁️ <span id="cancionVistas">0</span> vistas
+        </div>
+        <div class="info-item">
+          🎸 Tono: <span id="tonoActual">Original</span>
+        </div>
+        <div class="info-item">
+          ⚡ Velocidad: <span id="velocidadActual">Normal</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Letra con acordes -->
+    <section class="letra-section">
+      <div class="letra-container">
+        <div class="letra-content" id="letraContent">
+          <div class="loading-letra">
+            <div class="loading-spinner"></div>
+            <p>Cargando letra...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="cancion.js"></script>
+</body>
+</html>

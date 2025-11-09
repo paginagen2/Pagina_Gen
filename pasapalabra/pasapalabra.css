@@ -1,0 +1,81 @@
+/* ===================================
+   PASAPALABRA
+   =================================== */
+.pasapalabra_container {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  margin-top: 2rem;
+}
+
+.pasapalabra-header h2 {
+  color: #fd87004b;
+}
+
+.pasapalabra-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #333;
+  padding-bottom: 1rem;
+}
+
+.pasapalabra-header h1 {
+  color: #fd8700;
+  margin-top: 1rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.fecha-dia {
+  color: #c57916;
+}
+
+.pasapalabra_container_hoy {
+  background: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid #ffae00;
+  text-align: justify;
+  margin-bottom: 2rem;
+  box-shadow: #00c3ff;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 3px;  
+  border-top-left-radius: 3px;
+}
+
+.pasapalabra_contenido_hoy {
+  margin: 1rem;
+  color: #ccc;
+  font-size: 20px;
+}
+
+.pasapalabra_container_diario {
+  background: #1a1a1a;
+  padding: 1.5rem;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 3px;  
+  border-top-left-radius: 3px;
+  border-left: 4px solid #ffae00;
+  text-align: justify;
+  margin-bottom: 2rem;
+}
+
+.pasapalabra_container_diario h4 {
+  color: #ffae00;
+  font-size: 1.4rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.pasapalabra_fecha_diaria {
+  color: #ffae00;
+  font-size: 1.2rem;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: end;
+  padding-top: 5px;
+}
+
+.pasapalabra_contenido_diario {
+  color: #ccc;
+  font-size: 15px;
+}

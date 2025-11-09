@@ -1,0 +1,159 @@
+/* ===================================
+   VARIABLES CSS GLOBALES
+   =================================== */
+:root {
+  --primary-color: #5D5CDE;
+  --secondary-color: #7266a9;
+  --primary-red: #a93226;
+  --bg-light: #FFFFFF;
+  --bg-dark: #181818;
+  --card-bg: #1a1a1a;
+  --border-color: #333;
+  --text-light: #fff;
+  --text-muted: #ccc;
+  --success-color: #4caf50;
+  --warning-color: #ff6b6b;
+}
+
+/* ===================================
+   RESET BÁSICO
+   =================================== */
+* {
+  margin: 0;
+  text-decoration: none;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  height: 100vh;
+  background-color: #111;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ===================================
+   SIDEBAR (FIJO Y CONSISTENTE)
+   =================================== */
+.sidebar {
+  width: 71px;
+  background-color: var(--card-bg);
+  color: #ffffffa2;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  transition: width 0.3s;
+  overflow: hidden;
+  justify-content: center;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar:hover {
+  width: 265px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+.menu-item.active {
+  background-color: #111;
+  font-weight: bold;
+  border-left: 4px solid var(--primary-color);
+}
+
+.menu-item:hover {
+  background-color: #333;
+  transform: scale(1.1);
+}
+
+.menu-item.active:hover {
+  background-color: #333;
+  transform: scale(1.02);
+  font-weight: bold;
+  border-left: 5px solid var(--primary-color);
+}
+
+.menu-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  margin-left: 4px;
+}
+
+.menu-text {
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+}
+
+.sidebar:hover .menu-text {
+  opacity: 1;
+}
+
+/* ===================================
+   CONTENIDO PRINCIPAL (UNIFICADO)
+   =================================== */
+.main {
+  flex: 1;
+  margin-left: 71px;
+  padding: 30px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-width: calc(100vw - 71px);
+  min-height: 100vh;
+}
+
+
+/* ===================================
+   ESTILOS BASE PARA CONTENIDO
+   =================================== */
+.section {
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  margin-bottom: 15px;
+  color: var(--text-light);
+}
+
+h2 {
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ===================================
+   RESPONSIVE GLOBAL
+   =================================== */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+  
+  .main {
+    margin-left: 60px;
+    padding: 15px;
+    max-width: calc(100vw - 60px);
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 10px;
+  }
+}

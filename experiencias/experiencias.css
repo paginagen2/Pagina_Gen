@@ -1,0 +1,270 @@
+/* ===================================
+   EXPERIENCIAS DE VIDA
+   =================================== */
+.experiencias_container {
+  max-width: 1200px;
+  margin: 0 auto;
+  line-height: 1.6;
+  margin-top: 2rem;
+}
+
+.experiencias-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid #333;
+  padding-bottom: 1rem;
+}
+
+.experiencias-header h2 {
+  color: #9b59b6;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.experiencias-header h1 {
+  color: #9b59b6;
+  margin-top: 1rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 2.2rem;
+}
+
+.experiencia_destacada {
+  background: #1a1a1a;
+  padding: 2rem;
+  border-radius: 15px;
+  border-left: 4px solid #9b59b6;
+  margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.experiencia_imagen {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.img-experiencia {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.experiencia_contenido h3 {
+  color: #9b59b6;
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.autor-experiencia {
+  color: #8e44ad;
+  font-style: italic;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.experiencia_texto {
+  color: #ccc;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+.leer-mas-btn {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.leer-mas-btn:hover {
+  background: linear-gradient(135deg, #a569bd, #9b59b6);
+  transform: translateY(-2px);
+}
+
+.experiencia_expandida {
+  grid-column: 1 / -1;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  background: #0f0f0f;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.experiencia_expandida.expanded {
+  max-height: 600px;
+  padding: 1.5rem;
+}
+
+.experiencia_expandida p {
+  color: #ccc;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.experiencia_expandida em {
+  color: #9b59b6;
+  font-weight: 500;
+}
+
+.experiencias_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.experiencia_card {
+  background: #1a1a1a;
+  border-radius: 15px;
+  overflow: hidden;
+  border-left: 4px solid #9b59b6;
+  transition: transform 0.3s ease;
+}
+
+.experiencia_card:hover {
+  transform: translateY(-5px);
+}
+
+.experiencia_imagen_small {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.img-experiencia-small {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.experiencia_card:hover .img-experiencia-small {
+  transform: scale(1.1);
+}
+
+.experiencia_card_content {
+  padding: 1.5rem;
+}
+
+.experiencia_card_content h4 {
+  color: #9b59b6;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.autor-small {
+  color: #8e44ad;
+  font-style: italic;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.experiencia_resumen {
+  color: #ccc;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.leer-mas-btn-small {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.leer-mas-btn-small:hover {
+  background: linear-gradient(135deg, #a569bd, #9b59b6);
+}
+
+.experiencia_card_expandida {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  background: #0f0f0f;
+}
+
+.experiencia_card_expandida.expanded {
+  max-height: 400px;
+  padding: 1.5rem;
+}
+
+.experiencia_card_expandida p {
+  color: #ccc;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: justify;
+}
+
+.compartir_experiencia {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+}
+
+.compartir_experiencia h3 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.compartir_experiencia p {
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.compartir-btn {
+  background: white;
+  color: #9b59b6;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.compartir-btn:hover {
+  background: #f8f8f8;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .experiencia_destacada {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+  
+  .experiencias_grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .experiencias-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .experiencia_card_content {
+    padding: 1rem;
+  }
+}

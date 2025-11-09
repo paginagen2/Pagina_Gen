@@ -1,0 +1,294 @@
+/* ===================================
+   PALABRA DE VIDA - VERSIÓN PANTALLA COMPLETA
+   =================================== */
+
+:root {
+    --primary-blue: #2c3e50; /* Azul oscuro primario */
+    --secondary-blue: #34495e; /* Azul más suave para fondos */
+    --accent-blue: #3498db; /* Azul brillante para acentos */
+    --light-blue: #e0f2f7; /* Azul claro para texto sobre fondos oscuros */
+    --dark-blue: #1c2a38; /* Azul muy oscuro para texto principal */
+    --bg-gradient: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    --card-gradient: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(44, 62, 80, 0.8)); /* Más contraste */
+    --text-color-light: #e0f2f7;
+    --text-color-dark: #2c3e50;
+    --border-color-light: rgba(52, 152, 219, 0.4); /* Borde más visible */
+    --border-color-dark: rgba(44, 62, 80, 0.6); /* Borde más visible */
+    --shadow-color: rgba(44, 62, 80, 0.5); /* Sombra más pronunciada */
+    --card-bg: rgba(255, 255, 255, 0.08); /* Fondo de tarjeta ligeramente más visible */
+}
+
+
+.palabra-container {
+    max-width: 1200px;
+    margin: 0 auto;  /* Centra el contenedor horizontalmente */
+    padding: 3rem 2rem;
+    line-height: 1.6;
+    width: 90%;  /* Ancho flexible para el contenido */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos hijos horizontalmente */
+}
+/* ===================================
+   HEADER - MÁS GRANDE Y CENTRADO
+   =================================== */
+.palabra-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    background: var(--bg-gradient);
+    padding: 5rem 4rem;
+    border-radius: 24px;
+    color: var(--text-color-light);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 800px; /* Asegura un ancho máximo para el header */
+    box-shadow: 0 20px 60px var(--shadow-color);
+}
+
+.palabra-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+.palabra-header h1 {
+    margin-bottom: 1.5rem;
+    color: var(--text-color-light);
+    font-size: 4rem;
+    font-weight: 800;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    letter-spacing: -2px;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* ===================================
+   NAVEGACIÓN PALABRAS - MÁS ANCHA Y CENTRADA
+   =================================== */
+.navegacion-palabras {
+    margin: 4rem 0 3rem 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color-dark);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 1000px; /* Asegura un ancho máximo para la navegación */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.navegacion-palabras h3 {
+    color: var(--text-color-light); /* Cambiado a light para mejor contraste */
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.palabras-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto; /* Centra la cuadrícula de navegación */
+    justify-content: center; /* Asegura que los ítems del grid se centren */
+}
+
+.palabra-nav-item {
+    background: var(--card-gradient);
+    border: 1px solid var(--border-color-light);
+    padding: 2.5rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 6px solid var(--accent-blue);
+    position: relative;
+    overflow: hidden;
+    text-align: center; /* Centra el texto dentro de la tarjeta */
+}
+
+.palabra-nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(52, 152, 219, 0.08), transparent); /* Gradiente más sutil */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.palabra-nav-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-left-color: var(--light-blue); /* Color de borde al hacer hover */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3); /* Sombra más prominente */
+}
+
+.palabra-nav-item:hover::before {
+    opacity: 1;
+}
+
+.nav-mes {
+    color: var(--light-blue); /* Cambiado a light-blue para mejor visibilidad */
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+}
+
+.nav-titulo {
+    color: var(--text-color-light); /* Asegura que el título sea claro */
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.4;
+    position: relative;
+    z-index: 2;
+}
+
+/* ===================================
+   AUTOR - CENTRADO
+   =================================== */
+.autor {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 2px solid var(--border-color-dark);
+    width: 100%;
+    max-width: 600px; /* Asegura un ancho máximo para el autor */
+}
+
+.autor p {
+    color: var(--accent-blue); /* Color para el texto del autor */
+    margin: 0;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* ===================================
+   EFECTOS ADICIONALES
+   =================================== */
+.palabra-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(52, 152, 219, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(44, 62, 80, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===================================
+   RESPONSIVE MEJORADO
+   =================================== */
+@media (max-width: 1200px) {
+    .palabra-container {
+        padding: 2rem;
+    }
+    
+    .palabras-nav {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .palabra-container {
+        padding: 1.5rem;
+    }
+    
+    .palabra-header {
+        padding: 3rem 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .palabra-header h1 {
+        font-size: 2.8rem;
+    }
+    
+    .navegacion-palabras {
+        padding: 2rem;
+    }
+    
+    .navegacion-palabras h3 {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+    }
+    
+    .palabra-nav-item {
+        padding: 2rem;
+    }
+    
+    .palabras-nav {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .palabra-container {
+        padding: 1rem;
+    }
+    
+    .palabra-header {
+        padding: 2rem 1.5rem;
+    }
+    
+    .palabra-header h1 {
+        font-size: 2.2rem;
+    }
+        
+    .navegacion-palabras {
+        padding: 1.5rem;
+    }
+    
+    .palabra-nav-item {
+        padding: 1.5rem;
+    }
+    
+    .nav-titulo {
+        font-size: 1.2rem;
+    }
+}
+
+/* ===================================
+   ANIMACIONES ADICIONALES
+   =================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.palabra-header {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.navegacion-palabras {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.autor {
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
