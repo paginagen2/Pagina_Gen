@@ -1,4 +1,5 @@
-// Importar Firebase desde CDN
+// firebase-config-cancionero.js
+
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { 
   getFirestore, 
@@ -14,6 +15,7 @@ import {
   limit,
   onSnapshot 
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 // 🔥 PEGA AQUÍ TU CONFIGURACIÓN REAL (reemplaza esto)
 const firebaseConfig = {
@@ -28,26 +30,43 @@ const firebaseConfig = {
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 
-// Servicio de base de datos
 export const DatabaseService = {
-    // Obtener todas las canciones
+  // Función para obtener canciones una sola vez (filtradas por estado: 'publicado')
   async getCanciones() {
     try {
-      console.log('🔍 Obteniendo canciones...');
-      const snapshot = await getDocs(collection(db, 'canciones'));
+      console.log('🔍 Obteniendo canciones públicas...');
+      const q = query(collection(db, 'canciones'), where('estado', '==', 'publicado'));
+      const snapshot = await getDocs(q);
       const canciones = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-        // Convertir timestamp de Firebase a Date
         fechaCreacion: doc.data().fechaCreacion?.toDate() || new Date()
       }));
-      console.log('✅ Canciones obtenidas:', canciones.length);
+      console.log('✅ Canciones públicas obtenidas:', canciones.length);
       return canciones;
     } catch (error) {
-      console.error('❌ Error obteniendo canciones:', error);
+      console.error('❌ Error obteniendo canciones públicas:', error);
       throw error;
     }
+  },
+
+  // Función para escuchar cambios en tiempo real (filtradas por estado: 'publicado')
+  onCancionesChange(callback) {
+    console.log('🔄 Configurando listener en tiempo real para canciones públicas...');
+    const q = query(collection(db, 'canciones'), where('estado', '==', 'publicado'));
+    return onSnapshot(q, (snapshot) => {
+      const canciones = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        fechaCreacion: doc.data().fechaCreacion?.toDate() || new Date()
+      }));
+      console.log('🔄 Canciones públicas actualizadas en tiempo real:', canciones.length);
+      callback(canciones);
+    }, (error) => {
+      console.error('❌ Error en listener de canciones públicas:', error);
+    });
   },
 
   // Agregar nueva canción
@@ -83,23 +102,7 @@ export const DatabaseService = {
     }
   },
 
-  // Listener en tiempo real
-  onCancionesChange(callback) {
-    console.log('🔄 Configurando listener en tiempo real...');
-    return onSnapshot(collection(db, 'canciones'), (snapshot) => {
-      const canciones = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        fechaCreacion: doc.data().fechaCreacion?.toDate() || new Date()
-      }));
-      console.log('🔄 Canciones actualizadas en tiempo real:', canciones.length);
-      callback(canciones);
-    }, (error) => {
-      console.error('❌ Error en listener:', error);
-    });
-  },
-
-// Agregar datos iniciales (solo para testing)
+  // Agregar datos iniciales (solo para testing)
   async agregarDatosIniciales() {
     try {
       const cancionesIniciales = [
@@ -179,4 +182,3 @@ export async function probarConexion() {
     return false;
   }
 }
-
