@@ -1,5 +1,5 @@
 // Módulo para la página Cancionero (mueve el script inline aquí)
-import { probarConexion, DatabaseService } from '../aaglobal/firebase-config-pro.js';
+import { probarConexion, DatabaseService } from 'firebase-config-cancionero.js';
 
 // Estado global
 let canciones = [];

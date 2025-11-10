@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="cancionero.css">
   <link rel="icon" href="../aadocumentos/ico/casa.ico">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script type="module" src="../aaglobal/firebase-config-pro.js"></script>
 </head>
 <body>
   <!-- Sidebar -->
@@ -229,6 +228,16 @@
     </div>
   </div>
 
-  <script type="module" src="cancionero.js"></script>
+  <!-- ** SCRIPTS MOVIDOS Y CORREGIDOS AQUÍ ** -->
+  <!-- 1. Librerías de Firebase v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+  <!-- 2. Tu configuración de Firebase -->
+  <script src="firebase-config-cancionero.js"></script>
+
+  <!-- 3. La lógica de tu aplicación (SIN type="module") -->
+  <script src="cancionero.js"></script>
 </body>
 </html>
