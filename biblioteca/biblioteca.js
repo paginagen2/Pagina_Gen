@@ -37,6 +37,7 @@ const biblioteca = [
     googleId: "1M4AXDOQ05qv9x0ZYULCjUUUnG49_hAKT",
     atributos: ["El hermano", "Meditación", "Dios Amor"]
   },
+
   {
     id: 3,
     titulo: "Origen de la Revolución Arcoíris",
@@ -49,6 +50,7 @@ const biblioteca = [
     googleId: "1aK0VuTogwatLrN5_RJTV2vFkqhuRBwN9",
     atributos: ["Revolución Arcoíris", "Meditación", "Dios Amor"]
   },
+  
   {
     id: 4,
     titulo: "El Misterio de la Unidad",
@@ -58,10 +60,21 @@ const biblioteca = [
     tamaño: "622 KB", 
     fecha: "29/12/1975", 
     descripcion: "Chiara responde una pregunta sobre Jesús en Medio y la Trinidad formada", 
-    googleId: "1x7akVyKN2zc8TuavYlljHnVCPwvtLrfA", 
+    googleId: "1QORKKaLOTYackPQpGNxsgE0lfiOZ9zup", 
     atributos: ["Dios Amor", "Jesús en medio", "Meditación"]
   },
 
+  {id: 5, 
+    titulo: "Los instrumentos de la epiritualidad colectiva Chiara Lubich", 
+    autor: "Chiara Lubich", 
+    categoria: "Libros", 
+    tipo: "PDF", 
+    tamaño: "55,3 MB", 
+    fecha: "24/02/1995", 
+    descripcion: "Los instrumentos de la espiritualidad colectiva Chiara Lubich, son los puntos que nos llevan al cielo en comunidad.", 
+    googleId: "1lqieDCMPLHxubfpUBvXTBwMINpcUvMj5", 
+    atributos: ["Amarillo","El Hermano","El mandamiento nuevo","Estatutos","Jesús en medio","La Palabra de Vida"]
+  },
 ];
 
 // Variables globales

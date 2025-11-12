@@ -23,11 +23,19 @@
 
 /* Header */
 .div-header{
-border-radius: 15px;
-border-radius: #26a938;
-  background-image: url('../aadocumentos/imagenes/biblioteca.jpg');
-  min-height: 200px;
+  background: url('../aadocumentos/imagenes/biblioteca.jpg') no-repeat center center / cover;
+  color: white;
+  padding: 2.6rem 1.8rem;
+  border-radius: 20px;
+  text-align: center;
+  margin: 0 auto 1.4rem auto; /* Añadido 'auto' para centrar */
+  max-width: 100%; /* Ancho máximo ajustado */
+  max-height: 11.5%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(169, 50, 38, 0.5); /* Color de sombra rojizo */
 }
+
 
 
 .biblioteca-header {
@@ -43,7 +51,6 @@ border-radius: #26a938;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 2.5rem;
   font-weight: bold;
-  padding-top: 3.9rem;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 

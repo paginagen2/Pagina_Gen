@@ -1,17 +1,16 @@
-          <!-- Ponerl link a grupo de Whatsapp -->
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pasapalabra</title>
+  <title>Pasapalabra de Hoy</title>
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="pasapalabra.css">
   <link rel="icon" href="casa.ico">
 </head>
 
-  <body>
+<body>
   <!-- Sidebar -->
   <div class="sidebar">
     <a href="../index.html" class="menu-item">
@@ -19,7 +18,6 @@
       <span class="menu-text">Inicio</span>
     </a>
     <a href="../cancionero/cancionero.html" class="menu-item">
-
       <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
       <span class="menu-text">Cancionero</span>
     </a>
@@ -37,24 +35,32 @@
     </a>
   </div>
     
-    <!-- Contenido principal -->
-    <main class="main">
-      <div class="pasapalabra_container">
-        <header class="pasapalabra-header">
-          <h2>Pasapalabra</h2>
-          <h1>SER CAUSA DE ALEGRÍA</h1>
-          <h2>Reflecciones de Apolonio Carvalho Nascimento</h2>
-          <div class="fecha-dia">9 de septiembre de 2025</div>
-        </header>
-        <div class="pasapalabra_container_hoy">  
-          <p class="pasapalabra_contenido_hoy">La verdadera alegría nace del amor que damos.<br>
-            Cuando alguien se siente amado, una alegría diferente nace en su corazón.<br>
-            En realidad, es el amor de Dios el que circula entre nosotros, el cual es la verdadera causa de la alegría. Por eso, cuando amamos, nos convertimos en causa de alegría, porque difundimos el amor de Dios.<br>
-            Cuando decidimos vivir para el bien del otro, nos convertimos en instrumentos de la alegría de Dios en el mundo. Y lo más hermoso es que, al difundir alegría, también somos los primeros en recibirla de vuelta en el corazón.<br>
-            En un mundo marcado por tanto dolor e incertidumbre, ser causa de alegría es un don y una misión. Es elegir irradiar luz donde hay oscuridad, ofreciendo palabras que elevan, gestos que acogen, actitudes que inspiran.<br>
-          </p>          
-        </div>
+  <!-- Contenido principal -->
+  <main class="main">
+    <div class="pasapalabra_container">
+      <header class="pasapalabra-header">
+        <h2>Pasapalabra</h2>
+        <h1 id="titulo-hoy">Cargando...</h1>
+        <h2>Reflexiones de Apolonio Carvalho Nascimento</h2>
+        <div class="fecha-dia" id="fecha-hoy">Cargando...</div>
+      </header>
+      
+      <div class="pasapalabra_container_hoy" id="contenedor-hoy">  
+        <p class="pasapalabra_contenido_hoy" id="reflexion-hoy">
+          Cargando el pasapalabra de hoy...
+        </p>          
       </div>
-    </main>
-  </body>
+
+      <div class="pasapalabra-nav">
+        <a href="pasapalabra.html" class="btn-ver-todos">Ver todos los Pasapalabras</a>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="pasapalabra.js"></script>
+  <script type="module">
+    import { cargarPasapalabraDeHoy } from './pasapalabra.js';
+    cargarPasapalabraDeHoy();
+  </script>
+</body>
 </html>
