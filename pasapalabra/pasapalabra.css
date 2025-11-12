@@ -103,7 +103,16 @@
   gap: 1rem;
 }
 
-.btn-ver-todos,
+.btn-ver-todos{
+  background: #ffae00;
+  color: #111;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
 .btn-ver-hoy {
   background: #ffae00;
   color: #111;
