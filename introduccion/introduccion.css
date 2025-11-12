@@ -224,3 +224,176 @@
   cursor: pointer;
 }
 .intro-modal .modal-close:hover { background: #e2e8f0; }
+
+/* 🔧 AGREGAR AL FINAL DEL ARCHIVO - RESPONSIVE MEJORADO */
+
+/* Responsive completo - 4 breakpoints */
+@media (max-width: 1200px) {
+  .hero-header {
+    max-width: 75%;
+  }
+
+  .hero-title {
+    font-size: 2.3rem;
+  }
+}
+
+@media (max-width: 1100px) { 
+  .cards-grid { 
+    grid-template-columns: repeat(2, minmax(260px, 1fr)); 
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 70px;
+    max-width: calc(100vw - 80px);
+    padding: 0.75rem;
+  }
+
+  .hero-header {
+    max-width: 90%;
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .intro-container {
+    padding: 0.75rem 0.25rem;
+  }
+
+  .cards-grid { 
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .card-header {
+    padding: 0.75rem 0.75rem 0.6rem;
+    min-height: 65px;
+  }
+
+  .card-icon {
+    font-size: 1.1rem;
+    width: 34px;
+    height: 34px;
+  }
+
+  .card-title h3 {
+    font-size: 0.95rem;
+  }
+
+  .expand-btn {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.7rem;
+  }
+
+  /* Modal responsive */
+  .intro-modal {
+    grid-template-columns: 1fr;
+    width: 95vw;
+  }
+
+  .intro-modal .modal-image {
+    max-height: 250px;
+  }
+
+  .intro-modal .modal-content {
+    max-height: 50vh;
+  }
+
+  .intro-modal .modal-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    margin-left: 60px;
+    max-width: calc(100vw - 70px);
+    padding: 0.5rem;
+  }
+
+  .hero-header {
+    max-width: 95%;
+    padding: 1.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .intro-container {
+    padding: 0.5rem 0;
+  }
+
+  .card-header {
+    grid-template-columns: 36px 1fr;
+    gap: 0.6rem;
+    padding: 0.65rem 0.65rem 0.5rem;
+    min-height: 60px;
+  }
+
+  .card-icon {
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .card-title {
+    padding: 0.3rem 0.5rem;
+    min-height: 40px;
+  }
+
+  .card-title h3 {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+
+  .expand-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+    margin: 0.6rem auto;
+  }
+
+  .intro-modal .modal-content {
+    padding: 1rem;
+  }
+
+  .intro-modal .modal-title {
+    font-size: 1.1rem;
+  }
+
+  .intro-modal .modal-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-title {
+    font-size: 1.4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .card-title h3 {
+    font-size: 0.8rem;
+  }
+
+  .expand-btn {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.55rem;
+  }
+}

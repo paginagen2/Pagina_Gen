@@ -6,6 +6,7 @@
   margin: 0 auto;
   line-height: 1.6;
   margin-top: 2rem;
+  padding: 0 1rem; /* 🔧 AGREGADO: padding lateral */
 }
 
 .pasapalabra-header h2 {
@@ -103,16 +104,7 @@
   gap: 1rem;
 }
 
-.btn-ver-todos{
-  background: #ffae00;
-  color: #111;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: inline-block;
-}
+.btn-ver-todos,
 .btn-ver-hoy {
   background: #ffae00;
   color: #111;
@@ -161,10 +153,21 @@
   margin-bottom: 0.5rem;
 }
 
-/* Responsive */
+/* 🔧 RESPONSIVE - 4 BREAKPOINTS */
+@media (max-width: 1024px) {
+  .pasapalabra_container {
+    max-width: 700px;
+  }
+}
+
 @media (max-width: 768px) {
   .pasapalabra_container {
     margin-top: 1rem;
+    padding: 0 0.75rem;
+  }
+
+  .pasapalabra-header h1 {
+    font-size: 1.8rem;
   }
 
   .pasapalabra_contenido_hoy {
@@ -192,11 +195,43 @@
 }
 
 @media (max-width: 480px) {
+  .pasapalabra_container {
+    padding: 0 0.5rem;
+  }
+
+  .pasapalabra-header h1 {
+    font-size: 1.5rem;
+  }
+
   .pasapalabra_contenido_hoy {
     font-size: 16px;
+    margin: 0.25rem;
   }
 
   .pasapalabra_contenido_diario {
+    font-size: 14px;
+  }
+
+  .pasapalabra-nav {
+    flex-direction: column;
+  }
+
+  .btn-ver-todos,
+  .btn-ver-hoy {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .pasapalabra_container {
+    margin-top: 0.5rem;
+  }
+
+  .pasapalabra-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .pasapalabra_contenido_hoy {
     font-size: 14px;
   }
 }

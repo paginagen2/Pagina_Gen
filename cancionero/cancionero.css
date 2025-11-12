@@ -1180,3 +1180,139 @@
     flex-direction: column;
   }
 }
+/* 🔧 AGREGAR AL FINAL DEL ARCHIVO */
+
+/* Responsive mejorado - 4 breakpoints */
+@media (max-width: 1200px) {
+  .cancionero-layout {
+    grid-template-columns: 1fr 280px;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main {
+    margin-left: 80px;
+    max-width: calc(100vw - 90px);
+  }
+  
+  .cancionero-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar-right {
+    order: -1;
+    position: static;
+  }
+
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 70px;
+    max-width: calc(100vw - 80px);
+    padding: 0.5rem;
+  }
+  
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .controls-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .header-actions {
+    justify-content: stretch;
+  }
+
+  .add-btn, .btn-pdf, .btn-clear {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cancion-card {
+    padding: 1rem;
+  }
+
+  .cancion-titulo {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    margin-left: 60px;
+    max-width: calc(100vw - 70px);
+    padding: 0.25rem;
+  }
+  
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+  
+  .filter-pills {
+    flex-direction: column;
+  }
+
+  .filter-pill {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+  }
+
+  .add-btn, .btn-pdf, .btn-clear {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .cancion-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .acordes-btn, .pdf-btn {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .cancion-titulo {
+    font-size: 1rem;
+  }
+
+  .filter-pill, .tipo-btn {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+  }
+}

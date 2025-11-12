@@ -24,6 +24,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent; /* Quitar highlight azul en móviles */
 }
 
 body {
@@ -156,4 +157,8 @@ p {
   .main {
     padding: 10px;
   }
+}
+
+html {
+  scroll-behavior: smooth; /* Scroll suave en toda la página */
 }

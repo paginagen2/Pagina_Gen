@@ -374,50 +374,6 @@
   margin-left: auto;
 }
 
-/* ============ RESPONSIVE ============ */
-@media (max-width: 768px) {
-  .hero-banner {
-    padding: 2rem 1rem;
-  }
-
-  .hero-banner h1 {
-    font-size: 2.2rem;
-  }
-
-  .contacto-card {
-    padding: 1.5rem;
-  }
-
-  .categorias-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .enlaces-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .email-container {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .email-text {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .categoria-btn {
-    flex-direction: column;
-    text-align: center;
-    gap: 0.5rem;
-  }
-
-  .categoria-text {
-    font-size: 0.9rem;
-  }
-}
 /* ============ SUGERENCIAS MEJORADAS ============ */
 .sugerencias-card {
   padding: 2rem !important;
@@ -447,9 +403,6 @@
   font-size: 0.9rem;
   font-weight: 600;
 }
-
-
-/*Corregir desde aca*/
 
 h5{
   margin-bottom: 1.3rem;
@@ -503,3 +456,222 @@ h5{
 .sugerencia_content .tip strong {
   font-size: 1rem !important;
 }
+
+/* 🔧 REEMPLAZAR TODA LA SECCIÓN RESPONSIVE */
+
+/* Responsive mejorado - 4 breakpoints */
+@media (max-width: 1024px) {
+  .enlaces-grid {
+    gap: 1.5rem;
+  }
+
+  .hero-banner h1 {
+    font-size: 2.6rem;
+  }
+
+  .categorias-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .links_container {
+    padding: 0 0.75rem;
+  }
+
+  .hero-banner {
+    padding: 2rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-banner h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-banner p {
+    font-size: 1rem;
+  }
+
+  .contacto-card {
+    padding: 1.5rem;
+  }
+
+  .contacto-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .contacto-header p {
+    font-size: 1rem;
+  }
+
+  .email-text {
+    font-size: 1.1rem;
+  }
+
+  .categorias-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .categorias-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .categoria-btn {
+    padding: 0.85rem;
+  }
+
+  .categoria-icon {
+    font-size: 1.3rem;
+  }
+
+  .categoria-text {
+    font-size: 0.9rem;
+  }
+
+  .enlaces-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .email-container {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .links_container {
+    padding: 0 0.5rem;
+  }
+
+  .hero-banner {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .hero-banner h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-banner p {
+    font-size: 0.9rem;
+  }
+
+  .contacto-card {
+    padding: 1.25rem;
+  }
+
+  .contacto-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .email-display {
+    padding: 1rem;
+  }
+
+  .email-text {
+    font-size: 1rem;
+  }
+
+  .copy-button {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .categoria-btn {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .categoria-icon {
+    font-size: 1.5rem;
+  }
+
+  .categoria-text {
+    font-size: 0.85rem;
+  }
+
+  .sugerencias-card {
+    padding: 1.25rem !important;
+  }
+
+  .intro-email {
+    padding: 0.85rem;
+  }
+
+  .intro-email p {
+    font-size: 0.8rem;
+  }
+
+  .sugerencia_content li {
+    padding: 0.65rem !important;
+    padding-left: 2.2rem !important;
+    font-size: 0.85rem;
+  }
+
+  .link-item {
+    padding: 0.85rem;
+  }
+
+  .link-icon {
+    font-size: 1.7rem;
+  }
+
+  .link-info h4 {
+    font-size: 0.95rem;
+  }
+
+  .link-info p {
+    font-size: 0.8rem;
+  }
+
+  .red-item {
+    padding: 0.7rem;
+  }
+
+  .red-icon {
+    font-size: 1.3rem;
+  }
+
+  .red-name {
+    font-size: 0.9rem;
+  }
+
+  .red-handle {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-banner h1 {
+    font-size: 1.5rem;
+  }
+
+  .contacto-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .email-text {
+    font-size: 0.9rem;
+  }
+
+  .categorias-section h3 {
+    font-size: 1rem;
+  }
+
+  .categoria-text {
+    font-size: 0.8rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* 🔧 ELIMINAR EL COMENTARIO "Corregir desde aca" de la línea 356 */

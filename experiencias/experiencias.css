@@ -268,3 +268,18 @@
     padding: 1rem;
   }
 }
+/* 🔧 AGREGAR AL FINAL */
+@media (max-width: 360px) {
+  .experiencias-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .experiencia_card_content h4 {
+    font-size: 1rem;
+  }
+
+  .leer-mas-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}

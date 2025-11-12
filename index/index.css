@@ -368,20 +368,42 @@
   color: var(--text-muted);
   line-height: 1.3;
 }
+/* 🔧 REEMPLAZAR LA SECCIÓN RESPONSIVE COMPLETA */
 
-/* Responsive */
+/* Responsive mejorado - 4 breakpoints */
+@media (max-width: 1024px) {
+  .main-grid-2x2 {
+    gap: 1.25rem;
+    height: auto;
+  }
+
+  .hero-banner h1 {
+    font-size: 2.8rem;
+  }
+
+  .bottom-actions {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-banner {
     padding: 2rem 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .hero-banner h1 {
     font-size: 2.2rem;
   }
 
+  .hero-banner p {
+    font-size: 1rem;
+  }
+
   .main-grid-2x2 {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(4, auto);
     height: auto;
     gap: 1rem;
   }
@@ -390,13 +412,93 @@
     min-height: 200px;
   }
 
+  .box-header {
+    padding: 0.85rem 1.25rem;
+  }
+
+  .box-title {
+    font-size: 1rem;
+  }
+
+  .box-link {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+  }
+
   .bottom-actions {
     grid-template-columns: repeat(2, 1fr);
+    margin-top: 1.5rem;
+  }
+
+  .action-card {
+    padding: 1rem;
+  }
+
+  .action-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .action-title {
+    font-size: 0.9rem;
+  }
+
+  .action-desc {
+    font-size: 0.75rem;
   }
 }
 
 @media (max-width: 480px) {
+  .hero-banner {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .hero-banner h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-banner p {
+    font-size: 0.9rem;
+  }
+
   .bottom-actions {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .pasapalabra-title {
+    font-size: 1rem;
+  }
+
+  .palabra-cita {
+    font-size: 0.85rem;
+  }
+
+  .experiencia-title {
+    font-size: 0.9rem;
+  }
+
+  .experiencia-preview {
+    font-size: 0.85rem;
+  }
+
+  .carousel-nav {
+    width: 25px;
+    height: 25px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-banner h1 {
+    font-size: 1.5rem;
+  }
+
+  .box-title {
+    font-size: 0.9rem;
+  }
+
+  .action-title {
+    font-size: 0.85rem;
   }
 }
