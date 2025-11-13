@@ -7,6 +7,8 @@
   line-height: 1.6;
   margin-top: 2rem;
   padding: 0 1rem; /* 🔧 AGREGADO: padding lateral */
+  margin-left: 90px; /* 🔧 AGREGADO: Espacio para sidebar */
+  max-width: calc(100vw - 110px); /* 🔧 AGREGADO */
 }
 
 .pasapalabra-header h2 {
@@ -44,26 +46,52 @@
   border-top-right-radius: 15px;
   border-bottom-left-radius: 3px;  
   border-top-left-radius: 3px;
+  max-height: 500px; /* 🔧 NUEVO: Limitar altura inicial */
+  overflow: hidden; /* 🔧 NUEVO */
+  position: relative; /* 🔧 NUEVO */
+}
+
+/* 🔧 NUEVO: Botón "Leer más" para pasapalabras largos */
+.pasapalabra_container_hoy.expandido {
+  max-height: none;
+}
+
+.pasapalabra_toggle {
+  background: linear-gradient(135deg, #ffae00, #fd8700);
+  color: #111;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 1rem auto 0;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.pasapalabra_toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 174, 0, 0.4);
 }
 
 .pasapalabra_contenido_hoy {
   margin: 1rem;
   color: #ccc;
-  font-size: 20px;
-  line-height: 1.8;
+  font-size: 18px; /* 🔧 REDUCIDO de 20px */
+  line-height: 1.6; /* 🔧 REDUCIDO de 1.8 */
   white-space: pre-line;
 }
 
 .pasapalabra_container_diario {
   background: #1a1a1a;
-  padding: 1.5rem;
+  padding: 1.25rem; /* 🔧 REDUCIDO de 1.5rem */
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
   border-bottom-left-radius: 3px;  
   border-top-left-radius: 3px;
   border-left: 4px solid #ffae00;
   text-align: justify;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; /* 🔧 REDUCIDO de 2rem */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -91,8 +119,8 @@
 
 .pasapalabra_contenido_diario {
   color: #ccc;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 14px; /* 🔧 REDUCIDO de 15px */
+  line-height: 1.5; /* 🔧 REDUCIDO de 1.7 */
   white-space: pre-line;
 }
 
@@ -153,10 +181,12 @@
   margin-bottom: 0.5rem;
 }
 
-/* 🔧 RESPONSIVE - 4 BREAKPOINTS */
+/* 🔧 RESPONSIVE MEJORADO */
 @media (max-width: 1024px) {
   .pasapalabra_container {
     max-width: 700px;
+    margin-left: 80px;
+    max-width: calc(100vw - 100px);
   }
 }
 
@@ -164,27 +194,41 @@
   .pasapalabra_container {
     margin-top: 1rem;
     padding: 0 0.75rem;
+    margin-left: 70px;
+    max-width: calc(100vw - 85px);
   }
 
   .pasapalabra-header h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem; /* 🔧 REDUCIDO */
+  }
+
+  .pasapalabra_container_hoy {
+    max-height: 400px; /* 🔧 Más compacto en móvil */
+    padding: 1.25rem;
   }
 
   .pasapalabra_contenido_hoy {
-    font-size: 18px;
-    margin: 0.5rem;
+    font-size: 16px; /* 🔧 REDUCIDO */
+    margin: 0.75rem;
+    line-height: 1.5;
   }
 
   .pasapalabra_container_diario {
     padding: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   .pasapalabra_container_diario h4 {
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* 🔧 REDUCIDO */
+    margin-bottom: 0.75rem;
   }
 
   .pasapalabra_fecha_diaria {
-    font-size: 1rem;
+    font-size: 0.95rem; /* 🔧 REDUCIDO */
+  }
+
+  .pasapalabra_contenido_diario {
+    font-size: 13px;
   }
 
   .btn-ver-todos,
@@ -197,19 +241,28 @@
 @media (max-width: 480px) {
   .pasapalabra_container {
     padding: 0 0.5rem;
+    margin-left: 65px;
+    max-width: calc(100vw - 75px);
   }
 
   .pasapalabra-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .pasapalabra_container_hoy {
+    max-height: 350px; /* 🔧 Aún más compacto */
+    padding: 1rem;
   }
 
   .pasapalabra_contenido_hoy {
-    font-size: 16px;
-    margin: 0.25rem;
+    font-size: 15px;
+    margin: 0.5rem;
+    line-height: 1.4;
   }
 
   .pasapalabra_contenido_diario {
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.4;
   }
 
   .pasapalabra-nav {
@@ -220,18 +273,29 @@
   .btn-ver-hoy {
     width: 100%;
   }
+
+  .pasapalabra_toggle {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 360px) {
   .pasapalabra_container {
     margin-top: 0.5rem;
+    margin-left: 60px;
+    max-width: calc(100vw - 68px);
   }
 
   .pasapalabra-header h1 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .pasapalabra_contenido_hoy {
     font-size: 14px;
+  }
+
+  .pasapalabra_container_hoy {
+    max-height: 300px;
   }
 }

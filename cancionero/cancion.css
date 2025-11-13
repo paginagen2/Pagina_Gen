@@ -14,6 +14,28 @@
   border-bottom: 2px solid var(--primary-color);
   z-index: 1000;
   box-shadow: 0 4px 30px rgba(93, 92, 222, 0.2);
+  transition: all 0.3s ease; /* 🔧 AGREGADO: transición suave */
+}
+
+.cancion-header.scrolled {
+  padding: 0.5rem 0;
+}
+
+.cancion-header.scrolled .header-content {
+  padding: 0.5rem 1rem;
+}
+
+.cancion-header.scrolled .song-info h2 {
+  font-size: 1rem;
+}
+
+.cancion-header.scrolled .artista-link {
+  font-size: 0.75rem;
+}
+
+.cancion-header.scrolled .action-btn {
+  padding: 6px 8px;
+  font-size: 0.7rem;
 }
 
 .header-content {
@@ -25,6 +47,7 @@
   align-items: center;
   gap: 1.5rem;
 }
+
 
 .back-btn {
   color: var(--primary-color);
@@ -114,12 +137,11 @@
   margin: 0 0.5rem;
 }
 
-/* Main content */
+
 .cancion-main {
   margin-top: 90px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 90px; /* 🔧 AGREGADO: Espacio para sidebar desktop */
+  max-width: calc(100vw - 110px); /* 🔧 AGREGADO: Evitar overflow */
   padding: 1rem;
 }
 
@@ -308,5 +330,117 @@
     background: white !important;
     color: black !important;
     border: 1px solid black;
+  }
+}
+/* 🔧 RESPONSIVE MEJORADO */
+@media (max-width: 1024px) {
+  .cancion-main {
+    margin-left: 80px;
+    max-width: calc(100vw - 100px);
+  }
+}
+
+@media (max-width: 768px) {
+  .cancion-main {
+    margin-top: 160px; /* Más espacio por header más alto */
+    margin-left: 70px; /* 🔧 CRÍTICO: Espacio para sidebar móvil */
+    padding: 0.75rem;
+    max-width: calc(100vw - 85px); /* 🔧 CRÍTICO: Evitar que sidebar tape */
+  }
+  
+  .header-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .song-info {
+    order: -1;
+  }
+  
+  .song-info h2 {
+    font-size: 1.1rem;
+  }
+  
+  .header-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* 🔧 NUEVO: Header móvil comprimido al scroll */
+  .cancion-header.scrolled {
+    padding: 0.35rem 0;
+  }
+
+  .cancion-header.scrolled .header-content {
+    grid-template-columns: 1fr auto;
+    padding: 0.35rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .cancion-header.scrolled .back-btn {
+    display: none; /* Ocultar en scroll para ganar espacio */
+  }
+
+  .cancion-header.scrolled .song-info h2 {
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  .cancion-header.scrolled .artista-link {
+    display: none; /* Ocultar artista en scroll */
+  }
+
+  .cancion-header.scrolled .header-actions {
+    gap: 0.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cancion-main {
+    margin-top: 160px;
+    margin-left: 65px; /* 🔧 CRÍTICO: Más espacio para sidebar */
+    padding: 0.5rem;
+    max-width: calc(100vw - 75px); /* 🔧 CRÍTICO: Prevenir overlap */
+  }
+  
+  .header-content {
+    padding: 1rem 0.5rem;
+  }
+  
+  .song-info h2 {
+    font-size: 1rem;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .letra-container {
+    padding: 2rem 1rem;
+  }
+  
+  .separator {
+    display: none;
+  }
+
+  /* 🔧 Header ultra-comprimido en móvil pequeño */
+  .cancion-header.scrolled .song-info h2 {
+    font-size: 0.8rem;
+  }
+
+  .cancion-header.scrolled .action-btn {
+    padding: 4px 6px;
+    font-size: 0.65rem;
+    min-width: 35px;
+  }
+}
+
+@media (max-width: 360px) {
+  .cancion-main {
+    margin-left: 60px;
+    max-width: calc(100vw - 68px);
   }
 }

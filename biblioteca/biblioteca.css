@@ -11,6 +11,14 @@
   justify-content: center;
   width: 100%;
 }
+.main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-left: 15px; /* 🔧 AGREGADO: Espacio para sidebar */
+  max-width: calc(100vw - 71px); /* 🔧 CRÍTICO: Evitar overflow */
+  overflow-x: hidden; /* 🔧 AGREGADO: Prevenir scroll horizontal */
+}
 
 /* Contenedor centrado mejorado */
 .biblioteca_container {
@@ -19,6 +27,7 @@
   line-height: 1.6;
   width: 100%;
   padding: 0 2rem;
+  box-sizing: border-box; /* 🔧 AGREGADO: Incluir padding en width */
 }
 
 /* Header */
@@ -513,7 +522,29 @@
   transform: translateY(-2px);
 }
 
-/* Responsive */
+/* 🔧 REEMPLAZAR LA SECCIÓN DE LAYOUT */
+
+/* Asegurar centrado correcto */
+.main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-left: 71px; /* 🔧 AGREGADO: Espacio para sidebar */
+  max-width: calc(100vw - 71px); /* 🔧 CRÍTICO: Evitar overflow */
+  overflow-x: hidden; /* 🔧 AGREGADO: Prevenir scroll horizontal */
+}
+
+/* Contenedor centrado mejorado */
+.biblioteca_container {
+  max-width: 1400px;
+  margin: 0 auto;
+  line-height: 1.6;
+  width: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box; /* 🔧 AGREGADO: Incluir padding en width */
+}
+
+/* 🔧 RESPONSIVE CORREGIDO */
 @media (max-width: 1200px) {
   .biblioteca_grid {
     grid-template-columns: repeat(2, 1fr);
@@ -527,11 +558,13 @@
   
   .main {
     margin-left: 60px;
-    max-width: calc(100vw - 60px);
+    max-width: calc(100vw - 60px); /* 🔧 CORREGIDO */
+    padding: 0; /* 🔧 Sin padding en main */
   }
 
   .biblioteca_container {
-    padding: 0 1rem;
+    padding: 0 1rem; /* 🔧 Padding reducido */
+    max-width: 100%; /* 🔧 AGREGADO */
   }
   
   .biblioteca_grid {
@@ -573,9 +606,25 @@
     align-items: flex-start;
     gap: 0.5rem;
   }
+
+  /* 🔧 NUEVO: Ajustar header imagen */
+  .div-header {
+    margin: 0 0 1rem 0;
+    max-width: 100%;
+    padding: 2rem 1rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .main {
+    margin-left: 60px;
+    max-width: calc(100vw - 60px); /* 🔧 CRÍTICO */
+  }
+
+  .biblioteca_container {
+    padding: 0 0.75rem; /* 🔧 Padding aún más reducido */
+  }
+
   .archivo_header {
     flex-direction: column;
     align-items: flex-start;
@@ -589,11 +638,26 @@
   .biblioteca_controles {
     padding: 1rem;
   }
+
+  .div-header {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .biblioteca-header h1 {
+    font-size: 1.5rem;
+  }
 }
 
-/* Prevenir scroll horizontal GLOBAL */
+@media (max-width: 360px) {
+  .biblioteca_container {
+    padding: 0 0.5rem;
+  }
+}
+
+/* 🔧 AGREGADO: Prevenir scroll horizontal GLOBAL */
 body {
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 .main {

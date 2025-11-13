@@ -621,3 +621,23 @@ window.cambiarVelocidad = function(direccion) {
     const velEl = document.getElementById('velocidadActual');
     if (velEl) velEl.textContent = etiquetas[nueva - 1];
 };
+// 🔧 AGREGAR AL FINAL DEL ARCHIVO, ANTES DEL console.log FINAL
+
+// ============ HEADER COLAPSABLE AL HACER SCROLL ============
+let lastScrollTop = 0;
+const header = document.querySelector('.cancion-header');
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // Activar compresión después de 50px de scroll
+  if (scrollTop > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+  
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+}, false);
+
+console.log('✅ Header colapsable activado');
