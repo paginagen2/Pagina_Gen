@@ -5,19 +5,15 @@
   --gradient-primary: linear-gradient(135deg, #ae2727, #cc872e);
 }
 
-/* Asegurar centrado correcto */
+/* 🔧 LAYOUT PRINCIPAL - SIN margin-left en desktop */
 .main {
   display: flex;
   justify-content: center;
   width: 100%;
-}
-.main {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-left: 15px; /* 🔧 AGREGADO: Espacio para sidebar */
-  max-width: calc(100vw - 71px); /* 🔧 CRÍTICO: Evitar overflow */
-  overflow-x: hidden; /* 🔧 AGREGADO: Prevenir scroll horizontal */
+  max-width: 100vw;
+  overflow-x: hidden;
+  margin: 0 auto;
+  margin-left: 35px;
 }
 
 /* Contenedor centrado mejorado */
@@ -27,31 +23,28 @@
   line-height: 1.6;
   width: 100%;
   padding: 0 2rem;
-  box-sizing: border-box; /* 🔧 AGREGADO: Incluir padding en width */
+  box-sizing: border-box;
 }
 
 /* Header */
-.div-header{
+.div-header {
   background: url('../aadocumentos/imagenes/biblioteca.jpg') no-repeat center center / cover;
   color: white;
   padding: 2.6rem 1.8rem;
   border-radius: 20px;
   text-align: center;
-  margin: 0 auto 1.4rem auto; /* Añadido 'auto' para centrar */
-  max-width: 100%; /* Ancho máximo ajustado */
+  margin: 0 auto 1.4rem auto;
+  max-width: 100%;
   max-height: 11.5%;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(169, 50, 38, 0.5); /* Color de sombra rojizo */
+  box-shadow: 0 10px 30px rgba(169, 50, 38, 0.5);
 }
-
-
 
 .biblioteca-header {
   text-align: center;
   margin-bottom: 3rem;
   padding-bottom: 4rem;
-  
 }
 
 .biblioteca-header h1 {
@@ -69,7 +62,7 @@
   font-weight: 300;
   font-style: italic;
   opacity: 0.9;
-   text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
 }
 
 /* Controles mejorados */
@@ -522,29 +515,7 @@
   transform: translateY(-2px);
 }
 
-/* 🔧 REEMPLAZAR LA SECCIÓN DE LAYOUT */
-
-/* Asegurar centrado correcto */
-.main {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-left: 71px; /* 🔧 AGREGADO: Espacio para sidebar */
-  max-width: calc(100vw - 71px); /* 🔧 CRÍTICO: Evitar overflow */
-  overflow-x: hidden; /* 🔧 AGREGADO: Prevenir scroll horizontal */
-}
-
-/* Contenedor centrado mejorado */
-.biblioteca_container {
-  max-width: 1400px;
-  margin: 0 auto;
-  line-height: 1.6;
-  width: 100%;
-  padding: 0 2rem;
-  box-sizing: border-box; /* 🔧 AGREGADO: Incluir padding en width */
-}
-
-/* 🔧 RESPONSIVE CORREGIDO */
+/* 🔧 RESPONSIVE - margin-left SOLO en móviles */
 @media (max-width: 1200px) {
   .biblioteca_grid {
     grid-template-columns: repeat(2, 1fr);
@@ -558,13 +529,13 @@
   
   .main {
     margin-left: 60px;
-    max-width: calc(100vw - 60px); /* 🔧 CORREGIDO */
-    padding: 0; /* 🔧 Sin padding en main */
+    max-width: calc(100vw - 60px);
+    padding: 0;
   }
 
   .biblioteca_container {
-    padding: 0 1rem; /* 🔧 Padding reducido */
-    max-width: 100%; /* 🔧 AGREGADO */
+    padding: 0 1rem;
+    max-width: 100%;
   }
   
   .biblioteca_grid {
@@ -607,7 +578,6 @@
     gap: 0.5rem;
   }
 
-  /* 🔧 NUEVO: Ajustar header imagen */
   .div-header {
     margin: 0 0 1rem 0;
     max-width: 100%;
@@ -618,11 +588,11 @@
 @media (max-width: 480px) {
   .main {
     margin-left: 60px;
-    max-width: calc(100vw - 60px); /* 🔧 CRÍTICO */
+    max-width: calc(100vw - 60px);
   }
 
   .biblioteca_container {
-    padding: 0 0.75rem; /* 🔧 Padding aún más reducido */
+    padding: 0 0.75rem;
   }
 
   .archivo_header {
@@ -654,13 +624,34 @@
   }
 }
 
-/* 🔧 AGREGADO: Prevenir scroll horizontal GLOBAL */
+/* Prevenir scroll horizontal GLOBAL */
 body {
   overflow-x: hidden;
   max-width: 100vw;
 }
+/*
+## ✅ **CAMBIOS REALIZADOS:**
 
-.main {
-  overflow-x: hidden;
-  max-width: 100vw;
-}
+### **Eliminado (líneas duplicadas):**
+1. ❌ Primera declaración de `.main` (líneas 5-8)
+2. ❌ Segunda declaración de `.main` con `margin-left: 15px` (líneas 9-13)
+3. ❌ Tercera declaración de `.main` con `margin-left: 71px` (líneas después del modal)
+4. ❌ Última declaración duplicada de `.main` al final
+
+### **Conservado (versión correcta):**
+✅ Una sola declaración de `.main` sin `margin-left` para desktop
+✅ `margin-left: 60px` solo en `@media (max-width: 768px)`
+✅ Código limpio sin duplicaciones
+
+---
+
+## 📊 **ESTRUCTURA FINAL:**
+```
+Desktop (>768px):
+├── .main sin margin-left (centrado)
+└── .biblioteca_container con padding normal
+
+Móvil (≤768px):
+├── .main con margin-left: 60px
+└── .biblioteca_container con padding reducido
+*/
