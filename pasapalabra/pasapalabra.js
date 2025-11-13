@@ -199,31 +199,3 @@ export async function cargarTodosPasapalabras() {
         `;
     }
 }
-
-// ============ EXPANSIÓN DE PASAPALABRAS LARGOS ============
-document.addEventListener('DOMContentLoaded', function() {
-  const contenedorHoy = document.querySelector('.pasapalabra_container_hoy');
-  
-  if (contenedorHoy) {
-    const contenido = contenedorHoy.querySelector('.pasapalabra_contenido_hoy');
-    
-    // Verificar si el contenido es largo (más de 500px de altura)
-    if (contenido && contenido.scrollHeight > 500) {
-      // Crear botón expandir
-      const btnToggle = document.createElement('button');
-      btnToggle.className = 'pasapalabra_toggle';
-      btnToggle.textContent = 'Leer más';
-      
-      btnToggle.addEventListener('click', function() {
-        contenedorHoy.classList.toggle('expandido');
-        btnToggle.textContent = contenedorHoy.classList.contains('expandido') 
-          ? 'Leer menos' 
-          : 'Leer más';
-      });
-      
-      contenedorHoy.appendChild(btnToggle);
-    }
-  }
-});
-
-console.log('✅ Expansión de pasapalabras activada');
