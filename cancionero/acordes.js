@@ -1,5 +1,5 @@
 // Variables globales
-let currentInstrument = 'piano';
+let currentInstrument = 'guitar';
 let currentCifrado = 'americano';
 let currentFilter = { nota: 'all', tipo: 'all' };
 
@@ -156,6 +156,9 @@ function initializeAcordes() {
       document.documentElement.classList.remove('dark');
     }
   });
+  
+  // Establecer instrumento inicial
+  selectInstrument(currentInstrument);
 }
 
 // Seleccionar instrumento
