@@ -7,7 +7,7 @@ let cancionesFiltradas = [];
 let unsubscribe = null;
 let cancionesSeleccionadas = new Set();
 let mostrandoTodas = false;
-let modoSeleccion = false;
+window.modoSeleccion = false; // Ahora global
 let mostrandoArtista = false;
 let artistaActual = '';
 
@@ -146,7 +146,7 @@ function crearCancionCard(cancion, ranking) {
     ((cancion.letra || '').length > 80 ? '...' : '');
 
   card.innerHTML = `
-    <div class="cancion-content" onclick="abrirCancion('${cancion.id}')">
+    <div class="cancion-content" onclick="event.stopPropagation(); if (window.modoSeleccion) { toggleSelection('${cancion.id}'); } else { abrirCancion('${cancion.id}'); }">
       <div class="cancion-header">
         <div>
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
@@ -166,7 +166,7 @@ function crearCancionCard(cancion, ranking) {
         </div>
 
         <div class="categoria-with-checkbox">
-          <div class="selection-checkbox ${modoSeleccion ? 'visible' : ''}">
+          <div class="selection-checkbox ${window.modoSeleccion ? 'visible' : ''}">
             <input type="checkbox" class="song-checkbox" data-id="${cancion.id}"
                    ${cancionesSeleccionadas.has(cancion.id) ? 'checked' : ''}
                    onchange="event.stopPropagation(); toggleSelection('${cancion.id}')">
@@ -218,7 +218,7 @@ function actualizarTopArtistas() {
 
 // Modo selección PDF
 window.activarModoSeleccion = function () {
-  modoSeleccion = true;
+  window.modoSeleccion = true;
   document.body.classList.add('selection-mode');
   document.getElementById('pdfControls').style.display = 'block';
   document.getElementById('btnActivarPDF').style.display = 'none';
@@ -227,7 +227,7 @@ window.activarModoSeleccion = function () {
 };
 
 window.cancelarSeleccion = function () {
-  modoSeleccion = false;
+  window.modoSeleccion = false;
   document.body.classList.remove('selection-mode');
   cancionesSeleccionadas.clear();
   document.getElementById('pdfControls').style.display = 'none';
@@ -238,12 +238,17 @@ window.cancelarSeleccion = function () {
 window.toggleSelection = function (cancionId) {
   const checkbox = document.querySelector(`input[data-id="${cancionId}"]`);
   const card = checkbox?.closest('.cancion-card');
-  if (checkbox?.checked) {
-    cancionesSeleccionadas.add(cancionId);
-    card?.classList.add('selected');
-  } else {
+
+  // Determinar el nuevo estado de selección
+  const isCurrentlySelected = cancionesSeleccionadas.has(cancionId);
+  if (isCurrentlySelected) {
     cancionesSeleccionadas.delete(cancionId);
     card?.classList.remove('selected');
+    if (checkbox) checkbox.checked = false; // Actualizar el estado visual del checkbox
+  } else {
+    cancionesSeleccionadas.add(cancionId);
+    card?.classList.add('selected');
+    if (checkbox) checkbox.checked = true; // Actualizar el estado visual del checkbox
   }
   document.getElementById('selectionCount').textContent = cancionesSeleccionadas.size;
 };
@@ -253,9 +258,15 @@ window.generarPDF = function () {
     mostrarToast('❌ Selecciona al menos una canción', 'error');
     return;
   }
+
+  console.log('Canciones seleccionadas (IDs):', Array.from(cancionesSeleccionadas));
+  console.log('Número de canciones seleccionadas:', cancionesSeleccionadas.size);
+
   const cancionesParaPDF = canciones
     .filter((c) => cancionesSeleccionadas.has(c.id))
     .sort((a, b) => a.titulo.localeCompare(b.titulo));
+
+  console.log('Canciones a incluir en PDF (objetos):', cancionesParaPDF.map(c => c.titulo));
 
   try {
     const { jsPDF } = window.jspdf;
