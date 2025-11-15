@@ -45,11 +45,19 @@ const acordesData = {
   'C_diminished': { nota: 'C', tipo: 'diminished', piano: [0, 3, 6], guitar: ['x', 3, 1, 2, 1, 2], formula: '1 ♭3 ♭5' },
   'D_diminished': { nota: 'D', tipo: 'diminished', piano: [2, 5, 8], guitar: ['x', 'x', 0, 1, 0, 1], formula: '1 ♭3 ♭5' },
   'E_diminished': { nota: 'E', tipo: 'diminished', piano: [4, 7, 10], guitar: [0, 1, 2, 0, 2, 0], formula: '1 ♭3 ♭5' },
+  'F_diminished': { nota: 'F', tipo: 'diminished', piano: [5, 8, 11], guitar: [1, 2, 3, 1, 3, 1], formula: '1 ♭3 ♭5' },
+  'G_diminished': { nota: 'G', tipo: 'diminished', piano: [7, 10, 1], guitar: ['x', 'x', 2, 3, 2, 3], formula: '1 ♭3 ♭5' },
+  'A_diminished': { nota: 'A', tipo: 'diminished', piano: [9, 0, 3], guitar: ['x', 0, 1, 2, 1, 'x'], formula: '1 ♭3 ♭5' },
+  'B_diminished': { nota: 'B', tipo: 'diminished', piano: [11, 2, 5], guitar: ['x', 2, 3, 4, 3, 'x'], formula: '1 ♭3 ♭5' },
   
   // Acordes aumentados
   'C_augmented': { nota: 'C', tipo: 'augmented', piano: [0, 4, 8], guitar: ['x', 3, 2, 1, 1, 0], formula: '1 3 #5' },
   'D_augmented': { nota: 'D', tipo: 'augmented', piano: [2, 6, 10], guitar: ['x', 'x', 0, 3, 3, 2], formula: '1 3 #5' },
   'E_augmented': { nota: 'E', tipo: 'augmented', piano: [4, 8, 0], guitar: [0, 3, 2, 1, 1, 0], formula: '1 3 #5' },
+  'F_augmented': { nota: 'F', tipo: 'augmented', piano: [5, 9, 1], guitar: ['x', 'x', 3, 2, 2, 1], formula: '1 3 #5' },
+  'G_augmented': { nota: 'G', tipo: 'augmented', piano: [7, 11, 3], guitar: ['x', 'x', 1, 0, 0, 3], formula: '1 3 #5' },
+  'A_augmented': { nota: 'A', tipo: 'augmented', piano: [9, 1, 5], guitar: ['x', 0, 3, 2, 2, 1], formula: '1 3 #5' },
+  'B_augmented': { nota: 'B', tipo: 'augmented', piano: [11, 3, 7], guitar: ['x', 2, 1, 0, 0, 3], formula: '1 3 #5' },
   
   // Acordes sostenidos (sostenidos de las notas naturales)
   'C_sharp_major': { nota: 'C#', tipo: 'major', piano: [1, 5, 9], guitar: ['x', 4, 3, 1, 2, 1], formula: '1 3 5' },
