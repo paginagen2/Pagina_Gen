@@ -26,6 +26,57 @@ function selectEmailText() {
   window.getSelection().addRange(range);
 }
 
+// Función para copiar texto al portapapeles
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    // Opcional: mostrar un mensaje de éxito temporal
+    mostrarToastTemporal('Copiado al portapapeles: ' + text, 'success');
+  }).catch(err => {
+    console.error('Error al copiar el texto: ', err);
+    alert('Error al copiar el texto. Por favor, cópialo manualmente: ' + text);
+  });
+}
+
+// Función para mostrar un toast temporal
+function mostrarToastTemporal(mensaje, tipo = 'info') {
+  const colores = {
+    success: '#28a745',
+    error: '#dc3545',
+    info: '#17a2b8'
+  };
+
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: ${colores[tipo] || colores.info};
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  `;
+  toast.textContent = mensaje;
+  document.body.appendChild(toast);
+
+  // Mostrar el toast
+  setTimeout(() => {
+    toast.style.opacity = '1';
+  }, 100);
+
+  // Ocultar y remover el toast después de 3 segundos
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.addEventListener('transitionend', () => toast.remove());
+  }, 3000);
+}
+
 // ============ SISTEMA DE CATEGORÍAS ============
 const categoryData = {
   cancionero: {
@@ -82,11 +133,12 @@ const categoryData = {
   colaboracion: {
     title: "🤝 Denuncias y ayuda",
     suggestions: [
-      "Estamos en contacto con gente que puede ayudarte. Si estas en esta situacion o sabes de alguien que sufre de abuso contactate con nosotros para poder ayudarte.",
-      "No es necesario que nos cuentes todo si no queres, con solo un mensaje pidiendo ayuda nos ponemos en contacto con vos",
-      "No estas sol@"
+      "<p>Pagina oficial: <a href=\"https://www.focolare.org/es/prevencion-de-abusos/\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.focolare.org/es/prevencion-de-abusos/</a></p>",
+      "<p>Mail para denunciar un abuso: <a href=\"javascript:void(0)\" onclick=\"copyToClipboard('abusereport.foc@gmail.com')\">abusereport.foc@gmail.com</a></p>",
+      "<p>Mail para ponerse en contacto con la oficina de protección: <a href=\"javascript:void(0)\" onclick=\"copyToClipboard('ufficio.tutela@focolare.org')\">ufficio.tutela@focolare.org</a></p>",
+      "<p>Mail para contactar con el órgano de control: <a href=\"javascript:void(0)\" onclick=\"copyToClipboard('supervisoryboard.cobetu@gmail.com')\">supervisoryboard.cobetu@gmail.com</a></p>",  
     ],
-    tip: "💡 <strong>Asunto del email:</strong> Denuncias y ayuda"
+    tip: "💡 <strong>No estas sol@:</strong>"
   },
   
   mejoras: {

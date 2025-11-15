@@ -192,6 +192,21 @@
 }
 
 /* ============ SUGERENCIAS ============ */
+
+/* Estilos para los enlaces dentro de sugerencias */
+.sugerencia_content a {
+  color: var(--primary-blue); /* Color consistente con el box 'Denuncias y ayuda' */
+  text-decoration: underline;
+}
+
+.sugerencia_content a:hover {
+  color: var(--secondary-blue); /* Ligeramente diferente para feedback visual */
+}
+
+.sugerencia_content a:visited {
+  color: var(--primary-blue); /* Mantiene el color original al ser visitado */
+}
+
 .sugerencias-card {
   background: #0f0f0f;
   border-radius: 12px;
