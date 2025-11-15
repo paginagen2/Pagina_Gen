@@ -80,12 +80,13 @@ const categoryData = {
   },
   
   colaboracion: {
-    title: "🤝 Colaboración",
+    title: "🤝 Denuncias y ayuda",
     suggestions: [
-      "¿En qué área te gustaría colaborar? Especifica tus habilidades",
-      "¿Propones un nuevo proyecto? Describe la idea y cómo ayudaría",
+      "Estamos en contacto con gente que puede ayudarte. Si estas en esta situacion o sabes de alguien que sufre de abuso contactate con nosotros para poder ayudarte.",
+      "No es necesario que nos cuentes todo si no queres, con solo un mensaje pidiendo ayuda nos ponemos en contacto con vos",
+      "No estas sol@"
     ],
-    tip: "💡 <strong>Asunto del email:</strong> Colaboración"
+    tip: "💡 <strong>Asunto del email:</strong> Denuncias y ayuda"
   },
   
   mejoras: {
