@@ -230,6 +230,7 @@ window.cancelarSeleccion = function () {
   window.modoSeleccion = false;
   document.body.classList.remove('selection-mode');
   cancionesSeleccionadas.clear();
+  document.getElementById('selectionCount').textContent = 0; // Reiniciar el contador visual a 0
   document.getElementById('pdfControls').style.display = 'none';
   document.getElementById('btnActivarPDF').style.display = 'flex';
   renderizarCanciones();
