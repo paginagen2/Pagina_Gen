@@ -82,10 +82,17 @@
     justify-content: space-between;
 }
 
+.card-header-content {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre el icono y el texto */
+    margin-bottom: 1rem; /* Espacio debajo del encabezado de la tarjeta */
+    justify-content: center; /* Centrar horizontalmente el icono y el título */
+}
+
 .app-icon {
     width: 70px;
     height: 70px;
-    margin-bottom: 1rem;
 }
 
 .download-card h2 {
@@ -128,6 +135,7 @@
     font-size: 0.95rem;
     text-align: center;
     border: 1px solid #282828;
+    margin-bottom: 2rem;
 }
 
 .info-card h3 {
