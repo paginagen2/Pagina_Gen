@@ -22,8 +22,7 @@ async function inicializar() {
   try {
     const conexionExitosa = await probarConexion();
     if (conexionExitosa) {
-      mostrarToast('✅ Conectado a Firebase', 'success');
-      unsubscribe = DatabaseService.onCancionesChange((cancionesActualizadas) => {
+     unsubscribe = DatabaseService.onCancionesChange((cancionesActualizadas) => {
         canciones = cancionesActualizadas;
         if (mostrandoArtista) {
           mostrarCancionesArtista(artistaActual);

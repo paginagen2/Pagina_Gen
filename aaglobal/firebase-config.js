@@ -88,26 +88,26 @@ const firebaseConfig = {
         console.log('🧪 Prueba de conexión exitosa');
         
         // Notificación visual de éxito
-        if (document.body) {
-            const successMsg = document.createElement('div');
-            successMsg.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #10b981;
-                color: white;
-                padding: 15px 25px;
-                border-radius: 12px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 9999;
-                font-weight: 600;
-                font-size: 16px;
-            `;
-            successMsg.innerHTML = '🔥 Firebase conectado - Cancionero ✅ Gen Animadores ✅';
-            document.body.appendChild(successMsg);
-            
-            setTimeout(() => successMsg.remove(), 5000);
-        }
+        // if (document.body) {
+        //     const successMsg = document.createElement('div');
+        //     successMsg.style.cssText = `
+        //         position: fixed;
+        //         top: 20px;
+        //         right: 20px;
+        //         background: #10b981;
+        //         color: white;
+        //         padding: 15px 25px;
+        //         border-radius: 12px;
+        //         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        //         z-index: 9999;
+        //         font-weight: 600;
+        //         font-size: 16px;
+        //     `;
+        //     // successMsg.innerHTML = '🔥 Firebase conectado - Cancionero ✅ Gen Animadores ✅'; // Eliminado por solicitud del usuario
+        //     document.body.appendChild(successMsg);
+        //     
+        //     setTimeout(() => successMsg.remove(), 5000);
+        // }
         
     } catch (error) {
         console.error('❌ Error inicializando Firebase:', error);
