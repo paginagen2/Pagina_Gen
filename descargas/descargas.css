@@ -1,0 +1,136 @@
+/* Contenido principal de la página de descargas */
+.main {
+    padding: 2rem;
+}
+
+/* Estilos del Hero Banner (adaptado de cancionero.css) */
+.hero {
+  background: #000; /* Fondo negro para el efecto Matrix */
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: flex; /* Para centrar el contenido */
+  justify-content: center;
+  align-items: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Superposición oscura para legibilidad */
+  z-index: 2; /* Asegura que la capa oscura esté sobre el canvas */
+}
+
+.matrix-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* El canvas debe estar debajo del contenido y la capa oscura */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3; /* Asegura que el contenido esté por encima de todo */
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin: 0 0 1rem 0;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff, #f0f0f3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin: 0;
+  opacity: 0.95;
+  color: #fff;
+}
+
+/* Grid para las tarjetas de descarga */
+.download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Tarjeta de descarga individual */
+.download-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid #282828;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.app-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1rem;
+}
+
+.download-card h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.download-card p {
+    color: #b0b0b0;
+    line-height: 1.6;
+    flex-grow: 1; /* Hace que el párrafo ocupe el espacio disponible */
+    margin-bottom: 1.5rem;
+}
+
+/* Botón de descarga */
+.button {
+    background-color: #68e24aa6;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block; /* Ocupa todo el ancho */
+}
+
+.button:hover {
+    background-color: #357ABD;
+    transform: translateY(-2px);
+}
+
+/* Tarjeta informativa (iPhone) */
+.info-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-size: 0.95rem;
+    text-align: center;
+    border: 1px solid #282828;
+}
+
+.info-card h3 {
+    margin-top: 0;
+    color: #ffffff;
+}

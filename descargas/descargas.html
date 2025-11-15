@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Descargas - Gen 2</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="descargas.css">
+  <link rel="icon" href="../aadocumentos/svg/casa.svg" type="image/x-icon">
+</head>
+<body>
+  <div class="page-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="../index.html" class="menu-item">
+        <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+        <span class="menu-text">Inicio</span>
+      </a>
+      <a href="../cancionero/cancionero.html" class="menu-item">
+        <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+        <span class="menu-text">Cancionero</span>
+      </a>
+      <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+        <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+        <span class="menu-text">Gen Animadores</span>
+      </a>
+      <a href="../biblioteca/biblioteca.html" class="menu-item">
+        <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+        <span class="menu-text">Biblioteca</span>
+      </a>
+      <a href="../introduccion/introduccion.html" class="menu-item">
+        <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+        <span class="menu-text">Sobre el Movimiento</span>
+      </a>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="main-content">
+      <main class="main">
+        <div class="hero">
+          <canvas id="matrixCanvas" class="matrix-canvas"></canvas>
+          <div class="hero-content">
+            <h1>Descarga de la aplicación</h1>
+            <p>Obtené la version para celulares</p>
+          </div>
+        </div>
+
+        <div class="download-grid">
+          <!-- Card para App Gen 1 -->
+          <div class="download-card">
+            <img src="../aadocumentos/svg/vida.svg" alt="Icono App" class="app-icon">
+            <h2>App Gen</h2>
+            <p>Versión principal de la aplicación.</p>
+            <a href="../aadocumentos/apk/App Gen.apk" class="button" download>
+              Descargar APK
+            </a>
+          </div>
+
+          <!-- Card para App Gen 2 -->
+          <div class="download-card">
+            <img src="../aadocumentos/svg/vida.svg" alt="Icono App" class="app-icon">
+            <h2>App Gen 2</h2>
+            <p>Versión alternativa. Funciones sin internet se descargan automaticamente.</p>
+            <a href="../aadocumentos/apk/App Gen 2.apk" class="button" download>
+              Descargar APK
+            </a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3>¿No disponible para iPhone?</h3>
+          <p>Actualmente, la aplicación solo es compatible con Android. ¡Agradecemos tu paciencia mientras trabajamos en futuras versiones!</p>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="descargas.js"></script>
+</body>
+</html>

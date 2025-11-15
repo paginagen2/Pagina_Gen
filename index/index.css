@@ -123,6 +123,34 @@
   justify-content: center;
 }
 
+.download-preview {
+  background: rgba(46, 204, 113, 0.1);
+  border-left: 4px solid #2ECC71;
+  padding: 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.download-preview:hover {
+  transform: scale(1.02);
+}
+.download-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 0.9rem;
+  color: var(--text-light);
+}
+.download-description {
+  font-size: 0.94rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
 /* Pasapalabra */
 .pasapalabra-preview {
   background: rgba(243, 156, 18, 0.1);
@@ -150,7 +178,7 @@
 
 .pasapalabra-title {
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 520;
   margin: 0;
   padding-bottom: 0.9rem;
   color: var(--text-light);
