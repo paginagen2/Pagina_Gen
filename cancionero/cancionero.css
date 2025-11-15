@@ -385,10 +385,33 @@
 }
 
 .song-checkbox {
-  width: 18px;
-  height: 18px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 4px;
   cursor: pointer;
-  accent-color: var(--primary-color);
+  background-color: var(--bg-dark);
+  transition: all 0.2s ease;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.song-checkbox:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+  background-size: 80%; /* Ajustar tamaño para mejor ajuste */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.song-checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(114, 102, 169, 0.3); /* Basado en --primary-color */
 }
 
 /* Ranking badge */
@@ -869,7 +892,7 @@
 
 .btn-generate-pdf:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+  box-shadow: 0 4px 15px rgba(32, 160, 86, 0.4);
 }
 
 .btn-cancel-selection {
@@ -934,7 +957,7 @@
 /* Hero con imagen de fondo */
 .hero-guitarra {
   background: 
-    linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
+    linear-gradient(135deg, rgba(82, 60, 41, 0.222) 0%, rgba(118, 75, 162, 0.9) 100%),
     url('../aadocumentos/imagenes/guitarra.jpg') center/cover;
   background-blend-mode: overlay;
 }
@@ -1027,7 +1050,7 @@
 
 .selection-mode .cancion-card.selected .selection-checkbox {
   background: var(--secondary-color);
-  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  box-shadow: 0 4px 15px rgba(118, 39, 174, 0.3);
 }
 
 /* PDF Generator Card */
@@ -1098,7 +1121,7 @@
 
 .btn-generate-pdf:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+  box-shadow: 0 4px 15px rgba(201, 46, 204, 0.4);
 }
 
 .btn-cancel-selection {
