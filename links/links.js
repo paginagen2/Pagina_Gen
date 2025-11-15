@@ -37,7 +37,7 @@ function copyToClipboard(text) {
   });
 }
 
-// Función para mostrar un toast temporal
+// Función para mostrar un toast temporal :)
 function mostrarToastTemporal(mensaje, tipo = 'info') {
   const colores = {
     success: '#28a745',
