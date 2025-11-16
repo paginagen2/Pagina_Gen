@@ -61,7 +61,6 @@
   grid-template-rows: 1fr 1fr;
   gap: 1.5rem;
   margin-bottom: 2rem;
-  height: 470px;
 }
 
 .content-box {
@@ -142,7 +141,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
-  padding-bottom: 0.9rem;
+  padding-bottom: 1.9rem;
   color: var(--text-light);
 }
 .download-description {
@@ -180,7 +179,7 @@
   font-size: 1.1rem;
   font-weight: 520;
   margin: 0;
-  padding-bottom: 0.9rem;
+  padding-bottom: 01.9rem;
   color: var(--text-light);
 }
 
