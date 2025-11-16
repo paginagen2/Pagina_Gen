@@ -131,7 +131,7 @@ const categoryData = {
   },
   
   colaboracion: {
-    title: "🤝 Denuncias y ayuda",
+    title: "🤝 Abusos: Denuncias y ayuda",
     suggestions: [
       "<p>Pagina oficial: <a href=\"https://www.focolare.org/es/prevencion-de-abusos/\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.focolare.org/es/prevencion-de-abusos/</a></p>",
       "<p>Mail para denunciar un abuso: <a href=\"javascript:void(0)\" onclick=\"copyToClipboard('abusereport.foc@gmail.com')\">abusereport.foc@gmail.com</a></p>",
@@ -237,5 +237,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
         document.documentElement.classList.remove('dark');
     }
 });
+
 
 console.log('✅ Links renovado cargado correctamente');
