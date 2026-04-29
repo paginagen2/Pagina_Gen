@@ -1,0 +1,29 @@
+He implementado el nuevo apartado de **Meditación Diaria** reemplazando la sección del congreso. El sistema está diseñado para que solo tengas que subir tus meditaciones a Firebase y la página elegirá automáticamente una distinta cada día para todos los usuarios.
+
+### Cambios realizados
+
+**1. Actualización del Index**
+- He modificado `index.html` para quitar la sección del congreso y añadir el cuadro de **Meditación Diaria**.
+- He añadido estilos en `index/index.css` con una paleta de colores azul suave/púrpura para transmitir paz.
+- He actualizado `index/index.js` para que consulte la colección `meditaciones` en Firestore y muestre el título de la que corresponde al día de hoy.
+
+**2. Nueva Página de Meditación**
+He creado una nueva estructura en la carpeta `meditacion/`:
+- `meditacion_diaria.html`: Una página limpia y enfocada en la lectura.
+- `meditacion.css`: Estilos elegantes con tipografía grande para facilitar la meditación.
+- `meditacion.js`: La lógica que conecta con la base de datos y rota el contenido automáticamente.
+
+### Estructura de la Base de Datos (Firestore)
+Para que las meditaciones aparezcan, debes crear una colección llamada `meditaciones` en tu Firebase con documentos que tengan estos campos:
+- `titulo`: El título de la meditación (ej: "La alegría del servicio").
+- `contenido`: El texto completo de la meditación.
+- `contexto`: (Opcional) Una breve descripción del contexto que aparecerá al final.
+
+### Cómo funciona la automatización
+No necesitas asignar fechas manualmente. El código:
+1. Obtiene todas las meditaciones de la base de datos.
+2. Calcula un índice basado en la fecha actual (días transcurridos).
+3. Selecciona una meditación de la lista. 
+Esto garantiza que **cada día cambie la meditación** y que todos los usuarios vean la misma al mismo tiempo, ciclando por todas las que tengas guardadas.
+
+**Revisar y Aceptar**: Por favor, revisa los cambios propuestos en `index.html`, `index.css` e `index.js`, y recuerda crear los nuevos archivos en la carpeta `meditacion/` con el contenido proporcionado.

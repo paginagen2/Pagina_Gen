@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meditación Diaria - Gen 2</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="meditacion_diaria.css">
+  <link rel="icon" href="../aadocumentos/svg/vida.svg" type="image/x-icon">
+</head>
+<body>
+  <div class="page-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="../index.html" class="menu-item">
+        <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+        <span class="menu-text">Inicio</span>
+      </a>
+      <a href="../cancionero/cancionero.html" class="menu-item">
+        <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+        <span class="menu-text">Cancionero</span>
+      </a>
+      <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+        <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+        <span class="menu-text">Gen Animadores</span>
+      </a>
+      <a href="../biblioteca/biblioteca.html" class="menu-item">
+        <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+        <span class="menu-text">Biblioteca</span>
+      </a>
+      <a href="../introduccion/introduccion.html" class="menu-item">
+        <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+        <span class="menu-text">Sobre el Movimiento</span>
+      </a>
+    </div>
+
+    <div class="main-content">
+      <main class="main">
+        <div class="meditacion-wrapper">
+          <header class="meditacion-header">
+            <div class="meditacion-badge">Meditación del día</div>
+            <h1 id="meditacionTitulo">Cargando...</h1>
+            <p class="meditacion-date" id="meditacionFecha"></p>
+          </header>
+
+          <article class="meditacion-card">
+            <div id="meditacionTexto" class="meditacion-body">
+              <!-- Contenido dinámico -->
+            </div>
+            
+            <div id="meditacionMeta" class="meditacion-metadata" style="display: none;">
+              <span id="meditacionAutor"></span><span id="meditacionLibro"></span><span id="meditacionPagina"></span>
+            </div>
+
+            <footer id="meditacionDescripcion" class="meditacion-description-box" style="display: none;">
+              <!-- Descripción dinámica -->
+            </footer>
+          </article>
+
+          <div class="meditacion-actions">
+            <a href="../index.html" class="btn-secondary">Volver al inicio</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script type="module" src="meditacion_diaria.js"></script>
+</body>
+</html>

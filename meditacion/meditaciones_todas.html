@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todas las Meditaciones - Gen 2</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="meditaciones_todas.css">
+  <link rel="icon" href="../aadocumentos/svg/vida.svg" type="image/x-icon">
+</head>
+<body>
+  <div class="page-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="../index.html" class="menu-item">
+        <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+        <span class="menu-text">Inicio</span>
+      </a>
+      <a href="../cancionero/cancionero.html" class="menu-item">
+        <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+        <span class="menu-text">Cancionero</span>
+      </a>
+      <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+        <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+        <span class="menu-text">Gen Animadores</span>
+      </a>
+      <a href="../biblioteca/biblioteca.html" class="menu-item">
+        <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+        <span class="menu-text">Biblioteca</span>
+      </a>
+      <a href="../introduccion/introduccion.html" class="menu-item">
+        <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+        <span class="menu-text">Sobre el Movimiento</span>
+      </a>
+    </div>
+
+    <div class="main-content">
+      <main class="main">
+        <div class="meditaciones-container">
+          <header class="meditaciones-header">
+            <h1>Explorar Meditaciones</h1>
+          </header>
+
+          <!-- Buscador Avanzado -->
+          <div class="buscador-container">
+            <div class="buscador-principal">
+              <input type="text" id="inputBusqueda" placeholder="Buscar meditaciones..." class="input-busqueda">
+              <button id="btnOpciones" class="btn-opciones">
+                <span>Opciones</span>
+                <i class="icono-down">▼</i>
+              </button>
+            </div>
+            
+            <div id="opcionesBusqueda" class="opciones-busqueda collapsed">
+              <div class="opcion-grupo">
+                <span class="opcion-label">Buscar en:</span>
+                <label><input type="checkbox" id="checkTitulo" checked> Título</label>
+                <label><input type="checkbox" id="checkTexto" checked> Texto</label>
+              </div>
+              <div class="opcion-grupo">
+                <span class="opcion-label">Modo:</span>
+                <label><input type="radio" name="modoBusqueda" value="contiene" checked> Contiene palabras</label>
+                <label><input type="radio" name="modoBusqueda" value="exacto"> Textualmente lo escrito</label>
+              </div>
+            </div>
+          </div>
+
+          <div id="listaMeditaciones" class="meditaciones-grid">
+            <!-- Las meditaciones se cargarán aquí -->
+            <div class="loading-spinner">Cargando meditaciones...</div>
+          </div>
+
+          <div class="meditaciones-footer">
+            <a href="../index.html" class="btn-back">Volver al inicio</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal para leer meditación -->
+  <div id="meditacionModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2 id="modalTitulo"></h2>
+      <div id="modalTexto" class="modal-body"></div>
+      
+      <div id="modalMeta" class="meditacion-metadata" style="display: none;">
+        <span id="modalAutor"></span><span id="modalLibro"></span><span id="modalPagina"></span>
+      </div>
+
+      <div id="modalDescripcion" class="meditacion-description-box" style="display: none;"></div>
+    </div>
+  </div>
+  
+  <script src="../aaglobal/firebase-config.js"></script>
+  <script type="module" src="meditaciones_todas.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+/* ===================================
+   PALABRA DE VIDA ABRIL - PALETA ATARDECER / EMAÚS
+   =================================== */
+
+/* Variables específicas de ABRIL - PALETA ATARDECER */
+:root {
+  --primary-color: #FF8A65; /* Naranja coral suave */
+  --secondary-color: #4A148C; /* Violeta muy oscuro */
+  --third-color: #D1C4E9; /* Violeta claro */
+  --tittle-color: #FFF8E1; /* Crema cálido */
+  --testimonio-color: #311B92; /* Violeta profundo */
+  --p-color: #ECEFF1; /* Gris muy claro azulado */
+  --gradient-primary: linear-gradient(135deg, #311B92, #6A1B9A, #AD1457); /* Atardecer profundo: violeta a carmesí */
+  --gradient-secondary: linear-gradient(135deg, #FFF8E1, #FFECB3); /* Luz de vela / lámpara */
+  --gradient-audio: linear-gradient(135deg, #512DA8, #673AB7); /* Tonos violeta medio para audio */
+  --gradient-audio-border: linear-gradient(135deg, #311B92, #4A148C); /* Violetas profundos para borde */
+  --gradient-cita: linear-gradient(135deg, #E65100, #F57C00); /* Naranja intenso para citas */
+  --gradient-testimonio: linear-gradient(135deg, #4527A0, #5E35B1); /* Violeta para reflexión */
+}
+
+/* Estructura Base */
+.palabra-container {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.palabra-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 1rem;
+}
+
+.palabra-header h1 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.fecha-mes {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cita-principal {
+  background: var(--gradient-primary);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 12px;
+  text-align: center;
+  border-left: 4px solid var(--secondary-color);
+  box-shadow: 0 4px 15px rgba(0, 77, 64, 0.4);
+}
+
+.cita-principal blockquote {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--tittle-color);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.cita-principal cite {
+  color: var(--tittle-color);
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.audio-section {
+  background: var(--gradient-audio);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+  text-align: center;
+  border: 1px solid var(--secondary-color);
+}
+
+.audio-section h3 {
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+}
+
+.audio-player {
+  width: 100%;
+  max-width: 400px;
+  background: var(--gradient-audio-border);
+  border-radius: 50px;
+  padding: 5px;
+}
+
+.palabra-contenido {
+  margin-top: 2rem;
+}
+
+.desarrollo p, .reflexion-personal p {
+  margin-bottom: 1rem;
+  color: var(--p-color);
+  line-height: 1.7;
+}
+
+.cita-repetida {
+  background: var(--gradient-cita);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  text-align: center;
+  border-left: 3px solid var(--secondary-color);
+  border-right: 3px solid var(--secondary-color);
+}
+
+.cita-repetida em {
+  color: var(--tittle-color);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.testimonio {
+  background: var(--gradient-testimonio);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-color);
+  margin: 1.5rem 0;
+  text-align: justify;
+  border-right: 2px solid var(--primary-color);
+}
+
+.testimonio h4 {
+  color: var(--primary-color); /* Naranja coral suave para que resalte sobre el violeta */
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.testimonio p {
+  color: #F3E5F5; /* Texto muy claro para lectura sobre fondo violeta */
+  margin: 0 0 1rem 0;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.autor {
+  text-align: right;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--primary-color);
+}
+
+.autor p {
+  color: var(--primary-color);
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Efectos hover */
+.cita-principal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 77, 64, 0.6);
+  transition: all 0.3s ease;
+}
+
+.testimonio:hover {
+  transform: translateX(5px);
+  transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .palabra-container {
+    padding: 0 1rem;
+  }
+  .palabra-header h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.palabra-header { animation: fadeInUp 0.6s ease-out; }
+.cita-principal { animation: fadeInUp 0.6s ease-out 0.2s both; }
+.palabra-contenido > div { animation: fadeInUp 0.6s ease-out 0.4s both; }
+
+body {
+  background: #1A1A2E; /* Fondo azul noche muy profundo */
+}

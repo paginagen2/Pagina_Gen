@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinámicas Grupales - Gen Animadores</title>
+    <link rel="stylesheet" href="recursos-unificado.css">
+    <link rel="icon" href="../aadocumentos/svg/vida.svg" type="image/x-icon">
+    <script type="module" src="../aaglobal/firebase-config.js"></script>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="../cancionero/cancionero.html" class="menu-item">
+
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item active">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Header específico para dinámicas -->
+        <div class="recursos-header dinamicas">
+            <h1>👥 Dinámicas Grupales</h1>
+            <p class="subtitle">Actividades paso a paso para crear vínculos y favorecer la participación grupal</p>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-nav">
+                <a href="gen-animadores.html">Gen Animadores</a>
+                <span class="breadcrumb-separator">›</span>
+                <span>Dinámicas Grupales</span>
+            </div>
+        </div>
+
+        <!-- Sección de búsqueda -->
+        <div class="search-section">
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchDinamicas" 
+                    class="search-input"
+                    placeholder="🔍 Buscar dinámicas por título, descripción, materiales..."
+                >
+                <button class="search-btn" onclick="buscarDinamicas()">🔍</button>
+            </div>
+        </div>
+
+        <!-- Lista de dinámicas -->
+        <div class="recursos-list" id="dinamicasList">
+            <div class="loading-state">
+                <div class="loading-icon">⏳</div>
+                <h3>Conectando con Firebase...</h3>
+            </div>
+        </div>
+
+        <!-- Botón volver -->
+        <div style="text-align: center; margin: 3rem 0;">
+            <a href="gen-animadores.html" class="volver-btn">
+                ← Volver a Gen Animadores
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar recurso completo -->
+    <div id="modalRecurso" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button onclick="cerrarModal()" class="modal-close">✕</button>
+            <div id="contenidoRecurso"></div>
+        </div>
+    </div>
+
+    <script src="recursos-unificado.js"></script>
+</body>
+</html>

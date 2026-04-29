@@ -1,0 +1,223 @@
+/* ===================================
+   PALABRA DE VIDA OCTUBRE - PALETA OTOÑAL
+   =================================== */
+.palabra-container {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.palabra-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #8B4513;
+  padding-bottom: 1rem;
+}
+
+.palabra-header h1 {
+  margin-bottom: 0.5rem;
+  color: #FF8C42;
+  font-size: 2.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.fecha-mes {
+  color: #D2691E;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cita-principal {
+  background: linear-gradient(135deg, #2D1810, #4A2C17);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 12px;
+  text-align: center;
+  border-left: 4px solid #FF8C42;
+  box-shadow: 0 4px 15px rgba(255, 140, 66, 0.2);
+}
+
+.cita-principal blockquote {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #FFE4B5;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.cita-principal cite {
+  color: #FF8C42;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.audio-section {
+  background: #2D1810;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+  text-align: center;
+  border: 1px solid #8B4513;
+}
+
+.audio-section h3 {
+  margin-bottom: 1rem;
+  color: #FFE4B5;
+}
+
+.audio-player {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(-15deg, #FF8C42, #D2691E, #B8860B);
+  border-radius: 50px;
+  padding: 5px;
+}
+
+.palabra-contenido {
+  margin-top: 2rem;
+}
+
+.introduccion {
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+.introduccion p, .desarrollo p, .reflexion-personal p, .aplicacion-practica p {
+  margin-bottom: 1rem;
+  color: #DEB887;
+  line-height: 1.7;
+}
+
+.desarrollo {
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+.cita-repetida {
+  background: linear-gradient(135deg, #4A2C17, #2D1810);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  text-align: center;
+  border-left: 3px solid #FF8C42;
+  border-right: 3px solid #D2691E;
+}
+
+.cita-repetida em {
+  color: #FF8C42;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.reflexion-personal {
+  margin: 2rem 0;
+}
+
+.aplicacion-practica {
+  margin: 2rem 0;
+}
+
+.testimonio {
+  background: #2D1810;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid #CD853F;
+  margin: 1.5rem 0;
+  text-align: justify;
+  border-right: 2px solid #8B4513;
+}
+
+.testimonio h4 {
+  color: #CD853F;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.testimonio p {
+  color: #DEB887;
+  margin: 0 0 1rem 0;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.testimonio p:last-child {
+  margin-bottom: 0;
+}
+
+.autor {
+  text-align: right;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #8B4513;
+}
+
+.autor p {
+  color: #FF8C42;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Efectos hover mejorados */
+.cita-principal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 140, 66, 0.3);
+  transition: all 0.3s ease;
+}
+
+.testimonio:hover {
+  transform: translateX(5px);
+  transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .palabra-container {
+    padding: 0 1rem;
+  }
+  
+  .palabra-header h1 {
+    font-size: 2rem;
+  }
+  
+  .cita-principal {
+    padding: 1.5rem;
+  }
+  
+  .cita-principal blockquote {
+    font-size: 1.2rem;
+  }
+  
+  .testimonio {
+    padding: 1rem;
+  }
+}
+
+/* Animaciones sutiles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.palabra-header {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.cita-principal {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.palabra-contenido > div {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+/* Efectos de gradiente en el fondo */
+body {
+  background:#111
+}

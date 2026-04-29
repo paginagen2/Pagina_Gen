@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Documento -->
+  <path d="M50 30 L120 30 L150 60 L150 170 L50 170 Z" 
+        fill="none" 
+        stroke="white" 
+        stroke-width="7" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  
+  <!-- Esquina doblada -->
+  <path d="M120 30 L120 60 L150 60" 
+        fill="none" 
+        stroke="white" 
+        stroke-width="7" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  
+  <!-- Líneas de texto -->
+  <line x1="70" y1="80" x2="130" y2="80" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <line x1="70" y1="100" x2="130" y2="100" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <line x1="70" y1="120" x2="110" y2="120" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Pluma -->
+  <path d="M140 140 L165 115 L170 120 L145 145 L140 140" 
+        fill="none" 
+        stroke="white" 
+        stroke-width="6" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  
+  <!-- Punta de la pluma -->
+  <path d="M140 140 L125 155" 
+        stroke="white" 
+        stroke-width="5" 
+        stroke-linecap="round"/>
+  
+  <!-- Detalle de pluma (barbas) -->
+  <line x1="150" y1="125" x2="155" y2="120" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="155" y1="130" x2="160" y2="125" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="160" y1="135" x2="165" y2="130" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

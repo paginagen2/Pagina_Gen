@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gen</title>
+  <link rel="stylesheet" href="aaglobal/style.css">
+  <link rel="stylesheet" href="index/index.css">
+  <link rel="icon" href="aadocumentos/svg/casa.svg" type="image/x-icon">
+  <meta name="description" content="Encuentra recursos del Movimiento Gen 2: cancionero con acordes, Palabra de Vida, experiencias, dinámicas para animadores y biblioteca digital. Únete a millones de jóvenes por la unidad.">
+
+  <!-- Open Graph básico -->
+  <meta property="og:title" content="Gen 2 - Recursos para jóvenes del Movimiento">
+  <meta property="og:description" content="Cancionero, Palabra de Vida, experiencias y recursos para animadores del Movimiento Gen 2.">
+  <!-- Imagen de previsualización 1200x630-->
+  <meta property="og:image" content="https://github.com/paginagen2/Pagina_Gen/blob/main/aadocumentos/imagenes/og-image.jpg?raw=true">
+  <meta property="og:url" content="https://paginagen2.github.io/Pagina_Gen/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Gen 2">
+  
+  <!-- Para Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gen 2 - Recursos para jóvenes del Movimiento">
+  <meta name="twitter:description" content="Cancionero, Palabra de Vida, experiencias y recursos para animadores.">
+  <!-- Imagen de previsualización para Twitter -->
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/images/og-image.jpg">
+
+</head>
+
+<body>
+  <div class="page-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="index.html" class="menu-item active">
+      <img src="aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="cancionero/cancionero.html" class="menu-item">
+      <img src="aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="biblioteca/biblioteca.html" class="menu-item">
+      <img src="aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="introduccion/introduccion.html" class="menu-item">
+      <img src="aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+    <div class="main-content">
+      <main class="main">
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+          <div class="hero-content">
+            <h1>Gen 2</h1>
+            <p>"Que todos sean uno"</p>
+          </div>
+        </section>
+
+        <!-- Grid principal 2x2 -->
+        <div class="main-grid-2x2">
+          <!-- Pasapalabra de hoy -->
+          <section class="content-box">
+            <div class="box-header">
+              <h2 class="box-title">
+                <span>📝</span>
+                Pasapalabra
+              </h2>
+              <a href="pasapalabra/pasapalabra.html" class="box-link">Ver anteriores</a>
+            </div>
+            <div class="box-content">
+              <div class="pasapalabra-preview" onclick="window.location.href='pasapalabra/pasapalabra_de_hoy.html'">
+                <div class="pasapalabra-title">SER CAUSA DE ALEGRÍA</div>
+                <div class="pasapalabra-date" id="fechaHoy">11 de septiembre de 2025</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Palabra de Vida -->
+          <section class="content-box">
+            <div class="box-header">
+              <h2 class="box-title">
+                <span>📖</span>
+                Palabra de Vida
+              </h2>
+              <a href="pdv/pdv_todas.html" class="box-link">Ver anteriores</a>
+            </div>
+            
+            <div class="box-content">
+              
+                <div class="palabra-preview" onclick="window.location.href='pdv/pdv_abr_26/pdv_abr_26.html'">
+                <div class="palabra-cita">
+                  “Quédate con nosotros, porque ya es tarde y el día se acaba”
+                </div>
+                <div class="palabra-mes">Abril 2026</div>
+                </div>
+            </div>
+          </section>
+
+          <!-- Meditación Diaria -->
+          <section class="content-box">
+            <div class="box-header">
+              <h2 class="box-title">
+                <span>🧘</span>
+                Meditación Diaria
+              </h2>
+              <a href="meditacion/meditaciones_todas.html" class="box-link">Ver más Meditaciones</a>
+            </div>
+            <div class="box-content">
+              <div class="meditacion-preview" onclick="window.location.href='meditacion/meditacion_diaria.html'">
+                <div class="meditacion-title">Cargando meditación...</div>
+                <div class="meditacion-date" id="fechaMeditacion"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sobre el Movimiento -->
+          <section class="content-box">
+            <div class="box-header">
+              <h2 class="box-title">
+                <span>❤️</span>
+                Sobre el Movimiento
+              </h2>
+              <a href="introduccion/introduccion.html" class="box-link">Leer más</a>
+            </div>
+            <div class="box-content">
+              <div class="movimiento-preview">
+                <p>Descubre la historia, espiritualidad y carisma que mueve a millones de jóvenes en todo el mundo hacia la unidad.</p>
+                <div class="movimiento-highlight">Historia y espiritualidad</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Fila inferior con 4 elementos -->
+        <section class="bottom-actions">
+          <a href="cancionero/cancionero.html" class="action-card">
+            <span class="action-icon">🎸</span>
+            <div class="action-title">Cancionero</div>
+            <div class="action-desc">Canciones con acordes</div>
+          </a>
+
+          <a href="gen_animadores/gen-animadores.html" class="action-card">
+            <span class="action-icon">🎯</span>
+            <div class="action-title">Gen Animadores</div>
+            <div class="action-desc">Dinámicas y recursos</div>
+          </a>
+
+          <a href="descargas/descargas.html" class="action-card">
+            <span class="action-icon">📱</span>
+            <div class="action-title">Descargas</div>
+            <div class="action-desc">App y recursos</div>
+          </a>
+
+          <a href="links/links.html" class="action-card">
+            <span class="action-icon">📞</span>
+            <div class="action-title">Contacto</div>
+            <div class="action-desc">Conecta con nosotros</div>
+          </a>
+        </section>
+      </main>
+    </div>
+  </div>
+ 
+  <script type="module" src="aaglobal/app-features.js"></script>
+  <script type="module" src="index/index.js"></script>
+</body>
+</html>

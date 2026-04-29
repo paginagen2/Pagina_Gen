@@ -1,0 +1,107 @@
+/* Estilos para Meditación Diaria */
+.meditacion-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.meditacion-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.meditacion-badge {
+  display: inline-block;
+  background: rgba(106, 90, 205, 0.15);
+  color: #a29bfe;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.meditacion-header h1 {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.meditacion-date {
+  color: #6a5acd;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.meditacion-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 24px;
+  padding-top: 4rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.meditacion-body {
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: #e0e0e0;
+  white-space: pre-wrap;
+  text-align: justify;
+  margin-bottom: 2.5rem;
+}
+
+.meditacion-metadata {
+  text-align: right;
+  font-size: 0.95rem;
+  color: #888;
+  font-style: italic;
+  margin-bottom: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+}
+
+.meditacion-description-box {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(106, 90, 205, 0.05);
+  border-left: 3px solid #6a5acd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+.meditacion-actions {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.btn-secondary {
+  color: #6a5acd;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+  border: 2px solid #6a5acd;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #6a5acd;
+  color: #fff;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+  .meditacion-header h1 { font-size: 2.2rem; }
+  .meditacion-card { padding: 2rem; }
+  .meditacion-body { font-size: 1.15rem; }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasapalabra</title>
+  <link rel="stylesheet" href="../aaglobal/style.css">
+  <link rel="stylesheet" href="pasapalabra.css">
+  <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="../index.html" class="menu-item">
+      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
+      <span class="menu-text">Inicio</span>
+    </a>
+    <a href="../cancionero/cancionero.html" class="menu-item">
+      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
+      <span class="menu-text">Cancionero</span>
+    </a>
+    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
+      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
+      <span class="menu-text">Gen Animadores</span>
+    </a>
+    <a href="../biblioteca/biblioteca.html" class="menu-item">
+      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
+      <span class="menu-text">Biblioteca</span>
+    </a>
+    <a href="../introduccion/introduccion.html" class="menu-item">
+      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
+      <span class="menu-text">Sobre el Movimiento</span>
+    </a>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="main">
+    <div class="pasapalabra_container">
+      <header class="pasapalabra-header">
+        <h2>Pasapalabra</h2>
+        <h1>Reflexiones Diarias</h1>
+        <h2>Reflexiones de Apolonio Carvalho Nascimento</h2>
+      </header>
+
+      <div class="pasapalabra-nav">
+        <a href="pasapalabra_de_hoy.html" class="btn-ver-hoy">Ver Pasapalabra de Hoy</a>
+      </div>
+
+      <div id="loading-message" class="loading-message">
+        Cargando reflexiones...
+      </div>
+
+      <div id="lista-pasapalabras" class="lista-pasapalabras">
+        <!-- Aquí se cargarán dinámicamente los pasapalabras -->
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="pasapalabra.js"></script>
+  <script type="module">
+    import { cargarTodosPasapalabras } from './pasapalabra.js';
+    cargarTodosPasapalabras();
+  </script>
+</body>
+</html>

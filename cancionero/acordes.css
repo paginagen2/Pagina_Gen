@@ -1,0 +1,635 @@
+/* Variables específicas de acordes */
+:root {
+  --acordes-primary: #7266a9;
+  --acordes-secondary: #9d8df1;
+  --piano-white: #ffffff;
+  --piano-black: #2c2c2c;
+  --guitar-fret: #8B4513;
+  --guitar-string: #C0C0C0;
+}
+
+/* Layout principal */
+.acordes-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #7266a9 0%, #9d8df1 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(114, 102, 169, 0.3);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 50%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(15deg);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin: 0 0 1rem 0;
+  font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* Controles */
+.acordes-controls {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.control-group h3 {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Tabs de Instrumento */
+.instrument-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.instrument-btn {
+  background: var(--bg-dark);
+  border: 2px solid var(--border-color);
+  color: var(--text-light);
+  padding: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.instrument-btn:hover {
+  border-color: var(--acordes-primary);
+  transform: translateY(-2px);
+}
+
+.instrument-btn.active {
+  background: var(--acordes-primary);
+  border-color: var(--acordes-primary);
+  color: white;
+  box-shadow: 0 4px 15px rgba(114, 102, 169, 0.3);
+}
+
+/* Tabs de Cifrado */
+.cifrado-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cifrado-btn {
+  background: var(--bg-dark);
+  border: 2px solid var(--border-color);
+  color: var(--text-light);
+  padding: 0.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.cifrado-btn:hover {
+  border-color: var(--acordes-secondary);
+}
+
+.cifrado-btn.active {
+  background: var(--acordes-secondary);
+  border-color: var(--acordes-secondary);
+  color: white;
+}
+
+/* Filtros de Notas */
+.notas-filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 0.5rem;
+}
+
+.nota-btn {
+  background: var(--bg-dark);
+  border: 2px solid var(--border-color);
+  color: var(--text-light);
+  padding: 0.8rem 0.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.nota-btn:hover {
+  border-color: var(--acordes-primary);
+  transform: scale(1.05);
+}
+
+.nota-btn.active {
+  background: var(--acordes-primary);
+  border-color: var(--acordes-primary);
+  color: white;
+}
+
+/* Filtros de Tipos */
+.tipos-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tipo-btn {
+  background: var(--bg-dark);
+  border: 2px solid var(--border-color);
+  color: var(--text-light);
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tipo-btn:hover {
+  border-color: var(--acordes-secondary);
+}
+
+.tipo-btn.active {
+  background: var(--acordes-secondary);
+  border-color: var(--acordes-secondary);
+  color: white;
+}
+
+/* Grid de Acordes */
+.acordes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.acorde-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.acorde-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--acordes-primary), var(--acordes-secondary));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.acorde-card:hover {
+  border-color: var(--acordes-primary);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(114, 102, 169, 0.2);
+}
+
+.acorde-card:hover::before {
+  transform: scaleX(1);
+}
+
+.acorde-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.acorde-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--acordes-primary);
+  margin-bottom: 0.3rem;
+}
+
+.acorde-type {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  background: rgba(114, 102, 169, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  display: inline-block;
+}
+
+/* Piano */
+.piano-container {
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.piano-keyboard {
+  display: flex;
+  position: relative;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.piano-key {
+  position: relative;
+  border: 1px solid #ddd;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.piano-key.white {
+  background: var(--piano-white);
+  height: 100%;
+  flex: 1;
+  z-index: 1;
+  border-right: 1px solid #ccc;
+  margin: 0 0.5px;
+}
+
+.piano-key.white:last-child {
+  border-right: none;
+}
+
+.piano-key.black {
+  background: linear-gradient(to bottom, #2a2a2a, var(--piano-black));
+  height: 62%;
+  width: 5.2%;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  border: 1px solid #000;
+  border-radius: 0 0 5px 5px;
+  transform: translateX(-50%);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.5);
+}
+
+.piano-key.black:hover {
+  background: #444;
+}
+
+.piano-key.active {
+  background: var(--acordes-primary) !important;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.piano-key.white.active {
+  background: var(--acordes-secondary) !important;
+}
+
+.key-label {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.piano-key.black .key-label {
+  color: #fff;
+  bottom: 15px;
+  font-size: 0.7rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.piano-key.active .key-label {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Guitarra */
+.guitar-container {
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.guitar-fretboard {
+  position: relative;
+  background-color: #4a3835;
+  border-radius: 8px;
+  padding: 3.5rem 1rem 1rem 3.5rem;
+  max-width: 200px;
+  margin: 1rem auto;
+  min-height: 220px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-sizing: border-box; 
+}
+
+.tuning-vertical {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: absolute;
+  top: 1.2rem;
+  left: 3.5rem;
+  right: 1rem;
+  padding: 0 1rem;
+}
+
+.fretboard-grid {
+  position: absolute;
+  top: 3.5rem;
+  bottom: 1rem;
+  left: 3.5rem;
+  right: 1rem;
+}
+
+.guitar-strings,
+.guitar-frets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.guitar-strings {
+  display: flex;
+  justify-content: space-between;
+}
+
+.guitar-frets {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.guitar-string {
+  width: 3px;
+  background-color: #d4b20b;
+  height: 100%;
+  position: relative;
+}
+
+.guitar-fret {
+  height: 2px;
+  background-color: #aaa;
+  width: 100%;
+}
+.guitar-fret:first-child {
+  background-color: #fff;
+  height: 6px;
+}
+
+.barre-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background-color: rgba(160, 160, 160, 0.7);
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.fret-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  background-color: #7062b1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+.fret-marker.open-string,
+.fret-marker.muted {
+  top: -1.2rem;
+}
+
+.fret-marker.open-string {
+  background-color: #28a745; 
+}
+
+.fret-marker.muted {
+  background-color: #dc3545;
+}
+
+.fret-number {
+  color: white;
+}
+
+.fret-marker.muted .fret-number {
+  font-size: 0.9rem;
+}
+
+/* Información del acorde */
+.acorde-info {
+  background: rgba(114, 102, 169, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.acorde-notes {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.acorde-notes strong {
+  color: var(--acordes-primary);
+  font-size: 1rem;
+}
+
+.acorde-formula {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Botón Volver */
+.back-section {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.back-btn {
+  background: linear-gradient(135deg, var(--acordes-primary), var(--acordes-secondary));
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(114, 102, 169, 0.4);
+}
+
+/* Estados de carga */
+.loading-acordes {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+.loading-acordes .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--acordes-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Indicador de cejilla horizontal */
+.barre-indicator {
+  position: absolute;
+  height: 16px;
+  background: linear-gradient(to right, rgba(255, 215, 0, 0.8), rgba(255, 165, 0, 0.8));
+  border-radius: 8px;
+  z-index: 11;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .controls-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .acordes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .acordes-container {
+    padding: 0.5rem;
+  }
+  
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .controls-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .acordes-controls {
+    padding: 1.5rem;
+  }
+  
+  .acordes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .instrument-tabs {
+    grid-template-columns: 1fr;
+  }
+  
+  .tipos-filter {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .notas-filter {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .piano-keyboard {
+    height: 100px;
+  }
+  
+  .guitar-strings {
+    height: 140px;
+  }
+  
+  .acorde-card {
+    padding: 1rem;
+  }
+}
