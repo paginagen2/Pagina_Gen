@@ -4,38 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dinámicas Grupales - Gen Animadores</title>
+  <meta name="description" content="Dinámicas, juegos, reflexiones y propuestas para preparar encuentros juveniles con sentido.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Dinámicas Grupales - Gen Animadores">
+  <meta property="og:description" content="Dinámicas, juegos, reflexiones y propuestas para preparar encuentros juveniles con sentido.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dinámicas Grupales - Gen Animadores">
+  <meta name="twitter:description" content="Dinámicas, juegos, reflexiones y propuestas para preparar encuentros juveniles con sentido.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+    <link rel="stylesheet" href="../aaglobal/style.css">
+    <link rel="stylesheet" href="../aaglobal/site-polish.css">
     <link rel="stylesheet" href="recursos-unificado.css">
     <link rel="icon" href="../aadocumentos/svg/vida.svg" type="image/x-icon">
     <script type="module" src="../aaglobal/firebase-config.js"></script>
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
 </head>
-<body>
+<body class="with-site-sidebar site-kind-animadores">
+  <a class="skip-link" href="#contenido-principal">Saltar al contenido</a>
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="../cancionero/cancionero.html" class="menu-item">
-
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item active">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="../biblioteca/biblioteca.html" class="menu-item">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="../introduccion/introduccion.html" class="menu-item">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
 
     <!-- Main Content -->
-    <div class="main">
+    <main class="main" id="contenido-principal">
+      <div class="resource-page-shell">
         <!-- Header específico para dinámicas -->
         <div class="recursos-header dinamicas">
             <h1>👥 Dinámicas Grupales</h1>
@@ -54,13 +47,14 @@
         <!-- Sección de búsqueda -->
         <div class="search-section">
             <div class="search-container">
+                <label class="sr-only" for="searchDinamicas">Buscar dinámicas</label>
                 <input 
                     type="text" 
                     id="searchDinamicas" 
                     class="search-input"
-                    placeholder="🔍 Buscar dinámicas por título, descripción, materiales..."
+                    placeholder="Buscar por título, objetivo o materiales…"
+                    autocomplete="off"
                 >
-                <button class="search-btn" onclick="buscarDinamicas()">🔍</button>
             </div>
         </div>
 
@@ -73,17 +67,18 @@
         </div>
 
         <!-- Botón volver -->
-        <div style="text-align: center; margin: 3rem 0;">
+        <div class="back-row">
             <a href="gen-animadores.html" class="volver-btn">
                 ← Volver a Gen Animadores
             </a>
         </div>
-    </div>
+      </div>
+    </main>
 
     <!-- Modal para mostrar recurso completo -->
-    <div id="modalRecurso" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <button onclick="cerrarModal()" class="modal-close">✕</button>
+    <div id="modalRecurso" class="modal-overlay" hidden aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalRecursoTitulo">
+            <button type="button" class="modal-close" data-close-modal="modalRecurso" aria-label="Cerrar recurso">✕</button>
             <div id="contenidoRecurso"></div>
         </div>
     </div>

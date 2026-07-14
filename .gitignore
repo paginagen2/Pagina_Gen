@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+.codex-worktrees/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -98,14 +99,11 @@ dist
 # Sveltekit cache directory
 .svelte-kit/
 
-# Capacitor & Android
-node_modules/
+# Dependencias y restos de la app Android
 www/
 android/
 assets/
 capacitor.config.json
-package.json
-package-lock.json
 
 # vitepress build output
 **/.vitepress/dist

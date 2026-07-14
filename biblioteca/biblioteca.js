@@ -3,9 +3,9 @@ const atributosDisponibles = [
   "Meditación", "Dios Amor", "Voluntad de Dios", "El hermano", "El mandamiento nuevo", 
   "La unidad", "Jesús Abandonado", "Jesús en medio", "Jesús Eucaristía", "La Palabra De Vida", 
   "María", "El Espíritu Santo", "La iglesia", "Revolución Arcoíris", "Rojo", "Anaranjado", 
-  "Amarillo", "Verde", "Azul", "Índigo", "Violeta", "Dialogo", "Dialogo 1 (Dentro de la Iglesia Católica)", 
-  "Dialogo 2 (Con las otras Iglesias Cristianas)", "Dialogo 3 (Con otras Religiones)", 
-  "Dialogo 4 (Gente Sin Creencias)", "Fisionomía Del Gen", "Estatutos", "Ciudad Nueva"
+  "Amarillo", "Verde", "Azul", "Índigo", "Violeta", "Diálogo", "Diálogo 1 (Dentro de la Iglesia Católica)", 
+  "Diálogo 2 (Con las otras Iglesias Cristianas)", "Diálogo 3 (Con otras Religiones)", 
+  "Diálogo 4 (Gente sin creencias)", "Fisionomía del Gen", "Estatutos", "Ciudad Nueva"
 ];
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf4VFqkTGE0K49b_pCy0Vm8oD5J3YsITs0c4CYa4zD32L92pw/viewform?usp=header";
@@ -14,7 +14,7 @@ const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf4VFqkTGE0K49
 const bibliotecaBase = [
   {
     id: 1,
-    titulo: "Jesus en Medio",
+    titulo: "Jesús en Medio",
     autor: "Chiara Lubich", 
     categoria: "documentos",
     tipo: "PDF",
@@ -62,7 +62,7 @@ const bibliotecaBase = [
   },
   {
     id: 5, 
-    titulo: "Los instrumentos de la epiritualidad colectiva Chiara Lubich", 
+    titulo: "Los instrumentos de la espiritualidad colectiva – Chiara Lubich", 
     autor: "Chiara Lubich", 
     categoria: "libros", 
     tipo: "PDF", 
@@ -73,16 +73,6 @@ const bibliotecaBase = [
     atributos: ["Amarillo","El Hermano","El mandamiento nuevo","Estatutos","Jesús en medio","La Palabra de Vida"]
   },
 ];
-
-// Configuración Firebase unificada
-const firebaseConfig = {
-    apiKey: "AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE",
-    authDomain: "pagina-gen.firebaseapp.com",
-    projectId: "pagina-gen",
-    storageBucket: "pagina-gen.firebasestorage.app",
-    messagingSenderId: "876893109130",
-    appId: "1:876893109130:web:862f79fc7a609e512ee673"
-};
 
 // Variables globales
 let bibliotecaCompleta = [...bibliotecaBase];
@@ -148,33 +138,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-import { isOfflineModeActive, getOfflineData } from '../aaglobal/app-features.js';
-
 async function cargarLibrosDesdeFirebase() {
     try {
         let meditaciones = [];
 
-        // 1. Verificar si el Modo Offline está activo y hay datos
-        if (isOfflineModeActive()) {
-            const datosLocales = getOfflineData('meditaciones');
-            if (datosLocales && datosLocales.length > 0) {
-                console.log("📦 Usando datos offline para biblioteca");
-                meditaciones = datosLocales;
-            }
+        await window.firebaseReady;
+        db = window.firebaseDb;
+        const { collection, getDocs } = window.firebaseUtils || {};
+
+        if (!db || !collection || !getDocs) {
+            throw new Error('Firebase no está disponible para cargar la biblioteca.');
         }
 
-        // 2. Si no hay datos offline o el modo está desactivado, cargar de Firebase
-        if (meditaciones.length === 0) {
-            // Importación dinámica para evitar que el script falle si falla la red o el CDN
-            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js');
-            const { getFirestore, collection, getDocs } = await import('https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js');
-            
-            const app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-
-            const querySnapshot = await getDocs(collection(db, 'meditaciones'));
-            querySnapshot.forEach(doc => meditaciones.push(doc.data()));
-        }
+        const querySnapshot = await getDocs(collection(db, 'meditaciones'));
+        querySnapshot.forEach(doc => meditaciones.push(doc.data()));
         
         // Agrupar por libro (el resto de la lógica sigue igual)
         const librosMap = {};
@@ -252,15 +229,18 @@ function setupTeclado() {
 
 function inicializarEstadoFiltros() {
   const filtrosContainer = document.getElementById('filtrosAtributos');
+  const toggleButton = document.getElementById('toggleFiltrosBtn');
   const toggleIcon = document.getElementById('toggleIcon');
   const toggleText = document.getElementById('toggleText');
   if (filtrosContainer) filtrosContainer.classList.add('collapsed');
   if (toggleIcon) toggleIcon.textContent = '▶';
   if (toggleText) toggleText.textContent = 'Mostrar filtros';
+  toggleButton?.setAttribute('aria-expanded', 'false');
 }
 
 function toggleFiltrosTemas() {
   const filtrosContainer = document.getElementById('filtrosAtributos');
+  const toggleButton = document.getElementById('toggleFiltrosBtn');
   const toggleIcon = document.getElementById('toggleIcon');
   const toggleText = document.getElementById('toggleText');
   filtrosTemasVisible = !filtrosTemasVisible;
@@ -269,10 +249,12 @@ function toggleFiltrosTemas() {
     filtrosContainer.classList.remove('collapsed');
     toggleIcon.textContent = '▼';
     toggleText.textContent = 'Ocultar filtros';
+    toggleButton?.setAttribute('aria-expanded', 'true');
   } else {
     filtrosContainer.classList.add('collapsed');
     toggleIcon.textContent = '▶';
     toggleText.textContent = 'Mostrar filtros';
+    toggleButton?.setAttribute('aria-expanded', 'false');
   }
 }
 
@@ -282,6 +264,7 @@ function cargarFiltrosAtributos() {
   container.innerHTML = '';
   atributosDisponibles.sort().forEach(atributo => {
     const btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = 'atributo_btn';
     btn.setAttribute('data-atributo', atributo);
     btn.textContent = atributo;

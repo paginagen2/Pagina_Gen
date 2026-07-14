@@ -5,17 +5,24 @@ import {
   getFirestore, 
   collection, 
   getDocs, 
+  getDoc,
+  deleteDoc,
   addDoc, 
+  setDoc,
   doc, 
   updateDoc, 
+  writeBatch,
   increment, 
   query, 
   where, 
   orderBy, 
   limit,
-  onSnapshot 
+  startAfter,
+  onSnapshot,
+  runTransaction
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 // 🔥 PEGA AQUÍ TU CONFIGURACIÓN REAL (reemplaza esto)
 const firebaseConfig = {
@@ -31,8 +38,47 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+const auth = getAuth(app);
+
+window.firebaseDb = db;
+window.firebaseAuth = auth;
+window.firebaseUtils = {
+  collection, getDocs, query, where, doc, getDoc, setDoc, deleteDoc, updateDoc, writeBatch, runTransaction,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged
+};
 
 export const DatabaseService = {
+  async getCancionPorId(cancionId) {
+    const snapshot = await getDoc(doc(db, 'canciones', cancionId));
+    if (!snapshot.exists()) return null;
+    return { id: snapshot.id, ...snapshot.data() };
+  },
+
+  async getCancionesLimitadas(cantidad = 15, categoria = 'todas') {
+    const restrictions = [where('estado', '==', 'publicado')];
+    if (categoria !== 'todas') restrictions.push(where('categoria', '==', categoria));
+    restrictions.push(limit(cantidad));
+    const snapshot = await getDocs(query(collection(db, 'canciones'), ...restrictions));
+    return snapshot.docs.map((songDoc) => ({ id: songDoc.id, ...songDoc.data() }));
+  },
+
+  async getEstadoLike(cancionId, usuarioId) {
+    if (!cancionId || !usuarioId) return false;
+    const likeSnapshot = await getDoc(doc(db, 'canciones', cancionId, 'likes', usuarioId));
+    return likeSnapshot.exists();
+  },
+
+  async setLikeCancion(cancionId, usuarioId, activo) {
+    if (!cancionId || !usuarioId) throw new Error('Faltan datos para guardar el like.');
+    const likeRef = doc(db, 'canciones', cancionId, 'likes', usuarioId);
+    if (activo) {
+      await setDoc(likeRef, { usuarioId, creadoEn: new Date().toISOString() });
+    } else {
+      await deleteDoc(likeRef);
+    }
+    return activo;
+  },
   // Función para obtener canciones una sola vez (filtradas por estado: 'publicado')
   async getCanciones() {
     try {
@@ -48,6 +94,28 @@ export const DatabaseService = {
       return canciones;
     } catch (error) {
       console.error('❌ Error obteniendo canciones públicas:', error);
+      throw error;
+    }
+  },
+
+  // Obtener únicamente las canciones de un artista, en páginas de 15.
+  async getCancionesPorArtista(nombreArtista, ultimaCancion = null, cantidad = 15) {
+    try {
+      const restricciones = [
+        where('estado', '==', 'publicado'),
+        where('artista', '==', nombreArtista),
+        limit(cantidad)
+      ];
+      if (ultimaCancion) restricciones.splice(2, 0, startAfter(ultimaCancion));
+
+      const snapshot = await getDocs(query(collection(db, 'canciones'), ...restricciones));
+      return {
+        canciones: snapshot.docs.map((songDoc) => ({ id: songDoc.id, ...songDoc.data() })),
+        ultimaCancion: snapshot.docs.at(-1) || null,
+        hayMas: snapshot.size === cantidad
+      };
+    } catch (error) {
+      console.error('❌ Error obteniendo canciones del artista:', error);
       throw error;
     }
   },

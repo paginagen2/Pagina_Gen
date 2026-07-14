@@ -1,242 +1,209 @@
-// ============ FUNCIONES DE COPIADO ============
-function copyEmail() {
-  const emailText = 'pagina.gen.2@gmail.com';
-  const copyBtn = document.getElementById('copyBtn');
-  const copyIcon = document.getElementById('copyIcon');
-  
-  navigator.clipboard.writeText(emailText).then(function() {
-    copyIcon.textContent = '✅';
-    copyBtn.style.background = '#27ae60';
-    
-    setTimeout(function() {
-      copyIcon.textContent = '📋';
-      copyBtn.style.background = '#3498db';
-    }, 1500);
-  }).catch(function(err) {
-    console.log('Error al copiar: ', err);
-    selectEmailText();
-  });
-}
+const CONTACT_EMAIL = 'pagina.gen.2@gmail.com';
 
-function selectEmailText() {
-  const emailElement = document.querySelector('.email-text');
-  const range = document.createRange();
-  range.selectNode(emailElement);
-  window.getSelection().removeAllRanges();
-  window.getSelection().addRange(range);
-}
-
-// Función para copiar texto al portapapeles
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    // Opcional: mostrar un mensaje de éxito temporal
-    mostrarToastTemporal('Copiado al portapapeles: ' + text, 'success');
-  }).catch(err => {
-    console.error('Error al copiar el texto: ', err);
-    alert('Error al copiar el texto. Por favor, cópialo manualmente: ' + text);
-  });
-}
-
-// Función para mostrar un toast temporal :)
-function mostrarToastTemporal(mensaje, tipo = 'info') {
-  const colores = {
-    success: '#28a745',
-    error: '#dc3545',
-    info: '#17a2b8'
-  };
-
-  const toast = document.createElement('div');
-  toast.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: ${colores[tipo] || colores.info};
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  `;
-  toast.textContent = mensaje;
-  document.body.appendChild(toast);
-
-  // Mostrar el toast
-  setTimeout(() => {
-    toast.style.opacity = '1';
-  }, 100);
-
-  // Ocultar y remover el toast después de 3 segundos
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.addEventListener('transitionend', () => toast.remove());
-  }, 3000);
-}
-
-// ============ SISTEMA DE CATEGORÍAS ============
 const categoryData = {
   cancionero: {
-    title: "🎸 Reportes del Cancionero",
+    title: 'Reportar una canción',
+    subject: 'Cancionero · Corrección o sugerencia',
+    opening: 'Hola, equipo de Página Gen 2:\n\nLes escribo por una canción del cancionero.',
     suggestions: [
-      "¿Hay errores en alguna canción? Especifica el título y describe el problema",
-      "¿Faltan acordes o están incorrectos? Menciona qué canción necesita corrección",
-      "¿Los enlaces no funcionan? Indica cuáles están rotos"
-    ],
-    tip: "💡 <strong>Asunto del email:</strong> Cancionero"
+      'Indicá el título de la canción y, si lo conocés, el artista.',
+      'Contanos si el problema está en la letra, los acordes o un enlace.',
+      'Copiá el fragmento que habría que corregir para encontrarlo más rápido.'
+    ]
   },
-  
   animadores: {
-    title: "🎯 Reportes de Gen Animadores",
+    title: 'Gen Animadores',
+    subject: 'Gen Animadores · Consulta o reporte',
+    opening: 'Hola, equipo de Página Gen 2:\n\nQuería consultarles por un recurso de Gen Animadores.',
     suggestions: [
-      "¿Hay problemas con alguna dinámica? Especifica cuál y qué no funciona",
-      "¿Los materiales están dañados o son inaccesibles? Indica cuáles",
-      "¿Necesitas ayuda con recursos para tu grupo? Especifica edad y contexto"
-    ],
-    tip: "💡 <strong>Asunto del email:</strong> Gen Animadores"
+      'Decinos qué dinámica, juego o material estás usando.',
+      'Contanos la edad del grupo y el contexto del encuentro.',
+      'Si encontraste un error, describí qué estabas intentando hacer.'
+    ]
   },
-  
   experiencia: {
-    title: "💝 Compartir Experiencia",
+    title: 'Compartir una experiencia',
+    subject: 'Experiencia de vida para compartir',
+    opening: 'Hola, equipo de Página Gen 2:\n\nQuisiera compartir una experiencia de vida con la comunidad.',
     suggestions: [
-      "Cuenta tu experiencia con detalles: ¿qué pasó y cómo te marcó?",
-      "Incluye reflexiones: ¿qué aprendiste de esta vivencia?",
-      "Menciona tu nombre y país para identificar el testimonio",
-      "Si tienes fotos relacionadas, puedes adjuntarlas"
-    ],
-    tip: "💡 <strong>Asunto del email:</strong> Experiencia de vida"
+      'Contá brevemente qué pasó y qué significó para vos.',
+      'Incluí tu nombre, ciudad o país solo si querés que aparezcan.',
+      'Aclarános si autorizás que la experiencia sea publicada.'
+    ]
   },
-  
   biblioteca: {
-    title: "📚 Biblioteca",
+    title: 'Biblioteca',
+    subject: 'Biblioteca · Consulta o material',
+    opening: 'Hola, equipo de Página Gen 2:\n\nLes escribo por un contenido de la biblioteca.',
     suggestions: [
-      "¿Buscas un documento específico? Describe el tema, autor o título",
-      "¿Hay enlaces rotos o archivos dañados? Indica cuáles exactamente",
-      "¿Necesitas material sobre algún tema del movimiento? Sé específico"
-    ],
-    tip: "💡 <strong>Asunto del email:</strong> Biblioteca"
+      'Indicá el título, autor o tema del material.',
+      'Si un archivo no abre, compartí el nombre o enlace correspondiente.',
+      'Si buscás un documento, contanos para qué tema lo necesitás.'
+    ]
   },
-  
   movimiento: {
-    title: "❤️ Sobre el Movimiento",
+    title: 'Sobre el Movimiento',
+    subject: 'Consulta sobre el Movimiento de los Focolares',
+    opening: 'Hola, equipo de Página Gen 2:\n\nQuisiera hacerles una consulta sobre el Movimiento de los Focolares.',
     suggestions: [
-      "¿Tienes dudas sobre historia o espiritualidad? Formula preguntas específicas",
-      "¿Quieres corregir información? Cita fuentes y especifica qué cambiar",
-      "¿Buscas material sobre algún aspecto del carisma? Menciona qué tema"
-    ],
-    tip: "💡 <strong>Asunto del email:</strong> Sobre el Movimiento"
+      'Escribí la pregunta de la manera más concreta posible.',
+      'Si se trata de una corrección, indicá la página y la fuente.',
+      'Contanos si buscás información, formación o un contacto cercano.'
+    ]
   },
-  
-  colaboracion: {
-    title: "🤝 Abusos: Denuncias y ayuda",
-    suggestions: [
-      "<p>Pagina oficial: <a href=\"https://www.focolare.org/es/prevencion-de-abusos/\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.focolare.org/es/prevencion-de-abusos/</a></p>",
-      "<p>Mail para denunciar un abuso: <a href=\"javascript:void(0)\" onclick=\"copyToClipboard('abusereport.foc@gmail.com')\">abusereport.foc@gmail.com</a></p>",
-      "<p>Mail para ponerse en contacto con la oficina de protección: <a href=\"javascript:void(0)\" onclick=\"copyToClipboard('ufficio.tutela@focolare.org')\">ufficio.tutela@focolare.org</a></p>",
-      "<p>Mail para contactar con el órgano de control: <a href=\"javascript:void(0)\" onclick=\"copyToClipboard('supervisoryboard.cobetu@gmail.com')\">supervisoryboard.cobetu@gmail.com</a></p>",  
-    ],
-    tip: "💡 <strong>No estas sol@:</strong>"
-  },
-  
   mejoras: {
-    title: "💡 Mejoras para la Página",
+    title: 'Mejorar la página',
+    subject: 'Página Gen 2 · Mejora o problema',
+    opening: 'Hola, equipo de Página Gen 2:\n\nQuería acercarles una mejora o contarles un problema de la página.',
     suggestions: [
-      "¿Encontraste un error? Describe qué estabas haciendo cuando ocurrió",
-      "¿Tienes ideas para nuevas funciones? Explica cómo mejorarían la experiencia",
-      "¿Hay problemas de diseño? Especifica dispositivo, navegador y pantalla",
-      "¿La página es lenta? Menciona tu conexión y ubicación"
-    ],
-    tip: "💡 <strong>Asunto del email:</strong> Mejoras página"
+      'Contanos en qué sección estabas y qué esperabas que ocurriera.',
+      'Indicá si usabas celular o computadora.',
+      'Si podés, adjuntá una captura para ayudarnos a entenderlo.'
+    ]
   },
-  
   general: {
-    title: "💭 Contacto General",
+    title: 'Consulta general',
+    subject: 'Consulta general · Página Gen 2',
+    opening: 'Hola, equipo de Página Gen 2:\n\nQuería ponerme en contacto con ustedes por el siguiente motivo:',
     suggestions: [
-      "¿Tienes preguntas sobre cómo participar? Especifica qué te interesa",
-      "¿Necesitas contacto de otros centros? Indica ubicación o región",
-      "¿Quieres información general del movimiento? Sé específico",
-      "¿Tienes dudas que no encajan en otras categorías? Explica tu situación"
-    ],
-    tip: "💡 <strong>Asunto del email:</strong> Consulta general"
+      'Explicanos brevemente en qué podemos ayudarte.',
+      'Si buscás un contacto local, indicá tu ciudad y país.',
+      'Dejanos una forma de responderte si escribís desde otro correo.'
+    ]
   }
 };
 
-function selectCategory(category) {
-  // Actualizar botones
-  document.querySelectorAll('.categoria-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  
-  const selectedBtn = document.querySelector(`[data-category="${category}"]`);
-  selectedBtn.classList.add('active');
-  
-  // Actualizar área de sugerencias
-  const sugerenciasArea = document.getElementById('sugerenciasArea');
-  const sugerenciaContent = document.getElementById('sugerenciaContent');
-  
-  const data = categoryData[category];
-  
-  if (data) {
-    sugerenciaContent.innerHTML = `
-      <h5>${data.title}</h5>
-      
-      <div class="intro-email">
-        <p>"Hola equipo Gen 2, les escribo para contactarlos sobre ${data.title.replace(/🎸|🎯|💝|📚|❤️|🤝|💡|💭/g, '').trim()}, breve descripción del mensaje.</p>
-        <p>Mensaje completo"</p>
-      </div>
-      
-      <ul>
-        ${data.suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
-      </ul>
-      
-      <div class="tip">
-        ${data.tip}
-      </div>
-    `;
-  }
-  
-  // Animación suave
-  sugerenciasArea.style.opacity = '0.7';
-  setTimeout(() => {
-    sugerenciasArea.style.opacity = '1';
-  }, 150);
+const topicButtons = [...document.querySelectorAll('.topic-button')];
+const messageContent = document.getElementById('messageContent');
+const messageTitle = document.getElementById('messageTitle');
+const messagePanel = document.getElementById('messagePanel');
+const copyEmailButton = document.getElementById('copyEmailButton');
+const copyEmailIcon = document.getElementById('copyEmailIcon');
+const toast = document.getElementById('contactToast');
+let toastTimer;
+
+function buildMessage(data) {
+  return `${data.opening}\n\n[Escribí acá tu mensaje]\n\n¡Gracias!`;
 }
 
-// ============ NAVEGACIÓN ============
-function scrollToSection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
+function buildGmailCompose(email, subject = '', body = '') {
+  const parameters = new URLSearchParams({
+    view: 'cm',
+    fs: '1',
+    to: email
+  });
+  if (subject) parameters.set('su', subject);
+  if (body) parameters.set('body', body);
+  return `https://mail.google.com/mail/?${parameters.toString()}`;
+}
+
+function showToast(message) {
+  window.clearTimeout(toastTimer);
+  toast.textContent = message;
+  toast.classList.add('visible');
+  toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 2600);
+}
+
+async function copyText(text, successMessage) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const temporaryField = document.createElement('textarea');
+      temporaryField.value = text;
+      temporaryField.setAttribute('readonly', '');
+      temporaryField.style.position = 'fixed';
+      temporaryField.style.opacity = '0';
+      document.body.appendChild(temporaryField);
+      temporaryField.select();
+      const copied = document.execCommand('copy');
+      temporaryField.remove();
+      if (!copied) throw new Error('No se pudo copiar');
+    }
+    showToast(successMessage);
+    return true;
+  } catch (error) {
+    showToast('No pudimos copiarlo. Seleccioná el texto manualmente.');
+    return false;
+  }
+}
+
+function renderStandardCategory(category) {
+  const data = categoryData[category];
+  const message = buildMessage(data);
+  messageTitle.textContent = data.title;
+  messageContent.innerHTML = `
+    <div class="message-preview">
+      <span class="preview-label">Vista previa</span>
+      <p>${message}</p>
+    </div>
+    <div class="subject-line"><span>Asunto:</span><strong>${data.subject}</strong></div>
+    <ul class="suggestion-list">
+      ${data.suggestions.map(suggestion => `<li>${suggestion}</li>`).join('')}
+    </ul>
+    <div class="message-actions">
+      <a class="primary-action prepared-email-link" href="${buildGmailCompose(CONTACT_EMAIL, data.subject, message)}" target="_blank" rel="noopener noreferrer">
+        <span>Abrir mensaje en Gmail</span><span aria-hidden="true">↗</span>
+      </a>
+      <button class="copy-message-button" type="button">Copiar mensaje</button>
+    </div>
+  `;
+
+  messageContent.querySelector('.copy-message-button').addEventListener('click', () => {
+    copyText(message, 'Mensaje copiado. Ya podés pegarlo donde quieras.');
+  });
+}
+
+function renderSafetyCategory() {
+  messageTitle.textContent = 'Denuncias y ayuda';
+  messageContent.innerHTML = `
+    <p class="safety-intro"><strong>No estás solo ni sola.</strong> Para una denuncia o una consulta de protección, usá directamente los canales oficiales e independientes que correspondan.</p>
+    <div class="safety-links">
+      <a class="safety-link" href="https://www.focolare.org/es/prevencion-de-abusos/" target="_blank" rel="noopener noreferrer">
+        <span><strong>Página oficial de prevención</strong><small>Información, procedimientos y recursos</small></span><b aria-hidden="true">↗</b>
+      </a>
+      <a class="safety-link" href="${buildGmailCompose('abusereport.foc@gmail.com', 'Denuncia de abuso')}" target="_blank" rel="noopener noreferrer">
+        <span><strong>Denunciar un abuso</strong><small>abusereport.foc@gmail.com</small></span><b aria-hidden="true">→</b>
+      </a>
+      <a class="safety-link" href="${buildGmailCompose('ufficio.tutela@focolare.org', 'Consulta a la oficina de protección')}" target="_blank" rel="noopener noreferrer">
+        <span><strong>Oficina de protección</strong><small>ufficio.tutela@focolare.org</small></span><b aria-hidden="true">→</b>
+      </a>
+      <a class="safety-link" href="${buildGmailCompose('supervisoryboard.cobetu@gmail.com', 'Contacto con el órgano de control')}" target="_blank" rel="noopener noreferrer">
+        <span><strong>Órgano de control independiente</strong><small>supervisoryboard.cobetu@gmail.com</small></span><b aria-hidden="true">→</b>
+      </a>
+    </div>
+  `;
+}
+
+function selectCategory(category, shouldFocusResult = false) {
+  topicButtons.forEach(button => {
+    const isSelected = button.dataset.category === category;
+    button.classList.toggle('active', isSelected);
+    button.setAttribute('aria-pressed', String(isSelected));
+  });
+
+  if (category === 'abusos') {
+    renderSafetyCategory();
+  } else {
+    renderStandardCategory(categoryData[category] ? category : 'general');
+  }
+
+  if (shouldFocusResult && window.matchMedia('(max-width: 620px)').matches) {
+    window.requestAnimationFrame(() => {
+      messagePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 }
 
-// ============ INICIALIZACIÓN ============
-window.addEventListener('load', function() {
-  if (window.location.hash === '#contacto' || document.referrer.includes('experiencias.html')) {
-    setTimeout(function() {
-      scrollToSection('contacto');
-    }, 300);
-  }
+topicButtons.forEach(button => {
+  button.addEventListener('click', () => selectCategory(button.dataset.category, true));
 });
 
-// ============ DETECCIÓN DE TEMA ============
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.documentElement.classList.add('dark');
-}
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    if (event.matches) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
+copyEmailButton.addEventListener('click', async () => {
+  const copied = await copyText(CONTACT_EMAIL, 'Correo copiado: pagina.gen.2@gmail.com');
+  if (!copied) return;
+  copyEmailIcon.textContent = 'Copiado';
+  window.setTimeout(() => { copyEmailIcon.textContent = 'Copiar'; }, 1800);
 });
 
-
-console.log('✅ Links renovado cargado correctamente');
+selectCategory('general');

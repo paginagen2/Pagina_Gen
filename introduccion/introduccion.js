@@ -1,66 +1,56 @@
-// Introducción v2: modal “Leer más”, 3 columnas y sin texto visible en cards
 document.addEventListener('DOMContentLoaded', () => {
-  // Cierre con tecla ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeIntroModal();
+  const timelineItems = [...document.querySelectorAll('.timeline-item')];
+  const sectionLinks = [...document.querySelectorAll('.section-nav a')];
+  const sections = sectionLinks
+    .map(link => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+  timelineItems.forEach(item => {
+    item.addEventListener('toggle', () => {
+      if (!item.open) return;
+
+      timelineItems.forEach(otherItem => {
+        if (otherItem !== item) otherItem.open = false;
+      });
+
+      if (window.matchMedia('(max-width: 620px)').matches && item.contains(document.activeElement)) {
+        window.requestAnimationFrame(() => {
+          item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+    });
   });
 
-  // Delegación para abrir y cierre controlado
-  document.addEventListener('click', (ev) => {
-    const overlay = document.getElementById('introModalOverlay');
-    const modal = document.querySelector('.intro-modal');
-
-    // Abrir: capturar cualquier botón "Leer más"
-    if (!overlay || !overlay.classList.contains('active')) {
-      const btn = ev.target.closest('.expand-btn');
-      if (btn) {
-        ev.preventDefault();
-        toggleCard(btn);
-        return;
+  function setActiveSection(sectionId) {
+    sectionLinks.forEach(link => {
+      const isActive = link.getAttribute('href') === `#${sectionId}`;
+      link.classList.toggle('active', isActive);
+      if (isActive) {
+        link.setAttribute('aria-current', 'location');
+      } else {
+        link.removeAttribute('aria-current');
       }
-    }
+    });
+  }
 
-    // Cerrar: solo si el click ocurre dentro del overlay y fuera del modal
-    if (overlay && overlay.classList.contains('active')) {
-      const clickedOnOverlay = !!ev.target.closest('#introModalOverlay');
-      if (clickedOnOverlay && modal && !modal.contains(ev.target)) {
-        closeIntroModal();
-      }
-    }
+  sectionLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      setActiveSection(link.getAttribute('href').slice(1));
+    });
   });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      const visibleSections = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+      if (visibleSections[0]) setActiveSection(visibleSections[0].target.id);
+    }, {
+      rootMargin: '-28% 0px -58% 0px',
+      threshold: [0, .15, .35]
+    });
+
+    sections.forEach(section => observer.observe(section));
+  }
 });
-
-// Abre modal con info de la tarjeta
-function toggleCard(button) {
-  const card = button.closest('.intro-card');
-  const title = card.querySelector('.card-title h3')?.textContent || 'Detalle';
-  const year = card.querySelector('.card-year')?.textContent || '';
-  const expanded = card.querySelector('.card-expanded');
-  const htmlExpanded = expanded ? expanded.innerHTML : '';
-  const imageSrc = card.dataset.img || '../aadocumentos/imagenes/guitarra.jpg';
-
-  openIntroModal({ title, subtitle: year, html: htmlExpanded, imageSrc });
-}
-
-function openIntroModal({ title, subtitle, html, imageSrc }) {
-  const overlay = document.getElementById('introModalOverlay');
-  const img = document.getElementById('introModalImage');
-  const titleEl = document.getElementById('introModalTitle');
-  const subtitleEl = document.getElementById('introModalSubtitle');
-  const bodyEl = document.getElementById('introModalBody');
-  if (!overlay || !img || !titleEl || !subtitleEl || !bodyEl) return;
-
-  titleEl.textContent = title;
-  subtitleEl.textContent = subtitle || '';
-  bodyEl.innerHTML = html || '';
-  img.src = imageSrc;
-  overlay.classList.add('active');
-}
-
-function closeIntroModal() {
-  const overlay = document.getElementById('introModalOverlay');
-  if (overlay) overlay.classList.remove('active');
-}
-
-window.toggleCard = toggleCard;
-window.closeIntroModal = closeIntroModal;

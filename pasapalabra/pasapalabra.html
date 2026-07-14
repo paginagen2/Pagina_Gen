@@ -3,36 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pasapalabra</title>
+  <title>Pasapalabra | Reflexiones diarias · Gen 2</title>
+  <meta name="description" content="Una reflexión breve para iluminar y vivir cada día.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pasapalabra | Reflexiones diarias · Gen 2">
+  <meta property="og:description" content="Una reflexión breve para iluminar y vivir cada día.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pasapalabra | Reflexiones diarias · Gen 2">
+  <meta name="twitter:description" content="Una reflexión breve para iluminar y vivir cada día.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="pasapalabra.css">
   <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
 
 <body>
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="../cancionero/cancionero.html" class="menu-item">
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="../biblioteca/biblioteca.html" class="menu-item">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="../introduccion/introduccion.html" class="menu-item">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
 
   <!-- Contenido principal -->
   <main class="main">
@@ -57,6 +48,8 @@
     </div>
   </main>
 
+<script src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
+<script type="module" src="../auth.js?v=20260712-roles1"></script>
   <script type="module" src="pasapalabra.js"></script>
   <script type="module">
     import { cargarTodosPasapalabras } from './pasapalabra.js';

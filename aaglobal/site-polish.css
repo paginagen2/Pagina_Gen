@@ -1,0 +1,164 @@
+:root {
+  --site-bg: #090c0f;
+  --site-panel: #14191f;
+  --site-panel-soft: #181e25;
+  --site-border: #303843;
+  --site-text: #f7f7fb;
+  --site-muted: #adb5c1;
+  --site-purple: #8d5cf6;
+  --site-purple-soft: rgba(141, 92, 246, .14);
+}
+
+html { color-scheme: dark; scroll-behavior: smooth; }
+body { min-width: 0; background: var(--site-bg); }
+img, video, iframe { max-width: 100%; }
+button, input, select, textarea { font: inherit; }
+a, button { -webkit-tap-highlight-color: transparent; }
+
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: calc(var(--site-sidebar-width, 214px) + 14px);
+  z-index: 3000;
+  padding: 10px 14px;
+  border-radius: 9px;
+  color: #fff;
+  background: #7042d2;
+  transform: translateY(-160%);
+  transition: transform .18s ease;
+}
+.skip-link:focus { transform: translateY(0); }
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid rgba(191, 157, 255, .92);
+  outline-offset: 3px;
+}
+
+/* Una misma familia visual para los tres contenidos diarios. */
+.site-kind-daily .main {
+  min-height: 100vh;
+  padding: 34px clamp(18px, 3vw, 46px) 58px;
+  background: radial-gradient(circle at 88% 0, rgba(141,92,246,.08), transparent 30%), var(--site-bg);
+}
+.site-kind-daily :is(.pasapalabra_container, .meditacion-wrapper, .meditaciones-container, .palabra-container) {
+  width: min(100%, 920px);
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.site-kind-daily :is(.pasapalabra-header, .meditacion-header, .meditaciones-header, .palabra-header) {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 22px;
+  padding: clamp(30px, 5vw, 54px);
+  border: 1px solid rgba(141,92,246,.34);
+  border-radius: 18px;
+  text-align: center;
+  background: radial-gradient(circle at 82% 15%, rgba(165,119,255,.18), transparent 28%), linear-gradient(120deg,#20103c,#29154d 52%,#150c27);
+  box-shadow: 0 18px 48px rgba(0,0,0,.25);
+  animation: none;
+}
+.site-kind-daily :is(.pasapalabra-header, .meditacion-header, .meditaciones-header, .palabra-header) h1 {
+  margin: 6px 0 10px;
+  color: #fff;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.4rem, 5vw, 4.3rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.045em;
+  text-shadow: 0 7px 25px rgba(0,0,0,.3);
+}
+.site-kind-daily :is(.pasapalabra-header h2, .meditacion-badge, .fecha-dia, .meditacion-date, .fecha-mes) { color: #c2a2ff; }
+.site-kind-daily .pasapalabra-header { border-bottom: 1px solid rgba(141,92,246,.34); }
+.site-kind-daily .pasapalabra-header h2:first-child,
+.site-kind-daily .meditacion-badge {
+  display: inline-block;
+  margin: 0 0 6px;
+  padding: 6px 11px;
+  border: 1px solid rgba(141,92,246,.28);
+  border-radius: 999px;
+  color: #c9afff;
+  background: rgba(141,92,246,.1);
+  font-family: inherit;
+  font-size: .7rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.site-kind-daily :is(.pasapalabra_container_hoy, .pasapalabra_container_diario, .meditacion-card, .navegacion-palabras, .meditacion-card-item) {
+  border: 1px solid var(--site-border);
+  border-left: 1px solid var(--site-border);
+  border-radius: 16px;
+  background: linear-gradient(150deg,var(--site-panel-soft),var(--site-panel));
+  box-shadow: 0 15px 38px rgba(0,0,0,.22);
+}
+.site-kind-daily :is(.pasapalabra_container_hoy, .pasapalabra_container_diario, .meditacion-card) { padding: clamp(24px, 5vw, 52px); }
+.site-kind-daily :is(.pasapalabra_contenido_hoy, .pasapalabra_contenido_diario, .meditacion-body) {
+  color: #d8dde4;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.05rem, 2vw, 1.24rem);
+  line-height: 1.85;
+  text-align: left;
+}
+.site-kind-daily :is(.pasapalabra_container_diario, .meditacion-card-item, .palabra-nav-item) { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.site-kind-daily :is(.pasapalabra_container_diario, .meditacion-card-item, .palabra-nav-item):hover {
+  transform: translateY(-3px);
+  border-color: rgba(141,92,246,.62);
+  box-shadow: 0 17px 38px rgba(0,0,0,.3), 0 0 24px rgba(141,92,246,.06);
+}
+.site-kind-daily :is(.pasapalabra_container_diario h4, .pasapalabra_fecha_diaria, .meditacion-card-item h3, .nav-mes) { color: #c6a7ff; }
+.site-kind-daily :is(.btn-ver-todos, .btn-ver-hoy, .btn-secondary, .btn-back) {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 1px solid rgba(141,92,246,.5);
+  border-radius: 11px;
+  color: #fff;
+  background: linear-gradient(135deg,#6840c8,#8d5cf6);
+}
+.site-kind-daily .meditaciones-header h1::after { background: #9f72fa; }
+.site-kind-daily .buscador-container { border-color: var(--site-border); background: var(--site-panel); }
+.site-kind-daily .btn-opciones { border-color: rgba(141,92,246,.5); background: var(--site-purple-soft); }
+.site-kind-daily .modal-content { border-color: rgba(141,92,246,.45); background: #14191f; }
+
+/* La Palabra de Vida conserva su riqueza de contenido sin cambiar de paleta. */
+.site-page-pdv { --primary-color: #8d5cf6; --secondary-color: #b995ff; --third-color: #d9c8ff; --gradient-primary: linear-gradient(135deg,#4d2b91,#7043ca); --gradient-audio: linear-gradient(135deg,#56329b,#7950ce); --gradient-audio-border: linear-gradient(135deg,#36205f,#56358f); --gradient-cita: linear-gradient(135deg,#56329b,#7145c4); --gradient-testimonio: linear-gradient(135deg,#2d2340,#3e3154); }
+.site-page-pdv .cita-principal { border: 1px solid rgba(141,92,246,.42); border-left: 1px solid rgba(141,92,246,.42); }
+.site-page-pdv .testimonio { border: 1px solid #4a3a62; color: #e8e0f4; background: linear-gradient(145deg,#282132,#34283f); }
+.site-page-pdv .testimonio :is(h4,p) { color: #e8e0f4; }
+.site-page-pdv .palabra-header::before, .site-page-pdv .palabra-container::before { animation: none; }
+.site-page-pdv .navegacion-palabras { width: 100%; max-width: none; margin: 20px 0; padding: clamp(22px,4vw,38px); }
+.site-page-pdv .palabras-nav { grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap: 14px; }
+.site-page-pdv .palabra-nav-item { padding: 22px; border: 1px solid var(--site-border); border-left: 1px solid var(--site-border); background: linear-gradient(145deg,#181e25,#12171c); }
+.site-page-pdv .nav-titulo { color: #fff; }
+
+/* Páginas interiores de Animadores. */
+.site-page-animadores .recursos-header,
+.site-page-animadores .recursos-header.dinamicas,
+.site-page-animadores .recursos-header.juegos,
+.site-page-animadores .recursos-header.reflexiones,
+.site-page-animadores .recursos-header.retiros {
+  border: 1px solid rgba(141,92,246,.34);
+  background: radial-gradient(circle at 82% 15%,rgba(165,119,255,.18),transparent 28%),linear-gradient(120deg,#20103c,#29154d 52%,#150c27);
+}
+.site-page-animadores .search-section { border-color: var(--site-border); background: #14191f; }
+.site-page-animadores .search-input { border-color: #3a4350; background: #0d1217; }
+.site-page-animadores .search-input:focus { border-color: #8d5cf6; }
+.site-page-animadores .search-btn { background: linear-gradient(135deg,#6840c8,#8d5cf6); }
+
+@media (max-width: 720px) {
+  .site-kind-daily .main { padding: 18px 14px 40px; }
+  .site-kind-daily :is(.pasapalabra_container, .meditacion-wrapper, .meditaciones-container, .palabra-container) { padding-top: 0; }
+  .site-kind-daily :is(.pasapalabra-header, .meditacion-header, .meditaciones-header, .palabra-header) { padding: 28px 20px; }
+  .site-kind-daily :is(.pasapalabra_container_hoy, .pasapalabra_container_diario, .meditacion-card) { padding: 23px 20px; }
+  .site-kind-daily .pasapalabra_contenido_hoy { margin: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

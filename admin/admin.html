@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+  <meta name="description" content="Herramientas de administración de Gen 2.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Panel de Administración">
+  <meta property="og:description" content="Herramientas de administración de Gen 2.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Panel de Administración">
+  <meta name="twitter:description" content="Herramientas de administración de Gen 2.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+    <link rel="stylesheet" href="../aaglobal/style.css">
+    <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
+</head>
+<body>
+    <div class="page-container">
+        <!-- Sidebar -->
+        <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
+
+        <div class="main-content">
+            <!-- Mensaje de acceso denegado -->
+            <div id="access-denied" style="display: none; text-align: center; padding: 4rem 2rem;">
+                <h1 style="color: var(--danger-color);">Acceso Denegado</h1>
+                <p style="color: var(--text-muted); margin-top: 1rem;">Necesitas ser administrador para acceder a esta página</p>
+                <a href="../index.html" class="btn-primary" style="margin-top: 1.5rem; display: inline-block;">Volver al inicio</a>
+            </div>
+
+            <!-- Panel de Administración -->
+            <main class="admin-main" id="admin-content" style="display: none;">
+                <div class="admin-header">
+                    <h1>🎛️ Panel de Administración</h1>
+                    <p>Gestiona todo el contenido de la página</p>
+                </div>
+
+                <!-- Navegación entre secciones -->
+                <nav class="section-nav">
+                    <button class="nav-btn active" data-section="carrusel">
+                        <span class="nav-icon">🖼️</span>
+                        <span class="nav-text">Comunicación</span>
+                    </button>
+                    <button class="nav-btn" data-section="pasapalabra">
+                        <span class="nav-icon">✨</span>
+                        <span class="nav-text">Pasapalabra</span>
+                    </button>
+                    <button class="nav-btn" data-section="meditaciones">
+                        <span class="nav-icon">🧘</span>
+                        <span class="nav-text">Meditaciones</span>
+                    </button>
+                    <button class="nav-btn" data-section="cancionero">
+                        <span class="nav-icon">🎸</span>
+                        <span class="nav-text">Cancionero</span>
+                    </button>
+                    <button class="nav-btn" data-section="recursos">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">Recursos</span>
+                    </button>
+                    <button class="nav-btn" data-section="frases">
+                        <span class="nav-icon">💭</span>
+                        <span class="nav-text">Frases</span>
+                    </button>
+                    <button class="nav-btn" data-section="pdv">
+                        <span class="nav-icon">📖</span>
+                        <span class="nav-text">PdV</span>
+                    </button>
+                    <button class="nav-btn" data-section="lyrics">
+                        <span class="nav-icon">🎼</span>
+                        <span class="nav-text">Corrección Letras</span>
+                    </button>
+                    <button class="nav-btn" data-section="bulk-upload">
+                        <span class="nav-icon">📤</span>
+                        <span class="nav-text">Subida Múltiple</span>
+                    </button>
+                </nav>
+
+                <!-- Contenedor de Secciones -->
+                <div class="sections-container">
+                    <!-- SECCIÓN CARRUSEL -->
+                    <section id="legacy-carrusel-section" class="content-section" hidden>
+                        <div class="section-grid">
+                            <div class="admin-form-card">
+                                <h2 id="carrusel-form-title">➕ Agregar nuevo elemento</h2>
+                                <form id="carrusel-form">
+                                    <input type="hidden" id="carrusel-edit-id">
+                                    
+                                    <div class="form-group">
+                                        <label for="carrusel-foto-url">URL de la foto</label>
+                                        <input type="text" id="carrusel-foto-url" placeholder="Ej: aadocumentos/imagenes/carrusel/foto1.jpg" required>
+                                        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">
+                                            Primero sube la foto a la carpeta <code>aadocumentos/imagenes/carrusel/</code> en GitHub, luego pega la ruta aquí.
+                                        </p>
+                                        <div id="carrusel-preview-container" style="margin-top: 10px;">
+                                            <img id="carrusel-foto-preview" src="" alt="Preview" style="max-width: 200px; max-height: 200px; display: none; border-radius: 8px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="carrusel-titulo">Título</label>
+                                        <input type="text" id="carrusel-titulo" placeholder="Título de la foto" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="carrusel-descripcion">Descripción</label>
+                                        <textarea id="carrusel-descripcion" placeholder="Descripción breve" rows="3" required></textarea>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">💾 Guardar</button>
+                                        <button type="button" id="carrusel-cancel" class="btn-secondary" style="display: none;">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="admin-list-card">
+                                <h2>📋 Elementos del carrusel</h2>
+                                <div id="carrusel-list" class="carrusel-list">
+                                    <p style="text-align: center; color: var(--text-muted);">Cargando...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="carrusel-section" class="content-section active">
+                        <div class="section-grid">
+                            <div class="admin-form-card">
+                                <h2 id="canal-form-title">💬 Crear comunicación</h2>
+                                <p class="field-help">Toda publicación aparece en el Canal. Marcá “Mostrar en novedades” para destacarla también en el Inicio.</p>
+                                <form id="canal-form">
+                                    <input type="hidden" id="canal-edit-id">
+                                    <div class="form-group"><label for="canal-titulo">Título *</label><input id="canal-titulo" type="text" required></div>
+                                    <div class="form-group"><label for="canal-resumen">Resumen *</label><textarea id="canal-resumen" rows="3" required></textarea></div>
+                                    <div class="form-group"><label for="canal-contenido">Información completa</label><textarea id="canal-contenido" rows="7" placeholder="Horarios, inscripción, enlaces y contacto..."></textarea></div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label for="canal-imagen">URL de imagen (opcional)</label><input id="canal-imagen" type="text" placeholder="aadocumentos/imagenes/...jpg o https://..."></div>
+                                        <div class="form-group"><label for="canal-enlace">Enlace externo (opcional)</label><input id="canal-enlace" type="text" placeholder="https://..."></div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label for="canal-audiencia">Audiencia *</label><select id="canal-audiencia"><option value="general">General — visible para todos</option><option value="roles">Una o más zonas</option></select></div>
+                                        <div class="form-group" id="canal-roles-group" hidden><label for="canal-roles">Zonas destinatarias *</label><input id="canal-roles" type="text" placeholder="zona_rosario, zona_cordoba"><p class="field-help">Ingresá los roles separados por comas. Alcanza con que la persona tenga uno.</p></div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label for="canal-estado">Estado</label><select id="canal-estado"><option value="borrador">Borrador</option><option value="publicada">Publicar ahora</option><option value="programada">Programar</option><option value="archivada">Archivar</option></select></div>
+                                        <div class="form-group"><label for="canal-fecha">Fecha de publicación</label><input id="canal-fecha" type="datetime-local"></div>
+                                    </div>
+                                    <div class="form-group-checkbox"><label class="checkbox-label"><input id="canal-destacar" type="checkbox"><span class="checkbox-custom"></span> Mostrar en novedades del Inicio (carrusel)</label><p class="field-help">Solo las comunicaciones generales pueden aparecer en las novedades del Inicio.</p></div>
+                                    <div class="form-actions"><button class="btn-primary" type="submit">💾 Guardar publicación</button><button class="btn-secondary" id="canal-cancel" type="button" style="display:none">Cancelar edición</button></div>
+                                </form>
+                            </div>
+                            <div class="admin-list-card"><h2>📋 Comunicaciones</h2><div id="canal-list" class="canal-admin-list"></div></div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN PASAPALABRA -->
+                    <section id="pasapalabra-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="form-panel">
+                                <h2>➕ Agregar Pasapalabra</h2>
+                                <div class="form-group">
+                                    <label>Pega el texto completo aquí</label>
+                                    <textarea id="pasapalabra-raw" rows="8" placeholder="Pega el texto con fecha, título y reflexión..."></textarea>
+                                </div>
+                                <button type="button" id="pasapalabra-process" class="btn-process">⚡ Procesar Texto</button>
+                                <button type="button" id="pasapalabra-process-save" class="btn-primary" style="margin-top:8px;">⚡ Procesar y Guardar Reflexión</button>
+
+                                <div class="separator"></div>
+
+                                <form id="pasapalabra-form">
+                                    <div class="form-group">
+                                        <label>Fecha (DD/MM/AAAA) *</label>
+                                        <input type="text" id="pasapalabra-fecha" placeholder="11/11/2025" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Título *</label>
+                                        <input type="text" id="pasapalabra-titulo" placeholder="Título de la reflexión" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Reflexión *</label>
+                                        <textarea id="pasapalabra-reflexion" rows="8" placeholder="Contenido de la reflexión..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn-primary">💾 Guardar Reflexión</button>
+                                </form>
+                            </div>
+
+                            <div class="list-panel">
+                                <h2>✨ Reflexiones Guardadas</h2>
+                                <div class="controls">
+                                    <input type="text" id="pasapalabra-search" placeholder="🔍 Buscar por fecha o título...">
+                                </div>
+                                <div id="pasapalabra-list" class="reflexion-list"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN MEDITACIONES -->
+                    <section id="meditaciones-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="form-panel">
+                                <h2>🧘 Meditaciones</h2>
+                                <div class="form-group">
+                                    <label>Título *</label>
+                                    <input type="text" id="meditacion-titulo" placeholder="Título de la meditación" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contenido *</label>
+                                    <textarea id="meditacion-contenido" rows="6" placeholder="Texto principal de la meditación" required></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Libro</label>
+                                        <input type="text" id="meditacion-libro" placeholder="Ej: Libro X">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Página</label>
+                                        <input type="text" id="meditacion-pagina" placeholder="Ej: 45">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Autor</label>
+                                        <input type="text" id="meditacion-autor" placeholder="Nombre del autor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <input type="text" id="meditacion-descripcion" placeholder="Breve descripción">
+                                    </div>
+                                </div>
+                                <div class="form-group form-group-checkbox">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="meditacion-diaria" checked>
+                                        <span class="checkbox-custom"></span>
+                                        Meditación Diaria
+                                    </label>
+                                </div>
+                                <div class="form-group form-group-checkbox">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="meditacion-categoria-meditacion" checked>
+                                        <span class="checkbox-custom"></span>
+                                        Meditación
+                                    </label>
+                                </div>
+                                <div class="form-group form-group-checkbox">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="meditacion-categoria-informacion">
+                                        <span class="checkbox-custom"></span>
+                                        Información
+                                    </label>
+                                </div>
+                                <div class="form-group form-group-checkbox">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="meditacion-categoria-publico" checked>
+                                        <span class="checkbox-custom"></span>
+                                        Público
+                                    </label>
+                                </div>
+                                <div class="form-actions">
+                                    <button id="meditacion-save-btn" class="btn-primary">💾 Guardar Meditación</button>
+                                    <button type="button" id="meditacion-cancel" class="btn-secondary" style="display:none;margin-left:8px;">Cancelar</button>
+                                    <button type="button" id="meditacion-delete" class="btn-danger" style="display:none;margin-left:8px;">🗑️ Eliminar</button>
+                                </div>
+                            </div>
+
+                            <div class="list-panel">
+                                <h2>🧘 Meditaciones Cargadas</h2>
+                                <div class="controls">
+                                    <input type="text" id="meditacion-search" placeholder="🔍 Buscar por título...">
+                                </div>
+                                <div id="meditacion-list" class="item-list"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN CANCIONERO -->
+                    <section id="cancionero-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="form-panel">
+                                <h2 id="cancion-form-title">➕ Nueva Canción</h2>
+                                <form id="cancion-form">
+                                    <div class="form-group">
+                                        <label>Título *</label>
+                                        <input type="text" id="cancion-titulo" placeholder="Título de la canción" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Artista</label>
+                                        <input type="text" id="cancion-artista" placeholder="Artista o autor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Letra *</label>
+                                        <textarea id="cancion-letra" rows="12" placeholder="Letra completa de la canción" required></textarea>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Categoría</label>
+                                            <select id="cancion-categoria">
+                                                <option value="gen">Gen</option>
+                                                <option value="jovenes">Jóvenes</option>
+                                                <option value="infantil">Infantil</option>
+                                                <option value="comunion">Comunión</option>
+                                                <option value="especial">Especial</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Estado</label>
+                                            <select id="cancion-estado">
+                                                <option value="pendiente">Pendiente</option>
+                                                <option value="publicado">Publicado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">💾 Guardar Canción</button>
+                                        <button type="button" id="cancion-cancel" class="btn-secondary" style="display:none;">Cancelar</button>
+                                        <button type="button" id="cancion-delete" class="btn-danger" style="display:none;">🗑️ Eliminar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="list-panel">
+                                <h2>🎸 Canciones</h2>
+                                <div class="controls">
+                                    <input type="text" id="cancion-search" placeholder="🔍 Buscar...">
+                                    <select id="cancion-filter-estado">
+                                        <option value="">Todos los estados</option>
+                                        <option value="pendiente">Pendientes</option>
+                                        <option value="publicado">Publicados</option>
+                                    </select>
+                                    <select id="cancion-filter-categoria">
+                                        <option value="">Todas las categorías</option>
+                                        <option value="gen">Gen</option>
+                                        <option value="jovenes">Jóvenes</option>
+                                        <option value="infantil">Infantil</option>
+                                        <option value="comunion">Comunión</option>
+                                        <option value="especial">Especial</option>
+                                    </select>
+                                </div>
+                                <div id="cancion-list" class="item-list"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN RECURSOS -->
+                    <section id="recursos-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="form-panel">
+                                <h2 id="recurso-form-title">➕ Nuevo Recurso</h2>
+                                <form id="recurso-form">
+                                    <div class="form-group">
+                                        <label>Título *</label>
+                                        <input type="text" id="recurso-titulo" placeholder="Título del recurso" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Categoría</label>
+                                        <select id="recurso-categoria">
+                                            <option value="dinamicas">Dinamicas</option>
+                                            <option value="juegos">Juegos</option>
+                                            <option value="reflexiones">Reflexiones</option>
+                                            <option value="retiros">Retiros</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <textarea id="recurso-descripcion" rows="3" placeholder="Descripción del recurso"></textarea>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Objetivo</label>
+                                            <input type="text" id="recurso-objetivo" placeholder="Objetivo del recurso">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Duración</label>
+                                            <input type="text" id="recurso-duracion" placeholder="Ej: 30 minutos">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Participantes</label>
+                                        <input type="text" id="recurso-participantes" placeholder="Ej: 10-15 personas">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Materiales (uno por línea)</label>
+                                        <textarea id="recurso-materiales" rows="4" placeholder="Lista de materiales necesarios"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Pasos (uno por línea)</label>
+                                        <textarea id="recurso-pasos" rows="6" placeholder="Pasos a seguir"></textarea>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Estado</label>
+                                            <select id="recurso-estado">
+                                                <option value="pendiente">Pendiente</option>
+                                                <option value="publicado">Publicado</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Autor</label>
+                                            <input type="text" id="recurso-autor" placeholder="Autor del recurso">
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">💾 Guardar Recurso</button>
+                                        <button type="button" id="recurso-cancel" class="btn-secondary" style="display:none;">Cancelar</button>
+                                        <button type="button" id="recurso-delete" class="btn-danger" style="display:none;">🗑️ Eliminar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="list-panel">
+                                <h2>📚 Recursos</h2>
+                                <div class="controls">
+                                    <input type="text" id="recurso-search" placeholder="🔍 Buscar...">
+                                    <select id="recurso-filter-estado">
+                                        <option value="">Todos los estados</option>
+                                        <option value="pendiente">Pendientes</option>
+                                        <option value="publicado">Publicados</option>
+                                    </select>
+                                    <select id="recurso-filter-categoria">
+                                        <option value="">Todas las categorías</option>
+                                        <option value="dinamicas">Dinamicas</option>
+                                        <option value="juegos">Juegos</option>
+                                        <option value="reflexiones">Reflexiones</option>
+                                        <option value="retiros">Retiros</option>
+                                    </select>
+                                </div>
+                                <div id="recurso-list" class="item-list"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN FRASES -->
+                    <section id="frases-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="form-panel">
+                                <h2 id="frase-form-title">➕ Nueva Frase</h2>
+                                <form id="frase-form">
+                                    <div class="form-group">
+                                        <label>Frase *</label>
+                                        <textarea id="frase-texto" rows="4" placeholder="Texto de la frase" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Autor</label>
+                                        <input type="text" id="frase-autor" placeholder="Autor de la frase">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha</label>
+                                        <input type="text" id="frase-fecha" placeholder="DD/MM/AAAA">
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">💾 Guardar Frase</button>
+                                        <button type="button" id="frase-cancel" class="btn-secondary" style="display:none;">Cancelar</button>
+                                        <button type="button" id="frase-delete" class="btn-danger" style="display:none;">🗑️ Eliminar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="list-panel">
+                                <h2>💭 Frases</h2>
+                                <div id="frase-list" class="item-list"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN PDV -->
+                    <section id="pdv-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="form-panel">
+                                <h2 id="pdv-form-title">➕ Nueva PdV</h2>
+                                <form id="pdv-form">
+                                    <input type="hidden" id="pdv-edit-id">
+                                    
+                                    <div class="form-group">
+                                        <label>Mes *</label>
+                                        <input type="text" id="pdv-mes" placeholder="Ej: Junio 2026" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Cita Bíblica Principal *</label>
+                                        <textarea id="pdv-cita-principal" rows="3" placeholder="Ej: «Por el camino, proclamen que el Reino de los Cielos está cerca...»" required></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Referencia de la Cita *</label>
+                                        <input type="text" id="pdv-cita-referencia" placeholder="Ej: (Mt 10, 7-8)" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Contenido Completo (HTML compatible) *</label>
+                                        <textarea id="pdv-contenido" rows="15" placeholder="<p>En este capítulo del Evangelio de Mateo...</p>
+<div class='cita-resaltada'><div class='cita-icon'>📜</div><p>«Por el camino, proclamen...»</p></div>" required></textarea>
+                                    </div>
+                                    
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">💾 Guardar PdV</button>
+                                        <button type="button" id="pdv-cancel" class="btn-secondary" style="display:none;">Cancelar</button>
+                                        <button type="button" id="pdv-delete" class="btn-danger" style="display:none;">🗑️ Eliminar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="list-panel">
+                                <h2>📖 Palabras de Vida</h2>
+                                <div id="pdv-list" class="item-list"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN CORRECCIÓN LETRAS -->
+                    <section id="lyrics-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="list-panel">
+                                <h2>🎼 Canciones para revisar</h2>
+                                <div class="controls">
+                                    <input type="text" id="lyrics-search" placeholder="🔍 Buscar canción...">
+                                    <select id="lyrics-filter">
+                                        <option value="">Todas</option>
+                                        <option value="pendiente">Pendientes</option>
+                                        <option value="revisando">Revisando</option>
+                                        <option value="publicado">Publicadas</option>
+                                    </select>
+                                </div>
+                                <div id="lyrics-list" class="item-list"></div>
+                            </div>
+                            <div class="form-panel">
+                                <h2 id="lyrics-form-title">✏️ Editar Letra</h2>
+                                <form id="lyrics-form">
+                                    <input type="hidden" id="lyrics-edit-id">
+                                    <div class="form-group">
+                                        <label for="lyrics-titulo">Título</label>
+                                        <input type="text" id="lyrics-titulo" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lyrics-artista">Artista</label>
+                                        <input type="text" id="lyrics-artista">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lyrics-letra">Letra</label>
+                                        <textarea id="lyrics-letra" rows="20"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lyrics-estado">Estado</label>
+                                        <select id="lyrics-estado">
+                                            <option value="pendiente">Pendiente</option>
+                                            <option value="revisando">Revisando</option>
+                                            <option value="publicado">Publicado</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-primary">💾 Guardar Cambios</button>
+                                        <button type="button" id="lyrics-cancel" class="btn-secondary" style="display: none;">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN SUBIDA MÚLTIPLE -->
+                    <section id="bulk-upload-section" class="content-section">
+                        <div class="full-width-panel">
+                            <h2>📤 Subida Múltiple</h2>
+                            <p style="color: var(--text-muted);">Carga canciones en formato JSON (array de objetos con: titulo, artista, letra, categoria, estado)</p>
+                            
+                            <div class="form-group">
+                                <label for="bulk-json">Pega el JSON aquí:</label>
+                                <textarea id="bulk-json" rows="15" placeholder='[
+  {
+    "titulo": "Canción 1",
+    "artista": "Artista 1",
+    "letra": "Letra completa...",
+    "categoria": "gen",
+    "estado": "publicado"
+  },
+  {
+    "titulo": "Canción 2",
+    "artista": "Artista 2",
+    "letra": "Letra completa...",
+    "categoria": "jovenes",
+    "estado": "pendiente"
+  }
+]'></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>O sube un archivo JSON:</label>
+                                <input type="file" id="bulk-file" accept=".json">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" id="bulk-preview" class="btn-secondary">📋 Previsualizar</button>
+                                <button type="button" id="bulk-upload" class="btn-primary">📤 Subir Todo</button>
+                                <button type="button" id="bulk-clear" class="btn-danger">🗑️ Limpiar</button>
+                            </div>
+                            
+                            <div id="bulk-preview-container" style="margin-top: 2rem;"></div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../aaglobal/firebase-config.js"></script>
+    <script type="module" src="admin.js?v=20260713-canal3"></script>
+</body>
+</html>

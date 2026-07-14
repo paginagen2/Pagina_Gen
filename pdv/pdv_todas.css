@@ -105,6 +105,12 @@
     justify-content: center; /* Asegura que los ítems del grid se centren */
 }
 
+.palabra-nav-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .palabra-nav-item {
     background: var(--card-gradient);
     border: 1px solid var(--border-color-light);

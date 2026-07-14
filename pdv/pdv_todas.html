@@ -3,38 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Palabra de Vida - Gen 2</title>
+  <title>Archivo de Palabras de Vida | Gen 2</title>
+  <meta name="description" content="Palabras de Vida para llevar el Evangelio a lo cotidiano.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Archivo de Palabras de Vida | Gen 2">
+  <meta property="og:description" content="Palabras de Vida para llevar el Evangelio a lo cotidiano.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Archivo de Palabras de Vida | Gen 2">
+  <meta name="twitter:description" content="Palabras de Vida para llevar el Evangelio a lo cotidiano.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="pdv_todas.css">
   <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
 
 <body>
     <div class="page-container">
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="../cancionero/cancionero.html" class="menu-item">
-
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="../biblioteca/biblioteca.html" class="menu-item">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="../introduccion/introduccion.html" class="menu-item">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
 
         <!-- Contenido principal -->
         <main class="main">
@@ -49,63 +39,11 @@
               <!-- Navegación a otras palabras -->
               <div class="navegacion-palabras">
                 <h3>Explorar otras Palabras de Vida</h3>
-                <div class="palabras-nav">
-
-                  <a href="./pdv_may_26/pdv_may_26.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Mayo 2026</div>
-                    <div class="nav-titulo">“Como el Padre me envió a mí, yo también los envío a ustedes”. Al decirles esto, sopló sobre ellos y añadió: “Reciban al Espíritu Santo”</div>
+                <div class="palabras-nav" id="pdv-lista-container">
+                  <!-- Los items se cargarán dinámicamente aquí -->
+                  <div style="text-align: center; color: white; width: 100%; padding: 2rem;">
+                    <p>Cargando historial...</p>
                   </div>
-                  </a> 
-
-                  <a href="./pdv_abr_26/pdv_abr_26.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Abril 2026</div>
-                    <div class="nav-titulo">“Quédate con nosotros, porque ya es tarde y el día se acaba”</div>
-                  </div>
-                  </a> 
-
-                  <a href="./pdv_mar_26/pdv_mar_26.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Marzo 2026</div>
-                    <div class="nav-titulo">“Levántense, no tengan miedo”</div>
-                  </div>
-                  </a> 
-                  
-                  <a href="./pdv_feb_26/pdv_feb_26.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Febrero 2026</div>
-                    <div class="nav-titulo">“Yo hago nuevas todas las cosas”</div>
-                  </div>
-                  </a>                  
-                  
-                  
-                  <a href="./pdv_ene_26/pdv_ene_26.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Enero 2026</div>
-                    <div class="nav-titulo">“Hay un solo Cuerpo y un solo Espíritu, así como hay una misma esperanza, a la que ustedes han sido llamados, de acuerdo con la vocación recibida.”</div>
-                  </div>
-                  </a>
-
-                  <a href="./pdv_dic_25/pdv_dic_25.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Diciembre 2025</div>
-                    <div class="nav-titulo">"Todas las naciones verán la salvación de nuestro Dios"</div>
-                  </div>
-                  </a>
-
-                  <a href="./pdv_nov_25/pdv_nov_25.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Noviembre 2025</div>
-                    <div class="nav-titulo">"Felices los que trabajan por la paz, porque seran llamados hijos de Dios"</div>
-                  </div>
-                  </a>
-
-                  <a href="./pdv_oct_25/pdv_oct_25.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Octubre 2025</div>
-                    <div class="nav-titulo">"Mi auxilio me viene del Señor, que hizo el cielo y la tierra"</div>
-                  </div>
-                  </a>
-
-                  <a href="./pdv_sep_25/pdv_sep_25.html"> <div class="palabra-nav-item" onclick="cargarPalabra('PdV-septiembre-2025')">
-                    <div class="nav-mes">Septiembre 2025</div>
-                    <div class="nav-titulo">"Alégrense conmigo, porque encontré la oveja que se me había perdido"</div>
-                  </div>
-                  </a>
-
                 </div>
               </div>
 
@@ -120,6 +58,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="pdv_todas.js"></script>
+    <script type="module" src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
+    <script type="module" src="../auth.js?v=20260712-roles1"></script>
+    <script type="module" src="pdv_todas.js"></script>
 </body>
 </html>

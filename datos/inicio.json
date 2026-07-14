@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "fechaGeneracion": "2026-07-12",
+  "generadoEn": "2026-07-12T12:00:00.000Z",
+  "frase": "Que todos sean uno",
+  "pasapalabra": {
+    "id": "fallback",
+    "titulo": "Cargando pasapalabra del día",
+    "fecha": "12/07/2026",
+    "href": "pasapalabra/pasapalabra_de_hoy.html"
+  },
+  "meditacion": {
+    "id": "fallback",
+    "titulo": "Reflexión para hoy",
+    "href": "meditacion/meditacion_diaria.html"
+  },
+  "palabraDeVida": {
+    "id": "fallback",
+    "mes": "Sin fecha disponible",
+    "cita": "Leé la Palabra de Vida de este mes",
+    "href": "pdv/pdv_todas.html"
+  },
+  "novedades": []
+}

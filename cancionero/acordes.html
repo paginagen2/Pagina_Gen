@@ -3,120 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centro de Acordes - Gen 2</title>
+  <meta name="theme-color" content="#080b10">
+  <title>Centro de Acordes | Gen 2</title>
+  <meta name="description" content="Encontrá canciones por sus acordes y consultá posiciones para guitarra y piano.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Centro de Acordes | Gen 2">
+  <meta property="og:description" content="Encontrá canciones por sus acordes y consultá posiciones para guitarra y piano.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
-  <link rel="stylesheet" href="acordes.css">
-  <link rel="icon" href="../aadocumentos/svg/guitarra.svg" type="image/x-icon">
+  <link rel="stylesheet" href="cancionero.css?v=20260714">
+  <link rel="stylesheet" href="acordes.css?v=20260714-redesign">
+  <link rel="stylesheet" href="chord-diagrams.css?v=20260714">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
+  <link rel="icon" href="../aadocumentos/svg/guitarra.svg" type="image/svg+xml">
 </head>
-
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="cancionero.html" class="menu-item active">
+  <svg class="icon-library" aria-hidden="true">
+    <symbol id="ch-back" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="ch-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></symbol>
+    <symbol id="ch-songs" viewBox="0 0 24 24"><path d="M8 18V5l11-2v12"/><ellipse cx="5" cy="18" rx="3" ry="2.2"/><ellipse cx="16" cy="15" rx="3" ry="2.2"/></symbol>
+    <symbol id="ch-book" viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v17H7.5A3.5 3.5 0 0 0 4 22V5.5ZM20 5.5A3.5 3.5 0 0 0 16.5 2H13v17h3.5A3.5 3.5 0 0 1 20 22V5.5Z"/></symbol>
+    <symbol id="ch-instrument" viewBox="0 0 24 24"><path d="M6 4v16M12 4v16M18 4v16"/><circle cx="6" cy="9" r="2"/><circle cx="12" cy="15" r="2"/><circle cx="18" cy="8" r="2"/></symbol>
+    <symbol id="ch-guitar" viewBox="0 0 24 24"><path d="m13.5 9.5 6-6M17 3l4 4M15.5 5.5l3 3"/><path d="M10.8 10.3c-1.7-.7-3.6-.4-4.8.8l-2.7 2.7a4.3 4.3 0 0 0 0 6.1 4.3 4.3 0 0 0 6.1 0l2.7-2.7c1.2-1.2 1.5-3.1.8-4.8l2.7-2.7-2.1-2.1-2.7 2.7Z"/><circle cx="7.8" cy="15.4" r="1.7"/><path d="m9 14.2 2.8-2.8"/></symbol>
+    <symbol id="ch-piano" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v10M11 4v10M15 4v10M19 4v10M5 14h14"/></symbol>
+    <symbol id="ch-code" viewBox="0 0 24 24"><path d="m4 19 4-14 4 14M6 13h4M15 7h6M18 4v6M15 14h6l-6 6h6"/></symbol>
+    <symbol id="ch-note" viewBox="0 0 24 24"><path d="M9 18V5l10-2v12"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="16" cy="15" rx="3" ry="2"/></symbol>
+    <symbol id="ch-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 7v6l-4 2v-8L4 5Z"/></symbol>
+    <symbol id="ch-arrow" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="ch-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="ch-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></symbol>
+  </svg>
 
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="../biblioteca/biblioteca.html" class="menu-item">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="../introduccion/introduccion.html" class="menu-item">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
 
-  <!-- Contenido Principal -->
-  <main class="main">
+  <main class="main songbook-main chords-main">
+    <header class="songbook-header chords-header">
+      <a class="chords-back" href="cancionero.html" aria-label="Volver al cancionero">
+        <svg aria-hidden="true"><use href="#ch-back"/></svg><span>Volver al cancionero</span>
+      </a>
+      <h1>Centro de Acordes</h1>
+    </header>
+
     <div class="acordes-container">
-      
-      <!-- Header -->
-      <section class="hero">
-        <div class="hero-content">
-          <h1>🎼 Centro de Acordes</h1>
-          <p>Aprende todos los acordes que necesitas para piano y guitarra</p>
+      <section class="chords-hero" aria-labelledby="chordsHeroTitle">
+        <div class="hero-copy">
+          <span class="hero-kicker">Centro musical</span>
+          <h2 id="chordsHeroTitle">Los acordes de tus canciones, en un solo lugar</h2>
+          <p>Buscá una canción para conocer sus acordes o explorá el diccionario con posiciones para guitarra y piano.</p>
+        </div>
+        <div class="hero-preview" aria-hidden="true">
+          <span class="hero-note hero-note-one">Am</span>
+          <span class="hero-note hero-note-two">F</span>
+          <span class="hero-note hero-note-three">C</span>
+          <span class="hero-note hero-note-four">G</span>
         </div>
       </section>
 
-      <!-- Controles -->
-      <section class="acordes-controls">
-        <div class="controls-grid">
-          
-          <!-- Selección de Instrumento -->
-          <div class="control-group">
-            <h3>🎹 Instrumento</h3>
-            <div class="instrument-tabs">
-              <button class="instrument-btn active" data-instrument="piano" onclick="selectInstrument('piano')">
-                🎹 Piano
-              </button>
-              <button class="instrument-btn" data-instrument="guitar" onclick="selectInstrument('guitar')">
-                🎸 Guitarra
-              </button>
+      <div class="chords-workspace">
+        <nav class="chord-tabs" aria-label="Secciones del Centro de Acordes">
+          <a class="chord-tab chord-tab-songs" href="#songChordsPanel" role="tab" aria-controls="songChordsPanel">
+            <svg aria-hidden="true"><use href="#ch-songs"/></svg>
+            <span><strong>Acordes de canciones</strong><small>Buscá dentro del cancionero</small></span>
+          </a>
+          <a class="chord-tab chord-tab-dictionary" href="#dictionaryPanel" role="tab" aria-controls="dictionaryPanel">
+            <svg aria-hidden="true"><use href="#ch-book"/></svg>
+            <span><strong>Diccionario</strong><small>Explorá cada posición</small></span>
+          </a>
+        </nav>
+
+        <section class="workspace-panel song-chords-panel" id="songChordsPanel" role="tabpanel" aria-labelledby="songPanelTitle">
+          <div class="panel-heading">
+            <div>
+              <span class="results-kicker">Acordes por canción</span>
+              <h2 id="songPanelTitle">¿Qué querés tocar?</h2>
+              <p>Elegí una canción y consultá todos sus acordes antes de abrirla.</p>
             </div>
           </div>
 
-          <!-- Tipo de Cifrado -->
-          <div class="control-group">
-            <h3>🔤 Cifrado</h3>
-            <div class="cifrado-tabs">
-              <button class="cifrado-btn active" data-cifrado="americano" onclick="selectCifrado('americano')">
-                🇺🇸 Americano (C, D, E...)
-              </button>
-              <button class="cifrado-btn" data-cifrado="europeo" onclick="selectCifrado('europeo')">
-                🇪🇺 Europeo (Do, Re, Mi...)
-              </button>
+          <form class="song-search" id="songChordSearchForm" role="search">
+            <label class="sr-only" for="songChordSearch">Buscar por canción o artista</label>
+            <svg aria-hidden="true"><use href="#ch-search"/></svg>
+            <input id="songChordSearch" name="q" type="search" autocomplete="off" placeholder="Buscar canción o artista…">
+            <button id="songSearchClear" class="search-clear" type="button" aria-label="Borrar búsqueda" hidden><svg aria-hidden="true"><use href="#ch-close"/></svg></button>
+            <button class="search-submit" type="submit">Buscar</button>
+          </form>
+
+          <div class="song-browser">
+            <section class="song-results" aria-labelledby="songResultsTitle">
+              <div class="subsection-heading">
+                <h3 id="songResultsTitle">Canciones sugeridas</h3>
+                <span id="songResultsCount" aria-live="polite">Elegí una para ver sus acordes</span>
+              </div>
+              <div class="song-results-list" id="songSearchResults" aria-live="polite">
+                <button class="song-result-placeholder" type="button" disabled>
+                  <span class="song-result-art"><svg aria-hidden="true"><use href="#ch-search"/></svg></span>
+                  <span><strong>Empezá escribiendo una canción</strong><small>También podés buscar por artista</small></span>
+                </button>
+              </div>
+            </section>
+
+            <aside class="song-chord-preview" id="songChordPreview" aria-labelledby="selectedSongTitle">
+              <div class="preview-empty" id="songChordEmptyState">
+                <span class="preview-icon"><svg aria-hidden="true"><use href="#ch-songs"/></svg></span>
+                <h3 id="selectedSongTitle">Elegí una canción</h3>
+                <p>Sus acordes aparecerán acá, listos para consultar.</p>
+                <div class="sample-chords" aria-hidden="true"><span>G</span><span>D</span><span>Em</span><span>C</span></div>
+              </div>
+              <div class="preview-content" id="songChordContent" hidden>
+                <div class="selected-song-heading">
+                  <span class="selected-song-label">Canción seleccionada</span>
+                  <h3 id="selectedSongName"></h3>
+                  <p id="selectedSongArtist"></p>
+                </div>
+                <div class="used-chords">
+                  <span>Acordes utilizados</span>
+                  <div class="used-chords-list" id="songChordList"></div>
+                </div>
+                <a class="open-song-button" id="openSelectedSong" href="#">
+                  Abrir canción completa <svg aria-hidden="true"><use href="#ch-external"/></svg>
+                </a>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="workspace-panel dictionary-panel" id="dictionaryPanel" role="tabpanel" aria-labelledby="dictionaryPanelTitle">
+          <div class="panel-heading dictionary-heading">
+            <div>
+              <span class="results-kicker">Diccionario visual</span>
+              <h2 id="dictionaryPanelTitle">Explorá todos los acordes</h2>
+              <p>Filtrá por nota o tipo y cambiá la forma de visualizarlos.</p>
             </div>
           </div>
 
-          <!-- Filtro por Nota -->
-          <div class="control-group">
-            <h3>🎵 Filtrar por Nota</h3>
-            <div class="notas-filter" id="notasFilter">
-              <!-- Se llena dinámicamente -->
+          <section class="acordes-controls" aria-label="Filtros de acordes">
+            <div class="controls-grid">
+              <div class="control-group">
+                <div class="control-title"><svg aria-hidden="true"><use href="#ch-instrument"/></svg><h3>Instrumento</h3></div>
+                <div class="instrument-tabs">
+                  <button class="instrument-btn" data-instrument="piano" type="button" onclick="selectInstrument('piano')"><svg aria-hidden="true"><use href="#ch-piano"/></svg>Piano</button>
+                  <button class="instrument-btn active" data-instrument="guitar" type="button" onclick="selectInstrument('guitar')"><svg aria-hidden="true"><use href="#ch-guitar"/></svg>Guitarra</button>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="control-title"><svg aria-hidden="true"><use href="#ch-code"/></svg><h3>Cifrado</h3></div>
+                <div class="cifrado-tabs">
+                  <button class="cifrado-btn active" data-cifrado="americano" type="button" onclick="selectCifrado('americano')"><strong>Americano</strong><small>C, D, E…</small></button>
+                  <button class="cifrado-btn" data-cifrado="europeo" type="button" onclick="selectCifrado('europeo')"><strong>Europeo</strong><small>Do, Re, Mi…</small></button>
+                </div>
+              </div>
+
+              <div class="control-group notes-group">
+                <div class="control-title"><svg aria-hidden="true"><use href="#ch-note"/></svg><h3>Nota</h3></div>
+                <div class="notas-filter" id="notasFilter"></div>
+              </div>
+
+              <div class="control-group type-group">
+                <div class="control-title"><svg aria-hidden="true"><use href="#ch-filter"/></svg><h3>Tipo de acorde</h3></div>
+                <div class="tipos-filter">
+                  <button class="tipo-btn active" data-tipo="all" type="button" onclick="filterByType('all')">Todos</button>
+                  <button class="tipo-btn" data-tipo="major" type="button" onclick="filterByType('major')">Mayores</button>
+                  <button class="tipo-btn" data-tipo="minor" type="button" onclick="filterByType('minor')">Menores</button>
+                  <button class="tipo-btn" data-tipo="seventh" type="button" onclick="filterByType('seventh')">Séptima</button>
+                  <button class="tipo-btn" data-tipo="major_seventh" type="button" onclick="filterByType('major_seventh')">Séptima mayor</button>
+                  <button class="tipo-btn" data-tipo="diminished" type="button" onclick="filterByType('diminished')">Disminuidos</button>
+                  <button class="tipo-btn" data-tipo="augmented" type="button" onclick="filterByType('augmented')">Aumentados</button>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
 
-          <!-- Filtro por Tipo -->
-          <div class="control-group">
-            <h3>🎶 Filtrar por Tipo</h3>
-            <div class="tipos-filter">
-              <button class="tipo-btn active" data-tipo="all" onclick="filterByType('all')">Todos</button>
-              <button class="tipo-btn" data-tipo="major" onclick="filterByType('major')">Mayores</button>
-              <button class="tipo-btn" data-tipo="minor" onclick="filterByType('minor')">Menores</button>
-              <button class="tipo-btn" data-tipo="seventh" onclick="filterByType('seventh')">Séptima</button>
-              <button class="tipo-btn" data-tipo="major_seventh" onclick="filterByType('major_seventh')">Séptima Mayor</button>
-              <button class="tipo-btn" data-tipo="diminished" onclick="filterByType('diminished')">Disminuidos</button>
-              <button class="tipo-btn" data-tipo="augmented" onclick="filterByType('augmented')">Aumentados</button>
+          <section class="chords-results" aria-labelledby="resultsTitle">
+            <div class="results-heading">
+              <div><h2 id="resultsTitle">Acordes disponibles</h2><span class="results-hint">Tocá un acorde para verlo en detalle</span></div>
             </div>
-          </div>
+            <div class="acordes-grid" id="acordesGrid"></div>
+          </section>
+        </section>
+      </div>
 
-        </div>
-      </section>
-
-      <!-- Grid de Acordes -->
-      <section class="acordes-grid" id="acordesGrid">
-        <!-- Se llena dinámicamente -->
-      </section>
-
-      <!-- Botón Volver -->
-      <section class="back-section">
-        <a href="cancionero.html" class="back-btn">
-          ← Volver al Cancionero
-        </a>
-      </section>
-
+      <section class="back-section"><a href="cancionero.html" class="back-btn"><svg aria-hidden="true"><use href="#ch-back"/></svg>Volver al cancionero</a></section>
     </div>
   </main>
 
-  <script src="acordes.js"></script>
+  <div class="chord-drawer" id="chordDetailDrawer" role="dialog" aria-modal="true" aria-labelledby="chordDetailTitle" aria-hidden="true" hidden>
+    <button class="drawer-backdrop" id="chordDetailBackdrop" type="button" aria-label="Cerrar detalle del acorde"></button>
+    <section class="drawer-panel">
+      <header class="drawer-header">
+        <div><span>Detalle del acorde</span><h2 id="chordDetailTitle">Acorde</h2></div>
+        <button class="drawer-close" id="closeChordDetail" type="button" aria-label="Cerrar"><svg aria-hidden="true"><use href="#ch-close"/></svg></button>
+      </header>
+      <div class="drawer-instrument-tabs" role="group" aria-label="Instrumento del diagrama">
+        <button class="drawer-instrument active" id="drawerGuitarButton" type="button" data-drawer-instrument="guitar"><svg aria-hidden="true"><use href="#ch-guitar"/></svg>Guitarra</button>
+        <button class="drawer-instrument" id="drawerPianoButton" type="button" data-drawer-instrument="piano"><svg aria-hidden="true"><use href="#ch-piano"/></svg>Piano</button>
+      </div>
+      <div class="drawer-diagram" id="chordDetailDiagram"></div>
+      <div class="drawer-meta">
+        <div><span>Notas</span><strong id="chordDetailNotes">—</strong></div>
+        <div><span>Fórmula</span><strong id="chordDetailFormula">—</strong></div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="acordes.js?v=20260714-centro"></script>
 </body>
 </html>

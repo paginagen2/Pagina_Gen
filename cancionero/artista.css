@@ -1,0 +1,27 @@
+.artist-topbar { justify-content: space-between; }
+.artist-back { padding: 10px 14px; border: 1px solid var(--sb-border); border-radius: 10px; color: var(--sb-purple-light); background: var(--sb-card); cursor: pointer; }
+.artist-back:hover { border-color: var(--sb-purple); background: var(--sb-card-hover); }
+.artist-context { color: var(--sb-muted); font-size: 13px; }
+.artist-page-content { padding: 34px 32px 60px; }
+.artist-hero { display: flex; align-items: center; gap: 25px; margin-bottom: 38px; padding: 27px; border: 1px solid var(--sb-border); border-radius: 18px; background: radial-gradient(circle at 8% 20%, rgba(153,89,255,.17), transparent 17rem), var(--sb-panel); }
+.artist-page-avatar { width: 116px; min-width: 116px; margin: 0; font-size: 34px; }
+.artist-hero p { margin: 0 0 4px; color: var(--sb-purple-light); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; }
+.artist-hero h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 45px); letter-spacing: -.04em; }
+.artist-hero span, #songCount { color: var(--sb-muted); font-size: 14px; }
+.artist-songs-heading { padding-bottom: 16px; border-bottom: 1px solid var(--sb-border); }
+.artist-songs-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.artist-pagination { display: flex; justify-content: center; margin-top: 27px; }
+.load-more-songs { padding: 12px 22px; border: 1px solid var(--sb-purple); border-radius: 11px; background: rgba(78,31,143,.23); color: var(--sb-purple-light); cursor: pointer; font-weight: 650; }
+.load-more-songs:hover { background: rgba(111,52,195,.35); }
+.song-like-count { display: flex; align-items: center; gap: 4px; margin-left: auto; color: #9699a8; font-size: 11px; }
+.song-like-count svg { width: 17px; height: 17px; }
+
+@media (max-width: 1180px) { .artist-songs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px) {
+  .artist-page-content { padding: 22px 14px 45px; }
+  .artist-topbar { align-items: flex-start; flex-direction: column-reverse; justify-content: center; gap: 5px; }
+  .artist-back { padding: 5px 0; border: 0; background: transparent; }
+  .artist-hero { align-items: flex-start; flex-direction: column; padding: 20px; }
+  .artist-page-avatar { width: 82px; min-width: 82px; }
+  .artist-songs-grid { grid-template-columns: 1fr; }
+}

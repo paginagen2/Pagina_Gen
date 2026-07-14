@@ -3,40 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos - Gen Animadores</title>
+    <title>Gen Animadores | Recursos para encuentros</title>
+    <meta name="description" content="Dinámicas, juegos, reflexiones y propuestas para preparar encuentros juveniles con sentido.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gen Animadores | Recursos para encuentros">
+  <meta property="og:description" content="Dinámicas, juegos, reflexiones y propuestas para preparar encuentros juveniles con sentido.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gen Animadores | Recursos para encuentros">
+  <meta name="twitter:description" content="Dinámicas, juegos, reflexiones y propuestas para preparar encuentros juveniles con sentido.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+    <link rel="stylesheet" href="../aaglobal/style.css">
+    <link rel="stylesheet" href="../aaglobal/site-polish.css">
     <link rel="stylesheet" href="recursos-unificado.css">
+    <link rel="stylesheet" href="gen-animadores.css">
     <link rel="icon" href="../aadocumentos/svg/vida.svg" type="image/x-icon">
-    <script type="module" src="../aaglobal/firebase-config.js"></script>
+    <script type="module" src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
+    <script type="module" src="../auth.js?v=20260712-roles1"></script>
     <script src="recursos-unificado.js"></script>
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
 </head>
-<body>
+<body class="with-site-sidebar site-kind-animadores">
+  <a class="skip-link" href="#contenido-principal">Saltar al contenido</a>
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="../cancionero/cancionero.html" class="menu-item">
-
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item active">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="../biblioteca/biblioteca.html" class="menu-item">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="../introduccion/introduccion.html" class="menu-item">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
 
     <!-- Main Content -->
-    <div class="main">
+    <main class="main" id="contenido-principal">
         <div class="animadores-container">
             <!-- Header -->
             <div class="animadores-header">
@@ -148,27 +142,31 @@
                     <div class="accion-card">
                         <h3>➕ Contribuye con la comunidad</h3>
                         <p>¿Tienes una dinámica exitosa? Compártela con otros animadores de todo el mundo.</p>
-                        <button onclick="mostrarFormularioAgregar()" class="accion-btn agregar">Agregar nueva dinámica</button>
+                        <button type="button" class="accion-btn agregar" data-open-submit>Compartir un recurso</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Modal para mostrar recurso completo -->
-    <div id="modalRecurso" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <button onclick="cerrarModal()" class="modal-close">✕</button>
+    <div id="modalRecurso" class="modal-overlay" hidden aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalRecursoTitulo">
+            <button type="button" class="modal-close" data-close-modal="modalRecurso" aria-label="Cerrar recurso">✕</button>
             <div id="contenidoRecurso"></div>
         </div>
     </div>
 
     <!-- Modal para agregar nueva dinámica -->
-    <div id="modalAgregar" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <button onclick="cerrarModalAgregar()" class="modal-close">✕</button>
+    <div id="modalAgregar" class="modal-overlay" hidden aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="tituloFormularioRecurso">
+            <button type="button" class="modal-close" data-close-modal="modalAgregar" aria-label="Cerrar formulario">✕</button>
             <div class="modal-body">
-                <h2>➕ Agregar Nueva Dinámica</h2>
+                <div class="modal-intro">
+                    <span class="eyebrow">Aporte comunitario</span>
+                    <h2 id="tituloFormularioRecurso">Compartí una propuesta</h2>
+                    <p>La revisaremos antes de publicarla para cuidar la calidad de los recursos.</p>
+                </div>
                 <form id="formNuevaDinamica">
                     <div class="form-group">
                         <label for="categoria">Categoría:</label>
@@ -182,56 +180,52 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="titulo">Título:</label>
-                            <input type="text" id="titulo" name="titulo" required>
+                            <input type="text" id="titulo" name="titulo" maxlength="120" required>
                         </div>
                         <div class="form-group">
                             <label for="duracion">Duración:</label>
-                            <input type="text" id="duracion" name="duracion" placeholder="ej: 15-20 min" required>
+                            <input type="text" id="duracion" name="duracion" maxlength="80" placeholder="Ej.: 15–20 minutos" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" required></textarea>
+                        <textarea id="descripcion" name="descripcion" maxlength="1000" required></textarea>
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="participantes">Participantes:</label>
-                            <input type="text" id="participantes" name="participantes" placeholder="ej: 8-15 personas" required>
+                            <input type="text" id="participantes" name="participantes" maxlength="80" placeholder="Ej.: 8–15 personas" required>
                         </div>
                         <div class="form-group">
                             <label for="autor">Tu nombre:</label>
-                            <input type="text" id="autor" name="autor" required>
+                            <input type="text" id="autor" name="autor" maxlength="100" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="objetivo">Objetivo:</label>
-                        <textarea id="objetivo" name="objetivo" required></textarea>
+                        <textarea id="objetivo" name="objetivo" maxlength="1000" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="materiales">Materiales (uno por línea):</label>
                         <textarea id="materiales" name="materiales" placeholder="Sillas en círculo&#10;Música suave&#10;Hojas en blanco"></textarea>
+                        <small class="form-hint">Escribí un elemento por línea.</small>
                     </div>
                     <div class="form-group">
                         <label for="pasos">Pasos a seguir (uno por línea):</label>
                         <textarea id="pasos" name="pasos" placeholder="Formar un círculo con las sillas&#10;Explicar la dinámica&#10;Comenzar la actividad" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email de contacto:</label>
-                        <input type="email" id="email" name="email" required>
+                        <small class="form-hint">Escribí un paso por línea.</small>
                     </div>
                     <div class="form-actions">
-                        <button type="button" onclick="cerrarModalAgregar()" class="btn-secondary">Cancelar</button>
-                        <button type="submit" class="btn-primary">➕ Agregar Recurso</button>
+                        <button type="button" class="btn-secondary" data-close-modal="modalAgregar">Cancelar</button>
+                        <button type="submit" class="btn-primary">Enviar propuesta</button>
                     </div>
                 </form>
-                <div id="loadingAgregar" style="display: none; text-align: center; padding: 2rem;">
-                    <div class="loading-icon">⏳</div>
-                    <h3>Guardando en Firebase...</h3>
+                <div id="loadingAgregar" class="submit-progress" hidden role="status">
+                    Enviando propuesta…
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="recursos-unificado.js"></script>
 </body>
 </html>

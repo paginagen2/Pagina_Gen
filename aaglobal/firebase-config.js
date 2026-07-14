@@ -1,8 +1,7 @@
 // CONFIGURACIÓN FIREBASE UNIFICADA 
 console.log('🚀 Iniciando Firebase');
 
-// Definir firebaseConfig en el ámbito global (reutilizable en ambos bloques)
-const firebaseConfigWeb = {
+var firebaseConfig = window.firebaseConfigWeb || {
   apiKey: "AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE",
   authDomain: "pagina-gen.firebaseapp.com",
   projectId: "pagina-gen",
@@ -12,34 +11,29 @@ const firebaseConfigWeb = {
   measurementId: "G-TCF3R6C846"
 };
 
-// 2. Configuración para la APP ANDROID (Pega aquí la que te dio Firebase)
-const firebaseConfigAndroid = {
-  apiKey: "AIzaSyAEvfNWKl25gdBlP3laCBSWH8NOxpMV6GE",
-  authDomain: "pagina-gen.firebaseapp.com",
-  projectId: "pagina-gen",
-  storageBucket: "pagina-gen.firebasestorage.app",
-  messagingSenderId: "876893109130",
-  appId: "1:876893109130:web:862f79fc7a609e512ee673",
-  measurementId: "G-TCF3R6C846"
-};
+window.firebaseConfigWeb = firebaseConfig;
+console.log("🌐 Usando configuración de Firebase para WEB");
 
-// 3. Detección de plataforma
-const isApp = window.location.href.includes('localhost') || (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
-const firebaseConfig = isApp ? firebaseConfigAndroid : firebaseConfigWeb;
-
-console.log(isApp ? "📱 Usando configuración de Firebase para APP" : "🌐 Usando configuración de Firebase para WEB");
-
-(async function inicializarFirebaseUnificado() {
+window.firebaseReady = window.firebaseReady || (async function inicializarFirebaseUnificado() {
     try {
         console.log('📦 Importando Firebase...');
         
-        const { initializeApp } = await import('https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js');
-        const { getFirestore, collection, getDocs, addDoc, query, where, doc, updateDoc, orderBy, limit, getDoc } = 
-              await import('https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js');
+        const [appModule, firestoreModule, storageModule, authModule] = await Promise.all([
+            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js'),
+            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js'),
+            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js'),
+            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js')
+        ]);
+        const { initializeApp } = appModule;
+        const { getFirestore, collection, getDocs, addDoc, setDoc, query, where, doc, updateDoc, orderBy, limit, getDoc, deleteDoc, writeBatch, runTransaction } = firestoreModule;
+        const { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } = storageModule;
+        const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } = authModule;
         
         // Reutilizar si ya está inicializado; si no, inicializar
         const app = window.firebaseApp || initializeApp(firebaseConfig);
-        const db  = window.firebaseDb  || getFirestore(app);
+        const db = window.firebaseDb || getFirestore(app);
+        const storage = window.firebaseStorage || getStorage(app);
+        const auth = window.firebaseAuth || getAuth(app);
 
         // 3️⃣ EXPONER AMBAS SINTAXIS para compatibilidad total
         
@@ -79,26 +73,46 @@ console.log(isApp ? "📱 Usando configuración de Firebase para APP" : "🌐 Us
             })
         };
         
-        // Para gen-animadores (sintaxis v9) - ✅ AHORA FUNCIONA
+        // Para gen-animadores y auth (sintaxis v9) - ✅ AHORA FUNCIONA
         window.firebaseApp = app;
         window.firebaseDb = db;
+        window.firebaseStorage = storage;
+        window.firebaseAuth = auth;
         
-        // Funciones globales para gen-animadores
+        // Funciones globales para gen-animadores y auth
         window.firebaseUtils = {
             collection,
             getDocs,
             addDoc,
+            setDoc,
             query,
             where,
             doc,
             updateDoc,
             orderBy,
-            limit
+            limit,
+            getDoc,
+            deleteDoc,
+            writeBatch,
+            runTransaction,
+            ref,
+            uploadBytesResumable,
+            getDownloadURL,
+            deleteObject,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            signInWithPopup,
+            GoogleAuthProvider,
+            signOut,
+            onAuthStateChanged,
+            sendPasswordResetEmail
         };
         
         console.log('🎉 Firebase unificado inicializado correctamente!');
         console.log('✅ Cancionero: usar firebase.firestore()');
         console.log('✅ Gen Animadores: usar window.firebaseDb y window.firebaseUtils');
+        console.log('✅ Admin: usar window.firebaseStorage y window.firebaseUtils');
+        console.log('✅ Auth: usar window.firebaseAuth y window.firebaseUtils');
         
         // Confirmar funcionamiento
         const testCollection = collection(db, 'recursos');

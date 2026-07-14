@@ -3,38 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Biblioteca Digital</title>
+  <title>Biblioteca Digital | Gen 2</title>
+  <meta name="description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Biblioteca Digital | Gen 2">
+  <meta property="og:description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Biblioteca Digital | Gen 2">
+  <meta name="twitter:description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="biblioteca.css">
+  <link rel="stylesheet" href="biblioteca-polish.css">
   <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
 
 <body>
   
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="../cancionero/cancionero.html" class="menu-item">
-
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="biblioteca.html" class="menu-item active">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="../introduccion/introduccion.html" class="menu-item">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
 
   <!-- Contenido principal -->
   <main class="main">
@@ -43,8 +34,9 @@
       <!-- Header -->
       <div class="div-header">
         <header class="biblioteca-header">
-          <h1>BIBLIOTECA DIGITAL</h1>
-         <p class="biblioteca-subtitle">Recursos espirituales y formativos del Movimiento</p>
+          <span class="biblioteca-kicker">CONOCER · PROFUNDIZAR · COMPARTIR</span>
+          <h1>Biblioteca digital</h1>
+         <p class="biblioteca-subtitle">Recursos espirituales y formativos para acompañar tu camino y el de tu comunidad.</p>
         </header>
       </div>
 
@@ -67,7 +59,7 @@
         <div class="filtros_section">
           <div class="filtros_titulo_container">
             <div class="filtros_titulo">🏷️ Filtrar por temas:</div>
-            <button class="toggle_filtros_btn" id="toggleFiltrosBtn" onclick="toggleFiltrosTemas()">
+            <button type="button" class="toggle_filtros_btn" id="toggleFiltrosBtn" aria-expanded="true" aria-controls="filtrosAtributos" onclick="toggleFiltrosTemas()">
               <span id="toggleIcon">▼</span> <span id="toggleText">Ocultar filtros</span>
             </button>
           </div>
@@ -78,13 +70,13 @@
 
         <!-- Búsqueda -->
         <div class="busqueda_container">
-          <input type="text" id="busquedaInput" class="busqueda_input" placeholder="Buscar en biblioteca..." onkeyup="buscarArchivos()">
-          <span class="busqueda_icono">🔍</span>
+          <input type="text" id="busquedaInput" class="busqueda_input" aria-label="Buscar en la biblioteca" placeholder="Buscar en biblioteca..." onkeyup="buscarArchivos()">
+          <span class="busqueda_icono" aria-hidden="true">🔍</span>
         </div>
 
         <!-- Botón para enviar archivos via Google Forms -->
         <div class="enviar_archivos_section">
-          <button class="btn_enviar_archivos" onclick="abrirFormularioGoogle()">
+          <button type="button" class="btn_enviar_archivos" onclick="abrirFormularioGoogle()">
             📤 Enviar archivo a la biblioteca
           </button>
           <p class="enviar_archivos_info">
@@ -120,14 +112,14 @@
   </main>
 
   <!-- Modal para vista previa -->
-  <div class="modal_preview" id="modalPreview">
+  <div class="modal_preview" id="modalPreview" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
     <div class="modal_contenido">
       <div class="modal_header">
         <h3 id="modalTitulo">Título del archivo</h3>
-        <button class="modal_cerrar" onclick="cerrarModal()">&times;</button>
+        <button type="button" class="modal_cerrar" aria-label="Cerrar vista previa" onclick="cerrarModal()">&times;</button>
       </div>
       <div class="modal_body">
-        <iframe id="modalIframe" src=""></iframe>
+        <iframe id="modalIframe" src="" title="Vista previa del recurso seleccionado"></iframe>
       </div>
       <div class="modal_footer">
         <a href="#" id="modalDescarga" class="btn_descarga" target="_blank">📥 Descargar archivo</a>
@@ -136,7 +128,7 @@
   </div>
 
   <!-- Modal para Visor de Libros (Meditaciones) -->
-  <div class="modal_preview" id="modalLibro">
+  <div class="modal_preview" id="modalLibro" role="dialog" aria-modal="true" aria-labelledby="libroTitulo">
     <div class="modal_contenido libro_viewer">
       <div class="modal_header">
         <div class="header_left">
@@ -150,7 +142,7 @@
             </button>
           </div>
         </div>
-        <button class="modal_cerrar" onclick="cerrarModalLibro()">&times;</button>
+        <button type="button" class="modal_cerrar" aria-label="Cerrar libro" onclick="cerrarModalLibro()">&times;</button>
       </div>
       <div class="modal_body libro_body" id="libroBody">
         <div class="pagina_container" id="paginaContenido">
@@ -174,8 +166,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script type="module" src="../aaglobal/app-features.js"></script>
-  <script src="biblioteca.js" type="module"></script>
+  <script src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
+  <script type="module" src="../auth.js?v=20260712-roles1"></script>
+  <script src="biblioteca.js?v=20260712" type="module"></script>
 </body>
 
 </html>

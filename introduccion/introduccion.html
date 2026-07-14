@@ -3,266 +3,312 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre el Movimiento - Introducción (v2)</title>
+  <meta name="theme-color" content="#080b10">
+  <meta name="description" content="Conocé la historia, las personas y la espiritualidad del Movimiento de los Focolares.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Movimiento de los Focolares | Gen 2">
+  <meta property="og:description" content="Historia, espiritualidad y protagonistas del Movimiento de los Focolares.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Movimiento de los Focolares | Gen 2">
+  <meta name="twitter:description" content="Historia, espiritualidad y protagonistas del Movimiento de los Focolares.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <title>Movimiento de los Focolares | Gen 2</title>
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="introduccion.css">
-  <link rel="icon" href="../aadocumentos/svg/libro.svg" type="image/x-icon">
+  <link rel="icon" href="../aadocumentos/svg/libro.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
+
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="../cancionero/cancionero.html" class="menu-item">
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="../biblioteca/biblioteca.html" class="menu-item">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="introduccion.html" class="menu-item active">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
 
-  <!-- Contenido principal -->
-  <main class="main">
-    <!-- Hero con imagen de fondo (similar cancionero, otros colores) -->
-    <section class="hero-header">
-      <div class="hero-content">
-        <h1 class="hero-title">Sobre el Movimiento de los Focolares</h1>
-        <p class="hero-subtitle">Una historia viva de unidad, fraternidad y esperanza</p>
-      </div>
-    </section>
+  <main class="movement-main">
+    <header class="mobile-header">
+      <a href="../index.html" aria-label="Volver al inicio">← Inicio</a>
+      <strong>Sobre el Movimiento</strong>
+    </header>
 
-    <!-- Grilla de 3 columnas con tarjetas compactas -->
-    <div class="intro-container">
-      <div class="cards-grid">
-        <!-- Movimiento de los Focolares -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/movdeifoc.png">
-          <div class="card-header">
-            <div class="card-icon">📜</div>
-            <div class="card-title">
-              <h3>Movimiento de los Focolares</h3>
-            </div>
-          </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>El Movimiento de los Focolares es una gran y variada familia, es un “nuevo pueblo nacido del Evangelio” , como lo definió la fundadora, Chiara Lubich, que lo inició en 1943 en Trento (Italia), durante la segunda guerra mundial, como una corriente de renovación espiritual y social. <br/>
-              Su objetivo principal es promover la unidad y la fraternidad entre las personas, independientemente de su religión, raza o nacionalidad. El término "focolare " se refiere a "hogar" en italiano, y simboliza el lugar donde se reúnen las personas para compartir sus vidas y su fe. <br/>
-              El objetivo es, por lo tanto, el de cooperar en la construcción de un mundo más unido, impulsado por la oración de Jesús al Padre “ para que todos sean uno ” (Jn 17,21), en el respeto y valorización de las diversidades. Y para alcanzar esa meta se pone como prioridad el diálogo, en el compromiso constante de construir puentes y relaciones de fraternidad entre las personas, los pueblos y los ámbitos culturales.
-            </p>
-            <ul>
-              <li>Refugio antiaéreo, decisión por Dios</li>
-              <li>Comunión de bienes y servicio a los más necesitados</li>
-              <li>Nacimiento de una espiritualidad de unidad</li>
-            </ul>
-          </div>
+    <div class="movement-shell">
+      <section class="movement-hero" aria-labelledby="movement-title">
+        <div class="hero-content">
+          <span class="eyebrow">Movimiento de los Focolares</span>
+          <h1 id="movement-title">Una historia<br>de unidad</h1>
+          <p>Personas de culturas, edades y convicciones diferentes que buscan construir un mundo más unido.</p>
+          <a class="hero-action" href="#que-es">Empezar el recorrido <span aria-hidden="true">↓</span></a>
         </div>
-        <!-- Eran tiempos de guerra -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/guerra.png">
-          <div class="card-header">
-            <div class="card-icon">💣</div>
-            <div class="card-title">
-              <h3>Eran tiempos de guerra...</h3>
-            </div>
-            <span class="card-year">1943</span>
+        <div class="hero-note" aria-label="Origen del Movimiento">
+          <span class="hero-note-year">1943</span>
+          <p>Todo comenzó en Trento, Italia, en medio de la Segunda Guerra Mundial.</p>
+        </div>
+      </section>
+
+      <nav class="section-nav" aria-label="Secciones de esta página">
+        <a href="#que-es" class="active">Qué es</a>
+        <a href="#historia">Historia</a>
+        <a href="#protagonistas">Protagonistas</a>
+        <a href="#espiritualidad">Espiritualidad</a>
+      </nav>
+
+      <section class="overview-section page-section" id="que-es" aria-labelledby="overview-title">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Qué es</span>
+            <h2 id="overview-title">Una familia abierta al mundo</h2>
           </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>
-              El Movimiento de los Focolares nació en 1943, en Trento (Italia), durante los años más duros de la Segunda Guerra Mundial. La ciudad vivía continuamente bajo bombardeos: las sirenas sonaban varias veces al día y la población debía correr a los refugios subterráneos para salvarse.<br/>
-              Chiara Lubich y sus primeras compañeras también pasaban largas horas resguardadas allí, rodeadas de personas que tenían miedo, que lloraban o que rezaban. En medio de ese ambiente de destrucción, donde las casas caían y la inseguridad era total, Chiara llevó consigo un pequeño Evangelio que le había regalado una amiga. En los refugios lo abría, lo leía, y trataba de vivir cada frase con sus compañeras. <br/>
-              Fue precisamente en ese contexto de oscuridad y muerte donde surgió la iluminación: si todo puede derrumbarse, solo el amor permanece, solo Dios permanece. Esa certeza se convirtió en la base de un movimiento que buscaba construir fraternidad justo donde reinaba el odio y la desunión.
-            </p>
-          </div>
+          <a href="https://www.focolare.org/es/quienes-somos/" target="_blank" rel="noopener noreferrer">Fuente oficial ↗</a>
         </div>
 
-        <!-- Chiara Lubich -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/Chiara_lubich.jpg">
-          <div class="card-header">
-            <div class="card-icon">👵</div>
-            <div class="card-title">
-              <h3>Chiara Lubich</h3>
-            </div>
-            <span class="card-year">1920–2008</span>
-          </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>Fue la fundadora del Movimiento de los Focolares. Joven maestra de escuela, sintió un fuerte llamado interior: dedicar su vida por completo a Dios y trabajar para la fraternidad universal. Su carisma dio origen a una espiritualidad centrada en el amor, la unidad y el diálogo. Con el tiempo, fue reconocida internacionalmente y recibió numerosos premios por su labor por la paz.
-	          </p>
-          </div>
-        </div>        
+        <div class="overview-grid">
+          <article class="overview-story">
+            <p class="lead">El Movimiento de los Focolares nació como una corriente de renovación espiritual y social. Su finalidad es contribuir a la fraternidad universal, inspirada en la oración de Jesús: <strong>“Que todos sean uno”.</strong></p>
+            <p>La unidad no significa que todos sean iguales. Se construye mediante el diálogo, el respeto por las diferencias y el compromiso concreto de tender puentes entre personas, pueblos, culturas y religiones.</p>
+          </article>
 
-        <!-- Las primeras focolarinas -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/primeras.jpg">
-          <div class="card-header">
-            <div class="card-icon">🔥</div>
-            <div class="card-title">
-              <h3>Las primeras focolarinas</h3>
-            </div>
-          </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>
-              Las primeras compañeras de Chiara fueron jóvenes que compartieron con ella la decisión de vivir el Evangelio de forma radical. Estas son algunas de ellas: <br/>
-              Giosi Guella<br/>
-              Una de las primeras en seguir a Chiara. Firme, decidida y profundamente espiritual. Fue clave en la organización de las primeras actividades del movimiento. Su carácter práctico equilibraba la intuición carismática de Chiara. <br/>
-              Graziella De Luca<br/>
-              Conocida por su sensibilidad y capacidad de escucha. Acompañó a Chiara desde los inicios, ayudando a profundizar en la dimensión espiritual del amor recíproco. Fue una presencia serena en los primeros años, sosteniendo a muchas personas con su cercanía. <br/>
-              Natalia Dallapiccola<br/>
-              Destacada por su inteligencia y su formación cultural. Desde muy joven se unió a la experiencia y aportó una mirada profunda y reflexiva. Su capacidad de comunicación ayudó a difundir la espiritualidad de la unidad. <br/>
-              Inés Folonari<br/>
-              Aunque se unió poco después de las primeras, es considerada parte del primer núcleo. Fue una colaboradora muy cercana de Chiara y tuvo un papel importante en la difusión internacional del movimiento gracias a su dinamismo, alegría y espíritu práctico. <br/>
-              Todas ellas formaron el primer “círculo de luz” que acompañó a Chiara en la creación del primer focolar, compartiendo bienes, vida común y un amor recíproco que era el distintivo de esta nueva experiencia. <br/>
-	          </p>
+          <div class="stats-grid" aria-label="El Movimiento hoy">
+            <article class="stat-card"><strong>147</strong><span>países</span><small>Presencia en los cinco continentes</small></article>
+            <article class="stat-card"><strong>170.000</strong><span>personas</span><small>Forman parte del Movimiento</small></article>
+            <article class="stat-card"><strong>23</strong><span>ciudadelas</span><small>Espacios de vida y formación</small></article>
+            <article class="stat-card"><strong>15</strong><span>áreas</span><small>Organización geográfica mundial</small></article>
           </div>
         </div>
+      </section>
 
-        <!-- El primer focolar -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/Focolares.jpg">
-          <div class="card-header">
-            <div class="card-icon">🏠</div>
-            <div class="card-title">
-              <h3>El primer focolar</h3>
-            </div>
-            <span class="card-year">1944</span>
+      <section class="timeline-section page-section" id="historia" aria-labelledby="timeline-title">
+        <div class="section-heading timeline-heading">
+          <div>
+            <span class="section-kicker">Historia</span>
+            <h2 id="timeline-title">De un refugio a los cinco continentes</h2>
           </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>
-              El primer focolar nació en Trento en 1944. No era una comunidad religiosa tradicional, sino un simple apartamento donde las jóvenes vivían juntas, compartían sus bienes y se dedicaban al servicio de los más necesitados. Desde allí comenzaron a difundir su experiencia y a atraer a otras personas, incluidos hombres (focolarinos), familias, jóvenes y sacerdotes.
-	          </p>
-          </div>
+          <p>Abrí cada momento para conocer la historia.</p>
         </div>
 
-                <!-- Reconocimiento de la Iglesia -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/aprobacion.jpg">
-          <div class="card-header">
-            <div class="card-icon">⛪</div>
-            <div class="card-title">
-              <h3>Reconocimiento de la Iglesia</h3>
-            </div>
-            <span class="card-year">1962</span>
-          </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>
-              El rápido crecimiento del movimiento llevó a que la Iglesia lo estudiara. En 1962 obtuvo su primera aprobación oficial como Obra de María, nombre que se le dio al Movimiento de los Focolares. Con el tiempo se reconoció su estructura, sus ramas y su espiritualidad, basada en la unidad y la presencia de Jesús en medio de la comunidad.
-	          </p>
-          </div>
-        </div>
-        
-                      <!-- Regla de oro -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/regla.jpg">
-          <div class="card-header">
-            <div class="card-icon">💛</div>
-            <div class="card-title">
-              <h3>Regla de oro</h3>
-            </div>
-          </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>Existe una ley universal, que se encuentra en los diversos libros sagrados de las religiones del mundo, que es única por su presencia en todas las culturas: “Haz a los demás lo que te gustaría que te hicieran a ti y no hagas a los demás lo que no te gustaría que te hicieran ”. <br/>
-              ¡Es tan valioso que se le llama la “Regla de Oro”! Se expresa de diferentes formas en los libros sagrados de las principales religiones y en los textos sapienciales de muchas culturas.
-            </p>
-            <ul>
-              <li>Encuentro personal, perdón y proyectos comunes</li>
-            </ul>
-          </div>
-        </div>
-
-                <!-- Diálogo interreligioso -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/dialogo.jpg">
-          <div class="card-header">
-            <div class="card-icon">🗣</div>
-            <div class="card-title">
-              <h3>Diálogo interreligioso</h3>
-            </div>
-          </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>
-              El carisma de la unidad impulsó a los Focolares a abrirse al diálogo con personas de otras religiones, así como con agnósticos y no creyentes. Su enfoque se basa en “amar primero” y en encontrar puntos comunes para trabajar por la paz. En varios países han surgido iniciativas interreligiosas y proyectos de reconciliación.
-	          </p>
-          </div>
-        </div>
-
-
-                        <!-- Expansión -->
-        <div class="intro-card" data-img="../aadocumentos/imagenes/introduccion/expansion.jpg">
-          <div class="card-header">
-            <div class="card-icon">🗺</div>
-            <div class="card-title">
-              <h3>Expansión</h3>
-            </div>
-            <span class="card-year">1943-Hoy</span>
-          </div>
-          <button class="expand-btn" onclick="toggleCard(this)">
-            <span class="btn-text">Leer más</span>
-            <span class="btn-icon">+</span>
-          </button>
-          <div class="card-expanded">
-            <p>
-              Desde los años 50, los Focolares se expandieron a otros países europeos y luego a todos los continentes. Hoy están presentes en más de 180 países, con iniciativas espirituales, sociales, culturales y económicas. Su mensaje de unidad y fraternidad atrajo a personas de todas las edades y culturas.
-      	    </p>
-          </div>
-        </div>
-        
-  <!-- Cierre del contenedor principal tras la última card -->
-      </div> <!-- .cards-grid -->
-    </div>   <!-- .intro-container -->
-  </main>
-  
-        <!-- Modal "Leer más" -->
-        <div class="intro-modal-overlay" id="introModalOverlay">
-          <div class="intro-modal">
-            <img id="introModalImage" class="modal-image" src="../aadocumentos/imagenes/guitarra.jpg" alt="Detalle">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title" id="introModalTitle">Título</h3>
-                <button class="modal-close" onclick="closeIntroModal()">✕</button>
+        <div class="timeline">
+          <details class="timeline-item" open>
+            <summary>
+              <span class="timeline-year">1943</span>
+              <span class="timeline-summary"><strong>Un sí que da origen a una historia</strong><small>Trento, durante la Segunda Guerra Mundial</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content">
+              <img src="../aadocumentos/imagenes/introduccion/guerra.png" alt="Habitantes y soldados en una calle de Trento durante la guerra">
+              <div>
+                <p>El 7 de diciembre de 1943, Chiara Lubich, una joven maestra de 23 años, se consagró para siempre a Dios. Esa fecha es reconocida como el nacimiento del Movimiento.</p>
+                <p>Mientras la guerra destruía casas y certezas, Chiara y sus primeras compañeras descubrieron en el Evangelio una vida que podía recomenzar desde el amor concreto: compartir, acompañar y servir a quienes más sufrían.</p>
+                <a href="https://www.focolare.org/es/7-de-diciembre-de-1943-nacimiento-de-los-focolares/" target="_blank" rel="noopener noreferrer">Leer el relato oficial ↗</a>
               </div>
-              <p class="modal-subtitle" id="introModalSubtitle"></p>
-              <div id="introModalBody"></div>
             </div>
-          </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">1944</span>
+              <span class="timeline-summary"><strong>El primer focolar</strong><small>Una vida compartida que se vuelve comunidad</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content">
+              <img src="../aadocumentos/imagenes/introduccion/primeras.jpg" alt="Chiara Lubich junto a algunas de sus primeras compañeras">
+              <div>
+                <p>Después de un fuerte bombardeo, la familia de Chiara dejó Trento, pero ella decidió permanecer allí. Junto a sus primeras compañeras compartió un apartamento en Piazza Cappuccini.</p>
+                <p>No buscaban fundar una institución: querían vivir el Evangelio juntas, poner los bienes en común y responder a las necesidades de las personas cercanas. Así nació el primer “focolar”, palabra italiana que evoca el fuego del hogar.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">1949</span>
+              <span class="timeline-summary"><strong>Nace la Mariápolis</strong><small>Una comunidad temporal en las Dolomitas</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content text-only">
+              <div>
+                <p>Durante los veranos, Chiara, sus primeras compañeras y un número creciente de personas se reunían en las montañas cercanas a Trento para vivir una experiencia de fraternidad.</p>
+                <p>De esos encuentros nació la <strong>Mariápolis</strong>, la “ciudad de María”: un laboratorio de convivencia donde personas de edades y vocaciones diferentes intentaban poner en práctica el amor recíproco.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">1961</span>
+              <span class="timeline-summary"><strong>Comienza el diálogo ecuménico</strong><small>Encuentro con pastores luteranos en Alemania</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content text-only">
+              <div>
+                <p>En Darmstadt, Alemania, Chiara se encontró con pastores luteranos interesados en conocer la espiritualidad de la unidad. Ese encuentro marcó el comienzo del diálogo ecuménico del Movimiento.</p>
+                <p>Con el tiempo, esta experiencia creció como un camino de amistad y colaboración entre cristianos de distintas Iglesias.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">1962</span>
+              <span class="timeline-summary"><strong>La Obra de María</strong><small>Primera aprobación pontificia</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content text-only">
+              <div>
+                <p>El papa Juan XXIII reconoció al Movimiento con el nombre oficial de <strong>Obra de María</strong>, mediante una primera aprobación pontificia <em>ad experimentum</em>.</p>
+                <p>El reconocimiento acompañó el crecimiento de una realidad que ya reunía a jóvenes, adultos, familias, sacerdotes, religiosos y personas comprometidas en distintos ámbitos sociales.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">1977</span>
+              <span class="timeline-summary"><strong>El diálogo entre religiones</strong><small>Un camino que atraviesa fronteras</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content">
+              <img src="../aadocumentos/imagenes/introduccion/dialogo.jpg" alt="Chiara Lubich dialogando con representantes budistas">
+              <div>
+                <p>El diálogo forma parte del ADN del Movimiento: con cristianos de distintas Iglesias, fieles de otras religiones y personas sin una referencia religiosa.</p>
+                <p>En 1977, el Premio Templeton recibido por Chiara en Londres marcó el comienzo oficial de un diálogo interreligioso que ya venía creciendo mediante relaciones de amistad y colaboración.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">1991</span>
+              <span class="timeline-summary"><strong>Economía de Comunión</strong><small>Una propuesta nacida en Brasil</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content text-only">
+              <div>
+                <p>Durante una visita a la Mariápolis Araceli, cerca de San Pablo, Chiara lanzó la Economía de Comunión: una propuesta para que empresas y personas pusieran la economía al servicio de la fraternidad.</p>
+                <p>El proyecto busca crear trabajo, compartir recursos y contribuir a una cultura económica en la que ninguna persona quede excluida.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">2007</span>
+              <span class="timeline-summary"><strong>Nace el Instituto Universitario Sophia</strong><small>Formación e investigación al servicio de la unidad</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content text-only">
+              <div>
+                <p>El 7 de diciembre se erigió mediante decreto pontificio el Instituto Universitario Sophia, con sede en la ciudadela de Loppiano, Italia.</p>
+                <p>El proyecto busca poner en diálogo distintas disciplinas académicas desde una cultura de la unidad. La firma de su decreto fue el último acto oficial realizado por Chiara Lubich.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">2008</span>
+              <span class="timeline-summary"><strong>El legado de Chiara continúa</strong><small>Una vida entregada a la fraternidad universal</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content text-only">
+              <div>
+                <p>Chiara Lubich murió el 14 de marzo de 2008 en su casa de Rocca di Papa, cerca de Roma.</p>
+                <p>Su legado continúa en comunidades, ciudadelas, proyectos sociales, iniciativas culturales y caminos de diálogo que siguen trabajando por la unidad en todo el mundo.</p>
+              </div>
+            </div>
+          </details>
+
+          <details class="timeline-item">
+            <summary>
+              <span class="timeline-year">Hoy</span>
+              <span class="timeline-summary"><strong>Una red mundial de fraternidad</strong><small>Comunidades, proyectos y ciudadelas</small></span>
+              <span class="timeline-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="timeline-content">
+              <img src="../aadocumentos/imagenes/introduccion/expansion.jpg" alt="Mapa del mundo conectado por una red de puntos luminosos">
+              <div>
+                <p>Actualmente, el Movimiento está difundido en 147 países. Sus comunidades llevan la espiritualidad de la unidad a la familia, la educación, la economía, la política, la cultura, el diálogo y el compromiso social.</p>
+                <p>La propuesta continúa siendo sencilla y exigente: transformar las relaciones cotidianas para hacer visible que la fraternidad es posible.</p>
+              </div>
+            </div>
+          </details>
         </div>
-  
-        <!-- Scripts -->
-        <script src="introduccion.js"></script>
+      </section>
+
+      <section class="people-section page-section" id="protagonistas" aria-labelledby="people-title">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Protagonistas</span>
+            <h2 id="people-title">Rostros que hicieron camino</h2>
+          </div>
+          <p>Una historia construida en comunidad.</p>
+        </div>
+
+        <div class="people-grid">
+          <article class="person-card person-featured">
+            <img src="../aadocumentos/imagenes/introduccion/Chiara_lubich.jpg" alt="Retrato de Chiara Lubich">
+            <div>
+              <span class="person-years">1920–2008</span>
+              <h3>Chiara Lubich</h3>
+              <p>Fundadora del Movimiento. Su vida estuvo dedicada a la comunión, la fraternidad y la paz entre personas de Iglesias, religiones y convicciones diferentes.</p>
+              <a href="https://www.focolare.org/es/quienes-somos/#chiara-lubich" target="_blank" rel="noopener noreferrer">Conocer su vida ↗</a>
+            </div>
+          </article>
+
+          <!-- Pendiente: reemplazar el monograma por una fotografía real de Igino Giordani. -->
+          <article class="person-card compact-person">
+            <span class="person-monogram" aria-hidden="true">IG</span>
+            <div><span class="person-role">Cofundador</span><h3>Igino Giordani</h3><p>Escritor, periodista, político y padre de familia. Ayudó a desplegar la dimensión social y cultural del carisma de la unidad.</p></div>
+          </article>
+
+          <!-- Pendiente: reemplazar el monograma por una fotografía real de Pasquale Foresi. -->
+          <article class="person-card compact-person">
+            <span class="person-monogram" aria-hidden="true">PF</span>
+            <div><span class="person-role">Cofundador</span><h3>Pasquale Foresi</h3><p>Teólogo y primer focolarino sacerdote. Contribuyó a los estatutos, la formación y las primeras obras del Movimiento.</p></div>
+          </article>
+
+          <article class="person-card first-companions">
+            <img src="../aadocumentos/imagenes/introduccion/primeras.jpg" alt="Grupo de las primeras compañeras del Movimiento">
+            <div><span class="person-role">Primeras compañeras</span><h3>Una comunidad desde el comienzo</h3><p>Junto a Chiara, un grupo de jóvenes compartió la decisión de vivir el Evangelio con radicalidad. Natalia Dallapiccola, Graziella De Luca, Giosi Guella y otras primeras focolarinas pusieron sus bienes, capacidades y vida cotidiana al servicio de una experiencia comunitaria. No fueron espectadoras: sostuvieron, desarrollaron y llevaron la espiritualidad de la unidad a nuevos lugares.</p><a href="https://www.focolare.org/es/7-de-diciembre-de-1943-nacimiento-de-los-focolares/" target="_blank" rel="noopener noreferrer">Conocer los primeros años ↗</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="spirituality-section page-section" id="espiritualidad" aria-labelledby="spirituality-title">
+        <div class="spirituality-intro">
+          <span class="section-kicker">Una forma de vivir</span>
+          <h2 id="spirituality-title">La unidad empieza en lo cotidiano</h2>
+          <p>No es solamente una idea: es una manera de mirar y tratar a cada persona.</p>
+        </div>
+
+        <div class="pillar-grid">
+          <article class="pillar-card"><span class="pillar-number">01</span><h3>Amar primero</h3><p>Dar el primer paso sin esperar que la otra persona cambie o responda de la misma manera.</p></article>
+          <article class="pillar-card"><span class="pillar-number">02</span><h3>Hacerse uno</h3><p>Escuchar con profundidad y acercarse a la realidad del otro para comprenderla desde adentro.</p></article>
+          <article class="pillar-card"><span class="pillar-number">03</span><h3>Construir puentes</h3><p>Transformar las diferencias en oportunidades de diálogo, colaboración y enriquecimiento mutuo.</p></article>
+          <article class="pillar-card golden-rule"><span class="pillar-number">✦</span><h3>La Regla de Oro</h3><p>“Hacé a los demás lo que te gustaría que hicieran por vos”. Una invitación presente en culturas y religiones de todo el mundo.</p></article>
+        </div>
+      </section>
+
+      <section class="next-section page-section" id="seguir" aria-labelledby="next-title">
+        <div class="next-copy">
+          <span class="section-kicker">El recorrido continúa</span>
+          <h2 id="next-title">La historia también se escribe hoy</h2>
+          <p>Conocé la vida actual del Movimiento, acercate a una comunidad o escribinos si querés saber más.</p>
+        </div>
+        <div class="next-actions">
+          <a class="primary-action" href="https://www.focolare.org/es/" target="_blank" rel="noopener noreferrer"><span>Sitio oficial</span><span aria-hidden="true">↗</span></a>
+          <a class="secondary-action" href="https://mariapolis.org.ar/" target="_blank" rel="noopener noreferrer"><span>Mariápolis Lía</span><span aria-hidden="true">↗</span></a>
+          <a class="secondary-action" href="../links/links.html"><span>Contactanos</span><span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <footer class="sources-footer">
+        <p>Contenido elaborado a partir de información institucional del Movimiento de los Focolares.</p>
+        <div><a href="https://www.focolare.org/es/quienes-somos/" target="_blank" rel="noopener noreferrer">Quiénes somos ↗</a><a href="https://www.focolare.org/es/7-de-diciembre-de-1943-nacimiento-de-los-focolares/" target="_blank" rel="noopener noreferrer">Nacimiento de los Focolares ↗</a></div>
+      </footer>
     </div>
-  </body>
+  </main>
+
+  <script src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
+  <script type="module" src="../auth.js?v=20260712-roles1"></script>
+  <script src="introduccion.js"></script>
+</body>
 </html>

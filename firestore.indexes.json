@@ -1,0 +1,23 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "canal_publicaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "estado", "order": "ASCENDING" },
+        { "fieldPath": "rolesDestinatarios", "order": "ASCENDING" },
+        { "fieldPath": "fechaPublicacion", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "canal_publicaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "estado", "order": "ASCENDING" },
+        { "fieldPath": "rolesDestinatarios", "arrayConfig": "CONTAINS" },
+        { "fieldPath": "fechaPublicacion", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

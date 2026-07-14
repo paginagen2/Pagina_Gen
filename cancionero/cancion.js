@@ -1,5 +1,5 @@
 // Importar Firebase
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260713-speed1';
 // Variables globales
 let cancionActual = null;
 let tonoActual = 0;
@@ -36,10 +36,7 @@ async function cargarCancion(id) {
     try {
         console.log('🔍 Buscando canción ID:', id);
         
-        const canciones = await DatabaseService.getCanciones();
-        console.log('📚 Canciones obtenidas:', canciones.length);
-        
-        cancionActual = canciones.find(c => c.id === id);
+        cancionActual = await DatabaseService.getCancionPorId(id);
         
         if (cancionActual) {
             console.log('✅ Canción encontrada:', cancionActual.titulo);
@@ -50,8 +47,7 @@ async function cargarCancion(id) {
             console.log('👁️ Reproducciones incrementadas');
             
         } else {
-            console.log('❌ Canción no encontrada en la lista');
-            console.log('🔍 IDs disponibles:', canciones.map(c => c.id));
+            console.log('❌ Canción no encontrada');
             mostrarError();
         }
         

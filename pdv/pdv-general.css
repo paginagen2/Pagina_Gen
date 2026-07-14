@@ -1,0 +1,226 @@
+/* ===================================
+   PALABRA DE VIDA - ESTILOS GENERALES
+   =================================== */
+
+:root {
+  --primary-color: #FF8A65;
+  --secondary-color: #FFAB91;
+  --third-color: #FFCCBC;
+  --tittle-color: #FFFFFF;
+  --experiencia-title-color: #181515;
+  --testimonio-color: #3E2723;
+  --p-color: #E0E0E0;
+  --gradient-primary: linear-gradient(135deg, #BF360C, #D84315);
+  --gradient-secondary: linear-gradient(135deg, #FFCCBC, #FFAB91);
+  --gradient-audio: linear-gradient(135deg, #FF8A65, #FF7043);
+  --gradient-audio-border: linear-gradient(135deg, #D84315, #BF360C);
+  --gradient-cita: linear-gradient(135deg, #FF8A65, #FF7043);
+  --gradient-testimonio: linear-gradient(135deg, #d87151, #FFAB91);
+}
+
+body {
+  background: #111;
+  margin: 0;
+  padding: 0;
+}
+
+.palabra-container {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  padding: 2rem 1rem;
+}
+
+.palabra-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 1rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.palabra-header h1 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.fecha-mes {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cita-principal {
+  background: var(--gradient-primary);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 12px;
+  text-align: center;
+  border-left: 4px solid var(--secondary-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+  transition: all 0.3s ease;
+}
+
+.cita-principal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+.cita-principal blockquote {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--tittle-color);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  border: none;
+  padding: 0;
+}
+
+.cita-principal cite {
+  color: var(--tittle-color);
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.audio-section {
+  background: var(--gradient-audio);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+  text-align: center;
+  border: 1px solid var(--secondary-color);
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.audio-section h3 {
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.audio-player {
+  width: 100%;
+  max-width: 400px;
+  background: var(--gradient-audio-border);
+  border-radius: 50px;
+  padding: 5px;
+}
+
+.audio-fallback-msg p {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.audio-fallback-link {
+  display: inline-block;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.audio-fallback-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+}
+
+.palabra-contenido {
+  margin-top: 2rem;
+}
+
+.palabra-contenido > div {
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.desarrollo {
+  margin-bottom: 1.5rem;
+}
+
+.desarrollo p {
+  margin-bottom: 1rem;
+  color: var(--p-color);
+  line-height: 1.7;
+}
+
+.cita-repetida {
+  background: var(--gradient-cita);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  text-align: center;
+  border-left: 3px solid var(--secondary-color);
+  border-right: 3px solid var(--secondary-color);
+}
+
+.cita-repetida em {
+  color: var(--tittle-color);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.testimonio {
+  background: var(--gradient-testimonio);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-color);
+  margin: 1.5rem 0;
+  text-align: justify;
+  border-right: 2px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.testimonio:hover {
+  transform: translateX(5px);
+}
+
+.testimonio h4 {
+  color: var(--experiencia-title-color);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.testimonio p {
+  color: #3E2723;
+  margin: 0 0 1rem 0;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.autor {
+  text-align: right;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--primary-color);
+}
+
+.autor p {
+  color: var(--primary-color);
+  margin: 0;
+  font-weight: 600;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .palabra-header h1 {
+    font-size: 2rem;
+  }
+  .cita-principal blockquote {
+    font-size: 1.2rem;
+  }
+}

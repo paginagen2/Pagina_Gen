@@ -3,116 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b10">
   <title id="pageTitle">Canción - Cancionero Gen</title>
+  <meta name="description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Canción - Cancionero Gen">
+  <meta property="og:description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Canción - Cancionero Gen">
+  <meta name="twitter:description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
+  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
-  <link rel="stylesheet" href="cancion.css">
-  <!-- Eliminar esta línea para evitar declarar dos veces variables/funciones -->
-  <!-- <script src="cancion.js"></script> -->
-  <link rel="icon" href="../aadocumentos/svg/guitarra.svg" type="image/x-icon">
+  <link rel="icon" href="../aadocumentos/svg/guitarra.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
+  <link rel="stylesheet" href="cancion.css?v=20260714-song-view">
+  <link rel="stylesheet" href="chord-diagrams.css?v=20260714">
 </head>
 <body>
-  <!-- Header mejorado -->
+  <svg class="icon-library" aria-hidden="true">
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6M9 12h11"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6.5h7l2 2h9v10.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="5"/><path d="m11.5 11.5 8-8M16 7l2 2M18 5l2 2"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24"><path d="M5 5h14M12 5v14M8 19h8"/></symbol>
+    <symbol id="i-speed" viewBox="0 0 24 24"><path d="M4.9 19a9 9 0 1 1 14.2 0M12 13l4-4"/><circle cx="12" cy="13" r="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 4v6h6M4.7 15a8 8 0 1 0 1.1-8.4L4 10"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7Z"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 9l11-2"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="17" cy="16" rx="3" ry="2"/></symbol>
+    <symbol id="i-guitar" viewBox="0 0 24 24"><path d="m14 6 4-4 4 4-4 4M15.5 8.5l-6.2 6.2M6.5 12.5c-1.6-.2-3.2.4-4 1.8-1.2 2.1-.1 5.1 2.4 6.5 2.5 1.5 5.6.8 6.8-1.3.8-1.4.5-3-.2-4.4l4.7-4.7-3-3-4.7 4.7c-.6-.3-1.3-.5-2-.6Z"/><circle cx="7.5" cy="16.5" r="1.5"/></symbol>
+    <symbol id="i-piano" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M7 4v10M12 4v10M17 4v10M5 14v6M9.5 14v6M14.5 14v6M19 14v6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js"></script>
+
   <header class="cancion-header">
-    <div class="header-content">
-      <a href="cancionero.html" class="back-btn">
-        ← Cancionero
+    <div class="song-header-inner">
+      <a href="cancionero.html" class="back-btn" aria-label="Volver al cancionero">
+        <svg><use href="#i-arrow-left"/></svg><span>Volver al cancionero</span>
       </a>
-      
-      <div class="song-info">
-        <h2 id="headerTitulo">Cargando...</h2>
-        <span id="headerArtista" class="artista-link" onclick="abrirArtista()">-</span>
+      <div class="song-heading">
+        <span class="eyebrow">Cancionero Gen</span>
+        <h1 id="headerTitulo">Cargando canción…</h1>
+        <a id="headerArtista" class="artista-link" href="cancionero.html#artistas">
+          <svg><use href="#i-user"/></svg><span>-</span>
+        </a>
       </div>
-      
-      <!-- Dentro del header, en .header-actions: agregar el botón antes de los botones de tono -->
-      <div class="header-actions">
-      <button class="action-btn" onclick="toggleCifrado()" id="btnCifrado" title="Cambiar cifrado">
-      C→Do
-      </button>
-      
-      <!-- Botones de tono existentes -->
-      <button class="action-btn" onclick="cambiarTono(-1)" title="Bajar tono">
-        🎵 -
-      </button>
-      <button class="action-btn" onclick="cambiarTono(1)" title="Subir tono">
-        🎵 +
-      </button>
-      <button class="action-btn" onclick="cambiarVelocidad(-1)" title="Velocidad -">⚡ -</button>
-      <button class="action-btn" onclick="cambiarVelocidad(1)" title="Velocidad +">⚡ +</button>
-      <div class="separator"></div>
-      
-      <button class="action-btn" onclick="toggleAutoScroll()" id="btnAutoScroll" title="Auto-scroll">
-        ▶️ Play (A)
-      </button>
-      <button class="action-btn" onclick="resetearConfiguracion()" title="Resetear">
-        ↻ Reset
+      <button class="header-print" type="button" onclick="imprimirCancion()" title="Imprimir canción">
+        <svg><use href="#i-print"/></svg><span>Imprimir</span>
       </button>
     </div>
   </header>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <a href="../index.html" class="menu-item">
-      <img src="../aadocumentos/svg/casa.svg" alt="Inicio" class="menu-icon">
-      <span class="menu-text">Inicio</span>
-    </a>
-    <a href="cancionero.html" class="menu-item active">
-      <img src="../aadocumentos/svg/guitarra.svg" alt="Cancionero" class="menu-icon">
-      <span class="menu-text">Cancionero</span>
-    </a>
-    <a href="../gen_animadores/gen-animadores.html" class="menu-item">
-      <img src="../aadocumentos/svg/vida.svg" alt="Gen Animadores" class="menu-icon">
-      <span class="menu-text">Gen Animadores</span>
-    </a>
-    <a href="../biblioteca/biblioteca.html" class="menu-item">
-      <img src="../aadocumentos/svg/libros.svg" alt="Biblioteca" class="menu-icon">
-      <span class="menu-text">Biblioteca</span>
-    </a>
-    <a href="../introduccion/introduccion.html" class="menu-item">
-      <img src="../aadocumentos/svg/libro.svg" alt="Sobre el Movimiento" class="menu-icon">
-      <span class="menu-text">Sobre el Movimiento</span>
-    </a>
-  </div>
-
-
-  <!-- Contenido principal -->
-  <main class="cancion-main">
-    
-    <!-- Información compacta -->
-    <!-- Sección info: quitar género -->
-    <section class="cancion-info-compact">
-      <div class="info-row">
-        <div class="info-item">
-          📂 <span id="cancionCategoria">-</span>
-        </div>
-        <!-- Removido género -->
-        <!-- <div class="info-item">
-          🎵 <span id="cancionGenero">-</span>
-        </div> -->
-        <div class="info-item">
-          👁️ <span id="cancionVistas">0</span> vistas
-        </div>
-        <div class="info-item">
-          🎸 Tono: <span id="tonoActual">Original</span>
-        </div>
-        <div class="info-item">
-          ⚡ Velocidad: <span id="velocidadActual">Normal</span>
-        </div>
+  <main class="cancion-main" id="contenido-principal">
+    <section class="song-overview" aria-label="Información de la canción">
+      <div class="metadata-list">
+        <div class="metadata-item"><svg><use href="#i-folder"/></svg><span><small>Categoría</small><strong id="cancionCategoria">-</strong></span></div>
+        <div class="metadata-item"><svg><use href="#i-eye"/></svg><span><small>Vistas</small><strong id="cancionVistas">0</strong></span></div>
+        <button class="metadata-item like-button" id="likeButton" type="button" aria-pressed="false" aria-label="Dar me gusta a esta canción">
+          <svg><use href="#i-heart"/></svg><span><small>Me gusta</small><strong id="cancionLikes">0</strong></span>
+        </button>
+        <div class="metadata-item"><svg><use href="#i-key"/></svg><span><small>Tono</small><strong id="tonoActual">Original</strong></span></div>
       </div>
     </section>
 
-    <!-- Letra con acordes -->
-    <section class="letra-section">
-      <div class="letra-container">
-        <div class="letra-content" id="letraContent">
-          <div class="loading-letra">
-            <div class="loading-spinner"></div>
-            <p>Cargando letra...</p>
+    <section class="song-workspace">
+      <aside class="song-tools" aria-label="Herramientas de la canción">
+        <div class="tools-heading"><span>Herramientas</span><small>Personaliza la lectura</small></div>
+
+        <div class="tool-group">
+          <span class="tool-label">Cifrado</span>
+          <button class="tool-wide" type="button" onclick="toggleCifrado()" id="btnCifrado" title="Cambiar entre cifrado americano y español">
+            <span class="cifrado-sample">C</span><span>Americano / Español</span><strong>C → Do</strong>
+          </button>
+        </div>
+
+        <div class="tool-group">
+          <div class="tool-label-row"><span class="tool-label">Tono</span><output id="tonoControlValue">Original</output></div>
+          <div class="stepper" role="group" aria-label="Cambiar tono">
+            <button type="button" onclick="cambiarTono(-1)" title="Bajar medio tono" aria-label="Bajar medio tono"><svg><use href="#i-minus"/></svg></button>
+            <span><svg><use href="#i-key"/></svg> Transponer</span>
+            <button type="button" onclick="cambiarTono(1)" title="Subir medio tono" aria-label="Subir medio tono"><svg><use href="#i-plus"/></svg></button>
           </div>
         </div>
+
+        <div class="tool-group">
+          <span class="tool-label">Tamaño de letra</span>
+          <div class="stepper" role="group" aria-label="Cambiar tamaño de letra">
+            <button type="button" onclick="cambiarTamano(-1)" title="Reducir letra" aria-label="Reducir letra"><span class="small-a">A</span></button>
+            <span><svg><use href="#i-text"/></svg> Texto</span>
+            <button type="button" onclick="cambiarTamano(1)" title="Aumentar letra" aria-label="Aumentar letra"><span class="large-a">A</span></button>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <div class="tool-label-row"><span class="tool-label">Velocidad</span><output id="velocidadActual">Normal</output></div>
+          <div class="stepper" role="group" aria-label="Cambiar velocidad de desplazamiento">
+            <button type="button" onclick="cambiarVelocidad(-1)" title="Reducir velocidad" aria-label="Reducir velocidad"><svg><use href="#i-minus"/></svg></button>
+            <span><svg><use href="#i-speed"/></svg> Auto-scroll</span>
+            <button type="button" onclick="cambiarVelocidad(1)" title="Aumentar velocidad" aria-label="Aumentar velocidad"><svg><use href="#i-plus"/></svg></button>
+          </div>
+          <input id="scrollSpeed" type="range" min="1" max="10" value="5" tabindex="-1" aria-hidden="true">
+        </div>
+
+        <button class="autoscroll-btn" type="button" onclick="toggleAutoScroll()" id="btnAutoScroll" aria-pressed="false">
+          <svg><use href="#i-play"/></svg><span>Iniciar auto-scroll</span><kbd>A</kbd>
+        </button>
+        <button class="reset-btn" type="button" onclick="resetearConfiguracion()"><svg><use href="#i-reset"/></svg>Restablecer ajustes</button>
+      </aside>
+
+      <div class="song-content-column">
+        <section class="used-chords" aria-labelledby="usedChordsTitle">
+          <div class="section-heading">
+            <div><span class="section-kicker">Guía rápida</span><h2 id="usedChordsTitle">Acordes utilizados</h2></div>
+            <p>Selecciona un acorde para ver cómo tocarlo.</p>
+          </div>
+          <div class="used-chords-list" id="usedChordsList" aria-live="polite">
+            <span class="chords-loading">Los acordes aparecerán al cargar la canción.</span>
+          </div>
+        </section>
+
+        <article class="letra-section" aria-labelledby="lyricsTitle">
+          <header class="lyrics-header">
+            <div><span class="section-kicker">Letra y acordes</span><h2 id="lyricsTitle">Canción</h2></div>
+            <span class="lyrics-hint"><svg><use href="#i-music"/></svg>Toca un acorde para consultarlo</span>
+          </header>
+          <div class="letra-container">
+            <div class="letra-content texto-grande" id="letraContent" aria-live="polite" aria-busy="true">
+              <div class="loading-letra"><div class="loading-spinner"></div><p>Cargando letra…</p></div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   </main>
 
-  <script type="module" src="cancion.js"></script>
+  <div class="chord-drawer-backdrop" id="chordDrawerBackdrop" hidden></div>
+  <aside class="chord-drawer" id="chordDrawer" role="dialog" aria-modal="true" aria-labelledby="chordDrawerTitle" hidden>
+    <header class="drawer-header">
+      <div><span class="section-kicker">Detalle del acorde</span><h2 id="chordDrawerTitle">C</h2></div>
+      <button type="button" class="drawer-close" id="closeChordDrawer" aria-label="Cerrar detalle del acorde"><svg><use href="#i-close"/></svg></button>
+    </header>
+    <div class="instrument-tabs" role="tablist" aria-label="Instrumento">
+      <button type="button" id="guitarTab" role="tab" aria-selected="true" aria-controls="guitarChordPanel"><svg><use href="#i-guitar"/></svg>Guitarra</button>
+      <button type="button" id="pianoTab" role="tab" aria-selected="false" aria-controls="pianoChordPanel"><svg><use href="#i-piano"/></svg>Piano</button>
+    </div>
+    <div class="chord-diagram-panel" id="guitarChordPanel" role="tabpanel" aria-labelledby="guitarTab"><div id="guitarChordDiagram" class="chord-diagram-placeholder">Diagrama de guitarra</div></div>
+    <div class="chord-diagram-panel" id="pianoChordPanel" role="tabpanel" aria-labelledby="pianoTab" hidden><div id="pianoChordDiagram" class="chord-diagram-placeholder">Teclas del piano</div></div>
+    <p class="drawer-note" id="chordDrawerNote">La posición mostrada es una referencia práctica.</p>
+  </aside>
+
+  <div class="song-toast" id="songToast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="../auth.js?v=20260714"></script>
+  <script type="module" src="cancion.js?v=20260714-song-view-2"></script>
 </body>
 </html>
