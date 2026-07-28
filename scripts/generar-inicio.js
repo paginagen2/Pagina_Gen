@@ -1,13 +1,15 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { cert, initializeApp } = require('firebase-admin/app');
-const { getFirestore } = require('firebase-admin/firestore');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_PATH = path.join(PROJECT_ROOT, 'datos', 'inicio.json');
-const SONGBOOK_OUTPUT_DIR = path.join(PROJECT_ROOT, 'datos', 'cancionero');
 const TIME_ZONE = 'America/Argentina/Buenos_Aires';
-const SONGBOOK_PAGE_SIZE = 15;
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'pagina-gen';
+// La API key web identifica el proyecto; no es una credencial administrativa.
+// El acceso sigue limitado por firestore.rules.
+const FIREBASE_WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY
+  || 'AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE';
+const RUN_QUERY_URL = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents:runQuery?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`;
 
 function argentinaDateParts(date = new Date()) {
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -26,15 +28,80 @@ function argentinaDateParts(date = new Date()) {
   };
 }
 
-function timestampValue(value) {
-  if (!value) return 0;
-  if (typeof value.toMillis === 'function') return value.toMillis();
-  const parsed = new Date(value).getTime();
-  return Number.isFinite(parsed) ? parsed : 0;
+function encodeValue(value) {
+  if (value === null) return { nullValue: null };
+  if (Array.isArray(value)) return { arrayValue: { values: value.map(encodeValue) } };
+  if (value instanceof Date) return { timestampValue: value.toISOString() };
+  if (typeof value === 'boolean') return { booleanValue: value };
+  if (typeof value === 'number') {
+    return Number.isInteger(value) ? { integerValue: String(value) } : { doubleValue: value };
+  }
+  return { stringValue: String(value) };
 }
 
-function serializeDocument(document) {
-  return { id: document.id, ...document.data() };
+function decodeValue(value = {}) {
+  if ('nullValue' in value) return null;
+  if ('stringValue' in value) return value.stringValue;
+  if ('booleanValue' in value) return value.booleanValue;
+  if ('integerValue' in value) return Number(value.integerValue);
+  if ('doubleValue' in value) return Number(value.doubleValue);
+  if ('timestampValue' in value) return value.timestampValue;
+  if ('referenceValue' in value) return value.referenceValue;
+  if ('arrayValue' in value) return (value.arrayValue.values || []).map(decodeValue);
+  if ('mapValue' in value) {
+    return Object.fromEntries(Object.entries(value.mapValue.fields || {}).map(([key, item]) => [key, decodeValue(item)]));
+  }
+  return undefined;
+}
+
+function decodeDocument(document) {
+  const id = document.name.split('/').pop();
+  const data = Object.fromEntries(Object.entries(document.fields || {}).map(([key, value]) => [key, decodeValue(value)]));
+  return { id, ...data };
+}
+
+function fieldFilter(fieldPath, op, value) {
+  return { fieldFilter: { field: { fieldPath }, op, value: encodeValue(value) } };
+}
+
+function whereAll(...filters) {
+  const active = filters.filter(Boolean);
+  if (active.length === 1) return active[0];
+  return { compositeFilter: { op: 'AND', filters: active } };
+}
+
+async function runQuery(collectionId, { where, orderBy = [], limit } = {}) {
+  const structuredQuery = {
+    from: [{ collectionId }],
+    ...(where ? { where } : {}),
+    ...(orderBy.length ? {
+      orderBy: orderBy.map(([fieldPath, direction = 'ASCENDING']) => ({
+        field: { fieldPath },
+        direction
+      }))
+    } : {}),
+    ...(limit ? { limit } : {})
+  };
+
+  const response = await fetch(RUN_QUERY_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ structuredQuery }),
+    signal: AbortSignal.timeout(30000)
+  });
+
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Firestore rechazó la consulta de ${collectionId} (${response.status}): ${details}`);
+  }
+
+  const rows = await response.json();
+  return rows.filter(row => row.document).map(row => decodeDocument(row.document));
+}
+
+function timestampValue(value) {
+  const parsed = value ? new Date(value).getTime() : 0;
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
 function selectDailyMeditation(meditations, date) {
@@ -58,55 +125,17 @@ function selectDailyMeditation(meditations, date) {
   return ordered[index];
 }
 
-function publicChannelPost(post, now) {
-  const roles = Array.isArray(post.rolesDestinatarios) ? post.rolesDestinatarios : [];
-  const publicationTime = timestampValue(post.fechaPublicacion);
-  return roles.length === 0
-    && (post.estado === 'publicada' || (post.estado === 'programada' && publicationTime <= now));
-}
-
 function compactNews(item) {
   return {
     id: item.id,
     titulo: item.titulo || 'Novedad Gen',
     descripcion: item.descripcion || item.resumen || '',
     fotoUrl: item.fotoUrl || item.imagenUrl || '',
-    href: item.href || item.enlace || (item.fromChannel ? `canal/canal.html#${item.id}` : '')
+    href: item.href || item.enlace || (item.fromChannel ? `canal/canal.html#${item.id}` : ''),
+    etiquetaCarrusel: item.etiquetaCarrusel || item.categoria || 'Novedad',
+    fechaEventoInicio: item.fechaEventoInicio || '',
+    fechaEventoFin: item.fechaEventoFin || ''
   };
-}
-
-function compactSong(document, likesCount = null) {
-  const song = serializeDocument(document);
-  return {
-    id: song.id,
-    titulo: song.titulo || 'Sin título',
-    artista: song.artista || 'Desconocido',
-    categoria: song.categoria || 'gen',
-    tono: song.tono || song.tonalidad || '',
-    likesCount: likesCount == null ? Number(song.likesCount || 0) : Number(likesCount),
-    reproducciones: Number(song.reproducciones || 0)
-  };
-}
-
-function songRanking(a, b) {
-  return b.likesCount - a.likesCount
-    || b.reproducciones - a.reproducciones
-    || a.titulo.localeCompare(b.titulo, 'es');
-}
-
-function buildArtists(songs) {
-  const artists = new Map();
-  songs.forEach(song => {
-    const current = artists.get(song.artista) || { nombre: song.artista, likesCount: 0, cancionesCount: 0 };
-    current.likesCount += song.likesCount;
-    current.cancionesCount += 1;
-    artists.set(song.artista, current);
-  });
-  return Array.from(artists.values()).sort((a, b) =>
-    b.likesCount - a.likesCount
-    || b.cancionesCount - a.cancionesCount
-    || a.nombre.localeCompare(b.nombre, 'es')
-  );
 }
 
 async function writeJson(filePath, value) {
@@ -117,129 +146,106 @@ async function writeJson(filePath, value) {
   await fs.rename(temporaryPath, filePath);
 }
 
-async function generateSongbookFiles(songs, generatedAt, date) {
-  const resolvedOutput = path.resolve(SONGBOOK_OUTPUT_DIR);
-  const resolvedDataRoot = path.resolve(PROJECT_ROOT, 'datos');
-  if (!resolvedOutput.startsWith(`${resolvedDataRoot}${path.sep}`)) {
-    throw new Error('La carpeta generada del cancionero quedó fuera de datos/.');
-  }
-
-  await fs.rm(resolvedOutput, { recursive: true, force: true });
-  await fs.mkdir(resolvedOutput, { recursive: true });
-
-  const orderedSongs = [...songs].sort(songRanking);
-  const artists = buildArtists(orderedSongs);
-  const categories = {
-    todas: orderedSongs,
-    misa: orderedSongs.filter(song => song.categoria === 'misa'),
-    gen: orderedSongs.filter(song => song.categoria === 'gen'),
-    fogon: orderedSongs.filter(song => song.categoria === 'fogon')
-  };
-
-  const categoryManifest = {};
-  for (const [category, categorySongs] of Object.entries(categories)) {
-    const pageCount = Math.max(1, Math.ceil(categorySongs.length / SONGBOOK_PAGE_SIZE));
-    categoryManifest[category] = { total: categorySongs.length, paginas: pageCount };
-    for (let page = 1; page <= pageCount; page += 1) {
-      const start = (page - 1) * SONGBOOK_PAGE_SIZE;
-      await writeJson(path.join(resolvedOutput, category, `${page}.json`), {
-        categoria: category,
-        pagina: page,
-        total: categorySongs.length,
-        hayMas: page < pageCount,
-        canciones: categorySongs.slice(start, start + SONGBOOK_PAGE_SIZE)
-      });
-    }
-  }
-
-  await writeJson(path.join(resolvedOutput, 'buscar.json'), { canciones: orderedSongs });
-  await writeJson(path.join(resolvedOutput, 'artistas.json'), { artistas });
-  await writeJson(path.join(resolvedOutput, 'inicio.json'), {
-    schemaVersion: 1,
-    fechaGeneracion: date.iso,
-    generadoEn: generatedAt,
-    destacados: orderedSongs.slice(0, 6),
-    artistas: artists.slice(0, 5),
-    categorias: categoryManifest
-  });
-}
-
 async function main() {
-  const serviceAccountRaw = process.env.FIREBASE_SERVICE_ACCOUNT;
-  if (!serviceAccountRaw) throw new Error('Falta el secreto FIREBASE_SERVICE_ACCOUNT.');
-
-  const serviceAccount = JSON.parse(serviceAccountRaw);
-  initializeApp({ credential: cert(serviceAccount) });
-  const db = getFirestore();
   const date = argentinaDateParts();
-  const now = Date.now();
+  const now = new Date();
 
-  const [phrasesSnapshot, meditationsSnapshot, pasapalabraSnapshot, pdvSnapshot, carouselSnapshot, channelSnapshot, songsSnapshot] = await Promise.all([
-    db.collection('frases').get(),
-    db.collection('meditaciones').get(),
-    db.collection('pasapalabra').where('estado', '==', 'publicado').get(),
-    db.collection('pdv').get(),
-    db.collection('carrusel').orderBy('createdAt', 'desc').limit(5).get(),
-    db.collection('canal_publicaciones').get(),
-    db.collection('canciones').where('estado', '==', 'publicado').get()
+  const [
+    phrases,
+    meditations,
+    pasapalabras,
+    pdvs,
+    carousel,
+    publishedChannel,
+    scheduledChannel
+  ] = await Promise.all([
+    runQuery('frases', { limit: 100 }),
+    runQuery('meditaciones', { limit: 500 }),
+    runQuery('pasapalabra', {
+      where: whereAll(
+        fieldFilter('estado', 'EQUAL', 'publicado'),
+        fieldFilter('fecha', 'EQUAL', date.firestore)
+      ),
+      limit: 1
+    }),
+    runQuery('pdv', {
+      where: fieldFilter('estado', 'EQUAL', 'publicado'),
+      limit: 100
+    }),
+    runQuery('carrusel', {
+      orderBy: [['createdAt', 'DESCENDING']],
+      limit: 5
+    }),
+    runQuery('canal_publicaciones', {
+      where: whereAll(
+        fieldFilter('estado', 'EQUAL', 'publicada'),
+        fieldFilter('rolesDestinatarios', 'EQUAL', [])
+      ),
+      orderBy: [['fechaPublicacion', 'DESCENDING']],
+      limit: 5
+    }),
+    runQuery('canal_publicaciones', {
+      where: whereAll(
+        fieldFilter('estado', 'EQUAL', 'programada'),
+        fieldFilter('rolesDestinatarios', 'EQUAL', []),
+        fieldFilter('fechaPublicacion', 'LESS_THAN_OR_EQUAL', now)
+      ),
+      orderBy: [['fechaPublicacion', 'DESCENDING']],
+      limit: 5
+    })
   ]);
 
-  const phrases = phrasesSnapshot.docs.map(serializeDocument).filter(item => item.activa !== false);
-  const meditations = meditationsSnapshot.docs.map(serializeDocument);
-  const pasapalabras = pasapalabraSnapshot.docs.map(serializeDocument);
-  const pdvs = pdvSnapshot.docs.map(serializeDocument).sort((a, b) =>
-    timestampValue(b.fecha || b.fechaCreacion) - timestampValue(a.fecha || a.fechaCreacion));
-  const carousel = carouselSnapshot.docs.map(serializeDocument);
-  const channel = channelSnapshot.docs.map(serializeDocument)
-    .filter(post => publicChannelPost(post, now))
-    .sort((a, b) => timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion));
-
-  const compactSongs = await Promise.all(songsSnapshot.docs.map(async document => {
-    const likesAggregate = await document.ref.collection('likes').count().get();
-    return compactSong(document, likesAggregate.data().count);
-  }));
-
-  const phraseIndex = phrases.length ? Number(date.iso.replaceAll('-', '')) % phrases.length : 0;
-  const phrase = phrases[phraseIndex] || null;
+  const activePhrases = phrases.filter(item => item.activa !== false);
+  const phraseIndex = activePhrases.length ? Number(date.iso.replaceAll('-', '')) % activePhrases.length : 0;
+  const phrase = activePhrases[phraseIndex] || null;
   const meditation = selectDailyMeditation(meditations, date);
-  const pasapalabra = pasapalabras.find(item => item.fecha === date.firestore) || null;
-  const pdv = pdvs[0] || null;
+  const pasapalabra = pasapalabras[0] || null;
+  const pdv = pdvs
+    .filter(item => item.version === 2)
+    .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || ''))
+      || timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion))[0] || null;
+  const channel = [...publishedChannel, ...scheduledChannel]
+    .sort((a, b) => timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion));
 
   const news = [
     ...channel.filter(item => item.destacarEnCarrusel).map(item => ({ ...item, fromChannel: true })),
     ...carousel
   ].slice(0, 5).map(compactNews);
 
-  const generatedAt = new Date().toISOString();
   const output = {
     schemaVersion: 1,
     fechaGeneracion: date.iso,
-    generadoEn: generatedAt,
+    generadoEn: now.toISOString(),
     frase: phrase?.frase || 'Que todos sean uno',
     pasapalabra: pasapalabra ? {
       id: pasapalabra.id,
       titulo: pasapalabra.titulo || 'Pasapalabra del día',
       fecha: pasapalabra.fecha,
-      href: `pasapalabra/pasapalabra_de_hoy.html`
+      href: 'pasapalabra/pasapalabra_de_hoy.html'
     } : null,
     meditacion: meditation ? {
       id: meditation.id,
       titulo: meditation.titulo || 'Reflexión para hoy',
-      href: `meditacion/meditacion_diaria.html`
+      href: 'meditacion/meditacion_diaria.html'
     } : null,
     palabraDeVida: pdv ? {
       id: pdv.id,
       mes: pdv.mes || 'Sin fecha disponible',
       cita: pdv.citaPrincipal || pdv.titulo || 'Leé la Palabra de Vida de este mes',
-      href: `pdv/pdv.html?id=${encodeURIComponent(pdv.urlSlug || pdv.id)}`
+      href: `pdv/pdv.html?id=${encodeURIComponent(pdv.id)}`
+    } : null,
+    canal: channel[0] ? {
+      id: channel[0].id,
+      titulo: channel[0].titulo || channel[0].resumen || 'Nueva publicación',
+      fechaPublicacion: channel[0].fechaPublicacion || null,
+      href: `canal/canal.html#${encodeURIComponent(channel[0].id)}`
     } : null,
     novedades: news
   };
 
   await writeJson(OUTPUT_PATH, output);
-  await generateSongbookFiles(compactSongs, generatedAt, date);
-  console.log(`Inicio diario generado para ${date.iso}: ${OUTPUT_PATH}`);
-  console.log(`Cancionero liviano generado: ${SONGBOOK_OUTPUT_DIR}`);
+  console.log(`Inicio diario generado para ${date.iso}.`);
+  console.log(`Lecturas del proceso diario: ${phrases.length + meditations.length + pasapalabras.length + pdvs.length + carousel.length + publishedChannel.length + scheduledChannel.length}.`);
 }
 
 main().catch(error => {

@@ -1,24 +1,51 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-07-12",
-  "generadoEn": "2026-07-12T12:00:00.000Z",
-  "frase": "Que todos sean uno",
+  "fechaGeneracion": "2026-07-28",
+  "generadoEn": "2026-07-28T22:52:09.765Z",
+  "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "fallback",
-    "titulo": "Cargando pasapalabra del día",
-    "fecha": "12/07/2026",
+    "id": "pasapalabra_1785205562517",
+    "titulo": "ANUNCIAR EL AMOR DE DIOS",
+    "fecha": "28/07/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "fallback",
-    "titulo": "Reflexión para hoy",
+    "id": "meditacion_1777043798887",
+    "titulo": "La oración",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
-    "id": "fallback",
-    "mes": "Sin fecha disponible",
-    "cita": "Leé la Palabra de Vida de este mes",
-    "href": "pdv/pdv_todas.html"
+    "id": "pdv_2026_06",
+    "mes": "Junio 2026",
+    "cita": "Por el camino, proclamen que el Reino de los Cielos está cerca. […] Ustedes han recibido gratuitamente, den también gratuitamente.",
+    "href": "pdv/pdv.html?id=pdv_2026_06"
   },
-  "novedades": []
+  "canal": {
+    "id": "MY3oeCO3azaXTWIThOrv",
+    "titulo": "Margaret Karram",
+    "fechaPublicacion": "2026-07-28T22:35:53.311Z",
+    "href": "canal/canal.html#MY3oeCO3azaXTWIThOrv"
+  },
+  "novedades": [
+    {
+      "id": "MY3oeCO3azaXTWIThOrv",
+      "titulo": "Margaret Karram",
+      "descripcion": "Fue reelegida como presidente del movimiento de los focolares.",
+      "fotoUrl": "https://imgs.search.brave.com/stYQ6hpjALODoO-63hNoNCUILiv1SmyakVcEl870MSw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMucmVsaWdpb25k/aWdpdGFsLm9yZy9j/bGlwLzY5NjUyY2U0/LWI5MTktNDFlZS04/MzU5LTA2YTI3NDM3/NmFlMV9zb3VyY2Ut/YXNwZWN0LXJhdGlv/XzE2MDB3XzAuanBn",
+      "href": "https://www.focolare.org/es/margaret-karram-reelegida-al-frente-de-los-focolari-y-roberto-almada-nuevo-copresidente/",
+      "etiquetaCarrusel": "Novedad",
+      "fechaEventoInicio": "",
+      "fechaEventoFin": ""
+    },
+    {
+      "id": "J8qGLfPoP2YmH7vIRs1h",
+      "titulo": "Convivencia Mariápolis Lía-Invierno",
+      "descripcion": "Una experiencia de encuentro, reflexión y compartir con otros jóvenes",
+      "fotoUrl": "https://imgs.search.brave.com/_HPnYD13JBGlr-2-mZ65HRPCb-oynjjP_kodWMeQQ78/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pZGVu/dGlkYWRib25hZXJl/bnNlLmNvbS5hci9h/cmNoaXZvcy9ub3Rp/Y2lhcy9ub3RpY2lh/LTEyMS53ZWJw",
+      "href": "https://forms.gle/yW17pucNXNKN1LzZ8",
+      "etiquetaCarrusel": "Novedad",
+      "fechaEventoInicio": "2026-07-16",
+      "fechaEventoFin": "2026-07-19"
+    }
+  ]
 }

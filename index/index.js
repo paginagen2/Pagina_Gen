@@ -4,15 +4,15 @@
 let carruselData = [];
 let carruselCurrentIndex = 0;
 let carruselInterval = null;
-const REMOTE_HOME_DATA_URL = 'https://raw.githubusercontent.com/paginagen2/Pagina_Gen_2/main/datos/inicio.json';
+const REMOTE_HOME_DATA_URL = 'https://raw.githubusercontent.com/paginagen2/Pagina_Gen/main/datos/inicio.json';
 const LOCAL_HOME_DATA_URL = 'datos/inicio.json';
 
 // Inicialización
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     setCurrentDate();
     setupCarruselEventListeners();
     setupEventListeners();
-    loadDailyHomeData();
+    await loadDailyHomeData();
 });
 
 async function loadDailyHomeData() {
@@ -23,8 +23,8 @@ async function loadDailyHomeData() {
         day: '2-digit'
     }).format(new Date());
     const sources = [
-        `${REMOTE_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`,
-        LOCAL_HOME_DATA_URL
+        `${LOCAL_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`,
+        `${REMOTE_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`
     ];
 
     for (const source of sources) {
@@ -67,20 +67,27 @@ function applyDailyHomeData(data) {
     const pdvMonth = document.getElementById('pdv-mes-index');
     if (pdvQuote) pdvQuote.textContent = data.palabraDeVida?.cita || 'Leé la Palabra de Vida de este mes';
     if (pdvMonth) pdvMonth.textContent = data.palabraDeVida?.mes || 'Sin fecha disponible';
-    if (pdvContainer && data.palabraDeVida?.href) {
-        pdvContainer.onclick = () => { window.location.href = data.palabraDeVida.href; };
-    }
+    if (data.palabraDeVida?.href) setPdvDestination(data.palabraDeVida.href);
 
-    const channelPreview = document.getElementById('canal-preview-text');
+    const channelPreview = document.getElementById('canal-banner-preview');
+    const latestNews = data.canal || data.novedades?.[0];
     if (channelPreview) {
-        channelPreview.textContent = data.novedades?.[0]?.titulo || 'Abrí el canal para ver las novedades.';
+        channelPreview.textContent = latestNews?.titulo || 'Abrí el canal para ver las novedades.';
     }
+    updateChannelBanner(latestNews);
 
     document.documentElement.dataset.homeDataDate = data.fechaGeneracion || '';
     carruselData = Array.isArray(data.novedades) ? data.novedades : [];
     carruselCurrentIndex = 0;
     renderizarCarrusel();
     iniciarCarruselAutomatico();
+}
+
+function setPdvDestination(href) {
+    const previewContainer = document.getElementById('pdv-preview-container');
+    if (!previewContainer || !href) return;
+
+    previewContainer.href = href;
 }
 
 // Inicializar página
@@ -95,7 +102,7 @@ function initializePage() {
 }
 
 async function cargarCanalPreview(db) {
-    const text = document.getElementById('canal-preview-text');
+    const text = document.getElementById('canal-banner-preview');
     const subtitle = document.getElementById('canal-subtitulo');
     if (!text) return;
     try {
@@ -105,8 +112,28 @@ async function cargarCanalPreview(db) {
         if (general) {
             subtitle.textContent = 'Canal General';
             text.textContent = general.titulo || general.resumen || 'Nueva publicación';
+            updateChannelBanner(general);
         } else text.textContent = 'No hay novedades generales por el momento.';
     } catch (error) { console.warn('No se pudo cargar el resumen del canal:', error); text.textContent = 'Abrí el canal para ver las novedades.'; }
+}
+
+function updateChannelBanner(item) {
+    if (!item) return;
+    const link = document.getElementById('channel-banner-link');
+    const date = document.getElementById('canal-preview-date');
+    if (link) {
+        link.href = item.href || (item.id ? `canal/canal.html#${encodeURIComponent(item.id)}` : 'canal/canal.html');
+    }
+    const rawDate = item.fechaPublicacion || item.createdAt;
+    const parsedDate = rawDate?.toDate ? rawDate.toDate() : rawDate ? new Date(rawDate) : null;
+    if (date && parsedDate && !Number.isNaN(parsedDate.getTime())) {
+        date.dateTime = parsedDate.toISOString();
+        date.textContent = parsedDate.toLocaleDateString('es-AR', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    }
 }
 
 async function cargarPublicacionesGeneralesVisibles(db) {
@@ -144,18 +171,22 @@ async function cargarUltimaPdv(db) {
     }
 
     try {
-        const { collection, query, orderBy, limit, getDocs } = window.firebaseUtils;
-        
-        const pdvRef = collection(db, 'pdv'); // Colección se llama 'pdv', no 'palabrasDeVida'
-        const q = query(pdvRef, orderBy('fecha', 'desc'), limit(1));
+        const { collection, query, where, getDocs } = window.firebaseUtils;
+        const pdvRef = collection(db, 'pdv');
+        const q = query(pdvRef, where('estado', '==', 'publicado'));
         const querySnapshot = await getDocs(q);
         
         console.log('📄 PdV encontrados:', querySnapshot.size);
 
         if (!querySnapshot.empty) {
-            const ultimaPdv = querySnapshot.docs[0].data();
+            const ordered = querySnapshot.docs
+                .map(documentSnapshot => ({ id: documentSnapshot.id, ...documentSnapshot.data() }))
+                .filter(item => item.version === 2)
+                .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || '')));
+            const ultimaPdv = ordered[0];
+            if (!ultimaPdv) return;
             console.log('✅ Última PdV:', ultimaPdv);
-            const urlSlug = ultimaPdv.urlSlug || querySnapshot.docs[0].id;
+            const urlSlug = ultimaPdv.id;
 
             const textoPdv = ultimaPdv.citaPrincipal || ultimaPdv.titulo || '';
             citaElement.textContent = textoPdv.trim().length >= 10
@@ -163,11 +194,7 @@ async function cargarUltimaPdv(db) {
                 : 'Leé la Palabra de Vida de este mes';
             mesElement.textContent = ultimaPdv.mes || '';
             
-            if (previewContainer) {
-                previewContainer.onclick = () => {
-                    window.location.href = `pdv/pdv.html?id=${urlSlug}`;
-                };
-            }
+            setPdvDestination(`pdv/pdv.html?id=${encodeURIComponent(urlSlug)}`);
         } else {
             console.log('❌ No hay PdV en la colección');
         }
@@ -484,8 +511,15 @@ function renderizarCarrusel() {
         content.className = 'carrusel-slide-content';
         const kicker = document.createElement('span');
         kicker.className = 'news-kicker';
-        kicker.textContent = 'Comunicación';
+        kicker.textContent = item.etiquetaCarrusel || item.categoria || 'Novedad';
         content.appendChild(kicker);
+        const eventDate = formatCarouselEventDate(item);
+        if (eventDate) {
+            const dateBadge = document.createElement('span');
+            dateBadge.className = 'carrusel-event-date';
+            dateBadge.textContent = `📅 ${eventDate}`;
+            content.appendChild(dateBadge);
+        }
         if (item.titulo) { const title = document.createElement('h3'); title.textContent = item.titulo; content.appendChild(title); }
         if (item.descripcion) { const description = document.createElement('p'); description.textContent = item.descripcion; content.appendChild(description); }
         slide.appendChild(content);
@@ -516,6 +550,23 @@ function safeCarouselUrl(value) {
     } catch (_) {
         return '';
     }
+}
+
+function formatCarouselEventDate(item) {
+    if (!item.fechaEventoInicio) return '';
+    const format = value => {
+        const parts = String(value).split('-').map(Number);
+        if (parts.length !== 3 || parts.some(Number.isNaN)) return '';
+        return new Date(parts[0], parts[1] - 1, parts[2]).toLocaleDateString('es-AR', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    };
+    const start = format(item.fechaEventoInicio);
+    const end = format(item.fechaEventoFin);
+    if (!start) return '';
+    return end ? `${start} — ${end}` : start;
 }
 
 function actualizarCarruselPosition() {

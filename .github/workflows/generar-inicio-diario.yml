@@ -24,14 +24,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-
-      - name: Instalar dependencias
-        run: npm ci
 
       - name: Generar datos de Inicio
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: npm run generar-inicio
 
       - name: Publicar archivo actualizado
@@ -39,7 +33,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add datos/inicio.json datos/cancionero
+          git add datos/inicio.json
           if git diff --cached --quiet; then
             echo "El archivo diario ya estaba actualizado."
             exit 0
