@@ -1,6 +1,12 @@
 name: Generar inicio diario
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/generar-inicio-diario.yml'
+      - 'scripts/generar-inicio.js'
   schedule:
     - cron: '5 0 * * *'
       timezone: 'America/Argentina/Buenos_Aires'
