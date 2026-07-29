@@ -12,7 +12,7 @@
   display: flex !important;
   width: var(--site-sidebar-width) !important;
   height: 100vh !important;
-  padding: 24px 12px 14px !important;
+  padding: 20px 12px 12px !important;
   flex-direction: column !important;
   justify-content: flex-start !important;
   overflow: hidden !important;
@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  margin: 0 14px 22px;
+  margin: 0 14px 16px;
   color: #fff;
   font-size: 1.55rem;
   font-weight: 800;
@@ -40,8 +40,9 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: #343a43 transparent;
 }
@@ -51,10 +52,10 @@
   position: static;
   display: flex;
   width: 100%;
-  min-height: 43px;
+  min-height: 38px;
   align-items: center;
-  gap: 12px;
-  padding: 8px 13px;
+  gap: 10px;
+  padding: 6px 12px;
   border: 1px solid transparent;
   border-radius: 12px;
   color: #aeb4bf;
@@ -88,29 +89,29 @@
 .site-sidebar .menu-icon,
 .site-sidebar .menu-symbol {
   display: grid;
-  width: 25px;
-  height: 25px;
-  flex: 0 0 25px;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
   margin: 0;
   place-items: center;
   object-fit: contain;
   color: #c6ccd5;
-  font-size: 1.35rem;
+  font-size: 1.16rem;
 }
 
 .site-sidebar .menu-text {
   display: inline;
   opacity: 1;
   color: inherit;
-  font-size: .92rem;
+  font-size: .86rem;
   white-space: nowrap;
 }
 
 .site-sidebar .home-nav-label {
   display: block;
-  margin: 14px 13px 4px;
+  margin: 12px 12px 3px;
   color: #6f7782;
-  font-size: .65rem;
+  font-size: .61rem;
   font-weight: 750;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -118,8 +119,8 @@
 
 .site-sidebar .sidebar-account-area {
   flex: 0 0 auto;
-  margin-top: 14px;
-  padding-top: 12px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 1px solid #262c33;
 }
 
@@ -127,10 +128,10 @@
 
 .site-sidebar .sidebar-role-links { margin-bottom: 7px; }
 .site-sidebar .auth-sidebar-container { position: static; width: 100%; padding: 0; }
-.site-sidebar .auth-menu-item { min-height: 42px; border: 1px solid var(--site-sidebar-border); border-radius: 12px; background: #11151a; }
+.site-sidebar .auth-menu-item { min-height: 39px; border: 1px solid var(--site-sidebar-border); border-radius: 11px; background: #11151a; }
 .site-sidebar .auth-avatar { width: 30px; height: 30px; flex: 0 0 30px; margin-left: 0; }
 .site-sidebar .auth-avatar img { width: 20px; height: 20px; }
-.site-sidebar .admin-role-link { position: static; width: 100%; min-height: 40px; color: #d7c6ff; background: rgba(141,92,246,.08); border-color: rgba(141,92,246,.2); }
+.site-sidebar .admin-role-link { position: static; width: 100%; min-height: 37px; color: #d7c6ff; background: rgba(141,92,246,.08); border-color: rgba(141,92,246,.2); }
 
 /* Reserva el ancho del menú sin alterar la estructura interna de cada sección. */
 .with-site-sidebar .site-sidebar ~ .main,
@@ -183,4 +184,194 @@
 
 @media (prefers-reduced-motion: reduce) {
   .site-sidebar *, .site-sidebar *::before, .site-sidebar *::after { transition-duration: .01ms !important; }
+}
+
+/* Menú retráctil: cerrado por defecto y expandido como capa al interactuar. */
+:root {
+  --site-sidebar-width: 70px;
+  --site-sidebar-expanded-width: 214px;
+}
+
+.site-sidebar.home-sidebar,
+.site-sidebar.home-sidebar:hover {
+  width: var(--site-sidebar-width) !important;
+  padding-inline: 8px !important;
+  transition: width .22s ease, box-shadow .22s ease !important;
+}
+
+.site-sidebar.home-sidebar:hover,
+.site-sidebar.home-sidebar:focus-within,
+.site-sidebar.home-sidebar.is-expanded,
+.site-sidebar.home-sidebar.is-pinned {
+  width: var(--site-sidebar-expanded-width) !important;
+  padding-inline: 12px !important;
+  box-shadow: 16px 0 34px rgba(0, 0, 0, .28);
+}
+
+.site-sidebar .sidebar-header {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin-bottom: 16px;
+}
+
+.site-sidebar .home-brand {
+  min-width: 0;
+  justify-content: center;
+  margin: 0;
+}
+
+.site-sidebar .brand-full,
+.site-sidebar .sidebar-pin,
+.site-sidebar .menu-text {
+  display: none !important;
+}
+
+.site-sidebar .home-nav-label {
+  display: block !important;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site-sidebar .brand-short {
+  display: inline;
+  color: #fff;
+  font-size: 1.05rem;
+  letter-spacing: -.04em;
+}
+
+.site-sidebar .menu-item,
+.site-sidebar .auth-menu-item,
+.site-sidebar .admin-role-link {
+  justify-content: center;
+  padding-inline: 0;
+}
+
+.site-sidebar .auth-avatar {
+  margin: 0 !important;
+}
+
+.site-sidebar .sidebar-pin {
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #343c46;
+  border-radius: 9px;
+  color: #abb3be;
+  background: #11161b;
+  cursor: pointer;
+}
+
+.site-sidebar .sidebar-pin:hover,
+.site-sidebar .sidebar-pin[aria-pressed="true"] {
+  border-color: rgba(141, 92, 246, .55);
+  color: #d9c7ff;
+  background: rgba(141, 92, 246, .13);
+}
+
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .sidebar-header {
+  justify-content: space-between;
+}
+
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .brand-full,
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .sidebar-pin,
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .menu-text {
+  display: grid !important;
+}
+
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .home-nav-label {
+  visibility: visible;
+  opacity: 1;
+}
+
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .brand-short {
+  display: none;
+}
+
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .home-brand {
+  justify-content: flex-start;
+}
+
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .menu-item,
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .auth-menu-item,
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .admin-role-link {
+  justify-content: flex-start;
+  padding-inline: 12px;
+}
+
+.sidebar-pinned.with-site-sidebar .site-sidebar ~ .main,
+.sidebar-pinned.with-site-sidebar .site-sidebar ~ main,
+.sidebar-pinned.with-site-sidebar .site-sidebar ~ .main-content,
+.sidebar-pinned.with-site-sidebar .page-container > .site-sidebar ~ .main-content {
+  width: calc(100% - var(--site-sidebar-expanded-width)) !important;
+  margin-left: var(--site-sidebar-expanded-width) !important;
+}
+
+.with-site-sidebar:not(.sidebar-pinned) .cancion-header { left: var(--site-sidebar-width); }
+.sidebar-pinned.with-site-sidebar .cancion-header { left: var(--site-sidebar-expanded-width); }
+.sidebar-pinned.with-site-sidebar .cancion-main {
+  width: calc(100% - var(--site-sidebar-expanded-width)) !important;
+  margin-left: var(--site-sidebar-expanded-width) !important;
+}
+
+@media (max-width: 1180px) {
+  :root { --site-sidebar-expanded-width: 176px; }
+}
+
+@media (max-width: 820px) {
+  :root { --site-sidebar-expanded-width: min(214px, calc(100vw - 16px)); }
+  .sidebar-pinned.with-site-sidebar .site-sidebar ~ .main,
+  .sidebar-pinned.with-site-sidebar .site-sidebar ~ main,
+  .sidebar-pinned.with-site-sidebar .site-sidebar ~ .main-content,
+  .sidebar-pinned.with-site-sidebar .page-container > .site-sidebar ~ .main-content {
+    width: calc(100% - var(--site-sidebar-width)) !important;
+    margin-left: var(--site-sidebar-width) !important;
+  }
+}
+
+/* Al desanclar, cerrar de inmediato aunque el puntero siga sobre el menú. */
+.site-sidebar.home-sidebar.suppress-hover,
+.site-sidebar.home-sidebar.suppress-hover:hover,
+.site-sidebar.home-sidebar.suppress-hover:focus-within {
+  width: var(--site-sidebar-width) !important;
+  padding-inline: 8px !important;
+  box-shadow: none;
+}
+
+.site-sidebar.suppress-hover .sidebar-header {
+  justify-content: center;
+}
+
+.site-sidebar.suppress-hover .brand-full,
+.site-sidebar.suppress-hover .sidebar-pin,
+.site-sidebar.suppress-hover .menu-text {
+  display: none !important;
+}
+
+.site-sidebar.suppress-hover .brand-short {
+  display: inline;
+}
+
+.site-sidebar.suppress-hover .home-nav-label {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.site-sidebar.suppress-hover .home-brand,
+.site-sidebar.suppress-hover .menu-item,
+.site-sidebar.suppress-hover .auth-menu-item,
+.site-sidebar.suppress-hover .admin-role-link {
+  justify-content: center;
+}
+
+.site-sidebar.suppress-hover .menu-item,
+.site-sidebar.suppress-hover .auth-menu-item,
+.site-sidebar.suppress-hover .admin-role-link {
+  padding-inline: 0;
 }

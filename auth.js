@@ -290,7 +290,7 @@ function setupAuthButton() {
     const authBtn = document.getElementById('auth-btn');
     authBtn.addEventListener('click', () => {
         if (currentUser) {
-            openUserMenu();
+            window.location.href = new URL('perfil/perfil.html', import.meta.url).href;
         } else {
             openAuthModal();
         }
@@ -302,6 +302,7 @@ function listenAuthState() {
     utils.onAuthStateChanged(auth, async (user) => {
         const previousUid = currentUser?.uid;
         currentUser = user;
+        window.dispatchEvent(new CustomEvent('gen:auth-changed', { detail: { user } }));
         if (!user) {
             clearCachedProfile(previousUid);
             updateAuthUI(null, null);
@@ -309,7 +310,9 @@ function listenAuthState() {
         }
 
         try {
-            const profile = await loadUserProfile(user);
+            // Al iniciar una página, releer el perfil para recibir de inmediato
+            // zonas o funcionalidades asignadas por un administrador.
+            const profile = await loadUserProfile(user, { force: true });
             updateAuthUI(user, profile);
         } catch (error) {
             console.error('No se pudo cargar el perfil del usuario:', error);
@@ -331,14 +334,18 @@ function updateAuthUI(user, profile) {
     }
 
     if (user) {
-        const displayName = user.displayName || user.email.split('@')[0];
+        const displayName = profile?.nombre || user.displayName || user.email.split('@')[0];
         btnText.textContent = displayName;
         authBtn.classList.add('logged-in');
+        authBtn.setAttribute('aria-label', `Abrir perfil de ${displayName}`);
+        authBtn.title = 'Abrir mi perfil';
         avatar.classList.add('auth-avatar-initial');
         avatar.textContent = displayName.trim().charAt(0).toUpperCase() || '?';
     } else {
         btnText.textContent = 'Iniciar Sesión';
         authBtn.classList.remove('logged-in');
+        authBtn.setAttribute('aria-label', 'Iniciar sesión');
+        authBtn.removeAttribute('title');
         avatar.classList.remove('auth-avatar-initial');
         avatar.innerHTML = `<img src="${new URL('aadocumentos/svg/Icono_vacio.svg', import.meta.url).href}" alt="">`;
     }
@@ -420,6 +427,17 @@ function openUserMenu() {
     });
 }
 
+window.genOpenRoleModal = () => openAuthModal('roles');
+
+window.addEventListener('gen:profile-updated', event => {
+    const profile = event.detail;
+    if (!currentUser || profile?.uid !== currentUser.uid) return;
+    currentUserProfile = profile;
+    writeCachedProfile(profile);
+    updateAuthUI(currentUser, profile);
+});
+window.genOpenAuthModal = () => openAuthModal('login');
+
 // Formulario de login
 function setupLoginForm() {
     const form = document.getElementById('login-form');
@@ -485,7 +503,7 @@ function setupRoleForm() {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const code = document.getElementById('role-code').value;
+        const code = document.getElementById('role-code').value.trim().toUpperCase();
 
         if (!currentUser) {
             alert('Primero inicia sesión');
@@ -493,16 +511,21 @@ function setupRoleForm() {
         }
 
         try {
-            const codeRef = utils.doc(db, 'codigos_roles', code.trim());
+            const codeRef = utils.doc(db, 'codigos_roles', code);
             const userRef = utils.doc(db, 'usuarios', currentUser.uid);
+            const redemptionRef = utils.doc(db, 'codigos_roles', code, 'canjes', currentUser.uid);
             const updatedProfile = await utils.runTransaction(db, async transaction => {
                 const codeDoc = await transaction.get(codeRef);
                 const userDoc = await transaction.get(userRef);
 
                 if (!codeDoc.exists()) throw new Error('Código inválido');
                 const codeData = codeDoc.data();
-                if (codeData.usado) throw new Error('Este código ya fue usado');
                 if (!userDoc.exists()) throw new Error('No se encontró el perfil del usuario');
+                const recipientEmail = String(codeData.destinatarioEmail || '').trim().toLowerCase();
+                const currentEmail = String(currentUser.email || userDoc.data().email || '').trim().toLowerCase();
+                if (recipientEmail && recipientEmail !== currentEmail) {
+                    throw new Error('Este código está reservado para otro usuario');
+                }
 
                 const roleName = codeData.rol;
                 const userData = userDoc.data();
@@ -510,9 +533,34 @@ function setupRoleForm() {
                 if (roles.includes(roleName)) throw new Error('Ya tienes este rol');
 
                 const nextRoles = [...roles, roleName];
-                transaction.update(userRef, { roles: nextRoles, ultimoCanjeCodigo: code.trim() });
-                transaction.update(codeRef, { usado: true, usadoPor: currentUser.uid, usadoEn: new Date() });
-                return { uid: currentUser.uid, ...userData, roles: nextRoles, ultimoCanjeCodigo: code.trim() };
+                const now = new Date();
+                const legacyCode = !codeData.tipo;
+
+                if (legacyCode) {
+                    if (codeData.usado) throw new Error('Este código ya fue usado');
+                    transaction.update(codeRef, { usado: true, usadoPor: currentUser.uid, usadoEn: now });
+                } else {
+                    if (codeData.activo === false) throw new Error(codeData.tipo === 'libre' ? 'Este código está congelado' : 'Este código fue cancelado');
+                    const expiry = codeData.venceEn?.toDate ? codeData.venceEn.toDate() : (codeData.venceEn ? new Date(codeData.venceEn) : null);
+                    if (expiry && expiry <= now) throw new Error('Este código está vencido');
+                    const uses = Number(codeData.usosActuales || 0);
+                    if (codeData.tipo !== 'libre' && uses >= Number(codeData.maxUsos || 1)) {
+                        throw new Error('Este código ya alcanzó su límite de usos');
+                    }
+                    transaction.update(codeRef, {
+                        usosActuales: uses + 1,
+                        ultimoUsoPor: currentUser.uid,
+                        ultimoUsoEn: now
+                    });
+                    transaction.set(redemptionRef, {
+                        uid: currentUser.uid,
+                        rol: roleName,
+                        canjeadoEn: now
+                    });
+                }
+
+                transaction.update(userRef, { roles: nextRoles, ultimoCanjeCodigo: code });
+                return { uid: currentUser.uid, ...userData, roles: nextRoles, ultimoCanjeCodigo: code };
             });
 
             currentUserProfile = updatedProfile;

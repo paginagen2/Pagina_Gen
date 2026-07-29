@@ -1,639 +1,538 @@
-// Importar Firebase
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260713-speed1';
-// Variables globales
-let cancionActual = null;
-let tonoActual = 0;
-let tamanoTexto = 2; // 0=pequeño, 1=normal, 2=grande, 3=extra-grande
-let autoScrollActivo = false;
-// Declarar velocidad de scroll y exponer a window
-let velocidadScroll = (typeof window.velocidadScroll === 'number') ? window.velocidadScroll : 5;
-window.velocidadScroll = velocidadScroll;
-const FACTOR_PASO_PX = 0.05;
-// Acumulador para pasos fraccionarios (evita que se “pare” con step < 1)
-let acumuladoScroll = 0;
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-list';
+import { parseChord, transposeChord, convertChordNotation, extractUniqueChords } from './chord-engine.js';
+import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js';
 
-// Mapeo de acordes cromáticos para transposición
-const acordesCromaticos = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const $ = (selector) => document.querySelector(selector);
+const TEXT_CLASSES = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande', 'texto-muy-grande'];
+const state = {
+  song: null,
+  transpose: 0,
+  textSize: 2,
+  speed: 5,
+  notation: 'american',
+  showChords: true,
+  toolsCollapsed: false,
+  autoScroll: false,
+  scrollFrame: null,
+  scrollPrevious: 0,
+  scrollAccumulator: 0,
+  drawerChord: 'C',
+  drawerInstrument: 'guitar',
+  usedChords: [],
+  guideInstrument: 'guitar',
+  guideLastFocus: null,
+  lastFocus: null,
+  liked: false,
+  likeBusy: false,
+  toastTimer: null
+};
 
-// Inicialización al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎵 Cargando página de canción...');
-    const urlParams = new URLSearchParams(window.location.search);
-    const cancionId = urlParams.get('id');
-    
-    console.log('📋 ID de canción:', cancionId);
-    
-    if (cancionId) {
-        cargarCancion(cancionId);
-    } else {
-        console.log('❌ No se proporcionó ID de canción');
-        mostrarError();
+function offlineSong(id) {
+  try {
+    const songs = JSON.parse(localStorage.getItem('offline_data_canciones') || '[]');
+    return Array.isArray(songs) ? songs.find((song) => String(song.id) === String(id)) || null : null;
+  } catch { return null; }
+}
+
+async function loadSong(id) {
+  const local = offlineSong(id);
+  try {
+    state.song = await DatabaseService.getCancionPorId(id) || local;
+  } catch {
+    state.song = local;
+  }
+  if (!state.song) return showError('No encontramos esta canción.');
+  renderSong();
+  void DatabaseService.incrementarReproducciones(id);
+  void loadDailyLikes(id);
+  setupLikeState();
+}
+
+async function loadDailyLikes(id) {
+  try {
+    const response = await fetch('../datos/cancionero/buscar.json', { cache: 'no-cache' });
+    if (!response.ok) return;
+    const summary = (await response.json()).canciones?.find((song) => String(song.id) === String(id));
+    if (summary) $('#cancionLikes').textContent = formatNumber(summary.likesCount);
+  } catch { /* El contador del documento queda como respaldo. */ }
+}
+
+function renderSong() {
+  const song = state.song;
+  const title = song.titulo || 'Sin título';
+  const artist = song.artista || 'Desconocido';
+  document.title = `${title} - Cancionero Gen`;
+  $('#headerTitulo').textContent = title;
+  $('#headerArtista span').textContent = artist;
+  $('#headerArtista').href = `artista.html?artista=${encodeURIComponent(artist)}`;
+  $('#cancionCategoria').textContent = categoryLabel(song.categoria);
+  $('#cancionVistas').textContent = formatNumber(Number(song.reproducciones || 0) + 1);
+  $('#cancionLikes').textContent = formatNumber(song.likesCount || song.likes || 0);
+  $('#lyricsTitle').textContent = title;
+  renderLyrics();
+  syncControls();
+}
+
+function categoryLabel(category) {
+  return ({ misa: 'Misa', gen: 'Gen', fogon: 'Fogón' })[category] || 'Cancionero';
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat('es-AR').format(Number(value) || 0);
+}
+
+function displayChord(raw) {
+  const transposed = transposeChord(raw, state.transpose, { notation: state.notation });
+  return transposed || convertChordNotation(raw, state.notation) || raw;
+}
+
+function renderLyrics() {
+  const container = $('#letraContent');
+  container.setAttribute('aria-busy', 'false');
+  TEXT_CLASSES.forEach((name) => container.classList.remove(name));
+  container.classList.add(TEXT_CLASSES[state.textSize]);
+  const lyric = String(state.song?.letra || '').replace(/\r\n?/g, '\n');
+  if (!lyric.trim()) {
+    const empty = document.createElement('p');
+    empty.textContent = 'La letra todavía no está disponible.';
+    container.replaceChildren(empty);
+    renderUsedChords([]);
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  let previousBlank = false;
+  lyric.split('\n').forEach((line) => {
+    const sectionMatch = line.trim().match(/^\[?(intro|verso(?:\s+\d+)?|coro|estribillo|pre[- ]?coro|puente|bridge|outro)\]?:?$/i);
+    if (sectionMatch) {
+      const section = document.createElement('div');
+      section.className = 'seccion-titulo';
+      section.textContent = sectionMatch[1];
+      fragment.append(section);
+      previousBlank = false;
+      return;
     }
+    const chordMatches = [...line.matchAll(/\[([^\]\r\n]+)]/g)];
+    const isChordOnlyLine = chordMatches.some((match) => parseChord(match[1]))
+      && line.replace(/\[[^\]\r\n]+]/g, '').trim() === '';
+    if (!state.showChords && isChordOnlyLine) return;
+    const isBlank = line.trim() === '';
+    if (!state.showChords && isBlank && previousBlank) return;
+    previousBlank = isBlank;
+    const row = document.createElement('div');
+    row.className = 'lyrics-line';
+    let position = 0;
+    for (const match of chordMatches) {
+      row.append(document.createTextNode(line.slice(position, match.index)));
+      if (parseChord(match[1])) {
+        if (state.showChords) {
+          const chord = document.createElement('button');
+          chord.type = 'button';
+          chord.className = 'acorde-compacto';
+          chord.textContent = displayChord(match[1]);
+          chord.setAttribute('aria-label', `Ver acorde ${chord.textContent}`);
+          chord.addEventListener('click', () => openChordDrawer(chord.textContent));
+          row.append(chord);
+        }
+      } else {
+        row.append(document.createTextNode(match[0]));
+      }
+      position = match.index + match[0].length;
+    }
+    row.append(document.createTextNode(line.slice(position)));
+    if (!row.hasChildNodes()) row.append(document.createTextNode('\u00a0'));
+    fragment.append(row);
+  });
+  container.replaceChildren(fragment);
+  container.classList.toggle('lyrics-only', !state.showChords);
+  renderUsedChords(extractUniqueChords(lyric, { notation: state.notation }).map(displayChord));
+}
+
+function renderUsedChords(chords) {
+  const unique = [...new Set(chords)];
+  state.usedChords = unique;
+  $('#quickGuideCount').textContent = unique.length
+    ? `${unique.length} acorde${unique.length === 1 ? '' : 's'} utilizado${unique.length === 1 ? '' : 's'}`
+    : 'Sin acordes cargados';
+  $('#openQuickGuide').disabled = unique.length === 0;
+  if (!$('#quickGuideModal').hidden) renderQuickGuide();
+}
+
+function syncControls() {
+  const tone = state.transpose === 0 ? 'Original' : `${state.transpose > 0 ? '+' : ''}${state.transpose}`;
+  $('#tonoActual').textContent = tone;
+  $('#tonoControlValue').textContent = tone;
+  $('#velocidadActual').textContent = speedLabel(state.speed);
+  $('#scrollSpeed').value = String(state.speed);
+  const button = $('#btnCifrado');
+  button.querySelector('.cifrado-sample').textContent = state.notation === 'american' ? 'C' : 'Do';
+  button.querySelector('strong').textContent = state.notation === 'american' ? 'C → Do' : 'Do → C';
+  button.setAttribute('aria-pressed', String(state.notation === 'spanish'));
+  const chordsButton = $('#btnMostrarAcordes');
+  chordsButton.setAttribute('aria-pressed', String(state.showChords));
+  chordsButton.querySelector('span:nth-child(2)').textContent = state.showChords ? 'Letra y acordes' : 'Solo letra';
+  chordsButton.querySelector('strong').textContent = state.showChords ? 'Visibles' : 'Ocultos';
+  chordsButton.classList.toggle('active', state.showChords);
+  $('.lyrics-hint').innerHTML = state.showChords
+    ? '<svg><use href="#i-music"/></svg>Toca un acorde para consultarlo'
+    : '<svg><use href="#i-text"/></svg>Modo solo letra';
+  syncToolsState();
+}
+
+function syncToolsState() {
+  const tools = $('#songTools');
+  const workspace = $('.song-workspace');
+  const toggle = $('#toggleTools');
+  tools.classList.toggle('collapsed', state.toolsCollapsed);
+  workspace.classList.toggle('tools-collapsed', state.toolsCollapsed);
+  toggle.setAttribute('aria-expanded', String(!state.toolsCollapsed));
+  toggle.title = state.toolsCollapsed ? 'Abrir herramientas' : 'Contraer herramientas';
+  toggle.querySelector('span').textContent = state.toolsCollapsed ? 'Abrir' : 'Contraer';
+}
+
+function speedLabel(speed) {
+  if (speed <= 3) return 'Lenta';
+  if (speed <= 7) return 'Normal';
+  return 'Rápida';
+}
+
+function changeTone(delta) {
+  state.transpose = Math.max(-11, Math.min(11, state.transpose + delta));
+  renderLyrics();
+  syncControls();
+}
+
+function changeTextSize(delta) {
+  state.textSize = Math.max(0, Math.min(TEXT_CLASSES.length - 1, state.textSize + delta));
+  renderLyrics();
+  savePreferences();
+}
+
+function changeSpeed(delta) {
+  state.speed = Math.max(1, Math.min(10, state.speed + delta));
+  syncControls();
+  savePreferences();
+}
+
+function moveReading(direction) {
+  const viewport = Math.max(320, window.innerHeight);
+  const distance = state.autoScroll
+    ? (direction < 0 ? viewport * 0.58 : viewport * 0.3)
+    : viewport * 0.36;
+  const target = Math.max(0, window.scrollY + (Math.round(distance) * direction));
+  window.scrollTo({
+    top: target,
+    behavior: state.autoScroll ? 'instant' : 'smooth'
+  });
+}
+
+function toggleNotation() {
+  state.notation = state.notation === 'american' ? 'spanish' : 'american';
+  renderLyrics();
+  syncControls();
+  savePreferences();
+}
+
+function toggleChordVisibility() {
+  state.showChords = !state.showChords;
+  renderLyrics();
+  syncControls();
+  savePreferences();
+}
+
+function toggleTools() {
+  state.toolsCollapsed = !state.toolsCollapsed;
+  syncToolsState();
+  savePreferences();
+}
+
+function toggleAutoScroll(force) {
+  const next = typeof force === 'boolean' ? force : !state.autoScroll;
+  if (next === state.autoScroll) return;
+  state.autoScroll = next;
+  const button = $('#btnAutoScroll');
+  button.classList.toggle('active', next);
+  button.setAttribute('aria-pressed', String(next));
+  button.querySelector('span').textContent = next ? 'Pausar auto-scroll' : 'Iniciar auto-scroll';
+  if (!next) {
+    cancelAnimationFrame(state.scrollFrame);
+    state.scrollFrame = null;
+    return;
+  }
+  state.scrollPrevious = performance.now();
+  state.scrollAccumulator = 0;
+  state.scrollFrame = requestAnimationFrame(scrollStep);
+}
+
+function scrollStep(now) {
+  if (!state.autoScroll) return;
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+    toggleAutoScroll(false);
+    return;
+  }
+  const elapsed = Math.min(50, now - state.scrollPrevious);
+  state.scrollPrevious = now;
+  state.scrollAccumulator += elapsed * state.speed * 0.006;
+  if (state.scrollAccumulator >= 1) {
+    const pixels = Math.floor(state.scrollAccumulator);
+    window.scrollBy(0, pixels);
+    state.scrollAccumulator -= pixels;
+  }
+  state.scrollFrame = requestAnimationFrame(scrollStep);
+}
+
+function resetSettings() {
+  toggleAutoScroll(false);
+  state.transpose = 0;
+  state.textSize = 2;
+  state.speed = 5;
+  state.notation = 'american';
+  state.showChords = true;
+  renderLyrics();
+  syncControls();
+  savePreferences();
+  showToast('Ajustes restablecidos.');
+}
+
+function openChordDrawer(chord) {
+  state.drawerChord = chord;
+  state.lastFocus = document.activeElement;
+  $('#chordDrawerTitle').textContent = chord;
+  renderDrawer();
+  $('#chordDrawer').hidden = false;
+  $('#chordDrawerBackdrop').hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('#closeChordDrawer').focus();
+}
+
+function renderDrawer() {
+  const chord = state.drawerChord;
+  const summary = chordShapeSummary(chord, state.notation);
+  $('#guitarChordDiagram').innerHTML = renderChordDiagram(chord, 'guitar', state.notation);
+  $('#pianoChordDiagram').innerHTML = renderChordDiagram(chord, 'piano', state.notation);
+  $('#chordDrawerNote').textContent = summary
+    ? `${summary.typeLabel}. Notas: ${summary.notes.join(' · ')}. Fórmula: ${summary.formula}.`
+    : 'Todavía no tenemos una posición verificada para este acorde.';
+}
+
+function selectDrawerInstrument(instrument) {
+  state.drawerInstrument = instrument;
+  const guitar = instrument === 'guitar';
+  $('#guitarTab').setAttribute('aria-selected', String(guitar));
+  $('#pianoTab').setAttribute('aria-selected', String(!guitar));
+  $('#guitarChordPanel').hidden = !guitar;
+  $('#pianoChordPanel').hidden = guitar;
+}
+
+function closeChordDrawer() {
+  $('#chordDrawer').hidden = true;
+  $('#chordDrawerBackdrop').hidden = true;
+  document.body.style.overflow = '';
+  state.lastFocus?.focus?.();
+}
+
+function renderQuickGuide() {
+  const grid = $('#quickGuideGrid');
+  if (!state.usedChords.length) {
+    const empty = document.createElement('p');
+    empty.className = 'quick-guide-empty';
+    empty.textContent = 'Esta canción todavía no tiene acordes cargados.';
+    grid.replaceChildren(empty);
+    return;
+  }
+  grid.replaceChildren(...state.usedChords.map((chord) => {
+    const card = document.createElement('article');
+    card.className = 'quick-guide-card';
+    const title = document.createElement('h3');
+    title.textContent = chord;
+    const diagram = document.createElement('div');
+    diagram.innerHTML = renderChordDiagram(chord, state.guideInstrument, state.notation);
+    card.append(title, diagram);
+    return card;
+  }));
+  const guitar = state.guideInstrument === 'guitar';
+  $('#guideGuitarTab').setAttribute('aria-selected', String(guitar));
+  $('#guidePianoTab').setAttribute('aria-selected', String(!guitar));
+}
+
+function openQuickGuide() {
+  if (!state.usedChords.length) return;
+  state.guideLastFocus = document.activeElement;
+  renderQuickGuide();
+  $('#quickGuideBackdrop').hidden = false;
+  $('#quickGuideModal').hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('#closeQuickGuide').focus();
+}
+
+function closeQuickGuide() {
+  $('#quickGuideBackdrop').hidden = true;
+  $('#quickGuideModal').hidden = true;
+  document.body.style.overflow = '';
+  state.guideLastFocus?.focus?.();
+}
+
+function selectGuideInstrument(instrument) {
+  state.guideInstrument = instrument;
+  renderQuickGuide();
+}
+
+function setupLikeState() {
+  const utils = window.firebaseUtils;
+  if (!utils?.onAuthStateChanged || !window.firebaseAuth) return;
+  utils.onAuthStateChanged(window.firebaseAuth, async (user) => {
+    state.liked = user ? await DatabaseService.getEstadoFavorito(state.song.id, user.uid).catch((error) => {
+      console.error('No se pudo consultar el favorito:', error);
+      return false;
+    }) : false;
+    syncLikeButton();
+  });
+}
+
+function syncLikeButton() {
+  const button = $('#likeButton');
+  button.classList.toggle('active', state.liked);
+  button.setAttribute('aria-pressed', String(state.liked));
+  button.setAttribute('aria-label', state.liked ? 'Quitar esta canción de favoritos' : 'Agregar esta canción a favoritos');
+  button.title = state.liked ? 'Quitar de favoritos' : 'Agregar a favoritos';
+}
+
+async function toggleLike() {
+  const user = window.firebaseAuth?.currentUser;
+  if (!user) {
+    if (typeof window.genOpenAuthModal === 'function') window.genOpenAuthModal();
+    else document.getElementById('auth-btn')?.click();
+    showToast('Iniciá sesión para agregar canciones a favoritos.');
+    return;
+  }
+  if (state.likeBusy) return;
+  state.likeBusy = true;
+  $('#likeButton').disabled = true;
+  try {
+    state.liked = await DatabaseService.setFavoritoCancion(state.song.id, user.uid, !state.liked);
+    syncLikeButton();
+    showToast(state.liked ? 'Agregada a favoritos. El contador se actualizará mañana.' : 'Quitada de favoritos. El contador se actualizará mañana.');
+    window.dispatchEvent(new CustomEvent('gen:favorite-changed', {
+      detail: { songId: String(state.song.id), active: state.liked }
+    }));
+  } catch (error) {
+    console.error('No se pudo actualizar el favorito:', error);
+    showToast('No pudimos actualizar tus favoritos. Intentá nuevamente.');
+  } finally {
+    state.likeBusy = false;
+    $('#likeButton').disabled = false;
+  }
+}
+
+function showToast(message) {
+  const toast = $('#songToast');
+  clearTimeout(state.toastTimer);
+  toast.textContent = message;
+  toast.hidden = false;
+  state.toastTimer = setTimeout(() => { toast.hidden = true; }, 3600);
+}
+
+function showError(message) {
+  $('#headerTitulo').textContent = 'Canción no disponible';
+  $('#headerArtista span').textContent = 'Cancionero Gen';
+  const error = document.createElement('div');
+  error.className = 'song-error';
+  error.innerHTML = '<h2>No pudimos abrir la canción</h2><p></p><a href="cancionero.html">Volver al cancionero</a>';
+  error.querySelector('p').textContent = message;
+  $('#letraContent').replaceChildren(error);
+  $('#letraContent').setAttribute('aria-busy', 'false');
+}
+
+function loadPreferences() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('songbook_reader_preferences') || '{}');
+    if (['american', 'spanish'].includes(saved.notation)) state.notation = saved.notation;
+    if (Number.isInteger(saved.textSize)) state.textSize = Math.max(0, Math.min(TEXT_CLASSES.length - 1, saved.textSize));
+    if (Number.isInteger(saved.speed)) state.speed = Math.max(1, Math.min(10, saved.speed));
+    if (typeof saved.showChords === 'boolean') state.showChords = saved.showChords;
+    if (typeof saved.toolsCollapsed === 'boolean') state.toolsCollapsed = saved.toolsCollapsed;
+  } catch { /* Preferencias opcionales. */ }
+}
+
+function savePreferences() {
+  try {
+    localStorage.setItem('songbook_reader_preferences', JSON.stringify({
+      notation: state.notation,
+      textSize: state.textSize,
+      speed: state.speed,
+      showChords: state.showChords,
+      toolsCollapsed: state.toolsCollapsed
+    }));
+  } catch { /* La lectura sigue funcionando sin almacenamiento. */ }
+}
+
+window.cambiarTono = changeTone;
+window.cambiarTamano = changeTextSize;
+window.cambiarVelocidad = changeSpeed;
+window.toggleCifrado = toggleNotation;
+window.toggleMostrarAcordes = toggleChordVisibility;
+window.toggleAutoScroll = toggleAutoScroll;
+window.resetearConfiguracion = resetSettings;
+window.imprimirCancion = () => window.print();
+
+$('#scrollSpeed').addEventListener('input', (event) => {
+  state.speed = Number(event.target.value);
+  syncControls();
+  savePreferences();
+});
+$('#btnMostrarAcordes').addEventListener('click', toggleChordVisibility);
+$('#toggleTools').addEventListener('click', toggleTools);
+$('#openQuickGuide').addEventListener('click', openQuickGuide);
+$('#closeQuickGuide').addEventListener('click', closeQuickGuide);
+$('#quickGuideBackdrop').addEventListener('click', closeQuickGuide);
+$('#guideGuitarTab').addEventListener('click', () => selectGuideInstrument('guitar'));
+$('#guidePianoTab').addEventListener('click', () => selectGuideInstrument('piano'));
+$('#likeButton').addEventListener('click', toggleLike);
+$('#closeChordDrawer').addEventListener('click', closeChordDrawer);
+$('#chordDrawerBackdrop').addEventListener('click', closeChordDrawer);
+$('#guitarTab').addEventListener('click', () => selectDrawerInstrument('guitar'));
+$('#pianoTab').addEventListener('click', () => selectDrawerInstrument('piano'));
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    if (!$('#quickGuideModal').hidden) closeQuickGuide();
+    else if (!$('#chordDrawer').hidden) closeChordDrawer();
+  }
+  const target = event.target instanceof Element ? event.target : null;
+  const isInteractive = target?.closest('input, textarea, select, button, [contenteditable="true"]');
+  if (isInteractive || event.ctrlKey || event.metaKey || event.altKey) return;
+
+  const rawKey = event.key.toLowerCase();
+  const key = event.code === 'Space' || [' ', 'space', 'spacebar'].includes(rawKey)
+    ? 'space'
+    : rawKey;
+  const actions = {
+    a: () => toggleAutoScroll(),
+    space: () => toggleAutoScroll(),
+    v: () => toggleChordVisibility(),
+    c: () => toggleNotation(),
+    '+': () => changeSpeed(1),
+    '=': () => changeSpeed(1),
+    '-': () => changeSpeed(-1),
+    '_': () => changeSpeed(-1),
+    arrowup: () => moveReading(-1),
+    arrowdown: () => moveReading(1)
+  };
+  const action = actions[key];
+  if (!action) return;
+  event.preventDefault();
+  action();
+});
+document.addEventListener('visibilitychange', () => { if (document.hidden) toggleAutoScroll(false); });
+window.addEventListener('beforeunload', () => toggleAutoScroll(false));
+$('.back-btn').addEventListener('click', (event) => {
+  if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+    event.preventDefault();
+    history.back();
+  }
 });
 
-// Cargar canción desde Firebase
-async function cargarCancion(id) {
-    try {
-        console.log('🔍 Buscando canción ID:', id);
-        
-        cancionActual = await DatabaseService.getCancionPorId(id);
-        
-        if (cancionActual) {
-            console.log('✅ Canción encontrada:', cancionActual.titulo);
-            mostrarCancion();
-            
-            // Incrementar reproducciones
-            await DatabaseService.incrementarReproducciones(id);
-            console.log('👁️ Reproducciones incrementadas');
-            
-        } else {
-            console.log('❌ Canción no encontrada');
-            mostrarError();
-        }
-        
-    } catch (error) {
-        console.error('💥 Error cargando canción:', error);
-        mostrarError();
-    }
-}
-
-// Mostrar información de la canción
-function mostrarCancion() {
-    try {
-        console.log('🎨 Mostrando información de la canción...');
-        
-        // Actualizar título de la página
-        document.title = `${cancionActual.titulo} - Cancionero Gen`;
-        const pageTitle = document.getElementById('pageTitle');
-        if (pageTitle) {
-            pageTitle.textContent = `${cancionActual.titulo} - Cancionero Gen`;
-        }
-        
-        // Información básica (IDs alineados al HTML)
-        const elementos = {
-        'headerTitulo': cancionActual.titulo,
-        'headerArtista': cancionActual.artista || 'Desconocido',
-        'cancionCategoria': getCategoriaTexto(cancionActual.categoria),
-        'cancionVistas': (cancionActual.reproducciones || 0) + 1
-        };
-        Object.entries(elementos).forEach(([id, value]) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = value;
-        else console.warn(`⚠️ Elemento no encontrado: ${id}`);
-        });
-        
-        mostrarLetraConAcordes();
-        
-        console.log('✅ Información mostrada correctamente');
-        
-    } catch (error) {
-        console.error('💥 Error mostrando canción:', error);
-        mostrarError();
-    }
-}
-
-// Mostrar letra con acordes formateada
-function mostrarLetraConAcordes() {
-    const container = document.getElementById('letraContent');
-    if (!container) {
-        console.error('❌ Contenedor de letra no encontrado');
-        return;
-    }
-
-    let letra = cancionActual.letra;
-
-    // Transposición de tono si es necesario
-    if (tonoActual !== 0) {
-        letra = transponerLetra(letra, tonoActual);
-    }
-
-    // Convertir cifrado y renderizar acordes compactos
-    const letraFormateada = letra.replace(/\[([^\]]+)\]/g, (match, acorde) => {
-        const convertido = convertirAcordeACifrado(acorde, window.cifradoActual || 'american');
-        return `<span class="acorde-compacto">${convertido}</span>`;
-    });
-
-    // Detectar secciones (Intro, Coro, etc.)
-    const letraConSecciones = letraFormateada.replace(
-        /^(Verso|Coro|Estribillo|Bridge|Intro|Outro|Pre-coro)(\s*\d*):/gim,
-        '<div class="seccion-titulo" id="seccion-$1$2">$1$2</div>'
-    );
-
-    container.innerHTML = letraConSecciones;
-
-    // Indicadores UI
-    const tonos = ['-6', '-5', '-4', '-3', '-2', '-1', 'Original', '+1', '+2', '+3', '+4', '+5', '+6'];
-    const tonoEl = document.getElementById('tonoActual');
-    if (tonoEl) tonoEl.textContent = tonos[Math.max(-6, Math.min(6, tonoActual)) + 6];
-
-    const velocidades = ['Muy lento', 'Lento', 'Lento+', 'Normal-', 'Normal', 'Normal+', 'Rápido-', 'Rápido', 'Rápido+', 'Muy rápido'];
-    const velEl = document.getElementById('velocidadActual');
-    if (velEl) velEl.textContent = velocidades[Math.max(1, Math.min(10, velocidadScroll)) - 1];
-
-}
-
-
-// Obtener texto de categoría con emoji
-function getCategoriaTexto(categoria) {
-    const categorias = {
-        'misa': '⛪ Misa',
-        'gen': '❤️ Gen',
-        'fogon': '🔥 Fogón'
-    };
-    return categorias[categoria] || categoria;
-}
-
-// Funciones de control público (llamadas desde HTML)
-window.cambiarTono = function(direccion) {
-    tonoActual += direccion;
-    
-    // Limitar rango de transposición (-6 a +6 semitonos)
-    if (tonoActual > 6) tonoActual = 6;
-    if (tonoActual < -6) tonoActual = -6;
-    
-    mostrarLetraConAcordes();
-    console.log(`🎵 Tono cambiado: ${tonoActual > 0 ? '+' : ''}${tonoActual}`);
-};
-
-window.cambiarTamano = function(direccion) {
-    tamanoTexto += direccion;
-    
-    // Limitar rango de tamaños (0 a 3)
-    if (tamanoTexto > 3) tamanoTexto = 3;
-    if (tamanoTexto < 0) tamanoTexto = 0;
-    
-    const clases = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande'];
-    const container = document.getElementById('letraContent');
-    
-    if (container) {
-        // Remover clases anteriores
-        clases.forEach(clase => container.classList.remove(clase));
-        
-        // Aplicar nueva clase de tamaño
-        container.classList.add(clases[tamanoTexto]);
-    }
-    
-    console.log(`📏 Tamaño cambiado: ${clases[tamanoTexto]}`);
-};
-
-window.toggleAutoScroll = function() {
-    if (autoScrollActivo) {
-        detenerAutoScroll();
-    } else {
-        iniciarAutoScroll();
-    }
-};
-
-window.resetearConfiguracion = function() {
-    console.log('🔄 Reseteando configuración...');
-    
-    // Resetear variables
-    tonoActual = 0;
-    tamanoTexto = 2;
-    
-    const scrollSpeedInput = document.getElementById('scrollSpeed');
-    if (scrollSpeedInput) {
-        scrollSpeedInput.value = 5;
-    }
-    
-    // Detener auto-scroll
-    detenerAutoScroll();
-    
-    // Actualizar letra
-    mostrarLetraConAcordes();
-    
-    // Resetear tamaño de texto
-    const container = document.getElementById('letraContent');
-    if (container) {
-        ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande'].forEach(clase => {
-            container.classList.remove(clase);
-        });
-        container.classList.add('texto-grande');
-    }
-    
-    console.log('✅ Configuración reseteada');
-};
-
-window.imprimirCancion = function() {
-    console.log('🖨️ Imprimiendo canción...');
-    window.print();
-};
-
-// Función para mostrar información de acordes (expandible)
-window.mostrarInfoAcorde = function(acorde) {
-    console.log(`🎸 Info acorde: ${acorde}`);
-};
-
-// Mostrar modal de error
-function mostrarError() {
-    console.log('❌ Mostrando error de canción no encontrada');
-    
-    const container = document.getElementById('letraContent');
-    if (container) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 4rem; color: var(--text-muted);">
-                <div style="font-size: 4rem; margin-bottom: 2rem;">❌</div>
-                <h2 style="color: var(--text-light); margin-bottom: 1rem;">Canción no encontrada</h2>
-                <p>La canción que buscas no existe o fue eliminada del cancionero.</p>
-                <a href="cancionero.html" style="
-                    background: var(--primary-color);
-                    color: white;
-                    padding: 12px 24px;
-                    border-radius: 8px;
-                    text-decoration: none;
-                    display: inline-block;
-                    margin-top: 2rem;
-                    font-weight: 600;
-                ">← Volver al cancionero</a>
-            </div>
-        `;
-    }
-    
-    // Actualizar título también
-    document.title = 'Canción no encontrada - Cancionero Gen';
-    const pageTitle = document.getElementById('pageTitle');
-    if (pageTitle) {
-        pageTitle.textContent = 'Canción no encontrada - Cancionero Gen';
-    }
-    
-    // Actualizar header info
-    const elementos = {
-        'cancionTitulo': 'Canción no encontrada',
-        'cancionArtista': '-',
-        'cancionCategoria': '-',
-        'cancionVistas': '0'
-    };
-    
-    Object.entries(elementos).forEach(([id, value]) => {
-        const elemento = document.getElementById(id);
-        if (elemento) {
-            elemento.textContent = value;
-        }
-    });
-}
-
-// Event listeners adicionales
-document.addEventListener('keydown', function(e) {
-    // Atajos de teclado
-    if (e.ctrlKey || e.metaKey) {
-        switch(e.key) {
-            case '+':
-            case '=':
-                e.preventDefault();
-                cambiarTono(1);
-                break;
-            case '-':
-                e.preventDefault();
-                cambiarTono(-1);
-                break;
-            case '0':
-                e.preventDefault();
-                resetearConfiguracion();
-                break;
-        }
-    }
-    
-    // Espaciadora para toggle auto-scroll
-    if (e.key === ' ' && !e.target.matches('input, textarea, select')) {
-        e.preventDefault();
-        toggleAutoScroll();
-    }
-});
-
-// Atajos de teclado básicos en el JS externo (si esta página lo usa):
-document.addEventListener('keydown', function(e) {
-    if (e.target.matches('input, textarea, select')) return;
-
-    if (e.key === 'a' || e.key === 'A') {
-        e.preventDefault();
-        window.toggleAutoScroll();
-        return;
-    }
-    if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        window.scrollBy({ top: -60, behavior: 'auto' });
-        return;
-    }
-    if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        window.scrollBy({ top: 60, behavior: 'auto' });
-        return;
-    }
-    // Si esta página usa control de velocidad desde JS externo:
-    if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        if (typeof window.cambiarVelocidad === 'function') window.cambiarVelocidad(-1);
-        return;
-    }
-    if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        if (typeof window.cambiarVelocidad === 'function') window.cambiarVelocidad(1);
-        return;
-    }
-});
-
-// Funciones de control público (llamadas desde HTML)
-window.cambiarTono = function(direccion) {
-    tonoActual += direccion;
-    
-    // Limitar rango de transposición (-6 a +6 semitonos)
-    if (tonoActual > 6) tonoActual = 6;
-    if (tonoActual < -6) tonoActual = -6;
-    
-    mostrarLetraConAcordes();
-    console.log(`🎵 Tono cambiado: ${tonoActual > 0 ? '+' : ''}${tonoActual}`);
-};
-
-window.cambiarTamano = function(direccion) {
-    tamanoTexto += direccion;
-    
-    // Limitar rango de tamaños (0 a 3)
-    if (tamanoTexto > 3) tamanoTexto = 3;
-    if (tamanoTexto < 0) tamanoTexto = 0;
-    
-    const clases = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande'];
-    const container = document.getElementById('letraContent');
-    
-    if (container) {
-        // Remover clases anteriores
-        clases.forEach(clase => container.classList.remove(clase));
-        
-        // Aplicar nueva clase de tamaño
-        container.classList.add(clases[tamanoTexto]);
-    }
-    
-    console.log(`📏 Tamaño cambiado: ${clases[tamanoTexto]}`);
-};
-
-// Global scope (auto-scroll y velocidad dinámica)
-window.toggleAutoScroll = function() {
-    if (autoScrollActivo) {
-        detenerAutoScroll();
-    } else {
-        iniciarAutoScroll();
-    }
-};
-
-function iniciarAutoScroll() {
-    const container = document.getElementById('letraContent');
-    if (!container || autoScrollActivo) return;
-
-    autoScrollActivo = true;
-    acumuladoScroll = 0; // reset del acumulador
-
-    // Calcular el paso en cada frame y acumular fracciones
-    const tick = () => {
-        // clamp al rango (1..10) y aplicar factor
-        const stepFraccion = Math.max(1, Math.min(10, velocidadScroll)) * FACTOR_PASO_PX;
-
-        // Acumula fracción y aplica solo píxeles enteros
-        acumuladoScroll += stepFraccion;
-        const pasoEntero = Math.floor(acumuladoScroll);
-        if (pasoEntero > 0) {
-            window.scrollBy(0, pasoEntero);
-            acumuladoScroll -= pasoEntero;
-        }
-
-        if (autoScrollActivo) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-
-    const btn = document.getElementById('btnAutoScroll');
-    if (btn) {
-        btn.textContent = 'Auto Scroll: ON';
-        btn.classList.add('active');
-    }
-}
-
-function detenerAutoScroll() {
-    if (!autoScrollActivo) return;
-    autoScrollActivo = false;
-    acumuladoScroll = 0; // limpiar acumulado al detener
-
-    const btn = document.getElementById('btnAutoScroll');
-    if (btn) {
-        btn.textContent = 'Auto Scroll: OFF';
-        btn.classList.remove('active');
-    }
-}
-
-
-window.resetearConfiguracion = function() {
-    console.log('🔄 Reseteando configuración...');
-    detenerAutoScroll();
-
-    const tonoEl = document.getElementById('tonoActual');
-    if (tonoEl) tonoEl.textContent = 'Original';
-
-    const velEl = document.getElementById('velocidadActual');
-    const etiquetas = ['Muy lento', 'Lento', 'Lento+', 'Normal-', 'Normal', 'Normal+', 'Rápido-', 'Rápido', 'Rápido+', 'Muy rápido'];
-    if (velEl) velEl.textContent = etiquetas[velocidadScroll - 1];
-
-    mostrarLetraConAcordes();
-
-    const scrollSpeedInput = document.getElementById('scrollSpeed');
-    if (scrollSpeedInput) {
-        scrollSpeedInput.value = 5;
-    }
-    
-    // Detener auto-scroll
-    detenerAutoScroll();
-    
-    // Actualizar letra
-    mostrarLetraConAcordes();
-    
-    // Resetear tamaño de texto
-    const container = document.getElementById('letraContent');
-    if (container) {
-        ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande'].forEach(clase => {
-            container.classList.remove(clase);
-        });
-        container.classList.add('texto-grande');
-    }
-    
-    console.log('✅ Configuración reseteada');
-};
-
-window.imprimirCancion = function() {
-    console.log('🖨️ Imprimiendo canción...');
-    window.print();
-};
-
-// Función para mostrar información de acordes (expandible)
-window.mostrarInfoAcorde = function(acorde) {
-    console.log(`🎸 Info acorde: ${acorde}`);
-};
-
-// Transponer toda la letra
-function transponerLetra(letra, semitonos) {
-    return letra.replace(/\[([^\]]+)\]/g, (match, acorde) => {
-        const acordeTranspuesto = transponerAcorde(acorde, semitonos);
-        return `[${acordeTranspuesto}]`;
-    });
-}
-
-function transponerAcorde(acorde, semitonos) {
-  const original = acorde.trim();
-
-  let m = original.match(/^(DO|RE|MI|FA|SOL|LA|SI)([#b])?/i);
-  let estilo = 'spanish';
-  let root = null;
-  let accidental = '';
-  let sufijo = '';
-
-  if (m) {
-    root = m[1].toUpperCase();
-    accidental = m[2] || '';
-    sufijo = original.slice(m[0].length);
-  } else {
-    m = original.match(/^(D|R|M|F|S|L)([#b])(O|E|I|A|OL|A|I)/i);
-    if (m) {
-      const mapaEsp = { D:'DO', R:'RE', M:'MI', F:'FA', S:'SOL', L:'LA' };
-      root = mapaEsp[m[1].toUpperCase()];
-      accidental = m[2];
-      sufijo = original.slice(m[0].length);
-      estilo = 'spanish';
-    } else {
-      m = original.match(/^([A-GH](?:#|b)?)/);
-      if (!m) return original;
-      root = m[1];
-      sufijo = original.slice(root.length);
-      estilo = /^[HB]/.test(root) ? 'european' : 'american';
-    }
-  }
-
-  const toIndexSpanish = { DO:0, RE:2, MI:4, FA:5, SOL:7, LA:9, SI:11 };
-  const namesSharps = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-  const namesFlats  = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
-  const spanishSharps = ['DO','DO#','RE','RE#','MI','FA','FA#','SOL','SOL#','LA','LA#','SI'];
-  const spanishFlats  = ['DO','REb','RE','MIb','MI','FA','SOLb','SOL','LAb','LA','SIb','SI'];
-
-  let idx;
-  if (estilo === 'spanish') {
-    idx = toIndexSpanish[root];
-  } else {
-    let rootCalc = root;
-    if (rootCalc[0] === 'H') rootCalc = rootCalc.replace(/^H/, 'B'); // europeo H->B
-    idx = namesSharps.indexOf(rootCalc);
-    if (idx === -1) idx = namesFlats.indexOf(rootCalc);
-    if (idx === -1) return original;
-  }
-
-  if (estilo === 'spanish') {
-    if (accidental === '#') idx = (idx + 1) % 12;
-    if (accidental === 'b') idx = (idx + 11) % 12;
-  }
-
-  const outIdx = (idx + semitonos + 12) % 12;
-
-  let outRoot;
-  if (estilo === 'spanish') {
-    const preferFlats = accidental === 'b';
-    outRoot = (preferFlats ? spanishFlats[outIdx] : spanishSharps[outIdx]);
-  } else if (estilo === 'european') {
-    const preferFlats = root.includes('b');
-    let temp = (preferFlats ? namesFlats[outIdx] : namesSharps[outIdx]);
-    if (temp === 'B') temp = 'H';
-    if (temp === 'Bb') temp = 'B';
-    outRoot = temp;
-  } else {
-    const preferFlats = root.includes('b');
-    outRoot = (preferFlats ? namesFlats[outIdx] : namesSharps[outIdx]);
-  }
-
-  return outRoot + sufijo;
-}
-
-// Cambio de cifrado (botón C→Do)
-window.cifradoActual = window.cifradoActual || 'american';
-window.toggleCifrado = function () {
-    window.cifradoActual = (window.cifradoActual === 'american') ? 'spanish' : 'american';
-    const btn = document.getElementById('btnCifrado');
-    if (btn) btn.textContent = (window.cifradoActual === 'american') ? 'C→Do' : 'Do→C';
-    mostrarLetraConAcordes();
-};
-
-// Conversión de cifrado robusta (americano <-> español, soporta europeo H)
-function convertirAcordeACifrado(acorde, cifradoDestino) {
-    const original = acorde.trim();
-
-    // Español estándar
-    let m = original.match(/^(DO|RE|MI|FA|SOL|LA|SI)([#b])?(.*)$/i);
-    if (m) {
-        const rootEsp = m[1].toUpperCase();
-        const accidental = m[2] || '';
-        const sufijo = m[3] || '';
-        if (cifradoDestino === 'spanish') return rootEsp + accidental + sufijo;
-        const mapSA = { DO:'C', RE:'D', MI:'E', FA:'F', SOL:'G', LA:'A', SI:'B' };
-        return (mapSA[rootEsp] || rootEsp) + accidental + sufijo;
-    }
-
-    // Español raro con accidental intercalado (D#O, SOLb...)
-    m = original.match(/^(D|R|M|F|S|L)([#b])(O|E|I|A|OL|A|I)(.*)$/i);
-    if (m) {
-        const mapEsp = { D:'DO', R:'RE', M:'MI', F:'FA', S:'SOL', L:'LA' };
-        const rootEsp = (mapEsp[m[1].toUpperCase()] || m[1].toUpperCase()) + m[2] + m[3].toUpperCase().replace('OL','OL');
-        const sufijo = m[4] || '';
-        if (cifradoDestino === 'spanish') return rootEsp + sufijo;
-        const normalized = convertirAcordeACifrado(rootEsp, 'american');
-        return normalized + sufijo;
-    }
-
-    // Americano/europeo (A–G/H)
-    m = original.match(/^([A-GH](?:#|b)?)(.*)$/);
-    if (m) {
-        let root = m[1];
-        const sufijo = m[2] || '';
-        if (root[0] === 'H') root = root.replace(/^H/, 'B'); // europeo H -> B
-        if (cifradoDestino === 'american') return root + sufijo;
-        const mapAS = {
-            'C':'DO','C#':'DO#','Db':'REb','D':'RE','D#':'RE#','Eb':'MIb','E':'MI',
-            'F':'FA','F#':'FA#','Gb':'SOLb','G':'SOL','G#':'SOL#','Ab':'LAb',
-            'A':'LA','A#':'LA#','Bb':'SIb','B':'SI'
-        };
-        return (mapAS[root] || root) + sufijo;
-    }
-
-    return original;
-}
-
-// Cleanup y logging
-window.addEventListener('beforeunload', () => {
-    console.log('👋 Saliendo de la página de canción');
-});
-
-console.log('🎸 Cancion.js cargado correctamente');
-
-// Control de velocidad: botones +/- y actualización de label
-window.cambiarVelocidad = function(direccion) {
-    const min = 1, max = 10;
-    const nueva = Math.max(min, Math.min(max, velocidadScroll + direccion));
-    if (nueva === velocidadScroll) return;
-
-    velocidadScroll = nueva;
-    window.velocidadScroll = nueva;
-
-    const etiquetas = ['Muy lento', 'Lento', 'Lento+', 'Normal-', 'Normal', 'Normal+', 'Rápido-', 'Rápido', 'Rápido+', 'Muy rápido'];
-    const velEl = document.getElementById('velocidadActual');
-    if (velEl) velEl.textContent = etiquetas[nueva - 1];
-};
-// 🔧 AGREGAR AL FINAL DEL ARCHIVO, ANTES DEL console.log FINAL
-
-// ============ HEADER COLAPSABLE AL HACER SCROLL ============
-let lastScrollTop = 0;
-const header = document.querySelector('.cancion-header');
-
-window.addEventListener('scroll', () => {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  
-  // Activar compresión después de 50px de scroll
-  if (scrollTop > 50) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-  
-  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-}, false);
-
-console.log('✅ Header colapsable activado');
+loadPreferences();
+syncControls();
+const songId = new URLSearchParams(location.search).get('id');
+if (songId) loadSong(songId);
+else showError('Falta identificar qué canción querés abrir.');

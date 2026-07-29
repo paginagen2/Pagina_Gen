@@ -1,4 +1,4 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260713-speed1';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-list';
 
 const DATA_ROOT = '../datos/cancionero';
 let canciones = [];
@@ -15,9 +15,13 @@ window.modoSeleccion = false;
 let mostrandoTodosArtistas = false;
 let artistasOrdenados = [];
 let artistasCompletosCargados = false;
+let usuarioFavoritos = null;
+const favoritosIds = new Set();
+const favoritosConsultados = new Set();
 
 document.addEventListener('DOMContentLoaded', async () => {
   inicializarEventListeners();
+  inicializarFavoritos();
   await inicializar();
 });
 
@@ -210,6 +214,7 @@ function renderizarCanciones() {
     const card = crearCancionCard(cancion, index + 1);
     container.appendChild(card);
   });
+  void actualizarFavoritosVisibles();
 }
 
 // Crear card con checkbox mejor posicionado
@@ -240,7 +245,9 @@ function crearCancionCard(cancion, ranking) {
         <div class="song-card-footer">
           <span class="cancion-categoria" data-categoria="${categoria}">${getCategoriaTexto(categoria)}</span>
           ${tono ? `<span class="song-key">${tono}</span>` : ''}
-          <svg class="favorite-icon" aria-hidden="true"><use href="#i-heart"/></svg>
+          <button type="button" class="favorite-button" data-song-id="${id}" aria-pressed="false" aria-label="Agregar ${titulo} a favoritos" title="Agregar a favoritos">
+            <svg class="favorite-icon" aria-hidden="true"><use href="#i-heart"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -259,8 +266,116 @@ function crearCancionCard(cancion, ranking) {
     event.stopPropagation();
     toggleSelection(cancion.id);
   });
+  card.querySelector('.favorite-button')?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    void alternarFavorito(cancion, event.currentTarget);
+  });
 
   return card;
+}
+
+function inicializarFavoritos() {
+  const utils = window.firebaseUtils;
+  const auth = window.firebaseAuth;
+  if (!utils?.onAuthStateChanged || !auth) {
+    window.addEventListener('gen:auth-changed', (event) => cambiarUsuarioFavoritos(event.detail?.user || null));
+    return;
+  }
+  utils.onAuthStateChanged(auth, cambiarUsuarioFavoritos);
+}
+
+function cambiarUsuarioFavoritos(user) {
+  usuarioFavoritos = user || null;
+  const toolFavorites = document.getElementById('toolFavorites');
+  if (toolFavorites) toolFavorites.hidden = !usuarioFavoritos;
+  favoritosIds.clear();
+  favoritosConsultados.clear();
+  document.querySelectorAll('.favorite-button').forEach((button) => actualizarBotonFavorito(button, false));
+  if (usuarioFavoritos) void actualizarFavoritosVisibles();
+}
+
+window.abrirMisFavoritos = function abrirMisFavoritos() {
+  const user = usuarioFavoritos || window.firebaseAuth?.currentUser;
+  if (!user) {
+    if (typeof window.genOpenAuthModal === 'function') window.genOpenAuthModal();
+    else document.getElementById('auth-btn')?.click();
+    return;
+  }
+  window.location.href = 'favoritos.html';
+};
+
+async function actualizarFavoritosVisibles() {
+  const user = usuarioFavoritos || window.firebaseAuth?.currentUser;
+  const buttons = [...document.querySelectorAll('.favorite-button')];
+  if (!user) {
+    buttons.forEach((button) => actualizarBotonFavorito(button, false));
+    return;
+  }
+  usuarioFavoritos = user;
+  const pending = buttons.filter((button) => !favoritosConsultados.has(button.dataset.songId));
+  await Promise.all(pending.map(async (button) => {
+    const id = button.dataset.songId;
+    button.setAttribute('aria-busy', 'true');
+    try {
+      const active = await DatabaseService.getEstadoFavorito(id, user.uid);
+      if (window.firebaseAuth?.currentUser?.uid !== user.uid) return;
+      favoritosConsultados.add(id);
+      if (active) favoritosIds.add(id);
+      else favoritosIds.delete(id);
+      actualizarBotonesFavorito(id);
+    } catch (error) {
+      console.error(`No se pudo consultar el favorito ${id}:`, error);
+    } finally {
+      button.removeAttribute('aria-busy');
+    }
+  }));
+}
+
+function actualizarBotonFavorito(button, active) {
+  const title = button.closest('.cancion-card')?.querySelector('.cancion-titulo')?.textContent || 'esta canción';
+  button.classList.toggle('active', active);
+  button.setAttribute('aria-pressed', String(active));
+  button.setAttribute('aria-label', active ? `Quitar ${title} de favoritos` : `Agregar ${title} a favoritos`);
+  button.title = active ? 'Quitar de favoritos' : 'Agregar a favoritos';
+}
+
+function actualizarBotonesFavorito(songId) {
+  document.querySelectorAll('.favorite-button').forEach((button) => {
+    if (button.dataset.songId === String(songId)) actualizarBotonFavorito(button, favoritosIds.has(String(songId)));
+  });
+}
+
+async function alternarFavorito(cancion, button) {
+  const user = usuarioFavoritos || window.firebaseAuth?.currentUser;
+  if (!user) {
+    if (typeof window.genOpenAuthModal === 'function') window.genOpenAuthModal();
+    else document.getElementById('auth-btn')?.click();
+    mostrarToast('Iniciá sesión para agregar canciones a favoritos', 'error');
+    return;
+  }
+  const id = String(cancion.id);
+  if (button.disabled) return;
+  button.disabled = true;
+  try {
+    if (!favoritosConsultados.has(id)) {
+      const active = await DatabaseService.getEstadoFavorito(id, user.uid);
+      favoritosConsultados.add(id);
+      if (active) favoritosIds.add(id);
+    }
+    const active = !favoritosIds.has(id);
+    await DatabaseService.setFavoritoCancion(id, user.uid, active);
+    if (active) favoritosIds.add(id);
+    else favoritosIds.delete(id);
+    favoritosConsultados.add(id);
+    actualizarBotonesFavorito(id);
+    mostrarToast(active ? 'Agregada a favoritos' : 'Quitada de favoritos', 'success');
+    window.dispatchEvent(new CustomEvent('gen:favorite-changed', { detail: { songId: id, active } }));
+  } catch (error) {
+    console.error('No se pudo actualizar el favorito:', error);
+    mostrarToast('No pudimos actualizar tus favoritos', 'error');
+  } finally {
+    button.disabled = false;
+  }
 }
 
 // Top artistas

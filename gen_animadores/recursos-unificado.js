@@ -128,20 +128,24 @@
         }
 
         container.innerHTML = state.visible.map(recurso => `
-            <article class="recurso-detail-card">
+            <article
+                class="recurso-detail-card"
+                data-resource-id="${escapeAttribute(recurso.id)}"
+                role="button"
+                tabindex="0"
+                aria-label="Abrir ${escapeAttribute(recurso.titulo || 'recurso')}"
+            >
                 <div class="resource-card-top">
-                    <span class="category-icon" aria-hidden="true">${config.icon}</span>
-                    <span class="category-label">${escapeHtml(CATEGORY_LABELS[recurso.categoria] || config.label)}</span>
+                    <h2>${escapeHtml(recurso.titulo || 'Recurso sin título')}</h2>
                 </div>
-                <h2>${escapeHtml(recurso.titulo || 'Recurso sin título')}</h2>
                 <p class="resource-description">${escapeHtml(recurso.descripcion || '')}</p>
                 <div class="recurso-meta" aria-label="Información del recurso">
                     ${metaChip('Duración', recurso.duracion, '⏱')}
                     ${metaChip('Participantes', recurso.participantes, '👥')}
                 </div>
-                <button type="button" class="resource-open" data-resource-id="${escapeAttribute(recurso.id)}">
+                <span class="resource-open" aria-hidden="true">
                     Ver propuesta completa <span aria-hidden="true">→</span>
-                </button>
+                </span>
             </article>
         `).join('');
     }
@@ -394,6 +398,12 @@
         });
 
         document.addEventListener('keydown', event => {
+            const tarjeta = event.target.closest('.recurso-detail-card[data-resource-id]');
+            if (tarjeta && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                abrirRecurso(tarjeta.dataset.resourceId);
+                return;
+            }
             if (event.key !== 'Escape') return;
             ['modalRecurso', 'modalAgregar'].forEach(id => {
                 const modal = document.getElementById(id);

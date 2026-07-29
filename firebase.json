@@ -1,4 +1,68 @@
 {
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "firestore.indexes.json",
+      "package.json",
+      "package-lock.json",
+      "README.md",
+      "LICENSE",
+      "_pdv-qa.html",
+      "firebase-debug.log",
+      ".git/**",
+      ".github/**",
+      ".vscode/**",
+      ".agents/**",
+      ".codex/**",
+      ".codex-worktrees/**",
+      "node_modules/**",
+      "scripts/**",
+      "docs/**",
+      "android/**",
+      "www/**",
+      "**/*.log",
+      "**/*.md"
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=()"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=3600,must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(png|jpg|jpeg|gif|webp|svg|ico|mp3)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=604800,immutable"
+          }
+        ]
+      }
+    ]
+  },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"

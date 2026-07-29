@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js';
-import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
+import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE",
@@ -25,7 +25,7 @@ async function cargarTodasLasMeditaciones() {
     const grid = document.getElementById('listaMeditaciones');
     
     try {
-        const querySnapshot = await getDocs(collection(db, 'meditaciones'));
+        const querySnapshot = await getDocs(query(collection(db, 'meditaciones'), where('Publico', '==', true)));
         todasLasMeditaciones = [];
 
         querySnapshot.forEach((doc) => {

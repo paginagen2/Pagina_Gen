@@ -8,16 +8,16 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Biblioteca Digital | Gen 2">
   <meta property="og:description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
-  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Biblioteca Digital | Gen 2">
   <meta name="twitter:description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
-  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="biblioteca.css">
-  <link rel="stylesheet" href="biblioteca-polish.css">
+  <link rel="stylesheet" href="biblioteca-polish.css?v=20260728-responsive-grid">
   <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260728-retractable-4">
   <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
 
@@ -25,7 +25,7 @@
   
   <!-- Sidebar -->
   <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js"></script>
+  <script src="../aaglobal/sidebar.js?v=20260728-retractable-4"></script>
 
   <!-- Contenido principal -->
   <main class="main">
@@ -47,11 +47,11 @@
         <div class="filtros_section">
           <div class="filtros_titulo">📚 Filtrar por categoría:</div>
           <div class="filtros_categoria">
-            <button class="filtro_btn active" data-categoria="todos" onclick="filtrarCategoria('todos')">Todos</button>
-            <button class="filtro_btn" data-categoria="libros" onclick="filtrarCategoria('libros')">📖 Libros</button>
-            <button class="filtro_btn" data-categoria="documentos" onclick="filtrarCategoria('documentos')">📄 Documentos</button>
-            <button class="filtro_btn" data-categoria="audio" onclick="filtrarCategoria('audio')">🎵 Audio</button>
-            <button class="filtro_btn" data-categoria="videos" onclick="filtrarCategoria('videos')">📹 Videos</button>
+            <button class="filtro_btn active" data-categoria="todos">Todos</button>
+            <button class="filtro_btn" data-categoria="libros">📖 Libros</button>
+            <button class="filtro_btn" data-categoria="documentos">📄 Documentos</button>
+            <button class="filtro_btn" data-categoria="audio">🎵 Audio</button>
+            <button class="filtro_btn" data-categoria="videos">📹 Videos</button>
           </div>
         </div>
 
@@ -59,7 +59,7 @@
         <div class="filtros_section">
           <div class="filtros_titulo_container">
             <div class="filtros_titulo">🏷️ Filtrar por temas:</div>
-            <button type="button" class="toggle_filtros_btn" id="toggleFiltrosBtn" aria-expanded="true" aria-controls="filtrosAtributos" onclick="toggleFiltrosTemas()">
+            <button type="button" class="toggle_filtros_btn" id="toggleFiltrosBtn" aria-expanded="false" aria-controls="filtrosAtributos">
               <span id="toggleIcon">▼</span> <span id="toggleText">Ocultar filtros</span>
             </button>
           </div>
@@ -70,18 +70,70 @@
 
         <!-- Búsqueda -->
         <div class="busqueda_container">
-          <input type="text" id="busquedaInput" class="busqueda_input" aria-label="Buscar en la biblioteca" placeholder="Buscar en biblioteca..." onkeyup="buscarArchivos()">
+          <input type="text" id="busquedaInput" class="busqueda_input" aria-label="Buscar en la biblioteca" placeholder="Buscar en biblioteca...">
           <span class="busqueda_icono" aria-hidden="true">🔍</span>
         </div>
 
-        <!-- Botón para enviar archivos via Google Forms -->
+        <div class="biblioteca_herramientas">
+          <label>
+            <span>Ordenar</span>
+            <select id="bibliotecaOrden">
+              <option value="relevancia">Relevancia</option>
+              <option value="recientes">Más recientes</option>
+              <option value="titulo">Título</option>
+              <option value="autor">Autor</option>
+            </select>
+          </label>
+          <label class="favoritos_check"><input type="checkbox" id="soloFavoritos"> Solo guardados</label>
+        </div>
+
+        <!-- Aportes revisados previamente en Google Drive -->
         <div class="enviar_archivos_section">
-          <button type="button" class="btn_enviar_archivos" onclick="abrirFormularioGoogle()">
-            📤 Enviar archivo a la biblioteca
+          <button type="button" class="btn_enviar_archivos" id="abrirAporte">
+            📤 Aportar un recurso
           </button>
           <p class="enviar_archivos_info">
-            Se abrirá un formulario de Google para enviar tu archivo de forma segura
+            Completá la ficha y adjuntá el archivo sin salir de la Biblioteca.
           </p>
+          <div id="aportePanel" class="aporte_panel" role="dialog" aria-modal="true" aria-labelledby="aporteTituloModal" hidden>
+            <div class="aporte_contenido">
+            <div class="aporte_encabezado">
+              <div><span>PASO 1 DE 2</span><h2 id="aporteTituloModal">Aportar un recurso</h2><p>Completá la ficha para que el equipo pueda revisar el material.</p></div>
+              <button id="cerrarAporte" type="button" aria-label="Cerrar formulario">×</button>
+            </div>
+            <form id="aporteForm">
+              <div class="aporte_grid">
+                <label>Título *<input id="aporteTitulo" maxlength="140" required></label>
+                <label>Autor<input id="aporteAutor" maxlength="120"></label>
+                <label>Categoría<select id="aporteCategoria"><option value="documentos">Documento</option><option value="libros">Libro</option><option value="audio">Audio</option><option value="videos">Video</option></select></label>
+              </div>
+              <fieldset class="aporte_temas">
+                <legend>Temas del recurso</legend>
+                <p>Elegí todos los que correspondan.</p>
+                <div id="aporteTemasOpciones" class="aporte_temas_opciones"></div>
+                <label class="aporte_tema_nuevo">¿Falta un tema?
+                  <input id="aporteTemaNuevo" maxlength="60" placeholder="Proponer un tema nuevo">
+                  <small>La propuesta quedará destacada para que un administrador la revise.</small>
+                </label>
+              </fieldset>
+              <label>Descripción<textarea id="aporteDescripcion" maxlength="1000" rows="3" required></textarea></label>
+              <button id="btnGuardarAporte" type="submit" class="btn_preview">Continuar para adjuntar archivo</button>
+              <p id="aporteEstado" role="status" aria-live="polite"></p>
+            </form>
+            <div id="aporteArchivoPaso" class="aporte_archivo_paso" hidden>
+              <div class="aporte_encabezado">
+                <div><span>PASO 2 DE 2</span><h2>Adjuntá el archivo</h2></div>
+              </div>
+              <p>Tu ficha ya fue guardada. Completá ahora la carga del archivo.</p>
+              <iframe id="aporteGoogleForm" title="Formulario para adjuntar el archivo" loading="lazy"></iframe>
+              <div class="aporte_acciones_finales">
+                <button id="finalizarAporte" type="button" class="btn_preview">Finalizar aporte</button>
+                <button id="nuevoAporte" type="button" class="btn_compartir">Enviar otro aporte</button>
+              </div>
+              <p class="aporte_seguridad">Cuando termines de subir el archivo, pulsá “Finalizar aporte”. Hasta entonces te avisaremos antes de cerrar o salir.</p>
+            </div>
+            </div>
+          </div>
         </div>
         
       </div>
@@ -101,11 +153,11 @@
 
       <!-- Paginación -->
       <div class="paginacion" id="paginacion" style="display: none;">
-        <button class="pag_btn" id="btnAnterior" onclick="cambiarPagina(-1)" disabled>← Anterior</button>
+        <button class="pag_btn" id="btnAnterior" disabled>← Anterior</button>
         <div class="pag_info">
           <span>Página <span id="paginaActual">1</span> de <span id="totalPaginas">1</span></span>
         </div>
-        <button class="pag_btn" id="btnSiguiente" onclick="cambiarPagina(1)">Siguiente →</button>
+        <button class="pag_btn" id="btnSiguiente">Siguiente →</button>
       </div>
 
     </div>
@@ -116,13 +168,14 @@
     <div class="modal_contenido">
       <div class="modal_header">
         <h3 id="modalTitulo">Título del archivo</h3>
-        <button type="button" class="modal_cerrar" aria-label="Cerrar vista previa" onclick="cerrarModal()">&times;</button>
+        <button type="button" class="modal_cerrar" aria-label="Cerrar vista previa">&times;</button>
       </div>
       <div class="modal_body">
-        <iframe id="modalIframe" src="" title="Vista previa del recurso seleccionado"></iframe>
+        <iframe id="modalIframe" src="" title="Vista previa del recurso seleccionado" allow="autoplay"></iframe>
       </div>
       <div class="modal_footer">
-        <a href="#" id="modalDescarga" class="btn_descarga" target="_blank">📥 Descargar archivo</a>
+        <span id="modalAyuda">Si la vista no carga, abrí el recurso directamente.</span>
+        <a href="#" id="modalDescarga" class="btn_descarga" target="_blank" rel="noopener">Abrir recurso ↗</a>
       </div>
     </div>
   </div>
@@ -137,12 +190,12 @@
             <button class="btn_view_toggle" id="btnToggleVista" onclick="toggleModoVista()">
               📖 Vista Continua
             </button>
-            <button class="btn_descarga_pdf" onclick="descargarLibroPDF()">
+            <button type="button" class="btn_descarga_pdf" id="libroDescargaPdf">
               📥 PDF
             </button>
           </div>
         </div>
-        <button type="button" class="modal_cerrar" aria-label="Cerrar libro" onclick="cerrarModalLibro()">&times;</button>
+        <button type="button" class="modal_cerrar" aria-label="Cerrar libro">&times;</button>
       </div>
       <div class="modal_body libro_body" id="libroBody">
         <div class="pagina_container" id="paginaContenido">
@@ -162,13 +215,10 @@
     </div>
   </div>
 
-  <!-- Scripts externos para generación de PDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
-  <script type="module" src="../auth.js?v=20260712-roles1"></script>
-  <script src="biblioteca.js?v=20260712" type="module"></script>
+<script type="module" src="../auth.js?v=20260727-role-codes"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="biblioteca-v2.js?v=20260727" type="module"></script>
 </body>
 
 </html>

@@ -1,434 +1,287 @@
-// Variables globales
-let currentInstrument = 'guitar';
-let currentCifrado = 'americano';
-let currentFilter = { nota: 'all', tipo: 'all' };
+import { extractChords, convertChordNotation } from './chord-engine.js';
+import { chordLibrary, chordTypeLabels } from './chord-library.js';
+import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js';
 
-// Base de datos de acordes
-const acordesData = {
-  // Acordes mayores
-  'C_major': { nota: 'C', tipo: 'major', piano: [0, 4, 7], guitar: ['x', 3, 2, 0, 1, 0], formula: '1 3 5' },
-  'D_major': { nota: 'D', tipo: 'major', piano: [2, 6, 9], guitar: ['x', 'x', 0, 2, 3, 2], formula: '1 3 5' },
-  'E_major': { nota: 'E', tipo: 'major', piano: [4, 8, 11], guitar: [0, 2, 2, 1, 0, 0], formula: '1 3 5' },
-  'F_major': { nota: 'F', tipo: 'major', piano: [5, 9, 0], guitar: [1, 3, 3, 2, 1, 1], formula: '1 3 5' },
-  'G_major': { nota: 'G', tipo: 'major', piano: [7, 11, 2], guitar: [3, 2, 0, 0, 3, 3], formula: '1 3 5' },
-  'A_major': { nota: 'A', tipo: 'major', piano: [9, 1, 4], guitar: ['x', 0, 2, 2, 2, 0], formula: '1 3 5' },
-  'B_major': { nota: 'B', tipo: 'major', piano: [11, 3, 6], guitar: ['x', 2, 4, 4, 4, 2], formula: '1 3 5' },
-  
-  // Acordes menores
-  'C_minor': { nota: 'C', tipo: 'minor', piano: [0, 3, 7], guitar: ['x', 3, 1, 0, 1, 3], formula: '1 ♭3 5' },
-  'D_minor': { nota: 'D', tipo: 'minor', piano: [2, 5, 9], guitar: ['x', 'x', 0, 2, 3, 1], formula: '1 ♭3 5' },
-  'E_minor': { nota: 'E', tipo: 'minor', piano: [4, 7, 11], guitar: [0, 2, 2, 0, 0, 0], formula: '1 ♭3 5' },
-  'F_minor': { nota: 'F', tipo: 'minor', piano: [5, 8, 0], guitar: [1, 3, 3, 1, 1, 1], formula: '1 ♭3 5' },
-  'G_minor': { nota: 'G', tipo: 'minor', piano: [7, 10, 2], guitar: [3, 5, 5, 3, 3, 3], formula: '1 ♭3 5' },
-  'A_minor': { nota: 'A', tipo: 'minor', piano: [9, 0, 4], guitar: ['x', 0, 2, 2, 1, 0], formula: '1 ♭3 5' },
-  'B_minor': { nota: 'B', tipo: 'minor', piano: [11, 2, 6], guitar: ['x', 2, 4, 4, 3, 2], formula: '1 ♭3 5' },
-  
-  // Acordes de séptima (dominante)
-  'C_seventh': { nota: 'C', tipo: 'seventh', piano: [0, 4, 7, 10], guitar: ['x', 3, 2, 3, 1, 0], formula: '1 3 5 ♭7' },
-  'D_seventh': { nota: 'D', tipo: 'seventh', piano: [2, 6, 9, 0], guitar: ['x', 'x', 0, 2, 1, 2], formula: '1 3 5 ♭7' },
-  'E_seventh': { nota: 'E', tipo: 'seventh', piano: [4, 8, 11, 2], guitar: [0, 2, 0, 1, 0, 0], formula: '1 3 5 ♭7' },
-  'F_seventh': { nota: 'F', tipo: 'seventh', piano: [5, 9, 0, 3], guitar: [1, 3, 1, 2, 1, 1], formula: '1 3 5 ♭7' },
-  'G_seventh': { nota: 'G', tipo: 'seventh', piano: [7, 11, 2, 5], guitar: [3, 2, 0, 0, 0, 1], formula: '1 3 5 ♭7' },
-  'A_seventh': { nota: 'A', tipo: 'seventh', piano: [9, 1, 4, 7], guitar: ['x', 0, 2, 0, 2, 0], formula: '1 3 5 ♭7' },
-  'B_seventh': { nota: 'B', tipo: 'seventh', piano: [11, 3, 6, 9], guitar: ['x', 2, 1, 2, 0, 2], formula: '1 3 5 ♭7' },
-  
-  // Acordes de séptima mayor (Maj7)
-  'C_major_seventh': { nota: 'C', tipo: 'major_seventh', piano: [0, 4, 7, 11], guitar: ['x', 3, 2, 0, 0, 0], formula: '1 3 5 7' },
-  'D_major_seventh': { nota: 'D', tipo: 'major_seventh', piano: [2, 6, 9, 1], guitar: ['x', 'x', 0, 2, 2, 2], formula: '1 3 5 7' },
-  'E_major_seventh': { nota: 'E', tipo: 'major_seventh', piano: [4, 8, 11, 3], guitar: [0, 2, 1, 1, 0, 0], formula: '1 3 5 7' },
-  'F_major_seventh': { nota: 'F', tipo: 'major_seventh', piano: [5, 9, 0, 4], guitar: [1, 3, 2, 2, 1, 1], formula: '1 3 5 7' },
-  'G_major_seventh': { nota: 'G', tipo: 'major_seventh', piano: [7, 11, 2, 6], guitar: [3, 2, 0, 0, 0, 2], formula: '1 3 5 7' },
-  'A_major_seventh': { nota: 'A', tipo: 'major_seventh', piano: [9, 1, 4, 8], guitar: ['x', 0, 2, 1, 2, 0], formula: '1 3 5 7' },
-  'B_major_seventh': { nota: 'B', tipo: 'major_seventh', piano: [11, 3, 6, 10], guitar: ['x', 2, 1, 3, 0, 2], formula: '1 3 5 7' },
-  
-  // Acordes disminuidos
-  'C_diminished': { nota: 'C', tipo: 'diminished', piano: [0, 3, 6], guitar: ['x', 3, 1, 2, 1, 2], formula: '1 ♭3 ♭5' },
-  'D_diminished': { nota: 'D', tipo: 'diminished', piano: [2, 5, 8], guitar: ['x', 'x', 0, 1, 0, 1], formula: '1 ♭3 ♭5' },
-  'E_diminished': { nota: 'E', tipo: 'diminished', piano: [4, 7, 10], guitar: [0, 1, 2, 0, 2, 0], formula: '1 ♭3 ♭5' },
-  'F_diminished': { nota: 'F', tipo: 'diminished', piano: [5, 8, 11], guitar: [1, 2, 3, 1, 3, 1], formula: '1 ♭3 ♭5' },
-  'G_diminished': { nota: 'G', tipo: 'diminished', piano: [7, 10, 1], guitar: ['x', 'x', 2, 3, 2, 3], formula: '1 ♭3 ♭5' },
-  'A_diminished': { nota: 'A', tipo: 'diminished', piano: [9, 0, 3], guitar: ['x', 0, 1, 2, 1, 'x'], formula: '1 ♭3 ♭5' },
-  'B_diminished': { nota: 'B', tipo: 'diminished', piano: [11, 2, 5], guitar: ['x', 2, 3, 4, 3, 'x'], formula: '1 ♭3 ♭5' },
-  
-  // Acordes aumentados
-  'C_augmented': { nota: 'C', tipo: 'augmented', piano: [0, 4, 8], guitar: ['x', 3, 2, 1, 1, 0], formula: '1 3 #5' },
-  'D_augmented': { nota: 'D', tipo: 'augmented', piano: [2, 6, 10], guitar: ['x', 'x', 0, 3, 3, 2], formula: '1 3 #5' },
-  'E_augmented': { nota: 'E', tipo: 'augmented', piano: [4, 8, 0], guitar: [0, 3, 2, 1, 1, 0], formula: '1 3 #5' },
-  'F_augmented': { nota: 'F', tipo: 'augmented', piano: [5, 9, 1], guitar: ['x', 'x', 3, 2, 2, 1], formula: '1 3 #5' },
-  'G_augmented': { nota: 'G', tipo: 'augmented', piano: [7, 11, 3], guitar: ['x', 'x', 1, 0, 0, 3], formula: '1 3 #5' },
-  'A_augmented': { nota: 'A', tipo: 'augmented', piano: [9, 1, 5], guitar: ['x', 0, 3, 2, 2, 1], formula: '1 3 #5' },
-  'B_augmented': { nota: 'B', tipo: 'augmented', piano: [11, 3, 7], guitar: ['x', 2, 1, 0, 0, 3], formula: '1 3 #5' },
-  
-  // Acordes sostenidos (sostenidos de las notas naturales)
-  'C_sharp_major': { nota: 'C#', tipo: 'major', piano: [1, 5, 9], guitar: ['x', 4, 3, 1, 2, 1], formula: '1 3 5' },
-  'D_sharp_major': { nota: 'D#', tipo: 'major', piano: [3, 7, 11], guitar: ['x', 'x', 1, 3, 4, 3], formula: '1 3 5' },
-  'F_sharp_major': { nota: 'F#', tipo: 'major', piano: [6, 10, 1], guitar: [2, 4, 4, 3, 2, 2], formula: '1 3 5' },
-  'G_sharp_major': { nota: 'G#', tipo: 'major', piano: [8, 0, 3], guitar: [4, 3, 1, 1, 4, 4], formula: '1 3 5' },
-  'A_sharp_major': { nota: 'A#', tipo: 'major', piano: [10, 2, 6], guitar: ['x', 1, 3, 3, 3, 1], formula: '1 3 5' },
-  
-  // Acordes sostenidos menores
-  'C_sharp_minor': { nota: 'C#', tipo: 'minor', piano: [1, 4, 8], guitar: ['x', 4, 2, 1, 2, 1], formula: '1 ♭3 5' },
-  'D_sharp_minor': { nota: 'D#', tipo: 'minor', piano: [3, 6, 10], guitar: ['x', 'x', 1, 3, 4, 2], formula: '1 ♭3 5' },
-  'F_sharp_minor': { nota: 'F#', tipo: 'minor', piano: [6, 9, 1], guitar: [2, 4, 4, 2, 2, 2], formula: '1 ♭3 5' },
-  'G_sharp_minor': { nota: 'G#', tipo: 'minor', piano: [8, 11, 3], guitar: [4, 2, 1, 1, 4, 4], formula: '1 ♭3 5' },
-  'A_sharp_minor': { nota: 'A#', tipo: 'minor', piano: [10, 1, 6], guitar: ['x', 1, 3, 3, 2, 1], formula: '1 ♭3 5' },
-  
-  // Acordes sostenidos de séptima
-  'C_sharp_seventh': { nota: 'C#', tipo: 'seventh', piano: [1, 5, 8, 11], guitar: ['x', 4, 3, 4, 2, 2], formula: '1 3 5 ♭7' },
-  'D_sharp_seventh': { nota: 'D#', tipo: 'seventh', piano: [3, 7, 10, 1], guitar: ['x', 'x', 2, 4, 3, 4], formula: '1 3 5 ♭7' },
-  'F_sharp_seventh': { nota: 'F#', tipo: 'seventh', piano: [6, 10, 1, 4], guitar: [2, 4, 2, 3, 2, 2], formula: '1 3 5 ♭7' },
-  'G_sharp_seventh': { nota: 'G#', tipo: 'seventh', piano: [8, 0, 3, 6], guitar: [4, 3, 2, 2, 4, 4], formula: '1 3 5 ♭7' },
-  'A_sharp_seventh': { nota: 'A#', tipo: 'seventh', piano: [10, 2, 6, 9], guitar: ['x', 2, 4, 4, 4, 2], formula: '1 3 5 ♭7' },
-  
-  // Acordes sostenidos de séptima mayor
-  'C_sharp_major_seventh': { nota: 'C#', tipo: 'major_seventh', piano: [1, 5, 8, 0], guitar: ['x', 4, 3, 1, 1, 1], formula: '1 3 5 7' },
-  'D_sharp_major_seventh': { nota: 'D#', tipo: 'major_seventh', piano: [3, 7, 10, 2], guitar: ['x', 'x', 2, 4, 4, 3], formula: '1 3 5 7' },
-  'F_sharp_major_seventh': { nota: 'F#', tipo: 'major_seventh', piano: [6, 10, 1, 5], guitar: [2, 4, 2, 3, 2, 2], formula: '1 3 5 7' },
-  'G_sharp_major_seventh': { nota: 'G#', tipo: 'major_seventh', piano: [8, 0, 3, 7], guitar: [4, 3, 1, 1, 4, 4], formula: '1 3 5 7' },
-  'A_sharp_major_seventh': { nota: 'A#', tipo: 'major_seventh', piano: [10, 2, 6, 10], guitar: ['x', 2, 4, 3, 2, 1], formula: '1 3 5 7' },
-  
-  // Acordes sostenidos disminuidos
-  'C_sharp_diminished': { nota: 'C#', tipo: 'diminished', piano: [1, 4, 7], guitar: ['x', 4, 2, 1, 2, 1], formula: '1 ♭3 ♭5' },
-  'D_sharp_diminished': { nota: 'D#', tipo: 'diminished', piano: [3, 6, 9], guitar: ['x', 'x', 1, 3, 2, 3], formula: '1 ♭3 ♭5' },
-  'F_sharp_diminished': { nota: 'F#', tipo: 'diminished', piano: [6, 9, 0], guitar: [2, 4, 2, 2, 2, 2], formula: '1 ♭3 ♭5' },
-  'G_sharp_diminished': { nota: 'G#', tipo: 'diminished', piano: [8, 11, 2], guitar: [4, 2, 1, 2, 4, 4], formula: '1 ♭3 ♭5' },
-  'A_sharp_diminished': { nota: 'A#', tipo: 'diminished', piano: [10, 1, 4], guitar: ['x', 1, 3, 2, 3, 1], formula: '1 ♭3 ♭5' },
-  
-  // Acordes sostenidos aumentados
-  'C_sharp_augmented': { nota: 'C#', tipo: 'augmented', piano: [1, 5, 9], guitar: ['x', 4, 3, 2, 2, 1], formula: '1 3 #5' },
-  'D_sharp_augmented': { nota: 'D#', tipo: 'augmented', piano: [3, 7, 11], guitar: ['x', 'x', 2, 4, 4, 3], formula: '1 3 #5' },
-  'F_sharp_augmented': { nota: 'F#', tipo: 'augmented', piano: [6, 10, 2], guitar: [2, 4, 3, 2, 2, 2], formula: '1 3 #5' },
-  'G_sharp_augmented': { nota: 'G#', tipo: 'augmented', piano: [8, 0, 4], guitar: [4, 3, 2, 1, 4, 4], formula: '1 3 #5' },
-  'A_sharp_augmented': { nota: 'A#', tipo: 'augmented', piano: [10, 2, 6], guitar: ['x', 2, 4, 3, 3, 2], formula: '1 3 #5' },
-  
-  // Acordes sostenidos (sostenidos de las notas naturales)
-  'C_sharp_major': { nota: 'C#', tipo: 'major', piano: [1, 5, 9], guitar: ['x', 4, 3, 1, 2, 1], formula: '1 3 5' },
-  'D_sharp_major': { nota: 'D#', tipo: 'major', piano: [3, 7, 11], guitar: ['x', 'x', 1, 3, 4, 3], formula: '1 3 5' },
-  'F_sharp_major': { nota: 'F#', tipo: 'major', piano: [6, 10, 1], guitar: [2, 4, 4, 3, 2, 2], formula: '1 3 5' },
-  'G_sharp_major': { nota: 'G#', tipo: 'major', piano: [8, 0, 3], guitar: [4, 3, 1, 1, 4, 4], formula: '1 3 5' },
-  'A_sharp_major': { nota: 'A#', tipo: 'major', piano: [10, 2, 6], guitar: ['x', 1, 3, 3, 3, 1], formula: '1 3 5' },
-  
-  // Acordes sostenidos menores
-  'C_sharp_minor': { nota: 'C#', tipo: 'minor', piano: [1, 4, 8], guitar: ['x', 4, 2, 1, 2, 1], formula: '1 ♭3 5' },
-  'D_sharp_minor': { nota: 'D#', tipo: 'minor', piano: [3, 6, 10], guitar: ['x', 'x', 1, 3, 4, 2], formula: '1 ♭3 5' },
-  'F_sharp_minor': { nota: 'F#', tipo: 'minor', piano: [6, 9, 1], guitar: [2, 4, 4, 2, 2, 2], formula: '1 ♭3 5' },
-  'G_sharp_minor': { nota: 'G#', tipo: 'minor', piano: [8, 11, 3], guitar: [4, 2, 1, 1, 4, 4], formula: '1 ♭3 5' },
-  'A_sharp_minor': { nota: 'A#', tipo: 'minor', piano: [10, 1, 6], guitar: ['x', 1, 3, 3, 2, 1], formula: '1 ♭3 5' }
+const $ = (selector) => document.querySelector(selector);
+const state = {
+  instrument: 'guitar',
+  notation: 'american',
+  note: 'all',
+  type: 'all',
+  drawerInstrument: 'guitar',
+  drawerChord: 'C',
+  summaries: null,
+  selectedSong: null,
+  searchTimer: null,
+  lastFocus: null
 };
 
-// Mapeo de notas
-const notasMap = {
-  americano: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
-  europeo: ['Do', 'Do#', 'Re', 'Re#', 'Mi', 'Fa', 'Fa#', 'Sol', 'Sol#', 'La', 'La#', 'Si']
+const suffixByType = {
+  major: '', minor: 'm', seventh: '7', major_seventh: 'maj7', diminished: 'dim', augmented: 'aug'
 };
 
-// Mapeo inverso para búsqueda
-const notasToIndex = {
-  americano: {
-    'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7, 'G#': 8, 'A': 9, 'A#': 10, 'B': 11
-  },
-  europeo: {
-    'Do': 0, 'Do#': 1, 'Re': 2, 'Re#': 3, 'Mi': 4, 'Fa': 5, 'Fa#': 6, 'Sol': 7, 'Sol#': 8, 'La': 9, 'La#': 10, 'Si': 11
-  }
-};
-
-// Mapeo de tipos de acordes
-const tiposMap = {
-  major: 'Mayor',
-  minor: 'Menor',
-  seventh: 'Séptima',
-  major_seventh: 'Séptima Mayor',
-  diminished: 'Disminuido',
-  augmented: 'Aumentado'
-};
-
-// Inicialización
-document.addEventListener('DOMContentLoaded', function() {
-  initializeAcordes();
-  generateNotasFilter();
-  displayAcordes();
-  
-  console.log('✅ Centro de Acordes cargado');
-});
-
-function initializeAcordes() {
-  // Configurar dark mode
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.documentElement.classList.add('dark');
-  }
-  
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    if (event.matches) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  });
-  
-  // Establecer instrumento inicial
-  selectInstrument(currentInstrument);
+let databaseServicePromise;
+function getDatabaseService() {
+  databaseServicePromise ||= import('../aaglobal/firebase-config-cancionero.js?v=20260714')
+    .then((module) => module.DatabaseService);
+  return databaseServicePromise;
 }
 
-// Seleccionar instrumento
+function chordName(entry, notation = state.notation) {
+  const raw = `${entry.nota}${suffixByType[entry.tipo] ?? ''}`;
+  return convertChordNotation(raw, notation) || raw;
+}
+
+function setActive(selector, attribute, value) {
+  document.querySelectorAll(selector).forEach((button) => {
+    const active = button.dataset[attribute] === value;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+}
+
+function createNoteFilters() {
+  const notes = ['all', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const labels = { all: 'Todas' };
+  const container = $('#notasFilter');
+  container.replaceChildren(...notes.map((note) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `nota-btn${note === state.note ? ' active' : ''}`;
+    button.dataset.nota = note;
+    button.textContent = labels[note] || note;
+    button.setAttribute('aria-pressed', String(note === state.note));
+    button.addEventListener('click', () => filterByNote(note));
+    return button;
+  }));
+}
+
+function renderDictionary() {
+  const entries = Object.values(chordLibrary).filter((entry) =>
+    (state.note === 'all' || entry.nota === state.note) &&
+    (state.type === 'all' || entry.tipo === state.type)
+  );
+  const grid = $('#acordesGrid');
+  grid.replaceChildren(...entries.map((entry) => {
+    const name = chordName(entry);
+    const summary = chordShapeSummary(name, state.notation);
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'acorde-card';
+    card.setAttribute('aria-label', `Ver detalle de ${name}`);
+    card.innerHTML = `
+      <span class="acorde-header"><strong class="acorde-name"></strong><span class="acorde-type"></span></span>
+      <span class="acorde-card-diagram"></span>
+      <span class="acorde-info"><span class="acorde-notes"></span><span class="acorde-formula"></span></span>`;
+    card.querySelector('.acorde-name').textContent = name;
+    card.querySelector('.acorde-type').textContent = chordTypeLabels[entry.tipo] || entry.tipo;
+    card.querySelector('.acorde-card-diagram').innerHTML = renderChordDiagram(name, state.instrument, state.notation);
+    card.querySelector('.acorde-notes').textContent = summary?.notes.join(' · ') || 'Posición de referencia';
+    card.querySelector('.acorde-formula').textContent = summary?.formula || '';
+    card.addEventListener('click', () => openDrawer(name));
+    return card;
+  }));
+  $('.results-hint').textContent = `${entries.length} acorde${entries.length === 1 ? '' : 's'} · Tocá uno para verlo en detalle`;
+}
+
 function selectInstrument(instrument) {
-  currentInstrument = instrument;
-  
-  // Actualizar botones
-  document.querySelectorAll('.instrument-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  document.querySelector(`[data-instrument="${instrument}"]`).classList.add('active');
-  
-  // Recargar acordes
-  displayAcordes();
+  state.instrument = instrument;
+  setActive('.instrument-btn', 'instrument', instrument);
+  renderDictionary();
 }
 
-// Seleccionar cifrado
-function selectCifrado(cifrado) {
-  currentCifrado = cifrado;
-  
-  // Actualizar botones
-  document.querySelectorAll('.cifrado-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  document.querySelector(`[data-cifrado="${cifrado}"]`).classList.add('active');
-  
-  // Regenerar filtro de notas y acordes
-  generateNotasFilter();
-  displayAcordes();
+function selectNotation(value) {
+  state.notation = value === 'europeo' ? 'spanish' : 'american';
+  setActive('.cifrado-btn', 'cifrado', value);
+  renderDictionary();
+  if (state.selectedSong) renderSongPreview(state.selectedSong);
 }
 
-// Generar filtro de notas
-function generateNotasFilter() {
-  const container = document.getElementById('notasFilter');
-  const notas = notasMap[currentCifrado];
-  
-  container.innerHTML = `
-    <button class="nota-btn active" data-nota="all" onclick="filterByNota('all')">Todas</button>
-    ${notas.map((nota, index) => {
-      const notaKey = notasMap.americano[index]; // Usar siempre la clave americana para buscar
-      return `<button class="nota-btn" data-nota="${notaKey}" onclick="filterByNota('${notaKey}')">${nota}</button>`;
-    }).join('')}
-  `;
+function filterByNote(note) {
+  state.note = note;
+  setActive('.nota-btn', 'nota', note);
+  renderDictionary();
 }
 
-// Filtrar por nota
-function filterByNota(nota) {
-  currentFilter.nota = nota;
-  
-  // Actualizar botones
-  document.querySelectorAll('.nota-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  document.querySelector(`[data-nota="${nota}"]`).classList.add('active');
-  
-  displayAcordes();
+function filterByType(type) {
+  state.type = type;
+  setActive('.tipo-btn', 'tipo', type);
+  renderDictionary();
 }
 
-// Filtrar por tipo
-function filterByType(tipo) {
-  currentFilter.tipo = tipo;
-  
-  // Actualizar botones
-  document.querySelectorAll('.tipo-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  document.querySelector(`[data-tipo="${tipo}"]`).classList.add('active');
-  
-  displayAcordes();
+window.selectInstrument = selectInstrument;
+window.selectCifrado = selectNotation;
+window.filterByNota = filterByNote;
+window.filterByType = filterByType;
+
+async function fetchJson(path) {
+  const response = await fetch(path, { cache: 'no-cache' });
+  if (!response.ok) throw new Error(`No se pudo cargar ${path}`);
+  return response.json();
 }
 
-// Mostrar acordes
-function displayAcordes() {
-  const container = document.getElementById('acordesGrid');
-  const filteredAcordes = getFilteredAcordes();
-  
-  if (filteredAcordes.length === 0) {
-    container.innerHTML = `
-      <div class="loading-acordes">
-        <div style="font-size: 4rem; margin-bottom: 1rem;">🎼</div>
-        <h3>No se encontraron acordes</h3>
-        <p>Intenta con otros filtros</p>
-      </div>
-    `;
+async function ensureSummaries() {
+  if (state.summaries) return state.summaries;
+  const data = await fetchJson('../datos/cancionero/buscar.json');
+  state.summaries = data.canciones || [];
+  return state.summaries;
+}
+
+function normalize(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+}
+
+function renderSongResults(songs, label = 'Canciones sugeridas') {
+  const container = $('#songSearchResults');
+  $('#songResultsTitle').textContent = label;
+  $('#songResultsCount').textContent = songs.length ? `${songs.length} resultado${songs.length === 1 ? '' : 's'}` : 'No encontramos coincidencias';
+  if (!songs.length) {
+    const empty = document.createElement('p');
+    empty.className = 'song-results-empty';
+    empty.textContent = 'Probá con otro título o artista.';
+    container.replaceChildren(empty);
     return;
   }
-  
-  container.innerHTML = filteredAcordes.map(([key, acorde]) => {
-    return createAcordeCard(key, acorde);
-  }).join('');
+  container.replaceChildren(...songs.slice(0, 12).map((song) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'song-result-item';
+    button.innerHTML = '<span class="song-result-art">♫</span><span><strong></strong><small></small></span><span class="song-result-arrow">›</span>';
+    button.querySelector('strong').textContent = song.titulo || 'Sin título';
+    button.querySelector('small').textContent = `${song.artista || 'Desconocido'} · ${categoryLabel(song.categoria)}`;
+    button.addEventListener('click', () => selectSong(song, button));
+    return button;
+  }));
 }
 
-// Obtener acordes filtrados
-function getFilteredAcordes() {
-  return Object.entries(acordesData).filter(([key, acorde]) => {
-    const matchNota = currentFilter.nota === 'all' || acorde.nota === currentFilter.nota;
-    const matchTipo = currentFilter.tipo === 'all' || acorde.tipo === currentFilter.tipo;
-    return matchNota && matchTipo;
+function categoryLabel(category) {
+  return ({ misa: 'Misa', gen: 'Gen', fogon: 'Fogón' })[category] || 'Cancionero';
+}
+
+async function selectSong(summary, sourceButton) {
+  document.querySelectorAll('.song-result-item').forEach((button) => button.classList.remove('active'));
+  sourceButton?.classList.add('active');
+  $('#songChordEmptyState').hidden = true;
+  $('#songChordContent').hidden = false;
+  $('#selectedSongName').textContent = summary.titulo || 'Cargando…';
+  $('#selectedSongArtist').textContent = 'Cargando acordes…';
+  $('#songChordList').replaceChildren();
+  try {
+    const databaseService = await getDatabaseService();
+    const fullSong = await databaseService.getCancionPorId(summary.id);
+    if (!fullSong) throw new Error('La canción ya no está disponible.');
+    state.selectedSong = { ...summary, ...fullSong };
+    renderSongPreview(state.selectedSong);
+  } catch (error) {
+    $('#selectedSongArtist').textContent = 'No pudimos cargar esta canción.';
+    $('#songChordList').textContent = error.message;
+  }
+}
+
+function renderSongPreview(song) {
+  const notation = state.notation;
+  const chords = extractChords(song.letra || '', { notation });
+  $('#selectedSongName').textContent = song.titulo || 'Sin título';
+  $('#selectedSongArtist').textContent = `${song.artista || 'Desconocido'} · ${categoryLabel(song.categoria)}`;
+  const chordList = $('#songChordList');
+  if (chords.length) {
+    chordList.replaceChildren(...chords.map((chord) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = chord;
+      button.addEventListener('click', () => openDrawer(chord));
+      return button;
+    }));
+  } else {
+    const text = document.createElement('span');
+    text.textContent = 'Esta letra todavía no tiene acordes cargados.';
+    chordList.replaceChildren(text);
+  }
+  $('#openSelectedSong').href = `cancion.html?id=${encodeURIComponent(song.id)}&from=acordes`;
+}
+
+async function runSearch() {
+  const query = normalize($('#songChordSearch').value.trim());
+  $('#songSearchClear').hidden = !query;
+  try {
+    const songs = await ensureSummaries();
+    const results = query
+      ? songs.filter((song) => normalize(`${song.titulo} ${song.artista}`).includes(query))
+      : songs.slice(0, 6);
+    renderSongResults(results, query ? 'Resultados' : 'Canciones sugeridas');
+  } catch {
+    renderSongResults([], 'Búsqueda no disponible');
+  }
+}
+
+function openDrawer(chord) {
+  state.drawerChord = chord;
+  state.lastFocus = document.activeElement;
+  $('#chordDetailTitle').textContent = chord;
+  updateDrawer();
+  const drawer = $('#chordDetailDrawer');
+  drawer.hidden = false;
+  drawer.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  $('#closeChordDetail').focus();
+}
+
+function updateDrawer() {
+  const chord = state.drawerChord;
+  const summary = chordShapeSummary(chord, state.notation);
+  $('#chordDetailDiagram').innerHTML = renderChordDiagram(chord, state.drawerInstrument, state.notation);
+  $('#chordDetailNotes').textContent = summary?.notes.join(' · ') || 'Sin datos';
+  $('#chordDetailFormula').textContent = summary?.formula || 'Sin datos';
+  document.querySelectorAll('[data-drawer-instrument]').forEach((button) => {
+    button.classList.toggle('active', button.dataset.drawerInstrument === state.drawerInstrument);
   });
 }
 
-// Crear card de acorde
-function createAcordeCard(key, acorde) {
-  const notaDisplay = getNotaDisplay(acorde.nota);
-  const tipoDisplay = tiposMap[acorde.tipo];
-  const acordeName = `${notaDisplay}${acorde.tipo === 'major' ? '' : getTipoSuffix(acorde.tipo)}`;
-  
-  return `
-    <div class="acorde-card">
-      <div class="acorde-header">
-        <div class="acorde-name">${acordeName}</div>
-        <div class="acorde-type">${tipoDisplay}</div>
-      </div>
-      
-      ${currentInstrument === 'piano' ? createPianoView(acorde) : createGuitarView(acorde)}
-      
-      <div class="acorde-info">
-        <div class="acorde-notes">
-          <strong>Notas:</strong> ${getNotesDisplay(acorde)}
-        </div>
-        <div class="acorde-formula">
-          Fórmula: ${acorde.formula}
-        </div>
-      </div>
-    </div>
-  `;
+function closeDrawer() {
+  const drawer = $('#chordDetailDrawer');
+  drawer.hidden = true;
+  drawer.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  state.lastFocus?.focus?.();
 }
 
-// Obtener sufijo del tipo de acorde
-function getTipoSuffix(tipo) {
-  const suffixes = {
-    minor: 'm',
-    seventh: '7',
-    major_seventh: 'maj7',
-    diminished: 'dim',
-    augmented: 'aug'
+function initTabs() {
+  const tabs = [...document.querySelectorAll('.chord-tab')];
+  const panels = [$('#songChordsPanel'), $('#dictionaryPanel')];
+  const activate = () => {
+    const target = location.hash === '#dictionaryPanel' ? 'dictionaryPanel' : 'songChordsPanel';
+    tabs.forEach((tab) => tab.setAttribute('aria-selected', String(tab.getAttribute('href') === `#${target}`)));
+    panels.forEach((panel) => { panel.hidden = panel.id !== target; });
   };
-  return suffixes[tipo] || '';
+  window.addEventListener('hashchange', activate);
+  activate();
 }
 
-// Obtener display de nota
-function getNotaDisplay(nota) {
-  const index = notasMap.americano.indexOf(nota);
-  return notasMap[currentCifrado][index];
-}
+$('#songChordSearchForm').addEventListener('submit', (event) => { event.preventDefault(); runSearch(); });
+$('#songChordSearch').addEventListener('input', () => {
+  clearTimeout(state.searchTimer);
+  state.searchTimer = setTimeout(runSearch, 180);
+});
+$('#songSearchClear').addEventListener('click', () => {
+  $('#songChordSearch').value = '';
+  $('#songChordSearch').focus();
+  runSearch();
+});
+$('#closeChordDetail').addEventListener('click', closeDrawer);
+$('#chordDetailBackdrop').addEventListener('click', closeDrawer);
+document.querySelectorAll('[data-drawer-instrument]').forEach((button) => button.addEventListener('click', () => {
+  state.drawerInstrument = button.dataset.drawerInstrument;
+  updateDrawer();
+}));
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !$('#chordDetailDrawer').hidden) closeDrawer(); });
 
-// Obtener display de notas del acorde
-function getNotesDisplay(acorde) {
-  // Usar siempre las notas de piano para consistencia entre instrumentos
-  const notes = acorde.piano.map(noteIndex => notasMap[currentCifrado][noteIndex]);
-  return [...new Set(notes)].join(' - ');
-}
-
-// Crear vista de piano
-function createPianoView(acorde) {
-  const whiteKeys = [0, 2, 4, 5, 7, 9, 11]; // C D E F G A B
-  const blackKeys = [1, 3, 6, 8, 10]; // C# D# F# G# A#
-  
-  let pianoHTML = `
-    <div class="piano-container">
-      <div class="piano-keyboard">
-  `;
-  
-  // Teclas blancas
-  whiteKeys.forEach((noteIndex, i) => {
-    const isActive = acorde.piano.includes(noteIndex);
-    const noteName = notasMap[currentCifrado][noteIndex];
-    
-    pianoHTML += `
-      <div class="piano-key white ${isActive ? 'active' : ''}">
-        <div class="key-label">${noteName}</div>
-      </div>
-    `;
-  });
-  
-  // Teclas negras - posiciones corregidas
-  const blackKeyPositions = {
-    1: '14.2%',   // C# entre C y D
-    3: '28.8%',  // D# entre D y E
-    6: '57.4%',  // F# entre F y G
-    8: '71.5%',  // G# entre G y A
-    10: '86%'  // A# entre A y B
-  };
-  
-  blackKeys.forEach((noteIndex) => {
-    const isActive = acorde.piano.includes(noteIndex);
-    const noteName = notasMap[currentCifrado][noteIndex];
-    const position = blackKeyPositions[noteIndex];
-    
-    pianoHTML += `
-      <div class="piano-key black ${isActive ? 'active' : ''}" style="left: ${position};">
-        <div class="key-label">${noteName}</div>
-      </div>
-    `;
-  });
-  
-  pianoHTML += `
-      </div>
-    </div>
-  `;
-  
-  return pianoHTML;
-}
-
-// Crear vista de guitarra
-function createGuitarView(acorde) {
-  const stringNames = ['E', 'A', 'D', 'G', 'B', 'E'];
-  const maxFret = Math.max(...acorde.guitar.filter(f => f !== 'x').map(f => parseInt(f)));
-  const visibleFrets = Math.max(maxFret + 1, 5); // Mostrar al menos 5 trastes
-  
-  let guitarHTML = `
-    <div class="guitar-container">
-      <div class="guitar-fretboard">
-        
-        <div class="guitar-frets">
-          ${Array.from({length: visibleFrets + 1}, (_, i) => `<div class="guitar-fret"></div>`).join('')}
-        </div>
-        
-        <div class="guitar-strings">
-  `;
-  
-  // Cuerdas y marcadores
-  acorde.guitar.forEach((fret, stringIndex) => {
-    guitarHTML += `<div class="guitar-string">`;
-    
-    if (fret !== 'x') {
-      if (fret === 0) {
-        // Cuerda al aire (0) - mostrar detrás del primer traste
-        guitarHTML += `
-          <div class="fret-marker open-string">
-            <div class="fret-number">0</div>
-          </div>
-        `;
-      } else {
-        // Cuerda presionada - centrada entre trastes
-        const fretPosition = ((parseInt(fret) - 0.5) / visibleFrets) * 100;
-        
-        guitarHTML += `
-          <div class="fret-marker" style="top: ${fretPosition}%; left: 50%;">
-            <div class="fret-number">${fret}</div>
-          </div>
-        `;
-      }
-    } else {
-      // Cuerda muda (x)
-      guitarHTML += `
-        <div class="fret-marker muted">
-          <div class="fret-number">×</div>
-        </div>
-      `;
-    }
-    
-    guitarHTML += `</div>`;
-  });
-  
-  guitarHTML += `
-        </div>
-      </div>
-    </div>
-  `;
-  
-  return guitarHTML;
-}
-
-console.log('✅ Centro de Acordes cargado correctamente');
+createNoteFilters();
+renderDictionary();
+initTabs();
+runSearch();

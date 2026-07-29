@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi perfil | Gen 2</title>
+  <meta name="description" content="Administrá tu perfil y tus preferencias en Gen 2.">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
+  <link rel="icon" href="../aadocumentos/svg/casa.svg" type="image/x-icon">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260713-auth3">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260728-retractable-4">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css">
+  <link rel="stylesheet" href="perfil.css?v=20260727-profile1">
+</head>
+<body>
+  <div class="page-container profile-shell">
+    <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+    <script src="../aaglobal/sidebar.js?v=20260728-retractable-4"></script>
+    <div class="main-content profile-main-content">
+      <main class="profile-main" id="contenido-principal">
+        <header class="profile-heading">
+          <div>
+            <span class="profile-eyebrow">Tu cuenta</span>
+            <h1>Mi perfil</h1>
+            <p>Administrá tu información personal y tus preferencias.</p>
+          </div>
+          <a class="profile-back-link" href="../index.html">Volver al inicio</a>
+        </header>
+
+        <section class="profile-loading" id="profile-loading" aria-live="polite">
+          <span class="profile-spinner" aria-hidden="true"></span>
+          <p>Cargando tu perfil…</p>
+        </section>
+
+        <section class="profile-signed-out" id="profile-signed-out" hidden>
+          <div class="profile-empty-icon" aria-hidden="true">◎</div>
+          <h2>Iniciá sesión para ver tu perfil</h2>
+          <p>Volvé al inicio y accedé con tu cuenta de Gen 2.</p>
+          <a href="../index.html" class="profile-primary-link">Ir al inicio</a>
+        </section>
+
+        <div class="profile-layout" id="profile-content" hidden>
+          <aside class="profile-summary" aria-label="Resumen de la cuenta">
+            <div class="profile-avatar-large" id="profile-avatar" aria-hidden="true">?</div>
+            <h2 id="profile-display-name">Usuario</h2>
+            <p id="profile-display-email"></p>
+            <div class="profile-role-block">
+              <span>Roles</span>
+              <div class="profile-roles" id="profile-roles"></div>
+            </div>
+            <button type="button" class="profile-add-role" id="profile-add-role">Agregar rol</button>
+            <button type="button" class="profile-logout" id="profile-logout">Cerrar sesión</button>
+          </aside>
+
+          <div class="profile-panels">
+            <section class="profile-card" aria-labelledby="personal-title">
+              <div class="profile-card-heading">
+                <div><span class="profile-card-icon" aria-hidden="true">○</span><h2 id="personal-title">Información personal</h2></div>
+                <p>Esta información identifica tu cuenta dentro de Gen 2.</p>
+              </div>
+              <form id="profile-form" class="profile-form">
+                <div class="profile-field">
+                  <label for="profile-name">Nombre</label>
+                  <input id="profile-name" name="nombre" type="text" maxlength="60" required autocomplete="name">
+                </div>
+                <div class="profile-field">
+                  <label for="profile-email">Correo electrónico</label>
+                  <input id="profile-email" type="email" readonly aria-describedby="email-help">
+                  <small id="email-help">El correo está asociado a tu inicio de sesión.</small>
+                </div>
+                <div class="profile-field">
+                  <label for="profile-location">Ubicación <span>(opcional)</span></label>
+                  <input id="profile-location" name="ubicacion" type="text" maxlength="80" autocomplete="address-level2" placeholder="Ciudad, país">
+                </div>
+                <div class="profile-field profile-field-wide">
+                  <label for="profile-description">Acerca de mí <span>(opcional)</span></label>
+                  <textarea id="profile-description" name="descripcion" maxlength="240" rows="4" placeholder="Contanos brevemente sobre vos"></textarea>
+                  <small><span id="description-count">0</span>/240</small>
+                </div>
+                <div class="profile-form-actions">
+                  <p class="profile-form-status" id="profile-status" role="status"></p>
+                  <button type="submit" class="profile-save">Guardar cambios</button>
+                </div>
+              </form>
+            </section>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="role-remove-dialog" id="role-remove-dialog" aria-labelledby="role-remove-title">
+    <form method="dialog" class="role-remove-card" id="role-remove-form">
+      <button type="button" class="role-remove-close" id="role-remove-close" aria-label="Cerrar">×</button>
+      <span class="role-remove-warning" aria-hidden="true">!</span>
+      <h2 id="role-remove-title">Eliminar rol</h2>
+      <p>Vas a eliminar el rol <strong id="role-remove-name"></strong>. Podrías perder acceso al contenido asociado.</p>
+      <label for="role-remove-confirmation">Escribí <strong id="role-remove-confirmation-name"></strong> para confirmar</label>
+      <input id="role-remove-confirmation" type="text" autocomplete="off" spellcheck="false">
+      <p class="role-remove-status" id="role-remove-status" role="status"></p>
+      <div class="role-remove-actions">
+        <button type="button" class="role-remove-cancel" id="role-remove-cancel">Cancelar</button>
+        <button type="submit" class="role-remove-submit" id="role-remove-submit" disabled>Eliminar rol</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="../aaglobal/firebase-config.js?v=20260713-auth1"></script>
+<script type="module" src="../auth.js?v=20260727-role-codes"></script>
+  <script type="module" src="perfil.js?v=20260727-profile1"></script>
+</body>
+</html>

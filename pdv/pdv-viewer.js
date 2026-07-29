@@ -1,160 +1,100 @@
-/**
- * PDV Viewer - Carga dinámica de Palabra de Vida desde Firebase
- */
+const pdvContainer = document.getElementById('pdv-container');
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // Esperar a que Firebase esté listo
-    if (!window.firebaseDb) {
-        console.log('⏳ Esperando a Firebase...');
-        const checkFirebase = setInterval(() => {
-            if (window.firebaseDb) {
-                clearInterval(checkFirebase);
-                inicializarVisor();
-            }
-        }, 100);
+async function waitForFirebase(timeout = 12000) {
+  if (window.firebaseReady) await Promise.race([
+    window.firebaseReady,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Firebase tardó demasiado.')), timeout))
+  ]);
+  if (!window.firebaseDb || !window.firebaseUtils) throw new Error('Firebase no está disponible.');
+}
+
+function errorCard(message) {
+  pdvContainer.innerHTML = `
+    <section class="pdv-state-card" role="alert">
+      <p class="pdv-kicker">PALABRA DE VIDA</p>
+      <h1>No pudimos abrir esta publicación</h1>
+      <p>${window.PdvModel.escapeHtml(message)}</p>
+      <div class="pdv-state-actions">
+        <button type="button" data-pdv-retry>Intentar de nuevo</button>
+        <a href="pdv_todas.html">Ver el archivo</a>
+      </div>
+    </section>`;
+  pdvContainer.querySelector('[data-pdv-retry]')?.addEventListener('click', loadPdv);
+}
+
+function updateMetadata(data) {
+  const title = `Palabra de Vida · ${data.mes} | Gen 2`;
+  const description = `«${data.citaPrincipal}» (${data.citaReferencia})`;
+  document.title = title;
+  document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+  document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', title);
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
+}
+
+async function sharePdv(data, button) {
+  const shareData = {
+    title: `Palabra de Vida · ${data.mes}`,
+    text: `«${data.citaPrincipal}» (${data.citaReferencia})`,
+    url: window.location.href
+  };
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
     } else {
-        inicializarVisor();
+      await navigator.clipboard.writeText(window.location.href);
+      const original = button.textContent;
+      button.textContent = 'Enlace copiado';
+      setTimeout(() => { button.textContent = original; }, 1800);
     }
-});
-
-async function inicializarVisor() {
-    const params = new URLSearchParams(window.location.search);
-    const pdvId = params.get('id');
-
-    if (!pdvId) {
-        mostrarError('No se especificó una Palabra de Vida.');
-        return;
-    }
-
-    try {
-        const db = window.firebaseDb;
-        const { collection, query, where, getDocs, doc, getDoc } = window.firebaseUtils;
-
-        let pdvData = null;
-
-        // Intentar buscar por urlSlug primero
-        const pdvRef = collection(db, 'pdv'); // Colección se llama 'pdv', no 'palabrasDeVida'
-        const q = query(pdvRef, where('urlSlug', '==', pdvId));
-        const querySnapshot = await getDocs(q);
-
-        if (!querySnapshot.empty) {
-            pdvData = querySnapshot.docs[0].data();
-        } else {
-            // Si no hay slug, intentar por ID de documento
-            const docRef = doc(db, 'pdv', pdvId); // Colección se llama 'pdv', no 'palabrasDeVida'
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                pdvData = docSnap.data();
-            }
-        }
-
-        if (pdvData) {
-            renderizarPdv(pdvData);
-        } else {
-            mostrarError('La Palabra de Vida solicitada no existe.');
-        }
-    } catch (error) {
-        console.error('Error al cargar la Palabra de Vida:', error);
-        mostrarError('Hubo un error al cargar el contenido.');
-    }
+  } catch (error) {
+    if (error.name !== 'AbortError') button.textContent = 'No se pudo compartir';
+  }
 }
 
-// Función global para manejar errores de audio externo
-window.handleAudioError = function(audioElement) {
-    const audioSection = audioElement.closest('.audio-section');
-    if (audioSection) {
-        const fallbackMsg = audioSection.querySelector('.audio-fallback-msg');
-        if (fallbackMsg) {
-            fallbackMsg.style.display = 'block';
-            audioElement.style.display = 'none';
-        }
+function wireReader(data) {
+  const shareButton = pdvContainer.querySelector('[data-pdv-share]');
+  shareButton?.addEventListener('click', () => sharePdv(data, shareButton));
+  const audio = pdvContainer.querySelector('audio');
+  if (!audio) return;
+  const section = audio.closest('.pdv-audio');
+  const source = audio.querySelector('source');
+  section.hidden = true;
+  const showAudio = () => { section.hidden = false; };
+  const discardAudio = () => { section.remove(); };
+  audio.addEventListener('loadedmetadata', showAudio, { once: true });
+  audio.addEventListener('canplay', showAudio, { once: true });
+  audio.addEventListener('error', discardAudio, { once: true });
+  source?.addEventListener('error', discardAudio, { once: true });
+  if (audio.readyState >= 1) showAudio();
+  if (audio.error) discardAudio();
+}
+
+async function loadPdv() {
+  const id = new URLSearchParams(window.location.search).get('id');
+  if (!id) {
+    errorCard('El enlace no indica qué Palabra de Vida querés leer.');
+    return;
+  }
+  pdvContainer.innerHTML = '<div class="pdv-loading" role="status"><span></span><p>Cargando Palabra de Vida…</p></div>';
+  try {
+    await waitForFirebase();
+    const { doc, getDoc } = window.firebaseUtils;
+    const snapshot = await getDoc(doc(window.firebaseDb, 'pdv', id));
+    if (!snapshot.exists()) throw new Error('La publicación no existe o todavía no está publicada.');
+    const raw = { id: snapshot.id, ...snapshot.data() };
+    if (raw.version !== 2 || raw.estado !== 'publicado') {
+      throw new Error('La publicación no existe o todavía no está publicada.');
     }
-};
-
-function renderizarPdv(data) {
-    const container = document.getElementById('pdv-container');
-    
-    // Formatear contenido con saltos de línea
-    const contenidoHTML = data.contenidoPrincipal ? data.contenidoPrincipal.split('\n').map(p => `<p>${p}</p>`).join('') : '';
-    const reflexionHTML = data.reflexion ? data.reflexion.split('\n').map(p => `<p>${p}</p>`).join('') : '';
-
-    // Actualizar título de la página
-    document.title = `Palabra de Vida ${data.mes || ''} - Gen 2`;
-
-    container.innerHTML = `
-      <!-- Header -->
-      <div class="palabra-header">
-        <h1>Palabra de Vida</h1>
-        <p class="fecha-mes">${data.mes || ''}</p>
-      </div>
-
-      <!-- Cita Principal -->
-      <div class="cita-principal">
-        <blockquote id="cita-texto">
-          ${formatearCita(data.titulo)}
-        </blockquote>
-        <cite id="cita-referencia">${data.referencia || ''}</cite>
-      </div>
-
-      <!-- Audio Section -->
-      ${data.audioUrl ? `
-      <div class="audio-section">
-        <h3>Escuchar Palabra de Vida</h3>
-        <audio controls class="audio-player" onerror="window.handleAudioError(this)">
-          <source src="${data.audioUrl}" type="audio/mpeg">
-          Tu navegador no soporta el elemento de audio.
-        </audio>
-        <div class="audio-fallback-msg" style="display: none; color: #fff; margin-top: 10px;">
-          <p>El reproductor no pudo cargar el audio automáticamente.</p>
-          <a href="${data.audioUrl}" target="_blank" class="audio-fallback-link">Abrir audio en pestaña nueva ↗</a>
-        </div>
-      </div>
-      ` : ''}
-
-      <!-- Contenido -->
-      <div class="palabra-contenido">
-        
-        <div class="desarrollo">
-          ${contenidoHTML}
-        </div>
-
-        ${data.citaRepetida ? `
-        <div class="cita-repetida">
-          <em>${data.citaRepetida}</em>
-        </div>
-        ` : ''}
-
-        <div class="testimonio">
-          <h4>Experiencia</h4>
-          ${reflexionHTML}
-        </div>
-
-        <!-- Autor -->
-        <div class="autor">
-          <p>${data.autor || 'Equipo de la Palabra de Vida'}</p>
-        </div>
-      </div>
-    `;
+    const data = window.PdvModel.normalizePdv(raw);
+    pdvContainer.innerHTML = window.PdvModel.renderArticle(data);
+    updateMetadata(data);
+    wireReader(data);
+  } catch (error) {
+    console.error('Error al cargar la Palabra de Vida:', error);
+    errorCard(error.message || 'Ocurrió un error inesperado.');
+  }
 }
 
-function formatearCita(texto) {
-    if (!texto) return '';
-    // Reemplazar comillas latinas, puntos seguidos y otros separadores para mejorar la visualización
-    return texto
-        .replace(/\. /g, '.<br>')
-        .replace(/«|»/g, '') // Quitamos las comillas ya que blockquote se encarga del estilo
-        .replace(/; /g, ';<br>')
-        .trim();
-}
-
-function mostrarError(mensaje) {
-    const container = document.getElementById('pdv-container');
-    container.innerHTML = `
-        <div style="text-align: center; color: white; margin-top: 50px;">
-            <h2>Lo sentimos</h2>
-            <p>${mensaje}</p>
-            <br>
-            <a href="../index.html" style="color: var(--primary-color); text-decoration: none;">Volver al inicio</a>
-        </div>
-    `;
-}
+document.addEventListener('DOMContentLoaded', loadPdv);

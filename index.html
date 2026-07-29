@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gen 2 | Recursos para vivir la unidad</title>
   <link rel="stylesheet" href="aaglobal/style.css?v=20260713-auth3">
-  <link rel="stylesheet" href="index/index.css?v=20260713-layout1">
+  <link rel="stylesheet" href="index/index.css?v=20260728-carousel-action">
   <link rel="icon" href="aadocumentos/svg/casa.svg" type="image/x-icon">
   <meta name="description" content="Encuentra recursos del Movimiento Gen 2: cancionero con acordes, Palabra de Vida, experiencias, dinámicas para animadores y biblioteca digital. Únete a millones de jóvenes por la unidad.">
 
@@ -14,8 +14,8 @@
   <!-- VERSION 0.1.0 -->
   <meta property="og:description" content="Cancionero, Palabra de Vida, experiencias y recursos para animadores del Movimiento Gen 2.">
   <!-- Imagen de previsualización 1200x630-->
-  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
-  <meta property="og:url" content="https://paginagen2.github.io/Pagina_Gen/">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
+  <meta property="og:url" content="https://pagina-gen.web.app/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Gen 2">
   
@@ -24,16 +24,16 @@
   <meta name="twitter:title" content="Gen 2 - Recursos para jóvenes del Movimiento">
   <meta name="twitter:description" content="Cancionero, Palabra de Vida, experiencias y recursos para animadores.">
   <!-- Imagen de previsualización para Twitter -->
-  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
 
-  <link rel="stylesheet" href="aaglobal/sidebar.css">
+  <link rel="stylesheet" href="aaglobal/sidebar.css?v=20260728-retractable-4">
   <link rel="stylesheet" href="aaglobal/site-polish.css">
 </head>
 
 <body>
   <div class="page-container home-shell">
     <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="aaglobal/sidebar.js"></script>
+  <script src="aaglobal/sidebar.js?v=20260728-retractable-4"></script>
 
     <div class="main-content home-main-content">
       <main class="main home-dashboard">
@@ -52,11 +52,10 @@
               </span>
               <h2 id="contenido-title">Contenido de hoy</h2>
             </div>
-            <a href="pasapalabra/pasapalabra.html">Ver archivo <span aria-hidden="true">›</span></a>
           </div>
 
           <div class="daily-grid">
-            <article class="daily-card" onclick="window.location.href='pasapalabra/pasapalabra_de_hoy.html'">
+            <a class="daily-card" href="pasapalabra/pasapalabra_de_hoy.html" aria-label="Abrir Pasapalabra de hoy">
               <div class="daily-icon" aria-hidden="true">
                 <svg class="pasapalabra-symbol" viewBox="0 0 48 48">
                   <path d="M10 9h28a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H22l-10 7 2-7h-4a5 5 0 0 1-5-5V14a5 5 0 0 1 5-5Z"/>
@@ -69,28 +68,39 @@
                 <p class="pasapalabra-title">Cargando pasapalabra del día...</p>
                 <span class="daily-meta" id="fechaHoy"></span>
               </div>
-              <a class="card-arrow" href="pasapalabra/pasapalabra_de_hoy.html" aria-label="Abrir Pasapalabra de hoy">›</a>
-            </article>
+              <span class="card-arrow" aria-hidden="true">›</span>
+            </a>
 
-            <article class="daily-card" onclick="window.location.href='meditacion/meditacion_diaria.html'">
+            <a class="daily-card" href="meditacion/meditacion_diaria.html" aria-label="Abrir meditación diaria">
               <div class="daily-icon meditation-icon" aria-hidden="true">✦</div>
               <div class="daily-copy">
                 <h3>Meditación diaria</h3>
                 <p class="meditacion-title">Cargando meditación...</p>
                 <span class="daily-meta" id="fechaMeditacion"></span>
               </div>
-              <a class="card-arrow" href="meditacion/meditacion_diaria.html" aria-label="Abrir meditación diaria">›</a>
-            </article>
+              <span class="card-arrow" aria-hidden="true">›</span>
+            </a>
 
-            <article class="daily-card monthly-card" id="pdv-preview-container" onclick="window.location.href='pdv/pdv_todas.html'">
+            <a class="daily-card" id="pdv-preview-container" href="pdv/pdv_todas.html" aria-label="Abrir la última Palabra de Vida publicada">
               <div class="daily-icon book-icon" aria-hidden="true"><span class="book-symbol">†</span></div>
               <div class="daily-copy">
                 <h3>Palabra de Vida</h3>
                 <p class="palabra-cita" id="pdv-cita-index">Cargando Palabra de Vida...</p>
                 <span class="daily-meta" id="pdv-mes-index">Sin fecha disponible</span>
               </div>
-              <a class="card-arrow" href="pdv/pdv_todas.html" aria-label="Abrir Palabras de Vida">›</a>
-            </article>
+              <span class="card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <a class="daily-card channel-card" id="channel-banner-link" href="canal/canal.html" aria-label="Abrir Canal Gen">
+              <div class="daily-icon channel-card-icon" aria-hidden="true">◎</div>
+              <div class="daily-copy">
+                <span class="channel-card-kicker">CANAL GEN</span>
+                <h3>Última comunicación</h3>
+                <p id="canal-banner-preview">Cargando última novedad...</p>
+                <time class="daily-meta" id="canal-preview-date"></time>
+              </div>
+              <span class="card-arrow" aria-hidden="true">›</span>
+            </a>
           </div>
         </section>
 
@@ -147,14 +157,22 @@
                 <p>Materiales para crecer y profundizar.</p>
                 <span aria-hidden="true">›</span>
               </a>
+              <a class="resource-card" href="introduccion/introduccion.html">
+                <img src="aadocumentos/svg/casa.svg" alt="" class="resource-icon">
+                <h3>Historia</h3>
+                <p>Nuestra identidad, espiritualidad y camino.</p>
+                <span aria-hidden="true">›</span>
+              </a>
             </div>
           </section>
         </div>
 
-        <footer class="home-footer" aria-label="Accesos de información y comunicación">
-          <a href="canal/canal.html" class="footer-link footer-communication"><span aria-hidden="true">◎</span><span><strong>Comunicación</strong><small>Noticias generales y contenido para tu zona.</small><em id="canal-preview-text">Cargando última novedad...</em></span></a>
-          <a href="links/links.html" class="footer-link"><span aria-hidden="true">✉</span><span><strong>Contacto</strong><small>Escribinos o encontrá nuestras redes.</small></span></a>
-          <a href="introduccion/introduccion.html" class="footer-link"><span aria-hidden="true">◉</span><span><strong>Historia</strong><small>Nuestra historia, identidad y espiritualidad.</small></span></a>
+        <footer class="home-footer" aria-label="Contacto">
+          <a href="links/links.html" class="contact-strip">
+            <span class="contact-strip-icon" aria-hidden="true">✉</span>
+            <span class="contact-strip-copy"><strong>Contacto</strong><small>Escribinos o encontrá nuestras redes.</small></span>
+            <span class="contact-strip-action">Contactarse <span aria-hidden="true">→</span></span>
+          </a>
           <span id="canal-subtitulo" hidden>Novedades generales y de tus zonas</span>
         </footer>
       </main>
@@ -162,7 +180,7 @@
   </div>
 
   <script src="aaglobal/firebase-config.js?v=20260713-auth1"></script>
-  <script type="module" src="auth.js?v=20260713-auth4"></script>
-  <script type="module" src="index/index.js?v=20260713-canal2"></script>
+<script type="module" src="auth.js?v=20260727-role-codes"></script>
+  <script type="module" src="index/index.js?v=20260728-news-expiry"></script>
 </body>
 </html>

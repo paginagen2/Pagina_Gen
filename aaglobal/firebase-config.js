@@ -18,21 +18,18 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
     try {
         console.log('📦 Importando Firebase...');
         
-        const [appModule, firestoreModule, storageModule, authModule] = await Promise.all([
+        const [appModule, firestoreModule, authModule] = await Promise.all([
             import('https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js'),
             import('https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js'),
-            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js'),
             import('https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js')
         ]);
         const { initializeApp } = appModule;
         const { getFirestore, collection, getDocs, addDoc, setDoc, query, where, doc, updateDoc, orderBy, limit, getDoc, deleteDoc, writeBatch, runTransaction } = firestoreModule;
-        const { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } = storageModule;
         const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } = authModule;
         
         // Reutilizar si ya está inicializado; si no, inicializar
         const app = window.firebaseApp || initializeApp(firebaseConfig);
         const db = window.firebaseDb || getFirestore(app);
-        const storage = window.firebaseStorage || getStorage(app);
         const auth = window.firebaseAuth || getAuth(app);
 
         // 3️⃣ EXPONER AMBAS SINTAXIS para compatibilidad total
@@ -76,7 +73,6 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
         // Para gen-animadores y auth (sintaxis v9) - ✅ AHORA FUNCIONA
         window.firebaseApp = app;
         window.firebaseDb = db;
-        window.firebaseStorage = storage;
         window.firebaseAuth = auth;
         
         // Funciones globales para gen-animadores y auth
@@ -95,10 +91,6 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
             deleteDoc,
             writeBatch,
             runTransaction,
-            ref,
-            uploadBytesResumable,
-            getDownloadURL,
-            deleteObject,
             signInWithEmailAndPassword,
             createUserWithEmailAndPassword,
             signInWithPopup,
@@ -111,7 +103,7 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
         console.log('🎉 Firebase unificado inicializado correctamente!');
         console.log('✅ Cancionero: usar firebase.firestore()');
         console.log('✅ Gen Animadores: usar window.firebaseDb y window.firebaseUtils');
-        console.log('✅ Admin: usar window.firebaseStorage y window.firebaseUtils');
+        console.log('✅ Admin: Firestore y autenticación disponibles');
         console.log('✅ Auth: usar window.firebaseAuth y window.firebaseUtils');
         
         // Confirmar funcionamiento

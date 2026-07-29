@@ -6,6 +6,7 @@ let posts = [];
 let activeFilter = 'todo';
 let loadTimer = null;
 let scheduledRefresh = null;
+let hasLoadedPosts = false;
 
 const QUERY_LIMIT = 30;
 // Firebase 9.22 admite hasta 10 valores en array-contains-any.
@@ -86,7 +87,9 @@ function buildAudienceQueries(base, estado, now) {
 }
 
 async function loadPosts() {
-    renderStatus('Cargando publicaciones...');
+    // Solo mostrar la espera durante la primera carga. Las actualizaciones
+    // automáticas posteriores mantienen el contenido actual en pantalla.
+    if (!hasLoadedPosts) renderStatus('Cargando publicaciones...');
     try {
         const base = utils.collection(db, 'canal_publicaciones');
         const now = new Date();
@@ -94,12 +97,32 @@ async function loadPosts() {
             ...buildAudienceQueries(base, 'publicada', now),
             ...buildAudienceQueries(base, 'programada', now)
         ];
-        const snapshots = await Promise.all(requests);
+        const [snapshots, legacySnapshot] = await Promise.all([
+            Promise.all(requests),
+            utils.getDocs(utils.collection(db, 'carrusel'))
+        ]);
         const uniquePosts = new Map();
         snapshots.forEach(snapshot => snapshot.docs.forEach(document => {
             uniquePosts.set(document.id, { id: document.id, ...document.data() });
         }));
+        // Compatibilidad temporal con las novedades creadas antes de unificar
+        // Carrusel y Comunicación. Al editarlas desde Administrador se migran.
+        legacySnapshot.docs.forEach(document => {
+            const data = document.data();
+            uniquePosts.set(`legacy-${document.id}`, {
+                id: `legacy-${document.id}`,
+                titulo: data.titulo || 'Novedad',
+                resumen: data.descripcion || '',
+                contenido: '',
+                imagenUrl: data.fotoUrl || '',
+                enlace: data.href || '',
+                rolesDestinatarios: [],
+                estado: 'publicada',
+                fechaPublicacion: data.createdAt || new Date(0)
+            });
+        });
         posts = [...uniquePosts.values()];
+        hasLoadedPosts = true;
         renderPosts();
 
         // Una pestaña abierta incorpora automáticamente publicaciones cuya fecha acaba de llegar.
@@ -107,9 +130,11 @@ async function loadPosts() {
         scheduledRefresh = setTimeout(loadPosts, 60000);
     } catch (error) {
         console.error('No se pudieron cargar las publicaciones:', error);
-        renderStatus(error.code === 'failed-precondition'
-            ? 'El Canal necesita publicar sus índices de Firebase antes de mostrar contenido por roles.'
-            : 'No se pudieron cargar las publicaciones.');
+        if (!hasLoadedPosts) {
+            renderStatus(error.code === 'failed-precondition'
+                ? 'El Canal necesita publicar sus índices de Firebase antes de mostrar contenido por roles.'
+                : 'No se pudieron cargar las publicaciones.');
+        }
     }
 }
 
@@ -123,6 +148,11 @@ function toDate(value, fallback = new Date(0)) {
     if (!value) return fallback;
     const date = typeof value.toDate === 'function' ? value.toDate() : new Date(value);
     return Number.isNaN(date.getTime()) ? fallback : date;
+}
+
+function isPostVisible(post, now = new Date()) {
+    if (!post.fechaVencimiento) return true;
+    return toDate(post.fechaVencimiento, new Date(0)) > now;
 }
 
 function safeWebUrl(value, base = document.baseURI) {
@@ -142,12 +172,26 @@ function imageUrl(value) {
         : safeWebUrl(`../${value}`);
 }
 
+function formatEventDate(post) {
+    if (!post.fechaEventoInicio) return '';
+    const format = value => {
+        const parts = String(value).split('-').map(Number);
+        if (parts.length !== 3 || parts.some(Number.isNaN)) return '';
+        return new Date(parts[0], parts[1] - 1, parts[2]).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+    };
+    const start = format(post.fechaEventoInicio);
+    const end = format(post.fechaEventoFin);
+    if (!start) return '';
+    return end ? `Del ${start} al ${end}` : start;
+}
+
 function renderStatus(message) {
     document.getElementById('canal-feed').innerHTML = `<p class="canal-status">${escapeHtml(message)}</p>`;
 }
 
 function renderPosts() {
     const visible = posts
+        .filter(post => isPostVisible(post))
         .filter(post => activeFilter === 'todo'
             || (activeFilter === 'general' ? !(post.rolesDestinatarios || []).length : (post.rolesDestinatarios || []).length > 0))
         .sort((a, b) => toDate(b.fechaPublicacion) - toDate(a.fechaPublicacion));
@@ -157,16 +201,49 @@ function renderPosts() {
     document.getElementById('canal-feed').innerHTML = visible.map(post => {
         const picture = imageUrl(post.imagenUrl);
         const link = safeWebUrl(post.enlace);
+        const linkText = String(post.textoEnlace || 'Más información').trim().split(/\s+/).slice(0, 4).join(' ');
+        const eventDate = formatEventDate(post);
         return `
-        <article class="canal-post" id="${escapeHtml(post.id)}">
-            ${picture ? `<img src="${escapeHtml(picture)}" alt="">` : ''}
+        <article class="canal-post${picture ? '' : ' canal-post-no-image'}" id="${escapeHtml(post.id)}">
+            ${picture ? `<img src="${escapeHtml(picture)}" alt="">` : renderPostPlaceholder(post)}
             <div class="canal-post-content">
                 <h2>${escapeHtml(post.titulo)}</h2>
                 <div class="canal-post-meta">${post.rolesDestinatarios?.length ? 'Para tus zonas' : 'General'} · ${toDate(post.fechaPublicacion, new Date()).toLocaleDateString('es-AR')}</div>
+                ${eventDate ? `<div class="canal-post-event">📅 ${escapeHtml(eventDate)}</div>` : ''}
                 <p>${escapeHtml(post.resumen)}</p>
                 ${post.contenido ? `<p class="canal-post-body">${escapeHtml(post.contenido)}</p>` : ''}
-                ${link ? `<a class="canal-post-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Más información</a>` : ''}
+                ${link ? `<a class="canal-post-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(linkText)}</a>` : ''}
             </div>
         </article>`;
     }).join('');
+
+    document.querySelectorAll('.canal-post img').forEach(image => {
+        const discardBrokenImage = () => {
+            const card = image.closest('.canal-post');
+            image.replaceWith(createPostPlaceholder(card?.querySelector('h2')?.textContent || 'Novedad'));
+            card?.classList.add('canal-post-no-image');
+        };
+        image.addEventListener('error', discardBrokenImage, { once: true });
+        if (image.complete && image.naturalWidth === 0) discardBrokenImage();
+    });
+
+    const requestedId = decodeURIComponent(window.location.hash.slice(1));
+    const requestedPost = requestedId ? document.getElementById(requestedId) : null;
+    if (requestedPost) requestAnimationFrame(() => requestedPost.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+}
+
+function renderPostPlaceholder(post) {
+    const label = post.rolesDestinatarios?.length ? 'Novedad de tu zona' : 'Comunicación Gen';
+    return `<div class="canal-post-visual" aria-hidden="true">
+        <div class="canal-post-visual-mark">
+            <span class="canal-post-visual-icon">✦</span>
+            <span class="canal-post-visual-label">${escapeHtml(label)}</span>
+        </div>
+    </div>`;
+}
+
+function createPostPlaceholder(title) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = renderPostPlaceholder({ titulo: title, rolesDestinatarios: [] }).trim();
+    return wrapper.firstElementChild;
 }

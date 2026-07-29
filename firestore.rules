@@ -31,30 +31,119 @@ service cloud.firestore {
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.roles.size() == 0;
       allow update: if isAdmin() || (ownUser(uid)
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['roles', 'ultimoCanjeCodigo'])
-        && request.resource.data.roles.size() == resource.data.roles.size() + 1
-        && request.resource.data.roles.hasAll(resource.data.roles)
-        && request.resource.data.ultimoCanjeCodigo is string
-        && exists(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo))
-        && get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usado == false
-        && request.resource.data.roles.hasAny([
-          get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.rol
-        ])
-        && getAfter(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usado == true
-        && getAfter(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usadoPor == request.auth.uid);
+        && (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'nombre', 'descripcion', 'ubicacion', 'perfilActualizadoEn'
+          ])
+          || (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['roles'])
+            && request.resource.data.roles.size() == resource.data.roles.size() - 1
+            && resource.data.roles.hasAll(request.resource.data.roles)
+          )
+          || (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['roles', 'ultimoCanjeCodigo'])
+            && request.resource.data.roles.size() == resource.data.roles.size() + 1
+            && request.resource.data.roles.hasAll(resource.data.roles)
+            && request.resource.data.ultimoCanjeCodigo is string
+            && exists(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo))
+            && (
+              !('destinatarioEmail' in get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data)
+              || get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.destinatarioEmail == null
+              || get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.destinatarioEmail == ''
+              || (
+                request.auth.token.email is string
+                && request.auth.token.email.lower()
+                  == get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.destinatarioEmail
+              )
+            )
+            && request.resource.data.roles.hasAny([
+              get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.rol
+            ])
+            && (
+              (
+                !('tipo' in get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data)
+                && get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usado == false
+                && getAfter(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usado == true
+                && getAfter(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usadoPor == request.auth.uid
+              )
+              || (
+                'tipo' in get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data
+                && getAfter(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usosActuales
+                  == get(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.usosActuales + 1
+                && getAfter(/databases/$(database)/documents/codigos_roles/$(request.resource.data.ultimoCanjeCodigo)).data.ultimoUsoPor == request.auth.uid
+              )
+            )
+          )
+        ));
       allow delete: if isAdmin();
+
+      match /favoritos/{songId} {
+        allow read: if ownUser(uid);
+        allow create, update: if ownUser(uid)
+          && request.resource.data.usuarioId == uid
+          && request.resource.data.cancionId == songId
+          && request.resource.data.keys().hasOnly(['usuarioId', 'cancionId', 'creadoEn']);
+        allow delete: if ownUser(uid);
+      }
     }
 
     match /codigos_roles/{code} {
       allow get: if signedIn();
       allow list, create, delete: if isAdmin();
-      allow update: if isAdmin() || (signedIn()
-        && resource.data.usado == false
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['usado', 'usadoPor', 'usadoEn'])
-        && request.resource.data.usado == true
-        && request.resource.data.usadoPor == request.auth.uid
+      allow update: if isAdmin() || (signedIn() && (
+        (
+          !('tipo' in resource.data)
+          && resource.data.usado == false
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['usado', 'usadoPor', 'usadoEn'])
+          && request.resource.data.usado == true
+          && request.resource.data.usadoPor == request.auth.uid
+        )
+        || (
+          'tipo' in resource.data
+          && resource.data.activo == true
+          && (
+            !('destinatarioEmail' in resource.data)
+            || resource.data.destinatarioEmail == null
+            || resource.data.destinatarioEmail == ''
+            || (request.auth.token.email is string && request.auth.token.email.lower() == resource.data.destinatarioEmail)
+          )
+          && (!('venceEn' in resource.data) || resource.data.venceEn == null || resource.data.venceEn > request.time)
+          && (resource.data.tipo == 'libre' || resource.data.usosActuales < resource.data.maxUsos)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'usosActuales', 'ultimoUsoPor', 'ultimoUsoEn'
+          ])
+          && request.resource.data.usosActuales == resource.data.usosActuales + 1
+          && request.resource.data.ultimoUsoPor == request.auth.uid
+          && request.resource.data.ultimoUsoEn is timestamp
+          && request.resource.data.ultimoUsoEn <= request.time
+        )
+      )
         && getAfter(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.roles.hasAny([resource.data.rol])
         && getAfter(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.ultimoCanjeCodigo == code);
+
+      match /canjes/{uid} {
+        allow get: if isAdmin() || (signedIn() && request.auth.uid == uid);
+        allow list, delete: if isAdmin();
+        allow create: if signedIn()
+          && request.auth.uid == uid
+          && request.resource.data.uid == uid
+          && request.resource.data.rol == get(/databases/$(database)/documents/codigos_roles/$(code)).data.rol
+          && request.resource.data.canjeadoEn is timestamp
+          && request.resource.data.canjeadoEn <= request.time
+          && getAfter(/databases/$(database)/documents/usuarios/$(uid)).data.roles.hasAny([
+            get(/databases/$(database)/documents/codigos_roles/$(code)).data.rol
+          ])
+          && getAfter(/databases/$(database)/documents/codigos_roles/$(code)).data.ultimoUsoPor == uid;
+        allow update: if false;
+      }
+    }
+
+    match /zonas/{zoneId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /funcionalidades/{functionId} {
+      allow read, write: if isAdmin();
     }
 
     match /canal_publicaciones/{postId} {
@@ -130,10 +219,76 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
+    match /pdv/{pdvId} {
+      allow get: if isAdmin() || resource.data.estado == 'publicado';
+      allow list: if isAdmin() || resource.data.estado == 'publicado';
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /biblioteca_recursos/{resourceId} {
+      allow get, list: if isAdmin() || resource.data.estado == 'publicado';
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /biblioteca_config/{configId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /biblioteca_aportes/{submissionId} {
+      allow read: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly([
+          'codigo', 'titulo', 'autor', 'categoria', 'temas', 'temaPropuesto', 'descripcion',
+          'estado', 'creadoPor', 'creadoEn'
+        ])
+        && request.resource.data.codigo is string
+        && request.resource.data.codigo.size() > 4
+        && request.resource.data.codigo.size() <= 30
+        && request.resource.data.titulo is string
+        && request.resource.data.titulo.size() > 0
+        && request.resource.data.titulo.size() <= 140
+        && request.resource.data.autor is string
+        && request.resource.data.autor.size() <= 120
+        && request.resource.data.categoria in ['libros', 'documentos', 'audio', 'videos']
+        && request.resource.data.temas is list
+        && request.resource.data.temas.size() <= 20
+        && request.resource.data.temaPropuesto is string
+        && request.resource.data.temaPropuesto.size() <= 60
+        && request.resource.data.descripcion is string
+        && request.resource.data.descripcion.size() > 0
+        && request.resource.data.descripcion.size() <= 1000
+        && request.resource.data.estado == 'pendiente'
+        && request.resource.data.creadoPor == request.auth.uid
+        && request.resource.data.creadoEn is timestamp;
+      allow update, delete: if isAdmin();
+    }
+
+    match /biblioteca_eventos/{eventId} {
+      allow read: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly([
+          'tipo', 'recursoId', 'consulta', 'creadoPor', 'creadoEn'
+        ])
+        && request.resource.data.tipo in ['apertura', 'descarga', 'compartir', 'busqueda']
+        && request.resource.data.recursoId is string
+        && request.resource.data.recursoId.size() <= 160
+        && request.resource.data.consulta is string
+        && request.resource.data.consulta.size() <= 80
+        && request.resource.data.creadoPor == request.auth.uid
+        && request.resource.data.creadoEn is timestamp;
+      allow update, delete: if isAdmin();
+    }
+
     match /{collectionName}/{documentId} {
       allow read: if collectionName in [
-        'carrusel', 'frases', 'meditaciones', 'pasapalabra', 'pdv'
+        'carrusel', 'frases', 'pasapalabra'
       ];
+      allow write: if isAdmin();
+    }
+
+    match /meditaciones/{documentId} {
+      allow read: if isAdmin() || !('Publico' in resource.data) || resource.data.Publico == true;
       allow write: if isAdmin();
     }
 

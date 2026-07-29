@@ -8,34 +8,32 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Palabra de Vida - Gen 2">
   <meta property="og:description" content="Palabras de Vida para llevar el Evangelio a lo cotidiano.">
-  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Palabra de Vida - Gen 2">
   <meta name="twitter:description" content="Palabras de Vida para llevar el Evangelio a lo cotidiano.">
-  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="pdv-general.css">
   <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">  
-  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260728-retractable-4">
   <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
 
 <body>
   <!-- Sidebar pdv genérica -->
   <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js"></script>
+  <script src="../aaglobal/sidebar.js?v=20260728-retractable-4"></script>
 
   <!-- Contenido Principal -->
   <main class="main">
     <div class="palabra-container" id="pdv-container">
-      <!-- Los datos se cargarán aquí dinámicamente -->
-      <div style="text-align: center; color: white; margin-top: 50px;">
-        <p>Cargando Palabra de Vida...</p>
-      </div>
+      <div class="pdv-loading" role="status"><span></span><p>Cargando Palabra de Vida…</p></div>
     </div>
   </main>
 
   <script type="module" src="../aaglobal/firebase-config.js"></script>
-  <script type="module" src="pdv-viewer.js"></script>
+  <script src="../aaglobal/pdv-model.js?v=20260727-pdv2"></script>
+  <script type="module" src="pdv-viewer.js?v=20260727-pdv2"></script>
 </body>
 </html>

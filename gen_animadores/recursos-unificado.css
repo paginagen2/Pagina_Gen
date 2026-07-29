@@ -137,6 +137,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
   letter-spacing: -.05em;
 }
 .recursos-header h1 { font-size: clamp(2.35rem, 5vw, 4.5rem); }
+.title-icon {
+  display: inline-block;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+}
 .subtitle {
   position: relative;
   z-index: 1;
@@ -261,13 +268,32 @@ button, a { -webkit-tap-highlight-color: transparent; }
 :is(.ver-todos-btn,.accion-btn,.resource-open,.primary-button,.btn-primary):hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(113,68,213,.25); }
 :is(.ver-todos-btn,.accion-btn,.resource-open,.primary-button,.btn-primary):disabled { opacity: .55; cursor: wait; transform: none; }
 
-.recurso-detail-card { display: flex; flex-direction: column; padding: 24px; }
-.resource-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-.recurso-detail-card h2 { margin: 0 0 11px; color: #fff; font-size: 1.45rem; line-height: 1.2; }
+.recurso-detail-card { display: flex; flex-direction: column; padding: 24px; cursor: pointer; }
+.recurso-detail-card:focus-visible {
+  border-color: var(--anim-purple);
+  outline: 3px solid rgba(191,157,255,.75);
+  outline-offset: 3px;
+}
+.resource-card-top { display: flex; align-items: center; margin-bottom: 12px; }
+.resource-card-top h2 { margin: 0; color: #fff; font-size: 1.5rem; line-height: 1.2; }
 .resource-description { flex: 1; margin: 0 0 19px; color: var(--anim-muted); line-height: 1.55; }
 .recurso-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
 .recurso-meta > span { padding: 6px 9px; border: 1px solid #323b46; border-radius: 999px; color: #b7bfca; background: #11161c; font-size: .8rem; }
-.resource-open { width: 100%; justify-content: space-between; margin-top: auto; }
+.resource-open {
+  width: 100%;
+  justify-content: space-between;
+  margin-top: auto;
+  border-color: #38424e;
+  background: #1b222a;
+  box-shadow: none;
+  transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.recurso-detail-card:hover .resource-open,
+.recurso-detail-card:focus-visible .resource-open {
+  border-color: rgba(141,92,246,.65);
+  background: linear-gradient(135deg,#7144d5,#8d5cf6);
+  box-shadow: 0 10px 25px rgba(113,68,213,.2);
+}
 
 .ayuda-section,
 .acciones-section { margin-top: 22px; }
@@ -278,10 +304,20 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .consejo-item h4 { margin: 0 0 8px; color: #c5a8ff; font-size: 1rem; }
 .consejo-item p { margin: 0; color: var(--anim-muted); font-size: .88rem; line-height: 1.5; }
 .acciones-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
-.accion-card { padding: 27px; }
+.accion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 27px;
+  text-align: center;
+}
 .accion-card h3 { margin: 0 0 10px; color: #fff; }
 .accion-card p { min-height: 48px; margin: 0 0 20px; color: var(--anim-muted); line-height: 1.5; }
-.accion-btn.solicitar { border-color: #3a4450; background: #1b222a; }
+.accion-card .accion-btn { margin-top: auto; }
+.accion-btn.solicitar {
+  border-color: rgba(141,92,246,.55);
+  background: linear-gradient(135deg,#7144d5,#8d5cf6);
+}
 
 .back-row { margin: 26px 0 0; text-align: center; }
 .volver-btn,

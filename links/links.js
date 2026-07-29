@@ -206,4 +206,6 @@ copyEmailButton.addEventListener('click', async () => {
   window.setTimeout(() => { copyEmailIcon.textContent = 'Copiar'; }, 1800);
 });
 
-selectCategory('general');
+const requestedCategory = new URLSearchParams(window.location.search).get('categoria');
+const availableCategories = new Set(topicButtons.map(button => button.dataset.category));
+selectCategory(availableCategories.has(requestedCategory) ? requestedCategory : 'general');

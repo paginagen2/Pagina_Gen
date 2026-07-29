@@ -131,10 +131,12 @@ function compactNews(item) {
     titulo: item.titulo || 'Novedad Gen',
     descripcion: item.descripcion || item.resumen || '',
     fotoUrl: item.fotoUrl || item.imagenUrl || '',
-    href: item.href || item.enlace || (item.fromChannel ? `canal/canal.html#${item.id}` : ''),
+    href: item.fromChannel ? `canal/canal.html#${item.id}` : (item.href || item.enlace || ''),
+    textoEnlace: item.textoEnlace || 'Más información',
     etiquetaCarrusel: item.etiquetaCarrusel || item.categoria || 'Novedad',
     fechaEventoInicio: item.fechaEventoInicio || '',
-    fechaEventoFin: item.fechaEventoFin || ''
+    fechaEventoFin: item.fechaEventoFin || '',
+    fechaVencimiento: item.fechaVencimiento || null
   };
 }
 
@@ -205,6 +207,7 @@ async function main() {
     .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || ''))
       || timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion))[0] || null;
   const channel = [...publishedChannel, ...scheduledChannel]
+    .filter(item => !item.fechaVencimiento || timestampValue(item.fechaVencimiento) > now.getTime())
     .sort((a, b) => timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion));
 
   const news = [

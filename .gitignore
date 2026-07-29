@@ -151,3 +151,9 @@ descargas-matrix.js
 Pasar_a_Android.txt
 
 *.apk
+
+# Archivos locales de prueba o copias fuera de su carpeta web
+/_pdv-qa.html
+/cancion.js
+/cancionero.js
+/firebase-config-cancionero.js

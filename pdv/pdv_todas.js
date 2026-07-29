@@ -1,74 +1,56 @@
-/**
- * PDV Todas - Lista historial de Palabras de Vida desde Firebase
- */
+const archiveContainer = document.getElementById('pdv-lista-container');
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // Esperar a que Firebase esté listo
-    if (!window.firebaseDb) {
-        console.log('⏳ Esperando a Firebase...');
-        const checkFirebase = setInterval(() => {
-            if (window.firebaseDb) {
-                clearInterval(checkFirebase);
-                cargarHistorialPdv();
-            }
-        }, 100);
-    } else {
-        cargarHistorialPdv();
-    }
-});
-
-async function cargarHistorialPdv() {
-    const container = document.getElementById('pdv-lista-container');
-    if (!container) return;
-
-    try {
-        const db = window.firebaseDb;
-        const { collection, query, orderBy, getDocs } = window.firebaseUtils;
-
-        const pdvRef = collection(db, 'pdv'); // Colección se llama 'pdv', no 'palabrasDeVida'
-        const q = query(pdvRef, orderBy('fecha', 'desc'));
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.empty) {
-            container.innerHTML = '<div style="text-align: center; color: white; width: 100%; padding: 2rem;"><p>No hay Palabras de Vida registradas aún.</p></div>';
-            return;
-        }
-
-        container.innerHTML = ''; // Limpiar cargando
-
-        querySnapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            const id = data.urlSlug || docSnap.id;
-            
-            const item = document.createElement('a');
-            item.href = `pdv.html?id=${id}`;
-            item.className = 'palabra-nav-link';
-            item.innerHTML = `
-                <div class="palabra-nav-item">
-                    <div class="nav-mes">${data.mes || 'Sin fecha'}</div>
-                    <div class="nav-titulo">${data.titulo || 'Sin título'}</div>
-                </div>
-            `;
-            container.appendChild(item);
-        });
-
-        addNavigationEffects();
-
-    } catch (error) {
-        console.error('Error al cargar historial de Palabras de Vida:', error);
-        container.innerHTML = '<div style="text-align: center; color: white; width: 100%; padding: 2rem;"><p>Error al cargar el historial.</p></div>';
-    }
+async function waitForArchiveFirebase(timeout = 12000) {
+  if (window.firebaseReady) await Promise.race([
+    window.firebaseReady,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('La conexión tardó demasiado.')), timeout))
+  ]);
+  if (!window.firebaseDb || !window.firebaseUtils) throw new Error('Firebase no está disponible.');
 }
 
-function addNavigationEffects() {
-    document.querySelectorAll('.palabra-nav-item').forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(12px) scale(1.02)';
-            this.style.transition = 'all 0.3s ease';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0) scale(1)';
-        });
-    });
+function showArchiveState(title, message, retry = false) {
+  archiveContainer.innerHTML = `
+    <div class="pdv-archive-state">
+      <h2>${window.PdvModel.escapeHtml(title)}</h2>
+      <p>${window.PdvModel.escapeHtml(message)}</p>
+      ${retry ? '<button type="button" data-archive-retry>Intentar de nuevo</button>' : ''}
+    </div>`;
+  archiveContainer.querySelector('[data-archive-retry]')?.addEventListener('click', loadArchive);
 }
+
+async function loadArchive() {
+  archiveContainer.innerHTML = '<div class="pdv-loading" role="status"><span></span><p>Cargando publicaciones…</p></div>';
+  try {
+    await waitForArchiveFirebase();
+    const { collection, query, where, getDocs } = window.firebaseUtils;
+    const snapshot = await getDocs(query(
+      collection(window.firebaseDb, 'pdv'),
+      where('estado', '==', 'publicado')
+    ));
+    const items = snapshot.docs
+      .map(documentSnapshot => ({ id: documentSnapshot.id, ...documentSnapshot.data() }))
+      .filter(item => item.version === 2)
+      .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || '')));
+    if (!items.length) {
+      showArchiveState('El archivo está listo', 'Las nuevas Palabras de Vida publicadas van a aparecer acá.');
+      return;
+    }
+    archiveContainer.innerHTML = items.map((item, index) => `
+      <a class="pdv-archive-card${index === 0 ? ' is-latest' : ''}" href="pdv.html?id=${encodeURIComponent(item.id)}">
+        <div>
+          <span class="pdv-archive-month">${window.PdvModel.escapeHtml(item.mes || 'Sin fecha')}</span>
+          ${index === 0 ? '<span class="pdv-latest-label">MÁS RECIENTE</span>' : ''}
+        </div>
+        <blockquote>«${window.PdvModel.escapeHtml(item.citaPrincipal || 'Leer la Palabra de Vida')}»</blockquote>
+        <div class="pdv-archive-footer">
+          <span>${window.PdvModel.escapeHtml(item.citaReferencia || '')}</span>
+          <strong>Leer <span aria-hidden="true">→</span></strong>
+        </div>
+      </a>`).join('');
+  } catch (error) {
+    console.error('Error al cargar el archivo:', error);
+    showArchiveState('No pudimos cargar el archivo', 'Revisá tu conexión e intentá nuevamente.', true);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadArchive);

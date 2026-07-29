@@ -8,15 +8,15 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Archivo de Palabras de Vida | Gen 2">
   <meta property="og:description" content="Palabras de Vida para llevar el Evangelio a lo cotidiano.">
-  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Archivo de Palabras de Vida | Gen 2">
   <meta name="twitter:description" content="Palabras de Vida para llevar el Evangelio a lo cotidiano.">
-  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="stylesheet" href="pdv_todas.css">
   <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260728-retractable-4">
   <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
 
@@ -24,32 +24,27 @@
     <div class="page-container">
   <!-- Sidebar -->
   <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js"></script>
+  <script src="../aaglobal/sidebar.js?v=20260728-retractable-4"></script>
 
         <!-- Contenido principal -->
         <main class="main">
           <div class="palabra-container">
             
             <!-- Header -->
-            <div class="palabra-header">
+            <div class="palabra-header pdv-archive-hero">
+              <p class="pdv-kicker">ARCHIVO</p>
               <h1>Palabras de Vida</h1>
+              <p>Una palabra del Evangelio para vivir cada mes y transformar lo cotidiano.</p>
             </div>
 
 
               <!-- Navegación a otras palabras -->
               <div class="navegacion-palabras">
-                <h3>Explorar otras Palabras de Vida</h3>
+                <h2>Explorar publicaciones</h2>
                 <div class="palabras-nav" id="pdv-lista-container">
                   <!-- Los items se cargarán dinámicamente aquí -->
-                  <div style="text-align: center; color: white; width: 100%; padding: 2rem;">
-                    <p>Cargando historial...</p>
-                  </div>
+                  <div class="pdv-loading" role="status"><span></span><p>Cargando publicaciones…</p></div>
                 </div>
-              </div>
-
-              <!-- Autor -->
-              <div class="autor">
-                <p>Equipo de Palabra de Vida</p>
               </div>
 
             </div>
@@ -59,7 +54,8 @@
 
     <!-- Scripts -->
     <script type="module" src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
-    <script type="module" src="../auth.js?v=20260712-roles1"></script>
-    <script type="module" src="pdv_todas.js"></script>
+<script type="module" src="../auth.js?v=20260727-role-codes"></script>
+    <script src="../aaglobal/pdv-model.js?v=20260727-pdv2"></script>
+    <script type="module" src="pdv_todas.js?v=20260727-pdv2"></script>
 </body>
 </html>

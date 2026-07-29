@@ -1,6 +1,6 @@
 // firebase-config-cancionero.js
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { initializeApp, getApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { 
   getFirestore, 
   collection, 
@@ -21,7 +21,6 @@ import {
   onSnapshot,
   runTransaction
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 // 🔥 PEGA AQUÍ TU CONFIGURACIÓN REAL (reemplaza esto)
@@ -35,9 +34,8 @@ const firebaseConfig = {
 };
 
 // Inicializar Firebase
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const storage = getStorage(app);
 const auth = getAuth(app);
 
 window.firebaseDb = db;
@@ -69,15 +67,44 @@ export const DatabaseService = {
     return likeSnapshot.exists();
   },
 
+  async getEstadoFavorito(cancionId, usuarioId) {
+    return this.getEstadoLike(cancionId, usuarioId);
+  },
+
   async setLikeCancion(cancionId, usuarioId, activo) {
     if (!cancionId || !usuarioId) throw new Error('Faltan datos para guardar el like.');
     const likeRef = doc(db, 'canciones', cancionId, 'likes', usuarioId);
+    const favoritoRef = doc(db, 'usuarios', usuarioId, 'favoritos', cancionId);
+    const batch = writeBatch(db);
     if (activo) {
-      await setDoc(likeRef, { usuarioId, creadoEn: new Date().toISOString() });
+      const creadoEn = new Date().toISOString();
+      batch.set(likeRef, { usuarioId, creadoEn });
+      batch.set(favoritoRef, { usuarioId, cancionId, creadoEn });
     } else {
-      await deleteDoc(likeRef);
+      batch.delete(likeRef);
+      batch.delete(favoritoRef);
     }
+    await batch.commit();
     return activo;
+  },
+
+  async setFavoritoCancion(cancionId, usuarioId, activo) {
+    return this.setLikeCancion(cancionId, usuarioId, activo);
+  },
+
+  async getFavoritosUsuario(usuarioId) {
+    if (!usuarioId) return [];
+    const favoritosSnapshot = await getDocs(query(
+      collection(db, 'usuarios', usuarioId, 'favoritos'),
+      orderBy('creadoEn', 'desc')
+    ));
+    const canciones = await Promise.all(favoritosSnapshot.docs.map(async (favoritoDoc) => {
+      const cancionId = favoritoDoc.data().cancionId || favoritoDoc.id;
+      return this.getCancionPorId(cancionId);
+    }));
+    return canciones.filter((cancion) =>
+      cancion && (!cancion.estado || cancion.estado === 'publicado' || cancion.estado === 'publicada')
+    );
   },
   // Función para obtener canciones una sola vez (filtradas por estado: 'publicado')
   async getCanciones() {

@@ -176,7 +176,13 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .song-card-footer { display: flex; align-items: center; gap: 8px; margin-top: auto; }
 .cancion-categoria { padding: 4px 9px; border: 1px solid rgba(153,89,255,.4); border-radius: 99px; color: var(--sb-purple-light); background: rgba(78,31,143,.24); font-size: 11px; }
 .song-key { margin-left: auto; color: #bdbfcb; font-size: 12px; }
-.favorite-icon { width: 22px; height: 22px; color: #9093a4; }
+.favorite-button { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; margin: -6px -6px -6px auto; padding: 0; border: 1px solid transparent; border-radius: 9px; color: #9093a4; background: transparent; cursor: pointer; transition: color .16s ease, border-color .16s ease, background .16s ease, transform .16s ease; }
+.favorite-button:hover { border-color: #67438f; color: #cba7ff; background: rgba(137, 75, 205, .15); transform: scale(1.05); }
+.favorite-button.active { color: #c98cff; }
+.favorite-button.active .favorite-icon { fill: #9a62f7; }
+.favorite-button:disabled, .favorite-button[aria-busy="true"] { cursor: wait; opacity: .6; }
+.favorite-icon { width: 21px; height: 21px; color: currentColor; }
+.song-key + .favorite-button { margin-left: 0; }
 .ranking-badge { display: none; }
 .selection-checkbox { position: absolute; top: 7px; left: 7px; z-index: 4; display: none; }
 .selection-checkbox.visible { display: block; }
@@ -207,6 +213,9 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .tool-icon svg { width: 46px; height: 46px; stroke-width: 1.7; }
 .chords-tool-icon { border: 1px solid rgba(169,108,255,.28); border-radius: 15px; background: linear-gradient(145deg, rgba(153,89,255,.18), rgba(83,44,137,.08)); }
 .chords-tool-icon svg { width: 34px; height: 34px; stroke-width: 1.65; }
+.favorites-tool-icon { border: 1px solid rgba(169,108,255,.28); border-radius: 50%; background: rgba(153,89,255,.12); }
+.favorites-tool-icon svg { width: 29px; height: 29px; }
+.favorites-tool:hover .favorites-tool-icon svg { fill: rgba(153,89,255,.28); }
 .tool-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 7px; }
 .tool-copy strong { color: var(--sb-text); font-size: 16px; line-height: 1.25; }
 .tool-copy small { color: var(--sb-muted); font-size: 13px; line-height: 1.5; }

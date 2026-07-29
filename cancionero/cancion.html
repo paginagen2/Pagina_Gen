@@ -9,16 +9,16 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Canción - Cancionero Gen">
   <meta property="og:description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
-  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Canción - Cancionero Gen">
   <meta name="twitter:description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
-  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
   <link rel="icon" href="../aadocumentos/svg/guitarra.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260728-retractable-4">
   <link rel="stylesheet" href="../aaglobal/site-polish.css">
-  <link rel="stylesheet" href="cancion.css?v=20260714-song-view">
+  <link rel="stylesheet" href="cancion.css?v=20260727-shortcuts-label">
   <link rel="stylesheet" href="chord-diagrams.css?v=20260714">
 </head>
 <body>
@@ -43,7 +43,7 @@
   </svg>
 
   <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js"></script>
+  <script src="../aaglobal/sidebar.js?v=20260728-retractable-4"></script>
 
   <header class="cancion-header">
     <div class="song-header-inner">
@@ -68,16 +68,28 @@
       <div class="metadata-list">
         <div class="metadata-item"><svg><use href="#i-folder"/></svg><span><small>Categoría</small><strong id="cancionCategoria">-</strong></span></div>
         <div class="metadata-item"><svg><use href="#i-eye"/></svg><span><small>Vistas</small><strong id="cancionVistas">0</strong></span></div>
-        <button class="metadata-item like-button" id="likeButton" type="button" aria-pressed="false" aria-label="Dar me gusta a esta canción">
-          <svg><use href="#i-heart"/></svg><span><small>Me gusta</small><strong id="cancionLikes">0</strong></span>
+        <button class="metadata-item like-button" id="likeButton" type="button" aria-pressed="false" aria-label="Agregar esta canción a favoritos">
+          <svg><use href="#i-heart"/></svg><span><small>Favoritos</small><strong id="cancionLikes">0</strong></span>
         </button>
         <div class="metadata-item"><svg><use href="#i-key"/></svg><span><small>Tono</small><strong id="tonoActual">Original</strong></span></div>
       </div>
     </section>
 
     <section class="song-workspace">
-      <aside class="song-tools" aria-label="Herramientas de la canción">
-        <div class="tools-heading"><span>Herramientas</span><small>Personaliza la lectura</small></div>
+      <aside class="song-tools" id="songTools" aria-label="Herramientas de la canción">
+        <div class="tools-heading">
+          <span class="tools-heading-copy"><strong>Herramientas</strong><small>Personaliza la lectura</small></span>
+          <button class="tools-collapse" id="toggleTools" type="button" aria-expanded="true" aria-controls="songTools" title="Contraer herramientas">
+            <svg><use href="#i-arrow-left"/></svg><span>Contraer</span>
+          </button>
+        </div>
+
+        <div class="tool-group">
+          <span class="tool-label">Vista de la canción</span>
+          <button class="tool-wide chords-visibility" type="button" id="btnMostrarAcordes" aria-pressed="true">
+            <span class="cifrado-sample"><svg><use href="#i-music"/></svg></span><span>Letra y acordes</span><strong>Visibles</strong>
+          </button>
+        </div>
 
         <div class="tool-group">
           <span class="tool-label">Cifrado</span>
@@ -114,6 +126,23 @@
           <input id="scrollSpeed" type="range" min="1" max="10" value="5" tabindex="-1" aria-hidden="true">
         </div>
 
+        <button class="quick-guide-button" id="openQuickGuide" type="button" disabled>
+          <span><svg><use href="#i-guitar"/></svg><span><strong>Guía rápida</strong><small id="quickGuideCount">Cargando acordes…</small></span></span>
+          <span class="quick-guide-action">Abrir</span>
+        </button>
+
+        <details class="keyboard-help">
+          <summary><span>Atajos de teclado</span><span class="keyboard-help-action">Ver</span></summary>
+          <dl>
+            <div><dt><kbd>V</kbd></dt><dd>Alternar letra y acordes</dd></div>
+            <div><dt><kbd>C</kbd></dt><dd>Alternar cifrado</dd></div>
+            <div><dt><kbd>+</kbd> <kbd>−</kbd></dt><dd>Cambiar velocidad</dd></div>
+            <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>Desplazar la canción</dd></div>
+            <div><dt><kbd>A</kbd> <kbd>Espacio</kbd></dt><dd>Iniciar o pausar auto-scroll</dd></div>
+            <div><dt><kbd>Esc</kbd></dt><dd>Cerrar el acorde abierto</dd></div>
+          </dl>
+        </details>
+
         <button class="autoscroll-btn" type="button" onclick="toggleAutoScroll()" id="btnAutoScroll" aria-pressed="false">
           <svg><use href="#i-play"/></svg><span>Iniciar auto-scroll</span><kbd>A</kbd>
         </button>
@@ -121,16 +150,6 @@
       </aside>
 
       <div class="song-content-column">
-        <section class="used-chords" aria-labelledby="usedChordsTitle">
-          <div class="section-heading">
-            <div><span class="section-kicker">Guía rápida</span><h2 id="usedChordsTitle">Acordes utilizados</h2></div>
-            <p>Selecciona un acorde para ver cómo tocarlo.</p>
-          </div>
-          <div class="used-chords-list" id="usedChordsList" aria-live="polite">
-            <span class="chords-loading">Los acordes aparecerán al cargar la canción.</span>
-          </div>
-        </section>
-
         <article class="letra-section" aria-labelledby="lyricsTitle">
           <header class="lyrics-header">
             <div><span class="section-kicker">Letra y acordes</span><h2 id="lyricsTitle">Canción</h2></div>
@@ -145,6 +164,19 @@
       </div>
     </section>
   </main>
+
+  <div class="quick-guide-backdrop" id="quickGuideBackdrop" hidden></div>
+  <section class="quick-guide-modal" id="quickGuideModal" role="dialog" aria-modal="true" aria-labelledby="quickGuideTitle" hidden>
+    <header class="quick-guide-header">
+      <div><span class="section-kicker">Guía rápida</span><h2 id="quickGuideTitle">Acordes de la canción</h2></div>
+      <button type="button" class="drawer-close" id="closeQuickGuide" aria-label="Cerrar guía rápida"><svg><use href="#i-close"/></svg></button>
+    </header>
+    <div class="instrument-tabs quick-guide-tabs" role="tablist" aria-label="Instrumento de la guía">
+      <button type="button" id="guideGuitarTab" role="tab" aria-selected="true"><svg><use href="#i-guitar"/></svg>Guitarra</button>
+      <button type="button" id="guidePianoTab" role="tab" aria-selected="false"><svg><use href="#i-piano"/></svg>Piano</button>
+    </div>
+    <div class="quick-guide-grid" id="quickGuideGrid"></div>
+  </section>
 
   <div class="chord-drawer-backdrop" id="chordDrawerBackdrop" hidden></div>
   <aside class="chord-drawer" id="chordDrawer" role="dialog" aria-modal="true" aria-labelledby="chordDrawerTitle" hidden>
@@ -163,7 +195,7 @@
 
   <div class="song-toast" id="songToast" role="status" aria-live="polite" hidden></div>
 
-  <script type="module" src="../auth.js?v=20260714"></script>
-  <script type="module" src="cancion.js?v=20260714-song-view-2"></script>
+<script type="module" src="../auth.js?v=20260727-role-codes"></script>
+  <script type="module" src="cancion.js?v=20260728-favorites-list"></script>
 </body>
 </html>

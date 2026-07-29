@@ -7,12 +7,33 @@ let carruselInterval = null;
 const REMOTE_HOME_DATA_URL = 'https://raw.githubusercontent.com/paginagen2/Pagina_Gen/main/datos/inicio.json';
 const LOCAL_HOME_DATA_URL = 'datos/inicio.json';
 
+function homeDate(value) {
+    if (!value) return null;
+    const date = value?.toDate ? value.toDate() : new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function isNewsVisible(item, now = new Date()) {
+    const expiry = homeDate(item?.fechaVencimiento);
+    return !expiry || expiry > now;
+}
+
 // Inicialización
 document.addEventListener('DOMContentLoaded', async function() {
     setCurrentDate();
     setupCarruselEventListeners();
     setupEventListeners();
     await loadDailyHomeData();
+    try {
+        if (window.firebaseReady) await window.firebaseReady;
+        if (window.firebaseDb && window.firebaseUtils) await initializePage();
+    } catch (error) {
+        console.warn('No se pudo actualizar el Inicio desde Firebase:', error);
+    }
+});
+
+window.addEventListener('gen:profile-updated', () => {
+    if (window.firebaseDb && window.firebaseUtils) initializePage();
 });
 
 async function loadDailyHomeData() {
@@ -77,7 +98,7 @@ function applyDailyHomeData(data) {
     updateChannelBanner(latestNews);
 
     document.documentElement.dataset.homeDataDate = data.fechaGeneracion || '';
-    carruselData = Array.isArray(data.novedades) ? data.novedades : [];
+    carruselData = Array.isArray(data.novedades) ? data.novedades.filter(item => isNewsVisible(item)) : [];
     carruselCurrentIndex = 0;
     renderizarCarrusel();
     iniciarCarruselAutomatico();
@@ -91,9 +112,12 @@ function setPdvDestination(href) {
 }
 
 // Inicializar página
-function initializePage() {
+async function initializePage() {
     const db = window.firebaseDb;
-    cargarCarrusel(db);
+    const roles = window.genAuthSession
+        ? await window.genAuthSession.getRoles().catch(() => [])
+        : [];
+    cargarCarrusel(db, roles);
     cargarFraseAleatoria(db);
     cargarTituloPasapalabraHoy(db);
     cargarMeditacionHoy(db);
@@ -136,19 +160,27 @@ function updateChannelBanner(item) {
     }
 }
 
-async function cargarPublicacionesGeneralesVisibles(db) {
+async function cargarPublicacionesGeneralesVisibles(db, roles = []) {
     const { collection, query, where, orderBy, limit, getDocs } = window.firebaseUtils;
     const ref = collection(db, 'canal_publicaciones');
     const now = new Date();
-    const results = await Promise.all([
+    const requests = [
         getDocs(query(ref, where('estado', '==', 'publicada'), where('rolesDestinatarios', '==', []), orderBy('fechaPublicacion', 'desc'), limit(30))),
         getDocs(query(ref, where('estado', '==', 'programada'), where('rolesDestinatarios', '==', []), where('fechaPublicacion', '<=', now), orderBy('fechaPublicacion', 'desc'), limit(30)))
-    ]);
+    ];
+    for (let offset = 0; offset < roles.length; offset += 10) {
+        const roleGroup = roles.slice(offset, offset + 10);
+        requests.push(
+            getDocs(query(ref, where('estado', '==', 'publicada'), where('rolesDestinatarios', 'array-contains-any', roleGroup), orderBy('fechaPublicacion', 'desc'), limit(30))),
+            getDocs(query(ref, where('estado', '==', 'programada'), where('rolesDestinatarios', 'array-contains-any', roleGroup), where('fechaPublicacion', '<=', now), orderBy('fechaPublicacion', 'desc'), limit(30)))
+        );
+    }
+    const results = await Promise.allSettled(requests);
     const unique = new Map();
-    results.forEach(snapshot => snapshot.docs.forEach(document => {
+    results.filter(result => result.status === 'fulfilled').forEach(result => result.value.docs.forEach(document => {
         unique.set(document.id, { id: document.id, ...document.data() });
     }));
-    return [...unique.values()];
+    return [...unique.values()].filter(item => isNewsVisible(item, now));
 }
 
 function mostrarErrorDeCarga() {
@@ -435,20 +467,20 @@ window.addEventListener('beforeunload', () => {
 });
 
 // Funciones del carrusel de fotos
-async function cargarCarrusel(db) {
+async function cargarCarrusel(db, roles = []) {
     try {
         const { collection, query, orderBy, getDocs } = window.firebaseUtils;
         const [legacyResult, channelResult] = await Promise.allSettled([
             getDocs(query(collection(db, 'carrusel'), orderBy('createdAt', 'desc'))),
-            cargarPublicacionesGeneralesVisibles(db)
+            cargarPublicacionesGeneralesVisibles(db, roles)
         ]);
         carruselData = legacyResult.status === 'fulfilled'
             ? legacyResult.value.docs.map(doc => ({ id: doc.id, ...doc.data() }))
             : [];
-        // El carrusel de Inicio es público: solo muestra actividades generales.
-        // Las publicaciones de zona se ven filtradas dentro del Canal.
+        // Las generales se muestran a todos; las segmentadas solo llegan a
+        // usuarios que tengan alguna de sus zonas o categorías.
         if (channelResult.status === 'fulfilled') {
-            channelResult.value.filter(post => post.destacarEnCarrusel).forEach(post => {
+            channelResult.value.filter(post => post.destacarEnCarrusel && isNewsVisible(post)).forEach(post => {
                 carruselData.unshift({ ...post, fotoUrl: post.imagenUrl, descripcion: post.resumen, href: `canal/canal.html#${post.id}` });
             });
         }
@@ -522,6 +554,14 @@ function renderizarCarrusel() {
         }
         if (item.titulo) { const title = document.createElement('h3'); title.textContent = item.titulo; content.appendChild(title); }
         if (item.descripcion) { const description = document.createElement('p'); description.textContent = item.descripcion; content.appendChild(description); }
+        if (destination) {
+            const action = document.createElement('a');
+            action.className = 'carrusel-action';
+            action.href = destination;
+            action.textContent = String(item.textoEnlace || 'Más información').trim().split(/\s+/).slice(0, 4).join(' ') || 'Más información';
+            action.addEventListener('click', event => event.stopPropagation());
+            content.appendChild(action);
+        }
         slide.appendChild(content);
         return slide;
     }));

@@ -8,23 +8,29 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Panel de Administración">
   <meta property="og:description" content="Herramientas de administración de Gen 2.">
-  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Panel de Administración">
   <meta name="twitter:description" content="Herramientas de administración de Gen 2.">
-  <meta name="twitter:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
     <link rel="stylesheet" href="../aaglobal/style.css">
-    <link rel="stylesheet" href="admin.css">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css">
+    <link rel="stylesheet" href="admin.css?v=20260727-access-types">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260728-retractable-4">
   <link rel="stylesheet" href="../aaglobal/site-polish.css">
 </head>
 <body>
     <div class="page-container">
         <!-- Sidebar -->
         <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js"></script>
+  <script src="../aaglobal/sidebar.js?v=20260728-retractable-4"></script>
 
         <div class="main-content">
+            <div id="admin-loading" class="admin-status" role="status" aria-live="polite">
+                <div class="admin-status-spinner" aria-hidden="true"></div>
+                <h1>Cargando panel de administración</h1>
+                <p>Estamos verificando tu acceso…</p>
+            </div>
+
             <!-- Mensaje de acceso denegado -->
             <div id="access-denied" style="display: none; text-align: center; padding: 4rem 2rem;">
                 <h1 style="color: var(--danger-color);">Acceso Denegado</h1>
@@ -45,6 +51,10 @@
                         <span class="nav-icon">🖼️</span>
                         <span class="nav-text">Comunicación</span>
                     </button>
+                    <button class="nav-btn" data-section="zonas-codigos">
+                        <span class="nav-icon">🔑</span>
+                        <span class="nav-text">Zonas y códigos</span>
+                    </button>
                     <button class="nav-btn" data-section="pasapalabra">
                         <span class="nav-icon">✨</span>
                         <span class="nav-text">Pasapalabra</span>
@@ -52,6 +62,10 @@
                     <button class="nav-btn" data-section="meditaciones">
                         <span class="nav-icon">🧘</span>
                         <span class="nav-text">Meditaciones</span>
+                    </button>
+                    <button class="nav-btn" data-section="biblioteca">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">Biblioteca</span>
                     </button>
                     <button class="nav-btn" data-section="cancionero">
                         <span class="nav-icon">🎸</span>
@@ -137,22 +151,135 @@
                                     <div class="form-group"><label for="canal-resumen">Resumen *</label><textarea id="canal-resumen" rows="3" required></textarea></div>
                                     <div class="form-group"><label for="canal-contenido">Información completa</label><textarea id="canal-contenido" rows="7" placeholder="Horarios, inscripción, enlaces y contacto..."></textarea></div>
                                     <div class="form-row">
-                                        <div class="form-group"><label for="canal-imagen">URL de imagen (opcional)</label><input id="canal-imagen" type="text" placeholder="aadocumentos/imagenes/...jpg o https://..."></div>
+                                        <div class="form-group">
+                                            <label for="canal-imagen">URL de imagen (opcional)</label>
+                                            <input id="canal-imagen" type="text" placeholder="aadocumentos/imagenes/...jpg o https://...">
+                                            <button id="canal-preview-toggle" class="canal-preview-toggle" type="button" aria-expanded="false">Ver miniatura</button>
+                                            <div id="canal-image-preview" class="canal-image-preview" hidden>
+                                                <img id="canal-image-preview-img" alt="Vista previa de la comunicación">
+                                                <p id="canal-image-preview-status" role="status"></p>
+                                            </div>
+                                        </div>
                                         <div class="form-group"><label for="canal-enlace">Enlace externo (opcional)</label><input id="canal-enlace" type="text" placeholder="https://..."></div>
                                     </div>
+                                    <div class="form-group"><label for="canal-texto-enlace">Texto del botón</label><input id="canal-texto-enlace" type="text" maxlength="40" placeholder="Ej.: Más información o Ver encuentro"><p class="field-help">Se usa en el carrusel y, si agregás un enlace externo, también dentro de la publicación. Máximo 4 palabras.</p></div>
                                     <div class="form-row">
                                         <div class="form-group"><label for="canal-audiencia">Audiencia *</label><select id="canal-audiencia"><option value="general">General — visible para todos</option><option value="roles">Una o más zonas</option></select></div>
                                         <div class="form-group" id="canal-roles-group" hidden><label for="canal-roles">Zonas destinatarias *</label><input id="canal-roles" type="text" placeholder="zona_rosario, zona_cordoba"><p class="field-help">Ingresá los roles separados por comas. Alcanza con que la persona tenga uno.</p></div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group"><label for="canal-estado">Estado</label><select id="canal-estado"><option value="borrador">Borrador</option><option value="publicada">Publicar ahora</option><option value="programada">Programar</option><option value="archivada">Archivar</option></select></div>
-                                        <div class="form-group"><label for="canal-fecha">Fecha de publicación</label><input id="canal-fecha" type="datetime-local"></div>
+                                        <div class="form-group"><label for="canal-fecha">Fecha de publicación</label><input id="canal-fecha" type="datetime-local"><p class="field-help">Solo se habilita cuando elegís “Programar”.</p></div>
                                     </div>
-                                    <div class="form-group-checkbox"><label class="checkbox-label"><input id="canal-destacar" type="checkbox"><span class="checkbox-custom"></span> Mostrar en novedades del Inicio (carrusel)</label><p class="field-help">Solo las comunicaciones generales pueden aparecer en las novedades del Inicio.</p></div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label for="canal-evento-tipo">Fecha del evento (opcional)</label><select id="canal-evento-tipo"><option value="ninguna">Sin fecha de evento</option><option value="dia">Un solo día</option><option value="rango">Rango de días</option></select></div>
+                                        <div class="form-group" id="canal-evento-inicio-group" hidden><label id="canal-evento-inicio-label" for="canal-evento-inicio">Fecha del evento</label><input id="canal-evento-inicio" type="date"></div>
+                                        <div class="form-group" id="canal-evento-fin-group" hidden><label for="canal-evento-fin">Hasta</label><input id="canal-evento-fin" type="date"></div>
+                                    </div>
+                                    <div class="form-group-checkbox"><label class="checkbox-label"><input id="canal-destacar" type="checkbox"><span class="checkbox-custom"></span> Mostrar en novedades del Inicio (carrusel)</label><p class="field-help">Las generales son visibles para todos. Las segmentadas solo se muestran a las zonas o categorías elegidas.</p></div>
+                                    <div class="form-group canal-feature-options" id="canal-feature-options" hidden>
+                                        <label for="canal-etiqueta">Etiqueta en novedades *</label>
+                                        <input id="canal-etiqueta" type="text" list="canal-etiquetas-sugeridas" maxlength="24" placeholder="Elegí o escribí una etiqueta">
+                                        <datalist id="canal-etiquetas-sugeridas">
+                                            <option value="Novedad">
+                                            <option value="Evento">
+                                            <option value="Encuentro">
+                                            <option value="Formación">
+                                            <option value="Aviso">
+                                            <option value="Testimonio">
+                                        </datalist>
+                                        <p class="field-help">Elegí una sugerencia o escribí una etiqueta propia. Máximo 24 caracteres.</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="canal-vencimiento">La comunicación será visible hasta *</label>
+                                        <input id="canal-vencimiento" type="datetime-local" required>
+                                        <p class="field-help">Al llegar este momento se ocultará del sitio y pasará a “Archivadas”. Allí podrás conservarla, editarla o borrarla manualmente.</p>
+                                    </div>
                                     <div class="form-actions"><button class="btn-primary" type="submit">💾 Guardar publicación</button><button class="btn-secondary" id="canal-cancel" type="button" style="display:none">Cancelar edición</button></div>
                                 </form>
                             </div>
-                            <div class="admin-list-card"><h2>📋 Comunicaciones</h2><div id="canal-list" class="canal-admin-list"></div></div>
+                            <div class="admin-list-card">
+                                <h2>📋 Comunicaciones</h2>
+                                <div id="canal-list" class="canal-admin-list"></div>
+                                <section class="canal-archive-section">
+                                    <button id="canal-archive-toggle" class="canal-archive-toggle" type="button" aria-expanded="false">
+                                        <span>🗄️ Archivadas</span>
+                                        <strong id="canal-archive-count">0</strong>
+                                    </button>
+                                    <div id="canal-archived-list" class="canal-admin-list canal-archived-list" hidden></div>
+                                </section>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="zonas-codigos-section" class="content-section">
+                        <div class="access-admin-intro">
+                            <div>
+                                <p class="access-admin-kicker">ACCESOS DINÁMICOS</p>
+                                <h2>Zonas, funciones y códigos</h2>
+                                <p>Creá códigos generales o asigná una zona o funcionalidad directamente a una cuenta.</p>
+                            </div>
+                            <div class="access-admin-stats">
+                                <div><strong id="zonas-total">0</strong><span>Zonas activas</span></div>
+                                <div><strong id="codigos-activos">0</strong><span>Códigos activos</span></div>
+                                <div><strong id="codigos-usos">0</strong><span>Canjes totales</span></div>
+                            </div>
+                        </div>
+
+                        <div class="section-grid access-admin-grid">
+                            <div class="admin-form-card">
+                                <h2>📍 Crear zona o funcionalidad</h2>
+                                <form id="zona-form">
+                                    <div class="form-group"><label for="acceso-tipo">Tipo *</label><select id="acceso-tipo"><option value="zona">Zona</option><option value="funcionalidad">Funcionalidad</option></select></div>
+                                    <div class="form-group"><label id="zona-nombre-label" for="zona-nombre">Nombre de la zona *</label><input id="zona-nombre" type="text" maxlength="80" placeholder="Ej.: Rosario" required></div>
+                                    <div class="form-group"><label for="zona-id">Identificador interno</label><input id="zona-id" type="text" maxlength="80" placeholder="Se genera como zona_rosario"><p id="zona-id-help" class="field-help">Se genera con el prefijo zona_. No podrá cambiarse después.</p></div>
+                                    <div class="form-group"><label for="zona-descripcion">Descripción (opcional)</label><textarea id="zona-descripcion" rows="3" maxlength="240"></textarea></div>
+                                    <button id="zona-submit" class="btn-primary" type="submit">Crear zona</button>
+                                </form>
+                            </div>
+
+                            <div class="admin-list-card">
+                                <h2>📋 Zonas y funcionalidades disponibles</h2>
+                                <div id="zonas-list" class="access-list"><p class="admin-list-status">Cargando zonas...</p></div>
+                            </div>
+
+                            <div class="admin-form-card">
+                                <h2>🔑 Generar código</h2>
+                                <form id="codigo-form">
+                                    <div class="form-group"><label for="codigo-destino-tipo">Otorga acceso a *</label><select id="codigo-destino-tipo"><option value="zona">Una zona</option><option value="funcionalidad">Una funcionalidad</option></select></div>
+                                    <div class="form-group" id="codigo-zona-group"><label for="codigo-zona">Zona *</label><select id="codigo-zona"><option value="">Elegí una zona</option></select></div>
+                                    <div class="form-group" id="codigo-funcionalidad-group" hidden><label for="codigo-funcionalidad">Funcionalidad *</label><select id="codigo-funcionalidad"><option value="">Elegí una funcionalidad</option></select></div>
+                                    <div class="form-group"><label for="codigo-tipo">Tipo de código *</label><select id="codigo-tipo"><option value="unico">Un solo uso</option><option value="limitado">Usos limitados</option><option value="libre">Uso libre congelable</option></select></div>
+                                    <div class="form-group" id="codigo-max-usos-group" hidden><label for="codigo-max-usos">Cantidad máxima de usos *</label><input id="codigo-max-usos" type="number" min="2" max="100000" value="10"></div>
+                                    <div class="form-group"><label for="codigo-vence">Vencimiento (opcional)</label><input id="codigo-vence" type="datetime-local"></div>
+                                    <div class="form-group"><label for="codigo-nota">Nota interna (opcional)</label><input id="codigo-nota" type="text" maxlength="120" placeholder="Ej.: Encuentro nacional 2026"></div>
+                                    <button class="btn-primary" type="submit">Generar código</button>
+                                </form>
+                                <div id="codigo-generado" class="generated-code" hidden>
+                                    <span>Código generado</span>
+                                    <strong id="codigo-generado-valor"></strong>
+                                    <button id="codigo-generado-copiar" class="btn-secondary" type="button">Copiar código</button>
+                                </div>
+                                <div class="separator"></div>
+                                <h2>👤 Asignar acceso directamente</h2>
+                                <p class="field-help">La cuenta debe estar registrada. El acceso se agrega inmediatamente, sin generar ni canjear un código.</p>
+                                <form id="asignacion-form">
+                                    <div class="form-group"><label for="asignacion-email">Correo de la cuenta *</label><input id="asignacion-email" type="email" maxlength="160" list="codigo-usuarios" placeholder="persona@correo.com" required><datalist id="codigo-usuarios"></datalist></div>
+                                    <div class="form-group"><label for="asignacion-destino-tipo">Asignar *</label><select id="asignacion-destino-tipo"><option value="zona">Una zona</option><option value="funcionalidad">Una funcionalidad</option></select></div>
+                                    <div class="form-group" id="asignacion-zona-group"><label for="asignacion-zona">Zona *</label><select id="asignacion-zona"><option value="">Elegí una zona</option></select></div>
+                                    <div class="form-group" id="asignacion-funcionalidad-group" hidden><label for="asignacion-funcionalidad">Funcionalidad *</label><select id="asignacion-funcionalidad"><option value="">Elegí una funcionalidad</option></select></div>
+                                    <button class="btn-primary" type="submit">Asignar acceso</button>
+                                </form>
+                            </div>
+
+                            <div class="admin-list-card">
+                                <div class="access-list-header">
+                                    <h2>🧾 Códigos</h2>
+                                    <select id="codigos-filtro"><option value="todos">Todos</option><option value="activos">Activos</option><option value="cancelados">Congelados, cancelados o agotados</option></select>
+                                    <select id="codigos-destino-filtro"><option value="todos">Zonas y funcionalidades</option><option value="zona">Solo zonas</option><option value="funcionalidad">Solo funcionalidades</option></select>
+                                </div>
+                                <div id="codigos-list" class="access-list"><p class="admin-list-status">Cargando códigos...</p></div>
+                            </div>
                         </div>
                     </section>
 
@@ -273,6 +400,85 @@
                                 <div id="meditacion-list" class="item-list"></div>
                             </div>
                         </div>
+                    </section>
+
+                    <!-- GESTIÓN INTEGRAL DE BIBLIOTECA -->
+                    <section id="biblioteca-section" class="content-section">
+                      <div class="biblioteca-admin-summary">
+                        <div><span id="bib-total">0</span><small>Total</small></div>
+                        <div><span id="bib-publicados">0</span><small>Publicados</small></div>
+                        <div><span id="bib-pendientes">0</span><small>Aportes pendientes</small></div>
+                        <div><span id="bib-lecturas">0</span><small>Aperturas registradas</small></div>
+                      </div>
+                      <div class="full-width-panel bib-form-config">
+                        <div>
+                          <h2>Formulario para adjuntar archivos</h2>
+                          <p>Creá en Google Forms un formulario de carga y pegá aquí su enlace. Se mostrará integrado dentro de Biblioteca.</p>
+                        </div>
+                        <div class="bib-form-config-row">
+                          <input id="bib-google-form-url" type="url" placeholder="https://docs.google.com/forms/d/e/…/viewform">
+                          <button id="bib-google-form-save" class="btn-primary" type="button">Guardar formulario</button>
+                        </div>
+                        <p id="bib-google-form-status" role="status" aria-live="polite"></p>
+                      </div>
+                      <div class="full-width-panel bib-topics-config">
+                        <div class="bib-panel-heading">
+                          <div><h2>Temas oficiales</h2><p>Estos temas aparecen como filtros y como opciones al aportar un recurso.</p></div>
+                          <span id="bib-topics-count">0 temas</span>
+                        </div>
+                        <div id="bib-topics-list" class="bib-topics-list"></div>
+                        <div class="bib-topic-add">
+                          <input id="bib-new-topic" maxlength="60" placeholder="Agregar un tema oficial">
+                          <button id="bib-add-topic" class="btn-secondary" type="button">Agregar tema</button>
+                        </div>
+                        <p id="bib-topic-status" role="status" aria-live="polite"></p>
+                      </div>
+                      <div class="section-grid">
+                        <div class="form-panel">
+                          <h2 id="bib-form-title">➕ Nuevo recurso</h2>
+                          <form id="bib-form">
+                            <input type="hidden" id="bib-edit-id">
+                            <input type="hidden" id="bib-source-aporte-id">
+                            <div class="form-group"><label for="bib-titulo">Título *</label><input id="bib-titulo" maxlength="140" required></div>
+                            <div class="form-row">
+                              <div class="form-group"><label for="bib-autor">Autor</label><input id="bib-autor" maxlength="120"></div>
+                              <div class="form-group"><label for="bib-categoria">Categoría *</label><select id="bib-categoria"><option value="documentos">Documento</option><option value="libros">Libro</option><option value="audio">Audio</option><option value="videos">Video</option></select></div>
+                            </div>
+                            <div class="form-group"><label for="bib-descripcion">Descripción</label><textarea id="bib-descripcion" maxlength="1000" rows="4"></textarea></div>
+                            <div class="form-row">
+                              <div class="form-group"><label for="bib-temas">Temas</label><input id="bib-temas" placeholder="Unidad, Jesús en medio, Formación"><p class="field-help">Separados por comas.</p></div>
+                              <div class="form-group"><label for="bib-estado">Estado</label><select id="bib-estado"><option value="borrador">Borrador</option><option value="publicado">Publicado</option><option value="archivado">Archivado</option></select></div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group"><label for="bib-anio">Año</label><input id="bib-anio" type="number" min="1900" max="2100"></div>
+                              <div class="form-group"><label for="bib-idioma">Idioma</label><select id="bib-idioma"><option value="es">Español</option><option value="pt">Portugués</option><option value="it">Italiano</option><option value="en">Inglés</option><option value="otro">Otro</option></select></div>
+                            </div>
+                            <div class="form-group"><label for="bib-link-recurso">Link del recurso *</label><input id="bib-link-recurso" type="url" placeholder="https://…" required><p class="field-help" id="bib-link-help">Puede ser un archivo de Drive o cualquier enlace público.</p><button id="bib-link-test" class="btn-secondary bib-drive-test" type="button">Comprobar enlace</button></div>
+                            <div class="form-row">
+                              <div class="form-group"><label for="bib-tipo">Formato</label><select id="bib-tipo"><option value="PDF">PDF</option><option value="AUDIO">Audio</option><option value="VIDEO">Video</option><option value="EPUB">EPUB</option><option value="DOCX">DOCX</option><option value="ENLACE">Otro enlace</option></select></div>
+                              <div class="form-group"><label for="bib-tamano">Tamaño visible</label><input id="bib-tamano" placeholder="Ej.: 12,5 MB"></div>
+                            </div>
+                            <div class="bib-progress" id="bib-progress" role="status" aria-live="polite"><span></span></div>
+                            <div class="form-actions">
+                              <button class="btn-primary" id="bib-save" type="submit">Guardar recurso</button>
+                              <button class="btn-secondary" id="bib-cancel" type="button" hidden>Cancelar</button>
+                              <button class="btn-danger" id="bib-delete" type="button" hidden>Eliminar</button>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="list-panel">
+                          <h2>📚 Catálogo</h2>
+                          <div class="controls">
+                            <input id="bib-search" placeholder="Buscar título, autor o tema">
+                            <select id="bib-filter"><option value="">Todos</option><option value="publicado">Publicados</option><option value="borrador">Borradores</option><option value="archivado">Archivados</option></select>
+                          </div>
+                          <div id="bib-list" class="item-list"></div>
+                        </div>
+                      </div>
+                      <div class="full-width-panel bib-contributions">
+                        <div class="bib-panel-heading"><div><h2>📥 Aportes recibidos</h2><p>Revisá el archivo en Google Forms/Drive y luego prepará su ficha pública.</p></div><button id="bib-refresh-aportes" class="btn-secondary" type="button">Actualizar</button></div>
+                        <div id="bib-aportes-list" class="item-list"></div>
+                      </div>
                     </section>
 
                     <!-- SECCIÓN CANCIONERO -->
@@ -466,44 +672,103 @@
 
                     <!-- SECCIÓN PDV -->
                     <section id="pdv-section" class="content-section">
-                        <div class="section-grid">
-                            <div class="form-panel">
-                                <h2 id="pdv-form-title">➕ Nueva PdV</h2>
+                        <div class="pdv-admin-intro">
+                            <div>
+                                <p class="pdv-admin-kicker">PUBLICACIÓN ASISTIDA</p>
+                                <h2>Palabra de Vida</h2>
+                                <p>Importá el Word, revisá los bloques y publicá cuando la vista previa esté lista.</p>
+                            </div>
+                            <label class="pdv-import-button" for="pdv-docx-file">
+                                <span>Importar Word</span>
+                                <small>.docx · no se publica el archivo</small>
+                            </label>
+                            <input type="file" id="pdv-docx-file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+                        </div>
+                        <div id="pdv-import-status" class="pdv-import-status" role="status" aria-live="polite"></div>
+
+                        <div class="pdv-admin-layout">
+                            <div class="form-panel pdv-editor-panel">
+                                <h2 id="pdv-form-title">Nueva Palabra de Vida</h2>
                                 <form id="pdv-form">
                                     <input type="hidden" id="pdv-edit-id">
-                                    
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="pdv-mes">Mes que se mostrará *</label>
+                                            <input type="text" id="pdv-mes" placeholder="Junio 2026" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pdv-periodo">Mes de publicación *</label>
+                                            <input type="month" id="pdv-periodo" required>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
-                                        <label>Mes *</label>
-                                        <input type="text" id="pdv-mes" placeholder="Ej: Junio 2026" required>
+                                        <label for="pdv-cita-principal">Cita bíblica principal *</label>
+                                        <textarea id="pdv-cita-principal" rows="4" required></textarea>
                                     </div>
-                                    
                                     <div class="form-group">
-                                        <label>Cita Bíblica Principal *</label>
-                                        <textarea id="pdv-cita-principal" rows="3" placeholder="Ej: «Por el camino, proclamen que el Reino de los Cielos está cerca...»" required></textarea>
+                                        <label for="pdv-cita-referencia">Referencia *</label>
+                                        <input type="text" id="pdv-cita-referencia" placeholder="Mt 10, 7-8" required>
                                     </div>
-                                    
+
+                                    <div class="pdv-blocks-heading">
+                                        <div>
+                                            <h3>Contenido</h3>
+                                            <p>Ordená y clasificá cada fragmento antes de publicar.</p>
+                                        </div>
+                                        <button type="button" id="pdv-add-block" class="btn-secondary">+ Agregar bloque</button>
+                                    </div>
+                                    <div id="pdv-blocks-editor" class="pdv-blocks-editor"></div>
+
                                     <div class="form-group">
-                                        <label>Referencia de la Cita *</label>
-                                        <input type="text" id="pdv-cita-referencia" placeholder="Ej: (Mt 10, 7-8)" required>
+                                        <label for="pdv-autor">Autor o equipo *</label>
+                                        <input type="text" id="pdv-autor" placeholder="Equipo de la Palabra de Vida" required>
                                     </div>
-                                    
-                                    <div class="form-group">
-                                        <label>Contenido Completo (HTML compatible) *</label>
-                                        <textarea id="pdv-contenido" rows="15" placeholder="<p>En este capítulo del Evangelio de Mateo...</p>
-<div class='cita-resaltada'><div class='cita-icon'>📜</div><p>«Por el camino, proclamen...»</p></div>" required></textarea>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="pdv-audio-url">Enlace del audio (opcional)</label>
+                                            <input type="url" id="pdv-audio-url" inputmode="url" placeholder="https://…">
+                                            <p class="field-help" id="pdv-audio-help">Pegá un enlace público directo al audio. Si no funciona, el reproductor no se mostrará.</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pdv-estado">Estado</label>
+                                            <select id="pdv-estado">
+                                                <option value="borrador">Borrador</option>
+                                                <option value="publicado">Publicada</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="form-actions">
-                                        <button type="submit" class="btn-primary">💾 Guardar PdV</button>
-                                        <button type="button" id="pdv-cancel" class="btn-secondary" style="display:none;">Cancelar</button>
-                                        <button type="button" id="pdv-delete" class="btn-danger" style="display:none;">🗑️ Eliminar</button>
+
+                                    <div class="form-actions pdv-form-actions">
+                                        <button type="button" id="pdv-preview-button" class="btn-secondary">Vista previa</button>
+                                        <button type="submit" id="pdv-save-button" class="btn-primary">Guardar</button>
+                                        <button type="button" id="pdv-cancel" class="btn-secondary" style="display:none;">Cancelar edición</button>
+                                        <button type="button" id="pdv-delete" class="btn-danger" style="display:none;">Eliminar</button>
                                     </div>
+                                    <div id="pdv-save-progress" class="pdv-save-progress" role="status" aria-live="polite"></div>
                                 </form>
                             </div>
 
-                            <div class="list-panel">
-                                <h2>📖 Palabras de Vida</h2>
-                                <div id="pdv-list" class="item-list"></div>
+                            <aside class="pdv-admin-side">
+                                <div class="list-panel">
+                                    <div class="pdv-list-heading">
+                                        <h2>Publicaciones</h2>
+                                        <span id="pdv-count">0</span>
+                                    </div>
+                                    <div id="pdv-list" class="item-list"></div>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <div id="pdv-preview-modal" class="pdv-preview-modal" hidden role="dialog" aria-modal="true" aria-labelledby="pdv-preview-title">
+                            <div class="pdv-preview-dialog">
+                                <div class="pdv-preview-toolbar">
+                                    <div><span>VISTA PREVIA</span><h2 id="pdv-preview-title">Así se verá publicada</h2></div>
+                                    <button type="button" id="pdv-preview-close" aria-label="Cerrar vista previa">×</button>
+                                </div>
+                                <div id="pdv-preview-content" class="pdv-preview-content site-page-pdv site-kind-daily"></div>
                             </div>
                         </div>
                     </section>
@@ -603,6 +868,8 @@
     </div>
 
     <script src="../aaglobal/firebase-config.js"></script>
-    <script type="module" src="admin.js?v=20260713-canal3"></script>
+    <script src="../aaglobal/vendor/mammoth.browser.min.js"></script>
+    <script src="../aaglobal/pdv-model.js"></script>
+    <script type="module" src="admin.js?v=20260728-communication-archive"></script>
 </body>
 </html>

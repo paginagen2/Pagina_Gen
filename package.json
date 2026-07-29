@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node --check canal/canal.js && node --check index/index.js && node --check aaglobal/sidebar.js && node --check scripts/generar-inicio.js && node --check scripts/unificar-presentacion.js && node scripts/verificar-sidebar.js && node scripts/verificar-presentacion.js",
+    "test:biblioteca": "node --check biblioteca/biblioteca-v2.js && node --check admin/admin.js && node scripts/test-biblioteca.js",
     "generar-inicio": "node scripts/generar-inicio.js"
   },
   "repository": {
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/paginagen2/Pagina_Gen#readme",
   "devDependencies": {
-    "firebase-admin": "^14.1.0"
+    "firebase-admin": "^14.1.0",
+    "mammoth": "^1.10.0"
   }
 }
