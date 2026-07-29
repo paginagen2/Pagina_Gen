@@ -227,7 +227,7 @@ service cloud.firestore {
 
     match /pdv/{pdvId} {
       allow get, list: if isAdmin() || (
-        resource.data.estado in ['publicado', 'programado']
+        resource.data.version == 2
         && resource.data.fechaPublicacion <= request.time
       );
       allow create, update, delete: if isAdmin();

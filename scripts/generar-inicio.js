@@ -184,7 +184,8 @@ async function main() {
       limit: 1
     }),
     runQuery('pdv', {
-      where: fieldFilter('estado', 'EQUAL', 'publicado'),
+      where: fieldFilter('fechaPublicacion', 'LESS_THAN_OR_EQUAL', now),
+      orderBy: [['fechaPublicacion', 'DESCENDING']],
       limit: 100
     }),
     runQuery('carrusel', {
@@ -217,6 +218,8 @@ async function main() {
   const pasapalabra = pasapalabras[0] || null;
   const pdv = pdvs
     .filter(item => item.version === 2)
+    .filter(item => ['publicado', 'programado'].includes(item.estado))
+    .filter(item => timestampValue(item.fechaPublicacion) <= now.getTime())
     .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || ''))
       || timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion))[0] || null;
   const channel = [...publishedChannel, ...scheduledChannel]

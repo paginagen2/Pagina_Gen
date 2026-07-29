@@ -108,6 +108,15 @@ async function main() {
     throw new Error('Falló la reparación automática de una publicación ya guardada.');
   }
   console.log('Reparación automática de publicaciones guardadas: correcta');
+
+  const augustPublication = PdvModel.publicationDateForPeriod('2026-08-01');
+  const scheduled = { estado: 'programado', fechaPublicacion: augustPublication };
+  if (augustPublication?.toISOString() !== '2026-08-01T03:00:00.000Z'
+      || PdvModel.isAvailable(scheduled, new Date('2026-08-01T02:59:59.999Z'))
+      || !PdvModel.isAvailable(scheduled, new Date('2026-08-01T03:00:00.000Z'))) {
+    throw new Error('Falló la programación a medianoche de Argentina.');
+  }
+  console.log('Programación mensual a las 00:00 de Argentina: correcta');
 }
 
 main().catch(error => {

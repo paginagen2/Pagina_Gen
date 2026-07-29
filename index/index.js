@@ -203,17 +203,26 @@ async function cargarUltimaPdv(db) {
     }
 
     try {
-        const { collection, query, where, getDocs } = window.firebaseUtils;
+        const { collection, query, where, orderBy, getDocs } = window.firebaseUtils;
         const pdvRef = collection(db, 'pdv');
-        const q = query(pdvRef, where('estado', '==', 'publicado'));
-        const querySnapshot = await getDocs(q);
+        const now = new Date();
+        const snapshot = await getDocs(query(
+            pdvRef,
+            where('fechaPublicacion', '<=', now),
+            orderBy('fechaPublicacion', 'desc')
+        ));
+        const documents = snapshot.docs;
         
-        console.log('📄 PdV encontrados:', querySnapshot.size);
+        console.log('📄 PdV encontrados:', documents.length);
 
-        if (!querySnapshot.empty) {
-            const ordered = querySnapshot.docs
+        if (documents.length) {
+            const ordered = documents
                 .map(documentSnapshot => ({ id: documentSnapshot.id, ...documentSnapshot.data() }))
                 .filter(item => item.version === 2)
+                .filter(item => ['publicado', 'programado'].includes(item.estado))
+                .filter(item => window.PdvModel
+                    ? window.PdvModel.isAvailable(item, now)
+                    : Boolean(homeDate(item.fechaPublicacion) && homeDate(item.fechaPublicacion) <= now))
                 .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || '')));
             const ultimaPdv = ordered[0];
             if (!ultimaPdv) return;

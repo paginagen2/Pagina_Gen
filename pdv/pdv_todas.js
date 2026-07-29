@@ -25,17 +25,12 @@ async function loadArchive() {
     const { collection, query, where, orderBy, getDocs } = window.firebaseUtils;
     const reference = collection(window.firebaseDb, 'pdv');
     const now = new Date();
-    const [publishedSnapshot, scheduledSnapshot] = await Promise.all([
-      getDocs(query(reference,
-        where('estado', '==', 'publicado'),
-        where('fechaPublicacion', '<=', now),
-        orderBy('fechaPublicacion', 'desc'))),
-      getDocs(query(reference,
-        where('estado', '==', 'programado'),
-        where('fechaPublicacion', '<=', now),
-        orderBy('fechaPublicacion', 'desc')))
-    ]);
-    const items = [...publishedSnapshot.docs, ...scheduledSnapshot.docs]
+    const snapshot = await getDocs(query(
+      reference,
+      where('fechaPublicacion', '<=', now),
+      orderBy('fechaPublicacion', 'desc')
+    ));
+    const items = snapshot.docs
       .map(documentSnapshot => ({ id: documentSnapshot.id, ...documentSnapshot.data() }))
       .filter(item => item.version === 2)
       .filter(item => window.PdvModel.isAvailable(item, now))

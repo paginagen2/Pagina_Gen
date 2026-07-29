@@ -84,7 +84,7 @@ async function loadPdv() {
     const snapshot = await getDoc(doc(window.firebaseDb, 'pdv', id));
     if (!snapshot.exists()) throw new Error('La publicación no existe o todavía no está publicada.');
     const raw = { id: snapshot.id, ...snapshot.data() };
-    if (raw.version !== 2 || raw.estado !== 'publicado') {
+    if (raw.version !== 2 || !window.PdvModel.isAvailable(raw)) {
       throw new Error('La publicación no existe o todavía no está publicada.');
     }
     const data = window.PdvModel.normalizePdv(raw);
