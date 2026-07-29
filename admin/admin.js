@@ -1321,6 +1321,44 @@ function pdvMillis(value) {
     return Number.isFinite(result) ? result : 0;
 }
 
+function pdvScheduleLabel(value) {
+    const date = window.PdvModel.pdvDate(value);
+    if (!date) return '';
+    return new Intl.DateTimeFormat('es-AR', {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+    }).format(date);
+}
+
+function pdvStatusInfo(item) {
+    if (item.version !== 2) return { label: 'Formato anterior', css: 'draft' };
+    if (item.estado === 'programado' && !window.PdvModel.isAvailable(item)) {
+        return { label: `Programada · ${pdvScheduleLabel(item.fechaPublicacion)}`, css: 'scheduled' };
+    }
+    if (window.PdvModel.isAvailable(item)) return { label: 'Publicada', css: 'published' };
+    return { label: 'Borrador', css: 'draft' };
+}
+
+function updatePdvScheduleHelp() {
+    const help = document.getElementById('pdv-schedule-help');
+    if (!help) return;
+    const month = document.getElementById('pdv-periodo')?.value;
+    const state = document.getElementById('pdv-estado')?.value;
+    const date = month ? window.PdvModel.publicationDateForPeriod(`${month}-01`) : null;
+    if (state === 'programado' && date) {
+        help.textContent = `Se publicará automáticamente el ${pdvScheduleLabel(date)} (hora de Argentina).`;
+    } else if (state === 'publicado' && date && date > new Date()) {
+        help.textContent = `Como el mes todavía no comenzó, se programará automáticamente para el ${pdvScheduleLabel(date)}.`;
+    } else if (state === 'publicado') {
+        help.textContent = 'Se mostrará inmediatamente.';
+    } else {
+        help.textContent = 'El borrador no es visible en la página.';
+    }
+}
+
 async function loadPdV() {
     try {
         const snapshot = await utils.getDocs(utils.collection(db, 'pdv'));
@@ -1350,7 +1388,7 @@ function displayPdV(items) {
     list.innerHTML = '';
     items.forEach(item => {
         const card = document.createElement('div');
-        const status = item.version === 2 ? (item.estado === 'publicado' ? 'Publicado' : 'Borrador') : 'Formato anterior';
+        const status = pdvStatusInfo(item);
         card.className = `item pdv-list-item${editing === item.id ? ' active' : ''}`;
         card.tabIndex = 0;
         card.setAttribute('role', 'button');
@@ -1360,7 +1398,7 @@ function displayPdV(items) {
               <div class="item-title">${escape(item.mes || 'Sin mes')}</div>
               <div class="item-subtitle">${escape(item.citaReferencia || 'Sin referencia')}</div>
             </div>
-            <span class="pdv-status pdv-status-${item.estado === 'publicado' ? 'published' : 'draft'}">${status}</span>
+            <span class="pdv-status pdv-status-${status.css}">${escape(status.label)}</span>
           </div>
           <p>${escape((item.citaPrincipal || item.titulo || 'Sin cita').slice(0, 110))}</p>`;
         card.addEventListener('click', () => editPdV(item.id));
@@ -1432,6 +1470,7 @@ function fillPdvFormV2(data = {}) {
     pdvBlocksV2 = normalized.bloques;
     renderPdvBlocksV2();
     document.getElementById('pdv-audio-help').textContent = 'Pegá un enlace público directo al audio. Si no funciona, el reproductor no se mostrará.';
+    updatePdvScheduleHelp();
 }
 
 async function importPdvDocxV2(file) {
@@ -1450,7 +1489,9 @@ async function importPdvDocxV2(file) {
             }
         );
         const imported = window.PdvModel.parseImportedHtml(result.value);
-        fillPdvFormV2({ ...imported, estado: 'borrador' });
+        const publicationDate = window.PdvModel.publicationDateForPeriod(imported.periodo);
+        const initialState = publicationDate && publicationDate > new Date() ? 'programado' : 'borrador';
+        fillPdvFormV2({ ...imported, estado: initialState, fechaPublicacion: publicationDate });
         const missing = [];
         if (!imported.mes) missing.push('el mes');
         if (!imported.citaPrincipal) missing.push('la cita principal');
@@ -1551,6 +1592,8 @@ function setupPdVListeners() {
         if (action === 'down' && index < pdvBlocksV2.length - 1) [pdvBlocksV2[index + 1], pdvBlocksV2[index]] = [pdvBlocksV2[index], pdvBlocksV2[index + 1]];
         renderPdvBlocksV2();
     });
+    document.getElementById('pdv-estado')?.addEventListener('change', updatePdvScheduleHelp);
+    document.getElementById('pdv-periodo')?.addEventListener('change', updatePdvScheduleHelp);
 
     form.addEventListener('submit', async event => {
         event.preventDefault();
@@ -1568,6 +1611,15 @@ function setupPdVListeners() {
             const existing = allPdvs.find(item => item.id === editId);
             const id = editId || window.PdvModel.slugFromPeriod(data.periodo);
             const now = new Date();
+            const monthStart = window.PdvModel.publicationDateForPeriod(data.periodo);
+            const shouldSchedule = data.estado === 'programado'
+                || (data.estado === 'publicado' && monthStart && monthStart > now);
+            const finalState = data.estado === 'borrador' ? 'borrador' : (shouldSchedule ? 'programado' : 'publicado');
+            const publicationDate = finalState === 'programado'
+                ? monthStart
+                : (finalState === 'publicado'
+                    ? (existing?.estado === 'publicado' ? existing.fechaPublicacion : now)
+                    : null);
             const record = {
                 version: 2,
                 slug: id,
@@ -1578,15 +1630,18 @@ function setupPdVListeners() {
                 bloques: data.bloques,
                 autor: data.autor,
                 audioUrl: data.audioUrl,
-                estado: data.estado,
+                estado: finalState,
                 fechaCreacion: existing?.fechaCreacion || now,
                 fechaActualizacion: now,
-                fechaPublicacion: data.estado === 'publicado' ? (existing?.fechaPublicacion || now) : null
+                fechaPublicacion: publicationDate
             };
             await utils.setDoc(utils.doc(db, 'pdv', id), record);
             resetPdVForm();
             await loadPdV();
-            pdvMessage('pdv-save-progress', data.estado === 'publicado' ? 'Publicación guardada y visible.' : 'Borrador guardado.', 'success');
+            const message = finalState === 'programado'
+                ? `Publicación programada para el ${pdvScheduleLabel(publicationDate)}.`
+                : (finalState === 'publicado' ? 'Publicación guardada y visible.' : 'Borrador guardado.');
+            pdvMessage('pdv-save-progress', message, 'success');
         } catch (error) {
             console.error('Error al guardar PdV:', error);
             pdvMessage('pdv-save-progress', `No se pudo guardar: ${error?.message || 'error desconocido'}`, 'error');
@@ -1620,6 +1675,7 @@ function resetPdVForm() {
     pdvBlocksV2 = [];
     renderPdvBlocksV2();
     displayPdV(allPdvs);
+    updatePdvScheduleHelp();
 }
 
 function editPdV(id) {

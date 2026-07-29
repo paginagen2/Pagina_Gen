@@ -9,5 +9,6 @@
   <url><loc>https://pagina-gen.web.app/meditacion/meditaciones_todas.html</loc><priority>0.7</priority></url>
   <url><loc>https://pagina-gen.web.app/pasapalabra/pasapalabra.html</loc><priority>0.7</priority></url>
   <url><loc>https://pagina-gen.web.app/introduccion/introduccion.html</loc><priority>0.6</priority></url>
+  <url><loc>https://pagina-gen.web.app/descargas/descargas.html</loc><priority>0.6</priority></url>
   <url><loc>https://pagina-gen.web.app/links/links.html</loc><priority>0.5</priority></url>
 </urlset>

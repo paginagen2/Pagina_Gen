@@ -1,0 +1,25 @@
+{
+  "name": "Página Gen 2",
+  "short_name": "Gen 2",
+  "description": "Recursos para vivir la unidad: cancionero, Palabra de Vida, experiencias y materiales.",
+  "lang": "es",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080b10",
+  "theme_color": "#080b10",
+  "icons": [
+    {
+      "src": "/aadocumentos/imagenes/icono-gen-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/aadocumentos/imagenes/icono-gen-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

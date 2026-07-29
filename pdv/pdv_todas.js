@@ -22,14 +22,24 @@ async function loadArchive() {
   archiveContainer.innerHTML = '<div class="pdv-loading" role="status"><span></span><p>Cargando publicaciones…</p></div>';
   try {
     await waitForArchiveFirebase();
-    const { collection, query, where, getDocs } = window.firebaseUtils;
-    const snapshot = await getDocs(query(
-      collection(window.firebaseDb, 'pdv'),
-      where('estado', '==', 'publicado')
-    ));
-    const items = snapshot.docs
+    const { collection, query, where, orderBy, getDocs } = window.firebaseUtils;
+    const reference = collection(window.firebaseDb, 'pdv');
+    const now = new Date();
+    const [publishedSnapshot, scheduledSnapshot] = await Promise.all([
+      getDocs(query(reference,
+        where('estado', '==', 'publicado'),
+        where('fechaPublicacion', '<=', now),
+        orderBy('fechaPublicacion', 'desc'))),
+      getDocs(query(reference,
+        where('estado', '==', 'programado'),
+        where('fechaPublicacion', '<=', now),
+        orderBy('fechaPublicacion', 'desc')))
+    ]);
+    const items = [...publishedSnapshot.docs, ...scheduledSnapshot.docs]
       .map(documentSnapshot => ({ id: documentSnapshot.id, ...documentSnapshot.data() }))
       .filter(item => item.version === 2)
+      .filter(item => window.PdvModel.isAvailable(item, now))
+      .map(item => window.PdvModel.normalizePdv(item))
       .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || '')));
     if (!items.length) {
       showArchiveState('El archivo está listo', 'Las nuevas Palabras de Vida publicadas van a aparecer acá.');

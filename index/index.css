@@ -497,6 +497,8 @@ body {
 .carrusel-dot.active { width: 9px; background: var(--home-purple); }
 
 .home-footer {
+  display: grid;
+  gap: 10px;
   margin-top: 26px;
   padding-top: 18px;
   border-top: 1px solid #242a31;

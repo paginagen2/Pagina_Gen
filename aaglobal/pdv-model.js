@@ -81,20 +81,52 @@
     return period.match(/^\d{4}-\d{2}-\d{2}$/) ? `pdv_${period.slice(0, 7).replace('-', '_')}` : `pdv_${Date.now()}`;
   }
 
-  function splitInlineQuotes(text) {
-    const output = [];
-    const pattern = /[«“"]([^«»“”"]{8,})[»”"]\s*\(([^)]+)\)/g;
-    let lastIndex = 0;
-    let match;
-    while ((match = pattern.exec(text))) {
-      const before = cleanText(text.slice(lastIndex, match.index));
-      if (before && !/^[,.;:!?]+$/.test(before)) output.push({ tipo: 'parrafo', texto: before });
-      output.push({ tipo: 'cita_secundaria', texto: cleanText(match[1]), referencia: cleanText(match[2]) });
-      lastIndex = pattern.lastIndex;
-    }
-    const after = cleanText(text.slice(lastIndex)).replace(/^[,.;:!?]+\s*/, '');
-    if (after) output.push({ tipo: 'parrafo', texto: after[0].toLocaleUpperCase('es') + after.slice(1) });
-    return output.length ? output : [{ tipo: 'parrafo', texto: cleanText(text) }];
+  function publicationDateForPeriod(period = '') {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(period)) return null;
+    const date = new Date(`${period}T00:00:00-03:00`);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function pdvDate(value) {
+    if (!value) return null;
+    const date = typeof value.toDate === 'function' ? value.toDate() : new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function isAvailable(data = {}, now = new Date()) {
+    if (!['publicado', 'programado'].includes(data.estado)) return false;
+    const publicationDate = pdvDate(data.fechaPublicacion);
+    return Boolean(publicationDate && publicationDate <= now);
+  }
+
+  function removeFootnoteMarkers(value = '') {
+    return cleanText(value.replace(/\[\d+\]/g, ''));
+  }
+
+  function formatSource(value = '') {
+    const source = cleanText(value)
+      .replace(/\s*↑\s*$/, '')
+      .replace(/\s+\.$/, '.');
+    const classic = source.match(/^C\.\s*LUBICH,\s*Palabra de Vida(?:,|\s+de)?\s+(.+?)\.?$/i);
+    if (classic) return `Chiara Lubich · Palabra de Vida, ${cleanText(classic[1]).replace(/\.$/, '')}`;
+    const bibliography = source.match(/^LUBICH,\s*C\.\s*\((\d{4})\)\.\s*(.+?)(?:\.\s+[^.]+)?\.?$/i);
+    if (bibliography) return `Chiara Lubich · ${cleanText(bibliography[2]).replace(/\.$/, '')}, ${bibliography[1]}`;
+    return source;
+  }
+
+  function extractChiaraReflection(text = '', references = []) {
+    if (!/Chiara Lubich/i.test(text)) return null;
+    const footnote = text.match(/[»”"]\s*\[(\d+)\]/);
+    const afterName = text.slice(text.search(/Chiara Lubich/i) + 'Chiara Lubich'.length);
+    const quote = afterName.match(/[«“"]([\s\S]+)[»”"](?:\s*\[\d+\])?\.?$/);
+    if (!quote) return null;
+    const referenceIndex = footnote ? Number(footnote[1]) - 1 : -1;
+    return {
+      tipo: 'reflexion_autor',
+      titulo: 'Escribe Chiara Lubich',
+      texto: normalizeQuote(removeFootnoteMarkers(quote[1])),
+      fuente: referenceIndex >= 0 ? formatSource(references[referenceIndex] || '') : ''
+    };
   }
 
   function parseImportedHtml(html = '') {
@@ -106,39 +138,55 @@
     const mes = monthIndex >= 0 ? paragraphs.splice(monthIndex, 1)[0].text : '';
     const periodo = monthPeriod(mes);
 
-    let quoteIndex = paragraphs.findIndex(p => p.allBold && p.text.length > 30);
-    if (quoteIndex < 0) quoteIndex = paragraphs.findIndex(p => /^[«“"]/.test(p.text) && p.text.length > 30);
-    const citaPrincipal = quoteIndex >= 0 ? normalizeQuote(paragraphs.splice(quoteIndex, 1)[0].text) : '';
-
     const referenceIndex = paragraphs.findIndex(p => /^\([^)]+\)$/.test(p.text) && p.text.length < 80);
-    const citaReferencia = referenceIndex >= 0
-      ? paragraphs.splice(referenceIndex, 1)[0].text.replace(/^\(|\)$/g, '').trim()
-      : '';
+    let citaPrincipal = '';
+    let citaReferencia = '';
+    if (referenceIndex >= 0) {
+      citaReferencia = paragraphs[referenceIndex].text.replace(/^\(|\)$/g, '').trim();
+      let quoteStart = referenceIndex - 1;
+      while (quoteStart > 0 && paragraphs[quoteStart - 1].allBold) quoteStart -= 1;
+      const quoteParts = paragraphs.slice(quoteStart, referenceIndex).filter(item => item.allBold);
+      if (quoteParts.length) {
+        citaPrincipal = normalizeQuote(quoteParts.map(item => item.text).join(' '));
+        paragraphs.splice(quoteStart, referenceIndex - quoteStart + 1);
+      } else {
+        paragraphs.splice(referenceIndex, 1);
+      }
+    }
+    if (!citaPrincipal) {
+      let quoteIndex = paragraphs.findIndex(p => p.allBold && p.text.length > 20);
+      if (quoteIndex < 0) quoteIndex = paragraphs.findIndex(p => /^[«“"]/.test(p.text) && p.text.length > 20);
+      citaPrincipal = quoteIndex >= 0 ? normalizeQuote(paragraphs.splice(quoteIndex, 1)[0].text) : '';
+    }
 
     let autor = '';
     const authorIndex = paragraphs.findIndex(p => /equipo de (?:la )?palabra de vida/i.test(p.text));
     if (authorIndex >= 0) autor = paragraphs.splice(authorIndex, 1)[0].text;
 
+    const references = paragraphs.filter(paragraph => paragraph.tag === 'li').map(paragraph => paragraph.text);
     const bloques = [];
     for (const paragraph of paragraphs) {
-      const text = cleanText(paragraph.text);
+      if (paragraph.tag === 'li') continue;
+      const originalText = cleanText(paragraph.text);
+      const text = removeFootnoteMarkers(originalText);
       if (!text) continue;
-      const sourceMatch = text.match(/^C\.\s*LUBICH,\s*Palabra de Vida,\s*(.+?)(?:\s*↑)?$/i);
-      if (sourceMatch) {
-        const reflection = bloques.find(block => block.tipo === 'reflexion_autor');
-        if (reflection) reflection.fuente = `Chiara Lubich · Palabra de Vida, ${cleanText(sourceMatch[1])}`;
-        continue;
-      }
       if (citaPrincipal && quoteKey(text) === quoteKey(citaPrincipal)) {
         bloques.push({ tipo: 'cita_destacada', texto: citaPrincipal });
         continue;
       }
-      const authorReflection = text.match(/^Escribe\s+([^:]+):\s*[«“"]?([\s\S]+?)[»”"]?\.?$/i);
+      const chiaraReflection = extractChiaraReflection(originalText, references);
+      if (chiaraReflection) {
+        bloques.push(chiaraReflection);
+        continue;
+      }
+      const authorReflection = originalText.match(/^Escribe\s+([^:]+):\s*[«“"]?([\s\S]+?)[»”"]?(?:\[\d+\])?\.?$/i);
       if (authorReflection) {
+        const footnote = originalText.match(/[»”"]\s*\[(\d+)\]/);
         bloques.push({
           tipo: 'reflexion_autor',
           titulo: `Escribe ${cleanText(authorReflection[1])}`,
-          texto: normalizeQuote(authorReflection[2])
+          texto: normalizeQuote(removeFootnoteMarkers(authorReflection[2])),
+          fuente: footnote ? formatSource(references[Number(footnote[1]) - 1] || '') : ''
         });
         continue;
       }
@@ -159,19 +207,52 @@
     };
   }
 
+  function normalizeSavedBlocks(blocks = [], mainQuote = '') {
+    const normalized = Array.isArray(blocks) ? blocks.map(normalizeBlock).filter(block => block.texto) : [];
+    const references = normalized
+      .filter(block => /\s↑\s*$/.test(block.texto) || /^(?:C\.\s*LUBICH|LUBICH,\s*C\.)/i.test(block.texto))
+      .map(block => block.texto);
+    const mainKey = quoteKey(mainQuote);
+    const repaired = [];
+    normalized.forEach((block, index) => {
+      if (references.includes(block.texto)) return;
+      if (block.tipo !== 'parrafo') {
+        repaired.push(block);
+        return;
+      }
+      const blockKey = quoteKey(block.texto);
+      if (mainKey && blockKey === mainKey) {
+        repaired.push({ ...block, tipo: 'cita_destacada', texto: mainQuote });
+        return;
+      }
+      if (index === 0 && mainKey && blockKey.length > 20 && blockKey.length < mainKey.length && mainKey.endsWith(blockKey)) {
+        return;
+      }
+      const reflection = extractChiaraReflection(block.texto, references);
+      if (reflection) {
+        repaired.push(reflection);
+        return;
+      }
+      repaired.push({ ...block, texto: removeFootnoteMarkers(block.texto) });
+    });
+    return repaired;
+  }
+
   function normalizePdv(data = {}) {
+    const citaPrincipal = normalizeQuote(data.citaPrincipal);
     return {
       id: data.id || '',
       version: 2,
       mes: cleanText(data.mes),
       periodo: data.periodo || monthPeriod(data.mes),
-      citaPrincipal: cleanText(data.citaPrincipal),
+      citaPrincipal,
       citaReferencia: cleanText(data.citaReferencia),
-      bloques: Array.isArray(data.bloques) ? data.bloques.map(normalizeBlock).filter(b => b.texto) : [],
+      bloques: normalizeSavedBlocks(data.bloques, citaPrincipal),
       autor: cleanText(data.autor) || 'Equipo de la Palabra de Vida',
       audioUrl: cleanText(data.audioUrl),
       audioPath: cleanText(data.audioPath),
-      estado: data.estado === 'publicado' ? 'publicado' : 'borrador'
+      estado: ['publicado', 'programado'].includes(data.estado) ? data.estado : 'borrador',
+      fechaPublicacion: data.fechaPublicacion || null
     };
   }
 
@@ -225,6 +306,9 @@
     extractParagraphsFromHtml,
     monthPeriod,
     slugFromPeriod,
+    publicationDateForPeriod,
+    pdvDate,
+    isAvailable,
     parseImportedHtml,
     normalizePdv,
     renderBlocks,

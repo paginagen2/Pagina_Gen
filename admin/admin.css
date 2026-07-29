@@ -192,6 +192,7 @@ body {
 .pdv-list-item > p { margin: 10px 0 0; color: #aaa; font-size: .82rem; line-height: 1.45; }
 .pdv-status { flex: 0 0 auto; padding: 4px 7px; border: 1px solid #514362; border-radius: 999px; color: #c7b3e9; background: #241d2e; font-size: .63rem; font-weight: 750; }
 .pdv-status-published { border-color: #326448; color: #8ee2b0; background: #16291f; }
+.pdv-status-scheduled { border-color: #685230; color: #f0c77b; background: #2d2416; }
 .pdv-blocks-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 22px 0 12px; }
 .pdv-blocks-heading h3 { margin: 0 0 3px; color: #fff; }
 .pdv-blocks-heading p { margin: 0; color: #999; font-size: .84rem; }

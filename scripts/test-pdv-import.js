@@ -1,10 +1,38 @@
+const path = require('node:path');
 const mammoth = require('mammoth');
 const PdvModel = require('../aaglobal/pdv-model.js');
 
-async function main() {
-  const filePath = process.argv[2];
-  if (!filePath) throw new Error('Indicá la ruta de un archivo .docx.');
+const PROFILES = {
+  '06': {
+    mes: 'Junio 2026',
+    periodo: '2026-06-01',
+    cita: /Por el camino/i,
+    referencia: /Mt\s*10/i,
+    destacadas: 3,
+    autor: /Augusto Parody Reyes/i,
+    fuente: /Chiara Lubich.+octubre de 1979/i
+  },
+  '07': {
+    mes: 'Julio 2026',
+    periodo: '2026-07-01',
+    cita: /Y el que la recibe.+que escucha la Palabra.+produce fruto/i,
+    referencia: /Mt\s*13/i,
+    destacadas: 2,
+    autor: /Letizia Magri/i,
+    fuente: /Chiara Lubich.+marzo de 2003/i
+  },
+  '08': {
+    mes: 'Agosto 2026',
+    periodo: '2026-08-01',
+    cita: /Mi alma canta la grandeza del Señor/i,
+    referencia: /Lc\s*1/i,
+    destacadas: 3,
+    autor: /Patrizia Mazzola/i,
+    fuente: /Chiara Lubich.+Signo de contradicción.+1971/i
+  }
+};
 
+async function importFile(filePath) {
   const result = await mammoth.convertToHtml(
     { path: filePath },
     {
@@ -12,37 +40,74 @@ async function main() {
       convertImage: mammoth.images.imgElement(() => Promise.resolve({ src: '' }))
     }
   );
-  const parsed = PdvModel.parseImportedHtml(result.value);
+  return { result, parsed: PdvModel.parseImportedHtml(result.value) };
+}
+
+function validate(filePath, parsed) {
+  const monthCode = path.basename(filePath).match(/PV-(\d{2})-/i)?.[1];
+  const profile = PROFILES[monthCode];
+  if (!profile) throw new Error(`No hay un perfil de prueba para ${path.basename(filePath)}.`);
   const counts = parsed.bloques.reduce((summary, block) => {
     summary[block.tipo] = (summary[block.tipo] || 0) + 1;
     return summary;
   }, {});
-
+  const reflection = parsed.bloques.find(block => block.tipo === 'reflexion_autor');
+  const visibleText = parsed.bloques.map(block => block.texto).join(' ');
   const assertions = [
-    [parsed.mes === 'Junio 2026', `mes detectado: ${parsed.mes || 'vacío'}`],
-    [parsed.periodo === '2026-06-01', `período detectado: ${parsed.periodo || 'vacío'}`],
-    [/Por el camino/i.test(parsed.citaPrincipal), 'cita principal'],
-    [/Mt\s*10/i.test(parsed.citaReferencia), 'referencia principal'],
-    [(counts.cita_destacada || 0) === 3, `citas destacadas: ${counts.cita_destacada || 0}`],
+    [parsed.mes === profile.mes, `mes detectado: ${parsed.mes || 'vacío'}`],
+    [parsed.periodo === profile.periodo, `período detectado: ${parsed.periodo || 'vacío'}`],
+    [profile.cita.test(parsed.citaPrincipal), `cita principal: ${parsed.citaPrincipal}`],
+    [profile.referencia.test(parsed.citaReferencia), `referencia: ${parsed.citaReferencia}`],
+    [(counts.cita_destacada || 0) === profile.destacadas, `citas destacadas: ${counts.cita_destacada || 0}`],
     [(counts.cita_secundaria || 0) === 0, `citas secundarias destacadas: ${counts.cita_secundaria || 0}`],
     [(counts.reflexion_autor || 0) === 1, `reflexiones de autor: ${counts.reflexion_autor || 0}`],
-    [/Chiara Lubich.+octubre de 1979/i.test(parsed.bloques.find(block => block.tipo === 'reflexion_autor')?.fuente || ''), 'fuente de Chiara'],
-    [/Augusto Parody Reyes/i.test(parsed.autor), `autor: ${parsed.autor || 'vacío'}`]
+    [profile.fuente.test(reflection?.fuente || ''), `fuente de Chiara: ${reflection?.fuente || 'vacía'}`],
+    [profile.autor.test(parsed.autor), `autor: ${parsed.autor || 'vacío'}`],
+    [!/\[\d+\]|(?:^|\s)↑(?:\s|$)/.test(visibleText), 'quedaron llamadas o flechas de notas'],
+    [!parsed.bloques.some(block => /^C\.\s*LUBICH|^LUBICH,\s*C\./i.test(block.texto)), 'quedó bibliografía cruda como párrafo']
   ];
   const failures = assertions.filter(([passes]) => !passes).map(([, label]) => label);
-  if (failures.length) {
-    console.error(JSON.stringify({ parsed, counts }, null, 2));
-    throw new Error(`Falló la importación: ${failures.join('; ')}`);
+  if (failures.length) throw new Error(`${path.basename(filePath)}: ${failures.join('; ')}`);
+  return counts;
+}
+
+async function main() {
+  const files = process.argv.slice(2);
+  if (!files.length) throw new Error('Indicá al menos un archivo .docx.');
+  for (const filePath of files) {
+    const { result, parsed } = await importFile(filePath);
+    const counts = validate(filePath, parsed);
+    console.log(JSON.stringify({
+      archivo: path.basename(filePath),
+      mes: parsed.mes,
+      cita: parsed.citaPrincipal,
+      referencia: parsed.citaReferencia,
+      autor: parsed.autor,
+      bloques: parsed.bloques.length,
+      tipos: counts,
+      avisosMammoth: result.messages.length
+    }, null, 2));
   }
-  console.log(JSON.stringify({
-    mes: parsed.mes,
-    periodo: parsed.periodo,
-    referencia: parsed.citaReferencia,
-    autor: parsed.autor,
-    bloques: parsed.bloques.length,
-    tipos: counts,
-    avisosMammoth: result.messages.length
-  }, null, 2));
+
+  const repaired = PdvModel.normalizePdv({
+    mes: 'Julio 2026',
+    citaPrincipal: '“Y el que la recibe en tierra fértil es el hombre que escucha la Palabra y la comprende. Este produce fruto."',
+    citaReferencia: 'Mt 13, 23',
+    bloques: [
+      { tipo: 'parrafo', texto: 'que escucha la Palabra y la comprende. Este produce fruto.”' },
+      { tipo: 'parrafo', texto: '“Y el que la recibe en tierra fértil es el hombre que escucha la Palabra y la comprende. Este produce fruto.”' },
+      { tipo: 'parrafo', texto: 'Las palabras de Dios, como escribe Chiara Lubich, “son luz, amor y vida”[1].' },
+      { tipo: 'parrafo', texto: 'C. LUBICH, Palabra de Vida de marzo de 2003. ↑' }
+    ]
+  });
+  const repairedReflection = repaired.bloques.find(block => block.tipo === 'reflexion_autor');
+  if (repaired.citaPrincipal.endsWith('"')
+      || repaired.bloques.some(block => /^que escucha la Palabra/i.test(block.texto))
+      || repaired.bloques.filter(block => block.tipo === 'cita_destacada').length !== 1
+      || !/marzo de 2003/i.test(repairedReflection?.fuente || '')) {
+    throw new Error('Falló la reparación automática de una publicación ya guardada.');
+  }
+  console.log('Reparación automática de publicaciones guardadas: correcta');
 }
 
 main().catch(error => {

@@ -157,6 +157,7 @@ descargas-matrix.js
 Pasar_a_Android.txt
 
 *.apk
+!descargas/Pagina-Gen.apk
 
 # Archivos locales de prueba o copias fuera de su carpeta web
 /_pdv-qa.html

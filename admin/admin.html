@@ -736,8 +736,10 @@
                                             <label for="pdv-estado">Estado</label>
                                             <select id="pdv-estado">
                                                 <option value="borrador">Borrador</option>
-                                                <option value="publicado">Publicada</option>
+                                                <option value="programado">Programar para el inicio del mes</option>
+                                                <option value="publicado">Publicar ahora</option>
                                             </select>
+                                            <p class="field-help" id="pdv-schedule-help">Las publicaciones programadas aparecen el día 1.º a las 00:00 de Argentina.</p>
                                         </div>
                                     </div>
 
@@ -869,7 +871,7 @@
 
     <script src="../aaglobal/firebase-config.js"></script>
     <script src="../aaglobal/vendor/mammoth.browser.min.js"></script>
-    <script src="../aaglobal/pdv-model.js"></script>
-    <script type="module" src="admin.js?v=20260728-communication-archive"></script>
+    <script src="../aaglobal/pdv-model.js?v=20260729-pdv3"></script>
+    <script type="module" src="admin.js?v=20260729-pdv3"></script>
 </body>
 </html>
