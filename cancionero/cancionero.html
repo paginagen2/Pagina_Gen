@@ -15,11 +15,11 @@
   <meta name="twitter:description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
   <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
   <link rel="stylesheet" href="../aaglobal/style.css">
-  <link rel="stylesheet" href="cancionero.css?v=20260728-favorites-list">
+  <link rel="stylesheet" href="cancionero.css?v=20260728-pdf-builder-add-songs">
   <link rel="icon" href="../aadocumentos/svg/guitarra.svg" type="image/svg+xml">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260728-retractable-4">
-  <link rel="stylesheet" href="../aaglobal/site-polish.css">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260729-mobile-account">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260729-responsive">
 </head>
 <body>
   <svg class="icon-library" aria-hidden="true">
@@ -45,7 +45,7 @@
   </svg>
 
   <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js?v=20260728-retractable-4"></script>
+  <script src="../aaglobal/sidebar.js?v=20260729-mobile-account"></script>
 
   <main class="main songbook-main">
     <header class="songbook-header">
@@ -66,6 +66,9 @@
             <button class="filter-pill" data-categoria="misa"><svg><use href="#i-church"/></svg>Misa</button>
             <button class="filter-pill" data-categoria="gen"><svg><use href="#i-users"/></svg>Gen</button>
             <button class="filter-pill" data-categoria="fogon"><svg><use href="#i-fire"/></svg>Fogón</button>
+            <button class="filter-pill favorite-filter-pill" id="favoriteFilter" type="button" aria-pressed="false" hidden>
+              <svg><use href="#i-heart"/></svg>Favoritos
+            </button>
           </div>
         </section>
 
@@ -132,10 +135,74 @@
     </div>
   </div>
 
+  <div class="pdf-builder-backdrop" id="pdfBuilderBackdrop" hidden></div>
+  <section class="pdf-builder-modal" id="pdfBuilderModal" role="dialog" aria-modal="true" aria-labelledby="pdfBuilderTitle" hidden>
+    <header class="pdf-builder-header">
+      <div><span>Preparar cancionero</span><h2 id="pdfBuilderTitle">Orden y configuración</h2></div>
+      <button class="pdf-builder-close" id="pdfBuilderClose" type="button" aria-label="Cerrar preparación del PDF">×</button>
+    </header>
+    <div class="pdf-builder-body">
+      <section class="pdf-order-panel" aria-labelledby="pdfOrderTitle">
+        <div class="pdf-panel-heading">
+          <div><h3 id="pdfOrderTitle">Orden de las canciones</h3><p>Arrastra o usa las flechas para reorganizarlas.</p></div>
+          <div class="pdf-order-heading-actions">
+            <span id="pdfSongCount"></span>
+            <button class="pdf-add-song-button" id="pdfAddSongButton" type="button">+ Agregar canción</button>
+          </div>
+        </div>
+        <section class="pdf-song-picker" id="pdfSongPicker" aria-labelledby="pdfSongPickerTitle" hidden>
+          <div class="pdf-picker-header">
+            <div><strong id="pdfSongPickerTitle">Agregar canciones</strong><small>Busca por canción o artista.</small></div>
+            <button type="button" id="pdfSongPickerClose" aria-label="Cerrar selector">×</button>
+          </div>
+          <div class="pdf-picker-search">
+            <svg aria-hidden="true"><use href="#i-search"/></svg>
+            <input id="pdfSongPickerSearch" type="search" placeholder="Buscar canciones o artistas" autocomplete="off">
+          </div>
+          <div class="pdf-picker-filters" id="pdfSongPickerFilters" aria-label="Filtrar canciones por categoría">
+            <button type="button" class="active" data-category="todas">Todas</button>
+            <button type="button" data-category="misa">Misa</button>
+            <button type="button" data-category="gen">Gen</button>
+            <button type="button" data-category="fogon">Fogón</button>
+          </div>
+          <div class="pdf-picker-results" id="pdfSongPickerResults"></div>
+        </section>
+        <div class="pdf-song-order" id="pdfSongOrder"></div>
+      </section>
+      <section class="pdf-settings-panel" aria-labelledby="pdfSettingsTitle">
+        <h3 id="pdfSettingsTitle">Configuración</h3>
+        <label class="pdf-field">Nombre del archivo
+          <span class="pdf-filename-control"><input id="pdfFilename" type="text" maxlength="80" autocomplete="off"><em>.pdf</em></span>
+        </label>
+        <label class="pdf-field">Título de portada
+          <input id="pdfDocumentTitle" type="text" maxlength="90" value="Cancionero Gen">
+        </label>
+        <label class="pdf-field">Subtítulo opcional
+          <input id="pdfDocumentSubtitle" type="text" maxlength="120" placeholder="Ej: Fogón Escuela 2026">
+        </label>
+        <fieldset class="pdf-choice-group">
+          <legend>Contenido</legend>
+          <label><input type="radio" name="pdfContentMode" value="chords" checked><span><strong>Letra y acordes</strong><small>Conserva los acordes sobre la letra.</small></span></label>
+          <label><input type="radio" name="pdfContentMode" value="lyrics"><span><strong>Solo letra</strong><small>Ideal para cantantes o conjuntos vocales.</small></span></label>
+        </fieldset>
+        <div class="pdf-switches">
+          <label><input id="pdfIncludeCover" type="checkbox" checked><span><strong>Incluir portada</strong><small>Título, subtítulo, fecha y Gen 2.</small></span></label>
+          <label><input id="pdfIncludeIndex" type="checkbox" checked><span><strong>Incluir índice</strong><small>Lista de canciones con su página.</small></span></label>
+          <label><input id="pdfSongNewPage" type="checkbox" checked><span><strong>Cada canción en página nueva</strong><small>Desactívalo para ahorrar páginas.</small></span></label>
+        </div>
+        <div class="pdf-summary" id="pdfSummary">El PDF respetará versos y estribillos separados por líneas vacías.</div>
+      </section>
+    </div>
+    <footer class="pdf-builder-footer">
+      <button class="pdf-builder-secondary" id="pdfBuilderCancel" type="button">Volver a seleccionar</button>
+      <button class="pdf-builder-primary" id="pdfBuilderGenerate" type="button">Generar y descargar PDF</button>
+    </footer>
+  </section>
+
   <div class="status-toast" id="statusToast" aria-live="polite"><div class="toast" id="toast"><span id="toastIcon">ℹ</span><span id="toastMessage">Mensaje</span></div></div>
 
-  <script type="module" src="../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-list"></script>
+  <script type="module" src="../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-load-fix"></script>
 <script type="module" src="../auth.js?v=20260727-role-codes"></script>
-  <script type="module" src="cancionero.js?v=20260728-favorites-list"></script>
+  <script type="module" src="cancionero.js?v=20260728-pdf-builder-add-songs"></script>
 </body>
 </html>

@@ -129,7 +129,8 @@
 .site-sidebar .sidebar-role-links { margin-bottom: 7px; }
 .site-sidebar .auth-sidebar-container { position: static; width: 100%; padding: 0; }
 .site-sidebar .auth-menu-item { min-height: 39px; border: 1px solid var(--site-sidebar-border); border-radius: 11px; background: #11151a; }
-.site-sidebar .auth-avatar { width: 30px; height: 30px; flex: 0 0 30px; margin-left: 0; }
+.site-sidebar .auth-avatar { width: 30px; height: 30px; flex: 0 0 30px; margin-left: 0; border: 1px solid rgba(166,112,255,.7); box-shadow: none; }
+.site-sidebar .auth-avatar-initial { background: linear-gradient(145deg, #8150d2, #56319b); font-size: .86rem; line-height: 1; }
 .site-sidebar .auth-avatar img { width: 20px; height: 20px; }
 .site-sidebar .admin-role-link { position: static; width: 100%; min-height: 37px; color: #d7c6ff; background: rgba(141,92,246,.08); border-color: rgba(141,92,246,.2); }
 
@@ -255,6 +256,11 @@
   margin: 0 !important;
 }
 
+.site-sidebar .auth-menu-item.logged-in {
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
 .site-sidebar .sidebar-pin {
   width: 31px;
   height: 31px;
@@ -374,4 +380,290 @@
 .site-sidebar.suppress-hover .auth-menu-item,
 .site-sidebar.suppress-hover .admin-role-link {
   padding-inline: 0;
+}
+
+/* En pantallas táctiles el menú pasa a ser una barra inferior.
+   Así el contenido recupera todo el ancho y los destinos siguen accesibles. */
+@media (max-width: 820px) {
+  :root {
+    --site-sidebar-width: 0px;
+    --site-mobile-nav-height: 72px;
+  }
+
+  body.with-site-sidebar,
+  body.sidebar-pinned.with-site-sidebar {
+    padding-bottom: calc(var(--site-mobile-nav-height) + env(safe-area-inset-bottom));
+  }
+
+  .site-sidebar.home-sidebar,
+  .site-sidebar.home-sidebar:hover,
+  .site-sidebar.home-sidebar:focus-within,
+  .site-sidebar.home-sidebar.is-expanded,
+  .site-sidebar.home-sidebar.is-pinned,
+  .site-sidebar.home-sidebar.suppress-hover {
+    inset: auto 0 0 !important;
+    width: 100% !important;
+    height: calc(var(--site-mobile-nav-height) + env(safe-area-inset-bottom)) !important;
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom)) !important;
+    overflow: hidden !important;
+    border-top: 1px solid var(--site-sidebar-border) !important;
+    border-right: 0 !important;
+    box-shadow: 0 -10px 32px rgba(0, 0, 0, .42) !important;
+  }
+
+  .site-sidebar .sidebar-header,
+  .site-sidebar .home-brand,
+  .site-sidebar .home-nav-label,
+  .site-sidebar .sidebar-account-area,
+  .site-sidebar > .home-nav {
+    display: none !important;
+  }
+
+  .site-sidebar .mobile-bottom-nav {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 2px;
+    overflow: hidden;
+  }
+
+  .site-sidebar .mobile-nav-item {
+    min-width: 0;
+    min-height: 54px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 5px 2px;
+    border: 0;
+    border-radius: 12px;
+    color: #929aa6;
+    background: transparent;
+    font-size: .65rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .site-sidebar .mobile-nav-item > :first-child {
+    width: 23px;
+    height: 23px;
+    display: grid;
+    place-items: center;
+    object-fit: contain;
+    color: #c9b1ff;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .site-sidebar .mobile-more-trigger > :first-child {
+    width: auto;
+    font-size: 1rem;
+    letter-spacing: .08em;
+  }
+
+  .site-sidebar .mobile-nav-item.active {
+    color: #fff;
+    background: rgba(141, 92, 246, .19);
+    box-shadow: inset 0 -3px 0 var(--site-sidebar-purple);
+  }
+
+  .site-sidebar .mobile-more-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: rgba(0, 0, 0, .64);
+    opacity: 0;
+    backdrop-filter: blur(3px);
+    transition: opacity .22s ease;
+  }
+
+  .site-sidebar .mobile-more-menu {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    max-height: min(78dvh, 620px);
+    padding: 8px 18px calc(24px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    border: 1px solid #343b46;
+    border-bottom: 0;
+    border-radius: 24px 24px 0 0;
+    color: #fff;
+    background: linear-gradient(160deg, #181d24, #0e1217);
+    box-shadow: 0 -24px 70px rgba(0, 0, 0, .55);
+    transform: translateY(105%);
+    visibility: hidden;
+    transition: transform .24s ease, visibility .24s;
+  }
+
+  .site-sidebar.mobile-more-open .mobile-more-backdrop {
+    z-index: 118;
+    opacity: 1;
+  }
+
+  .site-sidebar.mobile-more-open .mobile-more-menu {
+    z-index: 119;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .mobile-more-handle {
+    width: 42px;
+    height: 4px;
+    margin: 0 auto 15px;
+    border-radius: 999px;
+    background: #555e6b;
+  }
+
+  .mobile-more-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .mobile-more-heading span {
+    color: #aa83ff;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+
+  .mobile-more-heading h2 {
+    margin: 3px 0 0;
+    font-size: 1.35rem;
+  }
+
+  .mobile-more-close {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border: 1px solid #3b4450;
+    border-radius: 50%;
+    color: #fff;
+    background: #20262e;
+    font-size: 1.65rem;
+  }
+
+  .mobile-more-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .mobile-more-link {
+    min-width: 0;
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border: 1px solid #303843;
+    border-radius: 14px;
+    color: #fff;
+    background: #151a20;
+  }
+
+  .mobile-more-link > span {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: #cbb5ff;
+    background: rgba(141, 92, 246, .16);
+    font-size: 1.15rem;
+  }
+
+  .mobile-more-link strong {
+    min-width: 0;
+    font-size: .82rem;
+    line-height: 1.2;
+  }
+
+  .mobile-more-account-slot {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #303843;
+  }
+
+  .site-sidebar .mobile-more-account-slot .sidebar-account-area {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .site-sidebar .mobile-more-account-slot .sidebar-role-links {
+    margin: 0 0 10px;
+  }
+
+  .site-sidebar .mobile-more-account-slot :is(.auth-menu-item, .admin-role-link) {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start !important;
+    gap: 11px;
+    padding: 8px 13px !important;
+    border: 1px solid #343d49 !important;
+    border-radius: 13px;
+    color: #fff;
+    background: #151a20 !important;
+  }
+
+  .site-sidebar .mobile-more-account-slot .menu-text {
+    display: inline !important;
+    opacity: 1 !important;
+    color: inherit;
+  }
+
+  .site-sidebar .mobile-more-account-slot .auth-avatar {
+    margin: 0 !important;
+  }
+
+  .with-site-sidebar .site-sidebar ~ .main,
+  .with-site-sidebar .site-sidebar ~ main,
+  .with-site-sidebar .site-sidebar ~ .main-content,
+  .with-site-sidebar .page-container > .site-sidebar ~ .main-content,
+  .sidebar-pinned.with-site-sidebar .site-sidebar ~ .main,
+  .sidebar-pinned.with-site-sidebar .site-sidebar ~ main,
+  .sidebar-pinned.with-site-sidebar .site-sidebar ~ .main-content,
+  .sidebar-pinned.with-site-sidebar .page-container > .site-sidebar ~ .main-content,
+  .with-site-sidebar .cancion-main,
+  .sidebar-pinned.with-site-sidebar .cancion-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .with-site-sidebar .cancion-header,
+  .with-site-sidebar:not(.sidebar-pinned) .cancion-header,
+  .sidebar-pinned.with-site-sidebar .cancion-header {
+    left: 0 !important;
+  }
+}
+
+.mobile-bottom-nav,
+.mobile-more-menu,
+.mobile-more-backdrop {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .mobile-bottom-nav,
+  .mobile-more-menu,
+  .mobile-more-backdrop {
+    display: grid;
+  }
+
+  body.mobile-menu-open { overflow: hidden; }
 }

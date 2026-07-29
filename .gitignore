@@ -104,6 +104,12 @@ www/
 android/
 assets/
 capacitor.config.json
+/aadocumentos/imagenes/icono-app-gen.png
+/docs/android.md
+/scripts/compilar-android.js
+/scripts/preparar-android.js
+/scripts/preparar-icono-android.js
+/tmp/
 
 # vitepress build output
 **/.vitepress/dist

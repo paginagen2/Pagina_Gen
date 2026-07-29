@@ -483,7 +483,17 @@ body {
 .carrusel-next { right: 10px; }
 
 .carrusel-dots { min-height: 20px; display: flex; justify-content: center; align-items: center; gap: 8px; padding-top: 10px; }
-.carrusel-dot { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: #59616b; cursor: pointer; }
+.carrusel-dot {
+  width: 9px;
+  height: 9px;
+  min-height: 9px !important;
+  flex: 0 0 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #59616b;
+  cursor: pointer;
+}
 .carrusel-dot.active { width: 9px; background: var(--home-purple); }
 
 .home-footer {
@@ -536,4 +546,65 @@ body {
   .contact-strip-copy strong, .contact-strip-copy small { display: block; }
   .contact-strip-copy strong { margin: 0 0 2px; }
   .contact-strip-action { display: none; }
+}
+
+@media (max-width: 820px) {
+  .home-main-content { width: 100%; margin-left: 0; }
+  .home-dashboard.main {
+    width: 100%;
+    max-width: none;
+    padding: 18px clamp(14px, 4vw, 24px) 30px;
+  }
+  .hero-banner {
+    min-height: 172px;
+    padding: 30px clamp(22px, 7vw, 42px);
+  }
+  .hero-banner h1 { font-size: clamp(3.2rem, 17vw, 5rem); }
+  .hero-banner p {
+    margin: 14px 0 0 3px;
+    font-size: clamp(1.05rem, 5vw, 1.45rem);
+  }
+  .daily-grid { gap: 12px; }
+  .daily-card {
+    min-height: 116px;
+    grid-template-columns: 58px minmax(0, 1fr) 22px;
+    gap: 14px;
+    padding: 18px;
+  }
+  .daily-icon { width: 58px; height: 58px; }
+  .daily-copy h3 { font-size: 1.02rem; }
+  .card-arrow { font-size: 1.7rem; }
+  .dashboard-lower-grid { gap: 22px; margin-top: 22px; }
+  .carrusel-container { height: 410px; }
+  .carrusel-slide {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(150px, 44%) minmax(0, 1fr);
+  }
+  .carrusel-slide.sin-imagen { grid-template-rows: 1fr; }
+  .carrusel-slide-content,
+  .carrusel-slide.sin-imagen .carrusel-slide-content {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 52px 24px 24px;
+    text-align: left;
+  }
+  .carrusel-slide-content h3 { font-size: 1.25rem; }
+  .carrusel-slide-content p { -webkit-line-clamp: 3; }
+}
+
+@media (max-width: 520px) {
+  .home-dashboard.main { padding-inline: 14px; }
+  .section-heading { align-items: flex-end; }
+  .section-heading h2 { font-size: 1.25rem; }
+  .section-heading > a { font-size: .72rem; }
+  .resources-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .resource-card { min-height: 164px; padding: 18px 15px 15px; }
+  .resource-icon { width: 42px; height: 42px; }
+  .contact-strip { padding-inline: 12px; }
+}
+
+@media (max-width: 360px) {
+  .resources-grid { grid-template-columns: 1fr; }
+  .daily-card { grid-template-columns: 52px minmax(0, 1fr) 18px; padding: 16px 14px; }
+  .daily-icon { width: 52px; height: 52px; }
 }

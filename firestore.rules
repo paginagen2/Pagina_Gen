@@ -178,6 +178,12 @@ service cloud.firestore {
       }
     }
 
+    // Compatibilidad de lectura para favoritos guardados antes de crear
+    // la colección personal del usuario.
+    match /{path=**}/likes/{likeId} {
+      allow read: if signedIn() && resource.data.usuarioId == request.auth.uid;
+    }
+
     match /recursos/{resourceId} {
       // Los recursos publicados son públicos, pero nunca exponemos documentos
       // antiguos que todavía contengan datos privados de contacto.

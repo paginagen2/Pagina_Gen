@@ -1,4 +1,4 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-list';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-load-fix';
 import { parseChord, transposeChord, convertChordNotation, extractUniqueChords } from './chord-engine.js';
 import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js';
 

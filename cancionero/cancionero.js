@@ -1,4 +1,4 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-list';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-load-fix';
 
 const DATA_ROOT = '../datos/cancionero';
 let canciones = [];
@@ -18,6 +18,12 @@ let artistasCompletosCargados = false;
 let usuarioFavoritos = null;
 const favoritosIds = new Set();
 const favoritosConsultados = new Set();
+let soloFavoritos = false;
+let cancionesFavoritas = [];
+let pdfDraftSongs = [];
+let pdfLastFocus = null;
+let pdfPickerCategory = 'todas';
+let pdfPickerSearchTimer = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   inicializarEventListeners();
@@ -97,9 +103,11 @@ async function cargarCategoria(categoria, reiniciar = true) {
 function inicializarEventListeners() {
   const searchInput = document.getElementById('searchInput');
   const categoriaBtns = document.querySelectorAll('.filter-pill[data-categoria]');
+  const favoriteFilter = document.getElementById('favoriteFilter');
   const form = document.getElementById('formCancion');
   const overlay = document.getElementById('formOverlay');
   const artistsViewAll = document.getElementById('artistsViewAll');
+  inicializarConstructorPDF();
 
   if (searchInput) searchInput.addEventListener('input', () => {
     clearTimeout(temporizadorBusqueda);
@@ -111,9 +119,12 @@ function inicializarEventListeners() {
       categoriaBtns.forEach((b) => b.classList.remove('active'));
       this.classList.add('active');
       if (searchInput) searchInput.value = '';
-      await cargarCategoria(this.dataset.categoria, true);
+      categoriaActual = this.dataset.categoria;
+      if (soloFavoritos) aplicarFiltros();
+      else await cargarCategoria(categoriaActual, true);
     });
   });
+  if (favoriteFilter) favoriteFilter.addEventListener('click', alternarFiltroFavoritos);
 
   if (form) form.addEventListener('submit', guardarCancion);
   if (artistsViewAll) artistsViewAll.addEventListener('click', () => window.mostrarTodosArtistas());
@@ -138,13 +149,25 @@ function inicializarEventListeners() {
 }
 
 function aplicarFiltros() {
-  cancionesFiltradas = [...canciones];
+  const searchInput = document.getElementById('searchInput');
+  const busqueda = (searchInput?.value || '').toLowerCase().trim();
+  const origen = soloFavoritos ? cancionesFavoritas : canciones;
+  cancionesFiltradas = origen.filter((cancion) => {
+    const coincideCategoria = categoriaActual === 'todas' || cancion.categoria === categoriaActual;
+    const texto = `${cancion.titulo || ''} ${cancion.artista || ''}`.toLowerCase();
+    return coincideCategoria && (!busqueda || texto.includes(busqueda));
+  });
 
   const titulo = document.getElementById('sectionTitle');
   if (titulo) {
-    titulo.textContent = vistaActual === 'destacados'
-      ? 'Canciones destacadas'
-      : `${getCategoriaTexto(categoriaActual === 'todas' ? 'todas' : categoriaActual)} (${cancionesFiltradas.length})`;
+    if (soloFavoritos) {
+      const categoria = categoriaActual === 'todas' ? '' : ` · ${getCategoriaTexto(categoriaActual)}`;
+      titulo.textContent = `Mis favoritos${categoria} (${cancionesFiltradas.length})`;
+    } else {
+      titulo.textContent = vistaActual === 'destacados'
+        ? 'Canciones destacadas'
+        : `${getCategoriaTexto(categoriaActual === 'todas' ? 'todas' : categoriaActual)} (${cancionesFiltradas.length})`;
+    }
   }
 
   renderizarCanciones();
@@ -154,6 +177,11 @@ function aplicarFiltros() {
 async function ejecutarBusqueda() {
   const searchInput = document.getElementById('searchInput');
   const busqueda = (searchInput?.value || '').toLowerCase().trim();
+  if (soloFavoritos) {
+    vistaActual = 'favoritos';
+    aplicarFiltros();
+    return;
+  }
   if (!busqueda) {
     vistaActual = paginaActual > 0 ? 'categoria' : 'destacados';
     aplicarFiltros();
@@ -184,7 +212,7 @@ async function ejecutarBusqueda() {
 function actualizarBotonCanciones() {
   const button = document.querySelector('.top-canciones .view-all-link');
   if (!button) return;
-  button.hidden = vistaActual === 'busqueda' || (vistaActual === 'categoria' && !hayMasCanciones);
+  button.hidden = soloFavoritos || vistaActual === 'busqueda' || (vistaActual === 'categoria' && !hayMasCanciones);
   if (vistaActual === 'destacados') button.innerHTML = 'Ver todas <span>›</span>';
   else if (hayMasCanciones) button.innerHTML = 'Ver 15 más <span>›</span>';
 }
@@ -203,8 +231,8 @@ function renderizarCanciones() {
   if (cancionesFiltradas.length === 0) {
     container.innerHTML = `
       <div class="loading-state">
-        <div class="loading-icon">🔍</div>
-        <p>No se encontraron canciones</p>
+        <div class="loading-icon">${soloFavoritos ? '♡' : '🔍'}</div>
+        <p>${soloFavoritos ? 'No tienes favoritos para este filtro' : 'No se encontraron canciones'}</p>
       </div>
     `;
     return;
@@ -287,11 +315,67 @@ function inicializarFavoritos() {
 function cambiarUsuarioFavoritos(user) {
   usuarioFavoritos = user || null;
   const toolFavorites = document.getElementById('toolFavorites');
+  const favoriteFilter = document.getElementById('favoriteFilter');
   if (toolFavorites) toolFavorites.hidden = !usuarioFavoritos;
+  if (favoriteFilter) favoriteFilter.hidden = !usuarioFavoritos;
   favoritosIds.clear();
   favoritosConsultados.clear();
   document.querySelectorAll('.favorite-button').forEach((button) => actualizarBotonFavorito(button, false));
-  if (usuarioFavoritos) void actualizarFavoritosVisibles();
+  if (usuarioFavoritos) {
+    void actualizarFavoritosVisibles();
+  } else if (soloFavoritos) {
+    soloFavoritos = false;
+    cancionesFavoritas = [];
+    actualizarEstadoFiltroFavoritos();
+    void cargarCategoria(categoriaActual, true);
+  }
+}
+
+function actualizarEstadoFiltroFavoritos() {
+  const button = document.getElementById('favoriteFilter');
+  if (!button) return;
+  button.classList.toggle('active', soloFavoritos);
+  button.setAttribute('aria-pressed', String(soloFavoritos));
+}
+
+async function alternarFiltroFavoritos() {
+  const button = document.getElementById('favoriteFilter');
+  const user = usuarioFavoritos || window.firebaseAuth?.currentUser;
+  if (!user) {
+    if (typeof window.genOpenAuthModal === 'function') window.genOpenAuthModal();
+    return;
+  }
+  if (button?.getAttribute('aria-busy') === 'true') return;
+  if (soloFavoritos) {
+    soloFavoritos = false;
+    cancionesFavoritas = [];
+    vistaActual = 'categoria';
+    actualizarEstadoFiltroFavoritos();
+    await cargarCategoria(categoriaActual, true);
+    return;
+  }
+  button?.setAttribute('aria-busy', 'true');
+  mostrarEstadoCanciones('Cargando tus favoritos...');
+  try {
+    cancionesFavoritas = await DatabaseService.getFavoritosUsuario(user.uid);
+    if (window.firebaseAuth?.currentUser?.uid !== user.uid) return;
+    registrarCanciones(cancionesFavoritas);
+    cancionesFavoritas.forEach((cancion) => {
+      const id = String(cancion.id);
+      favoritosIds.add(id);
+      favoritosConsultados.add(id);
+    });
+    soloFavoritos = true;
+    vistaActual = 'favoritos';
+    actualizarEstadoFiltroFavoritos();
+    aplicarFiltros();
+  } catch (error) {
+    console.error('No se pudo activar el filtro de favoritos:', error);
+    mostrarToast('No pudimos cargar tus favoritos', 'error');
+    aplicarFiltros();
+  } finally {
+    button?.removeAttribute('aria-busy');
+  }
 }
 
 window.abrirMisFavoritos = function abrirMisFavoritos() {
@@ -369,6 +453,10 @@ async function alternarFavorito(cancion, button) {
     favoritosConsultados.add(id);
     actualizarBotonesFavorito(id);
     mostrarToast(active ? 'Agregada a favoritos' : 'Quitada de favoritos', 'success');
+    if (soloFavoritos && !active) {
+      cancionesFavoritas = cancionesFavoritas.filter((favorita) => String(favorita.id) !== id);
+      aplicarFiltros();
+    }
     window.dispatchEvent(new CustomEvent('gen:favorite-changed', { detail: { songId: id, active } }));
   } catch (error) {
     console.error('No se pudo actualizar el favorito:', error);
@@ -504,62 +592,468 @@ window.toggleSelection = function (cancionId) {
   document.getElementById('selectionCount').textContent = cancionesSeleccionadas.size;
 };
 
+function inicializarConstructorPDF() {
+  const modal = document.getElementById('pdfBuilderModal');
+  if (!modal || modal.dataset.ready === 'true') return;
+  modal.dataset.ready = 'true';
+  document.getElementById('pdfBuilderClose')?.addEventListener('click', cerrarConstructorPDF);
+  document.getElementById('pdfBuilderCancel')?.addEventListener('click', cerrarConstructorPDF);
+  document.getElementById('pdfBuilderBackdrop')?.addEventListener('click', cerrarConstructorPDF);
+  document.getElementById('pdfBuilderGenerate')?.addEventListener('click', generarPDFConfigurado);
+  document.getElementById('pdfAddSongButton')?.addEventListener('click', abrirSelectorCancionesPDF);
+  document.getElementById('pdfSongPickerClose')?.addEventListener('click', cerrarSelectorCancionesPDF);
+  document.getElementById('pdfSongPickerSearch')?.addEventListener('input', () => {
+    clearTimeout(pdfPickerSearchTimer);
+    pdfPickerSearchTimer = setTimeout(renderizarSelectorCancionesPDF, 120);
+  });
+  document.querySelectorAll('#pdfSongPickerFilters button').forEach((button) => {
+    button.addEventListener('click', () => {
+      pdfPickerCategory = button.dataset.category;
+      document.querySelectorAll('#pdfSongPickerFilters button').forEach((item) => item.classList.toggle('active', item === button));
+      renderizarSelectorCancionesPDF();
+    });
+  });
+  modal.querySelectorAll('input').forEach((input) => input.addEventListener('change', actualizarResumenPDF));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !modal.hidden) {
+      if (!document.getElementById('pdfSongPicker')?.hidden) cerrarSelectorCancionesPDF();
+      else cerrarConstructorPDF();
+    }
+  });
+}
+
 window.generarPDF = async function () {
   if (cancionesSeleccionadas.size === 0) {
-    mostrarToast('❌ Selecciona al menos una canción', 'error');
+    mostrarToast('Selecciona al menos una canción', 'error');
     return;
   }
-
   try {
     mostrarToast('Preparando las canciones seleccionadas...', 'success');
-    const cancionesParaPDF = (await Promise.all(
+    pdfDraftSongs = (await Promise.all(
       Array.from(cancionesSeleccionadas).map((id) => DatabaseService.getCancionPorId(id))
-    )).filter(Boolean).sort((a, b) => (a.titulo || '').localeCompare(b.titulo || '', 'es'));
+    )).filter(Boolean);
+    if (pdfDraftSongs.length === 0) throw new Error('No se encontraron las canciones seleccionadas');
+    abrirConstructorPDF();
+  } catch (error) {
+    console.error('Error preparando el PDF:', error);
+    mostrarToast('No pudimos preparar el cancionero', 'error');
+  }
+};
 
-    if (cancionesParaPDF.length === 0) throw new Error('No se encontraron las canciones seleccionadas');
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-    const margin = 20;
-    let esPrimera = true;
+function abrirConstructorPDF() {
+  const modal = document.getElementById('pdfBuilderModal');
+  const backdrop = document.getElementById('pdfBuilderBackdrop');
+  pdfLastFocus = document.activeElement;
+  document.getElementById('pdfFilename').value = `cancionero-gen-${new Date().toISOString().slice(0, 10)}`;
+  renderizarOrdenPDF();
+  actualizarResumenPDF();
+  backdrop.hidden = false;
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('pdfDocumentTitle')?.focus();
+}
 
-    cancionesParaPDF.forEach((cancion) => {
-      if (!esPrimera) pdf.addPage();
-      esPrimera = false;
+function cerrarConstructorPDF() {
+  cerrarSelectorCancionesPDF();
+  document.getElementById('pdfBuilderModal').hidden = true;
+  document.getElementById('pdfBuilderBackdrop').hidden = true;
+  document.body.style.overflow = '';
+  pdfLastFocus?.focus?.();
+}
 
-      let y = 20;
-      pdf.setFontSize(18);
-      pdf.setFont(undefined, 'bold');
-      pdf.text((cancion.titulo || '').toUpperCase(), margin, y);
+async function abrirSelectorCancionesPDF() {
+  const picker = document.getElementById('pdfSongPicker');
+  const button = document.getElementById('pdfAddSongButton');
+  picker.hidden = false;
+  button.setAttribute('aria-expanded', 'true');
+  document.getElementById('pdfSongPickerResults').innerHTML = '<div class="pdf-picker-state">Cargando canciones...</div>';
+  try {
+    if (!indiceBusqueda) {
+      const datos = await cargarJson(`${DATA_ROOT}/buscar.json`);
+      indiceBusqueda = Array.isArray(datos.canciones) ? datos.canciones : [];
+      registrarCanciones(indiceBusqueda);
+    }
+    renderizarSelectorCancionesPDF();
+    document.getElementById('pdfSongPickerSearch')?.focus();
+  } catch (error) {
+    console.error('No se pudo abrir el selector de canciones:', error);
+    document.getElementById('pdfSongPickerResults').innerHTML = '<div class="pdf-picker-state">No pudimos cargar las canciones.</div>';
+  }
+}
 
-      y += 12;
-      pdf.setFontSize(12);
-      pdf.setFont(undefined, 'normal');
-      const info = `${cancion.artista || 'Desconocido'} • ${getCategoriaTexto(cancion.categoria)}`;
-      pdf.text(info, margin, y);
+function cerrarSelectorCancionesPDF() {
+  const picker = document.getElementById('pdfSongPicker');
+  if (!picker) return;
+  picker.hidden = true;
+  document.getElementById('pdfAddSongButton')?.setAttribute('aria-expanded', 'false');
+}
 
-      y += 20;
-      pdf.setFont('courier', 'normal');
-      pdf.setFontSize(11);
-      const letra = cancion.letra || '';
-      const lines = pdf.splitTextToSize(letra, pdf.internal.pageSize.width - 2 * margin);
-      lines.forEach((line) => {
-        if (y > pdf.internal.pageSize.height - 30) {
-          pdf.addPage();
-          y = 20;
-        }
-        pdf.text(line, margin, y);
-        y += 6;
-      });
+function renderizarSelectorCancionesPDF() {
+  const container = document.getElementById('pdfSongPickerResults');
+  if (!container || !indiceBusqueda) return;
+  const query = (document.getElementById('pdfSongPickerSearch')?.value || '').trim().toLocaleLowerCase('es');
+  const selectedIds = new Set(pdfDraftSongs.map((song) => String(song.id)));
+  const results = indiceBusqueda.filter((song) => {
+    const matchesCategory = pdfPickerCategory === 'todas' || song.categoria === pdfPickerCategory;
+    const searchable = `${song.titulo || ''} ${song.artista || ''}`.toLocaleLowerCase('es');
+    return matchesCategory && (!query || searchable.includes(query));
+  }).slice(0, 30);
+
+  if (!results.length) {
+    container.innerHTML = '<div class="pdf-picker-state">No encontramos canciones con esos filtros.</div>';
+    return;
+  }
+  container.innerHTML = '';
+  results.forEach((song) => {
+    const isSelected = selectedIds.has(String(song.id));
+    const row = document.createElement('article');
+    row.className = 'pdf-picker-result';
+    row.innerHTML = `
+      <span class="pdf-picker-result-copy">
+        <strong>${escaparHTML(song.titulo || 'Sin título')}</strong>
+        <small>${escaparHTML(song.artista || 'Desconocido')} · ${escaparHTML(getCategoriaTexto(song.categoria))}</small>
+      </span>
+      <button type="button" ${isSelected ? 'disabled' : ''}>${isSelected ? 'Agregada' : 'Agregar'}</button>
+    `;
+    row.querySelector('button').addEventListener('click', () => agregarCancionAlPDF(song, row));
+    container.appendChild(row);
+  });
+}
+
+async function agregarCancionAlPDF(songSummary, row) {
+  const button = row.querySelector('button');
+  if (pdfDraftSongs.some((song) => String(song.id) === String(songSummary.id))) return;
+  button.disabled = true;
+  button.textContent = 'Agregando...';
+  try {
+    const knownSong = cancionesConocidas.get(songSummary.id);
+    const fullSong = knownSong?.letra ? knownSong : await DatabaseService.getCancionPorId(songSummary.id);
+    if (!fullSong) throw new Error('Canción no encontrada');
+    pdfDraftSongs.push(fullSong);
+    cancionesSeleccionadas.add(String(fullSong.id));
+    renderizarOrdenPDF();
+    actualizarResumenPDF();
+    renderizarSelectorCancionesPDF();
+  } catch (error) {
+    console.error('No se pudo agregar la canción al PDF:', error);
+    button.disabled = false;
+    button.textContent = 'Reintentar';
+    mostrarToast('No pudimos agregar esa canción', 'error');
+  }
+}
+
+function renderizarOrdenPDF() {
+  const container = document.getElementById('pdfSongOrder');
+  document.getElementById('pdfSongCount').textContent = `${pdfDraftSongs.length} ${pdfDraftSongs.length === 1 ? 'canción' : 'canciones'}`;
+  container.innerHTML = '';
+  pdfDraftSongs.forEach((song, index) => {
+    const item = document.createElement('div');
+    item.className = 'pdf-order-item';
+    item.draggable = true;
+    item.dataset.songId = song.id;
+    item.innerHTML = `
+      <span class="pdf-drag-handle" aria-hidden="true">••</span>
+      <span class="pdf-order-number">${index + 1}</span>
+      <span class="pdf-order-copy"><strong>${escaparHTML(song.titulo || 'Sin título')}</strong><small>${escaparHTML(song.artista || 'Desconocido')}</small></span>
+      <span class="pdf-order-actions">
+        <button type="button" data-action="up" aria-label="Subir ${escaparAtributo(song.titulo || 'canción')}" ${index === 0 ? 'disabled' : ''}>↑</button>
+        <button type="button" data-action="down" aria-label="Bajar ${escaparAtributo(song.titulo || 'canción')}" ${index === pdfDraftSongs.length - 1 ? 'disabled' : ''}>↓</button>
+        <button type="button" class="pdf-remove-song" data-action="remove" aria-label="Quitar ${escaparAtributo(song.titulo || 'canción')}">×</button>
+      </span>
+    `;
+    item.querySelectorAll('button').forEach((button) => button.addEventListener('click', () => {
+      const action = button.dataset.action;
+      if (action === 'remove') pdfDraftSongs.splice(index, 1);
+      else {
+        const target = action === 'up' ? index - 1 : index + 1;
+        [pdfDraftSongs[index], pdfDraftSongs[target]] = [pdfDraftSongs[target], pdfDraftSongs[index]];
+      }
+      renderizarOrdenPDF();
+      actualizarResumenPDF();
+      renderizarSelectorCancionesPDF();
+    }));
+    item.addEventListener('dragstart', (event) => {
+      item.classList.add('dragging');
+      event.dataTransfer.setData('text/plain', String(index));
+      event.dataTransfer.effectAllowed = 'move';
     });
+    item.addEventListener('dragend', () => item.classList.remove('dragging'));
+    item.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+    });
+    item.addEventListener('drop', (event) => {
+      event.preventDefault();
+      const from = Number(event.dataTransfer.getData('text/plain'));
+      if (!Number.isInteger(from) || from === index) return;
+      const [moved] = pdfDraftSongs.splice(from, 1);
+      pdfDraftSongs.splice(index, 0, moved);
+      renderizarOrdenPDF();
+    });
+    container.appendChild(item);
+  });
+}
 
-    pdf.save(`cancionero-gen-${cancionesSeleccionadas.size}-canciones.pdf`);
-    mostrarToast(`📄 PDF generado con ${cancionesSeleccionadas.size} canciones`, 'success');
+function actualizarResumenPDF() {
+  const mode = document.querySelector('input[name="pdfContentMode"]:checked')?.value;
+  const parts = [
+    `${pdfDraftSongs.length} ${pdfDraftSongs.length === 1 ? 'canción' : 'canciones'}`,
+    mode === 'lyrics' ? 'solo letra' : 'letra y acordes'
+  ];
+  if (document.getElementById('pdfIncludeCover')?.checked) parts.push('portada');
+  if (document.getElementById('pdfIncludeIndex')?.checked) parts.push('índice');
+  document.getElementById('pdfSummary').textContent =
+    `${parts.join(' · ')}. Los versos y estribillos no se cortarán mientras entren completos en una página.`;
+  document.getElementById('pdfBuilderGenerate').disabled = pdfDraftSongs.length === 0;
+}
+
+function limpiarNombreArchivo(value) {
+  return String(value || 'cancionero-gen')
+    .replace(/\.pdf$/i, '')
+    .replace(/[<>:"/\\|?*\u0000-\u001F]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 80) || 'cancionero-gen';
+}
+
+function quitarAcordes(text) {
+  return String(text || '').replace(/\[[^\]\r\n]+\]/g, '').replace(/[ \t]+\n/g, '\n');
+}
+
+function limitesDeSegmentos(text, maxChars) {
+  const ranges = [];
+  let start = 0;
+  while (start < text.length) {
+    let end = Math.min(text.length, start + maxChars);
+    if (end < text.length) {
+      const space = text.lastIndexOf(' ', end);
+      if (space > start + Math.floor(maxChars * .55)) end = space + 1;
+    }
+    ranges.push([start, end]);
+    start = end;
+  }
+  return ranges.length ? ranges : [[0, 0]];
+}
+
+function prepararUnidadPDF(sourceLine, includeChords, maxChars) {
+  const source = String(sourceLine || '').replace(/\t/g, '    ');
+  if (!includeChords) {
+    const lyric = quitarAcordes(source);
+    return limitesDeSegmentos(lyric, maxChars).map(([start, end]) => [
+      { text: lyric.slice(start, end).trimEnd(), chord: false }
+    ]);
+  }
+  let lyric = '';
+  let chordRow = '';
+  let cursor = 0;
+  let match;
+  const chordPattern = /\[([^\]\r\n]+)\]/g;
+  while ((match = chordPattern.exec(source))) {
+    lyric += source.slice(cursor, match.index);
+    const position = lyric.length;
+    if (chordRow.length < position) chordRow = chordRow.padEnd(position, ' ');
+    if (chordRow.length > position && chordRow.slice(position).trim()) chordRow += ' ';
+    chordRow = chordRow.padEnd(position, ' ') + match[1];
+    cursor = match.index + match[0].length;
+  }
+  lyric += source.slice(cursor);
+  if (!chordRow) {
+    return limitesDeSegmentos(lyric, maxChars).map(([start, end]) => [
+      { text: lyric.slice(start, end).trimEnd(), chord: false }
+    ]);
+  }
+  const guide = lyric.length ? lyric : chordRow;
+  return limitesDeSegmentos(guide, maxChars).map(([start, end]) => {
+    const chord = chordRow.slice(start, end).trimEnd();
+    const text = lyric.slice(start, end).trimEnd();
+    return [
+      ...(chord.trim() ? [{ text: chord, chord: true }] : []),
+      ...(text || !chord.trim() ? [{ text, chord: false }] : [])
+    ];
+  });
+}
+
+function prepararBloquesPDF(text, includeChords, maxChars) {
+  const normalized = String(text || '').replace(/\r\n?/g, '\n').trim();
+  if (!normalized) return [];
+  return normalized.split(/\n\s*\n+/).map((block) =>
+    block.split('\n').flatMap((line) => prepararUnidadPDF(line, includeChords, maxChars))
+  );
+}
+
+function dibujarPortadaPDF(pdf, title, subtitle) {
+  const width = pdf.internal.pageSize.width;
+  const height = pdf.internal.pageSize.height;
+  pdf.setFillColor(255, 255, 255);
+  pdf.rect(0, 0, width, height, 'F');
+  pdf.setDrawColor(116, 73, 170);
+  pdf.setLineWidth(.8);
+  pdf.line(28, 58, width - 28, 58);
+  pdf.setTextColor(105, 58, 157);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(15);
+  pdf.text('GEN 2', width / 2, 48, { align: 'center' });
+  pdf.setTextColor(32, 27, 38);
+  pdf.setFontSize(31);
+  const titleLines = pdf.splitTextToSize(title || 'Cancionero Gen', width - 50);
+  pdf.text(titleLines, width / 2, 105, { align: 'center' });
+  if (subtitle) {
+    pdf.setTextColor(91, 83, 99);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(14);
+    pdf.text(pdf.splitTextToSize(subtitle, width - 62), width / 2, 138, { align: 'center' });
+  }
+  pdf.setTextColor(112, 105, 118);
+  pdf.setFontSize(10);
+  pdf.text(new Intl.DateTimeFormat('es-AR', { dateStyle: 'long' }).format(new Date()), width / 2, height - 32, { align: 'center' });
+}
+
+function dibujarEncabezadoCancion(pdf, song, margin, y) {
+  pdf.setTextColor(34, 24, 48);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(17);
+  const titleLines = pdf.splitTextToSize(String(song.titulo || 'Sin título').toUpperCase(), pdf.internal.pageSize.width - margin * 2);
+  pdf.text(titleLines, margin, y);
+  y += titleLines.length * 7 + 3;
+  pdf.setTextColor(104, 93, 116);
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(10);
+  pdf.text(`${song.artista || 'Desconocido'} - ${getCategoriaTexto(song.categoria)}`, margin, y);
+  return y + 11;
+}
+
+async function generarPDFConfigurado() {
+  if (!pdfDraftSongs.length) return;
+  const generateButton = document.getElementById('pdfBuilderGenerate');
+  generateButton.disabled = true;
+  generateButton.textContent = 'Generando...';
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
+    const includeCover = document.getElementById('pdfIncludeCover').checked;
+    const includeIndex = document.getElementById('pdfIncludeIndex').checked;
+    const eachSongNewPage = document.getElementById('pdfSongNewPage').checked;
+    const includeChords = document.querySelector('input[name="pdfContentMode"]:checked')?.value !== 'lyrics';
+    const documentTitle = document.getElementById('pdfDocumentTitle').value.trim() || 'Cancionero Gen';
+    const subtitle = document.getElementById('pdfDocumentSubtitle').value.trim();
+    const filename = limpiarNombreArchivo(document.getElementById('pdfFilename').value);
+    const margin = 18;
+    const top = 18;
+    const bottom = 18;
+    const pageHeight = pdf.internal.pageSize.height;
+    const contentBottom = pageHeight - bottom - 8;
+    const contentWidth = pdf.internal.pageSize.width - margin * 2;
+    const lineHeight = 5.2;
+    const blockGap = 3.4;
+    let pageUsed = false;
+    const indexPages = [];
+
+    if (includeCover) {
+      dibujarPortadaPDF(pdf, documentTitle, subtitle);
+      pageUsed = true;
+    }
+    if (includeIndex) {
+      const rowsPerPage = 31;
+      const count = Math.max(1, Math.ceil(pdfDraftSongs.length / rowsPerPage));
+      for (let page = 0; page < count; page += 1) {
+        if (pageUsed) pdf.addPage();
+        pageUsed = true;
+        indexPages.push(pdf.getNumberOfPages());
+      }
+    }
+    if (pageUsed) pdf.addPage();
+
+    let y = top;
+    let firstSong = true;
+    const songStartPages = [];
+    const addContentPage = () => {
+      pdf.addPage();
+      y = top;
+    };
+
+    for (const song of pdfDraftSongs) {
+      if (!firstSong && eachSongNewPage) addContentPage();
+      const minimumHeaderSpace = 34;
+      if (y > contentBottom - minimumHeaderSpace) addContentPage();
+      songStartPages.push(pdf.getNumberOfPages());
+      y = dibujarEncabezadoCancion(pdf, song, margin, y);
+      pdf.setFont('courier', 'normal');
+      pdf.setFontSize(10.5);
+      const charWidth = Math.max(.1, pdf.getTextWidth('M'));
+      const maxChars = Math.max(24, Math.floor(contentWidth / charWidth));
+      const sourceText = includeChords ? song.letra || '' : quitarAcordes(song.letra || '');
+      const blocks = prepararBloquesPDF(sourceText, includeChords, maxChars);
+      const usableBlockHeight = contentBottom - top;
+
+      for (const block of blocks) {
+        const blockHeight = block.reduce((height, unit) => height + unit.length * lineHeight, 0);
+        const remaining = contentBottom - y;
+        if (blockHeight <= usableBlockHeight && blockHeight > remaining) addContentPage();
+        for (const unit of block) {
+          const unitHeight = unit.length * lineHeight;
+          if (unitHeight > contentBottom - y) addContentPage();
+          for (const line of unit) {
+            pdf.setFont('courier', line.chord ? 'bold' : 'normal');
+            pdf.setTextColor(line.chord ? 112 : 35, line.chord ? 61 : 35, line.chord ? 168 : 35);
+            pdf.text(line.text || ' ', margin, y);
+            y += lineHeight;
+          }
+        }
+        y += blockGap;
+      }
+      y += 8;
+      firstSong = false;
+    }
+
+    if (includeIndex) {
+      const rowsPerPage = 31;
+      indexPages.forEach((pageNumber, indexPage) => {
+        pdf.setPage(pageNumber);
+        pdf.setTextColor(42, 28, 57);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(22);
+        pdf.text(indexPage === 0 ? 'Índice de canciones' : 'Índice de canciones (continuación)', margin, 24);
+        pdf.setDrawColor(165, 112, 235);
+        pdf.line(margin, 30, pdf.internal.pageSize.width - margin, 30);
+        let indexY = 40;
+        pdfDraftSongs.slice(indexPage * rowsPerPage, (indexPage + 1) * rowsPerPage).forEach((song, localIndex) => {
+          const absoluteIndex = indexPage * rowsPerPage + localIndex;
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(10);
+          pdf.setTextColor(50, 44, 56);
+          const label = `${absoluteIndex + 1}. ${song.titulo || 'Sin título'}`;
+          pdf.text(pdf.splitTextToSize(label, 135)[0], margin, indexY);
+          pdf.setFont('helvetica', 'normal');
+          pdf.setTextColor(116, 106, 125);
+          pdf.text(String(songStartPages[absoluteIndex]), pdf.internal.pageSize.width - margin, indexY, { align: 'right' });
+          indexY += 7.2;
+        });
+      });
+    }
+
+    const totalPages = pdf.getNumberOfPages();
+    for (let page = 1; page <= totalPages; page += 1) {
+      if (includeCover && page === 1) continue;
+      pdf.setPage(page);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8);
+      pdf.setTextColor(145, 137, 151);
+      pdf.text(`Gen 2 - ${page} / ${totalPages}`, pdf.internal.pageSize.width - margin, pageHeight - 8, { align: 'right' });
+    }
+
+    pdf.setProperties({ title: documentTitle, subject: 'Cancionero Gen', creator: 'Gen 2' });
+    pdf.save(`${filename}.pdf`);
+    cerrarConstructorPDF();
+    mostrarToast(`PDF generado con ${pdfDraftSongs.length} canciones`, 'success');
     cancelarSeleccion();
   } catch (error) {
     console.error('Error generando PDF:', error);
-    mostrarToast('❌ Error al generar PDF', 'error');
+    mostrarToast('No pudimos generar el PDF', 'error');
+  } finally {
+    generateButton.disabled = pdfDraftSongs.length === 0;
+    generateButton.textContent = 'Generar y descargar PDF';
   }
-};
+}
 
 // Artistas
 window.abrirArtista = function (nombreArtista) {

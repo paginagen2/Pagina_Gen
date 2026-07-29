@@ -4,6 +4,7 @@ import { initializeApp, getApp, getApps } from 'https://www.gstatic.com/firebase
 import { 
   getFirestore, 
   collection, 
+  collectionGroup,
   getDocs, 
   getDoc,
   deleteDoc,
@@ -21,7 +22,7 @@ import {
   onSnapshot,
   runTransaction
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 // 🔥 PEGA AQUÍ TU CONFIGURACIÓN REAL (reemplaza esto)
 const firebaseConfig = {
@@ -43,7 +44,7 @@ window.firebaseAuth = auth;
 window.firebaseUtils = {
   collection, getDocs, query, where, doc, getDoc, setDoc, deleteDoc, updateDoc, writeBatch, runTransaction,
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
-  signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged
+  signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged
 };
 
 export const DatabaseService = {
@@ -75,16 +76,23 @@ export const DatabaseService = {
     if (!cancionId || !usuarioId) throw new Error('Faltan datos para guardar el like.');
     const likeRef = doc(db, 'canciones', cancionId, 'likes', usuarioId);
     const favoritoRef = doc(db, 'usuarios', usuarioId, 'favoritos', cancionId);
-    const batch = writeBatch(db);
+    const creadoEn = new Date().toISOString();
     if (activo) {
-      const creadoEn = new Date().toISOString();
-      batch.set(likeRef, { usuarioId, creadoEn });
-      batch.set(favoritoRef, { usuarioId, cancionId, creadoEn });
+      await setDoc(likeRef, { usuarioId, creadoEn });
     } else {
-      batch.delete(likeRef);
-      batch.delete(favoritoRef);
+      await deleteDoc(likeRef);
     }
-    await batch.commit();
+    try {
+      if (activo) {
+        await setDoc(favoritoRef, { usuarioId, cancionId, creadoEn });
+      } else {
+        await deleteDoc(favoritoRef);
+      }
+    } catch (error) {
+      // El favorito principal ya quedó guardado. Esta copia sólo acelera
+      // la pantalla personal cuando sus reglas estén publicadas.
+      console.warn('No se pudo sincronizar la lista rápida de favoritos:', error);
+    }
     return activo;
   },
 
@@ -94,12 +102,48 @@ export const DatabaseService = {
 
   async getFavoritosUsuario(usuarioId) {
     if (!usuarioId) return [];
-    const favoritosSnapshot = await getDocs(query(
-      collection(db, 'usuarios', usuarioId, 'favoritos'),
-      orderBy('creadoEn', 'desc')
-    ));
-    const canciones = await Promise.all(favoritosSnapshot.docs.map(async (favoritoDoc) => {
-      const cancionId = favoritoDoc.data().cancionId || favoritoDoc.id;
+    let referencias = [];
+    let necesitaRespaldo = false;
+    try {
+      const favoritosSnapshot = await getDocs(query(
+        collection(db, 'usuarios', usuarioId, 'favoritos'),
+        orderBy('creadoEn', 'desc')
+      ));
+      referencias = favoritosSnapshot.docs.map((favoritoDoc) => ({
+        cancionId: favoritoDoc.data().cancionId || favoritoDoc.id,
+        creadoEn: favoritoDoc.data().creadoEn || ''
+      }));
+    } catch (error) {
+      necesitaRespaldo = true;
+      console.warn('La lista rápida de favoritos todavía no está disponible:', error);
+    }
+    if (referencias.length === 0) {
+      try {
+        const anterioresSnapshot = await getDocs(query(
+          collectionGroup(db, 'likes'),
+          where('usuarioId', '==', usuarioId)
+        ));
+        referencias = anterioresSnapshot.docs.map((likeDoc) => ({
+          cancionId: likeDoc.ref.parent.parent?.id || '',
+          creadoEn: likeDoc.data().creadoEn || ''
+        }));
+      } catch (error) {
+        necesitaRespaldo = true;
+        console.warn('No se pudieron recuperar favoritos anteriores:', error);
+      }
+    }
+    if (referencias.length === 0 && necesitaRespaldo) {
+      const response = await fetch(new URL('../datos/cancionero/buscar.json', import.meta.url));
+      if (!response.ok) throw new Error('No se pudo abrir el índice del cancionero.');
+      const indice = await response.json();
+      const canciones = Array.isArray(indice.canciones) ? indice.canciones : [];
+      const estados = await Promise.all(canciones.map((cancion) =>
+        this.getEstadoLike(cancion.id, usuarioId).catch(() => false)
+      ));
+      return canciones.filter((_, index) => estados[index]);
+    }
+    referencias.sort((a, b) => String(b.creadoEn).localeCompare(String(a.creadoEn)));
+    const canciones = await Promise.all(referencias.map(async ({ cancionId }) => {
       return this.getCancionPorId(cancionId);
     }));
     return canciones.filter((cancion) =>
