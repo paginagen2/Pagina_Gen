@@ -1,14 +1,10 @@
 name: Generar inicio diario
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/generar-inicio-diario.yml'
-      - 'scripts/generar-inicio.js'
   schedule:
-    - cron: '5 0 * * *'
+    # Firestore reinicia la cuota diaria a medianoche del Pacífico.
+    # Las 05:15 de Argentina dejan margen incluso durante el horario de verano de EE.UU.
+    - cron: '15 5 * * *'
       timezone: 'America/Argentina/Buenos_Aires'
   workflow_dispatch:
 

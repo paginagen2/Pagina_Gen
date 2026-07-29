@@ -8,7 +8,7 @@ No requiere una cuenta de servicio ni el secreto `FIREBASE_SERVICE_ACCOUNT`. La 
 
 ## Ejecución
 
-El workflow `.github/workflows/generar-inicio-diario.yml` se ejecuta todos los días a las 00:05 de `America/Argentina/Buenos_Aires`. También puede ejecutarse manualmente.
+El workflow `.github/workflows/generar-inicio-diario.yml` se ejecuta todos los días a las 05:15 de `America/Argentina/Buenos_Aires`, después del reinicio diario de la cuota de Firestore. También puede ejecutarse manualmente.
 
 Si falla, la portada conserva el último `datos/inicio.json` válido. El proceso informa en el registro cuántos documentos leyó durante la generación.
 

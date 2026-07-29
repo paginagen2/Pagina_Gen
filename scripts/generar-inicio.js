@@ -70,6 +70,10 @@ function whereAll(...filters) {
   return { compositeFilter: { op: 'AND', filters: active } };
 }
 
+function wait(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 async function runQuery(collectionId, { where, orderBy = [], limit } = {}) {
   const structuredQuery = {
     from: [{ collectionId }],
@@ -83,20 +87,29 @@ async function runQuery(collectionId, { where, orderBy = [], limit } = {}) {
     ...(limit ? { limit } : {})
   };
 
-  const response = await fetch(RUN_QUERY_URL, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ structuredQuery }),
-    signal: AbortSignal.timeout(30000)
-  });
+  const retryDelays = [0, 2000, 8000];
+  for (let attempt = 0; attempt < retryDelays.length; attempt += 1) {
+    if (retryDelays[attempt]) await wait(retryDelays[attempt]);
 
-  if (!response.ok) {
+    const response = await fetch(RUN_QUERY_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ structuredQuery }),
+      signal: AbortSignal.timeout(30000)
+    });
+
+    if (response.ok) {
+      const rows = await response.json();
+      return rows.filter(row => row.document).map(row => decodeDocument(row.document));
+    }
+
     const details = await response.text();
-    throw new Error(`Firestore rechazó la consulta de ${collectionId} (${response.status}): ${details}`);
+    const retryable = response.status === 429 || response.status >= 500;
+    if (!retryable || attempt === retryDelays.length - 1) {
+      throw new Error(`Firestore rechazó la consulta de ${collectionId} (${response.status}): ${details}`);
+    }
+    console.warn(`Firestore limitó ${collectionId}; reintento ${attempt + 2} de ${retryDelays.length}.`);
   }
-
-  const rows = await response.json();
-  return rows.filter(row => row.document).map(row => decodeDocument(row.document));
 }
 
 function timestampValue(value) {
