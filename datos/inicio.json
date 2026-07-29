@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-07-28",
-  "generadoEn": "2026-07-28T23:00:54.759Z",
+  "fechaGeneracion": "2026-07-29",
+  "generadoEn": "2026-07-29T10:48:25.143Z",
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1785205562517",
-    "titulo": "ANUNCIAR EL AMOR DE DIOS",
-    "fecha": "28/07/2026",
+    "id": "pasapalabra_1785296188299",
+    "titulo": "VALORAR EL SUFRIMIENTO",
+    "fecha": "29/07/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777043798887",
-    "titulo": "La oración",
+    "id": "meditacion_1775844327877",
+    "titulo": "Algo inconcebible",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
-    "id": "pdv_2026_06",
-    "mes": "Junio 2026",
-    "cita": "Por el camino, proclamen que el Reino de los Cielos está cerca. […] Ustedes han recibido gratuitamente, den también gratuitamente.",
-    "href": "pdv/pdv.html?id=pdv_2026_06"
+    "id": "pdv_2026_07",
+    "mes": "Julio 2026",
+    "cita": "Y el que la recibe en tierra fértil es el hombre que escucha la Palabra y la comprende. Este produce fruto.\"",
+    "href": "pdv/pdv.html?id=pdv_2026_07"
   },
   "canal": {
     "id": "MY3oeCO3azaXTWIThOrv",
     "titulo": "Margaret Karram",
-    "fechaPublicacion": "2026-07-28T22:35:53.311Z",
+    "fechaPublicacion": "2026-07-29T00:11:16.283Z",
     "href": "canal/canal.html#MY3oeCO3azaXTWIThOrv"
   },
   "novedades": [
@@ -32,20 +32,24 @@
       "titulo": "Margaret Karram",
       "descripcion": "Fue reelegida como presidente del movimiento de los focolares.",
       "fotoUrl": "https://imgs.search.brave.com/stYQ6hpjALODoO-63hNoNCUILiv1SmyakVcEl870MSw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMucmVsaWdpb25k/aWdpdGFsLm9yZy9j/bGlwLzY5NjUyY2U0/LWI5MTktNDFlZS04/MzU5LTA2YTI3NDM3/NmFlMV9zb3VyY2Ut/YXNwZWN0LXJhdGlv/XzE2MDB3XzAuanBn",
-      "href": "https://www.focolare.org/es/margaret-karram-reelegida-al-frente-de-los-focolari-y-roberto-almada-nuevo-copresidente/",
+      "href": "canal/canal.html#MY3oeCO3azaXTWIThOrv",
+      "textoEnlace": "Más información",
       "etiquetaCarrusel": "Novedad",
       "fechaEventoInicio": "",
-      "fechaEventoFin": ""
+      "fechaEventoFin": "",
+      "fechaVencimiento": "2026-08-07T03:02:00Z"
     },
     {
       "id": "J8qGLfPoP2YmH7vIRs1h",
       "titulo": "Convivencia Mariápolis Lía-Invierno",
       "descripcion": "Una experiencia de encuentro, reflexión y compartir con otros jóvenes",
       "fotoUrl": "https://imgs.search.brave.com/_HPnYD13JBGlr-2-mZ65HRPCb-oynjjP_kodWMeQQ78/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pZGVu/dGlkYWRib25hZXJl/bnNlLmNvbS5hci9h/cmNoaXZvcy9ub3Rp/Y2lhcy9ub3RpY2lh/LTEyMS53ZWJw",
-      "href": "https://forms.gle/yW17pucNXNKN1LzZ8",
+      "href": "canal/canal.html#J8qGLfPoP2YmH7vIRs1h",
+      "textoEnlace": "Link de inscripción",
       "etiquetaCarrusel": "Novedad",
       "fechaEventoInicio": "2026-07-16",
-      "fechaEventoFin": "2026-07-19"
+      "fechaEventoFin": "2026-07-19",
+      "fechaVencimiento": "2026-07-29T23:59:00Z"
     }
   ]
 }
