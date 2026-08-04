@@ -1,0 +1,69 @@
+name: Publicar web en Firebase
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/publicar-web.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar-web-firebase
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Preparar Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Instalar Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Instalar dependencias
+        run: npm ci --ignore-scripts
+
+      - name: Publicar índices de Firestore
+        run: npx firebase-tools@15.25.1 deploy --only firestore:indexes --project pagina-gen --non-interactive
+
+      - name: Esperar índices habilitados
+        shell: bash
+        run: |
+          for intento in {1..40}; do
+            pendientes="$(gcloud firestore indexes composite list \
+              --project=pagina-gen \
+              --database='(default)' \
+              --filter='state!=READY' \
+              --format='value(name,state)')"
+            if [[ -z "$pendientes" ]]; then
+              echo "Todos los índices están habilitados."
+              exit 0
+            fi
+            echo "Todavía hay índices en preparación (intento $intento/40)."
+            sleep 30
+          done
+          echo "Los índices no quedaron listos dentro del tiempo esperado."
+          exit 1
+
+      - name: Publicar reglas de Firestore
+        run: npx firebase-tools@15.25.1 deploy --only firestore:rules --project pagina-gen --non-interactive
+
+      - name: Publicar Firebase Hosting
+        run: npx firebase-tools@15.25.1 deploy --only hosting --project pagina-gen --non-interactive
