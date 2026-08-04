@@ -11,6 +11,7 @@ on:
       - 'firebase.json'
       - 'firestore.indexes.json'
       - 'firestore.rules'
+      - 'pdv/**'
   workflow_dispatch:
 
 permissions:
