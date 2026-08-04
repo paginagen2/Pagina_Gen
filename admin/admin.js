@@ -4,6 +4,28 @@ let currentUserRoles = [];
 let currentSection = 'carrusel';
 let editingId = null;
 const loadedSections = new Set();
+const OFFLINE_SYNC_COLLECTIONS = new Set([
+    'canciones', 'meditaciones', 'recursos', 'biblioteca_recursos',
+    'pasapalabra', 'pdv', 'canal_publicaciones'
+]);
+
+function enableOfflineMutationTracking() {
+    if (utils.__offlineMutationTrackingEnabled) return;
+    const original = { addDoc: utils.addDoc, setDoc: utils.setDoc, updateDoc: utils.updateDoc, deleteDoc: utils.deleteDoc };
+    const stamp = data => ({ ...data, _offlineDeleted: false, _offlineActualizadoEn: new Date() });
+    utils.addDoc = (ref, data) => OFFLINE_SYNC_COLLECTIONS.has(ref.id)
+        ? original.addDoc(ref, stamp(data)) : original.addDoc(ref, data);
+    utils.setDoc = (ref, data, options) => OFFLINE_SYNC_COLLECTIONS.has(ref.parent?.id)
+        ? original.setDoc(ref, stamp(data), options) : original.setDoc(ref, data, options);
+    utils.updateDoc = (ref, data) => OFFLINE_SYNC_COLLECTIONS.has(ref.parent?.id)
+        ? original.updateDoc(ref, stamp(data)) : original.updateDoc(ref, data);
+    utils.deleteDoc = ref => OFFLINE_SYNC_COLLECTIONS.has(ref.parent?.id)
+        ? original.setDoc(ref, {
+            estado: 'eliminado', Publico: false, _offlineDeleted: true, _offlineActualizadoEn: new Date()
+        }, { merge: true })
+        : original.deleteDoc(ref);
+    utils.__offlineMutationTrackingEnabled = true;
+}
 
 // Variables globales para todas las secciones
 let allCanciones = [];
@@ -85,6 +107,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         db = window.firebaseDb;
         utils = window.firebaseUtils;
         auth = window.firebaseAuth;
+        enableOfflineMutationTracking();
         initializeAdmin();
     } catch (error) {
         console.error('No se pudo iniciar el panel de administración:', error);

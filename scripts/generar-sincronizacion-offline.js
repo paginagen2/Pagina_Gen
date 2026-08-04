@@ -11,10 +11,11 @@ const FIREBASE_WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY
 const RUN_QUERY_URL = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents:runQuery?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`;
 const SERVICE_ACCOUNT_VALUE = process.env.FIREBASE_SERVICE_ACCOUNT || '';
 let adminDatabase = null;
+let FirestoreTimestamp = null;
 
 if (SERVICE_ACCOUNT_VALUE) {
   const { initializeApp, cert, getApps } = require('firebase-admin/app');
-  const { getFirestore } = require('firebase-admin/firestore');
+  const { getFirestore, Timestamp } = require('firebase-admin/firestore');
   let serviceAccount;
   try {
     serviceAccount = JSON.parse(SERVICE_ACCOUNT_VALUE);
@@ -23,6 +24,7 @@ if (SERVICE_ACCOUNT_VALUE) {
   }
   if (!getApps().length) initializeApp({ credential: cert(serviceAccount) });
   adminDatabase = getFirestore();
+  FirestoreTimestamp = Timestamp;
 }
 
 const COLLECTIONS = {
@@ -68,7 +70,8 @@ const PRIVATE_FIELDS = new Set([
 ]);
 
 function sanitizePublicItem(item) {
-  return Object.fromEntries(Object.entries(item).filter(([key]) => !PRIVATE_FIELDS.has(key)));
+  return Object.fromEntries(Object.entries(item)
+    .filter(([key]) => !PRIVATE_FIELDS.has(key) && !key.startsWith('_offline')));
 }
 
 function decodeValue(value = {}) {
@@ -110,9 +113,15 @@ function revisionFor(items) {
     .slice(0, 16);
 }
 
-async function runCollectionQuery(collectionId) {
+async function runCollectionQuery(collectionId, changedAfter = '') {
   if (adminDatabase) {
-    const snapshot = await adminDatabase.collection(collectionId).get();
+    let query = adminDatabase.collection(collectionId);
+    if (changedAfter) {
+      // El solapamiento evita perder una edición ocurrida mientras se estaba generando el manifiesto anterior.
+      const overlapStart = new Date(new Date(changedAfter).getTime() - (5 * 60 * 1000));
+      query = query.where('_offlineActualizadoEn', '>', FirestoreTimestamp.fromDate(overlapStart));
+    }
+    const snapshot = await query.get();
     return snapshot.docs.map(document => ({ id: document.id, ...document.data() }));
   }
   const response = await fetch(RUN_QUERY_URL, {
@@ -127,6 +136,16 @@ async function runCollectionQuery(collectionId) {
     throw new Error(`Firestore rechazó ${collectionId} (${response.status}): ${await response.text()}`);
   }
   return (await response.json()).filter(row => row.document).map(row => decodeDocument(row.document));
+}
+
+function mergeIncrementalSnapshot(previousItems, changedItems, include) {
+  const merged = new Map(previousItems.map(item => [String(item.id), item]));
+  changedItems.forEach(item => {
+    const id = String(item.id);
+    if (item._offlineDeleted === true || !include(item)) merged.delete(id);
+    else merged.set(id, sanitizePublicItem(item));
+  });
+  return [...merged.values()].sort((a, b) => String(a.id).localeCompare(String(b.id)));
 }
 
 async function readJson(filePath, fallback = null) {
@@ -164,30 +183,33 @@ function calculateDelta(previousItems, nextItems) {
   };
 }
 
-async function generateCollection(name, definition, previousManifest) {
+async function prepareCollection(name, definition, previousManifest) {
   const snapshotPath = path.join(OUTPUT_ROOT, `${name}.json`);
   const deltaPath = path.join(OUTPUT_ROOT, `${name}.delta.json`);
   const previousSnapshot = await readJson(snapshotPath, { items: [] });
-  const items = (await runCollectionQuery(definition.source))
-    .filter(definition.include)
-    .map(sanitizePublicItem)
-    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  const previousItems = previousSnapshot.items || [];
+  const canIncrement = Boolean(previousManifest?.generatedAt && previousItems.length);
+  const fetchedItems = await runCollectionQuery(definition.source, canIncrement ? previousManifest.generatedAt : '');
+  const items = canIncrement
+    ? mergeIncrementalSnapshot(previousItems, fetchedItems, definition.include)
+    : fetchedItems.filter(definition.include).map(sanitizePublicItem)
+      .sort((a, b) => String(a.id).localeCompare(String(b.id)));
   const revision = revisionFor(items);
   const previousRevision = previousManifest?.collections?.[name]?.revision || '';
 
   if (revision === previousRevision) {
-    return previousManifest.collections[name];
+    return { manifestEntry: previousManifest.collections[name], writes: [] };
   }
 
   const delta = calculateDelta(previousSnapshot.items || [], items);
-  await writeJson(snapshotPath, {
+  const snapshotValue = {
     schemaVersion: 1,
     collection: name,
     revision,
     generatedAt: new Date().toISOString(),
     items
-  });
-  await writeJson(deltaPath, {
+  };
+  const deltaValue = {
     schemaVersion: 1,
     collection: name,
     fromRevision: previousRevision,
@@ -195,14 +217,17 @@ async function generateCollection(name, definition, previousManifest) {
     generatedAt: new Date().toISOString(),
     upserts: delta.upserts,
     deletes: delta.deletes
-  });
+  };
 
   return {
-    revision,
-    previousRevision,
-    count: items.length,
-    snapshot: `datos/sincronizacion/${name}.json`,
-    delta: `datos/sincronizacion/${name}.delta.json`
+    manifestEntry: {
+      revision,
+      previousRevision,
+      count: items.length,
+      snapshot: `datos/sincronizacion/${name}.json`,
+      delta: `datos/sincronizacion/${name}.delta.json`
+    },
+    writes: [[snapshotPath, snapshotValue], [deltaPath, deltaValue]]
   };
 }
 
@@ -211,17 +236,27 @@ async function main() {
     throw new Error('Falta FIREBASE_SERVICE_ACCOUNT para generar todas las colecciones sin modificar reglas.');
   }
   const previousManifest = await readJson(MANIFEST_PATH, { schemaVersion: 1, collections: {} });
-  const entries = await Promise.all(Object.entries(COLLECTIONS)
-    .map(async ([name, definition]) => [
-      name,
-      await generateCollection(name, definition, previousManifest)
-    ]));
+  let prepared;
+  try {
+    prepared = await Promise.all(Object.entries(COLLECTIONS)
+      .map(async ([name, definition]) => [name, await prepareCollection(name, definition, previousManifest)]));
+  } catch (error) {
+    if (error?.code === 8 || /RESOURCE_EXHAUSTED|Quota exceeded/i.test(String(error?.message))) {
+      console.warn('Firebase no tuvo cuota disponible. Se conserva la ultima sincronizacion valida.');
+      return;
+    }
+    throw error;
+  }
+  const entries = prepared.map(([name, result]) => [name, result.manifestEntry]);
 
   const manifest = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     collections: Object.fromEntries(entries)
   };
+  for (const [, result] of prepared) {
+    for (const [filePath, value] of result.writes) await writeJson(filePath, value);
+  }
   await writeJson(MANIFEST_PATH, manifest);
   console.log(`Sincronización preparada para ${entries.length} colecciones.`);
 }
@@ -235,6 +270,7 @@ if (require.main === module) {
 
 module.exports = {
   calculateDelta,
+  mergeIncrementalSnapshot,
   revisionFor,
   sanitizePublicItem,
   stableValue

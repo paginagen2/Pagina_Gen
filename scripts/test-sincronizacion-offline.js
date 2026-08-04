@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict');
 const {
   calculateDelta,
+  mergeIncrementalSnapshot,
   revisionFor,
   sanitizePublicItem
 } = require('./generar-sincronizacion-offline');
@@ -21,6 +22,18 @@ assert.deepEqual(delta.deletes, ['b']);
 assert.deepEqual(delta.upserts.map(item => item.id), ['a', 'd']);
 assert.equal(revisionFor(next), revisionFor([...next].map(item => ({ titulo: item.titulo, id: item.id }))));
 assert.notEqual(revisionFor(previous), revisionFor(next));
+assert.deepEqual(
+  mergeIncrementalSnapshot(previous, [
+    { id: 'a', titulo: 'Corregida', estado: 'publicado', _offlineActualizadoEn: 'x' },
+    { id: 'b', _offlineDeleted: true },
+    { id: 'd', titulo: 'Nueva', estado: 'publicado' }
+  ], item => item.estado === 'publicado'),
+  [
+    { id: 'a', titulo: 'Corregida', estado: 'publicado' },
+    { id: 'c', titulo: 'Sin cambios' },
+    { id: 'd', titulo: 'Nueva', estado: 'publicado' }
+  ]
+);
 assert.deepEqual(
   sanitizePublicItem({ id: 'a', titulo: 'Pública', usuarioId: 'privado', creadoPor: 'privado' }),
   { id: 'a', titulo: 'Pública' }
