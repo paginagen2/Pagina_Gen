@@ -1,6 +1,5 @@
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
-const { getMessaging } = require('firebase-admin/messaging');
 const webpush = require('web-push');
 const { currentMinute, plansForLocalDay } = require('./notificaciones-planificador');
 
@@ -38,29 +37,7 @@ async function sendToDevice(doc, payload) {
   const device = doc.data();
   if (!device.enabled) return 'skipped';
   try {
-    if (device.fcmToken) {
-      await getMessaging().send({
-        token: device.fcmToken,
-        notification: {
-          title: clean(payload.title, 90),
-          body: clean(payload.body),
-          ...(payload.image ? { imageUrl: absoluteAsset(payload.image) } : {})
-        },
-        data: {
-          url: clean(payload.url || 'index.html', 300),
-          tag: clean(payload.tag || 'gen2-notification', 120),
-          image: payload.image ? absoluteAsset(payload.image) : ''
-        },
-        android: {
-          priority: payload.urgency === 'high' ? 'high' : 'normal',
-          notification: {
-            ...(payload.image ? { imageUrl: absoluteAsset(payload.image) } : {}),
-            tag: clean(payload.tag || 'gen2-notification', 120),
-            sound: 'default'
-          }
-        }
-      });
-    } else if (validSubscription(device.subscription)) {
+    if (validSubscription(device.subscription)) {
       await webpush.sendNotification(device.subscription, JSON.stringify(payload), {
         TTL: 43200,
         urgency: payload.urgency || 'normal'

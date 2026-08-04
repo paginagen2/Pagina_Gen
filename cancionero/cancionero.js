@@ -436,6 +436,12 @@ async function actualizarFavoritosVisibles() {
     return;
   }
   usuarioFavoritos = user;
+  // Las tarjetas del filtro se vuelven a crear; reutilizamos el estado ya
+  // consultado antes de decidir qué canciones necesitan una nueva lectura.
+  buttons.forEach((button) => {
+    const id = String(button.dataset.songId || '');
+    if (favoritosConsultados.has(id)) actualizarBotonFavorito(button, favoritosIds.has(id));
+  });
   const pending = buttons.filter((button) => !favoritosConsultados.has(button.dataset.songId));
   await Promise.all(pending.map(async (button) => {
     const id = button.dataset.songId;

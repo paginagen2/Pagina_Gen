@@ -6,20 +6,29 @@
   <meta name="theme-color" content="#080b10">
   <title id="pageTitle">Canción - Cancionero Gen</title>
   <meta name="description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Canción - Cancionero Gen">
-  <meta property="og:description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
-  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Canción - Cancionero Gen">
-  <meta name="twitter:description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
-  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
-  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+<link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
   <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
-  <link rel="stylesheet" href="cancion.css?v=20260730-chords-above-lyrics">
+  <link rel="stylesheet" href="cancion.css?v=20260804-reader-sizing-2">
   <link rel="stylesheet" href="chord-diagrams.css?v=20260730-custom-voicings">
+  <!-- Vista previa al compartir -->
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Gen 2">
+  <meta property="og:title" content="Gen 2">
+  <meta property="og:description" content="Canciones y acordes para compartir.">
+  <meta property="og:url" content="https://pagina-gen.web.app/cancionero/cancion.html">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
+  <meta property="og:image:secure_url" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Gen 2">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gen 2">
+  <meta name="twitter:description" content="Canciones y acordes para compartir.">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
 </head>
 <body>
   <svg class="icon-library" aria-hidden="true">
@@ -136,7 +145,7 @@
           <dl>
             <div><dt><kbd>V</kbd></dt><dd>Alternar letra y acordes</dd></div>
             <div><dt><kbd>C</kbd></dt><dd>Alternar cifrado</dd></div>
-            <div><dt><kbd>+</kbd> <kbd>−</kbd></dt><dd>Cambiar velocidad</dd></div>
+            <div><dt><kbd>←</kbd> <kbd>→</kbd> <kbd>+</kbd> <kbd>−</kbd></dt><dd>Cambiar velocidad</dd></div>
             <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>Desplazar la canción</dd></div>
             <div><dt><kbd>A</kbd> <kbd>Espacio</kbd></dt><dd>Iniciar o pausar auto-scroll</dd></div>
             <div><dt><kbd>Esc</kbd></dt><dd>Cerrar el acorde abierto</dd></div>
@@ -171,12 +180,31 @@
       <div><span class="section-kicker">Guía rápida</span><h2 id="quickGuideTitle">Acordes de la canción</h2></div>
       <button type="button" class="drawer-close" id="closeQuickGuide" aria-label="Cerrar guía rápida"><svg><use href="#i-close"/></svg></button>
     </header>
-    <div class="instrument-tabs quick-guide-tabs" role="tablist" aria-label="Instrumento de la guía">
-      <button type="button" id="guideGuitarTab" role="tab" aria-selected="true"><svg><use href="#i-guitar"/></svg>Guitarra</button>
-      <button type="button" id="guidePianoTab" role="tab" aria-selected="false"><svg><use href="#i-piano"/></svg>Piano</button>
+    <div class="quick-guide-toolbar">
+      <div class="instrument-tabs quick-guide-tabs" role="tablist" aria-label="Instrumento de la guía">
+        <button type="button" id="guideGuitarTab" role="tab" aria-selected="true"><svg><use href="#i-guitar"/></svg>Guitarra</button>
+        <button type="button" id="guidePianoTab" role="tab" aria-selected="false"><svg><use href="#i-piano"/></svg>Piano</button>
+      </div>
+      <div class="guide-size-controls" aria-label="Tamaño de los acordes">
+        <button type="button" id="guideChordSmaller" title="Mostrar acordes más pequeños" aria-label="Acordes más pequeños">A−</button>
+        <button type="button" id="guideChordLarger" title="Mostrar acordes más grandes" aria-label="Acordes más grandes">A+</button>
+      </div>
+      <button type="button" class="guide-dock-toggle" id="toggleGuideDock" aria-pressed="false"><svg><use href="#i-eye"/></svg><span>Mostrar junto a la letra</span></button>
     </div>
     <div class="quick-guide-grid" id="quickGuideGrid"></div>
   </section>
+
+  <aside class="quick-guide-dock" id="quickGuideDock" aria-labelledby="quickGuideDockTitle" hidden>
+    <header class="quick-guide-dock-header">
+      <div><span class="section-kicker">Guía rápida</span><h2 id="quickGuideDockTitle">Acordes de la canción</h2></div>
+      <button type="button" class="drawer-close" id="closeGuideDock" aria-label="Ocultar guía junto a la letra"><svg><use href="#i-close"/></svg></button>
+    </header>
+    <div class="instrument-tabs quick-guide-tabs" role="tablist" aria-label="Instrumento visible junto a la letra">
+      <button type="button" id="dockGuideGuitarTab" role="tab" aria-selected="true"><svg><use href="#i-guitar"/></svg>Guitarra</button>
+      <button type="button" id="dockGuidePianoTab" role="tab" aria-selected="false"><svg><use href="#i-piano"/></svg>Piano</button>
+    </div>
+    <div class="quick-guide-grid" id="quickGuideDockGrid"></div>
+  </aside>
 
   <div class="chord-drawer-backdrop" id="chordDrawerBackdrop" hidden></div>
   <aside class="chord-drawer" id="chordDrawer" role="dialog" aria-modal="true" aria-labelledby="chordDrawerTitle" hidden>
@@ -196,6 +224,6 @@
   <div class="song-toast" id="songToast" role="status" aria-live="polite" hidden></div>
 
 <script type="module" src="../auth.js?v=20260730-google1"></script>
-  <script type="module" src="cancion.js?v=20260803-shared-chords-2"></script>
+  <script type="module" src="cancion.js?v=20260804-reader-sizing-2"></script>
 </body>
 </html>

@@ -24,8 +24,13 @@ const firebaseRuntime = read('aaglobal/firebase-config.js');
 ].forEach(id => assert.match(adminHtml, new RegExp(`id="${id}"`), `Falta #${id} en Admin`));
 
 assert.match(publicHtml, /biblioteca-v2\.js/, 'La Biblioteca no carga el controlador v2');
-assert.match(publicHtml, /biblioteca-v2\.js\?v=20260803-optimizacion/, 'La Biblioteca puede seguir usando un controlador anterior desde caché');
+assert.match(publicHtml, /biblioteca-v2\.js\?v=20260804-pagina-anterior/, 'La Biblioteca puede seguir usando un controlador anterior desde caché');
 assert.match(publicHtml, /id="soloFavoritos"[\s\S]{0,300}id="mostrarMeditaciones"/, 'Mostrar meditaciones no está junto a Solo guardados');
+assert.doesNotMatch(publicHtml, /onclick="(?:toggleModoVista|cambiarPaginaLibro)/, 'El visor conserva controles antiguos que bloquean sus botones');
+assert.match(publicJs, /state\.bookContinuous = !state\.bookContinuous/, 'La vista continua no mantiene un estado confiable');
+assert.doesNotMatch(publicJs, /requested - 1/, 'El visor todavía interpreta el número real como una posición correlativa');
+assert.match(publicJs, /const finalPage = \[\.\.\.state\.currentBook\.paginas\]\.reverse\(\)\.find/, 'El visor no muestra como total la página real de la última meditación');
+assert.match(publicJs, /pageNumber <= requested && pageNumber > closestPage/, 'El visor no retrocede hasta la meditación anterior cuando una página no existe');
 assert.doesNotMatch(publicHtml, /src="biblioteca\.js/, 'La Biblioteca todavía carga el controlador anterior');
 assert.doesNotMatch(publicJs, /GOOGLE_FILE_FORM_URL\s*=\s*['"][^'"]*1FAIpQLSf4VFqkTGE0K49b_pCy0Vm8oD5J3YsITs0c4CYa4zD32L92pw/, 'La Biblioteca todavía usa el formulario viejo como formulario activo');
 assert.match(publicJs, /1FAIpQLSfjjD_05ualjVeWFGaLyoXUbLcveEGmujC2A8M9pF9roSXyLA\/viewform\?embedded=true/, 'Falta conectar la URL embebible del formulario nuevo');

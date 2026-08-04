@@ -42,8 +42,6 @@ const DAY_NAMES = { 0: 'domingo', 1: 'lunes', 2: 'martes', 3: 'miércoles', 4: '
 let currentUser = null;
 let loadedPreferences = null;
 let notificationsEnabled = false;
-let nativeNotificationPermission = 'prompt';
-let nativePushToken = '';
 let webPushRegistration = null;
 let webPushPublicKey = '';
 const notificationDeviceId = getNotificationDeviceId();
@@ -79,15 +77,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   elements.test.addEventListener('click', showTestNotification);
   elements.form.addEventListener('change', handleFormChange);
   elements.form.addEventListener('submit', savePreferences);
-
-  const nativeNotifications = getNativeNotifications();
-  if (nativeNotifications) {
-    await nativeNotifications.addListener('localNotificationActionPerformed', event => {
-      const destination = event?.notification?.extra?.url;
-      if (destination) window.location.href = new URL(`../${destination}`, window.location.href).href;
-    });
-  }
-  await prepareNativePush();
 
   try {
     if (window.firebaseReady) await window.firebaseReady;
@@ -155,7 +144,6 @@ async function handleAuthState(user) {
   }
 
   try {
-    await refreshNativeNotificationPermission();
     await prepareWebPush();
     const { doc, getDoc } = window.firebaseUtils;
     const snapshot = await getDoc(notificationDeviceRef(user.uid));
@@ -167,11 +155,7 @@ async function handleAuthState(user) {
   }
 
   applyLoadedPreferences(loadedPreferences);
-  nativePushToken = loadedPreferences?.fcmToken || nativePushToken;
-  if (getNativePushNotifications() && notificationsEnabled) {
-    await getNativePushNotifications().register();
-  }
-  if (!getNativeNotifications() && webPushRegistration) {
+  if (webPushRegistration) {
     const activeSubscription = await webPushRegistration.pushManager.getSubscription();
     notificationsEnabled = loadedPreferences?.enabled !== false
       && getNotificationPermission() === 'granted'
@@ -206,7 +190,7 @@ async function toggleNotifications() {
 
   if (notificationsEnabled) {
     notificationsEnabled = false;
-    if (!getNativePushNotifications() && webPushRegistration) {
+    if (webPushRegistration) {
       const subscription = await webPushRegistration.pushManager.getSubscription();
       await subscription?.unsubscribe();
     }
@@ -216,9 +200,7 @@ async function toggleNotifications() {
     return;
   }
 
-  const nativeNotifications = getNativeNotifications();
-  const nativePush = getNativePushNotifications();
-  if (!nativePush && !nativeNotifications && !('Notification' in window)) {
+  if (!('Notification' in window)) {
     elements.activationStatus.textContent = 'Este navegador no admite notificaciones. Probá desde un navegador actualizado.';
     return;
   }
@@ -226,20 +208,8 @@ async function toggleNotifications() {
   elements.enable.disabled = true;
   elements.enable.textContent = 'Solicitando permiso…';
   try {
-    let permission;
-    if (nativePush || nativeNotifications) {
-      const permissionPlugin = nativePush || nativeNotifications;
-      let status = await permissionPlugin.checkPermissions();
-      if (status.receive !== 'granted' && status.display !== 'granted') {
-        status = await permissionPlugin.requestPermissions();
-      }
-      permission = status.receive || status.display;
-      nativeNotificationPermission = permission;
-      if (permission === 'granted' && nativePush) await nativePush.register();
-    } else {
-      permission = await Notification.requestPermission();
-      if (permission === 'granted') await subscribeWebPush();
-    }
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') await subscribeWebPush();
     notificationsEnabled = permission === 'granted';
     cachePreferences({
       ...buildCurrentPreferences(),
@@ -249,7 +219,7 @@ async function toggleNotifications() {
       updatedAt: new Date().toISOString(),
       version: 6,
       subscription: await currentWebPushSubscription(),
-      fcmToken: notificationsEnabled ? (nativePushToken || loadedPreferences?.fcmToken || null) : null
+      fcmToken: null
     });
     await persistEnabledState(notificationsEnabled);
     if (permission === 'denied') {
@@ -289,7 +259,7 @@ async function persistEnabledState(enabled) {
       updatedAt: new Date().toISOString(),
       version: 6,
       subscription: enabled ? await currentWebPushSubscription() : null,
-      fcmToken: enabled ? (nativePushToken || loadedPreferences?.fcmToken || null) : null
+      fcmToken: null
     };
     cachePreferences(preferences);
     await setDoc(notificationDeviceRef(currentUser.uid), preferences, { merge: true });
@@ -314,53 +284,11 @@ function updateActivationPresentation() {
 }
 
 function getNotificationPermission() {
-  if (getNativePushNotifications() || getNativeNotifications()) return nativeNotificationPermission;
   return 'Notification' in window ? Notification.permission : 'unsupported';
 }
 
-function getNativeNotifications() {
-  return window.Capacitor?.isNativePlatform?.()
-    ? window.Capacitor?.Plugins?.LocalNotifications
-    : null;
-}
-
-function getNativePushNotifications() {
-  return window.Capacitor?.isNativePlatform?.()
-    ? window.Capacitor?.Plugins?.PushNotifications
-    : null;
-}
-
-async function prepareNativePush() {
-  const nativePush = getNativePushNotifications();
-  if (!nativePush) return;
-  await nativePush.addListener('registration', async token => {
-    nativePushToken = token?.value || '';
-    if (currentUser && notificationsEnabled && nativePushToken) await persistEnabledState(true);
-  });
-  await nativePush.addListener('registrationError', error => {
-    console.error('No se pudo registrar Android para notificaciones remotas:', error);
-    elements.activationStatus.textContent = 'El permiso está activo, pero este dispositivo no pudo registrarse para recibir avisos.';
-  });
-  await nativePush.addListener('pushNotificationActionPerformed', event => {
-    const destination = event?.notification?.data?.url;
-    if (destination) window.location.href = new URL(`../${destination}`, window.location.href).href;
-  });
-  await nativePush.addListener('pushNotificationReceived', async event => {
-    const localNotifications = getNativeNotifications();
-    if (!localNotifications || document.visibilityState !== 'visible') return;
-    await localNotifications.schedule({
-      notifications: [{
-        id: Math.floor(Date.now() / 1000) % 2147483647,
-        title: event?.title || 'Gen 2',
-        body: event?.body || 'Tenés una novedad en Gen 2.',
-        extra: { url: event?.data?.url || 'index.html' }
-      }]
-    });
-  });
-}
-
 async function prepareWebPush() {
-  if (getNativePushNotifications() || getNativeNotifications() || !('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
   webPushRegistration = await navigator.serviceWorker.register('../notification-sw.js', { scope: '../' });
   await navigator.serviceWorker.ready;
   webPushPublicKey = window.GEN2_VAPID_PUBLIC_KEY || '';
@@ -380,7 +308,6 @@ async function subscribeWebPush() {
 }
 
 async function currentWebPushSubscription() {
-  if (getNativePushNotifications() || getNativeNotifications()) return null;
   const subscription = await webPushRegistration?.pushManager.getSubscription();
   return subscription?.toJSON() || null;
 }
@@ -390,13 +317,6 @@ function urlBase64ToUint8Array(value) {
   const base64 = (value + padding).replace(/-/g, '+').replace(/_/g, '/');
   const raw = atob(base64);
   return Uint8Array.from([...raw].map(character => character.charCodeAt(0)));
-}
-
-async function refreshNativeNotificationPermission() {
-  const permissionPlugin = getNativePushNotifications() || getNativeNotifications();
-  if (!permissionPlugin) return;
-  const status = await permissionPlugin.checkPermissions();
-  nativeNotificationPermission = status.receive || status.display;
 }
 
 function handleFormChange(event) {
@@ -596,7 +516,7 @@ async function savePreferences(event) {
     updatedAt: new Date().toISOString(),
     version: 6,
     subscription: await currentWebPushSubscription(),
-    fcmToken: nativePushToken || loadedPreferences?.fcmToken || null
+    fcmToken: null
   };
   cachePreferences(preferences);
 
@@ -648,14 +568,10 @@ function getNotificationDeviceId() {
 }
 
 function getDeviceMetadata() {
-  const userAgent = navigator.userAgent || '';
-  let platform = 'web';
-  if (/android/i.test(userAgent)) platform = 'android';
-  else if (/iphone|ipad|ipod/i.test(userAgent)) platform = 'ios';
   return {
     deviceId: notificationDeviceId,
-    platform,
-    transport: getNativePushNotifications() ? 'fcm' : 'web-push',
+    platform: 'web',
+    transport: 'web-push',
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Argentina/Buenos_Aires'
   };
 }
@@ -694,20 +610,6 @@ async function showTestNotification() {
   elements.test.disabled = true;
   elements.test.textContent = 'Enviando…';
   try {
-    const nativeNotifications = getNativeNotifications();
-    if (nativeNotifications) {
-      await nativeNotifications.schedule({
-        notifications: [{
-          id: Math.floor(Date.now() / 1000) % 2147483647,
-          title: 'Una pausa para hoy',
-          body: 'Tu Meditación diaria está lista. Tocá para abrirla en Gen 2.',
-          extra: { url: 'meditacion/meditacion_diaria.html' }
-        }]
-      });
-      elements.activationStatus.textContent = 'Notificación de prueba mostrada en este dispositivo.';
-      return;
-    }
-
     if (!webPushRegistration) await prepareWebPush();
     if (!webPushRegistration) throw new Error('El navegador no dispone del servicio de notificaciones.');
     await webPushRegistration.showNotification('Una pausa para hoy', {

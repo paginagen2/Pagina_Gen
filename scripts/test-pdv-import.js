@@ -104,7 +104,7 @@ async function main() {
   if (repaired.citaPrincipal.endsWith('"')
       || repaired.bloques.some(block => /^que escucha la Palabra/i.test(block.texto))
       || repaired.bloques.filter(block => block.tipo === 'cita_destacada').length !== 1
-      || repairedReflection?.texto !== 'Las palabras de Dios son luz, amor y vida'
+      || repairedReflection?.texto !== 'Las palabras de Dios, como escribe Chiara Lubich, “son luz, amor y vida”.'
       || !/marzo de 2003/i.test(repairedReflection?.fuente || '')) {
     throw new Error('Falló la reparación automática de una publicación ya guardada.');
   }
@@ -118,7 +118,7 @@ async function main() {
       fuente: 'Chiara Lubich · Palabra de Vida, marzo de 2003'
     }]
   });
-  if (repairedSavedReflection.bloques[0]?.texto !== 'Las palabras de Dios son luz, amor y vida') {
+  if (repairedSavedReflection.bloques[0]?.texto !== 'Las palabras de Dios, como escribe Chiara Lubich, “son luz, amor y vida”.') {
     throw new Error('Falló la reparación del bloque de Chiara ya guardado en julio.');
   }
   console.log('Bloque de Chiara guardado en julio: reparado');

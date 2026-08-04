@@ -1,9 +1,9 @@
 import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog';
 import { parseChord, transposeChord, convertChordNotation, extractUniqueChords } from './chord-engine.js';
-import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js?v=20260803-shared-chords-2';
+import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js?v=20260804-guide-dock-2';
 
 const $ = (selector) => document.querySelector(selector);
-const TEXT_CLASSES = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande', 'texto-muy-grande'];
+const TEXT_CLASSES = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande', 'texto-muy-grande', 'texto-enorme', 'texto-maximo'];
 const state = {
   song: null,
   transpose: 0,
@@ -20,6 +20,8 @@ const state = {
   drawerInstrument: 'guitar',
   usedChords: [],
   guideInstrument: 'guitar',
+  guideScale: 1,
+  guideDockVisible: false,
   guideLastFocus: null,
   lastFocus: null,
   liked: false,
@@ -357,8 +359,9 @@ function closeChordDrawer() {
   state.lastFocus?.focus?.();
 }
 
-function renderQuickGuide() {
-  const grid = $('#quickGuideGrid');
+function renderQuickGuideGrid(grid) {
+  grid.classList.toggle('guide-compact', state.guideScale === 0);
+  grid.classList.toggle('guide-large', state.guideScale === 2);
   if (!state.usedChords.length) {
     const empty = document.createElement('p');
     empty.className = 'quick-guide-empty';
@@ -376,9 +379,16 @@ function renderQuickGuide() {
     card.append(title, diagram);
     return card;
   }));
+}
+
+function renderQuickGuide() {
+  renderQuickGuideGrid($('#quickGuideGrid'));
+  renderQuickGuideGrid($('#quickGuideDockGrid'));
   const guitar = state.guideInstrument === 'guitar';
   $('#guideGuitarTab').setAttribute('aria-selected', String(guitar));
   $('#guidePianoTab').setAttribute('aria-selected', String(!guitar));
+  $('#dockGuideGuitarTab').setAttribute('aria-selected', String(guitar));
+  $('#dockGuidePianoTab').setAttribute('aria-selected', String(!guitar));
 }
 
 function openQuickGuide() {
@@ -398,8 +408,34 @@ function closeQuickGuide() {
   state.guideLastFocus?.focus?.();
 }
 
+function setGuideDockVisible(visible) {
+  state.guideDockVisible = Boolean(visible && state.usedChords.length);
+  $('#quickGuideDock').hidden = !state.guideDockVisible;
+  $('#toggleGuideDock').setAttribute('aria-pressed', String(state.guideDockVisible));
+  $('#toggleGuideDock span').textContent = state.guideDockVisible
+    ? 'Ocultar junto a la letra'
+    : 'Mostrar junto a la letra';
+  document.body.classList.toggle('guide-dock-visible', state.guideDockVisible);
+  if (state.guideDockVisible) {
+    // El panel lateral pasa a ser la vista activa de la guía.
+    $('#quickGuideBackdrop').hidden = true;
+    $('#quickGuideModal').hidden = true;
+    document.body.style.overflow = '';
+    renderQuickGuide();
+  }
+}
+
+function closeGuideDock() {
+  setGuideDockVisible(false);
+}
+
 function selectGuideInstrument(instrument) {
   state.guideInstrument = instrument;
+  renderQuickGuide();
+}
+
+function changeGuideScale(delta) {
+  state.guideScale = Math.max(0, Math.min(2, state.guideScale + delta));
   renderQuickGuide();
 }
 
@@ -513,6 +549,12 @@ $('#closeQuickGuide').addEventListener('click', closeQuickGuide);
 $('#quickGuideBackdrop').addEventListener('click', closeQuickGuide);
 $('#guideGuitarTab').addEventListener('click', () => selectGuideInstrument('guitar'));
 $('#guidePianoTab').addEventListener('click', () => selectGuideInstrument('piano'));
+$('#guideChordSmaller').addEventListener('click', () => changeGuideScale(-1));
+$('#guideChordLarger').addEventListener('click', () => changeGuideScale(1));
+$('#toggleGuideDock').addEventListener('click', () => setGuideDockVisible(!state.guideDockVisible));
+$('#closeGuideDock').addEventListener('click', closeGuideDock);
+$('#dockGuideGuitarTab').addEventListener('click', () => selectGuideInstrument('guitar'));
+$('#dockGuidePianoTab').addEventListener('click', () => selectGuideInstrument('piano'));
 $('#likeButton').addEventListener('click', toggleLike);
 $('#closeChordDrawer').addEventListener('click', closeChordDrawer);
 $('#chordDrawerBackdrop').addEventListener('click', closeChordDrawer);
@@ -540,6 +582,8 @@ document.addEventListener('keydown', (event) => {
     '=': () => changeSpeed(1),
     '-': () => changeSpeed(-1),
     '_': () => changeSpeed(-1),
+    arrowleft: () => changeSpeed(-1),
+    arrowright: () => changeSpeed(1),
     arrowup: () => moveReading(-1),
     arrowdown: () => moveReading(1)
   };

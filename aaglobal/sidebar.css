@@ -257,10 +257,14 @@
 }
 
 .site-sidebar .brand-short {
-  display: inline;
-  color: #fff;
-  font-size: 1.05rem;
-  letter-spacing: -.04em;
+  width: 34px;
+  height: 34px;
+  display: inline-block;
+  flex: 0 0 34px;
+  overflow: hidden;
+  background: url('../aadocumentos/svg/gen-favicon.svg?v=20260730-4') center / 30px 30px no-repeat;
+  color: transparent;
+  font-size: 0;
 }
 
 .site-sidebar .menu-item,
@@ -331,6 +335,16 @@
 
 .site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .home-brand {
   justify-content: flex-start;
+}
+
+.site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .brand-full {
+  height: 34px;
+  align-items: center;
+  margin-left: 9px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.48rem;
+  font-weight: 700;
+  line-height: 34px;
 }
 
 .site-sidebar:is(:hover, :focus-within, .is-expanded, .is-pinned) .menu-item,

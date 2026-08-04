@@ -399,6 +399,8 @@ body {
 .resource-card p { margin: 0; color: var(--home-muted); font-size: 0.75rem; line-height: 1.42; }
 .resource-card > span { position: absolute; right: 13px; bottom: 11px; color: var(--home-purple); font-size: 1.7rem; }
 
+.carrusel-section { position: relative; }
+
 .carrusel-container {
   height: clamp(260px, 22vw, 340px);
   position: relative;
@@ -537,9 +539,9 @@ body {
   display: grid;
   place-items: center;
   position: absolute;
-  top: 50%;
+  bottom: 0;
   z-index: 2;
-  transform: translateY(-50%);
+  transform: none;
   border: 1px solid #4a515b;
   border-radius: 50%;
   color: #fff;
@@ -549,10 +551,11 @@ body {
 }
 
 .carrusel-btn:hover { border-color: var(--home-purple); background: #211734; }
-.carrusel-prev { left: 10px; }
-.carrusel-next { right: 10px; }
+.carrusel-btn[hidden] { display: none; }
+.carrusel-prev { left: 0; }
+.carrusel-next { right: 0; }
 
-.carrusel-dots { min-height: 20px; display: flex; justify-content: center; align-items: center; gap: 8px; padding-top: 10px; }
+.carrusel-dots { min-height: 50px; display: flex; justify-content: center; align-items: center; gap: 8px; padding-top: 10px; }
 .carrusel-dot {
   width: 9px;
   height: 9px;

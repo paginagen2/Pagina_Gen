@@ -130,22 +130,14 @@
     if (!/Chiara Lubich/i.test(text)) return null;
     const footnote = text.match(/[»”"]\s*\[(\d+)\]/);
     const nameIndex = text.search(/Chiara Lubich/i);
-    const beforeName = text.slice(0, nameIndex);
     const afterName = text.slice(nameIndex + 'Chiara Lubich'.length);
     const quote = afterName.match(/[«“"]([\s\S]+)[»”"](?:\s*\[\d+\])?\.?$/);
     if (!quote) return null;
-    const ideaPrefix = beforeName
-      .replace(/^.*[.!?]\s+/, '')
-      .replace(/(?:[,;:—-]\s*)?(?:(?:como|según)\s+)?(?:lo\s+)?(?:escribe|afirma|explica|recuerda|dice)?\s*$/i, '')
-      .replace(/^\s*(?:en\s+palabras\s+de|según)\s*$/i, '')
-      .replace(/[,;:—-]\s*$/, '')
-      .trim();
-    const completeIdea = cleanText([ideaPrefix, normalizeQuote(quote[1])].filter(Boolean).join(' '));
     const referenceIndex = footnote ? Number(footnote[1]) - 1 : -1;
     return {
       tipo: 'reflexion_autor',
       titulo: 'Escribe Chiara Lubich',
-      texto: removeFootnoteMarkers(completeIdea),
+      texto: removeFootnoteMarkers(text),
       fuente: referenceIndex >= 0 ? formatSource(references[referenceIndex] || '') : ''
     };
   }
@@ -260,7 +252,13 @@
         && /^son luz,\s*amor y vida[.!]?$/i.test(block.texto)
         && /marzo de 2003/i.test(block.fuente);
       if (isTruncatedJulyReflection) {
-        block.texto = 'Las palabras de Dios son luz, amor y vida';
+        block.texto = 'Las palabras de Dios, como escribe Chiara Lubich, “son luz, amor y vida”.';
+      }
+      const isTruncatedAugustReflection = block.tipo === 'reflexion_autor'
+        && /^Lee el Magn[ií]ficat y encontrar[aá]s la primera y m[aá]s potente p[aá]gina/i.test(block.texto)
+        && /Signo de contradicci[oó]n|1971/i.test(block.fuente);
+      if (isTruncatedAugustReflection) {
+        block.texto = 'Chiara Lubich había captado esta dimensión revolucionaria del canto de María cuando escribió a los jóvenes: “Lee el Magníficat y encontrarás la primera y más potente página de la doctrina social cristiana. ¿Quién y cuándo la realizará completamente?”.';
       }
     });
     const references = normalized
@@ -328,7 +326,7 @@
         return `<p class="pdv-paragraph">«${text}»${reference}</p>`;
       }
       if (item.tipo === 'reflexion_autor') {
-        return `<aside class="pdv-author-reflection"><p class="pdv-reflection-label">${escapeHtml(item.titulo || 'Para profundizar')}</p><p>“${text}”</p>${item.fuente ? `<p class="pdv-reflection-source">${escapeHtml(item.fuente)}</p>` : ''}</aside>`;
+        return `<aside class="pdv-author-reflection"><p class="pdv-reflection-label">${escapeHtml(item.titulo || 'Para profundizar')}</p><p>${text}</p>${item.fuente ? `<p class="pdv-reflection-source">${escapeHtml(item.fuente)}</p>` : ''}</aside>`;
       }
       if (item.tipo === 'experiencia') {
         return `<aside class="pdv-experience"><p class="pdv-experience-intro">${escapeHtml(item.titulo || 'Una experiencia concreta')}</p><blockquote>“${text}”</blockquote></aside>`;

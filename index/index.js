@@ -52,6 +52,7 @@ async function loadDailyHomeData() {
         `${LOCAL_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`,
         `${REMOTE_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`
     ];
+    let latestValidSummary = null;
 
     for (const source of sources) {
         try {
@@ -59,14 +60,23 @@ async function loadDailyHomeData() {
             if (!response.ok) throw new Error(`No se pudo leer inicio.json (${response.status})`);
             const data = await response.json();
             if (!data || data.schemaVersion !== 1) throw new Error('El formato de inicio.json no es válido');
-            if (data.fechaGeneracion !== argentinaDate) {
-                throw new Error(`El resumen corresponde a ${data.fechaGeneracion || 'una fecha desconocida'}`);
+            if (data.fechaGeneracion === argentinaDate) {
+                applyDailyHomeData(data);
+                return true;
             }
-            applyDailyHomeData(data);
-            return true;
+            const candidateTime = homeDate(data.generadoEn || `${data.fechaGeneracion}T12:00:00`)?.getTime() || 0;
+            const savedTime = homeDate(latestValidSummary?.generadoEn || `${latestValidSummary?.fechaGeneracion || ''}T12:00:00`)?.getTime() || 0;
+            if (!latestValidSummary || candidateTime > savedTime) latestValidSummary = data;
+            console.warn(`El resumen de ${source} corresponde a ${data.fechaGeneracion}; se conserva como respaldo.`);
         } catch (error) {
             console.warn(`No se pudo cargar el resumen diario desde ${source}:`, error);
         }
+    }
+
+    if (latestValidSummary) {
+        applyDailyHomeData(latestValidSummary);
+        document.documentElement.dataset.homeDataStale = 'true';
+        return true;
     }
 
     carruselData = [];

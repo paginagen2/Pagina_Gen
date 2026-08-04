@@ -102,10 +102,6 @@ body {
   font-weight: 800;
 }
 .platform-icon img { display: block; width: 39px; height: 39px; object-fit: contain; }
-.android-icon {
-  background: linear-gradient(145deg, #55e59a, #2fc979);
-  box-shadow: 0 12px 28px rgba(61,220,132,.2);
-}
 .download-copy h2, .install-heading h2 { margin: 0 0 10px; font-size: 1.45rem; letter-spacing: -.025em; }
 .download-copy p { max-width: 630px; margin: 0 0 15px; color: var(--downloads-muted); font-size: .85rem; line-height: 1.55; }
 .file-details { display: flex; flex-wrap: wrap; gap: 7px; }

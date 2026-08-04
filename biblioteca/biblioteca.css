@@ -682,6 +682,12 @@
   color: #5d6d7e;
 }
 
+.libro_cantidad {
+  color: #aab4c2;
+  font-size: .88rem;
+  font-weight: 500;
+}
+
 .libro_pag_input {
   width: 50px;
   padding: 4px;

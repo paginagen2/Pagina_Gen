@@ -123,8 +123,8 @@ service cloud.firestore {
         allow create, update: if ownUser(uid)
           && request.resource.data.deviceId == deviceId
           && request.resource.data.enabled is bool
-          && request.resource.data.platform in ['web', 'android', 'ios']
-          && request.resource.data.transport in ['web-push', 'fcm']
+          && request.resource.data.platform == 'web'
+          && request.resource.data.transport == 'web-push'
           && request.resource.data.timezone is string
           && request.resource.data.permission in ['default', 'prompt', 'granted', 'denied']
           && request.resource.data.version is int
@@ -133,6 +133,18 @@ service cloud.firestore {
             'mode', 'categories', 'fixedTimes', 'schedule', 'timezone',
             'deviceId', 'platform', 'transport', 'enabled', 'permission',
             'updatedAt', 'version', 'subscription', 'fcmToken'
+          ]);
+        allow delete: if ownUser(uid) || isAdmin();
+      }
+
+      match /favoritos/{songId} {
+        allow get, list: if ownUser(uid) || isAdmin();
+        allow create, update: if ownUser(uid)
+          && request.resource.data.usuarioId == uid
+          && request.resource.data.cancionId == songId
+          && request.resource.data.creadoEn is string
+          && request.resource.data.keys().hasOnly([
+            'usuarioId', 'cancionId', 'creadoEn'
           ]);
         allow delete: if ownUser(uid) || isAdmin();
       }

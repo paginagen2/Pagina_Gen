@@ -17,7 +17,7 @@ const DEFAULT_LIBRARY_TOPICS = [
 const state = {
   db: null, utils: null, auth: null, resources: [], filtered: [], category: 'todos',
   topics: new Set(), query: '', sort: 'relevancia', page: 1, pageSize: 12,
-  currentBook: null, bookPage: 0,
+  currentBook: null, bookPage: 0, bookContinuous: false,
   googleFileFormUrl: GOOGLE_FILE_FORM_URL,
   contributionDirty: false,
   contributionCompleted: false,
@@ -112,13 +112,11 @@ function bindControls() {
   $('#libroSiguiente')?.addEventListener('click', () => changeBookPage(1));
   $('#btnToggleVista')?.addEventListener('click', toggleBookMode);
   $('#libroDescargaPdf')?.addEventListener('click', event => downloadDigitalBook(state.currentBook, event.currentTarget));
-  $('#libroPaginaInput')?.addEventListener('change', event => {
-    if (!state.currentBook) return;
-    const requested = Number(event.target.value);
-    const exact = state.currentBook.paginas.findIndex(page => Number(page.pagina) === requested);
-    const index = exact >= 0 ? exact : requested - 1;
-    if (index >= 0 && index < state.currentBook.paginas.length) state.bookPage = index;
-    renderBookPage();
+  $('#libroPaginaInput')?.addEventListener('change', event => goToBookPage(event.target.value));
+  $('#libroPaginaInput')?.addEventListener('keydown', event => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    goToBookPage(event.currentTarget.value);
   });
   $('#abrirAporte')?.addEventListener('click', toggleContributionPanel);
   $('#cerrarAporte')?.addEventListener('click', requestCloseContributionPanel);
@@ -478,33 +476,60 @@ function closePreview() {
 }
 function openBook(book) {
   trackEvent('apertura', book.id);
-  state.currentBook = book; state.bookPage = 0; $('#libroTitulo').textContent = book.titulo;
+  state.currentBook = book; state.bookPage = 0; state.bookContinuous = false; $('#libroTitulo').textContent = book.titulo;
   $('#vistaContinua').style.display = 'none'; $('#paginaContenido').style.display = 'block'; $('#libroFooter').style.display = 'flex';
+  $('#btnToggleVista').textContent = '📖 Vista continua';
   renderBookPage(); $('#modalLibro').style.display = 'flex'; document.body.style.overflow = 'hidden'; setResourceUrl(book.id);
+}
+function appendMeditationText(container, content) {
+  String(content || '').replace(/<br\s*\/?>/gi, '\n').split(/\r?\n/).forEach((line, index) => {
+    if (index) container.append(document.createElement('br'));
+    container.append(document.createTextNode(line));
+  });
 }
 function renderBookPage() {
   const page = state.currentBook?.paginas[state.bookPage]; if (!page) return;
   const container = $('#paginaContenido'); container.replaceChildren(); const header = create('div', 'pagina_header');
   header.append(create('h2', '', page.titulo || state.currentBook.titulo), create('div', 'pagina_meta', [page.autor, page.pagina ? `Pág. ${page.pagina}` : ''].filter(Boolean).join(' — ')));
   const text = create('div', 'texto_meditacion');
-  String(page.contenido || '').split(/\n/).forEach((line, index) => { if (index) text.append(document.createElement('br')); text.append(document.createTextNode(line)); });
-  container.append(header, text); $('#libroPaginaInput').value = page.pagina || state.bookPage + 1;
-  $('#libroTotalPaginas').textContent = state.currentBook.paginas.length;
+  appendMeditationText(text, page.contenido);
+  container.append(header, text); $('#libroPaginaInput').value = page.pagina || '';
+  const finalPage = [...state.currentBook.paginas].reverse().find(item => String(item.pagina || '').trim())?.pagina || '';
+  $('#libroTotalPaginas').textContent = finalPage;
   $('#libroAnterior').disabled = state.bookPage === 0; $('#libroSiguiente').disabled = state.bookPage >= state.currentBook.paginas.length - 1;
 }
 function changeBookPage(delta) {
   const next = state.bookPage + delta;
   if (next >= 0 && next < state.currentBook.paginas.length) { state.bookPage = next; renderBookPage(); }
 }
+function goToBookPage(value) {
+  if (!state.currentBook) return;
+  const requested = Number(value);
+  if (!Number.isFinite(requested)) return renderBookPage();
+  let closestIndex = -1;
+  let closestPage = -Infinity;
+  state.currentBook.paginas.forEach((page, index) => {
+    const pageNumber = Number(page.pagina);
+    if (Number.isFinite(pageNumber) && pageNumber <= requested && pageNumber > closestPage) {
+      closestPage = pageNumber;
+      closestIndex = index;
+    }
+  });
+  if (closestIndex >= 0) state.bookPage = closestIndex;
+  renderBookPage();
+}
 function toggleBookMode() {
-  const continuous = $('#vistaContinua').style.display === 'none';
+  state.bookContinuous = !state.bookContinuous;
+  const continuous = state.bookContinuous;
   $('#vistaContinua').style.display = continuous ? 'flex' : 'none'; $('#paginaContenido').style.display = continuous ? 'none' : 'block';
   $('#libroFooter').style.display = continuous ? 'none' : 'flex'; $('#btnToggleVista').textContent = continuous ? '📄 Vista paginada' : '📖 Vista continua';
   if (!continuous) return renderBookPage();
   const container = $('#vistaContinua'); container.replaceChildren();
   state.currentBook.paginas.forEach(page => {
     const section = create('section', 'meditacion_separador');
-    section.append(create('h2', '', page.titulo || state.currentBook.titulo), create('div', 'pagina_meta', [page.autor, page.pagina ? `Pág. ${page.pagina}` : ''].filter(Boolean).join(' — ')), create('p', 'texto_meditacion', page.contenido || ''));
+    const text = create('div', 'texto_meditacion');
+    appendMeditationText(text, page.contenido);
+    section.append(create('h2', '', page.titulo || state.currentBook.titulo), create('div', 'pagina_meta', [page.autor, page.pagina ? `Pág. ${page.pagina}` : ''].filter(Boolean).join(' — ')), text);
     container.append(section);
   });
 }
@@ -562,7 +587,7 @@ function downloadDigitalBook(book, button) {
 }
 function closeBook() {
   if ($('#modalLibro')?.style.display !== 'flex') return;
-  $('#modalLibro').style.display = 'none'; document.body.style.overflow = ''; state.currentBook = null; clearResourceUrl();
+  $('#modalLibro').style.display = 'none'; document.body.style.overflow = ''; state.currentBook = null; state.bookContinuous = false; clearResourceUrl();
 }
 function setResourceUrl(id) { const url = new URL(location.href); url.searchParams.set('recurso', id); history.pushState({}, '', url); }
 function clearResourceUrl() { const url = new URL(location.href); url.searchParams.delete('recurso'); history.replaceState({}, '', url); }

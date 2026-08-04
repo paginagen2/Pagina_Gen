@@ -5,20 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Biblioteca Digital | Gen 2</title>
   <meta name="description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
+<link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="biblioteca.css?v=20260804-libros">
+  <link rel="stylesheet" href="biblioteca-polish.css?v=20260804-libros">
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
+  <!-- Vista previa al compartir -->
+  <meta property="og:locale" content="es_AR">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Gen 2">
   <meta property="og:title" content="Biblioteca Digital | Gen 2">
-  <meta property="og:description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
-  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
+  <meta property="og:description" content="Materiales para leer, descubrir y compartir.">
+  <meta property="og:url" content="https://pagina-gen.web.app/biblioteca/biblioteca.html">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-biblioteca.png">
+  <meta property="og:image:secure_url" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-biblioteca.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Biblioteca Digital | Gen 2">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Biblioteca Digital | Gen 2">
-  <meta name="twitter:description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
-  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
-  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
-  <link rel="stylesheet" href="biblioteca.css?v=20260730-icons4">
-  <link rel="stylesheet" href="biblioteca-polish.css?v=20260803-optimizacion">
-  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260730-icons4">
-  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
+  <meta name="twitter:description" content="Materiales para leer, descubrir y compartir.">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-biblioteca.png">
 </head>
 
 <body>
@@ -195,7 +204,7 @@
         <div class="header_left">
           <h3 id="libroTitulo">Título del Libro</h3>
           <div class="header_acciones">
-            <button class="btn_view_toggle" id="btnToggleVista" onclick="toggleModoVista()">
+            <button type="button" class="btn_view_toggle" id="btnToggleVista">
               📖 Vista Continua
             </button>
             <button type="button" class="btn_descarga_pdf" id="libroDescargaPdf">
@@ -214,11 +223,12 @@
         </div>
       </div>
       <div class="libro_footer" id="libroFooter">
-        <button class="pag_btn" id="libroAnterior" onclick="cambiarPaginaLibro(-1)">← Anterior</button>
+        <button type="button" class="pag_btn" id="libroAnterior">← Anterior</button>
         <div class="libro_paginacion">
-          Pág. <input type="number" id="libroPaginaInput" min="1" class="libro_pag_input"> de <span id="libroTotalPaginas">1</span>
+          Pág. <input type="number" id="libroPaginaInput" class="libro_pag_input" aria-label="Ir al número real de la meditación">
+          de <span class="libro_cantidad" id="libroTotalPaginas">1</span>
         </div>
-        <button class="pag_btn" id="libroSiguiente" onclick="cambiarPaginaLibro(1)">Siguiente →</button>
+        <button type="button" class="pag_btn" id="libroSiguiente">Siguiente →</button>
       </div>
     </div>
   </div>
@@ -226,7 +236,7 @@
   <script src="../aaglobal/firebase-config.js?v=20260730-google1"></script>
 <script type="module" src="../auth.js?v=20260730-google1"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="biblioteca-v2.js?v=20260803-optimizacion" type="module"></script>
+  <script src="biblioteca-v2.js?v=20260804-pagina-anterior" type="module"></script>
 </body>
 
 </html>
