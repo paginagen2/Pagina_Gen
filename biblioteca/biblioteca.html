@@ -13,19 +13,19 @@
   <meta name="twitter:title" content="Biblioteca Digital | Gen 2">
   <meta name="twitter:description" content="Libros, documentos, audios y videos para la formación y la vida espiritual.">
   <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
-  <link rel="stylesheet" href="../aaglobal/style.css">
-  <link rel="stylesheet" href="biblioteca.css">
-  <link rel="stylesheet" href="biblioteca-polish.css?v=20260728-responsive-grid">
-  <link rel="icon" href="../aadocumentos/svg/libros.svg" type="image/x-icon">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260729-mobile-account">
-  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260729-responsive">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="biblioteca.css?v=20260730-icons4">
+  <link rel="stylesheet" href="biblioteca-polish.css?v=20260803-optimizacion">
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
 </head>
 
 <body>
   
   <!-- Sidebar -->
   <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js?v=20260729-mobile-account"></script>
+  <script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
 
   <!-- Contenido principal -->
   <main class="main">
@@ -48,6 +48,7 @@
           <div class="filtros_titulo">📚 Filtrar por categoría:</div>
           <div class="filtros_categoria">
             <button class="filtro_btn active" data-categoria="todos">Todos</button>
+            <button class="filtro_btn" data-categoria="meditaciones">🧘 Meditaciones</button>
             <button class="filtro_btn" data-categoria="libros">📖 Libros</button>
             <button class="filtro_btn" data-categoria="documentos">📄 Documentos</button>
             <button class="filtro_btn" data-categoria="audio">🎵 Audio</button>
@@ -71,7 +72,7 @@
         <!-- Búsqueda -->
         <div class="busqueda_container">
           <input type="text" id="busquedaInput" class="busqueda_input" aria-label="Buscar en la biblioteca" placeholder="Buscar en biblioteca...">
-          <span class="busqueda_icono" aria-hidden="true">🔍</span>
+          <span class="busqueda_icono" aria-hidden="true"><svg><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#buscar"></use></svg></span>
         </div>
 
         <div class="biblioteca_herramientas">
@@ -85,6 +86,10 @@
             </select>
           </label>
           <label class="favoritos_check"><input type="checkbox" id="soloFavoritos"> Solo guardados</label>
+          <label id="mostrarMeditacionesControl" class="favoritos_check mostrar_meditaciones_check">
+            <input type="checkbox" id="mostrarMeditaciones">
+            <span>Mostrar meditaciones</span>
+          </label>
         </div>
 
         <!-- Aportes revisados previamente en Google Drive -->
@@ -106,6 +111,9 @@
                 <label>Título *<input id="aporteTitulo" maxlength="140" required></label>
                 <label>Autor<input id="aporteAutor" maxlength="120"></label>
                 <label>Categoría<select id="aporteCategoria"><option value="documentos">Documento</option><option value="libros">Libro</option><option value="audio">Audio</option><option value="videos">Video</option></select></label>
+                <label>Año de publicación<input id="aporteAnio" type="number" min="1500" max="2100" placeholder="Ej.: 2001"></label>
+                <label>Idioma<select id="aporteIdioma"><option value="es">Español</option><option value="pt">Portugués</option><option value="it">Italiano</option><option value="en">Inglés</option><option value="otro">Otro</option></select></label>
+                <label>Formato<select id="aporteTipo"><option value="PDF">PDF</option><option value="DOCX">Documento Word</option><option value="EPUB">EPUB</option><option value="AUDIO">Audio</option><option value="VIDEO">Video</option><option value="ENLACE">Otro</option></select></label>
               </div>
               <fieldset class="aporte_temas">
                 <legend>Temas del recurso</legend>
@@ -124,13 +132,13 @@
               <div class="aporte_encabezado">
                 <div><span>PASO 2 DE 2</span><h2>Adjuntá el archivo</h2></div>
               </div>
-              <p>Tu ficha ya fue guardada. Completá ahora la carga del archivo.</p>
-              <iframe id="aporteGoogleForm" title="Formulario para adjuntar el archivo" loading="lazy"></iframe>
+              <a id="aporteGoogleForm" class="aporte_google_form_btn" href="#" target="_blank" rel="noopener">
+                Adjuntar archivo en Google Forms ↗
+              </a>
               <div class="aporte_acciones_finales">
-                <button id="finalizarAporte" type="button" class="btn_preview">Finalizar aporte</button>
+                <button id="finalizarAporte" type="button" class="btn_preview">Enviar ficha y finalizar</button>
                 <button id="nuevoAporte" type="button" class="btn_compartir">Enviar otro aporte</button>
               </div>
-              <p class="aporte_seguridad">Cuando termines de subir el archivo, pulsá “Finalizar aporte”. Hasta entonces te avisaremos antes de cerrar o salir.</p>
             </div>
             </div>
           </div>
@@ -146,7 +154,7 @@
       <!-- Grid de archivos -->
       <div class="biblioteca_grid" id="bibliotecaGrid">
         <div class="sin_resultados">
-          <div class="sin_resultados_icono">📚</div>
+          <div class="sin_resultados_icono"><svg aria-hidden="true"><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#sin-resultados"></use></svg></div>
           <h3>Cargando biblioteca...</h3>
         </div>
       </div>
@@ -215,10 +223,10 @@
     </div>
   </div>
 
-  <script src="../aaglobal/firebase-config.js?v=20260712-roles1"></script>
-<script type="module" src="../auth.js?v=20260727-role-codes"></script>
+  <script src="../aaglobal/firebase-config.js?v=20260730-google1"></script>
+<script type="module" src="../auth.js?v=20260730-google1"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="biblioteca-v2.js?v=20260727" type="module"></script>
+  <script src="biblioteca-v2.js?v=20260803-optimizacion" type="module"></script>
 </body>
 
 </html>

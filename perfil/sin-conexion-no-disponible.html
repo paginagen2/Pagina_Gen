@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b10">
+  <meta name="description" content="Esta sección de Gen 2 necesita conexión a internet.">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
+  <title>Conexión necesaria | Gen 2</title>
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
+  <link rel="stylesheet" href="sin-conexion.css?v=20260730-icons4">
+</head>
+<body>
+  <div class="page-container offline-shell">
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
+  <div class="main-content offline-main-content">
+  <main class="offline-main" id="contenido-principal">
+    <section class="offline-card" aria-labelledby="unavailable-title">
+      <div class="offline-heading">
+        <span class="offline-icon" aria-hidden="true"><svg><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#error"></use></svg></span>
+        <div>
+          <span class="offline-eyebrow">Sin conexión</span>
+          <h1 id="unavailable-title">Esta sección necesita internet</h1>
+        </div>
+      </div>
+      <p class="offline-intro">El contenido sin conexión está desactivado en este dispositivo. Volvé a intentarlo cuando tengas internet o activalo desde tu perfil.</p>
+      <div class="offline-setting">
+        <a class="offline-back" href="sin-conexion.html">Configurar modo sin conexión</a>
+        <a class="offline-back" href="../index.html">Ir al inicio</a>
+      </div>
+    </section>
+  </main>
+  </div>
+  </div>
+  <script>
+    window.addEventListener('online', () => {
+      const destination = new URLSearchParams(location.search).get('volver');
+      if (destination) location.replace(destination);
+    });
+  </script>
+</body>
+</html>

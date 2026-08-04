@@ -1,14 +1,8 @@
 // Biblioteca Digital v2: catálogo unificado, búsqueda, favoritos, aportes y nube.
-const LEGACY_RESOURCES = [
-  { id: 'legacy-1', titulo: 'Jesús en Medio', autor: 'Chiara Lubich', categoria: 'documentos', tipo: 'PDF', tamano: '774 KB', fecha: '2001-12-19', descripcion: 'Chiara responde una pregunta sobre la presencia de Jesús en medio.', googleId: '1Rum2UAjuAcP4JU18yzPy0-eEWZ4ypzqp', temas: ['Jesús en medio', 'Meditación', 'La unidad'], estado: 'publicado', origen: 'drive' },
-  { id: 'legacy-2', titulo: 'La fuente de Dios, el hermano', autor: 'Chiara Lubich', categoria: 'documentos', tipo: 'PDF', tamano: '103 KB', fecha: '1974-07-09', descripcion: 'Si se acercan a un hermano, amándolo, esta actitud los lleva a Dios.', googleId: '1M4AXDOQ05qv9x0ZYULCjUUUnG49_hAKT', temas: ['El hermano', 'Meditación', 'Dios Amor'], estado: 'publicado', origen: 'drive' },
-  { id: 'legacy-3', titulo: 'Origen de la Revolución Arcoíris', autor: 'Chiara Lubich', categoria: 'documentos', tipo: 'PDF', descripcion: 'El origen de la propuesta del arcoíris y su sentido.', googleId: '1aK0VuTogwatLrN5_RJTV2vFkqhuRBwN9', temas: ['Revolución Arcoíris', 'Meditación', 'Dios Amor'], estado: 'publicado', origen: 'drive' },
-  { id: 'legacy-4', titulo: 'El Misterio de la Unidad', autor: 'Chiara Lubich', categoria: 'documentos', tipo: 'PDF', tamano: '622 KB', fecha: '1975-12-29', descripcion: 'Chiara responde una pregunta sobre Jesús en Medio y la Trinidad.', googleId: '1QORKKaLOTYackPQpGNxsgE0lfiOZzup', temas: ['Dios Amor', 'Jesús en medio', 'Meditación'], estado: 'publicado', origen: 'drive' },
-  { id: 'legacy-5', titulo: 'Los instrumentos de la espiritualidad colectiva', autor: 'Chiara Lubich', categoria: 'libros', tipo: 'PDF', tamano: '55,3 MB', fecha: '1995-02-24', descripcion: 'Instrumentos para vivir la espiritualidad colectiva en comunidad.', googleId: '1lqieDCMPLHxubfpUBvXTBwMINpcUvMj5', temas: ['El hermano', 'El mandamiento nuevo', 'Estatutos', 'Jesús en medio', 'La Palabra de Vida'], estado: 'publicado', origen: 'drive' }
-];
 // Reemplazar por el nuevo formulario de Google cuando esté creado.
 // Debe contener únicamente la carga del archivo (y, si se desea, el código de referencia).
-const GOOGLE_FILE_FORM_URL = 'https://forms.gle/q3zVNZubgbXKbYNNA';
+const GOOGLE_FILE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfjjD_05ualjVeWFGaLyoXUbLcveEGmujC2A8M9pF9roSXyLA/viewform?embedded=true';
+const GOOGLE_FILE_FORM_SHORT_URL = 'https://forms.gle/q3zVNZubgbXKbYNNA';
 const LEGACY_GOOGLE_FORM_ID = '1FAIpQLSf4VFqkTGE0K49b_pCy0Vm8oD5J3YsITs0c4CYa4zD32L92pw';
 const DEFAULT_LIBRARY_TOPICS = [
   'Meditación', 'Dios Amor', 'Voluntad de Dios', 'El hermano', 'El mandamiento nuevo',
@@ -27,6 +21,10 @@ const state = {
   googleFileFormUrl: GOOGLE_FILE_FORM_URL,
   contributionDirty: false,
   contributionCompleted: false,
+  pendingContribution: null,
+  showMeditations: false,
+  metricFlushTimer: null,
+  metricFlushInProgress: false,
   availableTopics: [...DEFAULT_LIBRARY_TOPICS],
   favorites: new Set(JSON.parse(localStorage.getItem('gen_biblioteca_favoritos') || '[]'))
 };
@@ -35,15 +33,25 @@ const normalize = value => String(value || '').normalize('NFD').replace(/\p{Diac
 const resourceTopics = item => Array.isArray(item.temas) ? item.temas : (Array.isArray(item.atributos) ? item.atributos : []);
 const isBook = item => Array.isArray(item.paginas);
 const driveIdFromLink = value => {
-  const raw = String(value || '');
+  const raw = String(value || '').trim();
+  if (/^[a-zA-Z0-9_-]{20,}$/.test(raw)) return raw;
   const path = raw.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (path) return path[1];
   try { return new URL(raw).searchParams.get('id') || ''; } catch { return ''; }
 };
-const googleIdFor = item => item.googleId || driveIdFromLink(item.linkRecurso || item.driveUrl);
+const googleIdFor = item => driveIdFromLink(item.googleId) || driveIdFromLink(item.linkRecurso || item.driveUrl);
 const fileUrl = item => item.linkRecurso || item.driveUrl || item.downloadURL || item.archivoUrl || (googleIdFor(item) ? `https://drive.google.com/file/d/${encodeURIComponent(googleIdFor(item))}/view` : '');
 const downloadUrlFor = item => item.downloadURL || (googleIdFor(item) ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(googleIdFor(item))}` : fileUrl(item));
 const previewUrl = item => item.previewURL || (googleIdFor(item) ? `https://drive.google.com/file/d/${encodeURIComponent(googleIdFor(item))}/preview` : fileUrl(item));
+const externalGoogleFormUrl = value => {
+  try {
+    const url = new URL(value);
+    url.searchParams.delete('embedded');
+    return url.toString();
+  } catch {
+    return value;
+  }
+};
 
 function create(tag, className, text) {
   const node = document.createElement(tag);
@@ -61,12 +69,14 @@ function formatBytes(bytes) {
 document.addEventListener('DOMContentLoaded', init);
 async function init() {
   bindControls();
-  state.resources = [...LEGACY_RESOURCES];
+  state.resources = [];
   applyFilters();
   try {
     await window.firebaseReady;
     state.db = window.firebaseDb; state.utils = window.firebaseUtils; state.auth = window.firebaseAuth;
-    await Promise.all([loadCloudResources(), loadDigitalBooks(), loadContributionConfig(), loadLibraryTopics()]);
+    await loadCloudResources();
+    await Promise.all([loadDigitalBooks(), loadContributionConfig(), loadLibraryTopics()]);
+    setTimeout(() => flushMetricBuffer(), 1200);
   } catch (error) {
     console.warn('Biblioteca en modo local:', error);
     showNotice('Mostramos el catálogo disponible. Algunos contenidos en la nube podrían tardar.');
@@ -78,8 +88,14 @@ function bindControls() {
   document.querySelectorAll('.filtro_btn').forEach(button => button.addEventListener('click', () => {
     state.category = button.dataset.categoria;
     document.querySelectorAll('.filtro_btn').forEach(item => item.classList.toggle('active', item === button));
+    $('#mostrarMeditacionesControl').hidden = state.category !== 'todos';
     state.page = 1; applyFilters();
   }));
+  $('#mostrarMeditaciones')?.addEventListener('change', event => {
+    state.showMeditations = event.target.checked;
+    state.page = 1;
+    applyFilters();
+  });
   $('#busquedaInput')?.addEventListener('input', event => {
     state.query = event.target.value; state.page = 1; applyFilters();
     clearTimeout(state.searchTimer);
@@ -129,24 +145,144 @@ function bindControls() {
 }
 
 async function loadCloudResources() {
+  const guardados = await window.GenOffline?.getCollection('biblioteca-catalogo').catch(() => null);
+  if (guardados?.items && !navigator.onLine) {
+    state.resources = guardados.items;
+    return;
+  }
+  const revisionSnapshot = await state.utils.getDoc(
+    state.utils.doc(state.db, 'biblioteca_config', 'catalogo')
+  ).catch(() => null);
+  const revisionData = revisionSnapshot?.exists() ? revisionSnapshot.data() : {};
+  const remoteRevision = Number(revisionData.revision) || 0;
+  const cachedRevision = Number(guardados?.revision) || 0;
+  if (remoteRevision && guardados?.items && cachedRevision === remoteRevision) {
+    state.resources = guardados.items;
+    return;
+  }
+  const changes = Array.isArray(revisionData.cambios)
+    ? revisionData.cambios.filter(change => Number(change.revision) > cachedRevision)
+    : [];
+  const canApplyDelta = Boolean(
+    cachedRevision
+    && guardados?.items
+    && changes.length
+    && cachedRevision >= Number(revisionData.revisionBase || 0)
+  );
+  if (canApplyDelta) {
+    const latestById = new Map();
+    changes.forEach(change => latestById.set(String(change.id), change));
+    const resourcesById = new Map(guardados.items.map(item => [String(item.id), item]));
+    for (const change of latestById.values()) {
+      resourcesById.delete(String(change.id));
+      if (change.action !== 'delete') {
+        try {
+          const resourceSnapshot = await state.utils.getDoc(state.utils.doc(state.db, 'biblioteca_recursos', change.id));
+          if (resourceSnapshot.exists() && resourceSnapshot.data().estado === 'publicado') {
+            resourcesById.set(String(change.id), { id: resourceSnapshot.id, ...resourceSnapshot.data(), origen: 'firebase' });
+          }
+        } catch {
+          // Un recurso en borrador o archivado deja de ser legible y se retira de la caché pública.
+        }
+      }
+    }
+    state.resources = [...resourcesById.values()];
+    await window.GenOffline?.replaceCollection('biblioteca-catalogo', state.resources, { revision: remoteRevision }).catch(() => {});
+    return;
+  }
   const publicQuery = state.utils.query(
     state.utils.collection(state.db, 'biblioteca_recursos'),
     state.utils.where('estado', '==', 'publicado')
   );
   const snapshot = await state.utils.getDocs(publicQuery);
   const cloud = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), origen: 'firebase' }));
-  state.resources = [...state.resources.filter(item => !cloud.some(remote => remote.legacyId === item.id)), ...cloud];
+  state.resources = cloud;
+  await window.GenOffline?.replaceCollection('biblioteca-catalogo', cloud, { revision: remoteRevision }).catch(() => {});
 }
 async function loadDigitalBooks() {
+  const meditacionesGuardadas = await window.GenOffline?.getCollection('meditaciones').catch(() => null);
+  if (meditacionesGuardadas?.items?.length && !navigator.onLine) {
+    appendDigitalBooks(meditacionesGuardadas.items);
+    return;
+  }
+  const revisionSnapshot = await state.utils.getDoc(
+    state.utils.doc(state.db, 'biblioteca_config', 'meditaciones')
+  ).catch(() => null);
+  const revisionData = revisionSnapshot?.exists() ? revisionSnapshot.data() : {};
+  const remoteRevision = Number(revisionData.revision) || 0;
+  const cachedRevision = Number(meditacionesGuardadas?.revision) || 0;
+  if (
+    remoteRevision
+    && meditacionesGuardadas?.items?.length
+    && cachedRevision === remoteRevision
+  ) {
+    appendDigitalBooks(meditacionesGuardadas.items);
+    return;
+  }
+  const changes = Array.isArray(revisionData.cambios)
+    ? revisionData.cambios.filter(change => Number(change.revision) > cachedRevision)
+    : [];
+  const canApplyDelta = Boolean(
+    cachedRevision
+    && meditacionesGuardadas?.items
+    && changes.length
+    && cachedRevision >= Number(revisionData.revisionBase || 0)
+  );
+  if (canApplyDelta) {
+    const latestById = new Map();
+    changes.forEach(change => latestById.set(String(change.id), change));
+    const pagesById = new Map(meditacionesGuardadas.items.map(page => [String(page.id), page]));
+    for (const change of latestById.values()) {
+      pagesById.delete(String(change.id));
+      if (change.action !== 'delete') {
+        try {
+          const pageSnapshot = await state.utils.getDoc(state.utils.doc(state.db, 'meditaciones', change.id));
+          if (pageSnapshot.exists()) {
+            const page = { id: pageSnapshot.id, ...pageSnapshot.data() };
+            if (page.Publico === true && (!page.estado || ['publicado', 'publicada'].includes(page.estado))) {
+              pagesById.set(String(page.id), page);
+            }
+          }
+        } catch {
+          // Una meditación que pasó a borrador deja de ser legible públicamente y se quita de la caché.
+        }
+      }
+    }
+    const updatedPages = [...pagesById.values()];
+    await window.GenOffline?.replaceCollection('meditaciones', updatedPages, { revision: remoteRevision }).catch(() => {});
+    appendDigitalBooks(updatedPages);
+    return;
+  }
   const publicQuery = state.utils.query(
     state.utils.collection(state.db, 'meditaciones'),
     state.utils.where('Publico', '==', true)
   );
   const snapshot = await state.utils.getDocs(publicQuery);
+  const pages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  await window.GenOffline?.replaceCollection('meditaciones', pages, { revision: remoteRevision }).catch(() => {});
+  appendDigitalBooks(pages);
+}
+function appendDigitalBooks(pages) {
   const books = new Map();
-  snapshot.docs.forEach(doc => {
-    const page = { id: doc.id, ...doc.data() };
-    if (!page.libro || page.Publico === false) return;
+  const publicPages = pages.filter(page =>
+    page.Publico === true
+    && (!page.estado || ['publicado', 'publicada'].includes(page.estado))
+  );
+  const meditations = publicPages.map(page => ({
+    id: `meditacion-${page.id}`,
+    titulo: page.titulo || 'Meditación',
+    autor: page.autor || 'Autor no indicado',
+    categoria: 'meditaciones',
+    tipo: 'DIGITAL',
+    descripcion: page.descripcion || String(page.contenido || '').slice(0, 180),
+    temas: Array.isArray(page.temas) && page.temas.length ? page.temas : ['Meditación'],
+    estado: 'publicado',
+    paginas: [page],
+    origen: 'meditaciones'
+  }));
+  state.resources.push(...meditations);
+  publicPages.forEach(page => {
+    if (!page.libro) return;
     const key = normalize(page.libro);
     if (!books.has(key)) books.set(key, {
       id: `libro-${key.replace(/\s+/g, '-')}`, titulo: page.libro.trim(), autor: page.autor || 'Varios autores',
@@ -161,7 +297,10 @@ async function loadDigitalBooks() {
 async function loadContributionConfig() {
   const snapshot = await state.utils.getDoc(state.utils.doc(state.db, 'biblioteca_config', 'aportes'));
   if (snapshot.exists() && snapshot.data().googleFormUrl && !snapshot.data().googleFormUrl.includes(LEGACY_GOOGLE_FORM_ID)) {
-    state.googleFileFormUrl = snapshot.data().googleFormUrl;
+    const configuredUrl = snapshot.data().googleFormUrl;
+    state.googleFileFormUrl = configuredUrl.startsWith(GOOGLE_FILE_FORM_SHORT_URL)
+      ? GOOGLE_FILE_FORM_URL
+      : configuredUrl;
   }
 }
 async function loadLibraryTopics() {
@@ -184,6 +323,7 @@ function score(item, query) {
 function applyFilters() {
   const activeTopics = [...state.topics]; const favoritesOnly = $('#soloFavoritos')?.checked;
   state.filtered = state.resources.filter(item => {
+    if (state.category === 'todos' && item.categoria === 'meditaciones' && !state.showMeditations) return false;
     if (state.category !== 'todos' && item.categoria !== state.category) return false;
     if (favoritesOnly && !state.favorites.has(item.id)) return false;
     if (activeTopics.length && !activeTopics.every(topic => resourceTopics(item).some(value => normalize(value) === normalize(topic)))) return false;
@@ -204,7 +344,9 @@ function render() {
   const visible = state.filtered.slice((state.page - 1) * state.pageSize, state.page * state.pageSize);
   if (!visible.length) {
     const empty = create('div', 'sin_resultados');
-    empty.append(create('div', 'sin_resultados_icono', '📚'), create('h3', '', 'No encontramos recursos con esos filtros.'));
+    const emptyIcon = create('div', 'sin_resultados_icono');
+    emptyIcon.innerHTML = '<svg aria-hidden="true"><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#sin-resultados"></use></svg>';
+    empty.append(emptyIcon, create('h3', '', 'No encontramos recursos con esos filtros.'));
     const clear = create('button', 'btn_preview', 'Limpiar filtros'); clear.addEventListener('click', clearFilters);
     empty.append(clear); grid.append(empty);
   } else visible.forEach(item => grid.append(renderCard(item)));
@@ -286,8 +428,10 @@ function toggleTopics() {
   $('#toggleIcon').textContent = expanded ? '▼' : '▶';
 }
 function clearFilters() {
-  state.category = 'todos'; state.query = ''; state.topics.clear(); state.page = 1;
+  state.category = 'todos'; state.query = ''; state.topics.clear(); state.page = 1; state.showMeditations = false;
   $('#busquedaInput').value = ''; if ($('#soloFavoritos')) $('#soloFavoritos').checked = false;
+  if ($('#mostrarMeditaciones')) $('#mostrarMeditaciones').checked = false;
+  if ($('#mostrarMeditacionesControl')) $('#mostrarMeditacionesControl').hidden = false;
   document.querySelectorAll('.filtro_btn').forEach(button => button.classList.toggle('active', button.dataset.categoria === 'todos'));
   document.querySelectorAll('.atributo_btn').forEach(button => button.classList.remove('active')); applyFilters();
 }
@@ -458,10 +602,11 @@ function resetContributionForm({ keepPanel = true } = {}) {
   $('#aporteForm').reset();
   $('#aporteForm').hidden = false;
   $('#aporteArchivoPaso').hidden = true;
-  $('#aporteGoogleForm').src = '';
+  $('#aporteGoogleForm').removeAttribute('href');
   $('#aporteEstado').textContent = '';
   document.querySelectorAll('input[name="aporte-tema"]').forEach(input => { input.checked = false; });
   $('#aporteTemaNuevo').value = '';
+  state.pendingContribution = null;
   state.contributionDirty = false;
   state.contributionCompleted = false;
   if (keepPanel) $('#aporteTitulo').focus();
@@ -470,12 +615,33 @@ function startAnotherContribution() {
   if (hasContributionProgress() && !window.confirm('¿Ya terminaste de adjuntar el archivo? Si continuás, se iniciará un aporte nuevo.')) return;
   resetContributionForm();
 }
-function finishContribution() {
-  state.contributionCompleted = true;
-  state.contributionDirty = false;
-  closeContributionPanel();
-  resetContributionForm({ keepPanel: false });
-  showNotice('Aporte finalizado. El equipo revisará la ficha y el archivo.');
+async function finishContribution() {
+  const user = state.auth?.currentUser;
+  if (!user || !state.pendingContribution) {
+    showNotice('No encontramos una ficha lista para enviar.');
+    return;
+  }
+  const button = $('#finalizarAporte');
+  button.disabled = true;
+  button.textContent = 'Enviando ficha…';
+  try {
+    await state.utils.addDoc(state.utils.collection(state.db, 'biblioteca_aportes'), {
+      ...state.pendingContribution,
+      creadoPor: user.uid,
+      creadoEn: new Date()
+    });
+    state.contributionCompleted = true;
+    state.contributionDirty = false;
+    closeContributionPanel();
+    resetContributionForm({ keepPanel: false });
+    showNotice('Aporte enviado. El equipo revisará la ficha y el archivo.');
+  } catch (error) {
+    console.error(error);
+    $('#aporteEstado').textContent = `El archivo no se perdió, pero no pudimos enviar la ficha: ${error.message}`;
+    button.disabled = false;
+  } finally {
+    button.textContent = 'Enviar ficha y finalizar';
+  }
 }
 async function saveContributionMetadata(event) {
   event.preventDefault();
@@ -488,33 +654,35 @@ async function saveContributionMetadata(event) {
   const button = $('#btnGuardarAporte'); button.disabled = true;
   const code = `BIB-${Date.now().toString(36).toUpperCase()}`;
   try {
-    await state.utils.addDoc(state.utils.collection(state.db, 'biblioteca_aportes'), {
+    state.pendingContribution = {
       codigo: code,
       titulo: $('#aporteTitulo').value.trim(),
       autor: $('#aporteAutor').value.trim(),
       categoria: $('#aporteCategoria').value,
+      anio: Number($('#aporteAnio').value) || null,
+      idioma: $('#aporteIdioma').value,
+      tipo: $('#aporteTipo').value,
       temas: [...document.querySelectorAll('input[name="aporte-tema"]:checked')].map(input => input.value),
       temaPropuesto: $('#aporteTemaNuevo').value.trim(),
       descripcion: $('#aporteDescripcion').value.trim(),
-      estado: 'pendiente',
-      creadoPor: user.uid,
-      creadoEn: new Date()
-    });
+      estado: 'pendiente'
+    };
     $('#aporteForm').hidden = true;
     $('#aporteArchivoPaso').hidden = false;
     state.contributionDirty = true;
     if (state.googleFileFormUrl) {
       $('#aporteGoogleForm').hidden = false;
-      $('#aporteGoogleForm').src = state.googleFileFormUrl;
+      $('#aporteGoogleForm').href = externalGoogleFormUrl(state.googleFileFormUrl);
       $('#aporteEstado').textContent = '';
     } else {
       $('#aporteGoogleForm').hidden = true;
-      $('#aporteGoogleForm').src = '';
-      $('#aporteEstado').textContent = 'El formulario de archivo todavía no está configurado. Tu ficha quedó guardada; avisale al equipo para adjuntar el archivo.';
+      $('#aporteGoogleForm').removeAttribute('href');
+      $('#aporteEstado').textContent = 'El formulario de archivo todavía no está configurado. La ficha no fue enviada.';
     }
   } catch (error) {
     console.error(error);
-    $('#aporteEstado').textContent = `No se pudo guardar la ficha: ${error.message}`;
+    state.pendingContribution = null;
+    $('#aporteEstado').textContent = `No se pudo preparar la ficha: ${error.message}`;
   } finally { button.disabled = false; }
 }
 function showNotice(message) {
@@ -524,15 +692,84 @@ function showNotice(message) {
   showNotice.timer = setTimeout(() => notice.classList.remove('visible'), 4000);
 }
 
-async function trackEvent(type, resourceId = '', queryText = '') {
+const METRIC_BUFFER_PREFIX = 'gen_biblioteca_metricas_v2_';
+const METRIC_BATCH_SIZE = 20;
+const metricFieldByType = { apertura: 'aperturas', descarga: 'descargas', compartir: 'compartidos', busqueda: 'busquedas' };
+
+function metricSessionId() {
+  const key = 'gen_biblioteca_metric_session';
+  let id = sessionStorage.getItem(key);
+  if (!id) { id = crypto.randomUUID(); sessionStorage.setItem(key, id); }
+  return id;
+}
+function emptyMetricBuffer(uid) {
+  return { uid, aperturas: 0, descargas: 0, compartidos: 0, busquedas: 0, total: 0, recursos: [], sessionId: metricSessionId() };
+}
+function readMetricBuffer(uid) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(`${METRIC_BUFFER_PREFIX}${uid}`) || 'null');
+    return saved?.uid === uid ? { ...emptyMetricBuffer(uid), ...saved } : emptyMetricBuffer(uid);
+  } catch { return emptyMetricBuffer(uid); }
+}
+function persistMetricBuffer(buffer) {
+  localStorage.setItem(`${METRIC_BUFFER_PREFIX}${buffer.uid}`, JSON.stringify(buffer));
+}
+function metricAlreadyCounted(key) {
+  const storageKey = 'gen_biblioteca_metric_seen';
+  try {
+    const seen = new Set(JSON.parse(sessionStorage.getItem(storageKey) || '[]'));
+    if (seen.has(key)) return true;
+    seen.add(key);
+    sessionStorage.setItem(storageKey, JSON.stringify([...seen].slice(-250)));
+    return false;
+  } catch { return false; }
+}
+function trackEvent(type, resourceId = '', queryText = '') {
   const user = state.auth?.currentUser;
   if (!user || !state.db || !state.utils) return;
+  const field = metricFieldByType[type];
+  if (!field) return;
+  const dedupeValue = type === 'busqueda' ? normalize(queryText).slice(0, 80) : String(resourceId || 'general');
+  if (metricAlreadyCounted(`${type}:${dedupeValue}`)) return;
+  const buffer = readMetricBuffer(user.uid);
+  buffer[field] += 1;
+  buffer.total += 1;
+  if (resourceId && !buffer.recursos.includes(resourceId) && buffer.recursos.length < 30) buffer.recursos.push(resourceId);
+  persistMetricBuffer(buffer);
+  if (buffer.total >= METRIC_BATCH_SIZE) flushMetricBuffer();
+  else {
+    clearTimeout(state.metricFlushTimer);
+    state.metricFlushTimer = setTimeout(() => flushMetricBuffer(), 180000);
+  }
+}
+async function flushMetricBuffer() {
+  const user = state.auth?.currentUser;
+  if (!user || state.metricFlushInProgress || !state.db || !state.utils) return;
+  const buffer = readMetricBuffer(user.uid);
+  if (!buffer.total) return;
+  state.metricFlushInProgress = true;
+  persistMetricBuffer(emptyMetricBuffer(user.uid));
   try {
-    await state.utils.addDoc(state.utils.collection(state.db, 'biblioteca_eventos'), {
-      tipo: type, recursoId: resourceId, consulta: queryText, creadoPor: user.uid, creadoEn: new Date()
+    await state.utils.addDoc(state.utils.collection(state.db, 'biblioteca_metricas'), {
+      aperturas: buffer.aperturas,
+      descargas: buffer.descargas,
+      compartidos: buffer.compartidos,
+      busquedas: buffer.busquedas,
+      total: buffer.total,
+      recursos: buffer.recursos.slice(0, 30),
+      sessionId: String(buffer.sessionId || '').slice(0, 80),
+      fecha: new Date().toISOString().slice(0, 10),
+      creadoPor: user.uid,
+      creadoEn: new Date()
     });
   } catch (error) {
-    console.debug('Métrica de Biblioteca no registrada:', error.message);
+    const pending = readMetricBuffer(user.uid);
+    ['aperturas', 'descargas', 'compartidos', 'busquedas', 'total'].forEach(field => { pending[field] += Number(buffer[field]) || 0; });
+    pending.recursos = [...new Set([...buffer.recursos, ...pending.recursos])].slice(0, 30);
+    persistMetricBuffer(pending);
+    console.debug('Métricas de Biblioteca pendientes para el próximo intento:', error.message);
+  } finally {
+    state.metricFlushInProgress = false;
   }
 }
 

@@ -183,6 +183,16 @@
   font-size: 1.2rem;
 }
 
+.busqueda_icono svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* Botón enviar archivos con Google Forms */
 .enviar_archivos_section {
   margin-top: 1.5rem;
@@ -419,6 +429,16 @@
 .sin_resultados_icono {
   font-size: 4rem;
   margin-bottom: 1rem;
+}
+
+.sin_resultados_icono svg {
+  width: 54px;
+  height: 54px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .sin_resultados h3 {

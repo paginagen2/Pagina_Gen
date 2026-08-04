@@ -104,10 +104,24 @@ async function main() {
   if (repaired.citaPrincipal.endsWith('"')
       || repaired.bloques.some(block => /^que escucha la Palabra/i.test(block.texto))
       || repaired.bloques.filter(block => block.tipo === 'cita_destacada').length !== 1
+      || repairedReflection?.texto !== 'Las palabras de Dios son luz, amor y vida'
       || !/marzo de 2003/i.test(repairedReflection?.fuente || '')) {
     throw new Error('Falló la reparación automática de una publicación ya guardada.');
   }
   console.log('Reparación automática de publicaciones guardadas: correcta');
+
+  const repairedSavedReflection = PdvModel.normalizePdv({
+    bloques: [{
+      tipo: 'reflexion_autor',
+      titulo: 'Escribe Chiara Lubich',
+      texto: 'son luz, amor y vida',
+      fuente: 'Chiara Lubich · Palabra de Vida, marzo de 2003'
+    }]
+  });
+  if (repairedSavedReflection.bloques[0]?.texto !== 'Las palabras de Dios son luz, amor y vida') {
+    throw new Error('Falló la reparación del bloque de Chiara ya guardado en julio.');
+  }
+  console.log('Bloque de Chiara guardado en julio: reparado');
 
   const augustPublication = PdvModel.publicationDateForPeriod('2026-08-01');
   const scheduled = { estado: 'programado', fechaPublicacion: augustPublication };

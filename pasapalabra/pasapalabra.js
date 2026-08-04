@@ -1,201 +1,241 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js';
-import {
-    getFirestore,
-    collection,
-    getDocs,
-    query,
-    where,
-    orderBy
-} from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
+const LOCAL_DATA_ROOT = '../datos/pasapalabra';
+const REMOTE_DATA_ROOT = 'https://raw.githubusercontent.com/paginagen2/Pagina_Gen/main/datos/pasapalabra';
 
-// Configuración de Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE",
-    authDomain: "pagina-gen.firebaseapp.com",
-    projectId: "pagina-gen",
-    storageBucket: "pagina-gen.appspot.com",
-    messagingSenderId: "876893109130",
-    appId: "1:876893109130:web:862f79fc7a609e512ee673"
-};
+let paginaActual = 0;
+let cargandoPagina = false;
+let historialRespaldo = null;
 
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-/**
- * Convierte fecha de formato DD/MM/YYYY a objeto Date
- */
-function parseFecha(fechaStr) {
-    if (!fechaStr) return null;
-    
-    // Formato DD/MM/YYYY
-    const partes = fechaStr.split('/');
-    if (partes.length === 3) {
-        const dia = parseInt(partes[0], 10);
-        const mes = parseInt(partes[1], 10) - 1; // Mes es 0-indexado
-        const anio = parseInt(partes[2], 10);
-        return new Date(anio, mes, dia);
-    }
-    return null;
+function fechaArgentina() {
+    return new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).format(new Date());
 }
 
-/**
- * Obtiene la fecha de hoy en formato DD/MM/YYYY
- */
-function obtenerFechaHoy() {
-    const hoy = new Date();
-    const dia = String(hoy.getDate()).padStart(2, '0');
-    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
-    const anio = hoy.getFullYear();
-    return `${dia}/${mes}/${anio}`;
-}
-
-/**
- * Formatea fecha para mostrar (más legible)
- */
 function formatearFechaLegible(fechaStr) {
-    const meses = [
-        'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-    ];
-    
-    const partes = fechaStr.split('/');
-    if (partes.length === 3) {
-        const dia = parseInt(partes[0], 10);
-        const mes = parseInt(partes[1], 10) - 1;
-        const anio = partes[2];
-        return `${dia} de ${meses[mes]} de ${anio}`;
+    if (!fechaStr) return '';
+    const [dia, mes, anio] = fechaStr.split('/').map(Number);
+    if (!dia || !mes || !anio) return fechaStr;
+
+    return new Date(anio, mes - 1, dia).toLocaleDateString('es-AR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+}
+
+function fechaFirestoreDesdeIso(fechaIso) {
+    const [anio, mes, dia] = String(fechaIso).split('-');
+    return dia && mes && anio ? `${dia}/${mes}/${anio}` : '';
+}
+
+async function cargarHoyDesdeFirestore(fechaIso) {
+    if (window.firebaseReady) await window.firebaseReady;
+    if (!window.firebaseDb || !window.firebaseUtils) {
+        throw new Error('Firebase no está disponible');
     }
-    return fechaStr;
+
+    const { collection, getDocs, query, where } = window.firebaseUtils;
+    const snapshot = await getDocs(query(
+        collection(window.firebaseDb, 'pasapalabra'),
+        where('estado', '==', 'publicado'),
+        where('fecha', '==', fechaFirestoreDesdeIso(fechaIso))
+    ));
+    const documento = snapshot.docs[0];
+    return documento ? { id: documento.id, ...documento.data() } : null;
+}
+
+function valorFecha(fecha) {
+    const [dia, mes, anio] = String(fecha || '').split('/').map(Number);
+    return dia && mes && anio ? Date.UTC(anio, mes - 1, dia) : 0;
+}
+
+async function cargarPaginaDeRespaldo(numeroPagina) {
+    if (!historialRespaldo) {
+        if (window.firebaseReady) await window.firebaseReady;
+        if (!window.firebaseDb || !window.firebaseUtils) {
+            throw new Error('Firebase no está disponible');
+        }
+
+        const { collection, getDocs, query, where } = window.firebaseUtils;
+        const snapshot = await getDocs(query(
+            collection(window.firebaseDb, 'pasapalabra'),
+            where('estado', '==', 'publicado')
+        ));
+        historialRespaldo = snapshot.docs
+            .map(documento => ({ id: documento.id, ...documento.data() }))
+            .sort((a, b) => valorFecha(b.fecha) - valorFecha(a.fecha)
+                || String(b.id).localeCompare(String(a.id)));
+    }
+
+    const tamanioPagina = 6;
+    const inicio = (numeroPagina - 1) * tamanioPagina;
+    return {
+        schemaVersion: 1,
+        pagina: numeroPagina,
+        siguientePagina: inicio + tamanioPagina < historialRespaldo.length ? numeroPagina + 1 : null,
+        items: historialRespaldo.slice(inicio, inicio + tamanioPagina)
+    };
+}
+
+async function cargarJson(ruta, cacheKey = '') {
+    const suffix = cacheKey ? `?v=${encodeURIComponent(cacheKey)}` : '';
+    const fuentes = [
+        `${LOCAL_DATA_ROOT}/${ruta}${suffix}`,
+        `${REMOTE_DATA_ROOT}/${ruta}${suffix}`
+    ];
+
+    let ultimoError;
+    for (const fuente of fuentes) {
+        try {
+            const response = await fetch(fuente, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`respuesta ${response.status}`);
+            const data = await response.json();
+            if (data?.schemaVersion !== 1) throw new Error('formato no válido');
+            return data;
+        } catch (error) {
+            ultimoError = error;
+            console.warn(`No se pudo cargar ${fuente}:`, error);
+        }
+    }
+
+    throw ultimoError || new Error('No se pudo cargar el archivo de Pasapalabra');
+}
+
+function mostrarEstadoVacio(listaElement, titulo, detalle) {
+    listaElement.replaceChildren();
+    const contenedor = document.createElement('div');
+    contenedor.className = 'mensaje-vacio';
+    const heading = document.createElement('h3');
+    heading.textContent = titulo;
+    const texto = document.createElement('p');
+    texto.textContent = detalle;
+    contenedor.append(heading, texto);
+    listaElement.appendChild(contenedor);
+}
+
+function crearTarjeta(pasapalabra) {
+    const item = document.createElement('article');
+    item.className = 'pasapalabra_container_diario';
+
+    const titulo = document.createElement('h4');
+    titulo.textContent = pasapalabra.titulo || 'Sin título';
+    const contenido = document.createElement('p');
+    contenido.className = 'pasapalabra_contenido_diario';
+    contenido.textContent = pasapalabra.reflexion || 'Sin contenido';
+    const fecha = document.createElement('h3');
+    fecha.className = 'pasapalabra_fecha_diaria';
+    fecha.textContent = pasapalabra.fecha || 'Sin fecha';
+
+    item.append(titulo, contenido, fecha);
+    return item;
 }
 
 /**
- * Carga el pasapalabra del día de hoy
+ * Carga sólo el archivo estático del Pasapalabra de hoy.
+ * No abre una conexión a Firestore ni descarga el historial.
  */
 export async function cargarPasapalabraDeHoy() {
     const tituloElement = document.getElementById('titulo-hoy');
     const fechaElement = document.getElementById('fecha-hoy');
     const reflexionElement = document.getElementById('reflexion-hoy');
     const contenedorElement = document.getElementById('contenedor-hoy');
+    const hoy = fechaArgentina();
 
     try {
-        const fechaHoy = obtenerFechaHoy();
-        
-        // Consultar todos los pasapalabras con estado publicado
-        const q = query(
-            collection(db, 'pasapalabra'),
-            where('estado', '==', 'publicado')
-        );
-        
-        const querySnapshot = await getDocs(q);
-        let pasapalabraEncontrado = null;
+        let pasapalabra;
+        try {
+            const data = await cargarJson('hoy.json', hoy);
+            if (data.fecha === hoy) pasapalabra = data.pasapalabra;
+        } catch (archivoError) {
+            console.warn('El archivo diario aún no está disponible; se usará la consulta mínima de respaldo.', archivoError);
+        }
 
-        // Buscar el pasapalabra que coincida con la fecha de hoy
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            if (data.fecha === fechaHoy) {
-                pasapalabraEncontrado = data;
-            }
-        });
+        if (!pasapalabra) {
+            pasapalabra = await cargarHoyDesdeFirestore(hoy);
+        }
 
-        if (pasapalabraEncontrado) {
-            // Mostrar el pasapalabra encontrado
-            tituloElement.textContent = pasapalabraEncontrado.titulo || 'Sin título';
-            fechaElement.textContent = formatearFechaLegible(pasapalabraEncontrado.fecha);
-            reflexionElement.textContent = pasapalabraEncontrado.reflexion || 'Sin contenido';
-        } else {
-            // No hay pasapalabra para hoy
+        if (!pasapalabra) {
             tituloElement.textContent = 'NO DISPONIBLE';
-            fechaElement.textContent = formatearFechaLegible(fechaHoy);
+            fechaElement.textContent = new Date(`${hoy}T12:00:00`).toLocaleDateString('es-AR', {
+                day: 'numeric', month: 'long', year: 'numeric'
+            });
             reflexionElement.textContent = 'El pasapalabra de hoy no se ha subido aún. Por favor, vuelve más tarde.';
             contenedorElement.style.borderLeftColor = '#ff6b6b';
+            return;
         }
+
+        tituloElement.textContent = pasapalabra.titulo || 'Sin título';
+        fechaElement.textContent = formatearFechaLegible(pasapalabra.fecha);
+        reflexionElement.textContent = pasapalabra.reflexion || 'Sin contenido';
     } catch (error) {
-        console.error('Error al cargar el pasapalabra de hoy:', error);
+        console.error('Error al cargar el Pasapalabra de hoy:', error);
         tituloElement.textContent = 'ERROR';
-        fechaElement.textContent = formatearFechaLegible(obtenerFechaHoy());
-        reflexionElement.textContent = 'Hubo un error al cargar el pasapalabra de hoy. Por favor, intenta nuevamente más tarde.';
+        fechaElement.textContent = '';
+        reflexionElement.textContent = 'No se pudo cargar el Pasapalabra de hoy. Por favor, intenta nuevamente más tarde.';
         contenedorElement.style.borderLeftColor = '#ff6b6b';
     }
 }
 
-/**
- * Carga todos los pasapalabras ordenados cronológicamente
- */
-export async function cargarTodosPasapalabras() {
+async function cargarSiguientePagina() {
+    if (cargandoPagina) return;
+
     const listaElement = document.getElementById('lista-pasapalabras');
+    const boton = document.getElementById('btn-ver-mas');
     const loadingElement = document.getElementById('loading-message');
+    const siguientePagina = paginaActual + 1;
+    cargandoPagina = true;
+    boton.disabled = true;
+    boton.textContent = 'Cargando...';
 
     try {
-        // Consultar todos los pasapalabras publicados
-        const q = query(
-            collection(db, 'pasapalabra'),
-            where('estado', '==', 'publicado')
-        );
-        
-        const querySnapshot = await getDocs(q);
-        const pasapalabras = [];
-
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            pasapalabras.push({
-                id: doc.id,
-                ...data
-            });
-        });
-
-        // Ocultar mensaje de carga
-        if (loadingElement) {
-            loadingElement.style.display = 'none';
+        let data;
+        try {
+            data = await cargarJson(`paginas/${siguientePagina}.json`);
+        } catch (archivoError) {
+            console.warn('El historial paginado aún no está disponible; se usará una única consulta de respaldo.', archivoError);
+            data = await cargarPaginaDeRespaldo(siguientePagina);
         }
+        if (siguientePagina === 1) listaElement.replaceChildren();
 
-        if (pasapalabras.length === 0) {
-            listaElement.innerHTML = `
-                <div class="mensaje-vacio">
-                    <h3>No hay reflexiones disponibles</h3>
-                    <p>Aún no se han publicado reflexiones. Vuelve pronto.</p>
-                </div>
-            `;
-            return;
+        const fragmento = document.createDocumentFragment();
+        (data.items || []).forEach(item => fragmento.appendChild(crearTarjeta(item)));
+        listaElement.appendChild(fragmento);
+        paginaActual = siguientePagina;
+
+        const hayMas = Boolean(data.siguientePagina);
+        boton.hidden = !hayMas;
+        boton.disabled = false;
+        boton.textContent = 'Ver más';
+
+        if (paginaActual === 1 && !data.items?.length) {
+            mostrarEstadoVacio(listaElement, 'No hay reflexiones disponibles', 'Aún no se han publicado reflexiones. Vuelve pronto.');
         }
-
-        // Ordenar por fecha (más reciente primero)
-        pasapalabras.sort((a, b) => {
-            const fechaA = parseFecha(a.fecha);
-            const fechaB = parseFecha(b.fecha);
-            
-            if (!fechaA || !fechaB) return 0;
-            return fechaB - fechaA; // Orden descendente
-        });
-
-        // Renderizar todos los pasapalabras
-        listaElement.innerHTML = '';
-        
-        pasapalabras.forEach(pasapalabra => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'pasapalabra_container_diario';
-            
-            itemDiv.innerHTML = `
-                <h4>${pasapalabra.titulo || 'Sin título'}</h4>
-                <p class="pasapalabra_contenido_diario">${pasapalabra.reflexion || 'Sin contenido'}</p>
-                <h3 class="pasapalabra_fecha_diaria">${pasapalabra.fecha || 'Sin fecha'}</h3>
-            `;
-            
-            listaElement.appendChild(itemDiv);
-        });
-
     } catch (error) {
-        console.error('Error al cargar los pasapalabras:', error);
-        
-        if (loadingElement) {
-            loadingElement.style.display = 'none';
+        console.error(`Error al cargar la página ${siguientePagina} de Pasapalabra:`, error);
+        if (paginaActual === 0) {
+            mostrarEstadoVacio(listaElement, 'Error al cargar las reflexiones', 'Hubo un problema al cargar las reflexiones. Por favor, intenta nuevamente más tarde.');
         }
-        
-        listaElement.innerHTML = `
-            <div class="mensaje-vacio">
-                <h3>Error al cargar las reflexiones</h3>
-                <p>Hubo un problema al cargar las reflexiones. Por favor, intenta nuevamente más tarde.</p>
-            </div>
-        `;
+        boton.hidden = false;
+        boton.disabled = false;
+        boton.textContent = paginaActual ? 'Reintentar' : 'Intentar nuevamente';
+    } finally {
+        cargandoPagina = false;
+        if (loadingElement) loadingElement.hidden = true;
     }
+}
+
+/**
+ * Carga el primer lote del archivo histórico. Los demás lotes se descargan
+ * únicamente cuando la persona pulsa "Ver más".
+ */
+export async function cargarTodosPasapalabras() {
+    const boton = document.getElementById('btn-ver-mas');
+    if (!boton || boton.dataset.configurado === 'true') return;
+
+    boton.dataset.configurado = 'true';
+    boton.addEventListener('click', cargarSiguientePagina);
+    await cargarSiguientePagina();
 }

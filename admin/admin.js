@@ -1,5 +1,6 @@
 let db, utils, auth;
 let currentUser = null;
+let currentUserRoles = [];
 let currentSection = 'carrusel';
 let editingId = null;
 const loadedSections = new Set();
@@ -16,6 +17,62 @@ let accessZones = [];
 let accessFunctions = [];
 let accessCodes = [];
 let accessUsers = [];
+const FIXED_AUDIENCE_ROLES = [
+    { id: 'gen', nombre: 'Gen', descripcion: 'Contenido interno para los Gen.' },
+    { id: 'gen2', nombre: 'Gen2', descripcion: 'Incluye también todo el contenido Gen.' },
+    { id: 'asistente', nombre: 'Asistente', descripcion: 'Contenido destinado a asistentes.' }
+];
+const FIXED_FUNCTION_ROLES = [
+    ['admin', 'Administrador total'],
+    ['funcion_comunicacion', 'Comunicación'],
+    ['funcion_pasapalabra', 'Pasapalabra'],
+    ['funcion_meditaciones', 'Meditaciones'],
+    ['funcion_biblioteca', 'Biblioteca'],
+    ['funcion_cancionero', 'Cancionero'],
+    ['funcion_subida_multiple', 'Subida múltiple'],
+    ['funcion_recursos', 'Recursos'],
+    ['funcion_frases', 'Frases'],
+    ['funcion_pdv', 'Palabra de Vida']
+].map(([id, nombre]) => ({ id, nombre, descripcion: '' }));
+const SECTION_ROLES = {
+    carrusel: 'funcion_comunicacion',
+    notificaciones: 'funcion_comunicacion',
+    pasapalabra: 'funcion_pasapalabra',
+    meditaciones: 'funcion_meditaciones',
+    biblioteca: 'funcion_biblioteca',
+    cancionero: 'funcion_cancionero',
+    lyrics: 'funcion_cancionero',
+    'bulk-upload': 'funcion_subida_multiple',
+    recursos: 'funcion_recursos',
+    frases: 'funcion_frases',
+    pdv: 'funcion_pdv'
+};
+
+function isFullAdmin() {
+    return currentUserRoles.includes('admin');
+}
+
+function canAccessSection(section) {
+    if (isFullAdmin()) return true;
+    if ((section === 'carrusel' || section === 'notificaciones')
+        && currentUserRoles.some(role => role.startsWith('funcion_comunicacion_zona_'))) {
+        return true;
+    }
+    const requiredRole = SECTION_ROLES[section];
+    return Boolean(requiredRole && currentUserRoles.includes(requiredRole));
+}
+
+function managedCommunicationZones() {
+    return currentUserRoles
+        .filter(role => role.startsWith('funcion_comunicacion_zona_'))
+        .map(role => role.slice('funcion_comunicacion_'.length));
+}
+
+function hasAnyAdminAccess(roles = currentUserRoles) {
+    return roles.includes('admin')
+        || Object.values(SECTION_ROLES).some(role => roles.includes(role))
+        || roles.some(role => role.startsWith('funcion_comunicacion_zona_'));
+}
 
 document.addEventListener('DOMContentLoaded', async function() {
     try {
@@ -49,17 +106,13 @@ function initializeAdmin() {
         try {
             const userDoc = await utils.getDoc(utils.doc(db, 'usuarios', user.uid));
             const userData = userDoc.exists() ? userDoc.data() : null;
-            const roles = userData?.roles || [];
+            const roles = Array.isArray(userData?.roles) ? userData.roles : [];
+            currentUserRoles = roles;
 
-            if (!roles.includes('admin')) {
+            if (!hasAnyAdminAccess(roles)) {
                 showAccessDenied();
                 return;
             }
-
-            // Migración compatible: los registros anteriores no tenían un campo
-            // de visibilidad. Se marcan como públicos una sola vez para que las
-            // nuevas reglas no oculten contenido histórico legítimo.
-            await migrateLegacyMeditationVisibility();
 
             // Si es admin, mostrar el contenido
             hideAdminStatus();
@@ -67,7 +120,8 @@ function initializeAdmin() {
             document.getElementById('access-denied').style.display = 'none';
 
             setupSectionNavigation();
-            loadCurrentSection();
+            applySectionPermissions();
+            if (canAccessSection('notificaciones')) setupPushAdmin();
         } catch (error) {
             console.error('No se pudo verificar el acceso de administrador:', error);
             showAdminError('No pudimos verificar tu acceso. Recargá la página para intentarlo nuevamente.');
@@ -75,6 +129,56 @@ function initializeAdmin() {
     }, (error) => {
         console.error('Error de autenticación:', error);
         showAdminError('No pudimos verificar tu sesión. Recargá la página para intentarlo nuevamente.');
+    });
+}
+
+function setupPushAdmin() {
+    const form = document.getElementById('push-admin-form');
+    if (!form || form.dataset.ready) return;
+    form.dataset.ready = 'true';
+    const limitedZones = !isFullAdmin() && !currentUserRoles.includes('funcion_comunicacion')
+        ? managedCommunicationZones()
+        : [];
+    if (limitedZones.length) {
+        const rolesInput = document.getElementById('push-roles');
+        rolesInput.value = limitedZones[0];
+        rolesInput.placeholder = limitedZones.join(', ');
+    }
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status = document.getElementById('push-admin-status');
+        const button = form.querySelector('button[type="submit"]');
+        button.disabled = true;
+        status.textContent = 'Enviando…';
+        try {
+            const roles = document.getElementById('push-roles').value.split(',').map(value => value.trim()).filter(Boolean);
+            const limitedZones = !isFullAdmin() && !currentUserRoles.includes('funcion_comunicacion')
+                ? managedCommunicationZones()
+                : [];
+            if (limitedZones.length && (roles.length !== 1 || !limitedZones.includes(roles[0]))) {
+                throw new Error('Sólo podés enviar a una de las zonas que administrás.');
+            }
+            await utils.addDoc(utils.collection(db, 'notificaciones_pendientes'), {
+                tipo: 'manual',
+                title: document.getElementById('push-title').value,
+                body: document.getElementById('push-body').value,
+                category: document.getElementById('push-category').value,
+                url: document.getElementById('push-url').value || 'index.html',
+                roles,
+                estado: 'pendiente',
+                creadoPor: currentUser.uid,
+                creadoEn: new Date()
+            });
+            status.textContent = 'Envío programado. Se procesará dentro de los próximos cinco minutos.';
+            form.reset();
+            document.getElementById('push-url').value = 'index.html';
+            if (limitedZones.length) document.getElementById('push-roles').value = limitedZones[0];
+        } catch (error) {
+            console.error(error);
+            status.textContent = `No se pudo enviar: ${error.message}`;
+        } finally {
+            button.disabled = false;
+        }
     });
 }
 
@@ -108,10 +212,32 @@ function setupSectionNavigation() {
             changeSection(section);
         });
     });
+    document.getElementById('admin-section-back')?.addEventListener('click', showAdminSectionPicker);
+}
+
+function applySectionPermissions() {
+    document.querySelectorAll('.nav-btn[data-section]').forEach(button => {
+        button.hidden = !canAccessSection(button.dataset.section);
+    });
+    const firstAllowed = [...document.querySelectorAll('.nav-btn[data-section]')]
+        .find(button => !button.hidden);
+    if (!firstAllowed) {
+        showAccessDenied();
+        return;
+    }
+    const subtitle = document.querySelector('.admin-header p');
+    if (subtitle) subtitle.textContent = isFullAdmin()
+        ? 'Gestioná todo el contenido de la página'
+        : 'Gestioná únicamente las secciones que tenés asignadas';
 }
 
 function changeSection(section) {
+    if (!canAccessSection(section)) {
+        alert('No tenés permiso para administrar esta sección.');
+        return;
+    }
     currentSection = section;
+    document.getElementById('admin-content').classList.add('admin-section-selected');
     
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.section === section);
@@ -123,6 +249,13 @@ function changeSection(section) {
     
     editingId = null;
     loadCurrentSection();
+}
+
+function showAdminSectionPicker() {
+    document.getElementById('admin-content').classList.remove('admin-section-selected');
+    document.querySelectorAll('.nav-btn').forEach(button => button.classList.remove('active'));
+    document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+    document.querySelector('.admin-header')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function loadCurrentSection() {
@@ -371,6 +504,12 @@ window.deleteCarruselItem = deleteCarruselItem;
 
 // ==================== CANCIONERO ====================
 
+const CANCION_CATEGORIES = new Set(['misa', 'gen', 'fogon']);
+
+function normalizeCancionCategory(value) {
+    return CANCION_CATEGORIES.has(value) ? value : 'gen';
+}
+
 async function loadCanciones() {
     try {
         const q = utils.query(utils.collection(db, 'canciones'), utils.orderBy('fechaCreacion', 'desc'));
@@ -400,7 +539,7 @@ function displayCanciones(canciones) {
         item.className = `item ${editingId === cancion.id ? 'active' : ''}`;
         
         const estado = cancion.estado || 'pendiente';
-        const categoria = cancion.categoria || 'gen';
+        const categoria = normalizeCancionCategory(cancion.categoria);
         
         item.innerHTML = `
             <div class="item-title">${cancion.titulo}</div>
@@ -422,7 +561,7 @@ function editCancion(cancion) {
     document.getElementById('cancion-titulo').value = cancion.titulo || '';
     document.getElementById('cancion-artista').value = cancion.artista || '';
     document.getElementById('cancion-letra').value = cancion.letra || '';
-    document.getElementById('cancion-categoria').value = cancion.categoria || 'gen';
+    document.getElementById('cancion-categoria').value = normalizeCancionCategory(cancion.categoria);
     document.getElementById('cancion-estado').value = cancion.estado || 'pendiente';
     
     document.getElementById('cancion-cancel').style.display = 'inline-block';
@@ -524,7 +663,7 @@ function filterCanciones() {
         const matchSearch = (c.titulo || '').toLowerCase().includes(search) ||
                            (c.artista || '').toLowerCase().includes(search);
         const matchEstado = !filterEstado || (c.estado || 'pendiente') === filterEstado;
-        const matchCategoria = !filterCategoria || (c.categoria || 'gen') === filterCategoria;
+        const matchCategoria = !filterCategoria || normalizeCancionCategory(c.categoria) === filterCategoria;
         return matchSearch && matchEstado && matchCategoria;
     });
     
@@ -938,14 +1077,15 @@ function setupMeditacionesListeners() {
         if (descripcion) data.descripcion = descripcion;
 
         try {
+            const savedMeditationId = editingId || `meditacion_${Date.now()}`;
             if (editingId) {
-                await utils.setDoc(utils.doc(db, 'meditaciones', editingId), data, { merge: true });
+                await utils.setDoc(utils.doc(db, 'meditaciones', savedMeditationId), data, { merge: true });
                 alert('✅ Meditación actualizada');
             } else {
-                const id = `meditacion_${Date.now()}`;
-                await utils.setDoc(utils.doc(db, 'meditaciones', id), data);
+                await utils.setDoc(utils.doc(db, 'meditaciones', savedMeditationId), data);
                 alert('✅ Meditación guardada');
             }
+            await registerMeditationLibraryChange(savedMeditationId, 'upsert');
             resetMeditacionForm();
             loadMeditaciones();
         } catch (err) {
@@ -960,7 +1100,9 @@ function setupMeditacionesListeners() {
         if (!editingId) return;
         if (!confirm('¿Eliminar meditación editada?')) return;
         try {
-            await utils.deleteDoc(utils.doc(db, 'meditaciones', editingId));
+            const deletedMeditationId = editingId;
+            await utils.deleteDoc(utils.doc(db, 'meditaciones', deletedMeditationId));
+            await registerMeditationLibraryChange(deletedMeditationId, 'delete');
             alert('✅ Meditación eliminada');
             resetMeditacionForm();
             loadMeditaciones();
@@ -992,7 +1134,7 @@ function editMeditacion(id) {
     document.getElementById('meditacion-diaria').checked = item.activa !== false;
     document.getElementById('meditacion-categoria-meditacion').checked = item['Meditación'] !== false;
     document.getElementById('meditacion-categoria-informacion').checked = item['Informacion'] === true;
-    document.getElementById('meditacion-categoria-publico').checked = item['Publico'] !== false;
+    document.getElementById('meditacion-categoria-publico').checked = item['Publico'] === true;
     
     const cancelBtn = document.getElementById('meditacion-cancel');
     const delBtn = document.getElementById('meditacion-delete');
@@ -1011,7 +1153,7 @@ function resetMeditacionForm() {
     document.getElementById('meditacion-diaria').checked = true;
     document.getElementById('meditacion-categoria-meditacion').checked = true;
     document.getElementById('meditacion-categoria-informacion').checked = false;
-    document.getElementById('meditacion-categoria-publico').checked = true;
+    document.getElementById('meditacion-categoria-publico').checked = false;
     const cancelBtn = document.getElementById('meditacion-cancel');
     const delBtn = document.getElementById('meditacion-delete');
     if (cancelBtn) cancelBtn.style.display = 'none';
@@ -1022,6 +1164,7 @@ async function deleteMeditacion(id) {
     if (!confirm('¿Eliminar esta meditación?')) return;
     try {
         await utils.deleteDoc(utils.doc(db, 'meditaciones', id));
+        await registerMeditationLibraryChange(id, 'delete');
         alert('✅ Meditación eliminada');
         if (editingId === id) resetMeditacionForm();
         loadMeditaciones();
@@ -1029,6 +1172,27 @@ async function deleteMeditacion(id) {
         console.error('Error al eliminar meditación:', err);
         alert('❌ Error al eliminar');
     }
+}
+
+async function registerMeditationLibraryChange(id, action) {
+    const reference = utils.doc(db, 'biblioteca_config', 'meditaciones');
+    const snapshot = await utils.getDoc(reference);
+    const previousData = snapshot.exists() ? snapshot.data() : {};
+    const previous = Array.isArray(previousData.cambios) ? previousData.cambios : [];
+    const revision = Date.now();
+    const combinedChanges = [...previous, { id, action, revision }];
+    const removedChanges = combinedChanges.slice(0, Math.max(0, combinedChanges.length - 100));
+    const changes = combinedChanges.slice(-100);
+    const revisionBase = removedChanges.length
+        ? Number(removedChanges[removedChanges.length - 1].revision) || 0
+        : Number(previousData.revisionBase ?? previousData.revision) || 0;
+    await utils.setDoc(reference, {
+        revision,
+        cambios: changes,
+        revisionBase,
+        actualizadoEn: new Date(),
+        actualizadoPor: currentUser.uid
+    }, { merge: true });
 }
 
 window.editMeditacion = editMeditacion;
@@ -1303,6 +1467,7 @@ const pdvBlockLabels = {
     cita_destacada: 'Cita principal repetida',
     cita_secundaria: 'Cita bíblica secundaria',
     reflexion_autor: 'Reflexión de un autor',
+    experiencia: 'Experiencia / testimonio',
     conclusion: 'Conclusión'
 };
 
@@ -1445,8 +1610,8 @@ function renderPdvBlocksV2() {
               <label class="pdv-block-extra"${block.tipo === 'cita_secundaria' ? '' : ' hidden'}>Referencia
                 <input data-field="referencia" value="${escape(block.referencia || '')}" placeholder="Jn 13, 35">
               </label>
-              <label class="pdv-block-extra"${block.tipo === 'reflexion_autor' ? '' : ' hidden'}>Título
-                <input data-field="titulo" value="${escape(block.titulo || '')}" placeholder="Escribe Chiara Lubich">
+              <label class="pdv-block-extra"${['reflexion_autor', 'experiencia'].includes(block.tipo) ? '' : ' hidden'}>${block.tipo === 'experiencia' ? 'Introducción' : 'Título'}
+                <input data-field="titulo" value="${escape(block.titulo || '')}" placeholder="${block.tipo === 'experiencia' ? 'Wambil, de México, nos cuenta' : 'Escribe Chiara Lubich'}">
               </label>
             </div>
             <div class="pdv-block-actions" aria-label="Ordenar bloque">
@@ -1874,6 +2039,12 @@ function showBulkPreview() {
         if (!Array.isArray(bulkPreviewData)) {
             throw new Error('El JSON debe ser un array.');
         }
+        const invalidCategories = bulkPreviewData
+            .map((item, index) => ({ index: index + 1, category: item.categoria }))
+            .filter(item => !CANCION_CATEGORIES.has(item.category || 'gen'));
+        if (invalidCategories.length) {
+            throw new Error(`Categoría inválida en canción ${invalidCategories.map(item => item.index).join(', ')}. Usá solamente misa, gen o fogon.`);
+        }
         
         let html = `<h3 style="color: var(--text-light); margin-bottom: 1rem;">📋 Previsualización (${bulkPreviewData.length} canciones)</h3>`;
         html += '<div style="max-height: 400px; overflow-y: auto;">';
@@ -1921,8 +2092,10 @@ async function doBulkUpload() {
                 titulo: item.titulo || '',
                 artista: item.artista || '',
                 letra: item.letra || '',
-                categoria: item.categoria || 'gen',
+                categoria: normalizeCancionCategory(item.categoria),
                 estado: item.estado || 'pendiente',
+                tono: item.tono || 'C',
+                fuente: item.fuente || '',
                 fechaCreacion: new Date(),
                 activa: true,
                 reproducciones: 0
@@ -2112,6 +2285,14 @@ function setupCanalForm() {
     document.getElementById('canal-preview-toggle')?.addEventListener('click', toggleCanalImagePreview);
     document.getElementById('canal-imagen')?.addEventListener('input', closeCanalImagePreview);
     document.getElementById('canal-archive-toggle')?.addEventListener('click', toggleCanalArchive);
+    const managedZones = managedCommunicationZones();
+    if (!isFullAdmin() && !currentUserRoles.includes('funcion_comunicacion') && managedZones.length) {
+        audience.value = 'roles';
+        audience.disabled = true;
+        const rolesInput = document.getElementById('canal-roles');
+        rolesInput.placeholder = managedZones.join(', ');
+        rolesInput.value = managedZones[0];
+    }
     updateCanalAudienceFields();
     updateCanalStateFields();
     updateCanalEventFields();
@@ -2221,11 +2402,23 @@ async function loadCanalAdmin() {
     if (!container || !archivedContainer) return;
     container.innerHTML = '<p style="color:var(--text-muted)">Cargando publicaciones...</p>';
     try {
-        const [snapshot, legacySnapshot] = await Promise.all([
-            utils.getDocs(utils.collection(db, 'canal_publicaciones')),
-            utils.getDocs(utils.collection(db, 'carrusel'))
-        ]);
-        const currentItems = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+        const limitedZones = !isFullAdmin() && !currentUserRoles.includes('funcion_comunicacion')
+            ? managedCommunicationZones()
+            : [];
+        const snapshots = limitedZones.length
+            ? await Promise.all(limitedZones.map(zone => utils.getDocs(utils.query(
+                utils.collection(db, 'canal_publicaciones'),
+                utils.where('zonaAdministradora', '==', zone)
+            ))))
+            : [await utils.getDocs(utils.collection(db, 'canal_publicaciones'))];
+        const legacySnapshot = limitedZones.length
+            ? { docs: [] }
+            : await utils.getDocs(utils.collection(db, 'carrusel'));
+        const currentItemMap = new Map();
+        snapshots.flatMap(snapshot => snapshot.docs).forEach(docSnap => {
+            currentItemMap.set(docSnap.id, { id: docSnap.id, ...docSnap.data() });
+        });
+        const currentItems = [...currentItemMap.values()];
         const legacyItems = legacySnapshot.docs.map(docSnap => {
             const data = docSnap.data();
             return {
@@ -2281,6 +2474,12 @@ async function saveCanalPost(event) {
         ? [...new Set(document.getElementById('canal-roles').value.split(',').map(role => role.trim()).filter(Boolean))]
         : [];
     if (audiencia === 'roles' && !roles.length) return alert('Ingresá al menos una zona destinataria.');
+    const limitedZones = !isFullAdmin() && !currentUserRoles.includes('funcion_comunicacion')
+        ? managedCommunicationZones()
+        : [];
+    if (limitedZones.length && (roles.length !== 1 || !limitedZones.includes(roles[0]))) {
+        return alert('Sólo podés publicar para una de las zonas que administrás.');
+    }
     const imageValue = document.getElementById('canal-imagen').value.trim();
     const linkValue = document.getElementById('canal-enlace').value.trim();
     const linkTextValue = document.getElementById('canal-texto-enlace').value.trim();
@@ -2301,6 +2500,7 @@ async function saveCanalPost(event) {
         enlace: linkValue,
         textoEnlace: linkTextValue || 'Más información',
         rolesDestinatarios: roles,
+        zonaAdministradora: roles.length === 1 && roles[0].startsWith('zona_') ? roles[0] : '',
         audiencia,
         estado,
         fechaPublicacion: estado === 'programada' ? new Date(fechaInput) : new Date(),
@@ -2365,6 +2565,13 @@ function editCanalPost(id) {
 
 function resetCanalForm() {
     document.getElementById('canal-form').reset();
+    const limitedZones = !isFullAdmin() && !currentUserRoles.includes('funcion_comunicacion')
+        ? managedCommunicationZones()
+        : [];
+    if (limitedZones.length) {
+        document.getElementById('canal-audiencia').value = 'roles';
+        document.getElementById('canal-roles').value = limitedZones[0];
+    }
     document.getElementById('canal-etiqueta').value = '';
     document.getElementById('canal-vencimiento').value = '';
     document.getElementById('canal-edit-id').value = '';
@@ -2390,18 +2597,17 @@ async function deleteCanalPost(id) {
 function setupAccessAdmin() {
     const zoneForm = document.getElementById('zona-form');
     const codeForm = document.getElementById('codigo-form');
-    const assignmentForm = document.getElementById('asignacion-form');
     if (!zoneForm || zoneForm.dataset.bound) return;
     zoneForm.dataset.bound = 'true';
     zoneForm.addEventListener('submit', createAccessZone);
     codeForm.addEventListener('submit', createAccessCode);
-    assignmentForm.addEventListener('submit', assignAccessDirectly);
     document.getElementById('codigo-tipo').addEventListener('change', updateCodeTypeFields);
     document.getElementById('codigo-destino-tipo').addEventListener('change', updateCodeDestinationFields);
-    document.getElementById('asignacion-destino-tipo').addEventListener('change', updateAssignmentDestinationFields);
-    document.getElementById('acceso-tipo').addEventListener('change', updateAccessEntityFields);
     document.getElementById('codigos-filtro').addEventListener('change', renderAccessCodes);
     document.getElementById('codigos-destino-filtro').addEventListener('change', renderAccessCodes);
+    document.getElementById('perfiles-busqueda')?.addEventListener('input', renderRoleProfiles);
+    document.getElementById('desactivar-acceso-toggle')?.addEventListener('click', toggleDeactivationPanel);
+    document.getElementById('desactivar-acceso-tipo')?.addEventListener('change', renderDeactivationOptions);
     document.getElementById('codigo-generado-copiar').addEventListener('click', () => {
         copyAccessCode(document.getElementById('codigo-generado-valor').textContent);
     });
@@ -2414,8 +2620,168 @@ function setupAccessAdmin() {
     });
     updateCodeTypeFields();
     updateCodeDestinationFields();
-    updateAssignmentDestinationFields();
-    updateAccessEntityFields();
+}
+
+function roleDisplayName(role) {
+    if (role === 'admin') return 'Administrador total';
+    const item = [...accessZones, ...accessFunctions].find(entry => entry.id === role);
+    return item?.nombre || role.replaceAll('_', ' ');
+}
+
+function effectiveProfileRoles(user) {
+    const roles = new Set(Array.isArray(user.roles) ? user.roles : []);
+    if (roles.has('gen2')) roles.add('gen');
+    return [...roles];
+}
+
+function createRolePill(user, role, { inherited = false } = {}) {
+    const pill = document.createElement('span');
+    pill.className = 'profile-role-pill';
+    pill.textContent = `${roleDisplayName(role)}${inherited ? ' · heredado' : ''}`;
+    if (!inherited) {
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = 'Retirar';
+        remove.setAttribute('aria-label', `Retirar ${roleDisplayName(role)} de ${user.nombre || user.email}`);
+        remove.addEventListener('click', () => revokeUserRole(user, role));
+        pill.appendChild(remove);
+    }
+    return pill;
+}
+
+function renderRoleProfiles() {
+    const groupedContainer = document.getElementById('roles-perfiles-list');
+    const profilesContainer = document.getElementById('perfiles-list');
+    if (!groupedContainer || !profilesContainer) return;
+    groupedContainer.replaceChildren();
+    const knownRoles = new Set(['admin']);
+    [...accessZones, ...accessFunctions].forEach(item => knownRoles.add(item.id));
+    accessUsers.forEach(user => effectiveProfileRoles(user).forEach(role => knownRoles.add(role)));
+    [...knownRoles].sort((a, b) => roleDisplayName(a).localeCompare(roleDisplayName(b), 'es')).forEach(role => {
+        const members = accessUsers.filter(user => effectiveProfileRoles(user).includes(role));
+        const details = document.createElement('details');
+        details.className = 'role-group';
+        const summary = document.createElement('summary');
+        summary.textContent = `${roleDisplayName(role)} (${members.length})`;
+        details.appendChild(summary);
+        if (!members.length) {
+            const empty = document.createElement('p');
+            empty.className = 'admin-list-status';
+            empty.textContent = 'No hay personas con este rol.';
+            details.appendChild(empty);
+        } else {
+            members.sort((a, b) => (a.nombre || a.email || '').localeCompare(b.nombre || b.email || '', 'es'))
+                .forEach(user => {
+                    const row = document.createElement('div');
+                    row.className = 'role-member';
+                    const identity = document.createElement('span');
+                    identity.textContent = `${user.nombre || user.displayName || 'Sin nombre'} · ${user.email || 'Sin correo'}`;
+                    row.appendChild(identity);
+                    const inherited = role === 'gen' && !user.roles?.includes('gen') && user.roles?.includes('gen2');
+                    if (inherited) {
+                        const note = document.createElement('small');
+                        note.textContent = 'Por Gen2';
+                        row.appendChild(note);
+                    } else {
+                        const remove = document.createElement('button');
+                        remove.type = 'button';
+                        remove.className = 'btn-delete';
+                        remove.textContent = 'Retirar';
+                        remove.addEventListener('click', () => revokeUserRole(user, role));
+                        row.appendChild(remove);
+                    }
+                    details.appendChild(row);
+                });
+        }
+        groupedContainer.appendChild(details);
+    });
+
+    const term = (document.getElementById('perfiles-busqueda')?.value || '').trim().toLowerCase();
+    const filteredUsers = accessUsers
+        .filter(user => !term || `${user.nombre || ''} ${user.displayName || ''} ${user.email || ''}`.toLowerCase().includes(term))
+        .sort((a, b) => (a.nombre || a.email || '').localeCompare(b.nombre || b.email || '', 'es'));
+    profilesContainer.replaceChildren();
+    filteredUsers.forEach(user => {
+        const card = document.createElement('article');
+        card.className = 'profile-access-card';
+        const title = document.createElement('strong');
+        title.textContent = user.nombre || user.displayName || 'Sin nombre';
+        const email = document.createElement('span');
+        email.textContent = user.email || 'Sin correo';
+        const roles = document.createElement('div');
+        roles.className = 'profile-role-list';
+        const storedRoles = Array.isArray(user.roles) ? user.roles : [];
+        storedRoles.forEach(role => roles.appendChild(createRolePill(user, role)));
+        if (storedRoles.includes('gen2') && !storedRoles.includes('gen')) {
+            roles.appendChild(createRolePill(user, 'gen', { inherited: true }));
+        }
+        if (!roles.childElementCount) {
+            const empty = document.createElement('small');
+            empty.textContent = 'Sin roles asignados';
+            roles.appendChild(empty);
+        }
+        const assignment = document.createElement('div');
+        assignment.className = 'profile-role-assignment';
+        const select = document.createElement('select');
+        select.setAttribute('aria-label', `Agregar rol a ${user.nombre || user.email}`);
+        select.innerHTML = '<option value="">Elegí un rol para agregar</option>';
+        const currentRoles = new Set(effectiveProfileRoles(user));
+        const availableRoles = [
+            ...accessZones.filter(item => item.activa !== false),
+            ...accessFunctions.filter(item => item.activa !== false)
+        ].filter(item => !currentRoles.has(item.id))
+            .sort((a, b) => roleDisplayName(a.id).localeCompare(roleDisplayName(b.id), 'es'));
+        availableRoles.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = roleDisplayName(item.id);
+            select.appendChild(option);
+        });
+        const add = document.createElement('button');
+        add.type = 'button';
+        add.className = 'btn-secondary';
+        add.textContent = 'Agregar rol';
+        add.disabled = !availableRoles.length;
+        add.addEventListener('click', () => {
+            if (!select.value) return alert('Elegí un rol para agregar.');
+            assignRoleToUser(user, select.value);
+        });
+        assignment.append(select, add);
+        card.append(title, email, roles, assignment);
+        profilesContainer.appendChild(card);
+    });
+    if (!filteredUsers.length) profilesContainer.innerHTML = '<p class="admin-list-status">No encontramos perfiles.</p>';
+}
+
+async function revokeUserRole(user, role) {
+    if (role === 'admin' && user.id === currentUser.uid) {
+        return alert('No podés retirar tu propio rol de administrador.');
+    }
+    if (role === 'admin') {
+        const adminCount = accessUsers.filter(item => item.roles?.includes('admin')).length;
+        if (adminCount <= 1) return alert('No se puede retirar el rol del último administrador.');
+    }
+    if (!confirm(`¿Retirar “${roleDisplayName(role)}” de ${user.nombre || user.email || 'esta cuenta'}?`)) return;
+    const roles = (Array.isArray(user.roles) ? user.roles : []).filter(item => item !== role);
+    const history = Array.isArray(user.historialRoles) ? user.historialRoles.slice(-99) : [];
+    history.push({
+        accion: 'retirado',
+        rol: role,
+        realizadoPor: currentUser.uid,
+        fecha: new Date()
+    });
+    try {
+        await utils.updateDoc(utils.doc(db, 'usuarios', user.id), {
+            roles,
+            historialRoles: history,
+            accesoActualizadoEn: new Date(),
+            accesoActualizadoPor: currentUser.uid
+        });
+        await loadAccessAdmin();
+    } catch (error) {
+        console.error(error);
+        alert(`No se pudo retirar el rol: ${error.message}`);
+    }
 }
 
 function accessRoleId(value, type = 'zona') {
@@ -2430,19 +2796,7 @@ function accessRoleId(value, type = 'zona') {
 }
 
 function zoneRoleId(value) {
-    return accessRoleId(value, document.getElementById('acceso-tipo')?.value || 'zona');
-}
-
-function updateAccessEntityFields() {
-    const isFunction = document.getElementById('acceso-tipo').value === 'funcionalidad';
-    document.getElementById('zona-nombre-label').textContent = isFunction ? 'Nombre de la funcionalidad *' : 'Nombre de la zona *';
-    document.getElementById('zona-nombre').placeholder = isFunction ? 'Ej.: Administrador' : 'Ej.: Rosario';
-    document.getElementById('zona-id-help').textContent = isFunction
-        ? 'Se genera con el prefijo funcion_. “Administrador” usa el rol especial admin.'
-        : 'Se genera con el prefijo zona_. No podrá cambiarse después.';
-    document.getElementById('zona-submit').textContent = isFunction ? 'Crear funcionalidad' : 'Crear zona';
-    const idInput = document.getElementById('zona-id');
-    if (!idInput.dataset.manual) idInput.value = zoneRoleId(document.getElementById('zona-nombre').value);
+    return accessRoleId(value, 'zona');
 }
 
 function updateCodeTypeFields() {
@@ -2463,14 +2817,6 @@ function updateCodeDestinationFields() {
     document.getElementById('codigo-funcionalidad').required = !isZone;
 }
 
-function updateAssignmentDestinationFields() {
-    const isZone = document.getElementById('asignacion-destino-tipo').value === 'zona';
-    document.getElementById('asignacion-zona-group').hidden = !isZone;
-    document.getElementById('asignacion-funcionalidad-group').hidden = isZone;
-    document.getElementById('asignacion-zona').required = isZone;
-    document.getElementById('asignacion-funcionalidad').required = !isZone;
-}
-
 async function loadAccessAdmin() {
     try {
         const [zonesSnapshot, functionsSnapshot, codesSnapshot, usersSnapshot] = await Promise.all([
@@ -2481,22 +2827,44 @@ async function loadAccessAdmin() {
         ]);
         accessZones = zonesSnapshot.docs.map(item => ({ id: item.id, ...item.data() }))
             .sort((a, b) => (a.nombre || a.id).localeCompare(b.nombre || b.id, 'es'));
-        accessFunctions = functionsSnapshot.docs.map(item => ({ id: item.id, ...item.data() }))
+        const storedFunctions = functionsSnapshot.docs.map(item => ({ id: item.id, ...item.data() }));
+        const fixedRoles = [
+            ...FIXED_AUDIENCE_ROLES.map(item => ({ ...item, fixed: true, roleType: 'audiencia' })),
+            ...FIXED_FUNCTION_ROLES.map(item => ({
+                ...item,
+                fixed: true,
+                roleType: 'funcionalidad'
+            }))
+        ];
+        const functionMap = new Map(fixedRoles.map(item => [item.id, item]));
+        storedFunctions.forEach(item => functionMap.set(item.id, {
+            roleType: 'funcionalidad',
+            ...functionMap.get(item.id),
+            ...item
+        }));
+        accessZones.forEach(zone => {
+            const roleId = zone.rolComunicacion || `funcion_comunicacion_${zone.id}`;
+            if (functionMap.has(roleId)) return;
+            functionMap.set(roleId, {
+                id: roleId,
+                nombre: `Comunicación · ${zone.nombre || zone.id}`,
+                descripcion: `Administración de comunicaciones para ${zone.nombre || zone.id}.`,
+                activa: zone.activa !== false,
+                zonaRol: zone.id,
+                generadoAutomaticamente: true,
+                derivadoDeZona: true,
+                roleType: 'funcionalidad'
+            });
+        });
+        accessFunctions = [...functionMap.values()]
             .sort((a, b) => (a.nombre || a.id).localeCompare(b.nombre || b.id, 'es'));
         accessCodes = codesSnapshot.docs.map(item => ({ id: item.id, ...item.data() }))
             .sort((a, b) => accessDate(b.creadoEn) - accessDate(a.creadoEn));
         accessUsers = usersSnapshot.docs.map(item => ({ id: item.id, ...item.data() }));
-        const usersList = document.getElementById('codigo-usuarios');
-        usersList.replaceChildren();
-        accessUsers.forEach(user => {
-            if (!user.email) return;
-            const option = document.createElement('option');
-            option.value = user.email;
-            option.label = user.nombre || user.displayName || user.email;
-            usersList.appendChild(option);
-        });
         renderAccessZones();
         renderAccessCodes();
+        renderRoleProfiles();
+        renderDeactivationOptions();
         updateAccessStats();
     } catch (error) {
         console.error('No se pudieron cargar zonas y códigos:', error);
@@ -2519,53 +2887,74 @@ function isAccessCodeAvailable(code) {
 }
 
 function renderAccessZones() {
-    const container = document.getElementById('zonas-list');
+    const zoneContainer = document.getElementById('zonas-list');
+    const functionContainer = document.getElementById('funciones-list');
+    const audienceContainer = document.getElementById('roles-generales-list');
     const zoneSelect = document.getElementById('codigo-zona');
     const functionSelect = document.getElementById('codigo-funcionalidad');
-    const assignmentZoneSelect = document.getElementById('asignacion-zona');
-    const assignmentFunctionSelect = document.getElementById('asignacion-funcionalidad');
-    container.replaceChildren();
+    zoneContainer.replaceChildren();
+    functionContainer.replaceChildren();
+    audienceContainer.replaceChildren();
     zoneSelect.innerHTML = '<option value="">Elegí una zona</option>';
-    functionSelect.innerHTML = '<option value="">Elegí una funcionalidad</option>';
-    assignmentZoneSelect.innerHTML = '<option value="">Elegí una zona</option>';
-    assignmentFunctionSelect.innerHTML = '<option value="">Elegí una funcionalidad</option>';
-    const entries = [
-        ...accessZones.map(item => ({ ...item, accessType: 'zona' })),
-        ...accessFunctions.map(item => ({ ...item, accessType: 'funcionalidad' }))
-    ].sort((a, b) => (a.nombre || a.id).localeCompare(b.nombre || b.id, 'es'));
-    entries.forEach(zone => {
+    functionSelect.innerHTML = '<option value="">Elegí un rol o función</option>';
+
+    const renderEntry = (entry, accessType, container) => {
         const row = document.createElement('article');
-        row.className = `access-item${zone.activa === false ? ' access-item-inactive' : ''}`;
+        row.className = `access-item${entry.activa === false ? ' access-item-inactive' : ''}`;
         const info = document.createElement('div');
         const title = document.createElement('strong');
-        title.textContent = zone.nombre || zone.id;
+        title.textContent = entry.nombre || entry.id;
         const meta = document.createElement('span');
-        const typeName = zone.accessType === 'funcionalidad' ? 'Funcionalidad' : 'Zona';
-        meta.textContent = `${typeName} · ${zone.id} · ${zone.activa === false ? 'Inactiva' : 'Activa'}`;
+        const typeName = entry.roleType === 'audiencia'
+            ? 'Audiencia'
+            : (entry.roleType === 'administracion' ? 'Administración' : (accessType === 'zona' ? 'Zona' : 'Función'));
+        meta.textContent = `${typeName} · ${entry.id} · ${entry.activa === false ? 'Inactiva' : 'Activa'}`;
         info.append(title, meta);
-        if (zone.descripcion) {
+        if (entry.descripcion) {
             const description = document.createElement('p');
-            description.textContent = zone.descripcion;
+            description.textContent = entry.descripcion;
             info.appendChild(description);
         }
-        const toggle = document.createElement('button');
-        toggle.type = 'button';
-        toggle.className = zone.activa === false ? 'btn-secondary' : 'btn-delete';
-        toggle.textContent = zone.activa === false ? 'Reactivar' : 'Desactivar';
-        toggle.addEventListener('click', () => toggleAccessZone(zone));
-        row.append(info, toggle);
+        row.appendChild(info);
+        if (entry.activa !== false) {
+            const codeButton = document.createElement('button');
+            codeButton.type = 'button';
+            codeButton.className = 'btn-secondary';
+            codeButton.textContent = 'Crear código';
+            codeButton.addEventListener('click', () => prepareCodeForRole(entry.id, accessType));
+            row.appendChild(codeButton);
+        }
         container.appendChild(row);
 
-        if (zone.activa !== false) {
+        if (entry.activa !== false) {
             const option = document.createElement('option');
-            option.value = zone.id;
-            option.textContent = zone.nombre || zone.id;
-            (zone.accessType === 'funcionalidad' ? functionSelect : zoneSelect).appendChild(option);
-            const assignmentOption = option.cloneNode(true);
-            (zone.accessType === 'funcionalidad' ? assignmentFunctionSelect : assignmentZoneSelect).appendChild(assignmentOption);
+            option.value = entry.id;
+            option.textContent = entry.nombre || entry.id;
+            (accessType === 'zona' ? zoneSelect : functionSelect).appendChild(option);
         }
-    });
-    if (!entries.length) container.innerHTML = '<p class="admin-list-status">Todavía no hay zonas ni funcionalidades.</p>';
+    };
+
+    accessZones.forEach(item => renderEntry(item, 'zona', zoneContainer));
+    accessFunctions.forEach(item => renderEntry(
+        item,
+        'funcionalidad',
+        item.roleType === 'funcionalidad' ? functionContainer : audienceContainer
+    ));
+    if (!accessZones.length) zoneContainer.innerHTML = '<p class="admin-list-status">Todavía no hay zonas.</p>';
+    if (!accessFunctions.some(item => item.roleType === 'funcionalidad')) functionContainer.innerHTML = '<p class="admin-list-status">Todavía no hay funciones.</p>';
+    if (!accessFunctions.some(item => item.roleType !== 'funcionalidad')) audienceContainer.innerHTML = '<p class="admin-list-status">Todavía no hay roles generales.</p>';
+}
+
+function prepareCodeForRole(role, accessType) {
+    const destination = document.getElementById('codigo-destino-tipo');
+    destination.value = accessType;
+    updateCodeDestinationFields();
+    document.getElementById(accessType === 'zona' ? 'codigo-zona' : 'codigo-funcionalidad').value = role;
+    if (accessType === 'funcionalidad') {
+        document.getElementById('codigo-tipo').value = 'unico';
+        updateCodeTypeFields();
+    }
+    document.getElementById('codigo-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function renderAccessCodes() {
@@ -2711,32 +3100,58 @@ function updateAccessStats() {
 
 async function createAccessZone(event) {
     event.preventDefault();
-    const accessType = document.getElementById('acceso-tipo').value;
-    const isFunction = accessType === 'funcionalidad';
     const name = document.getElementById('zona-nombre').value.trim();
     const idInput = document.getElementById('zona-id');
-    const id = (idInput.value.trim() || accessRoleId(name, accessType)).toLowerCase();
-    const validId = isFunction
-        ? /^(?:admin|funcion_[a-z0-9]+(?:_[a-z0-9]+)*)$/
-        : /^zona_[a-z0-9]+(?:_[a-z0-9]+)*$/;
-    if (!validId.test(id)) return alert(isFunction
-        ? 'La funcionalidad debe usar admin o comenzar con funcion_, usando solo letras, números y guiones bajos.'
-        : 'La zona debe comenzar con zona_ y usar solo letras, números y guiones bajos.');
-    const existingItems = isFunction ? accessFunctions : accessZones;
-    if (existingItems.some(item => String(item.nombre || '').trim().toLowerCase() === name.toLowerCase())) {
-        return alert(`Ya existe ${isFunction ? 'una funcionalidad' : 'una zona'} con ese nombre.`);
+    const id = (idInput.value.trim() || accessRoleId(name, 'zona')).toLowerCase();
+    if (!/^zona_[a-z0-9]+(?:_[a-z0-9]+)*$/.test(id)) {
+        return alert('La zona debe comenzar con zona_ y usar solo letras, números y guiones bajos.');
+    }
+    if (accessZones.some(item => String(item.nombre || '').trim().toLowerCase() === name.toLowerCase())) {
+        return alert('Ya existe una zona con ese nombre.');
     }
     try {
-        const collectionName = isFunction ? 'funcionalidades' : 'zonas';
-        const reference = utils.doc(db, collectionName, id);
-        if ((await utils.getDoc(reference)).exists()) return alert(`Ya existe ${isFunction ? 'una funcionalidad' : 'una zona'} con ese identificador.`);
-        await utils.setDoc(reference, {
+        const reference = utils.doc(db, 'zonas', id);
+        if ((await utils.getDoc(reference)).exists()) return alert('Ya existe una zona con ese identificador.');
+        const baseData = {
             nombre: name,
             descripcion: document.getElementById('zona-descripcion').value.trim(),
             activa: true,
             creadoEn: new Date(),
             creadoPor: currentUser.uid
+        };
+        const communicationRole = `funcion_comunicacion_${id}`;
+        const audienceCode = await uniqueAccessCode();
+        let communicationCode = await uniqueAccessCode();
+        while (communicationCode === audienceCode) communicationCode = await uniqueAccessCode();
+        const batch = utils.writeBatch(db);
+        batch.set(reference, {
+            ...baseData,
+            rolComunicacion: communicationRole,
+            codigoInicial: audienceCode,
+            codigoComunicacionInicial: communicationCode
         });
+        batch.set(utils.doc(db, 'funcionalidades', communicationRole), {
+            nombre: `Comunicación · ${name}`,
+            descripcion: `Administración de comunicaciones para ${name}.`,
+            activa: true,
+            zonaRol: id,
+            generadoAutomaticamente: true,
+            creadoEn: new Date(),
+            creadoPor: currentUser.uid
+        });
+        batch.set(utils.doc(db, 'codigos_roles', audienceCode), accessCodeData(id, 'zona', 'libre', null, `Código inicial de ${name}`));
+        batch.set(utils.doc(db, 'codigos_roles', communicationCode), accessCodeData(
+            communicationRole,
+            'funcionalidad',
+            'limitado',
+            1,
+            `Código administrativo inicial de ${name}`
+        ));
+        await batch.commit();
+        const generated = document.getElementById('codigo-generado');
+        generated.hidden = false;
+        document.getElementById('codigo-generado-valor').textContent =
+            `Zona: ${audienceCode}\nComunicación: ${communicationCode}`;
         event.target.reset();
         idInput.dataset.manual = '';
         await loadAccessAdmin();
@@ -2746,16 +3161,98 @@ async function createAccessZone(event) {
     }
 }
 
-async function toggleAccessZone(zone) {
-    const nextActive = zone.activa === false;
-    const isFunction = zone.accessType === 'funcionalidad';
-    const itemName = isFunction ? 'la funcionalidad' : 'la zona';
-    if (!confirm(`${nextActive ? '¿Reactivar' : '¿Desactivar'} ${itemName} “${zone.nombre || zone.id}”?`)) return;
+function accessCodeData(role, destinationType, type, maxUses, note = '') {
+    return {
+        rol: role,
+        destinoTipo: destinationType,
+        tipo,
+        maxUsos: maxUses,
+        usosActuales: 0,
+        activo: true,
+        venceEn: null,
+        nota: note,
+        creadoEn: new Date(),
+        creadoPor: currentUser.uid
+    };
+}
+
+function toggleDeactivationPanel() {
+    const panel = document.getElementById('desactivar-acceso-panel');
+    const button = document.getElementById('desactivar-acceso-toggle');
+    panel.hidden = !panel.hidden;
+    button.setAttribute('aria-expanded', String(!panel.hidden));
+    if (!panel.hidden) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function renderDeactivationOptions() {
+    const container = document.getElementById('desactivar-acceso-list');
+    const type = document.getElementById('desactivar-acceso-tipo')?.value;
+    if (!container) return;
+    container.replaceChildren();
+    if (!type) {
+        container.innerHTML = '<p class="admin-list-status">Elegí una categoría para ver sus elementos activos.</p>';
+        return;
+    }
+    const entries = type === 'zona'
+        ? accessZones.filter(item => item.activa !== false)
+        : accessFunctions.filter(item => item.activa !== false && item.roleType !== 'audiencia' && item.id !== 'admin');
+    entries.forEach(entry => {
+        const row = document.createElement('article');
+        row.className = 'access-item';
+        const info = document.createElement('div');
+        const title = document.createElement('strong');
+        title.textContent = entry.nombre || entry.id;
+        const id = document.createElement('span');
+        id.textContent = entry.id;
+        info.append(title, id);
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn-delete';
+        button.textContent = 'Desactivar';
+        button.addEventListener('click', () => deactivateAccessEntry(entry, type));
+        row.append(info, button);
+        container.appendChild(row);
+    });
+    if (!entries.length) container.innerHTML = '<p class="admin-list-status">No hay elementos activos en esta categoría.</p>';
+}
+
+async function deactivateAccessEntry(entry, type) {
+    const category = type === 'zona' ? 'la zona' : 'la función';
+    const name = entry.nombre || entry.id;
+    if (!confirm(`¿Querés desactivar ${category} “${name}”?`)) return;
+    const typedName = prompt(`Para confirmar, escribí exactamente:\n${name}`);
+    if (typedName === null) return;
+    if (typedName.trim() !== name) {
+        return alert('El nombre ingresado no coincide. No se realizó ningún cambio.');
+    }
     try {
-        await utils.updateDoc(utils.doc(db, isFunction ? 'funcionalidades' : 'zonas', zone.id), { activa: nextActive, actualizadoEn: new Date(), actualizadoPor: currentUser.uid });
+        const update = {
+            activa: false,
+            actualizadoEn: new Date(),
+            actualizadoPor: currentUser.uid
+        };
+        const batch = utils.writeBatch(db);
+        const collectionName = type === 'zona' ? 'zonas' : 'funcionalidades';
+        batch.set(utils.doc(db, collectionName, entry.id), update, { merge: true });
+        const affectedRoles = [entry.id];
+        if (type === 'zona') {
+            const communicationRole = entry.rolComunicacion || `funcion_comunicacion_${entry.id}`;
+            affectedRoles.push(communicationRole);
+            batch.set(utils.doc(db, 'funcionalidades', communicationRole), update, { merge: true });
+        }
+        accessCodes
+            .filter(code => affectedRoles.includes(code.rol) && code.activo !== false)
+            .forEach(code => batch.update(utils.doc(db, 'codigos_roles', code.id), {
+                activo: false,
+                actualizadoEn: new Date(),
+                actualizadoPor: currentUser.uid
+            }));
+        await batch.commit();
         await loadAccessAdmin();
+        alert(`${name} quedó desactivada.`);
     } catch (error) {
-        alert(`No se pudo actualizar la zona: ${error.message}`);
+        console.error(error);
+        alert(`No se pudo desactivar: ${error.message}`);
     }
 }
 
@@ -2784,6 +3281,9 @@ async function createAccessCode(event) {
     const type = document.getElementById('codigo-tipo').value;
     const maxUses = type === 'unico' ? 1 : (type === 'limitado' ? Number(document.getElementById('codigo-max-usos').value) : null);
     if (!role) return alert(destinationType === 'zona' ? 'Elegí una zona.' : 'Elegí una funcionalidad.');
+    if ((role === 'admin' || role.startsWith('funcion_')) && type !== 'unico') {
+        return alert('Los códigos administrativos deben ser personales y de un solo uso.');
+    }
     if (type === 'limitado' && (!Number.isInteger(maxUses) || maxUses < 2)) return alert('Ingresá una cantidad válida de usos.');
     const expiresValue = document.getElementById('codigo-vence').value;
     const expiresAt = expiresValue ? new Date(expiresValue) : null;
@@ -2814,30 +3314,29 @@ async function createAccessCode(event) {
     }
 }
 
-async function assignAccessDirectly(event) {
-    event.preventDefault();
-    const email = document.getElementById('asignacion-email').value.trim().toLowerCase();
-    const destinationType = document.getElementById('asignacion-destino-tipo').value;
-    const role = destinationType === 'zona'
-        ? document.getElementById('asignacion-zona').value
-        : document.getElementById('asignacion-funcionalidad').value;
-    if (!role) return alert(destinationType === 'zona' ? 'Elegí una zona.' : 'Elegí una funcionalidad.');
-
-    const user = accessUsers.find(item => String(item.email || '').trim().toLowerCase() === email);
-    if (!user) return alert('No encontramos una cuenta registrada con ese correo.');
+async function assignRoleToUser(user, role) {
     const roles = Array.isArray(user.roles) ? user.roles : [];
     if (roles.includes(role)) return alert('La cuenta ya tiene ese acceso asignado.');
+    if (role === 'admin' && !confirm(`¿Otorgar administración total a ${user.nombre || user.email}? Tendrá acceso a toda la página y a la gestión de roles.`)) {
+        return;
+    }
 
     try {
+        const history = Array.isArray(user.historialRoles) ? user.historialRoles.slice(-99) : [];
+        history.push({
+            accion: 'asignado',
+            rol: role,
+            realizadoPor: currentUser.uid,
+            fecha: new Date()
+        });
         await utils.updateDoc(utils.doc(db, 'usuarios', user.id), {
             roles: [...roles, role],
             accesoAsignadoEn: new Date(),
-            accesoAsignadoPor: currentUser.uid
+            accesoAsignadoPor: currentUser.uid,
+            historialRoles: history
         });
-        event.target.reset();
-        updateAssignmentDestinationFields();
         await loadAccessAdmin();
-        alert('Acceso asignado correctamente.');
+        alert('Rol agregado correctamente.');
     } catch (error) {
         console.error(error);
         alert(`No se pudo asignar el acceso: ${error.message}`);
@@ -2907,6 +3406,7 @@ const BIB_DEFAULT_TOPICS = [
     'Fisionomía del Gen', 'Estatutos', 'Ciudad Nueva'
 ];
 let bibOfficialTopics = [...BIB_DEFAULT_TOPICS];
+let bibTopicDraft = new Set();
 
 function bibText(value) {
     return String(value || '').trim();
@@ -2919,6 +3419,13 @@ function bibFormatBytes(bytes) {
     return `${(bytes / (1024 ** power)).toFixed(power ? 1 : 0)} ${units[power]}`;
 }
 
+function bibParseVisibleSize(value) {
+    const match = bibText(value).match(/^(\d+(?:[.,]\d+)?)\s*(B|KB|MB|GB|TB)$/i);
+    return match
+        ? { numero: match[1].replace(',', '.'), unidad: match[2].toUpperCase() }
+        : { numero: '', unidad: '' };
+}
+
 function bibElement(tag, className, text) {
     const element = document.createElement(tag);
     if (className) element.className = className;
@@ -2928,7 +3435,24 @@ function bibElement(tag, className, text) {
 
 async function initBibliotecaAdmin() {
     setupBibliotecaListeners();
+    await ensureBibliotecaCacheRevisions();
     await Promise.all([loadBibliotecaAdmin(), loadBibliotecaAportes(), loadBibliotecaMetrics(), loadBibliotecaFormConfig(), loadBibliotecaTopics()]);
+}
+
+async function ensureBibliotecaCacheRevisions() {
+    for (const configId of ['catalogo', 'meditaciones']) {
+        const reference = utils.doc(db, 'biblioteca_config', configId);
+        const snapshot = await utils.getDoc(reference);
+        if (snapshot.exists() && Number(snapshot.data().revision)) continue;
+        const revision = Date.now();
+        await utils.setDoc(reference, {
+            revision,
+            cambios: [],
+            revisionBase: revision,
+            actualizadoEn: new Date(),
+            actualizadoPor: currentUser.uid
+        }, { merge: true });
+    }
 }
 
 function setupBibliotecaListeners() {
@@ -2951,6 +3475,21 @@ function setupBibliotecaListeners() {
     document.getElementById('bib-add-topic')?.addEventListener('click', addBibliotecaOfficialTopic);
     document.getElementById('bib-new-topic')?.addEventListener('keydown', event => {
         if (event.key === 'Enter') { event.preventDefault(); addBibliotecaOfficialTopic(); }
+    });
+    document.getElementById('bib-temas-open')?.addEventListener('click', openBibliotecaTopicSelector);
+    document.getElementById('bib-topic-selector-close')?.addEventListener('click', closeBibliotecaTopicSelector);
+    document.getElementById('bib-topic-selector-cancel')?.addEventListener('click', closeBibliotecaTopicSelector);
+    document.getElementById('bib-topic-selector-apply')?.addEventListener('click', applyBibliotecaTopicSelection);
+    document.getElementById('bib-topic-selector-clear')?.addEventListener('click', () => {
+        bibTopicDraft.clear();
+        renderBibliotecaTopicSelector();
+    });
+    document.getElementById('bib-topic-selector-search')?.addEventListener('input', renderBibliotecaTopicSelector);
+    document.getElementById('bib-topic-selector')?.addEventListener('click', event => {
+        if (event.target.id === 'bib-topic-selector') closeBibliotecaTopicSelector();
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !document.getElementById('bib-topic-selector')?.hidden) closeBibliotecaTopicSelector();
     });
 }
 
@@ -2981,6 +3520,83 @@ function renderBibliotecaTopics() {
         chip.append(remove); list.append(chip);
     });
     document.getElementById('bib-topics-count').textContent = `${bibOfficialTopics.length} temas`;
+}
+
+function selectedBibliotecaTopics() {
+    return bibText(document.getElementById('bib-temas')?.value)
+        .split(',')
+        .map(topic => topic.trim())
+        .filter(Boolean);
+}
+
+function renderBibliotecaSelectedTopics() {
+    const container = document.getElementById('bib-temas-selected');
+    if (!container) return;
+    const selected = selectedBibliotecaTopics();
+    container.replaceChildren();
+    if (!selected.length) {
+        container.append(bibElement('span', 'bib-selected-topics-empty', 'Sin temas seleccionados'));
+        return;
+    }
+    selected.forEach(topic => container.append(bibElement('span', 'bib-topic-chip', topic)));
+}
+
+function openBibliotecaTopicSelector() {
+    const modal = document.getElementById('bib-topic-selector');
+    const search = document.getElementById('bib-topic-selector-search');
+    bibTopicDraft = new Set(selectedBibliotecaTopics());
+    if (search) search.value = '';
+    renderBibliotecaTopicSelector();
+    modal.hidden = false;
+    document.body.classList.add('admin-modal-open');
+    setTimeout(() => search?.focus(), 0);
+}
+
+function closeBibliotecaTopicSelector() {
+    const modal = document.getElementById('bib-topic-selector');
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    document.body.classList.remove('admin-modal-open');
+    document.getElementById('bib-temas-open')?.focus();
+}
+
+function renderBibliotecaTopicSelector() {
+    const list = document.getElementById('bib-topic-selector-list');
+    const count = document.getElementById('bib-topic-selector-count');
+    if (!list) return;
+    const query = bibText(document.getElementById('bib-topic-selector-search')?.value).toLocaleLowerCase('es');
+    const topics = [...new Set([...bibOfficialTopics, ...bibTopicDraft])]
+        .sort((a, b) => a.localeCompare(b, 'es'))
+        .filter(topic => !query || topic.toLocaleLowerCase('es').includes(query));
+    list.replaceChildren();
+    if (!topics.length) {
+        list.append(bibElement('p', 'bib-topic-selector-empty', 'No hay temas que coincidan con la búsqueda.'));
+    } else {
+        topics.forEach(topic => {
+            const label = bibElement('label', 'bib-topic-option');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = bibTopicDraft.has(topic);
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) bibTopicDraft.add(topic);
+                else bibTopicDraft.delete(topic);
+                label.classList.toggle('selected', checkbox.checked);
+                count.textContent = `${bibTopicDraft.size} seleccionados`;
+            });
+            label.classList.toggle('selected', checkbox.checked);
+            label.append(checkbox, bibElement('span', '', topic));
+            list.append(label);
+        });
+    }
+    count.textContent = `${bibTopicDraft.size} seleccionados`;
+}
+
+function applyBibliotecaTopicSelection() {
+    document.getElementById('bib-temas').value = [...bibTopicDraft]
+        .sort((a, b) => a.localeCompare(b, 'es'))
+        .join(', ');
+    renderBibliotecaSelectedTopics();
+    closeBibliotecaTopicSelector();
 }
 
 async function persistBibliotecaTopics(message) {
@@ -3022,6 +3638,9 @@ async function removeBibliotecaOfficialTopic(topic) {
 function embeddedGoogleFormUrl(value) {
     const raw = bibText(value);
     if (!isValidPublicUrl(raw) || (!raw.includes('docs.google.com/forms/') && !raw.includes('forms.gle/'))) return '';
+    if (raw.startsWith('https://forms.gle/q3zVNZubgbXKbYNNA')) {
+        return 'https://docs.google.com/forms/d/e/1FAIpQLSfjjD_05ualjVeWFGaLyoXUbLcveEGmujC2A8M9pF9roSXyLA/viewform?embedded=true';
+    }
     try {
         const url = new URL(raw);
         if (url.hostname === 'docs.google.com') url.searchParams.set('embedded', 'true');
@@ -3154,6 +3773,11 @@ async function saveBibliotecaResource(event) {
     const linkRecurso = bibText(document.getElementById('bib-link-recurso').value);
     if (!isValidPublicUrl(linkRecurso)) return alert('Pegá un link público válido para el recurso.');
     const googleId = extractGoogleDriveId(linkRecurso);
+    const sizeNumber = bibText(document.getElementById('bib-tamano-numero').value);
+    const sizeUnit = document.getElementById('bib-tamano-unidad').value;
+    if ((sizeNumber && !sizeUnit) || (!sizeNumber && sizeUnit)) {
+        return alert('Para indicar el tamaño, completá el número y elegí una unidad.');
+    }
     const existing = bibItems.find(item => item.id === bibEditingId);
     const sourceContributionId = document.getElementById('bib-source-aporte-id').value;
     const save = document.getElementById('bib-save');
@@ -3171,12 +3795,13 @@ async function saveBibliotecaResource(event) {
             idioma: document.getElementById('bib-idioma').value,
             origen: googleId ? 'drive' : 'externo', linkRecurso, googleId,
             tipo: document.getElementById('bib-tipo').value,
-            tamano: bibText(document.getElementById('bib-tamano').value),
+            tamano: sizeNumber && sizeUnit ? `${sizeNumber.replace('.', ',')} ${sizeUnit}` : '',
             searchText: [title, document.getElementById('bib-autor').value, themes.join(' '), document.getElementById('bib-descripcion').value].join(' ').toLowerCase(),
             actualizadoEn: new Date(), actualizadoPor: currentUser.uid
         };
         if (!existing) { data.creadoEn = new Date(); data.creadoPor = currentUser.uid; }
         await utils.setDoc(utils.doc(db, 'biblioteca_recursos', id), data, { merge: true });
+        await registerBibliotecaCatalogChange(id, 'upsert');
         if (sourceContributionId) {
             await utils.updateDoc(utils.doc(db, 'biblioteca_aportes', sourceContributionId), {
                 estado: 'incorporado', recursoId: id, revisadoEn: new Date(), revisadoPor: currentUser.uid
@@ -3201,12 +3826,15 @@ function editBibliotecaResource(id) {
     document.getElementById('bib-categoria').value = item.categoria || 'documentos';
     document.getElementById('bib-descripcion').value = item.descripcion || '';
     document.getElementById('bib-temas').value = (item.temas || []).join(', ');
+    renderBibliotecaSelectedTopics();
     document.getElementById('bib-estado').value = item.estado || 'borrador';
     document.getElementById('bib-anio').value = item.anio || '';
     document.getElementById('bib-idioma').value = item.idioma || 'es';
     document.getElementById('bib-link-recurso').value = item.linkRecurso || item.driveUrl || (item.googleId ? `https://drive.google.com/file/d/${item.googleId}/view` : '');
     document.getElementById('bib-tipo').value = item.tipo || 'PDF';
-    document.getElementById('bib-tamano').value = item.tamano || '';
+    const visibleSize = bibParseVisibleSize(item.tamano);
+    document.getElementById('bib-tamano-numero').value = visibleSize.numero;
+    document.getElementById('bib-tamano-unidad').value = visibleSize.unidad;
     document.getElementById('bib-link-help').textContent = item.googleId ? `ID de Drive detectado: ${item.googleId}` : 'Puede ser un archivo de Drive o cualquier enlace público.';
     document.getElementById('bib-cancel').hidden = false;
     document.getElementById('bib-delete').hidden = false;
@@ -3219,6 +3847,7 @@ function resetBibliotecaForm() {
     document.getElementById('bib-edit-id').value = '';
     document.getElementById('bib-source-aporte-id').value = '';
     document.getElementById('bib-form-title').textContent = '➕ Nuevo recurso';
+    renderBibliotecaSelectedTopics();
     document.getElementById('bib-link-help').textContent = 'Puede ser un archivo de Drive o cualquier enlace público.';
     document.getElementById('bib-cancel').hidden = true;
     document.getElementById('bib-delete').hidden = true;
@@ -3230,9 +3859,31 @@ async function deleteBibliotecaResource(id) {
     if (!item || !confirm(`¿Quitar “${item.titulo}” del catálogo? El archivo original seguirá guardado en Drive.`)) return;
     try {
         await utils.deleteDoc(utils.doc(db, 'biblioteca_recursos', id));
+        await registerBibliotecaCatalogChange(id, 'delete');
         if (bibEditingId === id) resetBibliotecaForm();
         await loadBibliotecaAdmin();
     } catch (error) { console.error(error); alert(`No se pudo eliminar: ${error.message}`); }
+}
+
+async function registerBibliotecaCatalogChange(id, action) {
+    const reference = utils.doc(db, 'biblioteca_config', 'catalogo');
+    const snapshot = await utils.getDoc(reference);
+    const previousData = snapshot.exists() ? snapshot.data() : {};
+    const previous = Array.isArray(previousData.cambios) ? previousData.cambios : [];
+    const revision = Date.now();
+    const combinedChanges = [...previous, { id, action, revision }];
+    const removedChanges = combinedChanges.slice(0, Math.max(0, combinedChanges.length - 100));
+    const changes = combinedChanges.slice(-100);
+    const revisionBase = removedChanges.length
+        ? Number(removedChanges[removedChanges.length - 1].revision) || 0
+        : Number(previousData.revisionBase ?? previousData.revision) || 0;
+    await utils.setDoc(reference, {
+        revision,
+        cambios: changes,
+        revisionBase,
+        actualizadoEn: new Date(),
+        actualizadoPor: currentUser.uid
+    }, { merge: true });
 }
 
 async function loadBibliotecaAportes() {
@@ -3263,7 +3914,7 @@ function renderBibliotecaAportes() {
         const info = bibElement('div', 'bib-admin-info');
         info.append(
             bibElement('div', 'item-title', item.titulo || 'Sin título'),
-            bibElement('div', 'item-subtitle', [item.codigo, item.autor, item.categoria].filter(Boolean).join(' · ')),
+            bibElement('div', 'item-subtitle', [item.codigo, item.autor, item.categoria, item.tipo, item.anio, item.idioma].filter(Boolean).join(' · ')),
             bibElement('p', 'bib-aporte-description', item.descripcion || '')
         );
         if (item.temas?.length) {
@@ -3319,10 +3970,14 @@ function prepareBibliotecaContribution(id) {
     document.getElementById('bib-titulo').value = item.titulo || '';
     document.getElementById('bib-autor').value = item.autor || '';
     document.getElementById('bib-categoria').value = item.categoria || 'documentos';
+    document.getElementById('bib-anio').value = item.anio || '';
+    document.getElementById('bib-idioma').value = item.idioma || 'es';
+    document.getElementById('bib-tipo').value = item.tipo || 'PDF';
     document.getElementById('bib-descripcion').value = item.descripcion || '';
     const contributionTopics = [...(item.temas || [])];
     if (item.temaPropuesto && item.temaPropuestoAprobado) contributionTopics.push(item.temaPropuesto);
     document.getElementById('bib-temas').value = contributionTopics.join(', ');
+    renderBibliotecaSelectedTopics();
     document.getElementById('bib-estado').value = 'borrador';
     document.getElementById('bib-link-recurso').focus();
     document.getElementById('bib-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3350,30 +4005,21 @@ function updateBibliotecaSummary() {
     if (total) total.textContent = bibItems.length;
     if (published) published.textContent = bibItems.filter(item => item.estado === 'publicado').length;
     if (pending) pending.textContent = bibAportes.length;
-    if (views) views.textContent = bibMetrics.filter(item => item.tipo === 'apertura').length;
+    if (views) views.textContent = bibMetrics.reduce((total, item) => total + (item.tipo === 'apertura' ? 1 : Number(item.aperturas) || 0), 0);
 }
 
 async function loadBibliotecaMetrics() {
     try {
-        const snapshot = await utils.getDocs(utils.collection(db, 'biblioteca_eventos'));
-        bibMetrics = snapshot.docs.map(docSnap => docSnap.data());
+        const [legacySnapshot, batchSnapshot] = await Promise.all([
+            utils.getDocs(utils.collection(db, 'biblioteca_eventos')),
+            utils.getDocs(utils.collection(db, 'biblioteca_metricas')).catch(() => ({ docs: [] }))
+        ]);
+        bibMetrics = [
+            ...legacySnapshot.docs.map(docSnap => docSnap.data()),
+            ...batchSnapshot.docs.map(docSnap => docSnap.data())
+        ];
         updateBibliotecaSummary();
     } catch (error) {
         console.warn('No se pudieron cargar las métricas de Biblioteca:', error);
-    }
-}
-
-async function migrateLegacyMeditationVisibility() {
-    try {
-        const snapshot = await utils.getDocs(utils.collection(db, 'meditaciones'));
-        const pending = snapshot.docs.filter(docSnap => !Object.prototype.hasOwnProperty.call(docSnap.data(), 'Publico'));
-        for (let start = 0; start < pending.length; start += 450) {
-            const batch = utils.writeBatch(db);
-            pending.slice(start, start + 450).forEach(docSnap => batch.update(docSnap.ref, { Publico: true }));
-            await batch.commit();
-        }
-        if (pending.length) console.info(`Visibilidad normalizada en ${pending.length} meditaciones anteriores.`);
-    } catch (error) {
-        console.warn('No se pudo normalizar la visibilidad histórica de las meditaciones:', error);
     }
 }

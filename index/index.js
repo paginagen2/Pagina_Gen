@@ -23,17 +23,22 @@ document.addEventListener('DOMContentLoaded', async function() {
     setCurrentDate();
     setupCarruselEventListeners();
     setupEventListeners();
-    await loadDailyHomeData();
+    const loadedCurrentSummary = await loadDailyHomeData();
+    if (!loadedCurrentSummary) await loadHomeFromFirebase();
+});
+
+async function loadHomeFromFirebase() {
     try {
         if (window.firebaseReady) await window.firebaseReady;
         if (window.firebaseDb && window.firebaseUtils) await initializePage();
     } catch (error) {
         console.warn('No se pudo actualizar el Inicio desde Firebase:', error);
     }
-});
+}
 
-window.addEventListener('gen:profile-updated', () => {
-    if (window.firebaseDb && window.firebaseUtils) initializePage();
+window.addEventListener('gen:profile-updated', async event => {
+    if (!window.firebaseDb || !window.firebaseUtils) return;
+    await cargarCarrusel(window.firebaseDb, event.detail?.roles || []);
 });
 
 async function loadDailyHomeData() {
@@ -54,8 +59,11 @@ async function loadDailyHomeData() {
             if (!response.ok) throw new Error(`No se pudo leer inicio.json (${response.status})`);
             const data = await response.json();
             if (!data || data.schemaVersion !== 1) throw new Error('El formato de inicio.json no es válido');
+            if (data.fechaGeneracion !== argentinaDate) {
+                throw new Error(`El resumen corresponde a ${data.fechaGeneracion || 'una fecha desconocida'}`);
+            }
             applyDailyHomeData(data);
-            return;
+            return true;
         } catch (error) {
             console.warn(`No se pudo cargar el resumen diario desde ${source}:`, error);
         }
@@ -63,6 +71,7 @@ async function loadDailyHomeData() {
 
     carruselData = [];
     renderizarCarrusel();
+    return false;
 }
 
 function applyDailyHomeData(data) {
@@ -248,13 +257,12 @@ async function cargarUltimaPdv(db) {
 function setCurrentDate() {
     const dateElement = document.getElementById('fechaHoy');
     if (dateElement) {
-        const today = new Date();
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
+        dateElement.textContent = new Intl.DateTimeFormat('es-AR', {
+            timeZone: 'America/Argentina/Buenos_Aires',
+            year: 'numeric',
+            month: 'long',
             day: 'numeric'
-        };
-        dateElement.textContent = today.toLocaleDateString('es-ES', options);
+        }).format(new Date());
     }
 }
 
@@ -371,7 +379,8 @@ async function cargarTituloPasapalabraHoy(db) {
         if (pasapalabraEncontrado) {
             console.log('✅ Pasapalabra encontrado:', pasapalabraEncontrado);
             tituloElement.textContent = pasapalabraEncontrado.titulo || '...';
-            // No hay elemento .pasapalabra-date en el HTML, así que lo omitimos
+            const dateElement = document.getElementById('fechaHoy');
+            if (dateElement) dateElement.textContent = formatearFechaLegible(fechaHoy);
         } else {
             console.log('❌ No se encontró pasapalabra para hoy');
             tituloElement.textContent = '...';
@@ -522,7 +531,7 @@ function renderizarCarrusel() {
 
     slidesContainer.replaceChildren(...carruselData.map((item, index) => {
         const slide = document.createElement('div');
-        slide.className = `carrusel-slide ${item.fotoUrl ? '' : 'sin-imagen'}`;
+        slide.className = 'carrusel-slide';
         const destination = safeCarouselUrl(item.href);
         if (destination) {
             slide.style.cursor = 'pointer';
@@ -546,7 +555,9 @@ function renderizarCarrusel() {
             image.decoding = 'async';
             media.appendChild(image);
             slide.appendChild(media);
-        } else slide.classList.add('sin-imagen');
+        } else {
+            slide.appendChild(createCarouselFallback(item, index));
+        }
 
         const content = document.createElement('div');
         content.className = 'carrusel-slide-content';
@@ -578,8 +589,11 @@ function renderizarCarrusel() {
     slidesContainer.querySelectorAll('.carrusel-slide img').forEach(image => {
         image.addEventListener('error', () => {
             const slide = image.closest('.carrusel-slide');
-            image.closest('.carrusel-media')?.remove();
-            slide?.classList.add('sin-imagen');
+            const media = image.closest('.carrusel-media');
+            const itemIndex = [...slidesContainer.children].indexOf(slide);
+            if (media && itemIndex >= 0) {
+                media.replaceWith(createCarouselFallback(carruselData[itemIndex], itemIndex));
+            }
         }, { once: true });
     });
 
@@ -589,6 +603,41 @@ function renderizarCarrusel() {
     `).join('');
 
     actualizarCarruselPosition();
+}
+
+function createCarouselFallback(item = {}, index = 0) {
+    const palettes = [
+        ['#6d3bd1', '#241140', '#b987ff'],
+        ['#285fc4', '#102548', '#75b8ff'],
+        ['#8d386f', '#35152d', '#ff8fd1'],
+        ['#176a69', '#0d3438', '#69ddd1'],
+        ['#965322', '#3d2414', '#ffc274'],
+        ['#4f4cbd', '#20204d', '#a7a5ff']
+    ];
+    const stableId = String(item.id || '').replace(/^legacy[-:]/, '');
+    const seedText = `${stableId}|${item.titulo || ''}|${item.etiquetaCarrusel || item.categoria || ''}`;
+    const seed = [...seedText].reduce((total, character) => ((total * 31) + character.charCodeAt(0)) >>> 0, 1);
+    const palette = palettes[seed % palettes.length];
+    const category = String(item.etiquetaCarrusel || item.categoria || '').toLowerCase();
+    const symbol = category.includes('evento') ? '◇'
+        : category.includes('comunica') ? '◎'
+        : category.includes('formación') || category.includes('recurso') ? '✦'
+        : category.includes('aviso') ? '!'
+        : 'G2';
+
+    const fallback = document.createElement('div');
+    fallback.className = 'carrusel-media carrusel-generated-art';
+    fallback.dataset.variant = String(seed % 6);
+    fallback.style.setProperty('--art-primary', palette[0]);
+    fallback.style.setProperty('--art-deep', palette[1]);
+    fallback.style.setProperty('--art-accent', palette[2]);
+    fallback.setAttribute('aria-hidden', 'true');
+    fallback.innerHTML = `
+        <span class="carrusel-art-orbit"></span>
+        <span class="carrusel-art-shape"></span>
+        <span class="carrusel-art-symbol">${symbol}</span>
+    `;
+    return fallback;
 }
 
 function safeCarouselUrl(value) {

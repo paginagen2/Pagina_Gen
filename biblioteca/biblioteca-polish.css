@@ -69,6 +69,9 @@ body { background: #090c0f; }
 }
 .filtro_btn:hover, .atributo_btn:hover, .toggle_filtros_btn:hover { border-color: #8d5cf6; color: #fff; background: rgba(141,92,246,.1); }
 .filtro_btn.active, .atributo_btn.active { border-color: #8d5cf6; color: #fff; background: linear-gradient(135deg,#6840c8,#8455ea); }
+.mostrar_meditaciones_check { color: #b9c2ce; font-size: .9rem; cursor: pointer; }
+.mostrar_meditaciones_check input { width: 17px; height: 17px; accent-color: #8d5cf6; }
+.mostrar_meditaciones_check[hidden] { display: none; }
 .busqueda_container { max-width: none; margin: 0; }
 .busqueda_input { border: 1px solid #3a4350; border-radius: 12px; background: #0d1217; }
 .busqueda_input:focus { border-color: #8d5cf6; box-shadow: 0 0 0 3px rgba(141,92,246,.13); }
@@ -174,8 +177,9 @@ body { background: #090c0f; }
 .aporte_codigo { padding: 10px 12px; border-radius: 9px; background: rgba(141,92,246,.12); color: #d9c9ff; }
 .aporte_acciones_finales { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 .aporte_acciones_finales button { min-height: 44px; flex: 1 1 190px; }
-.aporte_seguridad { margin: 10px 0 0; color: #aeb8c5; font-size: .88rem; line-height: 1.45; }
-#aporteGoogleForm { width: 100%; min-height: 620px; border: 0; border-radius: 12px; background: #fff; }
+.aporte_google_form_btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 58px; padding: 14px 20px; border: 1px solid rgba(157,111,255,.65); border-radius: 12px; background: linear-gradient(135deg,#7040d8,#8d5cf6); color: #fff; font-weight: 800; text-align: center; text-decoration: none; box-shadow: 0 10px 28px rgba(112,64,216,.22); }
+.aporte_google_form_btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+.aporte_google_form_btn:focus-visible { outline: 3px solid rgba(180,150,255,.45); outline-offset: 3px; }
 .archivo_datos { font-size: .86rem; opacity: .72; }
 .biblioteca_media, .biblioteca_portada { display: block; max-width: 100%; max-height: 70vh; margin: auto; }
 .biblioteca_media { width: min(850px,100%); }

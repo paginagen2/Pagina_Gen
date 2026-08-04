@@ -271,6 +271,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .topic-button.sensitive:not(.active) { border-color: rgba(207,152,84,.35); }
 .topic-icon { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; border-radius: 10px; color: var(--contact-purple-light); background: var(--contact-purple-soft); font-size: 1.05rem; font-weight: 800; }
 .topic-button.active .topic-icon { color: #fff; background: rgba(255,255,255,.12); }
+.topic-icon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 .topic-button > span:last-child { font-size: .82rem; font-weight: 650; line-height: 1.3; }
 
 .message-preview { margin-bottom: 16px; padding: 18px; border: 1px solid #2e3541; border-radius: 13px; background: #090d13; }

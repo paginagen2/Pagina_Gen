@@ -1,6 +1,14 @@
 let db, utils, auth, currentUser = null;
 let currentUserProfile = null;
 
+function expandInheritedRoles(roles = []) {
+    const expanded = new Set(Array.isArray(roles) ? roles : []);
+    if (expanded.has('gen2')) expanded.add('gen');
+    return [...expanded];
+}
+
+window.genExpandRoles = expandInheritedRoles;
+
 const PROFILE_CACHE_PREFIX = 'gen_user_profile_';
 const PROFILE_CACHE_TTL_MS = 30 * 60 * 1000;
 const profileLoads = new Map();
@@ -41,6 +49,7 @@ function clearCachedProfile(uid) {
 
 async function loadUserProfile(user, { force = false, createIfMissing = true } = {}) {
     if (!user) return null;
+    if (!isGoogleUser(user)) return null;
     if (!force && currentUserProfile?.uid === user.uid) return currentUserProfile;
 
     const cached = !force ? readCachedProfile(user.uid) : null;
@@ -92,7 +101,7 @@ window.genAuthSession = {
     },
     async getRoles(user = auth?.currentUser, options = {}) {
         const profile = await loadUserProfile(user, options);
-        return profile?.roles || [];
+        return expandInheritedRoles(profile?.roles || []);
     },
     getCachedProfile(uid = auth?.currentUser?.uid) {
         if (!uid) return null;
@@ -134,7 +143,6 @@ async function initAuth() {
     db = window.firebaseDb;
     utils = window.firebaseUtils;
     auth = window.firebaseAuth;
-
     ensureAuthInterface();
     setupModal();
     setupAuthButton();
@@ -161,26 +169,12 @@ function ensureAuthInterface() {
         modal.innerHTML = `
           <div class="auth-modal-content">
             <button type="button" class="auth-modal-close" aria-label="Cerrar">&times;</button>
-            <div class="auth-modal-tabs">
-              <button type="button" class="auth-modal-tab active" data-tab="login">Iniciar sesión</button>
-              <button type="button" class="auth-modal-tab" data-tab="register">Registrarse</button>
-              <button type="button" class="auth-modal-tab" data-tab="roles">Agregar rol</button>
-            </div>
             <div id="tab-login" class="auth-modal-tab-content active">
-              <form id="login-form">
-                <div class="auth-form-group"><label for="login-email">Correo electrónico</label><input type="email" id="login-email" required></div>
-                <div class="auth-form-group"><label for="login-password">Contraseña</label><input type="password" id="login-password" required></div>
-                <button type="submit" class="auth-primary-button">Iniciar sesión</button>
+              <div class="auth-google-only">
+                <h2>Iniciar sesión</h2>
+                <p>Accedé de forma segura con tu cuenta de Google.</p>
                 <button type="button" class="auth-secondary-button" id="login-google"><img class="auth-google-icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">Iniciar con Google</button>
-              </form>
-            </div>
-            <div id="tab-register" class="auth-modal-tab-content" hidden>
-              <form id="register-form">
-                <div class="auth-form-group"><label for="register-name">Nombre</label><input type="text" id="register-name" required></div>
-                <div class="auth-form-group"><label for="register-email">Correo electrónico</label><input type="email" id="register-email" required></div>
-                <div class="auth-form-group"><label for="register-password">Contraseña</label><input type="password" id="register-password" required minlength="6"></div>
-                <button type="submit" class="auth-primary-button">Registrarse</button>
-              </form>
+              </div>
             </div>
             <div id="tab-roles" class="auth-modal-tab-content" hidden>
               <h2 class="auth-role-title">Agregar rol</h2>
@@ -199,8 +193,6 @@ function ensureAuthInterface() {
 function setupModal() {
     const modal = document.getElementById('auth-modal');
     const closeBtn = modal.querySelector('.auth-modal-close, .modal-close');
-    const tabs = modal.querySelectorAll('.auth-modal-tab, .modal-tab');
-    const tabContents = modal.querySelectorAll('.auth-modal-tab-content, .modal-tab-content');
 
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
@@ -214,23 +206,6 @@ function setupModal() {
         }
     });
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const tabId = tab.dataset.tab;
-
-            tabs.forEach(t => t.classList.remove('active'));
-            tabContents.forEach(c => { c.classList.remove('active'); c.hidden = true; });
-
-            tab.classList.add('active');
-            const content = modal.querySelector(`#tab-${tabId}`);
-            content.classList.add('active');
-            content.hidden = false;
-        });
-    });
-
-    // Formularios
-    setupLoginForm();
-    setupRegisterForm();
     setupRoleForm();
     setupGoogleLogin();
     updateAuthTabsForSession(Boolean(currentUser));
@@ -239,32 +214,29 @@ function setupModal() {
 function updateAuthTabsForSession(isSignedIn) {
     const modal = document.getElementById('auth-modal');
     if (!modal) return;
-    modal.classList.toggle('auth-modal-signed-in', isSignedIn);
-
-    const loginTab = modal.querySelector('[data-tab="login"]');
-    const registerTab = modal.querySelector('[data-tab="register"]');
-    const roleTab = modal.querySelector('[data-tab="roles"]');
     const loginContent = modal.querySelector('#tab-login');
-    const registerContent = modal.querySelector('#tab-register');
     const roleContent = modal.querySelector('#tab-roles');
-
-    if (loginTab) loginTab.hidden = isSignedIn;
-    if (registerTab) registerTab.hidden = isSignedIn;
-    if (roleTab) roleTab.hidden = !isSignedIn;
-
-    [loginContent, registerContent, roleContent].forEach(content => {
-        if (!content) return;
-        content.hidden = true;
-        content.classList.remove('active');
-    });
+    if (loginContent) {
+        loginContent.hidden = isSignedIn;
+        loginContent.classList.toggle('active', !isSignedIn);
+    }
+    if (roleContent) {
+        roleContent.hidden = !isSignedIn;
+        roleContent.classList.toggle('active', isSignedIn);
+    }
 }
 
 function openAuthModal(tabId = 'login') {
     const modal = document.getElementById('auth-modal');
     const requestedTab = currentUser ? 'roles' : (tabId === 'roles' ? 'login' : tabId);
+    const loginContent = modal.querySelector('#tab-login');
+    const roleContent = modal.querySelector('#tab-roles');
+    loginContent.hidden = requestedTab !== 'login';
+    loginContent.classList.toggle('active', requestedTab === 'login');
+    roleContent.hidden = requestedTab !== 'roles';
+    roleContent.classList.toggle('active', requestedTab === 'roles');
     modal.hidden = false;
     modal.classList.add('active');
-    modal.querySelector(`[data-tab="${requestedTab}"]`).click();
 }
 
 function closeAuthModal() {
@@ -281,7 +253,7 @@ function setupAuthButton() {
     container.innerHTML = `
         <button id="auth-btn" class="menu-item auth-menu-item" disabled>
             <span id="auth-avatar" class="auth-avatar" aria-hidden="true">
-              <img src="${new URL('aadocumentos/svg/Icono_vacio.svg', import.meta.url).href}" alt="">
+              <svg><use href="${new URL('aadocumentos/svg/iconos-gen.svg?v=20260730-7#usuario', import.meta.url).href}"></use></svg>
             </span>
             <span id="auth-btn-text" class="menu-text">Cargando sesión...</span>
         </button>
@@ -302,9 +274,18 @@ function listenAuthState() {
     utils.onAuthStateChanged(auth, async (user) => {
         const previousUid = currentUser?.uid;
         currentUser = user;
-        window.dispatchEvent(new CustomEvent('gen:auth-changed', { detail: { user } }));
+        const allowedUser = isGoogleUser(user) ? user : null;
+        window.dispatchEvent(new CustomEvent('gen:auth-changed', { detail: { user: allowedUser } }));
         if (!user) {
             clearCachedProfile(previousUid);
+            updateAuthUI(null, null);
+            return;
+        }
+
+        if (!isGoogleUser(user)) {
+            clearCachedProfile(user.uid);
+            currentUser = null;
+            await utils.signOut(auth);
             updateAuthUI(null, null);
             return;
         }
@@ -347,7 +328,7 @@ function updateAuthUI(user, profile) {
         authBtn.setAttribute('aria-label', 'Iniciar sesión');
         authBtn.removeAttribute('title');
         avatar.classList.remove('auth-avatar-initial');
-        avatar.innerHTML = `<img src="${new URL('aadocumentos/svg/Icono_vacio.svg', import.meta.url).href}" alt="">`;
+        avatar.innerHTML = `<svg><use href="${new URL('aadocumentos/svg/iconos-gen.svg?v=20260730-7#usuario', import.meta.url).href}"></use></svg>`;
     }
     authBtn.disabled = false;
 
@@ -366,8 +347,8 @@ function updateSidebarRoles(roles = currentUserProfile?.roles || []) {
 
     if (!currentUser) return;
 
-    // Agregar link de Admin si es admin
-    if (roles.includes('admin')) {
+    // Mostrar el panel a administradores totales y responsables de funciones.
+    if (roles.includes('admin') || roles.some(role => role.startsWith('funcion_'))) {
         const adminLink = document.createElement('a');
         adminLink.href = new URL('admin/admin.html', import.meta.url).href;
         adminLink.className = 'menu-item role-link admin-role-link';
@@ -438,24 +419,8 @@ window.addEventListener('gen:profile-updated', event => {
 });
 window.genOpenAuthModal = () => openAuthModal('login');
 
-// Formulario de login
-function setupLoginForm() {
-    const form = document.getElementById('login-form');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-
-        try {
-            await utils.signInWithEmailAndPassword(auth, email, password);
-            closeAuthModal();
-            form.reset();
-        } catch (error) {
-            alert(`Error al iniciar sesión: ${error.message}`);
-        }
-    });
+function isGoogleUser(user) {
+    return Boolean(user?.providerData?.some(provider => provider?.providerId === 'google.com'));
 }
 
 // Login con Google
@@ -474,28 +439,6 @@ function setupGoogleLogin() {
     });
 }
 
-// Formulario de registro
-function setupRegisterForm() {
-    const form = document.getElementById('register-form');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('register-name').value;
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-
-        try {
-            const userCredential = await utils.createUserWithEmailAndPassword(auth, email, password);
-            await userCredential.user.updateProfile({ displayName: name });
-            closeAuthModal();
-            form.reset();
-        } catch (error) {
-            alert(`Error al registrarse: ${error.message}`);
-        }
-    });
-}
-
 // Formulario de código de rol
 function setupRoleForm() {
     const form = document.getElementById('role-form');
@@ -505,8 +448,8 @@ function setupRoleForm() {
         e.preventDefault();
         const code = document.getElementById('role-code').value.trim().toUpperCase();
 
-        if (!currentUser) {
-            alert('Primero inicia sesión');
+        if (!currentUser || !isGoogleUser(currentUser)) {
+            alert('Iniciá sesión con Google antes de agregar un rol');
             return;
         }
 

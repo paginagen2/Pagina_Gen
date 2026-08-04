@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#c6a4ff" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="inicio" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/>
+  </symbol>
+  <symbol id="comunicacion" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-5 4 1-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/>
+    <path fill="none" stroke="#c6a4ff" d="M8 9h8M8 13h5"/>
+  </symbol>
+  <symbol id="canal" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M5 17.5A8 8 0 0 1 5 6.5M8 15a4.5 4.5 0 0 1 0-6M19 6.5a8 8 0 0 1 0 11M16 9a4.5 4.5 0 0 1 0 6"/>
+    <circle fill="none" stroke="#c6a4ff" cx="12" cy="12" r="2"/>
+    <path fill="none" stroke="#c6a4ff" d="M12 14v7"/>
+  </symbol>
+  <symbol id="musica" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M9 18V5l10-2v13"/>
+    <ellipse fill="none" stroke="#c6a4ff" cx="6" cy="18" rx="3" ry="2"/>
+    <ellipse fill="none" stroke="#c6a4ff" cx="16" cy="16" rx="3" ry="2"/>
+  </symbol>
+  <symbol id="animadores" viewBox="0 0 24 24">
+    <circle fill="none" stroke="#c6a4ff" cx="12" cy="8" r="3"/>
+    <circle fill="none" stroke="#c6a4ff" cx="5.5" cy="10" r="2"/>
+    <circle fill="none" stroke="#c6a4ff" cx="18.5" cy="10" r="2"/>
+    <path fill="none" stroke="#c6a4ff" d="M6.5 20v-2a5.5 5.5 0 0 1 11 0v2M2 19v-1a4 4 0 0 1 4-4M22 19v-1a4 4 0 0 0-4-4"/>
+  </symbol>
+  <symbol id="biblioteca" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M4 4h5v16H4zM9 4h5v16H9zM15 5.5l4.5-1 3.5 15-4.5 1z"/>
+    <path fill="none" stroke="#c6a4ff" d="M5.5 8h2M10.5 8h2M17 9l2-.5"/>
+  </symbol>
+  <symbol id="historia" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M5 3h10l4 4v14H5zM15 3v5h4"/>
+    <path fill="none" stroke="#c6a4ff" d="M8 12h8M8 16h5"/>
+    <path fill="none" stroke="#c6a4ff" d="M3 8H1v13h13"/>
+  </symbol>
+  <symbol id="contacto" viewBox="0 0 24 24">
+    <rect fill="none" stroke="#c6a4ff" x="3" y="5" width="18" height="14" rx="2"/>
+    <path fill="none" stroke="#c6a4ff" d="m4 7 8 6 8-6"/>
+  </symbol>
+  <symbol id="hoy" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/>
+    <path fill="none" stroke="#c6a4ff" d="m12 12 .7 1.5 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2z"/>
+  </symbol>
+  <symbol id="pasapalabra" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8l-5 4 1-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+    <path fill="none" stroke="#c6a4ff" d="M9.5 9a2.7 2.7 0 1 1 4.7 1.8c-1.1 1-2.2 1.4-2.2 3M12 16h.01"/>
+  </symbol>
+  <symbol id="meditacion" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M12 3c2 2.3 3 4.1 3 5.6A3 3 0 0 1 9 9c0-1.7 1-3.7 3-6Z"/>
+    <path fill="none" stroke="#c6a4ff" d="M7 13h10l-1 8H8zM5 21h14"/>
+    <path fill="none" stroke="#c6a4ff" d="M6 9 4.5 7.5M18 9l1.5-1.5M12 1V0"/>
+  </symbol>
+  <symbol id="pdv" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M4 8c3-1.8 5.2-1.8 8 0v12c-2.8-1.8-5-1.8-8 0Z"/>
+    <path fill="none" stroke="#c6a4ff" d="M20 8c-3-1.8-5.2-1.8-8 0v12c2.8-1.8 5-1.8 8 0Z"/>
+    <path fill="none" stroke="#c6a4ff" d="M12 1.5v4M10 3.5h4"/>
+  </symbol>
+  <symbol id="megafono" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M4 11v3a2 2 0 0 0 2 2h2l8 4V5L8 9H6a2 2 0 0 0-2 2Z"/>
+    <path fill="none" stroke="#c6a4ff" d="m8 16 1 5h4l-2-4M19 9a4 4 0 0 1 0 7"/>
+  </symbol>
+  <symbol id="guitarra" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M10 2h4l.5 3H9.5zM10 5v5M14 5v5"/>
+    <path fill="none" stroke="#c6a4ff" d="M9.5 9.5c-1.8.7-3 2.2-3 4 0 1.1.5 2 1.3 2.7-.8.5-1.3 1.4-1.3 2.4 0 2 2.5 3.4 5.5 3.4s5.5-1.4 5.5-3.4c0-1-.5-1.9-1.3-2.4.8-.7 1.3-1.6 1.3-2.7 0-1.8-1.2-3.3-3-4"/>
+    <circle fill="none" stroke="#c6a4ff" cx="12" cy="14.5" r="2"/>
+    <path fill="none" stroke="#c6a4ff" d="M9.5 18.5h5M11 5v7.5M13 5v7.5"/>
+  </symbol>
+  <symbol id="acordes" viewBox="0 0 24 24">
+    <circle fill="none" stroke="#c6a4ff" cx="9.5" cy="9.5" r="7"/>
+    <path fill="none" stroke="#c6a4ff" d="m14.5 14.5 5.5 5.5M8 12.5V7l4-1v4.5"/>
+    <ellipse fill="none" stroke="#c6a4ff" cx="6.8" cy="12.5" rx="1.2" ry=".85"/>
+    <ellipse fill="none" stroke="#c6a4ff" cx="10.8" cy="10.5" rx="1.2" ry=".85"/>
+  </symbol>
+  <symbol id="chincheta" viewBox="1 1 22 22">
+    <g transform="rotate(50 12 12)">
+      <ellipse fill="none" stroke="#c6a4ff" cx="12" cy="4.8" rx="4.4" ry="1.7"/>
+      <path fill="none" stroke="#c6a4ff" d="M10 5.9v5.2c-1.2.4-2 1-2 1.7 0 1 1.8 1.8 4 1.8s4-.8 4-1.8c0-.7-.8-1.3-2-1.7V5.9"/>
+      <path fill="none" stroke="#c6a4ff" d="M12 14.6v7.3"/>
+    </g>
+  </symbol>
+  <symbol id="buscar" viewBox="0 0 24 24">
+    <circle fill="none" stroke="#c6a4ff" cx="10.5" cy="10.5" r="6.5"/>
+    <path fill="none" stroke="#c6a4ff" d="m15.5 15.5 5 5"/>
+  </symbol>
+  <symbol id="sin-resultados" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M4 4h5v13H4zM9 4h5v13H9zM15 5l4-1 2.5 11-4 1z"/>
+    <circle fill="none" stroke="#c6a4ff" cx="15.5" cy="17.5" r="3.5"/>
+    <path fill="none" stroke="#c6a4ff" d="m18 20 3 3"/>
+  </symbol>
+  <symbol id="cargando" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M21 12a9 9 0 1 1-3-6.7"/>
+    <path fill="none" stroke="#c6a4ff" d="M18 2v4h4"/>
+  </symbol>
+  <symbol id="vacio" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M4 5h16v14H4zM4 14h4l2 2h4l2-2h4"/>
+    <path fill="none" stroke="#c6a4ff" d="M9 9h6"/>
+  </symbol>
+  <symbol id="error" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M12 3 2.5 20h19z"/>
+    <path fill="none" stroke="#c6a4ff" d="M12 9v5M12 17h.01"/>
+  </symbol>
+  <symbol id="compartir" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M12 16V3M8 7l4-4 4 4"/>
+    <path fill="none" stroke="#c6a4ff" d="M5 11H3v10h18V11h-2"/>
+  </symbol>
+  <symbol id="usuario" viewBox="0 0 24 24">
+    <circle fill="none" stroke="#c6a4ff" cx="12" cy="8" r="4"/>
+    <path fill="none" stroke="#c6a4ff" d="M4 21a8 8 0 0 1 16 0"/>
+  </symbol>
+  <symbol id="datos-personales" viewBox="0 0 24 24">
+    <rect fill="none" stroke="#c6a4ff" x="3" y="5" width="18" height="14" rx="2"/>
+    <circle fill="none" stroke="#c6a4ff" cx="8" cy="11" r="2"/>
+    <path fill="none" stroke="#c6a4ff" d="M5.5 16a3 3 0 0 1 5 0M13 10h5M13 14h5"/>
+  </symbol>
+  <symbol id="campana" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>
+  </symbol>
+  <symbol id="resumen" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/>
+  </symbol>
+  <symbol id="offline" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M7 18H5a4 4 0 0 1-.7-7.9A7 7 0 0 1 18 8a5 5 0 0 1 1 9.9h-2"/>
+    <path fill="none" stroke="#c6a4ff" d="M12 11v10M8.5 17.5 12 21l3.5-3.5"/>
+  </symbol>
+  <symbol id="idea" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M9 18h6M10 22h4M8.5 15.5A7 7 0 1 1 15.5 15.5c-.8.7-1.2 1.4-1.2 2.5h-4.6c0-1.1-.4-1.8-1.2-2.5Z"/>
+  </symbol>
+  <symbol id="experiencia" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
+  </symbol>
+  <symbol id="movimiento" viewBox="0 0 24 24">
+    <circle fill="none" stroke="#c6a4ff" cx="12" cy="12" r="3"/>
+    <circle fill="none" stroke="#c6a4ff" cx="12" cy="3.5" r="2"/>
+    <circle fill="none" stroke="#c6a4ff" cx="4.5" cy="17" r="2"/>
+    <circle fill="none" stroke="#c6a4ff" cx="19.5" cy="17" r="2"/>
+    <path fill="none" stroke="#c6a4ff" d="M12 5.5V9M9.5 13.5l-3.2 2M14.5 13.5l3.2 2"/>
+  </symbol>
+  <symbol id="ayuda" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M4 3h16v14H9l-5 4z"/>
+    <path fill="none" stroke="#c6a4ff" d="M9 9a3 3 0 1 1 5.2 2c-1.2 1-2.2 1.5-2.2 3M12 16h.01"/>
+  </symbol>
+  <symbol id="bandera" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M5 22V3M5 4h12l-2 4 2 4H5"/>
+  </symbol>
+  <symbol id="cita" viewBox="0 0 24 24">
+    <path fill="none" stroke="#c6a4ff" d="M5 7h5v5H7c0 3-1 4.5-3 6M14 7h5v5h-3c0 3-1 4.5-3 6"/>
+  </symbol>
+</svg>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones | Gen 2</title>
+  <meta name="description" content="Elegí qué avisos querés recibir de Gen 2 y cuándo recibirlos.">
+  <meta property="og:image" content="https://paginagen2.github.io/Pagina_Gen/aadocumentos/imagenes/og-image.jpg">
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
+  <link rel="stylesheet" href="notificaciones.css?v=20260730-permissiontip1">
+</head>
+<body>
+  <div class="page-container notifications-shell">
+    <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+    <script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
+    <div class="main-content notifications-main-content">
+      <main class="notifications-main" id="contenido-principal">
+        <header class="notifications-heading">
+          <div>
+            <span class="notifications-eyebrow">Este dispositivo</span>
+            <h1>Notificaciones</h1>
+            <p>Esta configuración se aplica únicamente al dispositivo que estás usando. Los cambios no afectarán tus otros dispositivos.</p>
+          </div>
+          <a class="notifications-back-link" href="perfil.html">Volver al perfil</a>
+        </header>
+
+        <section class="notifications-loading" id="notifications-loading" aria-live="polite">
+          <span class="notifications-spinner" aria-hidden="true"></span>
+          <p>Cargando tus preferencias…</p>
+        </section>
+
+        <section class="notifications-signed-out" id="notifications-signed-out" hidden>
+          <h2>Iniciá sesión para administrar tus avisos</h2>
+          <p>Las preferencias de este dispositivo se guardan cuando iniciás sesión.</p>
+          <a href="../index.html" class="notifications-primary-link">Ir al inicio</a>
+        </section>
+
+        <form id="notifications-form" hidden>
+          <section class="notification-card activation-card" aria-labelledby="activation-title">
+            <div class="activation-icon" aria-hidden="true"><svg><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#campana"></use></svg></div>
+            <div class="activation-copy">
+                <span class="section-kicker">Solo en este dispositivo</span>
+              <h2 id="activation-title">Activar notificaciones</h2>
+              <p id="activation-description">Permití que Gen 2 te avise cuando haya una comunicación importante.</p>
+              <p class="activation-permission-tip" id="activation-permission-tip">Cuando el navegador pregunte, te recomendamos elegir <strong>Permitir siempre</strong> para recibir avisos aunque cierres Gen 2.</p>
+              <p class="activation-status" id="activation-status" role="status"></p>
+            </div>
+            <div class="activation-actions">
+              <button type="button" class="notifications-test" id="notifications-test" hidden>Probar notificación</button>
+              <button type="button" class="notifications-enable" id="notifications-enable">Activar notificaciones</button>
+            </div>
+          </section>
+
+          <fieldset class="notification-settings" id="notification-settings" disabled>
+          <section class="notification-card" aria-labelledby="preset-title">
+            <div class="section-heading">
+              <div><span class="section-kicker">Configuración general</span><h2 id="preset-title">¿Cuántas notificaciones querés recibir?</h2></div>
+              <p>La opción Equilibradas está recomendada para comenzar.</p>
+            </div>
+            <div class="preset-grid">
+              <label class="preset-option">
+                <input type="radio" name="mode" value="essential">
+                <span class="preset-copy"><span class="preset-topline"><strong>Esenciales</strong><span>Muy pocas</span></span><small>Comunicaciones generales y de tu zona.</small></span>
+              </label>
+              <label class="preset-option">
+                <input type="radio" name="mode" value="balanced" checked>
+                <span class="preset-copy"><span class="recommended-label">Recomendada</span><span class="preset-topline"><strong>Equilibradas</strong><span>Moderadas</span></span><small>Comunicación, Palabra de Vida tres veces al mes, un Pasapalabra y una Meditación por semana.</small></span>
+              </label>
+              <label class="preset-option">
+                <input type="radio" name="mode" value="all">
+                <span class="preset-copy"><span class="preset-topline"><strong>Todas</strong><span>Más frecuentes</span></span><small>Comunicación y contenido espiritual. No incluye canciones, publicaciones comunes ni dinámicas.</small></span>
+              </label>
+              <label class="preset-option">
+                <input type="radio" name="mode" value="custom">
+                <span class="preset-copy"><span class="preset-topline"><strong>Personalizar</strong><span>A tu medida</span></span><small>Elegí cada sección, frecuencia, días y horarios.</small></span>
+              </label>
+            </div>
+          </section>
+
+          <section class="notification-card summary-section" aria-live="polite">
+            <div class="summary-icon" aria-hidden="true"><svg><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#resumen"></use></svg></div>
+            <div><h2 id="summary-title">Configuración equilibrada</h2><p id="summary-description"></p><ul id="summary-list"></ul></div>
+          </section>
+
+          <section class="notification-card custom-section" id="custom-section" hidden aria-labelledby="custom-title">
+            <div class="section-heading">
+              <div><span class="section-kicker">Personalizar</span><h2 id="custom-title">Secciones y frecuencia</h2></div>
+              <p>Las comunicaciones generales y las de tu zona permanecen activas mientras las notificaciones estén habilitadas.</p>
+            </div>
+            <div class="category-list" id="category-list"></div>
+            <div class="schedule-block">
+              <div class="schedule-heading"><h3>Días y horarios</h3><p>Gen 2 variará el momento dentro de la franja elegida.</p></div>
+              <fieldset class="days-fieldset">
+                <legend>Días permitidos</legend>
+                <div class="days-grid">
+                  <label><input type="checkbox" name="day" value="1" checked><span>Lun</span></label>
+                  <label><input type="checkbox" name="day" value="2" checked><span>Mar</span></label>
+                  <label><input type="checkbox" name="day" value="3" checked><span>Mié</span></label>
+                  <label><input type="checkbox" name="day" value="4" checked><span>Jue</span></label>
+                  <label><input type="checkbox" name="day" value="5" checked><span>Vie</span></label>
+                  <label><input type="checkbox" name="day" value="6" checked><span>Sáb</span></label>
+                  <label><input type="checkbox" name="day" value="0" checked><span>Dom</span></label>
+                </div>
+                <p class="schedule-warning" id="schedule-warning" role="status" hidden></p>
+              </fieldset>
+              <div class="schedule-fields">
+                <label>Desde<input type="time" id="time-from" value="09:00"></label>
+                <label>Hasta<input type="time" id="time-to" value="21:00"></label>
+              </div>
+            </div>
+          </section>
+
+          <div class="notifications-actions">
+            <p id="notifications-status" role="status"></p>
+            <a href="perfil.html" class="notifications-cancel">Cancelar</a>
+            <button type="submit" class="notifications-save">Guardar preferencias</button>
+          </div>
+          </fieldset>
+        </form>
+      </main>
+    </div>
+  </div>
+  <script src="../aaglobal/firebase-config.js?v=20260730-webpush1"></script>
+  <script src="../aaglobal/push-config.js?v=20260730-webpush-free1"></script>
+  <script type="module" src="../auth.js?v=20260730-google1"></script>
+  <script type="module" src="notificaciones.js?v=20260730-essentialzone1"></script>
+</body>
+</html>

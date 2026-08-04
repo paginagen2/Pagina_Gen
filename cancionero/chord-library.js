@@ -110,6 +110,61 @@ export const chordLibrary = {
   'A_sharp_minor': { nota: 'A#', tipo: 'minor', piano: [10, 1, 6], guitar: ['x', 1, 3, 3, 2, 1], formula: '1 ♭3 5' }
 };
 
+// Posiciones verificadas que no pertenecen al conjunto de acordes básicos.
+// Viven en la biblioteca común para que cualquier canción pueda utilizarlas.
+export const specialChordLibrary = {
+  'Emaj7/9': {
+    nombre: 'Emaj7/9', nota: 'E', tipo: 'special',
+    guitar: [0, 7, 6, 8, 7, 0], piano: [4, 8, 11, 3, 6],
+    baseFret: 6, visibleFrets: 4,
+    formula: '1 3 5 7 9', typeLabel: 'Séptima mayor con novena'
+  },
+  'G#m': {
+    nombre: 'G#m', nota: 'G#', tipo: 'minor',
+    guitar: [4, 6, 6, 4, 4, 4], piano: [8, 11, 3],
+    baseFret: 4, visibleFrets: 4,
+    formula: '1 ♭3 5', typeLabel: 'Menor'
+  },
+  'F#11': {
+    nombre: 'F#11', nota: 'F#', tipo: 'special',
+    guitar: [2, 4, 4, 3, 0, 0], piano: [6, 10, 1, 4, 8, 11],
+    formula: '1 3 5 ♭7 9 11', typeLabel: 'Undécima'
+  },
+  'Badd4(no5)': {
+    nombre: 'Badd4(no5)', nota: 'B', tipo: 'special',
+    guitar: [7, 6, 9, 8, 0, 0], piano: [11, 3, 4],
+    baseFret: 6, visibleFrets: 4,
+    formula: '1 3 4', typeLabel: 'Cuarta agregada sin quinta'
+  },
+  'Emaj7': {
+    nombre: 'Emaj7', nota: 'E', tipo: 'major_seventh',
+    guitar: [0, 7, 6, 8, 9, 0], piano: [4, 8, 11, 3],
+    baseFret: 6, visibleFrets: 4,
+    formula: '1 3 5 7', typeLabel: 'Séptima mayor'
+  },
+  'Aadd9': {
+    nombre: 'Aadd9', nota: 'A', tipo: 'special',
+    guitar: [5, 7, 7, 6, 0, 0], piano: [9, 1, 4, 11],
+    baseFret: 5, visibleFrets: 4,
+    formula: '1 3 5 9', typeLabel: 'Novena agregada'
+  },
+  'Eadd9': {
+    nombre: 'Eadd9', nota: 'E', tipo: 'special',
+    guitar: [0, 2, 4, 1, 0, 0], piano: [4, 8, 11, 6],
+    formula: '1 3 5 9', typeLabel: 'Novena agregada'
+  },
+  'C#m': {
+    nombre: 'C#m', nota: 'C#', tipo: 'minor',
+    guitar: ['x', 4, 6, 6, 5, 4], piano: [1, 4, 8],
+    baseFret: 4, visibleFrets: 4,
+    formula: '1 ♭3 5', typeLabel: 'Menor'
+  }
+};
+
+export function getSpecialChordShape(chord) {
+  return specialChordLibrary[String(chord || '').trim()] || null;
+}
+
 const ROOT_NAMES = { C: 'C', 'C#': 'C_sharp', Db: 'C_sharp', D: 'D', 'D#': 'D_sharp', Eb: 'D_sharp', E: 'E', F: 'F', 'F#': 'F_sharp', Gb: 'F_sharp', G: 'G', 'G#': 'G_sharp', Ab: 'G_sharp', A: 'A', 'A#': 'A_sharp', Bb: 'A_sharp', B: 'B' };
 
 export function getChordShape(root, type = 'major') {
@@ -122,4 +177,3 @@ export const chordTypeLabels = {
   major: 'Mayor', minor: 'Menor', seventh: 'Séptima',
   major_seventh: 'Séptima mayor', diminished: 'Disminuido', augmented: 'Aumentado'
 };
-

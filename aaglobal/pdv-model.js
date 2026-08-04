@@ -55,6 +55,18 @@
     return normalizeQuote(value).toLocaleLowerCase('es').replace(/[^\p{L}\p{N}]+/gu, '');
   }
 
+  function sameMonthlyQuote(candidate = '', mainQuote = '') {
+    const candidateKey = quoteKey(candidate);
+    const mainKey = quoteKey(mainQuote);
+    if (!candidateKey || !mainKey) return false;
+    if (candidateKey === mainKey) return true;
+    const shortest = Math.min(candidateKey.length, mainKey.length);
+    const longest = Math.max(candidateKey.length, mainKey.length);
+    return shortest >= 35
+      && shortest / longest >= 0.94
+      && (candidateKey.includes(mainKey) || mainKey.includes(candidateKey));
+  }
+
   function extractParagraphsFromHtml(html = '') {
     const paragraphs = [];
     const blockPattern = /<(p|h[1-6]|li)[^>]*>([\s\S]*?)<\/\1>/gi;
@@ -117,15 +129,44 @@
   function extractChiaraReflection(text = '', references = []) {
     if (!/Chiara Lubich/i.test(text)) return null;
     const footnote = text.match(/[»”"]\s*\[(\d+)\]/);
-    const afterName = text.slice(text.search(/Chiara Lubich/i) + 'Chiara Lubich'.length);
+    const nameIndex = text.search(/Chiara Lubich/i);
+    const beforeName = text.slice(0, nameIndex);
+    const afterName = text.slice(nameIndex + 'Chiara Lubich'.length);
     const quote = afterName.match(/[«“"]([\s\S]+)[»”"](?:\s*\[\d+\])?\.?$/);
     if (!quote) return null;
+    const ideaPrefix = beforeName
+      .replace(/^.*[.!?]\s+/, '')
+      .replace(/(?:[,;:—-]\s*)?(?:(?:como|según)\s+)?(?:lo\s+)?(?:escribe|afirma|explica|recuerda|dice)?\s*$/i, '')
+      .replace(/^\s*(?:en\s+palabras\s+de|según)\s*$/i, '')
+      .replace(/[,;:—-]\s*$/, '')
+      .trim();
+    const completeIdea = cleanText([ideaPrefix, normalizeQuote(quote[1])].filter(Boolean).join(' '));
     const referenceIndex = footnote ? Number(footnote[1]) - 1 : -1;
     return {
       tipo: 'reflexion_autor',
       titulo: 'Escribe Chiara Lubich',
-      texto: normalizeQuote(removeFootnoteMarkers(quote[1])),
+      texto: removeFootnoteMarkers(completeIdea),
       fuente: referenceIndex >= 0 ? formatSource(references[referenceIndex] || '') : ''
+    };
+  }
+
+  function extractExperience(text = '') {
+    const cleaned = removeFootnoteMarkers(text);
+    const quote = '[«“"]([\\s\\S]+?)[»”"]\\.?$';
+    const introducedByPerson = cleaned.match(new RegExp(
+      `^(.{2,120}?\\b(?:nos cuenta|nos comparte|comparte con nosotros|relata|recuerda|explica))\\s*:\\s*${quote}`,
+      'i'
+    ));
+    const personAfterVerb = cleaned.match(new RegExp(
+      `^((?:Nos cuenta|Nos comparte|Comparte con nosotros|Relata|Recuerda|Explica)\\s+.{2,100}?)\\s*:\\s*${quote}`,
+      'i'
+    ));
+    const match = introducedByPerson || personAfterVerb;
+    if (!match || match[2].length < 80) return null;
+    return {
+      tipo: 'experiencia',
+      titulo: cleanText(match[1]).replace(/[.:]$/, ''),
+      texto: normalizeQuote(match[2])
     };
   }
 
@@ -170,13 +211,18 @@
       const originalText = cleanText(paragraph.text);
       const text = removeFootnoteMarkers(originalText);
       if (!text) continue;
-      if (citaPrincipal && quoteKey(text) === quoteKey(citaPrincipal)) {
+      if (citaPrincipal && sameMonthlyQuote(text, citaPrincipal)) {
         bloques.push({ tipo: 'cita_destacada', texto: citaPrincipal });
         continue;
       }
       const chiaraReflection = extractChiaraReflection(originalText, references);
       if (chiaraReflection) {
         bloques.push(chiaraReflection);
+        continue;
+      }
+      const experience = extractExperience(originalText);
+      if (experience) {
+        bloques.push(experience);
         continue;
       }
       const authorReflection = originalText.match(/^Escribe\s+([^:]+):\s*[«“"]?([\s\S]+?)[»”"]?(?:\[\d+\])?\.?$/i);
@@ -197,7 +243,7 @@
   }
 
   function normalizeBlock(block = {}) {
-    const allowed = ['parrafo', 'cita_destacada', 'cita_secundaria', 'reflexion_autor', 'conclusion'];
+    const allowed = ['parrafo', 'cita_destacada', 'cita_secundaria', 'reflexion_autor', 'experiencia', 'conclusion'];
     return {
       tipo: allowed.includes(block.tipo) ? block.tipo : 'parrafo',
       texto: cleanText(block.texto),
@@ -209,6 +255,14 @@
 
   function normalizeSavedBlocks(blocks = [], mainQuote = '') {
     const normalized = Array.isArray(blocks) ? blocks.map(normalizeBlock).filter(block => block.texto) : [];
+    normalized.forEach(block => {
+      const isTruncatedJulyReflection = block.tipo === 'reflexion_autor'
+        && /^son luz,\s*amor y vida[.!]?$/i.test(block.texto)
+        && /marzo de 2003/i.test(block.fuente);
+      if (isTruncatedJulyReflection) {
+        block.texto = 'Las palabras de Dios son luz, amor y vida';
+      }
+    });
     const references = normalized
       .filter(block => /\s↑\s*$/.test(block.texto) || /^(?:C\.\s*LUBICH|LUBICH,\s*C\.)/i.test(block.texto))
       .map(block => block.texto);
@@ -221,7 +275,7 @@
         return;
       }
       const blockKey = quoteKey(block.texto);
-      if (mainKey && blockKey === mainKey) {
+      if (mainKey && sameMonthlyQuote(block.texto, mainQuote)) {
         repaired.push({ ...block, tipo: 'cita_destacada', texto: mainQuote });
         return;
       }
@@ -231,6 +285,11 @@
       const reflection = extractChiaraReflection(block.texto, references);
       if (reflection) {
         repaired.push(reflection);
+        return;
+      }
+      const experience = extractExperience(block.texto);
+      if (experience) {
+        repaired.push(experience);
         return;
       }
       repaired.push({ ...block, texto: removeFootnoteMarkers(block.texto) });
@@ -262,7 +321,7 @@
       const text = escapeHtml(item.texto);
       if (!text) return '';
       if (item.tipo === 'cita_destacada') {
-        return `<aside class="pdv-highlight" aria-label="Cita para recordar"><p>${text}</p></aside>`;
+        return `<blockquote class="pdv-highlight" aria-label="Frase del mes"><p>«${text}»</p></blockquote>`;
       }
       if (item.tipo === 'cita_secundaria') {
         const reference = item.referencia ? ` (${escapeHtml(item.referencia)})` : '';
@@ -270,6 +329,9 @@
       }
       if (item.tipo === 'reflexion_autor') {
         return `<aside class="pdv-author-reflection"><p class="pdv-reflection-label">${escapeHtml(item.titulo || 'Para profundizar')}</p><p>“${text}”</p>${item.fuente ? `<p class="pdv-reflection-source">${escapeHtml(item.fuente)}</p>` : ''}</aside>`;
+      }
+      if (item.tipo === 'experiencia') {
+        return `<aside class="pdv-experience"><p class="pdv-experience-intro">${escapeHtml(item.titulo || 'Una experiencia concreta')}</p><blockquote>“${text}”</blockquote></aside>`;
       }
       const className = item.tipo === 'conclusion' ? 'pdv-paragraph pdv-conclusion' : 'pdv-paragraph';
       return `<p class="${className}">${text}</p>`;

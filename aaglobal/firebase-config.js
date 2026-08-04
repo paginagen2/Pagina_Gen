@@ -25,7 +25,7 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
         ]);
         const { initializeApp } = appModule;
         const { getFirestore, collection, getDocs, addDoc, setDoc, query, where, doc, updateDoc, orderBy, limit, getDoc, deleteDoc, writeBatch, runTransaction } = firestoreModule;
-        const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail } = authModule;
+        const { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } = authModule;
         
         // Reutilizar si ya está inicializado; si no, inicializar
         const app = window.firebaseApp || initializeApp(firebaseConfig);
@@ -91,13 +91,10 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
             deleteDoc,
             writeBatch,
             runTransaction,
-            signInWithEmailAndPassword,
-            createUserWithEmailAndPassword,
             signInWithPopup,
             GoogleAuthProvider,
             signOut,
-            onAuthStateChanged,
-            sendPasswordResetEmail
+            onAuthStateChanged
         };
         
         console.log('🎉 Firebase unificado inicializado correctamente!');

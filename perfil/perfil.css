@@ -36,7 +36,7 @@ body {
 .profile-role-remove { display: grid; width: 25px; align-self: stretch; place-items: center; border: 0; border-left: 1px solid rgba(141,92,246,.22); color: #cdbbff; background: transparent; font-size: 1rem; line-height: 1; cursor: pointer; }
 .profile-role-remove:hover { color: #fff; background: rgba(210,72,101,.28); }
 .profile-add-role, .profile-logout { width: 100%; padding: 11px 14px; border-radius: 10px; cursor: pointer; }
-.profile-add-role { margin-bottom: 9px; border: 1px solid rgba(141,92,246,.38); color: #ddcfff; background: rgba(141,92,246,.11); font-weight: 700; }
+.profile-add-role { display: block; margin-bottom: 9px; border: 1px solid rgba(141,92,246,.38); color: #ddcfff; background: rgba(141,92,246,.11); font-weight: 700; text-align: center; text-decoration: none; }
 .profile-add-role:hover { background: rgba(141,92,246,.2); }
 .profile-logout { border: 1px solid #4a3137; color: #f0b9c4; background: rgba(139,49,67,.1); }
 .profile-logout:hover { background: rgba(139,49,67,.2); }
@@ -47,6 +47,7 @@ body {
 .profile-card-heading h2 { margin: 0; font-size: 1.12rem; }
 .profile-card-heading p { margin-top: 7px; font-size: .86rem; line-height: 1.5; }
 .profile-card-icon { color: #ae8cff; font-size: 1.4rem; }
+.profile-card-icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
 .profile-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 18px; padding-top: 24px; }
 .profile-field { min-width: 0; }
 .profile-field-wide { grid-column: 1 / -1; }
@@ -72,6 +73,7 @@ body {
 .profile-signed-out h2 { margin: 12px 0 7px; }
 .profile-signed-out p { margin: 0 0 22px; color: var(--profile-muted); }
 .profile-empty-icon { color: #a98afa; font-size: 2.6rem; }
+.profile-empty-icon svg { width: 56px; height: 56px; fill: none; stroke: currentColor; stroke-width: 1.45; stroke-linecap: round; stroke-linejoin: round; }
 .role-remove-dialog { width: min(460px, calc(100% - 30px)); padding: 0; border: 1px solid #3a414b; border-radius: 18px; color: #f5f7fa; background: #171b20; box-shadow: 0 24px 80px rgba(0,0,0,.58); }
 .role-remove-dialog::backdrop { background: rgba(3,5,8,.78); backdrop-filter: blur(4px); }
 .role-remove-card { position: relative; padding: 30px; }

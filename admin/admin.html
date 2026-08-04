@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <meta name="description" content="Herramientas de administración de Gen 2.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Panel de Administración">
@@ -13,16 +14,16 @@
   <meta name="twitter:title" content="Panel de Administración">
   <meta name="twitter:description" content="Herramientas de administración de Gen 2.">
   <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
-    <link rel="stylesheet" href="../aaglobal/style.css">
-    <link rel="stylesheet" href="admin.css?v=20260729-pdv4">
-  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260729-mobile-account">
-  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260729-responsive">
+    <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+    <link rel="stylesheet" href="admin.css?v=20260730-centered-section-button">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
 </head>
 <body>
     <div class="page-container">
         <!-- Sidebar -->
         <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="../aaglobal/sidebar.js?v=20260729-mobile-account"></script>
+  <script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
 
         <div class="main-content">
             <div id="admin-loading" class="admin-status" role="status" aria-live="polite">
@@ -45,15 +46,21 @@
                     <p>Gestiona todo el contenido de la página</p>
                 </div>
 
-                <!-- Navegación entre secciones -->
-                <nav class="section-nav">
-                    <button class="nav-btn active" data-section="carrusel">
+                <!-- Selector inicial de secciones -->
+                <div class="admin-section-controls">
+                <button id="admin-section-back" class="admin-section-back" type="button">← Cambiar sección</button>
+                <nav class="section-nav" aria-label="Elegir sección para administrar">
+                    <button class="nav-btn" data-section="carrusel">
                         <span class="nav-icon">🖼️</span>
                         <span class="nav-text">Comunicación</span>
                     </button>
                     <button class="nav-btn" data-section="zonas-codigos">
                         <span class="nav-icon">🔑</span>
                         <span class="nav-text">Zonas y códigos</span>
+                    </button>
+                    <button class="nav-btn" data-section="notificaciones">
+                        <span class="nav-icon">🔔</span>
+                        <span class="nav-text">Notificaciones</span>
                     </button>
                     <button class="nav-btn" data-section="pasapalabra">
                         <span class="nav-icon">✨</span>
@@ -92,6 +99,7 @@
                         <span class="nav-text">Subida Múltiple</span>
                     </button>
                 </nav>
+                </div>
 
                 <!-- Contenedor de Secciones -->
                 <div class="sections-container">
@@ -217,7 +225,7 @@
                             <div>
                                 <p class="access-admin-kicker">ACCESOS DINÁMICOS</p>
                                 <h2>Zonas, funciones y códigos</h2>
-                                <p>Creá códigos generales o asigná una zona o funcionalidad directamente a una cuenta.</p>
+                                <p>Creá zonas, generá códigos y administrá los roles de cada perfil.</p>
                             </div>
                             <div class="access-admin-stats">
                                 <div><strong id="zonas-total">0</strong><span>Zonas activas</span></div>
@@ -228,10 +236,9 @@
 
                         <div class="section-grid access-admin-grid">
                             <div class="admin-form-card">
-                                <h2>📍 Crear zona o funcionalidad</h2>
+                                <h2>📍 Crear zona</h2>
                                 <form id="zona-form">
-                                    <div class="form-group"><label for="acceso-tipo">Tipo *</label><select id="acceso-tipo"><option value="zona">Zona</option><option value="funcionalidad">Funcionalidad</option></select></div>
-                                    <div class="form-group"><label id="zona-nombre-label" for="zona-nombre">Nombre de la zona *</label><input id="zona-nombre" type="text" maxlength="80" placeholder="Ej.: Rosario" required></div>
+                                    <div class="form-group"><label for="zona-nombre">Nombre de la zona *</label><input id="zona-nombre" type="text" maxlength="80" placeholder="Ej.: Rosario" required></div>
                                     <div class="form-group"><label for="zona-id">Identificador interno</label><input id="zona-id" type="text" maxlength="80" placeholder="Se genera como zona_rosario"><p id="zona-id-help" class="field-help">Se genera con el prefijo zona_. No podrá cambiarse después.</p></div>
                                     <div class="form-group"><label for="zona-descripcion">Descripción (opcional)</label><textarea id="zona-descripcion" rows="3" maxlength="240"></textarea></div>
                                     <button id="zona-submit" class="btn-primary" type="submit">Crear zona</button>
@@ -239,16 +246,26 @@
                             </div>
 
                             <div class="admin-list-card">
-                                <h2>📋 Zonas y funcionalidades disponibles</h2>
+                                <h2>📍 Zonas disponibles</h2>
                                 <div id="zonas-list" class="access-list"><p class="admin-list-status">Cargando zonas...</p></div>
+                            </div>
+
+                            <div class="admin-list-card">
+                                <h2>⚙️ Funciones disponibles</h2>
+                                <div id="funciones-list" class="access-list"><p class="admin-list-status">Cargando funciones...</p></div>
+                            </div>
+
+                            <div class="admin-list-card">
+                                <h2>👥 Roles generales</h2>
+                                <div id="roles-generales-list" class="access-list"><p class="admin-list-status">Cargando roles...</p></div>
                             </div>
 
                             <div class="admin-form-card">
                                 <h2>🔑 Generar código</h2>
                                 <form id="codigo-form">
-                                    <div class="form-group"><label for="codigo-destino-tipo">Otorga acceso a *</label><select id="codigo-destino-tipo"><option value="zona">Una zona</option><option value="funcionalidad">Una funcionalidad</option></select></div>
+                                    <div class="form-group"><label for="codigo-destino-tipo">Otorga acceso a *</label><select id="codigo-destino-tipo"><option value="zona">Una zona</option><option value="funcionalidad">Un rol o funcionalidad</option></select></div>
                                     <div class="form-group" id="codigo-zona-group"><label for="codigo-zona">Zona *</label><select id="codigo-zona"><option value="">Elegí una zona</option></select></div>
-                                    <div class="form-group" id="codigo-funcionalidad-group" hidden><label for="codigo-funcionalidad">Funcionalidad *</label><select id="codigo-funcionalidad"><option value="">Elegí una funcionalidad</option></select></div>
+                                    <div class="form-group" id="codigo-funcionalidad-group" hidden><label for="codigo-funcionalidad">Rol o funcionalidad *</label><select id="codigo-funcionalidad"><option value="">Elegí un rol</option></select></div>
                                     <div class="form-group"><label for="codigo-tipo">Tipo de código *</label><select id="codigo-tipo"><option value="unico">Un solo uso</option><option value="limitado">Usos limitados</option><option value="libre">Uso libre congelable</option></select></div>
                                     <div class="form-group" id="codigo-max-usos-group" hidden><label for="codigo-max-usos">Cantidad máxima de usos *</label><input id="codigo-max-usos" type="number" min="2" max="100000" value="10"></div>
                                     <div class="form-group"><label for="codigo-vence">Vencimiento (opcional)</label><input id="codigo-vence" type="datetime-local"></div>
@@ -260,16 +277,6 @@
                                     <strong id="codigo-generado-valor"></strong>
                                     <button id="codigo-generado-copiar" class="btn-secondary" type="button">Copiar código</button>
                                 </div>
-                                <div class="separator"></div>
-                                <h2>👤 Asignar acceso directamente</h2>
-                                <p class="field-help">La cuenta debe estar registrada. El acceso se agrega inmediatamente, sin generar ni canjear un código.</p>
-                                <form id="asignacion-form">
-                                    <div class="form-group"><label for="asignacion-email">Correo de la cuenta *</label><input id="asignacion-email" type="email" maxlength="160" list="codigo-usuarios" placeholder="persona@correo.com" required><datalist id="codigo-usuarios"></datalist></div>
-                                    <div class="form-group"><label for="asignacion-destino-tipo">Asignar *</label><select id="asignacion-destino-tipo"><option value="zona">Una zona</option><option value="funcionalidad">Una funcionalidad</option></select></div>
-                                    <div class="form-group" id="asignacion-zona-group"><label for="asignacion-zona">Zona *</label><select id="asignacion-zona"><option value="">Elegí una zona</option></select></div>
-                                    <div class="form-group" id="asignacion-funcionalidad-group" hidden><label for="asignacion-funcionalidad">Funcionalidad *</label><select id="asignacion-funcionalidad"><option value="">Elegí una funcionalidad</option></select></div>
-                                    <button class="btn-primary" type="submit">Asignar acceso</button>
-                                </form>
                             </div>
 
                             <div class="admin-list-card">
@@ -279,6 +286,60 @@
                                     <select id="codigos-destino-filtro"><option value="todos">Zonas y funcionalidades</option><option value="zona">Solo zonas</option><option value="funcionalidad">Solo funcionalidades</option></select>
                                 </div>
                                 <div id="codigos-list" class="access-list"><p class="admin-list-status">Cargando códigos...</p></div>
+                            </div>
+                        </div>
+                        <section class="role-management">
+                            <div class="admin-list-card">
+                                <h2>Personas agrupadas por rol</h2>
+                                <p class="field-help">Abrí un rol para consultar sus integrantes y retirar accesos.</p>
+                                <div id="roles-perfiles-list" class="role-groups"></div>
+                            </div>
+                            <div class="admin-list-card">
+                                <div class="access-list-header">
+                                    <div>
+                                        <h2>Perfiles y accesos</h2>
+                                        <p class="field-help">Buscá por nombre o correo para revisar todos los roles de una cuenta.</p>
+                                    </div>
+                                    <input id="perfiles-busqueda" type="search" maxlength="120" placeholder="Buscar persona…">
+                                </div>
+                                <div id="perfiles-list" class="profile-access-list"></div>
+                            </div>
+                        </section>
+                        <section class="access-danger-zone">
+                            <button id="desactivar-acceso-toggle" class="btn-secondary" type="button" aria-expanded="false">Desactivar función/zona</button>
+                            <div id="desactivar-acceso-panel" class="admin-list-card" hidden>
+                                <h2>Desactivar una función o zona</h2>
+                                <p class="field-help">Esta acción impide nuevos usos y accesos administrativos. Los perfiles conservarán el rol hasta que se lo retires.</p>
+                                <div class="form-group">
+                                    <label for="desactivar-acceso-tipo">¿Qué querés desactivar?</label>
+                                    <select id="desactivar-acceso-tipo"><option value="">Elegí una categoría</option><option value="zona">Zona</option><option value="funcionalidad">Función</option></select>
+                                </div>
+                                <div id="desactivar-acceso-list" class="access-list"></div>
+                            </div>
+                        </section>
+                    </section>
+
+                    <section id="notificaciones-section" class="content-section">
+                        <div class="section-grid">
+                            <div class="admin-form-card">
+                                <h2>🔔 Enviar una notificación</h2>
+                                <p class="field-help">Se enviará únicamente a los dispositivos que autorizaron la categoría seleccionada.</p>
+                                <form id="push-admin-form">
+                                    <div class="form-group"><label for="push-title">Título *</label><input id="push-title" maxlength="90" required></div>
+                                    <div class="form-group"><label for="push-body">Mensaje *</label><textarea id="push-body" maxlength="220" rows="4" required></textarea></div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label for="push-category">Categoría</label><select id="push-category"><option value="general">Comunicación general</option><option value="zone">Comunicación de zona</option><option value="wordOfLife">Palabra de Vida</option><option value="passphrase">Pasapalabra</option><option value="meditation">Meditación</option></select></div>
+                                        <div class="form-group"><label for="push-url">Página que abrirá</label><input id="push-url" value="index.html" placeholder="canal/canal.html"></div>
+                                    </div>
+                                    <div class="form-group"><label for="push-roles">Zonas destinatarias (opcional)</label><input id="push-roles" placeholder="zona_rosario, zona_cordoba"></div>
+                                    <div class="form-actions"><button class="btn-primary" type="submit">Enviar notificación</button></div>
+                                    <p id="push-admin-status" class="field-help" role="status"></p>
+                                </form>
+                            </div>
+                            <div class="admin-list-card">
+                                <h2>Envíos automáticos</h2>
+                                <p>Las comunicaciones publicadas se notifican al instante. Las programadas se envían al llegar su fecha.</p>
+                                <p>Palabra de Vida, Pasapalabra y Meditación respetan las frecuencias, días, horarios y zona horaria elegidos por cada usuario.</p>
                             </div>
                         </div>
                     </section>
@@ -380,7 +441,7 @@
                                 </div>
                                 <div class="form-group form-group-checkbox">
                                     <label class="checkbox-label">
-                                        <input type="checkbox" id="meditacion-categoria-publico" checked>
+                                        <input type="checkbox" id="meditacion-categoria-publico">
                                         <span class="checkbox-custom"></span>
                                         Público
                                     </label>
@@ -446,17 +507,43 @@
                             </div>
                             <div class="form-group"><label for="bib-descripcion">Descripción</label><textarea id="bib-descripcion" maxlength="1000" rows="4"></textarea></div>
                             <div class="form-row">
-                              <div class="form-group"><label for="bib-temas">Temas</label><input id="bib-temas" placeholder="Unidad, Jesús en medio, Formación"><p class="field-help">Separados por comas.</p></div>
+                              <div class="form-group">
+                                <label>Temas</label>
+                                <input id="bib-temas" type="hidden">
+                                <button id="bib-temas-open" class="btn-secondary bib-topics-open" type="button">Seleccionar temas</button>
+                                <div id="bib-temas-selected" class="bib-selected-topics"><span>Sin temas seleccionados</span></div>
+                              </div>
                               <div class="form-group"><label for="bib-estado">Estado</label><select id="bib-estado"><option value="borrador">Borrador</option><option value="publicado">Publicado</option><option value="archivado">Archivado</option></select></div>
                             </div>
                             <div class="form-row">
                               <div class="form-group"><label for="bib-anio">Año</label><input id="bib-anio" type="number" min="1900" max="2100"></div>
                               <div class="form-group"><label for="bib-idioma">Idioma</label><select id="bib-idioma"><option value="es">Español</option><option value="pt">Portugués</option><option value="it">Italiano</option><option value="en">Inglés</option><option value="otro">Otro</option></select></div>
                             </div>
-                            <div class="form-group"><label for="bib-link-recurso">Link del recurso *</label><input id="bib-link-recurso" type="url" placeholder="https://…" required><p class="field-help" id="bib-link-help">Puede ser un archivo de Drive o cualquier enlace público.</p><button id="bib-link-test" class="btn-secondary bib-drive-test" type="button">Comprobar enlace</button></div>
+                            <div class="form-group">
+                              <label for="bib-link-recurso">Link del recurso *</label>
+                              <input id="bib-link-recurso" type="url" placeholder="https://…" required>
+                              <p class="field-help" id="bib-link-help">Puede ser un archivo de Drive o cualquier enlace público.</p>
+                              <div class="form-actions">
+                                <a class="btn-secondary bib-drive-test" href="https://drive.google.com/drive/u/1/folders/115QmX7BX51iepsdZmG_2-quSlu3VfzIVKNdLgPnu52X8xBdInLKA60U05XKvmHTYxMFiesNv" target="_blank" rel="noopener">Abrir carpeta de Drive ↗</a>
+                                <button id="bib-link-test" class="btn-secondary bib-drive-test" type="button">Comprobar enlace</button>
+                              </div>
+                            </div>
                             <div class="form-row">
                               <div class="form-group"><label for="bib-tipo">Formato</label><select id="bib-tipo"><option value="PDF">PDF</option><option value="AUDIO">Audio</option><option value="VIDEO">Video</option><option value="EPUB">EPUB</option><option value="DOCX">DOCX</option><option value="ENLACE">Otro enlace</option></select></div>
-                              <div class="form-group"><label for="bib-tamano">Tamaño visible</label><input id="bib-tamano" placeholder="Ej.: 12,5 MB"></div>
+                              <div class="form-group">
+                                <label for="bib-tamano-numero">Tamaño visible</label>
+                                <div class="form-row">
+                                  <input id="bib-tamano-numero" type="number" min="0" step="any" inputmode="decimal" aria-label="Valor del tamaño">
+                                  <select id="bib-tamano-unidad" aria-label="Unidad del tamaño">
+                                    <option value=""></option>
+                                    <option value="B">B</option>
+                                    <option value="KB">KB</option>
+                                    <option value="MB">MB</option>
+                                    <option value="GB">GB</option>
+                                    <option value="TB">TB</option>
+                                  </select>
+                                </div>
+                              </div>
                             </div>
                             <div class="bib-progress" id="bib-progress" role="status" aria-live="polite"><span></span></div>
                             <div class="form-actions">
@@ -473,6 +560,22 @@
                             <select id="bib-filter"><option value="">Todos</option><option value="publicado">Publicados</option><option value="borrador">Borradores</option><option value="archivado">Archivados</option></select>
                           </div>
                           <div id="bib-list" class="item-list"></div>
+                        </div>
+                      </div>
+                      <div id="bib-topic-selector" class="bib-topic-selector" hidden role="dialog" aria-modal="true" aria-labelledby="bib-topic-selector-title">
+                        <div class="bib-topic-selector-dialog">
+                          <div class="bib-topic-selector-header">
+                            <div><span>TEMAS DEL RECURSO</span><h2 id="bib-topic-selector-title">Seleccionar temas</h2></div>
+                            <button id="bib-topic-selector-close" type="button" aria-label="Cerrar selector">×</button>
+                          </div>
+                          <input id="bib-topic-selector-search" class="bib-topic-selector-search" type="search" placeholder="Buscar un tema…">
+                          <div id="bib-topic-selector-list" class="bib-topic-selector-list"></div>
+                          <div class="bib-topic-selector-footer">
+                            <button id="bib-topic-selector-clear" class="btn-secondary" type="button">Quitar todos</button>
+                            <span id="bib-topic-selector-count">0 seleccionados</span>
+                            <button id="bib-topic-selector-cancel" class="btn-secondary" type="button">Cancelar</button>
+                            <button id="bib-topic-selector-apply" class="btn-primary" type="button">Aplicar temas</button>
+                          </div>
                         </div>
                       </div>
                       <div class="full-width-panel bib-contributions">
@@ -503,11 +606,9 @@
                                         <div class="form-group">
                                             <label>Categoría</label>
                                             <select id="cancion-categoria">
-                                                <option value="gen">Gen</option>
-                                                <option value="jovenes">Jóvenes</option>
-                                                <option value="infantil">Infantil</option>
-                                                <option value="comunion">Comunión</option>
-                                                <option value="especial">Especial</option>
+                                                <option value="misa">Misa</option>
+                                                <option value="gen" selected>Gen</option>
+                                                <option value="fogon">Fogón</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -537,11 +638,9 @@
                                     </select>
                                     <select id="cancion-filter-categoria">
                                         <option value="">Todas las categorías</option>
+                                        <option value="misa">Misa</option>
                                         <option value="gen">Gen</option>
-                                        <option value="jovenes">Jóvenes</option>
-                                        <option value="infantil">Infantil</option>
-                                        <option value="comunion">Comunión</option>
-                                        <option value="especial">Especial</option>
+                                        <option value="fogon">Fogón</option>
                                     </select>
                                 </div>
                                 <div id="cancion-list" class="item-list"></div>
@@ -828,7 +927,7 @@
                     <section id="bulk-upload-section" class="content-section">
                         <div class="full-width-panel">
                             <h2>📤 Subida Múltiple</h2>
-                            <p style="color: var(--text-muted);">Carga canciones en formato JSON (array de objetos con: titulo, artista, letra, categoria, estado)</p>
+                            <p style="color: var(--text-muted);">Carga canciones en formato JSON. Además de título, artista, letra, categoría y estado, podés incluir tono y fuente. Los diagramas se administran desde el centro común de acordes.</p>
                             
                             <div class="form-group">
                                 <label for="bulk-json">Pega el JSON aquí:</label>
@@ -844,7 +943,7 @@
     "titulo": "Canción 2",
     "artista": "Artista 2",
     "letra": "Letra completa...",
-    "categoria": "jovenes",
+    "categoria": "fogon",
     "estado": "pendiente"
   }
 ]'></textarea>
@@ -869,9 +968,10 @@
         </div>
     </div>
 
-    <script src="../aaglobal/firebase-config.js"></script>
+    <script src="../aaglobal/firebase-config.js?v=20260730-webpush1"></script>
     <script src="../aaglobal/vendor/mammoth.browser.min.js"></script>
-    <script src="../aaglobal/pdv-model.js?v=20260729-pdv4"></script>
-    <script type="module" src="admin.js?v=20260729-pdv4"></script>
+    <script src="../aaglobal/pdv-model.js?v=20260730-julio-chiara"></script>
+    <script type="module" src="../auth.js?v=20260730-admin-session"></script>
+    <script type="module" src="admin.js?v=20260730-song-categories"></script>
 </body>
 </html>

@@ -82,14 +82,19 @@ body:has(#songChordsPanel:target) #dictionaryPanel { display: none; }
 .subsection-heading span { color: #7f8592; font-size: 11px; }
 .song-results-list { display: grid; gap: 8px; }
 .song-result-placeholder, .song-result-item { display: flex; width: 100%; align-items: center; gap: 13px; padding: 12px; border: 1px solid transparent; border-radius: 12px; color: #dfe0e5; background: transparent; text-align: left; }
+.song-result-item { display: grid; grid-template-columns: 48px minmax(0, 1fr) minmax(160px, auto) 18px; }
 .song-result-placeholder { opacity: .74; }
 .song-result-item { cursor: pointer; transition: border-color .16s ease, background .16s ease; }
 .song-result-item:hover, .song-result-item.active { border-color: #604080; background: rgba(129, 66, 205, .11); }
 .song-result-art { display: grid; width: 48px; height: 48px; flex: 0 0 auto; place-items: center; border: 1px solid #403154; border-radius: 12px; color: #c69cff; background: linear-gradient(145deg, #26183a, #131824); }
 .song-result-art svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.7; }
-.song-result-placeholder > span:last-child, .song-result-item > span:last-child { display: grid; min-width: 0; gap: 4px; }
+.song-result-placeholder > span:last-child { display: grid; min-width: 0; gap: 4px; }
 .song-result-placeholder strong, .song-result-item strong { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
-.song-result-placeholder small, .song-result-item small { overflow: hidden; color: #8d929f; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.song-result-placeholder small { overflow: hidden; color: #8d929f; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.song-result-title { min-width: 0; }
+.song-result-meta { display: flex; min-width: 0; align-items: center; justify-content: flex-end; gap: 10px; padding-right: 16px; color: #959aa7; font-size: 11px; }
+.song-result-artist { max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.song-result-category { padding: 4px 8px; border: 1px solid #50366f; border-radius: 999px; color: #c8a8f2; background: rgba(108, 57, 167, .12); white-space: nowrap; }
 
 .song-chord-preview { display: grid; place-items: center; overflow: hidden; padding: 26px; background: radial-gradient(circle at 50% 15%, rgba(132, 69, 207, .13), transparent 16rem), rgba(8, 13, 20, .72); }
 .preview-empty { max-width: 330px; text-align: center; }
@@ -138,7 +143,7 @@ body:has(#songChordsPanel:target) #dictionaryPanel { display: none; }
 .acordes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .acorde-card { position: relative; display: block; width: 100%; min-width: 0; overflow: hidden; padding: 19px; border: 1px solid var(--ch-border); border-radius: 16px; color: inherit; background: linear-gradient(150deg, rgba(19, 26, 36, .98), rgba(11, 17, 24, .98)); text-align: left; cursor: pointer; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
 .acorde-card-diagram { display: block; min-height: 190px; margin-bottom: 14px; padding: 12px; border-radius: 11px; background: #070a0f; }
-.song-result-arrow { margin-left: auto; color: #9d6be3; font-size: 1.5rem; }
+.song-result-arrow { color: #9d6be3; font-size: 1.5rem; text-align: right; }
 .song-results-empty { margin: 28px 12px; color: var(--ch-muted); text-align: center; }
 .acorde-card::before { position: absolute; inset: 0 0 auto; height: 2px; background: linear-gradient(90deg, transparent, var(--ch-purple), transparent); content: ''; opacity: 0; transition: opacity .18s ease; }
 .acorde-card:hover { border-color: #60428d; box-shadow: 0 18px 45px rgba(0, 0, 0, .28); transform: translateY(-3px); }
@@ -244,6 +249,11 @@ body:has(#songChordsPanel:target) #dictionaryPanel { display: none; }
   .search-submit { min-width: 78px; height: 41px; }
   .song-search > svg { display: none; }
   .song-results { min-height: 240px; padding: 14px; }
+  .song-result-item { grid-template-columns: 48px minmax(0, 1fr) 18px; column-gap: 10px; }
+  .song-result-title { grid-column: 2; }
+  .song-result-meta { grid-column: 2; justify-content: flex-start; padding-right: 0; }
+  .song-result-arrow { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+  .song-result-artist { max-width: min(44vw, 190px); }
   .subsection-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
   .song-chord-preview { min-height: 290px; padding: 20px; }
   .acordes-controls { padding: 10px; }

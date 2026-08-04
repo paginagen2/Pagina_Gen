@@ -25,6 +25,14 @@ async function cargarTodasLasMeditaciones() {
     const grid = document.getElementById('listaMeditaciones');
     
     try {
+        const offline = await esperarModoSinConexion();
+        const guardadas = await offline?.getCollection('meditaciones').catch(() => null);
+        if (guardadas?.items?.length && (!navigator.onLine || offline.isFresh(guardadas))) {
+            todasLasMeditaciones = guardadas.items;
+            renderizarMeditaciones(todasLasMeditaciones);
+            return;
+        }
+
         const querySnapshot = await getDocs(query(collection(db, 'meditaciones'), where('Publico', '==', true)));
         todasLasMeditaciones = [];
 
@@ -34,12 +42,31 @@ async function cargarTodasLasMeditaciones() {
 
         // Ordenar alfabéticamente por título
         todasLasMeditaciones.sort((a, b) => (a.titulo || "").localeCompare(b.titulo || ""));
+        await offline?.replaceCollection('meditaciones', todasLasMeditaciones).catch(() => {});
 
         renderizarMeditaciones(todasLasMeditaciones);
     } catch (error) {
         console.error("Error al cargar meditaciones:", error);
-        grid.innerHTML = '<p>Error al cargar las meditaciones.</p>';
+        const offline = await esperarModoSinConexion();
+        const guardadas = await offline?.getCollection('meditaciones').catch(() => null);
+        if (guardadas?.items?.length) {
+            todasLasMeditaciones = guardadas.items;
+            renderizarMeditaciones(todasLasMeditaciones);
+        } else {
+            grid.innerHTML = '<p>No hay meditaciones guardadas en este dispositivo. Conectate a internet para descargarlas.</p>';
+        }
     }
+}
+
+async function esperarModoSinConexion() {
+    if (window.GenOffline) return window.GenOffline;
+    return new Promise(resolve => {
+        const timeout = setTimeout(() => resolve(window.GenOffline || null), 2000);
+        window.addEventListener('gen:offline-ready', () => {
+            clearTimeout(timeout);
+            resolve(window.GenOffline);
+        }, { once: true });
+    });
 }
 
 function renderizarMeditaciones(meditaciones) {

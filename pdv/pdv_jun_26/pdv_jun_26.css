@@ -54,6 +54,17 @@ body {
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
 
+.logo-icon,.cita-icon svg,.reflexion-icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.logo-icon { stroke-width: 1.55; }
+.cita-icon svg { width: 28px; height: 28px; stroke-width: 1.7; }
+.reflexion-icon svg { width: 22px; height: 22px; stroke-width: 1.65; }
+
 .palabra-header h1 {
   margin-bottom: 0.5rem;
   color: var(--text-light);

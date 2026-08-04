@@ -20,6 +20,52 @@ service cloud.firestore {
       return signedIn() && userRoles().hasAny(['admin']);
     }
 
+    function hasRole(role) {
+      return signedIn() && userRoles().hasAny([role]);
+    }
+
+    function activeFunction(role) {
+      return !exists(/databases/$(database)/documents/funcionalidades/$(role))
+        || !('activa' in get(/databases/$(database)/documents/funcionalidades/$(role)).data)
+        || get(/databases/$(database)/documents/funcionalidades/$(role)).data.activa != false;
+    }
+
+    function activeZone(role) {
+      return !exists(/databases/$(database)/documents/zonas/$(role))
+        || !('activa' in get(/databases/$(database)/documents/zonas/$(role)).data)
+        || get(/databases/$(database)/documents/zonas/$(role)).data.activa != false;
+    }
+
+    function canManage(role) {
+      return isAdmin() || (hasRole(role) && activeFunction(role));
+    }
+
+    function canReadRoleAudience(roles) {
+      return roles.size() == 0 || (signedIn() && (
+        roles.hasAny(userRoles())
+        || (roles.hasAny(['gen']) && userRoles().hasAny(['gen2']))
+      ));
+    }
+
+    function canManageZoneCommunication(data) {
+      return signedIn()
+        && data.zonaAdministradora is string
+        && data.rolesDestinatarios is list
+        && data.rolesDestinatarios.size() == 1
+        && data.rolesDestinatarios[0] == data.zonaAdministradora
+        && activeZone(data.zonaAdministradora)
+        && activeFunction('funcion_comunicacion_' + data.zonaAdministradora)
+        && hasRole('funcion_comunicacion_' + data.zonaAdministradora);
+    }
+
+    function canReadManagedZoneCommunication(data) {
+      return signedIn()
+        && data.zonaAdministradora is string
+        && activeZone(data.zonaAdministradora)
+        && activeFunction('funcion_comunicacion_' + data.zonaAdministradora)
+        && hasRole('funcion_comunicacion_' + data.zonaAdministradora);
+    }
+
     function published() {
       return !('estado' in resource.data) || resource.data.estado == 'publicado' || resource.data.estado == 'publicada';
     }
@@ -33,13 +79,8 @@ service cloud.firestore {
       allow update: if isAdmin() || (ownUser(uid)
         && (
           request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-            'nombre', 'descripcion', 'ubicacion', 'perfilActualizadoEn'
+            'nombre', 'descripcion', 'ubicacion', 'perfilActualizadoEn', 'notificaciones'
           ])
-          || (
-            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['roles'])
-            && request.resource.data.roles.size() == resource.data.roles.size() - 1
-            && resource.data.roles.hasAll(request.resource.data.roles)
-          )
           || (
             request.resource.data.diff(resource.data).affectedKeys().hasOnly(['roles', 'ultimoCanjeCodigo'])
             && request.resource.data.roles.size() == resource.data.roles.size() + 1
@@ -77,13 +118,23 @@ service cloud.firestore {
         ));
       allow delete: if isAdmin();
 
-      match /favoritos/{songId} {
-        allow read: if ownUser(uid);
+      match /dispositivosNotificaciones/{deviceId} {
+        allow get, list: if ownUser(uid) || isAdmin();
         allow create, update: if ownUser(uid)
-          && request.resource.data.usuarioId == uid
-          && request.resource.data.cancionId == songId
-          && request.resource.data.keys().hasOnly(['usuarioId', 'cancionId', 'creadoEn']);
-        allow delete: if ownUser(uid);
+          && request.resource.data.deviceId == deviceId
+          && request.resource.data.enabled is bool
+          && request.resource.data.platform in ['web', 'android', 'ios']
+          && request.resource.data.transport in ['web-push', 'fcm']
+          && request.resource.data.timezone is string
+          && request.resource.data.permission in ['default', 'prompt', 'granted', 'denied']
+          && request.resource.data.version is int
+          && request.resource.data.version >= 1
+          && request.resource.data.keys().hasOnly([
+            'mode', 'categories', 'fixedTimes', 'schedule', 'timezone',
+            'deviceId', 'platform', 'transport', 'enabled', 'permission',
+            'updatedAt', 'version', 'subscription', 'fcmToken'
+          ]);
+        allow delete: if ownUser(uid) || isAdmin();
       }
     }
 
@@ -147,26 +198,41 @@ service cloud.firestore {
     }
 
     match /canal_publicaciones/{postId} {
-      allow read: if isAdmin() || (
+      allow read: if canManage('funcion_comunicacion')
+        || canReadManagedZoneCommunication(resource.data)
+        || (
         (resource.data.estado == 'publicada'
           || (resource.data.estado == 'programada'
             && resource.data.fechaPublicacion <= request.time))
-        && (resource.data.rolesDestinatarios.size() == 0
-          || (signedIn() && resource.data.rolesDestinatarios.hasAny(userRoles())))
+        && canReadRoleAudience(resource.data.rolesDestinatarios)
       );
-      allow write: if isAdmin();
+      allow create: if canManage('funcion_comunicacion')
+        || canManageZoneCommunication(request.resource.data);
+      allow update: if canManage('funcion_comunicacion')
+        || (canManageZoneCommunication(resource.data)
+          && canManageZoneCommunication(request.resource.data));
+      allow delete: if canManage('funcion_comunicacion')
+        || canManageZoneCommunication(resource.data);
     }
 
     match /canciones/{songId} {
-      allow read: if published() || isAdmin();
-      allow create: if signedIn() && request.resource.data.estado == 'pendiente';
-      allow update: if isAdmin() || (
-        resource.data.estado == 'publicado'
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reproducciones'])
-        && request.resource.data.reproducciones is int
-        && request.resource.data.reproducciones == resource.data.reproducciones + 1
-      );
-      allow delete: if isAdmin();
+      allow read: if published() || canManage('funcion_cancionero')
+        || canManage('funcion_subida_multiple');
+      allow create: if request.resource.data.categoria in ['misa', 'gen', 'fogon']
+        && (canManage('funcion_cancionero')
+          || canManage('funcion_subida_multiple')
+          || (signedIn() && request.resource.data.estado == 'pendiente'));
+      allow update: if request.resource.data.categoria in ['misa', 'gen', 'fogon']
+        && (canManage('funcion_cancionero')
+          || canManage('funcion_subida_multiple')
+          || (
+            resource.data.estado == 'publicado'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reproducciones'])
+            && request.resource.data.reproducciones is int
+            && request.resource.data.reproducciones == resource.data.reproducciones + 1
+          ));
+      allow delete: if canManage('funcion_cancionero')
+        || canManage('funcion_subida_multiple');
 
       match /likes/{userId} {
         allow read: if signedIn() && request.auth.uid == userId;
@@ -178,16 +244,10 @@ service cloud.firestore {
       }
     }
 
-    // Compatibilidad de lectura para favoritos guardados antes de crear
-    // la colección personal del usuario.
-    match /{path=**}/likes/{likeId} {
-      allow read: if signedIn() && resource.data.usuarioId == request.auth.uid;
-    }
-
     match /recursos/{resourceId} {
       // Los recursos publicados son públicos, pero nunca exponemos documentos
       // antiguos que todavía contengan datos privados de contacto.
-      allow read: if isAdmin() || (published() && !('email' in resource.data));
+      allow read: if canManage('funcion_recursos') || (published() && !('email' in resource.data));
       allow create: if signedIn()
         && request.resource.data.keys().hasOnly([
           'categoria', 'titulo', 'descripcion', 'duracion', 'participantes',
@@ -222,32 +282,31 @@ service cloud.firestore {
         && request.resource.data.pasos is list
         && request.resource.data.pasos.size() <= 40
         && request.resource.data.fechaCreacion is timestamp;
-      allow update, delete: if isAdmin();
+      allow update, delete: if canManage('funcion_recursos');
     }
 
     match /pdv/{pdvId} {
-      allow get, list: if isAdmin() || (
-        resource.data.version == 2
-        && resource.data.fechaPublicacion <= request.time
-      );
-      allow create, update, delete: if isAdmin();
+      allow get: if canManage('funcion_pdv') || resource.data.estado == 'publicado';
+      allow list: if canManage('funcion_pdv') || resource.data.estado == 'publicado';
+      allow create, update, delete: if canManage('funcion_pdv');
     }
 
     match /biblioteca_recursos/{resourceId} {
-      allow get, list: if isAdmin() || resource.data.estado == 'publicado';
-      allow create, update, delete: if isAdmin();
+      allow get, list: if canManage('funcion_biblioteca') || resource.data.estado == 'publicado';
+      allow create, update, delete: if canManage('funcion_biblioteca');
     }
 
     match /biblioteca_config/{configId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow create, update, delete: if canManage('funcion_biblioteca');
     }
 
     match /biblioteca_aportes/{submissionId} {
-      allow read: if isAdmin();
+      allow read: if canManage('funcion_biblioteca');
       allow create: if signedIn()
         && request.resource.data.keys().hasOnly([
-          'codigo', 'titulo', 'autor', 'categoria', 'temas', 'temaPropuesto', 'descripcion',
+          'codigo', 'titulo', 'autor', 'categoria', 'anio', 'idioma', 'tipo',
+          'temas', 'temaPropuesto', 'descripcion',
           'estado', 'creadoPor', 'creadoEn'
         ])
         && request.resource.data.codigo is string
@@ -259,6 +318,13 @@ service cloud.firestore {
         && request.resource.data.autor is string
         && request.resource.data.autor.size() <= 120
         && request.resource.data.categoria in ['libros', 'documentos', 'audio', 'videos']
+        && (request.resource.data.anio == null || (
+          request.resource.data.anio is int
+          && request.resource.data.anio >= 1500
+          && request.resource.data.anio <= 2100
+        ))
+        && request.resource.data.idioma in ['es', 'pt', 'it', 'en', 'otro']
+        && request.resource.data.tipo in ['PDF', 'DOCX', 'EPUB', 'AUDIO', 'VIDEO', 'ENLACE']
         && request.resource.data.temas is list
         && request.resource.data.temas.size() <= 20
         && request.resource.data.temaPropuesto is string
@@ -269,11 +335,11 @@ service cloud.firestore {
         && request.resource.data.estado == 'pendiente'
         && request.resource.data.creadoPor == request.auth.uid
         && request.resource.data.creadoEn is timestamp;
-      allow update, delete: if isAdmin();
+      allow update, delete: if canManage('funcion_biblioteca');
     }
 
     match /biblioteca_eventos/{eventId} {
-      allow read: if isAdmin();
+      allow read: if canManage('funcion_biblioteca');
       allow create: if signedIn()
         && request.resource.data.keys().hasOnly([
           'tipo', 'recursoId', 'consulta', 'creadoPor', 'creadoEn'
@@ -285,19 +351,66 @@ service cloud.firestore {
         && request.resource.data.consulta.size() <= 80
         && request.resource.data.creadoPor == request.auth.uid
         && request.resource.data.creadoEn is timestamp;
-      allow update, delete: if isAdmin();
+      allow update, delete: if canManage('funcion_biblioteca');
+    }
+
+    match /biblioteca_metricas/{batchId} {
+      allow read: if canManage('funcion_biblioteca');
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly([
+          'aperturas', 'descargas', 'compartidos', 'busquedas', 'total',
+          'recursos', 'sessionId', 'fecha', 'creadoPor', 'creadoEn'
+        ])
+        && request.resource.data.aperturas is int
+        && request.resource.data.aperturas >= 0
+        && request.resource.data.descargas is int
+        && request.resource.data.descargas >= 0
+        && request.resource.data.compartidos is int
+        && request.resource.data.compartidos >= 0
+        && request.resource.data.busquedas is int
+        && request.resource.data.busquedas >= 0
+        && request.resource.data.total is int
+        && request.resource.data.total > 0
+        && request.resource.data.total <= 100
+        && request.resource.data.total == request.resource.data.aperturas
+          + request.resource.data.descargas
+          + request.resource.data.compartidos
+          + request.resource.data.busquedas
+        && request.resource.data.recursos is list
+        && request.resource.data.recursos.size() <= 30
+        && request.resource.data.sessionId is string
+        && request.resource.data.sessionId.size() <= 80
+        && request.resource.data.fecha is string
+        && request.resource.data.fecha.size() == 10
+        && request.resource.data.creadoPor == request.auth.uid
+        && request.resource.data.creadoEn is timestamp;
+      allow update, delete: if canManage('funcion_biblioteca');
     }
 
     match /{collectionName}/{documentId} {
       allow read: if collectionName in [
         'carrusel', 'frases', 'pasapalabra'
       ];
-      allow write: if isAdmin();
+      allow write: if isAdmin()
+        || (collectionName == 'carrusel' && hasRole('funcion_comunicacion'))
+        || (collectionName == 'frases' && hasRole('funcion_frases'))
+        || (collectionName == 'pasapalabra' && hasRole('funcion_pasapalabra'));
     }
 
     match /meditaciones/{documentId} {
-      allow read: if isAdmin() || !('Publico' in resource.data) || resource.data.Publico == true;
-      allow write: if isAdmin();
+      allow read: if canManage('funcion_meditaciones') || resource.data.Publico == true;
+      allow write: if canManage('funcion_meditaciones');
+    }
+
+    match /notificaciones_pendientes/{notificationId} {
+      allow read: if isAdmin() || hasRole('funcion_comunicacion');
+      allow create: if canManage('funcion_comunicacion')
+        || (
+          request.resource.data.roles is list
+          && request.resource.data.roles.size() == 1
+          && hasRole('funcion_comunicacion_' + request.resource.data.roles[0])
+        );
+      allow update, delete: if isAdmin();
     }
 
     match /admin/{documentId} {

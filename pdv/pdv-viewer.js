@@ -1,5 +1,16 @@
 const pdvContainer = document.getElementById('pdv-container');
 
+async function runOfflineSafely(method, ...args) {
+  const offline = window.GenOffline;
+  if (typeof offline?.[method] !== 'function') return null;
+  try {
+    return await offline[method](...args);
+  } catch (error) {
+    console.warn(`No se pudo usar el modo sin conexión (${method}):`, error);
+    return null;
+  }
+}
+
 async function waitForFirebase(timeout = 12000) {
   if (window.firebaseReady) await Promise.race([
     window.firebaseReady,
@@ -79,6 +90,17 @@ async function loadPdv() {
   }
   pdvContainer.innerHTML = '<div class="pdv-loading" role="status"><span></span><p>Cargando Palabra de Vida…</p></div>';
   try {
+    const guardada = await runOfflineSafely('getItem', 'pdv', id);
+    const guardadaVigente = await runOfflineSafely('isFresh', guardada);
+    const guardadaDisponible = guardada?.item?.version === 2
+      && window.PdvModel.isAvailable(guardada.item);
+    if (guardadaDisponible && (!navigator.onLine || guardadaVigente)) {
+      const data = window.PdvModel.normalizePdv(guardada.item);
+      pdvContainer.innerHTML = window.PdvModel.renderArticle(data);
+      updateMetadata(data);
+      wireReader(data);
+      return;
+    }
     await waitForFirebase();
     const { doc, getDoc } = window.firebaseUtils;
     const snapshot = await getDoc(doc(window.firebaseDb, 'pdv', id));
@@ -91,6 +113,7 @@ async function loadPdv() {
     pdvContainer.innerHTML = window.PdvModel.renderArticle(data);
     updateMetadata(data);
     wireReader(data);
+    void runOfflineSafely('upsertItem', 'pdv', raw);
   } catch (error) {
     console.error('Error al cargar la Palabra de Vida:', error);
     errorCard(error.message || 'Ocurrió un error inesperado.');

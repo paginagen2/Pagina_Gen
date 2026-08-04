@@ -1,6 +1,11 @@
 name: Generar inicio diario
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/generar-inicio.js'
   schedule:
     # Firestore reinicia la cuota diaria a medianoche del Pacífico.
     # Las 05:15 de Argentina dejan margen incluso durante el horario de verano de EE.UU.
@@ -27,7 +32,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Generar datos de Inicio
+      - name: Generar datos diarios
         run: npm run generar-inicio
 
       - name: Publicar archivo actualizado
@@ -35,7 +40,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add datos/inicio.json
+          git add datos/inicio.json datos/pasapalabra
           if git diff --cached --quiet; then
             echo "El archivo diario ya estaba actualizado."
             exit 0

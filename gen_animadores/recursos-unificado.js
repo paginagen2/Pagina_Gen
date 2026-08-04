@@ -78,6 +78,11 @@
     }
 
     async function consultarCategoria(categoria) {
+        const cacheKey = `recursos-${categoria}`;
+        const guardados = await window.GenOffline?.getCollection(cacheKey).catch(() => null);
+        if (guardados?.items && (!navigator.onLine || window.GenOffline.isFresh(guardados))) {
+            return ordenarPorFecha(guardados.items);
+        }
         const { collection, getDocs, query, where } = state.utils;
         const consulta = query(
             collection(state.db, 'recursos'),
@@ -86,6 +91,7 @@
         );
         const snapshot = await getDocs(consulta);
         const recursos = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
+        await window.GenOffline?.replaceCollection(cacheKey, recursos).catch(() => {});
         return ordenarPorFecha(recursos);
     }
 
@@ -354,10 +360,11 @@
     function mostrarEstado(containerId, tipo, titulo, detalle = '', recargar = false) {
         const container = document.getElementById(containerId);
         if (!container) return;
-        const iconos = { loading: '◌', empty: '◇', error: '!' };
+        const iconos = { loading: 'cargando', empty: 'vacio', error: 'error' };
+        const icono = iconos[tipo] || 'vacio';
         container.innerHTML = `
             <div class="resource-state ${tipo}" role="status">
-                <span class="state-icon" aria-hidden="true">${iconos[tipo] || '◇'}</span>
+                <span class="state-icon" aria-hidden="true"><svg><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#${icono}"></use></svg></span>
                 <h2>${escapeHtml(titulo)}</h2>
                 ${detalle ? `<p>${escapeHtml(detalle)}</p>` : ''}
                 ${recargar ? '<button type="button" class="secondary-button" data-reload>Volver a intentar</button>' : ''}

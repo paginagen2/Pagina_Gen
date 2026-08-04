@@ -157,7 +157,12 @@ descargas-matrix.js
 Pasar_a_Android.txt
 
 *.apk
+_apk-pruebas/
 !descargas/Pagina-Gen.apk
+functions/.env
+functions/.env.*
+!functions/.env.example
+WebPush_Secreto_GitHub.local.txt
 
 # Archivos locales de prueba o copias fuera de su carpeta web
 /_pdv-qa.html

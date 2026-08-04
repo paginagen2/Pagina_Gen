@@ -1,4 +1,4 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260713-artists1';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-static-songs';
 
 const PAGE_SIZE = 15;
 const params = new URLSearchParams(window.location.search);

@@ -1,5 +1,5 @@
-import { parseChord } from './chord-engine.js';
-import { getChordShape, chordTypeLabels } from './chord-library.js';
+import { parseChord, convertChordNotation } from './chord-engine.js';
+import { getChordShape, getSpecialChordShape, chordTypeLabels } from './chord-library.js?v=20260803-shared-chords-2';
 
 const SHARP_ROOTS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const AMERICAN_NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -16,17 +16,25 @@ export function chordQualityType(chord) {
   return 'major';
 }
 
-export function resolveChordShape(chord) {
+export function resolveChordShape(chord, customShape = null) {
   const parsed = typeof chord === 'string' ? parseChord(chord) : chord;
   if (!parsed) return null;
   const root = SHARP_ROOTS[parsed.rootPitch];
   const requestedType = chordQualityType(parsed);
+  const sharedName = typeof chord === 'string'
+    ? (convertChordNotation(chord, 'american') || chord)
+    : '';
+  const sharedShape = getSpecialChordShape(sharedName);
+  const preferredShape = sharedShape || customShape;
+  if (preferredShape?.guitar || preferredShape?.piano) {
+    return { ...preferredShape, root, requestedType: preferredShape.type || requestedType, parsed, custom: true };
+  }
   const shape = getChordShape(root, requestedType);
   return shape ? { ...shape, root, requestedType, parsed } : null;
 }
 
-export function renderPianoDiagram(chord, notation = 'american') {
-  const resolved = resolveChordShape(chord);
+export function renderPianoDiagram(chord, notation = 'american', customShape = null) {
+  const resolved = resolveChordShape(chord, customShape);
   if (!resolved) return renderUnavailable();
   const noteNames = notation === 'spanish' ? SPANISH_NOTES : AMERICAN_NOTES;
   const whiteKeys = [0, 2, 4, 5, 7, 9, 11];
@@ -41,39 +49,43 @@ export function renderPianoDiagram(chord, notation = 'american') {
     </div>`;
 }
 
-export function renderGuitarDiagram(chord) {
-  const resolved = resolveChordShape(chord);
+export function renderGuitarDiagram(chord, customShape = null) {
+  const resolved = resolveChordShape(chord, customShape);
   if (!resolved) return renderUnavailable();
   const frets = resolved.guitar;
-  const numericFrets = frets.filter((fret) => fret !== 'x').map(Number);
-  const maxFret = Math.max(5, ...numericFrets);
-  const visibleFrets = Math.max(5, maxFret);
+  if (!Array.isArray(frets) || frets.length !== 6) return renderUnavailable();
+  const baseFret = Math.max(1, Number(resolved.baseFret) || 1);
+  const visibleFrets = Math.max(4, Number(resolved.visibleFrets) || (baseFret > 1 ? 4 : 5));
 
   return `
     <div class="diagram-guitar" role="img" aria-label="Posición de guitarra para ${escapeHtml(String(chord))}">
+      ${baseFret > 1 ? `<span class="diagram-base-fret">${baseFret}fr</span>` : ''}
       <div class="diagram-frets">${Array.from({ length: visibleFrets + 1 }, () => '<span></span>').join('')}</div>
       <div class="diagram-strings">
         ${frets.map((fret) => {
           if (fret === 'x') return '<span class="diagram-string"><i class="diagram-marker muted">×</i></span>';
           if (Number(fret) === 0) return '<span class="diagram-string"><i class="diagram-marker open">○</i></span>';
-          const top = ((Number(fret) - 0.5) / visibleFrets) * 100;
+          const relativeFret = Number(fret) - baseFret + 1;
+          const top = ((relativeFret - 0.5) / visibleFrets) * 100;
           return `<span class="diagram-string"><i class="diagram-marker" style="top:${top}%">${fret}</i></span>`;
         }).join('')}
       </div>
     </div>`;
 }
 
-export function renderChordDiagram(chord, instrument = 'guitar', notation = 'american') {
-  return instrument === 'piano' ? renderPianoDiagram(chord, notation) : renderGuitarDiagram(chord);
+export function renderChordDiagram(chord, instrument = 'guitar', notation = 'american', customShape = null) {
+  return instrument === 'piano'
+    ? renderPianoDiagram(chord, notation, customShape)
+    : renderGuitarDiagram(chord, customShape);
 }
 
-export function chordShapeSummary(chord, notation = 'american') {
-  const resolved = resolveChordShape(chord);
+export function chordShapeSummary(chord, notation = 'american', customShape = null) {
+  const resolved = resolveChordShape(chord, customShape);
   if (!resolved) return null;
   const noteNames = notation === 'spanish' ? SPANISH_NOTES : AMERICAN_NOTES;
   return {
     type: resolved.requestedType,
-    typeLabel: chordTypeLabels[resolved.requestedType],
+    typeLabel: resolved.typeLabel || chordTypeLabels[resolved.requestedType] || 'Acorde especial',
     notes: [...new Set(resolved.piano.map((note) => noteNames[note]))],
     formula: resolved.formula
   };

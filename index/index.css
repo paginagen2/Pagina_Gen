@@ -292,6 +292,22 @@ body {
 }
 
 .meditation-icon, .book-icon { font-size: 2rem; }
+.meditation-icon svg,
+.book-icon svg,
+.channel-card-icon svg {
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* El centro geométrico no coincide con el centro percibido en estos dibujos. */
+.meditation-icon svg { transform: translateY(-1.5px); }
+.book-icon svg { transform: translateY(-1px); }
+.channel-card-icon svg { transform: translateY(-1px); }
 .pasapalabra-symbol {
   width: 46px;
   height: 46px;
@@ -364,7 +380,21 @@ body {
 }
 
 .resource-card:hover { transform: translateY(-3px); border-color: var(--home-purple); background: #1b2026; }
-.resource-icon { width: 50px; height: 50px; margin-bottom: auto; object-fit: contain; filter: sepia(1) saturate(6) hue-rotate(225deg) brightness(1.2); }
+.resource-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: auto;
+  color: #b98cff;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.resource-card:nth-child(1) .resource-icon { transform: translateY(-2px); }
+.resource-card:nth-child(2) .resource-icon { transform: translateY(-1px); }
+.resource-card:nth-child(4) .resource-icon { transform: translateY(-.5px); }
 .resource-card h3 { margin: 18px 0 6px; color: #fff; font-size: 0.98rem; }
 .resource-card p { margin: 0; color: var(--home-muted); font-size: 0.75rem; line-height: 1.42; }
 .resource-card > span { position: absolute; right: 13px; bottom: 11px; color: var(--home-purple); font-size: 1.7rem; }
@@ -420,6 +450,46 @@ body {
 
 .carrusel-media { min-width: 0; height: 100%; overflow: hidden; background: #101319; }
 .carrusel-slide img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
+.carrusel-generated-art {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--art-deep);
+  background:
+    radial-gradient(circle at 72% 22%, rgba(255,255,255,.09), transparent 30%),
+    linear-gradient(145deg, var(--art-primary), var(--art-deep) 78%);
+}
+.carrusel-generated-art::before,
+.carrusel-generated-art::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.carrusel-generated-art::before { width: 72%; aspect-ratio: 1; left: -27%; top: -25%; border-radius: 50%; }
+.carrusel-generated-art::after { width: 48%; aspect-ratio: 1; right: -17%; bottom: -25%; transform: rotate(24deg); }
+.carrusel-art-symbol {
+  display: block;
+  position: absolute;
+  inset: 50% auto auto 48%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  color: rgba(255,255,255,.58);
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: -.08em;
+}
+.carrusel-art-orbit,
+.carrusel-art-shape { position: absolute; z-index: 1; display: block; }
+.carrusel-art-orbit { width: 190px; height: 190px; left: 50%; top: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(255,255,255,.09); border-radius: 50%; }
+.carrusel-art-shape { width: 58px; height: 58px; right: 13%; top: 15%; border: 1px solid rgba(255,255,255,.12); transform: rotate(35deg); }
+.carrusel-generated-art[data-variant="1"] .carrusel-art-orbit { width: 235px; height: 118px; transform: translate(-50%, -50%) rotate(-22deg); }
+.carrusel-generated-art[data-variant="2"]::before { border-radius: 22%; transform: rotate(34deg); }
+.carrusel-generated-art[data-variant="2"] .carrusel-art-shape { right: auto; left: 12%; top: auto; bottom: 12%; border-radius: 50%; }
+.carrusel-generated-art[data-variant="3"] .carrusel-art-orbit { border-style: dashed; }
+.carrusel-generated-art[data-variant="4"]::after { width: 62%; border-radius: 50% 50% 12% 50%; }
+.carrusel-generated-art[data-variant="4"] .carrusel-art-shape { width: 90px; height: 1px; top: 24%; transform: rotate(-28deg); }
+.carrusel-generated-art[data-variant="5"] .carrusel-art-orbit { width: 118px; height: 230px; transform: translate(-50%, -50%) rotate(38deg); }
 .carrusel-slide-content {
   min-width: 0;
   display: flex;

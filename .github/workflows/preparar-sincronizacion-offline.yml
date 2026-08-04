@@ -1,0 +1,40 @@
+name: Preparar sincronización offline
+
+# Este proceso queda deliberadamente manual hasta aprobar la salida a producción.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: preparar-sincronizacion-offline
+  cancel-in-progress: false
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generar estado y diferencias
+        run: npm run generar-sincronizacion-offline
+
+      - name: Guardar archivos generados
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos/sincronizacion
+          if git diff --cached --quiet; then
+            echo "No hay cambios para sincronizar."
+            exit 0
+          fi
+          git commit -m "chore: preparar sincronización offline"
+          git push

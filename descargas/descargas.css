@@ -128,6 +128,7 @@ body {
 }
 .download-button:hover { color: #fff; filter: brightness(1.12); transform: translateY(-2px); }
 .download-symbol { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 9px; background: rgba(255,255,255,.13); font-size: 1.35rem; }
+.download-symbol svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .download-button strong, .download-button small { display: block; }
 .download-button strong { margin-bottom: 3px; font-size: .82rem; }
 .download-button small { color: #e1d1fa; font-size: .65rem; }

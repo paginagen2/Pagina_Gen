@@ -30,9 +30,16 @@ async function cargarMeditacion() {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         fechaEl.textContent = hoy.toLocaleDateString('es-ES', options);
 
-        const querySnapshot = await getDocs(query(collection(db, 'meditaciones'), where('Publico', '==', true)));
-        const meditaciones = [];
-        querySnapshot.forEach(doc => meditaciones.push({ id: doc.id, ...doc.data() }));
+        const offline = await esperarModoSinConexion();
+        const guardadas = await offline?.getCollection('meditaciones').catch(() => null);
+        let meditaciones = [];
+        if (guardadas?.items?.length && (!navigator.onLine || offline.isFresh(guardadas))) {
+            meditaciones = guardadas.items;
+        } else {
+            const querySnapshot = await getDocs(query(collection(db, 'meditaciones'), where('Publico', '==', true)));
+            querySnapshot.forEach(doc => meditaciones.push({ id: doc.id, ...doc.data() }));
+            await offline?.replaceCollection('meditaciones', meditaciones).catch(() => {});
+        }
 
         if (meditaciones.length > 0) {
             // 1. Calcular días transcurridos desde fecha base
@@ -98,6 +105,18 @@ async function cargarMeditacion() {
         }
     } catch (error) {
         console.error(error);
-        tituloEl.textContent = 'Error de conexión';
+        tituloEl.textContent = 'Contenido no disponible';
+        textoEl.textContent = 'Conectate a internet una vez para guardar las meditaciones en este dispositivo.';
     }
+}
+
+async function esperarModoSinConexion() {
+    if (window.GenOffline) return window.GenOffline;
+    return new Promise(resolve => {
+        const timeout = setTimeout(() => resolve(window.GenOffline || null), 2000);
+        window.addEventListener('gen:offline-ready', () => {
+            clearTimeout(timeout);
+            resolve(window.GenOffline);
+        }, { once: true });
+    });
 }

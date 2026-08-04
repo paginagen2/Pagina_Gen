@@ -1,0 +1,1 @@
+window.GEN2_VAPID_PUBLIC_KEY = 'BEd9GMZP_RfiqmCL1VrgznkgRgxr8fNcdl5kn6bM62b4rxqez_OGfpZ74xBbZ-VoWhQfdpdVjHJ8MkExHHj99Wo';

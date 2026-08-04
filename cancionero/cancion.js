@@ -1,6 +1,6 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-load-fix';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog';
 import { parseChord, transposeChord, convertChordNotation, extractUniqueChords } from './chord-engine.js';
-import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js';
+import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js?v=20260803-shared-chords-2';
 
 const $ = (selector) => document.querySelector(selector);
 const TEXT_CLASSES = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande', 'texto-muy-grande'];
@@ -43,7 +43,7 @@ async function loadSong(id) {
   }
   if (!state.song) return showError('No encontramos esta canción.');
   renderSong();
-  void DatabaseService.incrementarReproducciones(id);
+  if (state.song.origen !== 'estatico') void DatabaseService.incrementarReproducciones(id);
   void loadDailyLikes(id);
   setupLikeState();
 }
@@ -113,33 +113,54 @@ function renderLyrics() {
       return;
     }
     const chordMatches = [...line.matchAll(/\[([^\]\r\n]+)]/g)];
-    const isChordOnlyLine = chordMatches.some((match) => parseChord(match[1]))
-      && line.replace(/\[[^\]\r\n]+]/g, '').trim() === '';
+    let lyricText = '';
+    let sourcePosition = 0;
+    const positionedChords = [];
+    chordMatches.forEach((match) => {
+      lyricText += line.slice(sourcePosition, match.index);
+      if (parseChord(match[1])) {
+        positionedChords.push({ raw: match[1], position: lyricText.length });
+      } else {
+        lyricText += match[0];
+      }
+      sourcePosition = match.index + match[0].length;
+    });
+    lyricText += line.slice(sourcePosition);
+    const isChordOnlyLine = positionedChords.length > 0 && lyricText.trim() === '';
     if (!state.showChords && isChordOnlyLine) return;
-    const isBlank = line.trim() === '';
+    const isBlank = lyricText.trim() === '' && positionedChords.length === 0;
     if (!state.showChords && isBlank && previousBlank) return;
     previousBlank = isBlank;
     const row = document.createElement('div');
     row.className = 'lyrics-line';
-    let position = 0;
-    for (const match of chordMatches) {
-      row.append(document.createTextNode(line.slice(position, match.index)));
-      if (parseChord(match[1])) {
-        if (state.showChords) {
-          const chord = document.createElement('button');
-          chord.type = 'button';
-          chord.className = 'acorde-compacto';
-          chord.textContent = displayChord(match[1]);
-          chord.setAttribute('aria-label', `Ver acorde ${chord.textContent}`);
-          chord.addEventListener('click', () => openChordDrawer(chord.textContent));
-          row.append(chord);
-        }
-      } else {
-        row.append(document.createTextNode(match[0]));
-      }
-      position = match.index + match[0].length;
+
+    if (state.showChords && positionedChords.length) {
+      row.classList.add('has-chords');
+      const chordRow = document.createElement('div');
+      chordRow.className = 'chord-line';
+      let chordCursor = 0;
+      positionedChords.forEach(({ raw, position }) => {
+        const displayed = displayChord(raw);
+        const gap = Math.max(position - chordCursor, chordCursor > 0 ? 1 : 0);
+        if (gap) chordRow.append(document.createTextNode(' '.repeat(gap)));
+        const chord = document.createElement('button');
+        chord.type = 'button';
+        chord.className = 'acorde-compacto';
+        chord.textContent = displayed;
+        chord.setAttribute('aria-label', `Ver acorde ${displayed}`);
+        chord.addEventListener('click', () => openChordDrawer(displayed));
+        chordRow.append(chord);
+        chordCursor = Math.max(position, chordCursor + gap) + displayed.length;
+      });
+      row.append(chordRow);
     }
-    row.append(document.createTextNode(line.slice(position)));
+
+    if (lyricText || !positionedChords.length || !state.showChords) {
+      const lyricRow = document.createElement('div');
+      lyricRow.className = 'lyric-line';
+      lyricRow.textContent = lyricText || '\u00a0';
+      row.append(lyricRow);
+    }
     if (!row.hasChildNodes()) row.append(document.createTextNode('\u00a0'));
     fragment.append(row);
   });
@@ -305,11 +326,16 @@ function openChordDrawer(chord) {
   $('#closeChordDrawer').focus();
 }
 
+function customChordShape(chord) {
+  return null;
+}
+
 function renderDrawer() {
   const chord = state.drawerChord;
-  const summary = chordShapeSummary(chord, state.notation);
-  $('#guitarChordDiagram').innerHTML = renderChordDiagram(chord, 'guitar', state.notation);
-  $('#pianoChordDiagram').innerHTML = renderChordDiagram(chord, 'piano', state.notation);
+  const customShape = customChordShape(chord);
+  const summary = chordShapeSummary(chord, state.notation, customShape);
+  $('#guitarChordDiagram').innerHTML = renderChordDiagram(chord, 'guitar', state.notation, customShape);
+  $('#pianoChordDiagram').innerHTML = renderChordDiagram(chord, 'piano', state.notation, customShape);
   $('#chordDrawerNote').textContent = summary
     ? `${summary.typeLabel}. Notas: ${summary.notes.join(' · ')}. Fórmula: ${summary.formula}.`
     : 'Todavía no tenemos una posición verificada para este acorde.';
@@ -346,7 +372,7 @@ function renderQuickGuide() {
     const title = document.createElement('h3');
     title.textContent = chord;
     const diagram = document.createElement('div');
-    diagram.innerHTML = renderChordDiagram(chord, state.guideInstrument, state.notation);
+    diagram.innerHTML = renderChordDiagram(chord, state.guideInstrument, state.notation, customChordShape(chord));
     card.append(title, diagram);
     return card;
   }));

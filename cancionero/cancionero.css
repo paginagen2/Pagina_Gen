@@ -195,6 +195,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .loading-state { grid-column: 1 / -1; display: flex; min-height: 190px; align-items: center; justify-content: center; flex-direction: column; gap: 12px; border: 1px dashed var(--sb-border); border-radius: 15px; }
 .loading-state p, .loading-text { color: var(--sb-muted); }
 .loading-disc { display: grid; width: 52px; height: 52px; place-items: center; border-radius: 50%; color: var(--sb-purple-light); background: rgba(153,89,255,.15); font-size: 25px; }
+.loading-icon svg { width: 48px; height: 48px; color: var(--sb-purple-light); fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Artistas */
 .featured-artists { margin-top: 30px; padding-top: 27px; border-top: 1px solid var(--sb-border); }
@@ -216,7 +217,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .tool-icon { display: grid; width: 52px; min-width: 52px; height: 52px; place-items: center; color: var(--sb-purple); }
 .tool-icon svg { width: 46px; height: 46px; stroke-width: 1.7; }
 .chords-tool-icon { border: 1px solid rgba(169,108,255,.28); border-radius: 15px; background: linear-gradient(145deg, rgba(153,89,255,.18), rgba(83,44,137,.08)); }
-.chords-tool-icon svg { width: 34px; height: 34px; stroke-width: 1.65; }
+.chords-tool-icon svg { width: 43px; height: 43px; stroke-width: 1.75; }
 .favorites-tool-icon { border: 1px solid rgba(169,108,255,.28); border-radius: 50%; background: rgba(153,89,255,.12); }
 .favorites-tool-icon svg { width: 29px; height: 29px; }
 .favorites-tool:hover .favorites-tool-icon svg { fill: rgba(153,89,255,.28); }

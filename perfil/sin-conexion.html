@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b10">
+  <meta name="description" content="Configurá el contenido disponible sin conexión en este dispositivo.">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
+  <title>Modo sin conexión | Gen 2</title>
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
+  <link rel="stylesheet" href="sin-conexion.css?v=20260730-icons4">
+</head>
+<body>
+  <div class="page-container offline-shell">
+    <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+    <script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
+    <div class="main-content offline-main-content">
+      <main class="offline-main" id="contenido-principal">
+        <a class="offline-back" href="perfil.html">← Volver al perfil</a>
+        <section class="offline-card" aria-labelledby="offline-title">
+          <div class="offline-heading">
+            <span class="offline-icon" aria-hidden="true"><svg><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#offline"></use></svg></span>
+            <div>
+              <span class="offline-eyebrow">Preferencia del dispositivo</span>
+              <h1 id="offline-title">Modo sin conexión</h1>
+            </div>
+          </div>
+          <p class="offline-intro">Gen 2 guarda automáticamente las secciones que usás para que abran más rápido y sigan disponibles cuando no tengas internet.</p>
+
+          <div class="offline-setting">
+            <div>
+              <strong>Contenido disponible sin conexión</strong>
+              <span id="offline-state-copy">Activado</span>
+            </div>
+            <label class="offline-switch">
+              <input type="checkbox" id="offline-toggle" checked>
+              <span aria-hidden="true"></span>
+              <span class="sr-only">Activar contenido disponible sin conexión</span>
+            </label>
+          </div>
+
+          <ul class="offline-points">
+            <li>Se guardan solamente las secciones que utilizás.</li>
+            <li>Las novedades se actualizan en silencio cuando hay conexión.</li>
+            <li>Los documentos de Biblioteca no se descargan automáticamente.</li>
+          </ul>
+
+          <div class="offline-storage" aria-live="polite">
+            <span>Espacio usado en este dispositivo</span>
+            <strong id="offline-storage-value">Calculando…</strong>
+          </div>
+          <p class="offline-status" id="offline-status" role="status"></p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="offline-confirm-dialog" class="offline-dialog" aria-labelledby="offline-confirm-title">
+    <form method="dialog">
+      <h2 id="offline-confirm-title">¿Desactivar el modo sin conexión?</h2>
+      <p>Se eliminará el contenido guardado en este dispositivo. Necesitarás conexión para abrir las secciones con información actualizada.</p>
+      <div>
+        <button value="cancel">Cancelar</button>
+        <button value="confirm" class="offline-danger">Desactivar y borrar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="sin-conexion.js"></script>
+</body>
+</html>

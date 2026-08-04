@@ -13,6 +13,9 @@ assert.equal(cSharpMinor.bassPitch, 8);
 assert.equal(engine.parseChord('C6/9').suffix, '6/9');
 assert.equal(engine.parseChord('D♭maj7').rootPitch, 1);
 assert.equal(engine.parseChord('G7alt').suffix, '7alt');
+assert.equal(engine.parseChord('Emaj7/9').suffix, 'maj7/9');
+assert.equal(engine.parseChord('Badd4(no5)').suffix, 'add4(no5)');
+assert.equal(engine.parseChord('F#11').suffix, '11');
 
 const spanish = engine.parseChord('SOL#m7/SI');
 assert.equal(spanish.notation, 'spanish');

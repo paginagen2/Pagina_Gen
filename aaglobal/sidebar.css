@@ -99,6 +99,24 @@
   font-size: 1.16rem;
 }
 
+.site-sidebar svg.menu-symbol,
+.site-sidebar svg.mobile-nav-icon,
+.site-sidebar svg.mobile-more-icon,
+.site-sidebar svg.sidebar-pin-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Correcciones ópticas: compensan el peso visual inferior de cada dibujo. */
+.site-sidebar .icon-animadores { transform: translateY(-1px); }
+.site-sidebar .icon-canal,
+.site-sidebar .icon-pdv,
+.site-sidebar .icon-meditacion { transform: translateY(-.75px); }
+.site-sidebar .icon-historia { transform: translateY(-.5px); }
+
 .site-sidebar .menu-text {
   display: inline;
   opacity: 1;
@@ -272,6 +290,17 @@
   color: #abb3be;
   background: #11161b;
   cursor: pointer;
+}
+
+.site-sidebar .sidebar-pin-icon {
+  width: 17px;
+  height: 17px;
+  transform: rotate(-12deg);
+  transition: transform .18s ease;
+}
+
+.site-sidebar .sidebar-pin[aria-pressed="true"] .sidebar-pin-icon {
+  transform: rotate(0);
 }
 
 .site-sidebar .sidebar-pin:hover,
@@ -571,7 +600,7 @@
     background: #151a20;
   }
 
-  .mobile-more-link > span {
+  .mobile-more-link > :first-child {
     width: 36px;
     height: 36px;
     flex: 0 0 36px;

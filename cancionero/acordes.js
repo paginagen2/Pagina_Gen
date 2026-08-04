@@ -1,6 +1,6 @@
 import { extractChords, convertChordNotation } from './chord-engine.js';
-import { chordLibrary, chordTypeLabels } from './chord-library.js';
-import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js';
+import { chordLibrary, specialChordLibrary, chordTypeLabels } from './chord-library.js?v=20260803-shared-chords-2';
+import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js?v=20260803-shared-chords-2';
 
 const $ = (selector) => document.querySelector(selector);
 const state = {
@@ -10,6 +10,7 @@ const state = {
   type: 'all',
   drawerInstrument: 'guitar',
   drawerChord: 'C',
+  drawerCustomShape: null,
   summaries: null,
   selectedSong: null,
   searchTimer: null,
@@ -22,12 +23,13 @@ const suffixByType = {
 
 let databaseServicePromise;
 function getDatabaseService() {
-  databaseServicePromise ||= import('../aaglobal/firebase-config-cancionero.js?v=20260714')
+  databaseServicePromise ||= import('../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog')
     .then((module) => module.DatabaseService);
   return databaseServicePromise;
 }
 
 function chordName(entry, notation = state.notation) {
+  if (entry.nombre) return convertChordNotation(entry.nombre, notation) || entry.nombre;
   const raw = `${entry.nota}${suffixByType[entry.tipo] ?? ''}`;
   return convertChordNotation(raw, notation) || raw;
 }
@@ -57,7 +59,11 @@ function createNoteFilters() {
 }
 
 function renderDictionary() {
-  const entries = Object.values(chordLibrary).filter((entry) =>
+  const dictionaryEntries = [
+    ...Object.values(chordLibrary),
+    ...Object.values(specialChordLibrary).filter((entry) => entry.tipo === 'special')
+  ];
+  const entries = dictionaryEntries.filter((entry) =>
     (state.note === 'all' || entry.nota === state.note) &&
     (state.type === 'all' || entry.tipo === state.type)
   );
@@ -122,8 +128,22 @@ async function fetchJson(path) {
 
 async function ensureSummaries() {
   if (state.summaries) return state.summaries;
-  const data = await fetchJson('../datos/cancionero/buscar.json');
-  state.summaries = data.canciones || [];
+  const [data, extras] = await Promise.all([
+    fetchJson('../datos/cancionero/buscar.json'),
+    fetchJson('../datos/cancionero/extras.json').catch(() => ({ canciones: [] }))
+  ]);
+  const base = data.canciones || [];
+  const online = await getDatabaseService()
+    .then((service) => service.getCancionesLimitadas(15))
+    .catch((error) => {
+      console.warn('No se pudieron sumar canciones recientes al Centro de Acordes:', error);
+      return [];
+    });
+  const unique = new Map();
+  [...online, ...base, ...(extras.canciones || [])].forEach((song) => {
+    if (song?.id) unique.set(String(song.id), song);
+  });
+  state.summaries = [...unique.values()];
   return state.summaries;
 }
 
@@ -152,9 +172,14 @@ function renderSongResults(songs, label = 'Canciones sugeridas') {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'song-result-item';
-    button.innerHTML = '<span class="song-result-art">♫</span><span><strong></strong><small></small></span><span class="song-result-arrow">›</span>';
+    button.innerHTML = `
+      <span class="song-result-art">♫</span>
+      <span class="song-result-title"><strong></strong></span>
+      <span class="song-result-meta"><span class="song-result-artist"></span><span class="song-result-category"></span></span>
+      <span class="song-result-arrow">›</span>`;
     button.querySelector('strong').textContent = song.titulo || 'Sin título';
-    button.querySelector('small').textContent = `${song.artista || 'Desconocido'} · ${categoryLabel(song.categoria)}`;
+    button.querySelector('.song-result-artist').textContent = song.artista || 'Desconocido';
+    button.querySelector('.song-result-category').textContent = categoryLabel(song.categoria);
     button.addEventListener('click', () => selectSong(song, button));
     return button;
   }));
@@ -220,8 +245,9 @@ async function runSearch() {
   }
 }
 
-function openDrawer(chord) {
+function openDrawer(chord, customShape = null) {
   state.drawerChord = chord;
+  state.drawerCustomShape = customShape;
   state.lastFocus = document.activeElement;
   $('#chordDetailTitle').textContent = chord;
   updateDrawer();
@@ -234,8 +260,9 @@ function openDrawer(chord) {
 
 function updateDrawer() {
   const chord = state.drawerChord;
-  const summary = chordShapeSummary(chord, state.notation);
-  $('#chordDetailDiagram').innerHTML = renderChordDiagram(chord, state.drawerInstrument, state.notation);
+  const customShape = state.drawerCustomShape;
+  const summary = chordShapeSummary(chord, state.notation, customShape);
+  $('#chordDetailDiagram').innerHTML = renderChordDiagram(chord, state.drawerInstrument, state.notation, customShape);
   $('#chordDetailNotes').textContent = summary?.notes.join(' · ') || 'Sin datos';
   $('#chordDetailFormula').textContent = summary?.formula || 'Sin datos';
   document.querySelectorAll('[data-drawer-instrument]').forEach((button) => {

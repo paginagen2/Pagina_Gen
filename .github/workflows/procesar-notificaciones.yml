@@ -1,0 +1,31 @@
+name: Procesar notificaciones
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: procesar-notificaciones
+  cancel-in-progress: false
+
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run test:notificaciones
+      - run: node scripts/procesar-notificaciones.js
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          WEB_PUSH_PRIVATE_KEY: ${{ secrets.WEB_PUSH_PRIVATE_KEY }}
+          WEB_PUSH_PUBLIC_KEY: BEd9GMZP_RfiqmCL1VrgznkgRgxr8fNcdl5kn6bM62b4rxqez_OGfpZ74xBbZ-VoWhQfdpdVjHJ8MkExHHj99Wo

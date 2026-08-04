@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-07-29",
-  "generadoEn": "2026-07-29T10:48:25.143Z",
+  "fechaGeneracion": "2026-07-30",
+  "generadoEn": "2026-07-30T15:21:32.633Z",
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1785296188299",
-    "titulo": "VALORAR EL SUFRIMIENTO",
-    "fecha": "29/07/2026",
+    "id": "pasapalabra_1785377077916",
+    "titulo": "VIVIR EL MOMENTO PRESENTE",
+    "fecha": "30/07/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775844327877",
-    "titulo": "Algo inconcebible",
+    "id": "meditacion_1776048562369",
+    "titulo": "Estamos en camino",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
@@ -38,18 +38,6 @@
       "fechaEventoInicio": "",
       "fechaEventoFin": "",
       "fechaVencimiento": "2026-08-07T03:02:00Z"
-    },
-    {
-      "id": "J8qGLfPoP2YmH7vIRs1h",
-      "titulo": "Convivencia Mariápolis Lía-Invierno",
-      "descripcion": "Una experiencia de encuentro, reflexión y compartir con otros jóvenes",
-      "fotoUrl": "https://imgs.search.brave.com/_HPnYD13JBGlr-2-mZ65HRPCb-oynjjP_kodWMeQQ78/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pZGVu/dGlkYWRib25hZXJl/bnNlLmNvbS5hci9h/cmNoaXZvcy9ub3Rp/Y2lhcy9ub3RpY2lh/LTEyMS53ZWJw",
-      "href": "canal/canal.html#J8qGLfPoP2YmH7vIRs1h",
-      "textoEnlace": "Link de inscripción",
-      "etiquetaCarrusel": "Novedad",
-      "fechaEventoInicio": "2026-07-16",
-      "fechaEventoFin": "2026-07-19",
-      "fechaVencimiento": "2026-07-29T23:59:00Z"
     }
   ]
 }

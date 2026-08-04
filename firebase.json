@@ -21,6 +21,7 @@
       "scripts/**",
       "docs/**",
       "android/**",
+      "_apk-pruebas/**",
       "www/**",
       "**/*.log",
       "**/*.md"

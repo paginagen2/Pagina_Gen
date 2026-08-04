@@ -59,7 +59,7 @@ body { margin: 0; background: var(--pdv-bg); color: var(--pdv-text); font-family
 .pdv-reading-body { display: grid; gap: 21px; padding: 10px clamp(2px,3vw,24px); }
 .pdv-paragraph { margin: 0; color: #dce1e9; font-size: 1.04rem; line-height: 1.78; }
 .pdv-conclusion { color: #fff; font-weight: 600; }
-.pdv-highlight, .pdv-secondary-quote, .pdv-author-reflection {
+.pdv-secondary-quote, .pdv-author-reflection {
   margin: 5px 0;
   padding: clamp(21px,4vw,30px);
   border: 1px solid #3a314b;
@@ -67,13 +67,36 @@ body { margin: 0; background: var(--pdv-bg); color: var(--pdv-text); font-family
   background: var(--pdv-surface-soft);
   box-shadow: 0 12px 32px rgba(0,0,0,.16);
 }
-.pdv-highlight { color: var(--pdv-purple-soft); }
-.pdv-highlight p, .pdv-secondary-quote p, .pdv-author-reflection p { margin: 0; font-size: 1.05rem; line-height: 1.68; }
+.pdv-highlight {
+  width: min(100%, 760px);
+  margin: 8px auto;
+  padding: clamp(22px,4vw,30px) clamp(24px,5vw,42px);
+  border: 1px solid rgba(169,124,255,.42);
+  border-radius: 18px;
+  color: #eee5ff;
+  text-align: center;
+  background: linear-gradient(135deg,rgba(169,124,255,.13),rgba(169,124,255,.035));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px rgba(0,0,0,.16);
+}
+.pdv-highlight p { margin: 0; font-size: clamp(1.02rem,2.2vw,1.16rem); font-weight: 650; line-height: 1.68; text-wrap: balance; }
+.pdv-secondary-quote p, .pdv-author-reflection p { margin: 0; font-size: 1.05rem; line-height: 1.68; }
 .pdv-secondary-quote { border-left: 3px solid var(--pdv-purple); }
 .pdv-secondary-quote cite { display: block; margin-top: 12px; color: var(--pdv-purple-soft); font-size: .84rem; font-style: normal; font-weight: 750; }
 .pdv-author-reflection { border-color: rgba(169,124,255,.5); background: linear-gradient(145deg,#251936,#15121b); }
 .pdv-reflection-label { margin-bottom: 11px !important; color: var(--pdv-purple) !important; font-family: inherit !important; font-style: normal !important; font-weight: 800 !important; }
 .pdv-reflection-source { margin-top: 16px !important; padding-top: 13px; border-top: 1px solid rgba(169,124,255,.22); color: #bdaed0; font: 700 .78rem/1.4 inherit !important; font-style: normal !important; letter-spacing: .02em; }
+.pdv-experience {
+  position: relative;
+  margin: 7px 0;
+  padding: clamp(23px,4vw,32px);
+  border: 1px solid rgba(169,124,255,.34);
+  border-left: 4px solid var(--pdv-purple);
+  border-radius: 15px;
+  background: linear-gradient(145deg,rgba(38,29,51,.92),rgba(18,23,32,.96));
+  box-shadow: 0 14px 34px rgba(0,0,0,.18);
+}
+.pdv-experience-intro { margin: 0 0 13px; color: var(--pdv-purple-soft); font-size: .92rem; font-weight: 800; line-height: 1.5; }
+.pdv-experience blockquote { margin: 0; color: #e6e2ea; font-size: 1.04rem; font-style: normal; line-height: 1.78; }
 .pdv-author { margin: 35px clamp(2px,3vw,24px) 0; padding-top: 20px; border-top: 1px solid #3c3150; color: var(--pdv-purple-soft); text-align: right; }
 .pdv-author p { margin: 0; font-weight: 650; }
 .pdv-loading { display: grid; place-items: center; gap: 12px; min-height: 45vh; color: var(--pdv-muted); text-align: center; }
@@ -92,6 +115,7 @@ body { margin: 0; background: var(--pdv-bg); color: var(--pdv-text); font-family
   .pdv-main-quote { border-radius: 15px; }
   .pdv-reading-body { gap: 18px; }
   .pdv-paragraph { font-size: 1rem; line-height: 1.75; }
+  .pdv-highlight { border-radius: 15px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

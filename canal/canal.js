@@ -15,15 +15,22 @@ const ROLE_QUERY_LIMIT = 10;
 
 document.addEventListener('DOMContentLoaded', async () => {
     await waitForFirebase();
-    if (!window.firebaseDb) return renderStatus('No se pudo conectar al Canal.');
+    if (!window.firebaseDb) {
+        const fallbackLoaded = await loadDailyFallback();
+        if (!fallbackLoaded) renderStatus('No se pudo conectar al Canal.');
+        return;
+    }
 
     db = window.firebaseDb;
     utils = window.firebaseUtils;
     auth = window.firebaseAuth;
+    scheduleLoadPosts();
 
     utils.onAuthStateChanged(auth, async user => {
         try {
-            userRoles = user ? await window.genAuthSession.getRoles(user) : [];
+            userRoles = user && window.genAuthSession
+                ? await window.genAuthSession.getRoles(user)
+                : [];
         } catch (error) {
             console.warn('No se pudieron obtener los roles del usuario:', error);
             userRoles = [];
@@ -32,7 +39,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     window.addEventListener('gen:profile-updated', event => {
-        userRoles = event.detail?.roles || [];
+        userRoles = window.genExpandRoles
+            ? window.genExpandRoles(event.detail?.roles || [])
+            : (event.detail?.roles || []);
         scheduleLoadPosts();
     });
 
@@ -51,7 +60,7 @@ function scheduleLoadPosts() {
 function waitForFirebase() {
     return new Promise(resolve => {
         const timer = setInterval(() => {
-            if (window.firebaseDb && window.firebaseUtils && window.firebaseAuth && window.genAuthSession) {
+            if (window.firebaseDb && window.firebaseUtils && window.firebaseAuth) {
                 clearInterval(timer);
                 resolve();
             }
@@ -91,23 +100,39 @@ async function loadPosts() {
     // automáticas posteriores mantienen el contenido actual en pantalla.
     if (!hasLoadedPosts) renderStatus('Cargando publicaciones...');
     try {
+        const cacheKey = `canal-${[...userRoles].sort().join('-') || 'publico'}`;
+        const guardados = await window.GenOffline?.getCollection(cacheKey).catch(() => null);
+        const cachedVisiblePosts = guardados?.items?.filter(item => isPostVisible(item)) || [];
+        if (cachedVisiblePosts.length && (!navigator.onLine || window.GenOffline.isFresh(guardados))) {
+            posts = cachedVisiblePosts;
+            hasLoadedPosts = true;
+            renderPosts();
+            return;
+        }
         const base = utils.collection(db, 'canal_publicaciones');
         const now = new Date();
         const requests = [
             ...buildAudienceQueries(base, 'publicada', now),
             ...buildAudienceQueries(base, 'programada', now)
         ];
-        const [snapshots, legacySnapshot] = await Promise.all([
-            Promise.all(requests),
-            utils.getDocs(utils.collection(db, 'carrusel'))
+        const [queryResults, legacyResult] = await Promise.all([
+            Promise.allSettled(requests),
+            Promise.allSettled([utils.getDocs(utils.collection(db, 'carrusel'))])
         ]);
         const uniquePosts = new Map();
+        const snapshots = queryResults
+            .filter(result => result.status === 'fulfilled')
+            .map(result => result.value);
         snapshots.forEach(snapshot => snapshot.docs.forEach(document => {
             uniquePosts.set(document.id, { id: document.id, ...document.data() });
         }));
+        queryResults.filter(result => result.status === 'rejected').forEach(result => {
+            console.warn('Una consulta del Canal no estuvo disponible:', result.reason);
+        });
         // Compatibilidad temporal con las novedades creadas antes de unificar
         // Carrusel y Comunicación. Al editarlas desde Administrador se migran.
-        legacySnapshot.docs.forEach(document => {
+        const legacySnapshot = legacyResult[0]?.status === 'fulfilled' ? legacyResult[0].value : null;
+        legacySnapshot?.docs.forEach(document => {
             const data = document.data();
             uniquePosts.set(`legacy-${document.id}`, {
                 id: `legacy-${document.id}`,
@@ -121,20 +146,57 @@ async function loadPosts() {
                 fechaPublicacion: data.createdAt || new Date(0)
             });
         });
+        if (!uniquePosts.size) {
+            const fallbackLoaded = await loadDailyFallback();
+            if (fallbackLoaded) return;
+        }
         posts = [...uniquePosts.values()];
+        await window.GenOffline?.replaceCollection(cacheKey, posts).catch(() => {});
         hasLoadedPosts = true;
         renderPosts();
 
         // Una pestaña abierta incorpora automáticamente publicaciones cuya fecha acaba de llegar.
         clearTimeout(scheduledRefresh);
-        scheduledRefresh = setTimeout(loadPosts, 60000);
+        scheduledRefresh = setTimeout(loadPosts, 6 * 60 * 60 * 1000);
     } catch (error) {
         console.error('No se pudieron cargar las publicaciones:', error);
         if (!hasLoadedPosts) {
-            renderStatus(error.code === 'failed-precondition'
-                ? 'El Canal necesita publicar sus índices de Firebase antes de mostrar contenido por roles.'
-                : 'No se pudieron cargar las publicaciones.');
+            const fallbackLoaded = await loadDailyFallback();
+            if (!fallbackLoaded) renderStatus('No se pudieron cargar las publicaciones.');
         }
+    }
+}
+
+async function loadDailyFallback() {
+    try {
+        const response = await fetch('../datos/inicio.json', { cache: 'no-store' });
+        if (!response.ok) return false;
+        const data = await response.json();
+        const fallbackPosts = Array.isArray(data.novedades) ? data.novedades : [];
+        if (!fallbackPosts.length) return false;
+        posts = fallbackPosts.map(item => ({
+            id: item.id || `resumen-${Math.random().toString(36).slice(2)}`,
+            titulo: item.titulo || 'Novedad Gen',
+            resumen: item.descripcion || '',
+            contenido: '',
+            imagenUrl: item.fotoUrl || '',
+            enlace: item.href || '',
+            textoEnlace: item.textoEnlace || 'Más información',
+            rolesDestinatarios: [],
+            estado: 'publicada',
+            fechaPublicacion: data.generadoEn || data.fechaGeneracion,
+            fechaEventoInicio: item.fechaEventoInicio || '',
+            fechaEventoFin: item.fechaEventoFin || '',
+            fechaVencimiento: item.fechaVencimiento || null,
+            etiquetaCarrusel: item.etiquetaCarrusel || item.categoria || ''
+        })).filter(item => isPostVisible(item));
+        if (!posts.length) return false;
+        hasLoadedPosts = true;
+        renderPosts();
+        return true;
+    } catch (error) {
+        console.warn('Tampoco se pudo cargar el resumen diario del Canal:', error);
+        return false;
     }
 }
 
@@ -196,10 +258,12 @@ function renderPosts() {
             || (activeFilter === 'general' ? !(post.rolesDestinatarios || []).length : (post.rolesDestinatarios || []).length > 0))
         .sort((a, b) => toDate(b.fechaPublicacion) - toDate(a.fechaPublicacion));
 
+    const count = document.getElementById('canal-count');
+    if (count) count.textContent = `${visible.length} ${visible.length === 1 ? 'publicación' : 'publicaciones'}`;
     if (!visible.length) return renderStatus('No hay publicaciones para mostrar todavía.');
 
     document.getElementById('canal-feed').innerHTML = visible.map(post => {
-        const picture = imageUrl(post.imagenUrl);
+        const picture = imageUrl(post.imagenUrl || post.fotoUrl);
         const link = safeWebUrl(post.enlace);
         const linkText = String(post.textoEnlace || 'Más información').trim().split(/\s+/).slice(0, 4).join(' ');
         const eventDate = formatEventDate(post);
@@ -207,12 +271,12 @@ function renderPosts() {
         <article class="canal-post${picture ? '' : ' canal-post-no-image'}" id="${escapeHtml(post.id)}">
             ${picture ? `<img src="${escapeHtml(picture)}" alt="">` : renderPostPlaceholder(post)}
             <div class="canal-post-content">
-                <h2>${escapeHtml(post.titulo)}</h2>
                 <div class="canal-post-meta">${post.rolesDestinatarios?.length ? 'Para tus zonas' : 'General'} · ${toDate(post.fechaPublicacion, new Date()).toLocaleDateString('es-AR')}</div>
+                <h2>${escapeHtml(post.titulo)}</h2>
                 ${eventDate ? `<div class="canal-post-event">📅 ${escapeHtml(eventDate)}</div>` : ''}
-                <p>${escapeHtml(post.resumen)}</p>
-                ${post.contenido ? `<p class="canal-post-body">${escapeHtml(post.contenido)}</p>` : ''}
-                ${link ? `<a class="canal-post-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(linkText)}</a>` : ''}
+                ${post.resumen ? `<p class="canal-post-summary">${escapeHtml(post.resumen)}</p>` : ''}
+                ${post.contenido ? `<details class="canal-post-details"><summary>Leer publicación completa</summary><p class="canal-post-body">${escapeHtml(post.contenido)}</p></details>` : ''}
+                ${link ? `<a class="canal-post-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(linkText)} <span aria-hidden="true">↗</span></a>` : ''}
             </div>
         </article>`;
     }).join('');
@@ -220,7 +284,8 @@ function renderPosts() {
     document.querySelectorAll('.canal-post img').forEach(image => {
         const discardBrokenImage = () => {
             const card = image.closest('.canal-post');
-            image.replaceWith(createPostPlaceholder(card?.querySelector('h2')?.textContent || 'Novedad'));
+            const post = posts.find(item => String(item.id) === card?.id);
+            image.replaceWith(createPostPlaceholder(post || { id: card?.id, titulo: card?.querySelector('h2')?.textContent || 'Novedad' }));
             card?.classList.add('canal-post-no-image');
         };
         image.addEventListener('error', discardBrokenImage, { once: true });
@@ -233,17 +298,35 @@ function renderPosts() {
 }
 
 function renderPostPlaceholder(post) {
-    const label = post.rolesDestinatarios?.length ? 'Novedad de tu zona' : 'Comunicación Gen';
-    return `<div class="canal-post-visual" aria-hidden="true">
-        <div class="canal-post-visual-mark">
-            <span class="canal-post-visual-icon">✦</span>
-            <span class="canal-post-visual-label">${escapeHtml(label)}</span>
-        </div>
+    const palettes = [
+        ['#6d3bd1', '#241140', '#b987ff'],
+        ['#285fc4', '#102548', '#75b8ff'],
+        ['#8d386f', '#35152d', '#ff8fd1'],
+        ['#176a69', '#0d3438', '#69ddd1'],
+        ['#965322', '#3d2414', '#ffc274'],
+        ['#4f4cbd', '#20204d', '#a7a5ff']
+    ];
+    const stableId = String(post.id || '').replace(/^legacy[-:]/, '');
+    const categoryValue = post.etiquetaCarrusel || post.categoria || '';
+    const seedText = `${stableId}|${post.titulo || ''}|${categoryValue}`;
+    const seed = [...seedText].reduce((total, character) => ((total * 31) + character.charCodeAt(0)) >>> 0, 1);
+    const palette = palettes[seed % palettes.length];
+    const category = String(categoryValue).toLowerCase();
+    const symbol = category.includes('evento') ? '◇'
+        : category.includes('comunica') ? '◎'
+        : category.includes('formación') || category.includes('recurso') ? '✦'
+        : category.includes('aviso') ? '!'
+        : 'G2';
+    const style = `--art-primary:${palette[0]};--art-deep:${palette[1]};--art-accent:${palette[2]}`;
+    return `<div class="canal-post-visual canal-generated-art" data-variant="${seed % 6}" style="${style}" aria-hidden="true">
+        <span class="canal-art-orbit"></span>
+        <span class="canal-art-shape"></span>
+        <span class="canal-art-symbol">${symbol}</span>
     </div>`;
 }
 
-function createPostPlaceholder(title) {
+function createPostPlaceholder(post) {
     const wrapper = document.createElement('div');
-    wrapper.innerHTML = renderPostPlaceholder({ titulo: title, rolesDestinatarios: [] }).trim();
+    wrapper.innerHTML = renderPostPlaceholder(post).trim();
     return wrapper.firstElementChild;
 }

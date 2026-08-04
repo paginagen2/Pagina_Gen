@@ -340,6 +340,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .resource-state { grid-column: 1 / -1; min-height: 300px; display: grid; place-content: center; justify-items: center; padding: 42px 20px; border: 1px dashed #36404b; border-radius: 16px; text-align: center; background: #11161c; }
 .state-icon { width: 54px; height: 54px; display: grid; place-items: center; margin-bottom: 13px; border: 1px solid rgba(141,92,246,.36); border-radius: 50%; color: #bea4f3; font-size: 1.5rem; }
+.state-icon svg { width: 27px; height: 27px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .resource-state.loading .state-icon { animation: spin 1.1s linear infinite; }
 .resource-state h2 { margin: 0 0 8px; font-size: 1.3rem; }
 .resource-state p { margin: 0 0 18px; color: var(--anim-muted); }

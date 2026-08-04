@@ -11,6 +11,7 @@ import {
   addDoc, 
   setDoc,
   doc, 
+  documentId,
   updateDoc, 
   writeBatch,
   increment, 
@@ -22,7 +23,7 @@ import {
   onSnapshot,
   runTransaction
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getAuth, signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 // 🔥 PEGA AQUÍ TU CONFIGURACIÓN REAL (reemplaza esto)
 const firebaseConfig = {
@@ -43,23 +44,55 @@ window.firebaseDb = db;
 window.firebaseAuth = auth;
 window.firebaseUtils = {
   collection, getDocs, query, where, doc, getDoc, setDoc, deleteDoc, updateDoc, writeBatch, runTransaction,
-  signInWithEmailAndPassword, createUserWithEmailAndPassword,
   signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged
 };
 
 export const DatabaseService = {
   async getCancionPorId(cancionId) {
-    const snapshot = await getDoc(doc(db, 'canciones', cancionId));
-    if (!snapshot.exists()) return null;
-    return { id: snapshot.id, ...snapshot.data() };
+    const offline = await esperarModoSinConexion();
+    const guardada = await ejecutarOfflineSeguro(offline, 'getItem', 'canciones', cancionId);
+    const guardadaVigente = typeof offline?.isFresh === 'function' && offline.isFresh(guardada);
+    if (guardada?.item && (!navigator.onLine || guardadaVigente)) return guardada.item;
+    try {
+      const snapshot = await getDoc(doc(db, 'canciones', cancionId));
+      if (!snapshot.exists()) {
+        await ejecutarOfflineSeguro(offline, 'deleteItem', 'canciones', cancionId);
+        return cargarCancionEstatica(cancionId);
+      }
+      const cancion = { id: snapshot.id, ...snapshot.data() };
+      await ejecutarOfflineSeguro(offline, 'upsertItem', 'canciones', cancion);
+      return cancion;
+    } catch (error) {
+      if (guardada?.item) return guardada.item;
+      const estatica = await cargarCancionEstatica(cancionId);
+      if (estatica) return estatica;
+      throw error;
+    }
   },
 
   async getCancionesLimitadas(cantidad = 15, categoria = 'todas') {
     const restrictions = [where('estado', '==', 'publicado')];
     if (categoria !== 'todas') restrictions.push(where('categoria', '==', categoria));
+    restrictions.push(orderBy('fechaCreacion', 'desc'));
     restrictions.push(limit(cantidad));
-    const snapshot = await getDocs(query(collection(db, 'canciones'), ...restrictions));
-    return snapshot.docs.map((songDoc) => ({ id: songDoc.id, ...songDoc.data() }));
+    try {
+      const snapshot = await getDocs(query(collection(db, 'canciones'), ...restrictions));
+      return snapshot.docs.map((songDoc) => ({ id: songDoc.id, ...songDoc.data() }));
+    } catch (error) {
+      // Mientras el índice compuesto nuevo termina de publicarse, los IDs que
+      // genera Admin también permiten recuperar primero las cargas recientes.
+      console.warn('Se usa el orden reciente de respaldo para el cancionero:', error);
+      const fallbackSnapshot = await getDocs(query(
+        collection(db, 'canciones'),
+        where('estado', '==', 'publicado'),
+        orderBy(documentId(), 'desc'),
+        limit(Math.max(cantidad * 3, 30))
+      ));
+      return fallbackSnapshot.docs
+        .map((songDoc) => ({ id: songDoc.id, ...songDoc.data() }))
+        .filter((song) => categoria === 'todas' || song.categoria === categoria)
+        .slice(0, cantidad);
+    }
   },
 
   async getEstadoLike(cancionId, usuarioId) {
@@ -180,8 +213,13 @@ export const DatabaseService = {
       if (ultimaCancion) restricciones.splice(2, 0, startAfter(ultimaCancion));
 
       const snapshot = await getDocs(query(collection(db, 'canciones'), ...restricciones));
+      const cancionesFirebase = snapshot.docs.map((songDoc) => ({ id: songDoc.id, ...songDoc.data() }));
+      const extras = ultimaCancion ? [] : await cargarResumenesExtra();
       return {
-        canciones: snapshot.docs.map((songDoc) => ({ id: songDoc.id, ...songDoc.data() })),
+        canciones: [...cancionesFirebase, ...extras.filter((song) =>
+          song.artista === nombreArtista &&
+          !cancionesFirebase.some((item) => String(item.id) === String(song.id))
+        )],
         ultimaCancion: snapshot.docs.at(-1) || null,
         hayMas: snapshot.size === cantidad
       };
@@ -230,6 +268,7 @@ export const DatabaseService = {
 
   // Incrementar reproducciones
   async incrementarReproducciones(cancionId) {
+    if (!navigator.onLine) return;
     try {
       const cancionRef = doc(db, 'canciones', cancionId);
       await updateDoc(cancionRef, {
@@ -308,6 +347,48 @@ export const DatabaseService = {
     }
   }
 };
+
+async function esperarModoSinConexion() {
+  if (window.GenOffline) return window.GenOffline;
+  return new Promise(resolve => {
+    const timeout = setTimeout(() => resolve(window.GenOffline || null), 2000);
+    window.addEventListener('gen:offline-ready', () => {
+      clearTimeout(timeout);
+      resolve(window.GenOffline);
+    }, { once: true });
+  });
+}
+
+async function ejecutarOfflineSeguro(offline, metodo, ...args) {
+  if (typeof offline?.[metodo] !== 'function') return null;
+  try {
+    return await offline[metodo](...args);
+  } catch {
+    return null;
+  }
+}
+
+async function cargarCancionEstatica(cancionId) {
+  try {
+    const id = encodeURIComponent(String(cancionId || ''));
+    const response = await fetch(new URL(`../datos/cancionero/canciones/${id}.json`, import.meta.url), { cache: 'no-cache' });
+    if (!response.ok) return null;
+    return response.json();
+  } catch {
+    return null;
+  }
+}
+
+async function cargarResumenesExtra() {
+  try {
+    const response = await fetch(new URL('../datos/cancionero/extras.json', import.meta.url), { cache: 'no-cache' });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return Array.isArray(data.canciones) ? data.canciones : [];
+  } catch {
+    return [];
+  }
+}
 
 // Función para probar la conexión
 export async function probarConexion() {

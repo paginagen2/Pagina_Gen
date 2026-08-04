@@ -1,4 +1,4 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-load-fix';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-google1';
 
 const content = document.getElementById('favoritesContent');
 const count = document.getElementById('favoritesCount');

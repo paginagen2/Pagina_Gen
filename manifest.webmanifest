@@ -3,6 +3,7 @@
   "short_name": "Gen 2",
   "description": "Recursos para vivir la unidad: cancionero, Palabra de Vida, experiencias y materiales.",
   "lang": "es",
+  "id": "./",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -1,6 +1,23 @@
 {
   "indexes": [
     {
+      "collectionGroup": "canciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "estado", "order": "ASCENDING" },
+        { "fieldPath": "fechaCreacion", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "canciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "categoria", "order": "ASCENDING" },
+        { "fieldPath": "estado", "order": "ASCENDING" },
+        { "fieldPath": "fechaCreacion", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "canal_publicaciones",
       "queryScope": "COLLECTION",
       "fields": [
@@ -17,7 +34,31 @@
         { "fieldPath": "rolesDestinatarios", "arrayConfig": "CONTAINS" },
         { "fieldPath": "fechaPublicacion", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "canal_publicaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "estado", "order": "ASCENDING" },
+        { "fieldPath": "fechaPublicacion", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "canal_publicaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "estado", "order": "ASCENDING" },
+        { "fieldPath": "fechaPublicacion", "order": "DESCENDING" }
+      ]
     }
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "dispositivosNotificaciones",
+      "fieldPath": "enabled",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION_GROUP" }
+      ]
+    }
+  ]
 }

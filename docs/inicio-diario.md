@@ -14,6 +14,8 @@ Si falla, la portada conserva el último `datos/inicio.json` válido. El proceso
 
 La portada no vuelve a consultar las colecciones de frases, meditaciones, Pasapalabra, PdV, carrusel o Canal. Los usuarios anónimos leen solamente el JSON estático; una sesión iniciada puede seguir leyendo su propio perfil para autenticación.
 
+El mismo proceso genera `datos/pasapalabra/hoy.json` con una única reflexión y divide el historial en archivos de seis elementos bajo `datos/pasapalabra/paginas/`. La página diaria no consulta Firestore y el historial sólo descarga el primer lote; cada pulsación en “Ver más” agrega un lote adicional.
+
 ## Reglas e índices
 
 `firestore.rules` y `firestore.indexes.json` están versionados, pero deben publicarse en Firebase para tener efecto:

@@ -235,3 +235,36 @@
     font-size: 14px;
   }
 }
+
+.pasapalabra-cargar-mas {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0 3rem;
+}
+
+.btn-ver-mas {
+  min-width: 150px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 8px;
+  color: #111;
+  background: #ffae00;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-ver-mas:hover:not(:disabled) {
+  background: #fd8700;
+  transform: translateY(-2px);
+}
+
+.btn-ver-mas:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.btn-ver-mas[hidden] {
+  display: none;
+}

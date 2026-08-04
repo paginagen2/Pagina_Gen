@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     form: document.getElementById('profile-form'),
     name: document.getElementById('profile-name'),
     email: document.getElementById('profile-email'),
-    location: document.getElementById('profile-location'),
+    country: document.getElementById('profile-country'),
+    city: document.getElementById('profile-city'),
+    birthdate: document.getElementById('profile-birthdate'),
     description: document.getElementById('profile-description'),
     descriptionCount: document.getElementById('description-count'),
     status: document.getElementById('profile-status'),
@@ -33,6 +35,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   elements.description.addEventListener('input', updateDescriptionCount);
+  const localToday = new Date();
+  localToday.setMinutes(localToday.getMinutes() - localToday.getTimezoneOffset());
+  elements.birthdate.max = localToday.toISOString().slice(0, 10);
   elements.form.addEventListener('submit', saveProfile);
   elements.addRole.addEventListener('click', () => window.genOpenRoleModal?.());
   elements.logout.addEventListener('click', logout);
@@ -51,11 +56,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   try {
-    if (window.firebaseReady) await window.firebaseReady;
+    if (window.firebaseReady) await waitForFirebaseReady();
     if (!window.firebaseAuth || !window.firebaseUtils) throw new Error('Firebase no está disponible');
     window.firebaseUtils.onAuthStateChanged(window.firebaseAuth, async user => {
       profileUser = user;
       if (!user) return showSignedOut();
+      const usesGoogle = user.providerData?.some(provider => provider?.providerId === 'google.com');
+      if (!usesGoogle) {
+        showSignedOut();
+        return;
+      }
       try {
         profileData = await waitForAuthProfile(user);
         renderProfile(user, profileData || {});
@@ -70,6 +80,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     elements.loading.innerHTML = '<p>No pudimos conectar con tu cuenta. Recargá la página para volver a intentarlo.</p>';
   }
 });
+
+async function waitForFirebaseReady() {
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error('Firebase tardó demasiado en responder')), 12000);
+  });
+  await Promise.race([window.firebaseReady, timeout]);
+}
 
 async function waitForAuthProfile(user) {
   const timeoutAt = Date.now() + 5000;
@@ -87,7 +104,9 @@ function renderProfile(user, profile) {
   elements.displayEmail.textContent = user.email || profile.email || '';
   elements.name.value = name;
   elements.email.value = user.email || profile.email || '';
-  elements.location.value = profile.ubicacion || '';
+  elements.country.value = profile.pais || '';
+  elements.city.value = profile.ciudad || profile.ubicacion || '';
+  elements.birthdate.value = normalizeBirthdate(profile.fechaNacimiento);
   elements.description.value = profile.descripcion || '';
   elements.roles.replaceChildren(...(roles.length ? roles.map(createRoleBadge) : [createMemberBadge()]));
   updateDescriptionCount();
@@ -211,7 +230,9 @@ async function saveProfile(event) {
   showStatus('');
   const updates = {
     nombre,
-    ubicacion: elements.location.value.trim(),
+    pais: elements.country.value.trim(),
+    ciudad: elements.city.value.trim(),
+    fechaNacimiento: elements.birthdate.value,
     descripcion: elements.description.value.trim(),
     perfilActualizadoEn: new Date().toISOString()
   };
@@ -266,4 +287,11 @@ function formatRole(role) {
 
 function normalizeConfirmation(value) {
   return value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('es');
+}
+
+function normalizeBirthdate(value) {
+  if (!value) return '';
+  if (typeof value === 'string') return value.slice(0, 10);
+  if (typeof value?.toDate === 'function') return value.toDate().toISOString().slice(0, 10);
+  return '';
 }

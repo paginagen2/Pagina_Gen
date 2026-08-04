@@ -269,6 +269,16 @@ p {
   height: 27px;
 }
 
+.auth-avatar svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: #c9b5f7;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .auth-avatar-initial {
   color: #fff;
   background: var(--primary-color);
@@ -356,6 +366,64 @@ p {
   background: #111;
   color: #fff;
 }
+
+.auth-password-field { position: relative; }
+.auth-password-field input { padding-right: 5.2rem; }
+.auth-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: .45rem;
+  min-width: 4.25rem;
+  padding: .38rem .5rem;
+  border: 0;
+  border-radius: 7px;
+  color: #cfc8ef;
+  background: rgba(141, 92, 246, .14);
+  font-size: .72rem;
+  font-weight: 700;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.auth-password-toggle:hover { color: #fff; background: rgba(141, 92, 246, .25); }
+.auth-forgot-link,
+.auth-text-button {
+  display: block;
+  margin: -.35rem 0 1rem auto;
+  padding: .2rem 0;
+  border: 0;
+  color: #bba6ef;
+  background: transparent;
+  font-size: .82rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.auth-text-button { margin: .8rem auto 0; }
+.auth-inline-status {
+  min-height: 1.3rem;
+  margin: 0 0 .8rem;
+  color: #8fe0b8;
+  font-size: .8rem;
+  line-height: 1.45;
+}
+.auth-inline-status.is-error { color: #f0a4b2; }
+.auth-verification-panel { text-align: center; }
+.auth-verification-icon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 1rem;
+  place-items: center;
+  border: 1px solid rgba(141,92,246,.35);
+  border-radius: 50%;
+  color: #d7c7ff;
+  background: rgba(141,92,246,.13);
+  font-size: 1.6rem;
+}
+.auth-verification-panel h2 { margin: 0 0 .65rem; color: #fff; font-size: 1.45rem; }
+.auth-verification-panel > p:not(.auth-inline-status) { margin: 0 0 1.1rem; color: var(--text-muted); font-size: .9rem; line-height: 1.55; }
+.auth-verification-panel > p strong { color: #fff; overflow-wrap: anywhere; }
+.auth-verification-panel .auth-secondary-button { margin-top: .1rem; }
 
 .auth-primary-button,
 .auth-secondary-button {

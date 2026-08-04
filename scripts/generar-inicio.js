@@ -3,6 +3,8 @@ const path = require('node:path');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_PATH = path.join(PROJECT_ROOT, 'datos', 'inicio.json');
+const PASAPALABRA_DATA_DIR = path.join(PROJECT_ROOT, 'datos', 'pasapalabra');
+const PASAPALABRA_PAGE_SIZE = 6;
 const TIME_ZONE = 'America/Argentina/Buenos_Aires';
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'pagina-gen';
 // La API key web identifica el proyecto; no es una credencial administrativa.
@@ -117,6 +119,21 @@ function timestampValue(value) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function pasapalabraDateValue(value) {
+  const match = String(value || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!match) return 0;
+  return Date.UTC(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+}
+
+function compactPasapalabra(item) {
+  return {
+    id: item.id,
+    titulo: item.titulo || 'Sin título',
+    fecha: item.fecha || '',
+    reflexion: item.reflexion || ''
+  };
+}
+
 function selectDailyMeditation(meditations, date) {
   if (!meditations.length) return null;
   const start = new Date('2024-01-01T00:00:00-03:00');
@@ -168,25 +185,28 @@ async function main() {
   const [
     phrases,
     meditations,
-    pasapalabras,
+    pasapalabrasPublicados,
     pdvs,
     carousel,
     publishedChannel,
     scheduledChannel
   ] = await Promise.all([
     runQuery('frases', { limit: 100 }),
-    runQuery('meditaciones', { limit: 500 }),
+    runQuery('meditaciones', {
+      // La colección también contiene material interno. Solicitar solamente
+      // documentos públicos permite que las reglas validen toda la consulta.
+      where: fieldFilter('Publico', 'EQUAL', true),
+      limit: 500
+    }),
     runQuery('pasapalabra', {
-      where: whereAll(
-        fieldFilter('estado', 'EQUAL', 'publicado'),
-        fieldFilter('fecha', 'EQUAL', date.firestore)
-      ),
-      limit: 1
+      where: fieldFilter('estado', 'EQUAL', 'publicado')
     }),
     runQuery('pdv', {
-      where: fieldFilter('fechaPublicacion', 'LESS_THAN_OR_EQUAL', now),
-      orderBy: [['fechaPublicacion', 'DESCENDING']],
-      limit: 100
+      // Las reglas públicas de Firestore permiten leer únicamente PdV
+      // publicadas. Filtrar por estado en la propia consulta evita que
+      // Firestore rechace el conjunto completo por incluir programadas.
+      where: fieldFilter('estado', 'EQUAL', 'publicado'),
+      limit: 500
     }),
     runQuery('carrusel', {
       orderBy: [['createdAt', 'DESCENDING']],
@@ -215,7 +235,11 @@ async function main() {
   const phraseIndex = activePhrases.length ? Number(date.iso.replaceAll('-', '')) % activePhrases.length : 0;
   const phrase = activePhrases[phraseIndex] || null;
   const meditation = selectDailyMeditation(meditations, date);
-  const pasapalabra = pasapalabras[0] || null;
+  const pasapalabra = pasapalabrasPublicados.find(item => item.fecha === date.firestore) || null;
+  const historialPasapalabra = pasapalabrasPublicados
+    .sort((a, b) => pasapalabraDateValue(b.fecha) - pasapalabraDateValue(a.fecha)
+      || String(b.id).localeCompare(String(a.id)))
+    .map(compactPasapalabra);
   const pdv = pdvs
     .filter(item => item.version === 2)
     .filter(item => ['publicado', 'programado'].includes(item.estado))
@@ -263,8 +287,28 @@ async function main() {
   };
 
   await writeJson(OUTPUT_PATH, output);
+  await writeJson(path.join(PASAPALABRA_DATA_DIR, 'hoy.json'), {
+    schemaVersion: 1,
+    fecha: date.iso,
+    generadoEn: now.toISOString(),
+    pasapalabra: pasapalabra ? compactPasapalabra(pasapalabra) : null
+  });
+
+  const totalPaginas = Math.max(1, Math.ceil(historialPasapalabra.length / PASAPALABRA_PAGE_SIZE));
+  for (let pagina = 1; pagina <= totalPaginas; pagina += 1) {
+    const inicio = (pagina - 1) * PASAPALABRA_PAGE_SIZE;
+    await writeJson(path.join(PASAPALABRA_DATA_DIR, 'paginas', `${pagina}.json`), {
+      schemaVersion: 1,
+      pagina,
+      tamanioPagina: PASAPALABRA_PAGE_SIZE,
+      total: historialPasapalabra.length,
+      siguientePagina: pagina < totalPaginas ? pagina + 1 : null,
+      items: historialPasapalabra.slice(inicio, inicio + PASAPALABRA_PAGE_SIZE)
+    });
+  }
   console.log(`Inicio diario generado para ${date.iso}.`);
-  console.log(`Lecturas del proceso diario: ${phrases.length + meditations.length + pasapalabras.length + pdvs.length + carousel.length + publishedChannel.length + scheduledChannel.length}.`);
+  console.log(`Pasapalabra generado en ${totalPaginas} página(s) de hasta ${PASAPALABRA_PAGE_SIZE} elementos.`);
+  console.log(`Lecturas del proceso diario: ${phrases.length + meditations.length + pasapalabrasPublicados.length + pdvs.length + carousel.length + publishedChannel.length + scheduledChannel.length}.`);
 }
 
 main().catch(error => {

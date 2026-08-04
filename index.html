@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080b10">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Gen 2">
   <title>Gen 2 | Recursos para vivir la unidad</title>
   <link rel="manifest" href="manifest.webmanifest?v=20260729-pathfix">
   <link rel="apple-touch-icon" href="aadocumentos/imagenes/icono-gen-192.png">
-  <link rel="stylesheet" href="aaglobal/style.css?v=20260713-auth3">
-  <link rel="stylesheet" href="index/index.css?v=20260729-carousel-dots">
-  <link rel="icon" href="aadocumentos/svg/casa.svg" type="image/x-icon">
+  <link rel="stylesheet" href="aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="index/index.css?v=20260730-news-art3">
+  <link rel="icon" href="aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <meta name="description" content="Encuentra recursos del Movimiento Gen 2: cancionero con acordes, Palabra de Vida, experiencias, dinámicas para animadores y biblioteca digital. Únete a millones de jóvenes por la unidad.">
 
   <!-- Open Graph básico -->
@@ -32,14 +33,14 @@
   <!-- Imagen de previsualización para Twitter -->
   <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/og-image.jpg">
 
-  <link rel="stylesheet" href="aaglobal/sidebar.css?v=20260729-mobile-account">
-  <link rel="stylesheet" href="aaglobal/site-polish.css?v=20260729-responsive">
+  <link rel="stylesheet" href="aaglobal/sidebar.css?v=20260730-icons4">
+  <link rel="stylesheet" href="aaglobal/site-polish.css?v=20260730-icons4">
 </head>
 
 <body>
   <div class="page-container home-shell">
     <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
-  <script src="aaglobal/sidebar.js?v=20260729-mobile-account"></script>
+  <script src="aaglobal/sidebar.js?v=20260730-pin1"></script>
 
     <div class="main-content home-main-content">
       <main class="main home-dashboard">
@@ -78,7 +79,9 @@
             </a>
 
             <a class="daily-card" href="meditacion/meditacion_diaria.html" aria-label="Abrir meditación diaria">
-              <div class="daily-icon meditation-icon" aria-hidden="true">✦</div>
+              <div class="daily-icon meditation-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#meditacion"></use></svg>
+              </div>
               <div class="daily-copy">
                 <h3>Meditación diaria</h3>
                 <p class="meditacion-title">Cargando meditación...</p>
@@ -88,7 +91,9 @@
             </a>
 
             <a class="daily-card" id="pdv-preview-container" href="pdv/pdv_todas.html" aria-label="Abrir la última Palabra de Vida publicada">
-              <div class="daily-icon book-icon" aria-hidden="true"><span class="book-symbol">†</span></div>
+              <div class="daily-icon book-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#pdv"></use></svg>
+              </div>
               <div class="daily-copy">
                 <h3>Palabra de Vida</h3>
                 <p class="palabra-cita" id="pdv-cita-index">Cargando Palabra de Vida...</p>
@@ -98,7 +103,9 @@
             </a>
 
             <a class="daily-card channel-card" id="channel-banner-link" href="canal/canal.html" aria-label="Abrir Canal Gen">
-              <div class="daily-icon channel-card-icon" aria-hidden="true">◎</div>
+              <div class="daily-icon channel-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#canal"></use></svg>
+              </div>
               <div class="daily-copy">
                 <span class="channel-card-kicker">CANAL GEN</span>
                 <h3>Última comunicación</h3>
@@ -115,7 +122,7 @@
             <div class="section-heading">
               <div>
                 <span class="section-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="m4 13 12-6v10L4 13Zm12-2h3a2 2 0 0 1 0 4h-3M7 15l1 5h4l-2-4"/></svg>
+                  <svg viewBox="0 0 24 24"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#megafono"></use></svg>
                 </span>
                 <h2 id="novedades-title">Novedades</h2>
               </div>
@@ -146,25 +153,25 @@
 
             <div class="resources-grid">
               <a class="resource-card" href="cancionero/cancionero.html">
-                <img src="aadocumentos/svg/guitarra.svg" alt="" class="resource-icon">
+                <svg class="resource-icon" aria-hidden="true"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#musica"></use></svg>
                 <h3>Cancionero</h3>
                 <p>Canciones y acordes para compartir.</p>
                 <span aria-hidden="true">›</span>
               </a>
               <a class="resource-card" href="gen_animadores/gen-animadores.html">
-                <img src="aadocumentos/svg/vida.svg" alt="" class="resource-icon">
+                <svg class="resource-icon" aria-hidden="true"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#animadores"></use></svg>
                 <h3>Gen Animadores</h3>
                 <p>Dinámicas y recursos para encuentros.</p>
                 <span aria-hidden="true">›</span>
               </a>
               <a class="resource-card" href="biblioteca/biblioteca.html">
-                <img src="aadocumentos/svg/libros.svg" alt="" class="resource-icon">
+                <svg class="resource-icon" aria-hidden="true"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#biblioteca"></use></svg>
                 <h3>Biblioteca</h3>
                 <p>Materiales para crecer y profundizar.</p>
                 <span aria-hidden="true">›</span>
               </a>
               <a class="resource-card" href="introduccion/introduccion.html">
-                <img src="aadocumentos/svg/casa.svg" alt="" class="resource-icon">
+                <svg class="resource-icon" aria-hidden="true"><use href="aadocumentos/svg/iconos-gen.svg?v=20260730-7#historia"></use></svg>
                 <h3>Historia</h3>
                 <p>Nuestra identidad, espiritualidad y camino.</p>
                 <span aria-hidden="true">›</span>
@@ -190,8 +197,8 @@
     </div>
   </div>
 
-  <script src="aaglobal/firebase-config.js?v=20260713-auth1"></script>
-<script type="module" src="auth.js?v=20260727-role-codes"></script>
-  <script type="module" src="index/index.js?v=20260729-pdv-schedule"></script>
+  <script src="aaglobal/firebase-config.js?v=20260730-google1"></script>
+<script type="module" src="auth.js?v=20260730-google1"></script>
+    <script type="module" src="index/index.js?v=20260730-news-art2"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260728-favorites-load-fix';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog';
 
 const DATA_ROOT = '../datos/cancionero';
 let canciones = [];
@@ -6,6 +6,7 @@ let cancionesFiltradas = [];
 let cancionesSeleccionadas = new Set();
 let cancionesConocidas = new Map();
 let indiceBusqueda = null;
+let cancionesExtra = null;
 let temporizadorBusqueda = null;
 let vistaActual = 'destacados';
 let categoriaActual = 'todas';
@@ -60,8 +61,28 @@ async function cargarJson(url) {
   return response.json();
 }
 
+async function cargarCancionesExtra() {
+  if (cancionesExtra) return cancionesExtra;
+  try {
+    const data = await cargarJson(`${DATA_ROOT}/extras.json`);
+    cancionesExtra = Array.isArray(data.canciones) ? data.canciones : [];
+  } catch {
+    cancionesExtra = [];
+  }
+  registrarCanciones(cancionesExtra);
+  return cancionesExtra;
+}
+
 function registrarCanciones(lista) {
   lista.forEach((cancion) => cancionesConocidas.set(cancion.id, cancion));
+}
+
+function combinarCanciones(...listas) {
+  const unicas = new Map();
+  listas.flat().forEach((cancion) => {
+    if (cancion?.id) unicas.set(String(cancion.id), cancion);
+  });
+  return [...unicas.values()];
 }
 
 async function cargarCategoria(categoria, reiniciar = true) {
@@ -69,7 +90,19 @@ async function cargarCategoria(categoria, reiniciar = true) {
   mostrarEstadoCanciones('Cargando canciones...');
   try {
     const datos = await cargarJson(`${DATA_ROOT}/${categoria}/${pagina}.json`);
-    const nuevas = Array.isArray(datos.canciones) ? datos.canciones : [];
+    const extras = reiniciar ? await cargarCancionesExtra() : [];
+    const nuevasBase = Array.isArray(datos.canciones) ? datos.canciones : [];
+    const publicadasOnline = reiniciar
+      ? await DatabaseService.getCancionesLimitadas(15, categoria).catch((error) => {
+          console.warn('No se pudieron sumar las publicaciones recientes:', error);
+          return [];
+        })
+      : [];
+    const nuevas = combinarCanciones(
+      publicadasOnline,
+      nuevasBase,
+      extras.filter((song) => categoria === 'todas' || song.categoria === categoria)
+    );
     canciones = reiniciar ? nuevas : [...canciones, ...nuevas];
     registrarCanciones(nuevas);
     categoriaActual = categoria;
@@ -191,11 +224,18 @@ async function ejecutarBusqueda() {
   try {
     if (!indiceBusqueda) {
       const datos = await cargarJson(`${DATA_ROOT}/buscar.json`);
-      indiceBusqueda = datos.canciones || [];
+      const extras = await cargarCancionesExtra();
+      indiceBusqueda = combinarCanciones(datos.canciones || [], extras);
       registrarCanciones(indiceBusqueda);
     }
     const categoria = document.querySelector('.filter-pill[data-categoria].active')?.dataset.categoria || 'todas';
-    cancionesFiltradas = indiceBusqueda.filter((cancion) => {
+    const publicadasOnline = await DatabaseService.getCancionesLimitadas(15, categoria).catch((error) => {
+      console.warn('No se pudieron consultar las publicaciones recientes:', error);
+      return [];
+    });
+    registrarCanciones(publicadasOnline);
+    const indiceCompleto = combinarCanciones(publicadasOnline, indiceBusqueda);
+    cancionesFiltradas = indiceCompleto.filter((cancion) => {
       const texto = `${cancion.titulo || ''} ${cancion.artista || ''}`.toLowerCase();
       return texto.includes(busqueda) && (categoria === 'todas' || cancion.categoria === categoria);
     });
@@ -231,7 +271,7 @@ function renderizarCanciones() {
   if (cancionesFiltradas.length === 0) {
     container.innerHTML = `
       <div class="loading-state">
-        <div class="loading-icon">${soloFavoritos ? '♡' : '🔍'}</div>
+        <div class="loading-icon"><svg aria-hidden="true"><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#${soloFavoritos ? 'experiencia' : 'sin-resultados'}"></use></svg></div>
         <p>${soloFavoritos ? 'No tienes favoritos para este filtro' : 'No se encontraron canciones'}</p>
       </div>
     `;
@@ -670,7 +710,11 @@ async function abrirSelectorCancionesPDF() {
   try {
     if (!indiceBusqueda) {
       const datos = await cargarJson(`${DATA_ROOT}/buscar.json`);
-      indiceBusqueda = Array.isArray(datos.canciones) ? datos.canciones : [];
+      const extras = await cargarCancionesExtra();
+      const base = Array.isArray(datos.canciones) ? datos.canciones : [];
+      indiceBusqueda = [...base, ...extras.filter((song) =>
+        !base.some((item) => String(item.id) === String(song.id))
+      )];
       registrarCanciones(indiceBusqueda);
     }
     renderizarSelectorCancionesPDF();
