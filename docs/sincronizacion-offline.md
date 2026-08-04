@@ -1,7 +1,6 @@
 # Sincronización offline preparada
 
-Esta infraestructura queda desactivada para no modificar el funcionamiento publicado.
-No requiere cambios en `firestore.rules`.
+Esta infraestructura está activada y no requiere cambios en `firestore.rules`.
 
 ## Qué está preparado
 
@@ -12,8 +11,8 @@ No requiere cambios en `firestore.rules`.
 - El dispositivo usa la diferencia si tiene la revisión inmediatamente anterior.
 - Un dispositivo muy atrasado reemplaza su colección con la foto actual.
 - Las modificaciones pisan el registro local y las eliminaciones lo borran.
-- El flujo de GitHub está disponible únicamente mediante ejecución manual.
-- El cliente tiene `INCREMENTAL_SYNC_ENABLED = false`.
+- El flujo de GitHub puede ejecutarse manualmente y también cada 30 minutos.
+- El cliente tiene `INCREMENTAL_SYNC_ENABLED = true`.
 
 ## Colecciones incluidas
 
@@ -28,14 +27,9 @@ No requiere cambios en `firestore.rules`.
 Las publicaciones del Canal destinadas a roles continúan usando su ruta autenticada y
 no se incluyen en archivos públicos.
 
-## Activación futura
+## Operación y validación
 
-1. Ejecutar manualmente `Preparar sincronización offline`.
-2. Revisar los archivos creados en `datos/sincronizacion`.
-3. Publicarlos en un entorno de prueba.
-4. Cambiar `INCREMENTAL_SYNC_ENABLED` a `true`.
-5. Probar modificaciones, eliminaciones, reconexión y dispositivos atrasados.
-6. Agregar al flujo una programación cada 30 minutos.
-7. Publicar web/PWA y generar el APK.
-
-No debe agregarse la programación automática antes de completar la validación.
+1. Revisar periódicamente la ejecución `Preparar sincronización offline`.
+2. Confirmar que `datos/sincronizacion/manifest.json` avance de revisión.
+3. Probar modificaciones, eliminaciones, reconexión y dispositivos atrasados.
+4. Publicar web/PWA y generar el APK después de cada cambio estructural.

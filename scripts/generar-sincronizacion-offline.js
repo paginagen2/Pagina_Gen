@@ -9,6 +9,21 @@ const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'pagina-gen';
 const FIREBASE_WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY
   || 'AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE';
 const RUN_QUERY_URL = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents:runQuery?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`;
+const SERVICE_ACCOUNT_VALUE = process.env.FIREBASE_SERVICE_ACCOUNT || '';
+let adminDatabase = null;
+
+if (SERVICE_ACCOUNT_VALUE) {
+  const { initializeApp, cert, getApps } = require('firebase-admin/app');
+  const { getFirestore } = require('firebase-admin/firestore');
+  let serviceAccount;
+  try {
+    serviceAccount = JSON.parse(SERVICE_ACCOUNT_VALUE);
+  } catch {
+    serviceAccount = JSON.parse(Buffer.from(SERVICE_ACCOUNT_VALUE, 'base64').toString('utf8'));
+  }
+  if (!getApps().length) initializeApp({ credential: cert(serviceAccount) });
+  adminDatabase = getFirestore();
+}
 
 const COLLECTIONS = {
   canciones: {
@@ -96,6 +111,10 @@ function revisionFor(items) {
 }
 
 async function runCollectionQuery(collectionId) {
+  if (adminDatabase) {
+    const snapshot = await adminDatabase.collection(collectionId).get();
+    return snapshot.docs.map(document => ({ id: document.id, ...document.data() }));
+  }
   const response = await fetch(RUN_QUERY_URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
@@ -188,6 +207,9 @@ async function generateCollection(name, definition, previousManifest) {
 }
 
 async function main() {
+  if (!adminDatabase) {
+    throw new Error('Falta FIREBASE_SERVICE_ACCOUNT para generar todas las colecciones sin modificar reglas.');
+  }
   const previousManifest = await readJson(MANIFEST_PATH, { schemaVersion: 1, collections: {} });
   const entries = await Promise.all(Object.entries(COLLECTIONS)
     .map(async ([name, definition]) => [

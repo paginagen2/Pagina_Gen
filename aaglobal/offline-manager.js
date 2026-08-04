@@ -5,8 +5,7 @@
   const USED_SECTIONS_KEY = 'gen2-offline-used-sections';
   const LAST_CHECK_KEY = 'gen2-offline-last-check';
   const DEFAULT_CHECK_INTERVAL = 6 * 60 * 60 * 1000;
-  // Se activará únicamente después de publicar y validar los archivos de sincronización.
-  const INCREMENTAL_SYNC_ENABLED = false;
+  const INCREMENTAL_SYNC_ENABLED = true;
   const root = new URL('../', document.currentScript?.src || window.location.href);
   const rootPath = root.pathname.replace(/\/$/, '');
 
