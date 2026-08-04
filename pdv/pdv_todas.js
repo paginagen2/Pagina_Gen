@@ -27,6 +27,7 @@ async function loadArchive() {
     const now = new Date();
     const snapshot = await getDocs(query(
       reference,
+      where('version', '==', 2),
       where('fechaPublicacion', '<=', now),
       orderBy('fechaPublicacion', 'desc')
     ));

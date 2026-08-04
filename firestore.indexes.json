@@ -50,6 +50,14 @@
         { "fieldPath": "estado", "order": "ASCENDING" },
         { "fieldPath": "fechaPublicacion", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "pdv",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "version", "order": "ASCENDING" },
+        { "fieldPath": "fechaPublicacion", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": [
