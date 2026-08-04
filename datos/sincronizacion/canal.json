@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "collection": "canal",
+  "revision": "68837e280193c57b",
+  "generatedAt": "2026-08-04T03:39:17.373Z",
+  "items": [
+    {
+      "id": "J8qGLfPoP2YmH7vIRs1h",
+      "rolesDestinatarios": [],
+      "titulo": "Convivencia Mariápolis Lía-Invierno",
+      "creadoEn": {
+        "_seconds": 1785188638,
+        "_nanoseconds": 149000000
+      },
+      "destacarEnCarrusel": true,
+      "enlace": "https://forms.gle/yW17pucNXNKN1LzZ8",
+      "contenido": "Ya están abiertas las pre-inscripciones para la Convivencia Mariápolis Lía-Invierno 2026! ✨\n\nSi tenés entre 18 y 23 años y querés vivir una experiencia de encuentro, reflexión y compartir con otros jóvenes, te invitamos a sumarte!\n\n📍 Mariápolis Lía\n📅 Julio 2026 (fecha a confirmar)\n\nSerá un espacio para conocer la Escuela de Jóvenes, compartir actividades, charlas, momentos recreativos y vivir una convivencia distinta 💙\nGuardá tu lugar 🙌🏼",
+      "resumen": "Una experiencia de encuentro, reflexión y compartir con otros jóvenes",
+      "estado": "publicada",
+      "audiencia": "general",
+      "imagenUrl": "https://imgs.search.brave.com/_HPnYD13JBGlr-2-mZ65HRPCb-oynjjP_kodWMeQQ78/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pZGVu/dGlkYWRib25hZXJl/bnNlLmNvbS5hci9h/cmNoaXZvcy9ub3Rp/Y2lhcy9ub3RpY2lh/LTEyMS53ZWJw",
+      "textoEnlace": "Link de inscripción",
+      "tipoFechaEvento": "rango",
+      "fechaEventoFin": "2026-07-19",
+      "fechaEventoInicio": "2026-07-16",
+      "etiquetaCarrusel": "Novedad",
+      "fechaVencimiento": {
+        "_seconds": 1785369540,
+        "_nanoseconds": 0
+      },
+      "eliminarEn": {
+        "_seconds": 1785974340,
+        "_nanoseconds": 0
+      },
+      "actualizadoEn": {
+        "_seconds": 1785283187,
+        "_nanoseconds": 154000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1785283187,
+        "_nanoseconds": 154000000
+      },
+      "notificacionEnviadaEn": {
+        "_seconds": 1785814279,
+        "_nanoseconds": 743000000
+      },
+      "resultadoNotificacion": {
+        "failed": 0,
+        "sent": 0
+      }
+    },
+    {
+      "id": "MY3oeCO3azaXTWIThOrv",
+      "rolesDestinatarios": [],
+      "audiencia": "general",
+      "estado": "publicada",
+      "destacarEnCarrusel": true,
+      "creadoEn": {
+        "_seconds": 1784000920,
+        "_nanoseconds": 570000000
+      },
+      "imagenUrl": "https://imgs.search.brave.com/stYQ6hpjALODoO-63hNoNCUILiv1SmyakVcEl870MSw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMucmVsaWdpb25k/aWdpdGFsLm9yZy9j/bGlwLzY5NjUyY2U0/LWI5MTktNDFlZS04/MzU5LTA2YTI3NDM3/NmFlMV9zb3VyY2Ut/YXNwZWN0LXJhdGlv/XzE2MDB3XzAuanBn",
+      "tipoFechaEvento": "ninguna",
+      "fechaEventoFin": "",
+      "fechaEventoInicio": "",
+      "contenido": "Durante la asamblea realizada en el 2026 \nMargaret fue reelegida para estar al servicio de la obra en  el cargo de presidente.",
+      "titulo": "Margaret Karram",
+      "resumen": "Fue reelegida como presidente del movimiento de los focolares.",
+      "enlace": "https://www.focolare.org/es/margaret-karram-reelegida-al-frente-de-los-focolari-y-roberto-almada-nuevo-copresidente/",
+      "textoEnlace": "Más información",
+      "etiquetaCarrusel": "Novedad",
+      "fechaVencimiento": {
+        "_seconds": 1786071720,
+        "_nanoseconds": 0
+      },
+      "eliminarEn": null,
+      "actualizadoEn": {
+        "_seconds": 1785283876,
+        "_nanoseconds": 283000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1785283876,
+        "_nanoseconds": 283000000
+      },
+      "notificacionEnviadaEn": {
+        "_seconds": 1785814278,
+        "_nanoseconds": 982000000
+      },
+      "resultadoNotificacion": {
+        "failed": 0,
+        "sent": 0
+      }
+    },
+    {
+      "id": "vouHEcJg6OQWItWghxkM",
+      "resumen": "Fue elegido Copresidente del Movimiento de los Focolares",
+      "contenido": "Roberto Almada fue elegido Copresidente del Movimiento de los Focolares por la Asamblea General el 12 de marzo de 2026 para un mandato de cinco años.",
+      "imagenUrl": "https://imgs.search.brave.com/eCFoTNYQGRV5sBztCNMcOqARsIazdZs7qj8DycUss3A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/ZGlhcmlvY2FzdGVs/bGFub3MuY29tLmFy/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDI1/LzEwLzAzMTc1MzUw/L1doYXRzQXBwLUlt/YWdlLTIwMjUtMTAt/MDMtYXQtMi4yOC4w/MS1QTS5qcGVn",
+      "enlace": "https://www.focolare.org/download/118/spagnolo/401344/com-00-20260313-scheda-roberto-almada-es.pdf?lang=it",
+      "textoEnlace": "Descarga su biografía",
+      "rolesDestinatarios": [],
+      "audiencia": "general",
+      "estado": "publicada",
+      "tipoFechaEvento": "ninguna",
+      "fechaEventoInicio": "",
+      "fechaEventoFin": "",
+      "etiquetaCarrusel": "Aviso",
+      "destacarEnCarrusel": true,
+      "eliminarEn": null,
+      "creadoEn": {
+        "_seconds": 1785427068,
+        "_nanoseconds": 64000000
+      },
+      "fechaVencimiento": {
+        "_seconds": 1787857020,
+        "_nanoseconds": 0
+      },
+      "titulo": "Roberto Almada",
+      "actualizadoEn": {
+        "_seconds": 1785427096,
+        "_nanoseconds": 951000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1785427096,
+        "_nanoseconds": 951000000
+      },
+      "notificacionEnviadaEn": {
+        "_seconds": 1785814278,
+        "_nanoseconds": 217000000
+      },
+      "resultadoNotificacion": {
+        "failed": 0,
+        "sent": 0
+      }
+    }
+  ]
+}

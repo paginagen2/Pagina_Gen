@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 1,
+  "collection": "pdv",
+  "fromRevision": "",
+  "toRevision": "3be1fc4d728e730c",
+  "generatedAt": "2026-08-04T03:39:17.411Z",
+  "upserts": [
+    {
+      "id": "pdv_2026_06",
+      "version": 2,
+      "fechaActualizacion": {
+        "_seconds": 1785186881,
+        "_nanoseconds": 358000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1785186881,
+        "_nanoseconds": 358000000
+      },
+      "citaPrincipal": "Por el camino, proclamen que el Reino de los Cielos está cerca. […] Ustedes han recibido gratuitamente, den también gratuitamente.",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "referencia": "",
+          "texto": "En este capítulo del Evangelio de Mateo, los apóstoles acaban de ser elegidos por Jesús, que los llama por su nombre y les confiere poderes especiales sobre los espíritus impuros para expulsarlos, y el don de curar toda enfermedad y discapacidad. Jesús les da instrucciones sobre dónde y cómo desarrollar su misión inicial. El mensaje que deben anunciar es claro: “El Reino de los Cielos está cerca” (Mt 10, 7).",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "referencia": "",
+          "tipo": "parrafo",
+          "texto": "La indicación de ir y proclamar el mensaje encomendado subraya, por una parte, que el verdadero discípulo es ante todo un predicador de la cercanía y por otra, que el modo que tienen de caminar juntos debe ser anuncio. De hecho, en el Evangelio de Juan, después de entregarles el mandamiento nuevo, Jesús afirma: “En esto todos reconocerán que ustedes son mis discípulos: en el amor que se tengan los unos a los otros” (Jn 13, 35).",
+          "fuente": "",
+          "titulo": ""
+        },
+        {
+          "fuente": "",
+          "titulo": "",
+          "referencia": "",
+          "tipo": "cita_destacada",
+          "texto": "Por el camino, proclamen que el Reino de los Cielos está cerca. […] Ustedes han recibido gratuitamente, den también gratuitamente."
+        },
+        {
+          "texto": "El Reino de los Cielos es el núcleo del anuncio de Jesús. La expresión afín Reino de Dios se usaba en el Antiguo Testamento para indicar el señorío, el gobierno y la acción salvífica de Dios sobre la historia humana. Él es soberano del mundo y sobre todo del pueblo de Israel, que esperaba un descendiente del rey David que restableciese la misión de Israel entre las gentes. En el Nuevo Testamento, el propio Jesús es presentado como descendiente de David y por tanto, rey. A diferencia de un reino temporal, el Reino de los Cielos es un reino de paz y de justicia, en el que se cuida de los pobres, en el que rigen el perdón y la reconciliación y que llevará vida y luz a todas las naciones. Se trata de un reino que ya ha comenzado en el mundo y en el corazón de las personas, pero que se realizará completamente cuando Jesús regrese.",
+          "referencia": "",
+          "tipo": "parrafo",
+          "fuente": "",
+          "titulo": ""
+        },
+        {
+          "titulo": "",
+          "fuente": "",
+          "referencia": "",
+          "tipo": "cita_destacada",
+          "texto": "Por el camino, proclamen que el Reino de los Cielos está cerca. […] Ustedes han recibido gratuitamente, den también gratuitamente."
+        },
+        {
+          "fuente": "",
+          "titulo": "",
+          "referencia": "",
+          "tipo": "parrafo",
+          "texto": "Jesús anuncia que el Reino está cerca en el tiempo, es inminente. Por sus parábolas, como la del grano de mostaza o la de la levadura que hace crecer toda la masa, se entiende que aquel actúa de manera misteriosa y humilde pero tenaz y a lo largo del tiempo. Cerca tiene también un sentido espacial. Cuando los discípulos, que llevan la presencia del espíritu de Jesús, se acercan caminando, el Reino de Dios se acerca. Y cuando en el Evangelio de Marcos Jesús le dice al escriba: “No estás lejos del Reino de Dios” (Mc 12, 34), es probable que no solo quisiese decir “Has empezado a entender”, sino también “No estás lejos de mí”."
+        },
+        {
+          "texto": "Por el camino, proclamen que el Reino de los Cielos está cerca. […] Ustedes han recibido gratuitamente, den también gratuitamente.",
+          "tipo": "cita_destacada",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "referencia": "",
+          "texto": "Gratis traduce un término que en el original griego significa regalo. Lo cual subraya que todo lo que los apóstoles han recibido no se les ha dado porque lo merezcan. La fuente es la generosidad de Dios y el hecho de que hayan sido elegidos para una misión en concreto.",
+          "fuente": "",
+          "titulo": ""
+        },
+        {
+          "titulo": "Escribe Chiara Lubich",
+          "fuente": "Chiara Lubich · Palabra de Vida, octubre de 1979",
+          "texto": "El Reino de Dios hay que acogerlo. Es un don que Dios te hace. De hecho, no hay esfuerzo humano, intento ascético, estudio o investigación intelectual que te pueda ayudar a entrar en el Reino de Dios. Es el mismo Dios quien viene a tu encuentro, quien se revela con su luz o te toca con su gracia. Y no hay ningún mérito del que te puedas vanagloriar o en el que puedas apoyarte para tener derecho a semejante don de Dios. El Reino se te ofrece gratuitamente",
+          "referencia": "",
+          "tipo": "reflexion_autor"
+        },
+        {
+          "tipo": "parrafo",
+          "referencia": "",
+          "texto": "Al acogerlo, también hoy estamos llamados a continuar la tarea que Jesús encomendó a los apóstoles: proclamar con la palabra y con los hechos la cercanía del Reino, anunciar juntos a cada ser humano un mensaje de esperanza: en este mundo tan afligido e incierto, Dios lo ama inmensamente y nos ama a todos inmensamente.",
+          "fuente": "",
+          "titulo": ""
+        }
+      ],
+      "estado": "publicado",
+      "mes": "Junio 2026",
+      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/05/PdV-Junio-2026.mp3.mp3",
+      "fechaCreacion": {
+        "_seconds": 1785186881,
+        "_nanoseconds": 358000000
+      },
+      "slug": "pdv_2026_06",
+      "citaReferencia": "Mt 10, 7-8",
+      "periodo": "2026-06-01",
+      "autor": "Augusto Parody Reyes y el equipo de la Palabra de Vida"
+    },
+    {
+      "id": "pdv_2026_07",
+      "version": 2,
+      "slug": "pdv_2026_07",
+      "mes": "Julio 2026",
+      "periodo": "2026-07-01",
+      "citaPrincipal": "Y el que la recibe en tierra fértil es el hombre que escucha la Palabra y la comprende. Este produce fruto.",
+      "citaReferencia": "Mt 13, 23",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "texto": "Después de haber hablado en parábolas a una gran muchedumbre a la orilla del lago Tiberíades, Jesús se dirige a sus discípulos y les explica el sentido profundo de sus palabras.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "El protagonista de nuestro relato es la Palabra de Dios, comparada con una semilla pequeña y frágil. Las piedras, las zarzas y las aves pueden impedirles germinar, echar raíces y producir espigas maduras, pero el sabio sembrador conoce su sorprendente vitalidad.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "A través de estas imágenes, Jesús revela la relación entre el hombre y la Palabra que Dios ofrece abundantemente, pero hay quien la acoge y quien, por diversos motivos, la deja caer sin que dé fruto. Efectivamente, en el corazón humano, la superficialidad y las excesivas preocupaciones materiales amenazan el milagro de la vida sobrenatural que Dios mismo desea encender en sus criaturas.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "También a nosotros, como a los discípulos, Jesús nos invita a entrar en el humilde misterio del amor de Dios, y al mismo tiempo nos interpela personalmente sobre una decisión: ¿qué terreno queremos ser?",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "Y el que la recibe en tierra fértil es el hombre que escucha la Palabra y la comprende. Este produce fruto.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Escuchar y comprender: este parece ser el secreto que nos convierte en un terreno acogedor, donde la semilla de la Palabra puede expresar su fuerza y dar buenos frutos.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "¡Qué valioso es estar disponibles a la escucha! Es el espacio espiritual para dejar entrar la vida de Dios, que siempre nos precede con su misericordia, con la paciencia del trabajador que conoce y respeta los tiempos de maduración.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "reflexion_autor",
+          "texto": "Las palabras de Dios, iluminan interiormente no solo la mente, sino todo el ser, porque son luz, amor y vida. Dan paz –la que Jesús llama suya: ‘mi paz’– incluso en los momentos de turbación y de angustia. Dan alegría plena aun en medio del dolor que a veces atenaza el alma. Dan fuerza, sobre todo cuando sobrevienen el abatimiento o el desánimo. Nos hacen libres porque abren el camino de la Verdad. […] También en nosotros debe nacer un amor apasionado por la Palabra de Dios: acojámosla atentamente cuando se nos proclame en las iglesias, leámosla, estudiémosla, meditémosla… Pero sobre todo estamos llamados a vivirla. […] Al vivir una Palabra de Jesús vivimos todo el Evangelio, porque en cada Palabra suya Él se entrega por completo, viene Él mismo a vivir en nosotros […] y sustituye nuestro modo de pensar, de querer y de obrar en todas las circunstancias de la vida",
+          "referencia": "",
+          "titulo": "Escribe Chiara Lubich",
+          "fuente": "Chiara Lubich · Palabra de Vida, marzo de 2003"
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "Y el que la recibe en tierra fértil es el hombre que escucha la Palabra y la comprende. Este produce fruto.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "experiencia",
+          "texto": "Hubo un tiempo en que me sentía atrapado en un profundo agujero. Estaba inmerso en una relación violenta, trataba de huir y arreglarlo todo con mis fuerzas. Influido por las redes sociales y el ruido exterior, a menudo perseguía cosas que no estaban en el plan de Dios. A pesar de todos mis esfuerzos, seguía sintiéndome vacío y sin una meta. Sabía que el amor es un lenguaje universal, así que me puse a hacer voluntariado y encontré un modo de actuar que solo podía venir de Dios. Con el tiempo descubrí un lugar donde escuchar su Palabra y crecer en la relación con Él. Estoy profundamente agradecido",
+          "referencia": "",
+          "titulo": "Wambil de México nos cuenta",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Incluso cuando nos sentimos tierra árida y pedregosa, la misma Palabra es eficaz, como revela el profeta Isaías: “Como bajan la lluvia y la nieve desde el cielo, y no vuelven allá sino después de empapar la tierra, de fecundarla y hacerla germinar, […] así será la palabra que sale de mi boca: no volverá a mí vacía, sino que cumplirá mi deseo y llevará a cabo mi encargo” (Is 55, 10-11).",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Sostenidos por esta esperanza, en un tiempo dominado por miedos y tensiones, cultivemos también la confianza en las mujeres y en los hombres con quienes compartimos la vida. Confiemos en su capacidad de dar buenos frutos y de crear ocasiones de escucha y diálogo, para caminar juntos hacia el horizonte de la fraternidad.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        }
+      ],
+      "autor": "Letizia Magri y el equipo de la Palabra de Vida",
+      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/06/PdV-Julio-2026.mp3",
+      "estado": "publicado",
+      "fechaCreacion": {
+        "_seconds": 1785294675,
+        "_nanoseconds": 426000000
+      },
+      "fechaActualizacion": {
+        "_seconds": 1785433603,
+        "_nanoseconds": 583000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1785294675,
+        "_nanoseconds": 426000000
+      }
+    },
+    {
+      "id": "pdv_2026_08",
+      "version": 2,
+      "slug": "pdv_2026_08",
+      "mes": "Agosto 2026",
+      "periodo": "2026-08-01",
+      "citaPrincipal": "Mi alma canta la grandeza del Señor.",
+      "citaReferencia": "Lc 1, 46",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "texto": "En el primer capítulo de su Evangelio, Lucas nos ofrece la única página del Nuevo Testamento en que las protagonistas son dos mujeres, María e Isabel.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Isabel vivía en una ciudad cerca de Jerusalén, a unos 150 km de distancia de Nazaret. María emprende este largo viaje inmediatamente después de recibir el anuncio del ángel de que iba a ser la madre de Jesús (Lc 1, 26-38). No conocemos los detalles de la travesía, solo sabemos que se dirigió con prontitud a la región montañosa. Pero ¿por qué se dirige allá?",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "María va para comunicar esta alegría a quien, como ella, había recibido de Dios la gracia de esperar un hijo, y para estar a su lado y ayudarla durante los últimos meses de embarazo. Es la historia de dos mujeres, de dos maternidades imposibles. ¿Quién mejor que ella podía entenderla y compartir esta experiencia? De este encuentro brota el canto del Magníficat.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "Mi alma canta la grandeza del Señor.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "“Estas palabras brotan de un ardor inflamado y de un gozo desbordante […]. Por eso no dice ‘yo ensalzo a Dios’, sino ‘mi alma’…, como si quisiera expresar: ‘mi vida, todos mis sentidos, se ciernen en el amor, alabanza y gozo divinos […]’”, escribe Martín Lutero en su comentario al Magníficat.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "El verbo engrandecer, hacer grande, revela la alegría que suscita descubrir que Dios es más grande de lo que nos esperábamos. Esta alegría provoca una profunda humildad y un hondo sentido de gratitud y reconocimiento.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Como subraya Ermes Ronchi, “el Magníficat es el evangelio de María, su buena noticia, que alcanza a todas las generaciones”. Por diez veces, la joven de Nazaret repite lo que ha hecho Dios, como una especie de nuevo decálogo, de diez nuevos mandamientos que trastocan la lógica del mundo.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Resulta espontáneo preguntarse si hemos conservado el sentido de estupor y de asombro en nuestra vida diaria y de oración ante todo lo que Dios ha obrado y sigue obrando. Sin abrirnos a la novedad y a sus sorpresas, sin asombro, la fe se convierte en una letanía cansada que lentamente se apaga y se convierte en una costumbre social.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "Mi alma canta la grandeza del Señor.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "El canto de María no es simplemente una oración de alabanza intimista, sino una alabanza profética, caracterizada por recurrir constantemente a los pasajes de la Escritura, lo que indica la dirección de la historia según el corazón de Dios. Alabarlo significa alinearse con los pequeños, creer que el mundo puede y debe cambiar.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Las palabras de este himno nos invitan a comprender la intervención salvífica de Dios en nuestra historia personal y comunitaria, tanto nuestra propia vivencia personal como la universal, tanto el momento presente como los cielos nuevos y la tierra nueva que la revolución social del Evangelio inaugura.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "Mi alma canta la grandeza del Señor.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Estas palabras nos invitan también a nosotros a hacer de nuestra vida una alabanza viviente, a reconocer cada día las maravillas, a unir nuestra voz a la de María para proclamar que Dios es fiel, que su misericordia se extiende de generación en generación y que su reino de justicia y amor ya se está realizando entre nosotros.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "reflexion_autor",
+          "texto": "Lee el Magníficat y encontrarás la primera y más potente página de la doctrina social cristiana. ¿Quién y cuándo la realizará completamente?",
+          "referencia": "",
+          "titulo": "Escribe Chiara Lubich",
+          "fuente": "Chiara Lubich · Signo de contradicción. Madrid: Ciudad Nueva, n. 203, p, 1971"
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "La pregunta sigue estando abierta y nos interpela. La intervención de Dios no debería quedarse reducida a la intimidad del corazón; hace falta que se manifieste en las relaciones, en la vida común, en la trama de las generaciones futuras.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        }
+      ],
+      "autor": "Patrizia Mazzola y el equipo de la Palabra de Vida",
+      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/07/PdV-Agosto-2026.mp3",
+      "estado": "publicado",
+      "fechaCreacion": {
+        "_seconds": 1785295250,
+        "_nanoseconds": 674000000
+      },
+      "fechaActualizacion": {
+        "_seconds": 1785627257,
+        "_nanoseconds": 794000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1785627257,
+        "_nanoseconds": 794000000
+      }
+    }
+  ],
+  "deletes": []
+}
