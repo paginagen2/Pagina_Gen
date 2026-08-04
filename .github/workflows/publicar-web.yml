@@ -1,5 +1,7 @@
 name: Publicar web en Firebase
 
+# Despliega en orden para no activar reglas o código que dependan de índices pendientes.
+
 on:
   push:
     branches:
