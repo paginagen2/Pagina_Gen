@@ -286,8 +286,10 @@ service cloud.firestore {
     }
 
     match /pdv/{pdvId} {
-      allow get: if canManage('funcion_pdv') || resource.data.estado == 'publicado';
-      allow list: if canManage('funcion_pdv') || resource.data.estado == 'publicado';
+      allow get, list: if canManage('funcion_pdv') || (
+        resource.data.version == 2
+        && resource.data.fechaPublicacion <= request.time
+      );
       allow create, update, delete: if canManage('funcion_pdv');
     }
 
