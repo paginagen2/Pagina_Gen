@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "collection": "biblioteca",
+  "revision": "db239b0b5efdbff7",
+  "generatedAt": "2026-08-04T03:39:17.387Z",
+  "items": [
+    {
+      "id": "migrado_legacy-4",
+      "titulo": "El Misterio de la Unidad",
+      "autor": "Chiara Lubich",
+      "categoria": "documentos",
+      "tipo": "PDF",
+      "tamano": "622 KB",
+      "fecha": "1975-12-29",
+      "descripcion": "Chiara responde una pregunta sobre Jesús en Medio y la Trinidad.",
+      "temas": [
+        "Dios Amor",
+        "Jesús en medio",
+        "Meditación"
+      ],
+      "legacyId": "legacy-4",
+      "estado": "publicado",
+      "origen": "drive",
+      "migradoDesde": "catalogo-estatico",
+      "creadoEn": {
+        "_seconds": 1785281511,
+        "_nanoseconds": 73000000
+      },
+      "googleId": "1QORKKaLOTYackPQpGNxsgE0lfiOZ9zup",
+      "searchText": "el misterio de la unidad chiara lubich dios amor jesús en medio meditación chiara responde una pregunta sobre jesús en medio y la trinidad.",
+      "idioma": "es",
+      "actualizadoEn": {
+        "_seconds": 1785381082,
+        "_nanoseconds": 28000000
+      },
+      "linkRecurso": "https://drive.google.com/file/d/1QORKKaLOTYackPQpGNxsgE0lfiOZ9zup/view?usp=sharing",
+      "anio": null
+    },
+    {
+      "id": "migrado_legacy-5",
+      "titulo": "Los instrumentos de la espiritualidad colectiva",
+      "autor": "Chiara Lubich",
+      "categoria": "libros",
+      "tipo": "PDF",
+      "tamano": "55,3 MB",
+      "fecha": "1995-02-24",
+      "descripcion": "Instrumentos para vivir la espiritualidad colectiva en comunidad.",
+      "temas": [
+        "El hermano",
+        "El mandamiento nuevo",
+        "Estatutos",
+        "Jesús en medio",
+        "La Palabra de Vida"
+      ],
+      "legacyId": "legacy-5",
+      "googleId": "1lqieDCMPLHxubfpUBvXTBwMINpcUvMj5",
+      "estado": "publicado",
+      "origen": "drive",
+      "migradoDesde": "catalogo-estatico",
+      "creadoEn": {
+        "_seconds": 1785281511,
+        "_nanoseconds": 371000000
+      },
+      "searchText": "los instrumentos de la espiritualidad colectiva chiara lubich el hermano el mandamiento nuevo estatutos jesús en medio la palabra de vida instrumentos para vivir la espiritualidad colectiva en comunidad.",
+      "idioma": "es",
+      "actualizadoEn": {
+        "_seconds": 1785381103,
+        "_nanoseconds": 482000000
+      },
+      "linkRecurso": "https://drive.google.com/file/d/1lqieDCMPLHxubfpUBvXTBwMINpcUvMj5/view?usp=drive_link",
+      "anio": null
+    },
+    {
+      "id": "recurso_ddeea9f5-2664-4bbf-b983-a7e2dcb31003",
+      "descripcion": "Trascripción de una charla de José María Zanghí (Peppuccío)  \na los gen de pre-unidades, en abril de 1976.",
+      "googleId": "1ak8VfhGEVxMkPjkbGjTw6p6FvowsIZI1",
+      "estado": "publicado",
+      "tipo": "PDF",
+      "creadoEn": {
+        "_seconds": 1785380901,
+        "_nanoseconds": 771000000
+      },
+      "categoria": "documentos",
+      "titulo": "La opción de ser Gen",
+      "idioma": "es",
+      "origen": "drive",
+      "linkRecurso": "https://drive.google.com/file/d/1ak8VfhGEVxMkPjkbGjTw6p6FvowsIZI1/view?usp=drive_link",
+      "autor": "Peppuccío",
+      "searchText": "la opción de ser gen peppuccío amarillo anaranjado azul gen índigo rojo verde violeta trascripción de una charla de josé maría zanghí (peppuccío)  \na los gen de pre-unidades, en abril de 1976.",
+      "temas": [
+        "Amarillo",
+        "Anaranjado",
+        "Azul",
+        "Gen",
+        "Índigo",
+        "Rojo",
+        "Verde",
+        "Violeta"
+      ],
+      "anio": 1976,
+      "actualizadoEn": {
+        "_seconds": 1785381173,
+        "_nanoseconds": 202000000
+      },
+      "tamano": "35 KB"
+    }
+  ]
+}

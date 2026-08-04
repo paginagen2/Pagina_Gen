@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "collection": "recursos",
+  "fromRevision": "",
+  "toRevision": "e44cd1feb5da9c01",
+  "generatedAt": "2026-08-04T03:39:17.410Z",
+  "upserts": [
+    {
+      "id": "8nCVwm7vZPpd85klAfa8",
+      "programa": "",
+      "titulo": "Alele",
+      "fechaCreacion": {
+        "_seconds": 1757876518,
+        "_nanoseconds": 272000000
+      },
+      "descripcion": "El alele es un juego de ronda para reir un rato",
+      "participantes": "-",
+      "duracion": "10 - 15 min",
+      "categoria": "juegos",
+      "objetivo": "\"Bailar\" entre todos",
+      "materiales": [
+        "-"
+      ],
+      "estado": "publicado",
+      "autor": "-",
+      "pasos": [
+        "El animador presenta el juego",
+        "Dice que el va a hacer la actividad y el resto lo tiene que copiar",
+        "Grita \"Alele\" y muestra como si tuviera algo pequeño en la mano (el publico copia)",
+        "Grita \"Alele quita tonga\" mientras levanta la mano como si tuviese algo pequeño entre el dedo índice y el pulgar  (el publico copia)",
+        "Grita \"Amasa amasa amasa\" moviendo el pulgar y el índice como si amasara lo que tiene ahi  (el publico copia)",
+        "Grita \"Ea oea oea o A\" y cuando grita \"A\" tira hacia arriba la masa  (el publico copia)",
+        "El juego se va repitiendo, la masa cuando \"cae\" se va agrandando, despues se amasa con la mano entera,  y depues con los dos brazos. En este punto, el animador busca a alguien del publico y juntos amasan (todos amasan de a 2) y asi, hasta que todos amasan la misma masa y la tiran hacia arriba."
+      ]
+    }
+  ],
+  "deletes": []
+}
