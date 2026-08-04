@@ -1,32 +1,44 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-07-30",
-  "generadoEn": "2026-07-30T15:21:32.633Z",
+  "fechaGeneracion": "2026-08-03",
+  "generadoEn": "2026-08-04T02:30:41.625Z",
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1785377077916",
-    "titulo": "VIVIR EL MOMENTO PRESENTE",
-    "fecha": "30/07/2026",
+    "id": "pasapalabra_1785717724482",
+    "titulo": "VALORAR EL BIEN",
+    "fecha": "03/08/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1776048562369",
-    "titulo": "Estamos en camino",
+    "id": "meditaciones_1777055697439_hjp9bh7n8",
+    "titulo": "La meta",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
-    "id": "pdv_2026_07",
-    "mes": "Julio 2026",
-    "cita": "Y el que la recibe en tierra fértil es el hombre que escucha la Palabra y la comprende. Este produce fruto.\"",
-    "href": "pdv/pdv.html?id=pdv_2026_07"
+    "id": "pdv_2026_08",
+    "mes": "Agosto 2026",
+    "cita": "Mi alma canta la grandeza del Señor.",
+    "href": "pdv/pdv.html?id=pdv_2026_08"
   },
   "canal": {
-    "id": "MY3oeCO3azaXTWIThOrv",
-    "titulo": "Margaret Karram",
-    "fechaPublicacion": "2026-07-29T00:11:16.283Z",
-    "href": "canal/canal.html#MY3oeCO3azaXTWIThOrv"
+    "id": "vouHEcJg6OQWItWghxkM",
+    "titulo": "Roberto Almada",
+    "fechaPublicacion": "2026-07-30T15:58:16.951Z",
+    "href": "canal/canal.html#vouHEcJg6OQWItWghxkM"
   },
   "novedades": [
+    {
+      "id": "vouHEcJg6OQWItWghxkM",
+      "titulo": "Roberto Almada",
+      "descripcion": "Fue elegido Copresidente del Movimiento de los Focolares",
+      "fotoUrl": "https://imgs.search.brave.com/eCFoTNYQGRV5sBztCNMcOqARsIazdZs7qj8DycUss3A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/ZGlhcmlvY2FzdGVs/bGFub3MuY29tLmFy/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDI1/LzEwLzAzMTc1MzUw/L1doYXRzQXBwLUlt/YWdlLTIwMjUtMTAt/MDMtYXQtMi4yOC4w/MS1QTS5qcGVn",
+      "href": "canal/canal.html#vouHEcJg6OQWItWghxkM",
+      "textoEnlace": "Descarga su biografía",
+      "etiquetaCarrusel": "Aviso",
+      "fechaEventoInicio": "",
+      "fechaEventoFin": "",
+      "fechaVencimiento": "2026-08-27T18:57:00Z"
+    },
     {
       "id": "MY3oeCO3azaXTWIThOrv",
       "titulo": "Margaret Karram",
