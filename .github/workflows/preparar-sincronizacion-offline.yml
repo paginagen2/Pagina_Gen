@@ -56,13 +56,3 @@ jobs:
           git commit -m "chore: preparar sincronización offline"
           git push
           echo "publicar=true" >> "$GITHUB_OUTPUT"
-
-      - name: Preparar acceso a Firebase
-        if: steps.cambios.outputs.publicar == 'true'
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Publicar datos de sincronización
-        if: steps.cambios.outputs.publicar == 'true'
-        run: npx firebase-tools@15.25.1 deploy --only hosting --project pagina-gen --non-interactive

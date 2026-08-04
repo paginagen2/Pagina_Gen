@@ -1,6 +1,8 @@
 # Sincronización offline preparada
 
 Esta infraestructura está activada y no requiere cambios en `firestore.rules`.
+La publicación web se realiza mediante GitHub Pages en
+`https://paginagen2.github.io/Pagina_Gen/`.
 
 ## Qué está preparado
 
@@ -32,4 +34,4 @@ no se incluyen en archivos públicos.
 1. Revisar periódicamente la ejecución `Preparar sincronización offline`.
 2. Confirmar que `datos/sincronizacion/manifest.json` avance de revisión.
 3. Probar modificaciones, eliminaciones, reconexión y dispositivos atrasados.
-4. Publicar web/PWA y generar el APK después de cada cambio estructural.
+4. Confirmar el despliegue de GitHub Pages y generar el APK después de cada cambio estructural.
