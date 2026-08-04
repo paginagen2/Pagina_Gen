@@ -8,6 +8,9 @@ on:
       - main
     paths:
       - '.github/workflows/publicar-web.yml'
+      - 'firebase.json'
+      - 'firestore.indexes.json'
+      - 'firestore.rules'
   workflow_dispatch:
 
 permissions:
