@@ -33,7 +33,20 @@ jobs:
           node-version: 22
 
       - name: Generar datos diarios
-        run: npm run generar-inicio
+        shell: bash
+        run: |
+          for intento in 1 2 3; do
+            if npm run generar-inicio; then
+              exit 0
+            fi
+            if [ "$intento" -eq 3 ]; then
+              echo "La generación diaria falló después de 3 intentos."
+              exit 1
+            fi
+            espera=$((intento * 20))
+            echo "Intento $intento fallido; reintentando en ${espera}s."
+            sleep "$espera"
+          done
 
       - name: Publicar archivo actualizado
         shell: bash

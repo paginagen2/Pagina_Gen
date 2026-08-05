@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     form: document.getElementById('notifications-form'),
     settings: document.getElementById('notification-settings'),
     enable: document.getElementById('notifications-enable'),
-    test: document.getElementById('notifications-test'),
     activationTitle: document.getElementById('activation-title'),
     activationDescription: document.getElementById('activation-description'),
     activationPermissionTip: document.getElementById('activation-permission-tip'),
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   renderCategories();
   elements.enable.addEventListener('click', toggleNotifications);
-  elements.test.addEventListener('click', showTestNotification);
   elements.form.addEventListener('change', handleFormChange);
   elements.form.addEventListener('submit', savePreferences);
 
@@ -274,7 +272,6 @@ function updateActivationPresentation() {
   const permission = getNotificationPermission();
   elements.settings.disabled = !notificationsEnabled;
   elements.enable.classList.toggle('is-active', notificationsEnabled);
-  elements.test.hidden = !notificationsEnabled;
   elements.enable.textContent = notificationsEnabled ? 'Desactivar notificaciones' : 'Activar notificaciones';
   elements.activationTitle.textContent = notificationsEnabled ? 'Notificaciones activadas' : 'Activar notificaciones';
   elements.activationDescription.textContent = notificationsEnabled
@@ -599,35 +596,6 @@ function newestPreferences(localPreferences, remotePreferences) {
   const localTime = Date.parse(localPreferences.updatedAt || '') || 0;
   const remoteTime = Date.parse(remotePreferences.updatedAt || '') || 0;
   return localTime >= remoteTime ? localPreferences : remotePreferences;
-}
-
-async function showTestNotification() {
-  if (!notificationsEnabled || getNotificationPermission() !== 'granted') {
-    elements.activationStatus.textContent = 'Activá las notificaciones antes de realizar la prueba.';
-    return;
-  }
-
-  elements.test.disabled = true;
-  elements.test.textContent = 'Enviando…';
-  try {
-    if (!webPushRegistration) await prepareWebPush();
-    if (!webPushRegistration) throw new Error('El navegador no dispone del servicio de notificaciones.');
-    await webPushRegistration.showNotification('Una pausa para hoy', {
-      body: 'Tu Meditación diaria está lista. Tocá para abrirla en Gen 2.',
-      icon: new URL('../aadocumentos/imagenes/icono-gen-192.png', window.location.href).href,
-      badge: new URL('../aadocumentos/imagenes/icono-gen-192.png', window.location.href).href,
-      image: new URL('../aadocumentos/imagenes/notificaciones/meditacion-diaria.png', window.location.href).href,
-      tag: `gen2-test-${Date.now()}`,
-      data: { url: 'meditacion/meditacion_diaria.html' }
-    });
-    elements.activationStatus.textContent = 'Notificación de prueba mostrada en este dispositivo.';
-  } catch (error) {
-    console.error('No se pudo mostrar la notificación de prueba:', error);
-    elements.activationStatus.textContent = 'No pudimos mostrar la prueba en este dispositivo. Revisá el permiso e intentá nuevamente.';
-  } finally {
-    elements.test.disabled = false;
-    elements.test.textContent = 'Probar notificación';
-  }
 }
 
 function showStatus(message, isError = false) {

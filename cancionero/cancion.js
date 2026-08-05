@@ -104,7 +104,25 @@ function renderLyrics() {
 
   const fragment = document.createDocumentFragment();
   let previousBlank = false;
-  lyric.split('\n').forEach((line) => {
+  const lines = lyric.split('\n');
+  const sectionPattern = /^(intro|verso(?:\s+\d+)?|coro|estribillo|pre[- ]?coro|puente|bridge|outro):?\s*/i;
+  const parseLine = (source) => {
+    const chordMatches = [...source.matchAll(/\[([^\]\r\n]+)]/g)];
+    let text = '';
+    let sourcePosition = 0;
+    const chords = [];
+    chordMatches.forEach((match) => {
+      text += source.slice(sourcePosition, match.index);
+      if (parseChord(match[1])) chords.push({ raw: match[1], position: text.length });
+      else text += match[0];
+      sourcePosition = match.index + match[0].length;
+    });
+    text += source.slice(sourcePosition);
+    return { text, chords };
+  };
+
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
+    let line = lines[lineIndex];
     const sectionMatch = line.trim().match(/^\[?(intro|verso(?:\s+\d+)?|coro|estribillo|pre[- ]?coro|puente|bridge|outro)\]?:?$/i);
     if (sectionMatch) {
       const section = document.createElement('div');
@@ -112,26 +130,37 @@ function renderLyrics() {
       section.textContent = sectionMatch[1];
       fragment.append(section);
       previousBlank = false;
-      return;
+      continue;
     }
-    const chordMatches = [...line.matchAll(/\[([^\]\r\n]+)]/g)];
-    let lyricText = '';
-    let sourcePosition = 0;
-    const positionedChords = [];
-    chordMatches.forEach((match) => {
-      lyricText += line.slice(sourcePosition, match.index);
-      if (parseChord(match[1])) {
-        positionedChords.push({ raw: match[1], position: lyricText.length });
-      } else {
-        lyricText += match[0];
-      }
-      sourcePosition = match.index + match[0].length;
-    });
-    lyricText += line.slice(sourcePosition);
+
+    // Un título al inicio de una línea con acordes (por ejemplo "INTRO: [C]")
+    // se representa como título, y esos acordes acompañan al verso siguiente.
+    const leadingSection = line.match(sectionPattern);
+    if (leadingSection && line.slice(leadingSection[0].length).includes('[')) {
+      const section = document.createElement('div');
+      section.className = 'seccion-titulo';
+      section.textContent = leadingSection[1];
+      fragment.append(section);
+      line = line.slice(leadingSection[0].length);
+    }
+
+    let { text: lyricText, chords: positionedChords } = parseLine(line);
     const isChordOnlyLine = positionedChords.length > 0 && lyricText.trim() === '';
-    if (!state.showChords && isChordOnlyLine) return;
+
+    // En un cancionero una línea compuesta solo por acordes pertenece al verso
+    // inmediatamente inferior. Los agrupamos en una misma unidad visual.
+    if (isChordOnlyLine && lineIndex + 1 < lines.length) {
+      const next = parseLine(lines[lineIndex + 1]);
+      const nextIsSection = Boolean(lines[lineIndex + 1].trim().match(sectionPattern));
+      if (!nextIsSection && next.chords.length === 0 && next.text.trim() !== '') {
+        lyricText = next.text;
+        lineIndex += 1;
+      }
+    }
+
+    if (!state.showChords && isChordOnlyLine && !lyricText.trim()) continue;
     const isBlank = lyricText.trim() === '' && positionedChords.length === 0;
-    if (!state.showChords && isBlank && previousBlank) return;
+    if (!state.showChords && isBlank && previousBlank) continue;
     previousBlank = isBlank;
     const row = document.createElement('div');
     row.className = 'lyrics-line';
@@ -158,6 +187,7 @@ function renderLyrics() {
     }
 
     if (lyricText || !positionedChords.length || !state.showChords) {
+      row.classList.add('has-lyric');
       const lyricRow = document.createElement('div');
       lyricRow.className = 'lyric-line';
       lyricRow.textContent = lyricText || '\u00a0';
@@ -165,7 +195,7 @@ function renderLyrics() {
     }
     if (!row.hasChildNodes()) row.append(document.createTextNode('\u00a0'));
     fragment.append(row);
-  });
+  }
   container.replaceChildren(fragment);
   container.classList.toggle('lyrics-only', !state.showChords);
   renderUsedChords(extractUniqueChords(lyric, { notation: state.notation }).map(displayChord));
@@ -362,6 +392,8 @@ function closeChordDrawer() {
 function renderQuickGuideGrid(grid) {
   grid.classList.toggle('guide-compact', state.guideScale === 0);
   grid.classList.toggle('guide-large', state.guideScale === 2);
+  grid.classList.toggle('guide-extra-compact', state.guideScale === -1);
+  grid.classList.toggle('guide-extra-large', state.guideScale === 3);
   if (!state.usedChords.length) {
     const empty = document.createElement('p');
     empty.className = 'quick-guide-empty';
@@ -422,7 +454,17 @@ function setGuideDockVisible(visible) {
     $('#quickGuideModal').hidden = true;
     document.body.style.overflow = '';
     renderQuickGuide();
+    updateGuideDockPosition();
   }
+}
+
+function updateGuideDockPosition() {
+  if (!state.guideDockVisible || window.matchMedia('(max-width: 680px)').matches) return;
+  const overview = $('.song-overview');
+  const dock = $('#quickGuideDock');
+  if (!overview || !dock) return;
+  const safeTop = Math.max(110, Math.round(overview.getBoundingClientRect().bottom + 22));
+  dock.style.top = `${safeTop}px`;
 }
 
 function closeGuideDock() {
@@ -435,7 +477,7 @@ function selectGuideInstrument(instrument) {
 }
 
 function changeGuideScale(delta) {
-  state.guideScale = Math.max(0, Math.min(2, state.guideScale + delta));
+  state.guideScale = Math.max(-1, Math.min(3, state.guideScale + delta));
   renderQuickGuide();
 }
 
@@ -512,7 +554,9 @@ function loadPreferences() {
     if (Number.isInteger(saved.textSize)) state.textSize = Math.max(0, Math.min(TEXT_CLASSES.length - 1, saved.textSize));
     if (Number.isInteger(saved.speed)) state.speed = Math.max(1, Math.min(10, saved.speed));
     if (typeof saved.showChords === 'boolean') state.showChords = saved.showChords;
-    if (typeof saved.toolsCollapsed === 'boolean') state.toolsCollapsed = saved.toolsCollapsed;
+    // Las herramientas comienzan desplegadas para que el lector sea descubrible;
+    // el usuario puede contraerlas manualmente durante la lectura.
+    state.toolsCollapsed = false;
   } catch { /* Preferencias opcionales. */ }
 }
 
@@ -555,6 +599,23 @@ $('#toggleGuideDock').addEventListener('click', () => setGuideDockVisible(!state
 $('#closeGuideDock').addEventListener('click', closeGuideDock);
 $('#dockGuideGuitarTab').addEventListener('click', () => selectGuideInstrument('guitar'));
 $('#dockGuidePianoTab').addEventListener('click', () => selectGuideInstrument('piano'));
+$('#dockGuideChordSmaller').addEventListener('click', () => changeGuideScale(-1));
+$('#dockGuideChordLarger').addEventListener('click', () => changeGuideScale(1));
+let guideResize = null;
+$('#quickGuideDock').addEventListener('pointerdown', (event) => {
+  const dock = $('#quickGuideDock');
+  if (dock.hidden || event.clientX - dock.getBoundingClientRect().left > 26) return;
+  const rect = dock.getBoundingClientRect();
+  guideResize = { pointerId: event.pointerId, right: rect.right, min: 280 };
+  dock.setPointerCapture?.(event.pointerId);
+  event.preventDefault();
+});
+$('#quickGuideDock').addEventListener('pointermove', (event) => {
+  if (!guideResize || event.pointerId !== guideResize.pointerId) return;
+  const width = Math.max(guideResize.min, guideResize.right - event.clientX);
+  $('#quickGuideDock').style.width = `${width}px`;
+});
+$('#quickGuideDock').addEventListener('pointerup', () => { guideResize = null; });
 $('#likeButton').addEventListener('click', toggleLike);
 $('#closeChordDrawer').addEventListener('click', closeChordDrawer);
 $('#chordDrawerBackdrop').addEventListener('click', closeChordDrawer);
@@ -593,6 +654,8 @@ document.addEventListener('keydown', (event) => {
   action();
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden) toggleAutoScroll(false); });
+window.addEventListener('scroll', updateGuideDockPosition, { passive: true });
+window.addEventListener('resize', updateGuideDockPosition);
 window.addEventListener('beforeunload', () => toggleAutoScroll(false));
 $('.back-btn').addEventListener('click', (event) => {
   if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {

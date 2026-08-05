@@ -26,9 +26,6 @@ body { min-height:100vh; margin:0; color:#f5f7fa; background:radial-gradient(cir
 .activation-permission-tip strong { color:#e4d9ff; }
 .activation-status { min-height:17px; margin-top:5px!important; color:#f0b3c0!important; }
 .activation-actions { display:flex; align-items:center; gap:8px; }
-.notifications-test { min-height:42px; padding:0 14px; border:1px solid #46505b; border-radius:10px; color:#e2e7ed; background:rgba(255,255,255,.035); font-weight:700; cursor:pointer; }
-.notifications-test:hover { border-color:#6a7581; background:rgba(255,255,255,.07); }
-.notifications-test[hidden] { display:none; }
 .notifications-enable { min-height:43px; padding:0 17px; border:1px solid rgba(141,92,246,.5); border-radius:11px; color:#fff; background:linear-gradient(135deg,#8f60f0,#6f3fc6); font-weight:750; white-space:nowrap; cursor:pointer; }
 .notifications-enable.is-active { border-color:#4d5864; color:#dce2e8; background:#20262d; }
 .notifications-enable:disabled { opacity:.6; cursor:wait; }

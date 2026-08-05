@@ -10,7 +10,7 @@
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
   <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
-  <link rel="stylesheet" href="cancion.css?v=20260804-reader-sizing-2">
+  <link rel="stylesheet" href="cancion.css?v=20260805-songbook-blocks-28">
   <link rel="stylesheet" href="chord-diagrams.css?v=20260730-custom-voicings">
   <!-- Vista previa al compartir -->
   <meta property="og:locale" content="es_AR">
@@ -197,7 +197,11 @@
   <aside class="quick-guide-dock" id="quickGuideDock" aria-labelledby="quickGuideDockTitle" hidden>
     <header class="quick-guide-dock-header">
       <div><span class="section-kicker">Guía rápida</span><h2 id="quickGuideDockTitle">Acordes de la canción</h2></div>
-      <button type="button" class="drawer-close" id="closeGuideDock" aria-label="Ocultar guía junto a la letra"><svg><use href="#i-close"/></svg></button>
+      <div class="quick-guide-dock-actions">
+        <button type="button" class="guide-size-button" id="dockGuideChordSmaller" title="Acordes más pequeños" aria-label="Acordes más pequeños">A−</button>
+        <button type="button" class="guide-size-button" id="dockGuideChordLarger" title="Acordes más grandes" aria-label="Acordes más grandes">A+</button>
+        <button type="button" class="drawer-close" id="closeGuideDock" aria-label="Ocultar guía junto a la letra"><svg><use href="#i-close"/></svg></button>
+      </div>
     </header>
     <div class="instrument-tabs quick-guide-tabs" role="tablist" aria-label="Instrumento visible junto a la letra">
       <button type="button" id="dockGuideGuitarTab" role="tab" aria-selected="true"><svg><use href="#i-guitar"/></svg>Guitarra</button>
@@ -224,6 +228,6 @@
   <div class="song-toast" id="songToast" role="status" aria-live="polite" hidden></div>
 
 <script type="module" src="../auth.js?v=20260730-google1"></script>
-  <script type="module" src="cancion.js?v=20260804-reader-sizing-2"></script>
+  <script type="module" src="cancion.js?v=20260805-songbook-blocks-28"></script>
 </body>
 </html>

@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     setupCarruselEventListeners();
     setupEventListeners();
     const loadedCurrentSummary = await loadDailyHomeData();
-    if (!loadedCurrentSummary) await loadHomeFromFirebase();
+    if (!loadedCurrentSummary) await loadHomeFromStaticCatalogs();
 });
 
 async function loadHomeFromFirebase() {
@@ -35,11 +35,6 @@ async function loadHomeFromFirebase() {
         console.warn('No se pudo actualizar el Inicio desde Firebase:', error);
     }
 }
-
-window.addEventListener('gen:profile-updated', async event => {
-    if (!window.firebaseDb || !window.firebaseUtils) return;
-    await cargarCarrusel(window.firebaseDb, event.detail?.roles || []);
-});
 
 async function loadDailyHomeData() {
     const argentinaDate = new Intl.DateTimeFormat('en-CA', {
@@ -52,8 +47,6 @@ async function loadDailyHomeData() {
         `${LOCAL_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`,
         `${REMOTE_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`
     ];
-    let latestValidSummary = null;
-
     for (const source of sources) {
         try {
             const response = await fetch(source, { cache: 'no-store' });
@@ -64,24 +57,152 @@ async function loadDailyHomeData() {
                 applyDailyHomeData(data);
                 return true;
             }
-            const candidateTime = homeDate(data.generadoEn || `${data.fechaGeneracion}T12:00:00`)?.getTime() || 0;
-            const savedTime = homeDate(latestValidSummary?.generadoEn || `${latestValidSummary?.fechaGeneracion || ''}T12:00:00`)?.getTime() || 0;
-            if (!latestValidSummary || candidateTime > savedTime) latestValidSummary = data;
-            console.warn(`El resumen de ${source} corresponde a ${data.fechaGeneracion}; se conserva como respaldo.`);
+            console.warn(`Se descartó el resumen de ${source}: corresponde a ${data.fechaGeneracion || 'otra fecha'}.`);
         } catch (error) {
             console.warn(`No se pudo cargar el resumen diario desde ${source}:`, error);
         }
     }
+    return false;
+}
 
-    if (latestValidSummary) {
-        applyDailyHomeData(latestValidSummary);
-        document.documentElement.dataset.homeDataStale = 'true';
-        return true;
+function argentinaToday() {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date()).reduce((result, part) => {
+        if (part.type !== 'literal') result[part.type] = part.value;
+        return result;
+    }, {});
+    return {
+        iso: `${parts.year}-${parts.month}-${parts.day}`,
+        firestore: `${parts.day}/${parts.month}/${parts.year}`
+    };
+}
+
+function catalogDate(value) {
+    if (value && typeof value === 'object' && Number.isFinite(Number(value._seconds))) {
+        return new Date(Number(value._seconds) * 1000);
     }
+    return homeDate(value);
+}
 
+function selectCatalogMeditation(items, today) {
+    if (!items.length) return null;
+    const start = new Date('2024-01-01T00:00:00-03:00');
+    const current = new Date(`${today.iso}T00:00:00-03:00`);
+    const elapsedDays = Math.floor((current - start) / 86400000);
+    const cycle = Math.floor(elapsedDays / items.length);
+    const index = ((elapsedDays % items.length) + items.length) % items.length;
+    return items.map(item => {
+        let hash = 0;
+        const seed = `${item.id}${cycle}`;
+        for (let position = 0; position < seed.length; position += 1) {
+            hash = ((hash << 5) - hash) + seed.charCodeAt(position);
+            hash |= 0;
+        }
+        return { ...item, dailyOrder: hash };
+    }).sort((a, b) => a.dailyOrder - b.dailyOrder)[index];
+}
+
+async function loadExactCurrentPasapalabra(dateValue) {
+    try {
+        if (window.firebaseReady) await window.firebaseReady;
+        if (!window.firebaseDb || !window.firebaseUtils) return null;
+        const { collection, query, where, limit, getDocs } = window.firebaseUtils;
+        const snapshot = await getDocs(query(
+            collection(window.firebaseDb, 'pasapalabra'),
+            where('estado', '==', 'publicado'),
+            where('fecha', '==', dateValue),
+            limit(1)
+        ));
+        const documentSnapshot = snapshot.docs[0];
+        return documentSnapshot ? { id: documentSnapshot.id, ...documentSnapshot.data() } : null;
+    } catch (error) {
+        console.warn('No se pudo consultar el Pasapalabra exacto del día:', error);
+        return null;
+    }
+}
+
+async function loadHomeFromStaticCatalogs() {
+    const paths = ['meditaciones', 'pasapalabra', 'pdv', 'canal'];
+    try {
+        const catalogs = await Promise.all(paths.map(async name => {
+            const response = await fetch(`datos/sincronizacion/${name}.json`, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`${name}: ${response.status}`);
+            const data = await response.json();
+            if (data.schemaVersion !== 1 || !Array.isArray(data.items)) throw new Error(`${name}: formato inválido`);
+            return data.items;
+        }));
+        const [meditations, pasapalabras, pdvs, channelPosts] = catalogs;
+        const today = argentinaToday();
+        const now = new Date();
+        const meditation = selectCatalogMeditation(meditations.filter(item => item.Publico === true), today);
+        const catalogPasapalabra = pasapalabras.find(item => item.estado === 'publicado' && item.fecha === today.firestore) || null;
+        const pasapalabra = catalogPasapalabra || await loadExactCurrentPasapalabra(today.firestore);
+        const pdv = pdvs
+            .filter(item => item.version === 2 && ['publicado', 'programado'].includes(item.estado))
+            .filter(item => catalogDate(item.fechaPublicacion)?.getTime() <= now.getTime())
+            .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || ''))
+                || (catalogDate(b.fechaPublicacion)?.getTime() || 0) - (catalogDate(a.fechaPublicacion)?.getTime() || 0))[0] || null;
+        const visibleChannel = channelPosts
+            .filter(item => item.estado === 'publicada' || (item.estado === 'programada' && catalogDate(item.fechaPublicacion)?.getTime() <= now.getTime()))
+            .filter(item => !catalogDate(item.fechaVencimiento) || catalogDate(item.fechaVencimiento) > now)
+            .sort((a, b) => (catalogDate(b.fechaPublicacion)?.getTime() || 0) - (catalogDate(a.fechaPublicacion)?.getTime() || 0));
+        const news = visibleChannel.filter(item => item.destacarEnCarrusel).slice(0, 5).map(item => ({
+            id: item.id,
+            titulo: item.titulo || 'Novedad Gen',
+            descripcion: item.resumen || '',
+            fotoUrl: item.imagenUrl || '',
+            href: `canal/canal.html#${encodeURIComponent(item.id)}`,
+            textoEnlace: item.textoEnlace || 'Más información',
+            etiquetaCarrusel: item.etiquetaCarrusel || 'Novedad',
+            fechaEventoInicio: item.fechaEventoInicio || '',
+            fechaEventoFin: item.fechaEventoFin || '',
+            fechaVencimiento: item.fechaVencimiento || null
+        }));
+
+        applyDailyHomeData({
+            schemaVersion: 1,
+            fechaGeneracion: today.iso,
+            generadoEn: now.toISOString(),
+            frase: 'Que todos sean uno',
+            pasapalabra: pasapalabra ? {
+                id: pasapalabra.id, titulo: pasapalabra.titulo, fecha: pasapalabra.fecha,
+                href: 'pasapalabra/pasapalabra_de_hoy.html'
+            } : null,
+            meditacion: meditation ? {
+                id: meditation.id, titulo: meditation.titulo,
+                href: 'meditacion/meditacion_diaria.html'
+            } : null,
+            palabraDeVida: pdv ? {
+                id: pdv.id, mes: pdv.mes,
+                cita: pdv.citaPrincipal || pdv.titulo,
+                href: `pdv/pdv.html?id=${encodeURIComponent(pdv.id)}`
+            } : null,
+            canal: visibleChannel[0] ? {
+                id: visibleChannel[0].id,
+                titulo: visibleChannel[0].titulo || visibleChannel[0].resumen,
+                fechaPublicacion: catalogDate(visibleChannel[0].fechaPublicacion)?.toISOString(),
+                href: `canal/canal.html#${encodeURIComponent(visibleChannel[0].id)}`
+            } : null,
+            novedades: news
+        });
+        document.documentElement.dataset.homeDataSource = 'static-catalogs';
+        return true;
+    } catch (error) {
+        console.warn('No se pudo construir el Inicio desde los catálogos estáticos:', error);
+        showUnavailableCurrentContent();
+        return false;
+    }
+}
+
+function showUnavailableCurrentContent() {
+    document.querySelector('.pasapalabra-title').textContent = 'Contenido de hoy en actualización';
+    document.querySelector('.meditacion-title').textContent = 'Contenido de hoy en actualización';
+    document.getElementById('pdv-cita-index').textContent = 'Contenido de hoy en actualización';
+    document.getElementById('pdv-mes-index').textContent = 'Intentá nuevamente más tarde';
     carruselData = [];
     renderizarCarrusel();
-    return false;
 }
 
 function applyDailyHomeData(data) {
