@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "canal",
-  "revision": "68837e280193c57b",
-  "generatedAt": "2026-08-04T03:39:17.373Z",
+  "revision": "0ea7d6ca053562ce",
+  "generatedAt": "2026-08-10T17:29:04.236Z",
   "items": [
     {
       "id": "J8qGLfPoP2YmH7vIRs1h",
@@ -69,19 +69,7 @@
       "enlace": "https://www.focolare.org/es/margaret-karram-reelegida-al-frente-de-los-focolari-y-roberto-almada-nuevo-copresidente/",
       "textoEnlace": "Más información",
       "etiquetaCarrusel": "Novedad",
-      "fechaVencimiento": {
-        "_seconds": 1786071720,
-        "_nanoseconds": 0
-      },
       "eliminarEn": null,
-      "actualizadoEn": {
-        "_seconds": 1785283876,
-        "_nanoseconds": 283000000
-      },
-      "fechaPublicacion": {
-        "_seconds": 1785283876,
-        "_nanoseconds": 283000000
-      },
       "notificacionEnviadaEn": {
         "_seconds": 1785814278,
         "_nanoseconds": 982000000
@@ -89,6 +77,19 @@
       "resultadoNotificacion": {
         "failed": 0,
         "sent": 0
+      },
+      "zonaAdministradora": "",
+      "fechaVencimiento": {
+        "_seconds": 1790758920,
+        "_nanoseconds": 0
+      },
+      "actualizadoEn": {
+        "_seconds": 1786381975,
+        "_nanoseconds": 915000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1786381975,
+        "_nanoseconds": 915000000
       }
     },
     {
@@ -111,19 +112,7 @@
         "_seconds": 1785427068,
         "_nanoseconds": 64000000
       },
-      "fechaVencimiento": {
-        "_seconds": 1787857020,
-        "_nanoseconds": 0
-      },
       "titulo": "Roberto Almada",
-      "actualizadoEn": {
-        "_seconds": 1785427096,
-        "_nanoseconds": 951000000
-      },
-      "fechaPublicacion": {
-        "_seconds": 1785427096,
-        "_nanoseconds": 951000000
-      },
       "notificacionEnviadaEn": {
         "_seconds": 1785814278,
         "_nanoseconds": 217000000
@@ -131,6 +120,19 @@
       "resultadoNotificacion": {
         "failed": 0,
         "sent": 0
+      },
+      "fechaVencimiento": {
+        "_seconds": 1790805420,
+        "_nanoseconds": 0
+      },
+      "zonaAdministradora": "",
+      "actualizadoEn": {
+        "_seconds": 1786381988,
+        "_nanoseconds": 219000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1786381988,
+        "_nanoseconds": 219000000
       }
     }
   ]

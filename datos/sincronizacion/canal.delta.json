@@ -1,55 +1,10 @@
 {
   "schemaVersion": 1,
   "collection": "canal",
-  "fromRevision": "",
-  "toRevision": "68837e280193c57b",
-  "generatedAt": "2026-08-04T03:39:17.410Z",
+  "fromRevision": "68837e280193c57b",
+  "toRevision": "0ea7d6ca053562ce",
+  "generatedAt": "2026-08-10T17:29:04.236Z",
   "upserts": [
-    {
-      "id": "J8qGLfPoP2YmH7vIRs1h",
-      "rolesDestinatarios": [],
-      "titulo": "Convivencia Mariápolis Lía-Invierno",
-      "creadoEn": {
-        "_seconds": 1785188638,
-        "_nanoseconds": 149000000
-      },
-      "destacarEnCarrusel": true,
-      "enlace": "https://forms.gle/yW17pucNXNKN1LzZ8",
-      "contenido": "Ya están abiertas las pre-inscripciones para la Convivencia Mariápolis Lía-Invierno 2026! ✨\n\nSi tenés entre 18 y 23 años y querés vivir una experiencia de encuentro, reflexión y compartir con otros jóvenes, te invitamos a sumarte!\n\n📍 Mariápolis Lía\n📅 Julio 2026 (fecha a confirmar)\n\nSerá un espacio para conocer la Escuela de Jóvenes, compartir actividades, charlas, momentos recreativos y vivir una convivencia distinta 💙\nGuardá tu lugar 🙌🏼",
-      "resumen": "Una experiencia de encuentro, reflexión y compartir con otros jóvenes",
-      "estado": "publicada",
-      "audiencia": "general",
-      "imagenUrl": "https://imgs.search.brave.com/_HPnYD13JBGlr-2-mZ65HRPCb-oynjjP_kodWMeQQ78/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pZGVu/dGlkYWRib25hZXJl/bnNlLmNvbS5hci9h/cmNoaXZvcy9ub3Rp/Y2lhcy9ub3RpY2lh/LTEyMS53ZWJw",
-      "textoEnlace": "Link de inscripción",
-      "tipoFechaEvento": "rango",
-      "fechaEventoFin": "2026-07-19",
-      "fechaEventoInicio": "2026-07-16",
-      "etiquetaCarrusel": "Novedad",
-      "fechaVencimiento": {
-        "_seconds": 1785369540,
-        "_nanoseconds": 0
-      },
-      "eliminarEn": {
-        "_seconds": 1785974340,
-        "_nanoseconds": 0
-      },
-      "actualizadoEn": {
-        "_seconds": 1785283187,
-        "_nanoseconds": 154000000
-      },
-      "fechaPublicacion": {
-        "_seconds": 1785283187,
-        "_nanoseconds": 154000000
-      },
-      "notificacionEnviadaEn": {
-        "_seconds": 1785814279,
-        "_nanoseconds": 743000000
-      },
-      "resultadoNotificacion": {
-        "failed": 0,
-        "sent": 0
-      }
-    },
     {
       "id": "MY3oeCO3azaXTWIThOrv",
       "rolesDestinatarios": [],
@@ -70,19 +25,7 @@
       "enlace": "https://www.focolare.org/es/margaret-karram-reelegida-al-frente-de-los-focolari-y-roberto-almada-nuevo-copresidente/",
       "textoEnlace": "Más información",
       "etiquetaCarrusel": "Novedad",
-      "fechaVencimiento": {
-        "_seconds": 1786071720,
-        "_nanoseconds": 0
-      },
       "eliminarEn": null,
-      "actualizadoEn": {
-        "_seconds": 1785283876,
-        "_nanoseconds": 283000000
-      },
-      "fechaPublicacion": {
-        "_seconds": 1785283876,
-        "_nanoseconds": 283000000
-      },
       "notificacionEnviadaEn": {
         "_seconds": 1785814278,
         "_nanoseconds": 982000000
@@ -90,6 +33,19 @@
       "resultadoNotificacion": {
         "failed": 0,
         "sent": 0
+      },
+      "zonaAdministradora": "",
+      "fechaVencimiento": {
+        "_seconds": 1790758920,
+        "_nanoseconds": 0
+      },
+      "actualizadoEn": {
+        "_seconds": 1786381975,
+        "_nanoseconds": 915000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1786381975,
+        "_nanoseconds": 915000000
       }
     },
     {
@@ -112,19 +68,7 @@
         "_seconds": 1785427068,
         "_nanoseconds": 64000000
       },
-      "fechaVencimiento": {
-        "_seconds": 1787857020,
-        "_nanoseconds": 0
-      },
       "titulo": "Roberto Almada",
-      "actualizadoEn": {
-        "_seconds": 1785427096,
-        "_nanoseconds": 951000000
-      },
-      "fechaPublicacion": {
-        "_seconds": 1785427096,
-        "_nanoseconds": 951000000
-      },
       "notificacionEnviadaEn": {
         "_seconds": 1785814278,
         "_nanoseconds": 217000000
@@ -132,6 +76,19 @@
       "resultadoNotificacion": {
         "failed": 0,
         "sent": 0
+      },
+      "fechaVencimiento": {
+        "_seconds": 1790805420,
+        "_nanoseconds": 0
+      },
+      "zonaAdministradora": "",
+      "actualizadoEn": {
+        "_seconds": 1786381988,
+        "_nanoseconds": 219000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1786381988,
+        "_nanoseconds": 219000000
       }
     }
   ],
