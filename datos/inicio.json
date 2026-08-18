@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-08-03",
-  "generadoEn": "2026-08-04T02:30:41.625Z",
+  "fechaGeneracion": "2026-08-18",
+  "generadoEn": "2026-08-18T18:47:24.432Z",
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1785717724482",
-    "titulo": "VALORAR EL BIEN",
-    "fecha": "03/08/2026",
+    "id": "pasapalabra_1787019916879",
+    "titulo": "DEJAR ESPACIO A LO IMPREVISTO",
+    "fecha": "18/08/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777055697439_hjp9bh7n8",
-    "titulo": "La meta",
+    "id": "meditacion_1777043814974",
+    "titulo": "En soledad",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
@@ -23,7 +23,7 @@
   "canal": {
     "id": "vouHEcJg6OQWItWghxkM",
     "titulo": "Roberto Almada",
-    "fechaPublicacion": "2026-07-30T15:58:16.951Z",
+    "fechaPublicacion": "2026-08-10T17:13:08.219Z",
     "href": "canal/canal.html#vouHEcJg6OQWItWghxkM"
   },
   "novedades": [
@@ -37,7 +37,7 @@
       "etiquetaCarrusel": "Aviso",
       "fechaEventoInicio": "",
       "fechaEventoFin": "",
-      "fechaVencimiento": "2026-08-27T18:57:00Z"
+      "fechaVencimiento": "2026-09-30T21:57:00Z"
     },
     {
       "id": "MY3oeCO3azaXTWIThOrv",
@@ -49,7 +49,7 @@
       "etiquetaCarrusel": "Novedad",
       "fechaEventoInicio": "",
       "fechaEventoFin": "",
-      "fechaVencimiento": "2026-08-07T03:02:00Z"
+      "fechaVencimiento": "2026-09-30T09:02:00Z"
     }
   ]
 }
