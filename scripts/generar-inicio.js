@@ -202,11 +202,15 @@ async function main() {
       where: fieldFilter('estado', 'EQUAL', 'publicado')
     }),
     runQuery('pdv', {
-      // Las reglas públicas de Firestore permiten leer únicamente PdV
-      // publicadas. Filtrar por estado en la propia consulta evita que
-      // Firestore rechace el conjunto completo por incluir programadas.
-      where: fieldFilter('estado', 'EQUAL', 'publicado'),
-      limit: 500
+      // La consulta debe demostrar las mismas condiciones exigidas por
+      // firestore.rules. El índice version + fechaPublicacion ya está
+      // declarado en firestore.indexes.json.
+      where: whereAll(
+        fieldFilter('version', 'EQUAL', 2),
+        fieldFilter('fechaPublicacion', 'LESS_THAN_OR_EQUAL', now)
+      ),
+      orderBy: [['fechaPublicacion', 'DESCENDING']],
+      limit: 12
     }),
     runQuery('carrusel', {
       orderBy: [['createdAt', 'DESCENDING']],

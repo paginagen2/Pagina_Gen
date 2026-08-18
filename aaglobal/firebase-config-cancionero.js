@@ -268,15 +268,17 @@ export const DatabaseService = {
 
   // Incrementar reproducciones
   async incrementarReproducciones(cancionId) {
-    if (!navigator.onLine) return;
+    if (!navigator.onLine) return false;
     try {
       const cancionRef = doc(db, 'canciones', cancionId);
       await updateDoc(cancionRef, {
         reproducciones: increment(1)
       });
       console.log('👁️ Reproducciones incrementadas para:', cancionId);
+      return true;
     } catch (error) {
       console.error('❌ Error incrementando reproducciones:', error);
+      return false;
     }
   },
 
@@ -368,12 +370,25 @@ async function ejecutarOfflineSeguro(offline, metodo, ...args) {
   }
 }
 
+let snapshotCancionesPromise = null;
+
 async function cargarCancionEstatica(cancionId) {
   try {
-    const id = encodeURIComponent(String(cancionId || ''));
-    const response = await fetch(new URL(`../datos/cancionero/canciones/${id}.json`, import.meta.url), { cache: 'no-cache' });
-    if (!response.ok) return null;
-    return response.json();
+    snapshotCancionesPromise ||= fetch(
+      new URL('../datos/sincronizacion/canciones.json', import.meta.url),
+      { cache: 'no-cache' }
+    ).then(async (response) => {
+      if (!response.ok) throw new Error('No se pudo abrir el respaldo del cancionero.');
+      const data = await response.json();
+      return Array.isArray(data.items) ? data.items : [];
+    }).catch((error) => {
+      snapshotCancionesPromise = null;
+      throw error;
+    });
+
+    const canciones = await snapshotCancionesPromise;
+    const cancion = canciones.find((item) => String(item.id) === String(cancionId));
+    return cancion ? { ...cancion, origen: 'estatico' } : null;
   } catch {
     return null;
   }

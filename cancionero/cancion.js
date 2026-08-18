@@ -1,4 +1,4 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260818-song-fallback';
 import { parseChord, transposeChord, convertChordNotation, extractUniqueChords } from './chord-engine.js';
 import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js?v=20260804-guide-dock-2';
 
@@ -45,9 +45,22 @@ async function loadSong(id) {
   }
   if (!state.song) return showError('No encontramos esta canción.');
   renderSong();
-  if (state.song.origen !== 'estatico') void DatabaseService.incrementarReproducciones(id);
-  void loadDailyLikes(id);
+  if (state.song.origen !== 'estatico') void incrementView(id);
+  if (!hasLikesCount(state.song)) void loadDailyLikes(id);
   setupLikeState();
+}
+
+async function incrementView(id) {
+  const incremented = await DatabaseService.incrementarReproducciones(id);
+  if (!incremented || !state.song || String(state.song.id) !== String(id)) return;
+  state.song.reproducciones = Number(state.song.reproducciones || 0) + 1;
+  $('#cancionVistas').textContent = formatNumber(state.song.reproducciones);
+}
+
+function hasLikesCount(song) {
+  return ['likesCount', 'likes'].some((field) =>
+    song?.[field] !== null && song?.[field] !== '' && Number.isFinite(Number(song?.[field]))
+  );
 }
 
 async function loadDailyLikes(id) {
@@ -68,7 +81,7 @@ function renderSong() {
   $('#headerArtista span').textContent = artist;
   $('#headerArtista').href = `artista.html?artista=${encodeURIComponent(artist)}`;
   $('#cancionCategoria').textContent = categoryLabel(song.categoria);
-  $('#cancionVistas').textContent = formatNumber(Number(song.reproducciones || 0) + 1);
+  $('#cancionVistas').textContent = formatNumber(song.reproducciones || 0);
   $('#cancionLikes').textContent = formatNumber(song.likesCount || song.likes || 0);
   $('#lyricsTitle').textContent = title;
   renderLyrics();
