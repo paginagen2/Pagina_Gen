@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 24,
   "tamanioPagina": 6,
-  "total": 308,
+  "total": 309,
   "siguientePagina": 25,
   "items": [
+    {
+      "id": "pasapalabra_1775529600852",
+      "titulo": "RECOMENZAR",
+      "fecha": "07/04/2026",
+      "reflexion": "Recomenzar no siempre viene acompañado de aplausos ni certezas; muchas veces nace del cansancio, de las caídas y de las decepciones. Pero su fuerza reside en la decisión de no quedarse donde el dolor nos ha paralizado.\nRecomenzar significa aprender del pasado, mirar atrás con gratitud por lo que él nos enseñó.\nCada error trae madurez, cada pérdida revela lo que realmente importa, cada final trae un nuevo comienzo.\nRecomenzar es confiar en que Dios sigue escribiendo nuestra historia, incluso cuando pasamos la página con lágrimas en los ojos. Es creer que aún hay capítulos de alegría, crecimiento y esperanza que aún podrían ser escritos y vividos."
+    },
     {
       "id": "pasapalabra_1775475876431",
       "titulo": "¡ALEGRÍA!",
@@ -34,12 +40,6 @@
       "titulo": "AMOR MUTUO",
       "fecha": "02/04/2026",
       "reflexion": "El amor mutuo exige equilibrio: dar sin anularse y recibir sin volverse dependiente. Es un encuentro de dos libertades que deciden caminar lado a lado con el compromiso de vivir el uno para el otro.\nEl amor mutuo sostiene la comunidad, sana las relaciones y da testimonio al mundo.\nCuando hay amor verdadero entre las personas, la fe deja de ser solo discurso y se convierte en vida. Es a través de este amor que el cristiano se convierte en signo de Dios en el mundo. No por cuánto sabe, sino por cuánto ama.\nEn la vida cristiana, el amor mutuo no es solo una virtud deseable, sino un mandamiento central. Jesús no lo presenta como una sugerencia, sino como una exigencia fundamental para quien desea seguirlo: amar como Él amó."
-    },
-    {
-      "id": "pasapalabra_1775053538147",
-      "titulo": "DIOS CAMINA CON NOSOTROS",
-      "fecha": "01/04/2026",
-      "reflexion": "Sabemos por nuestra fe que Dios siempre está con nosotros, pero no siempre esa presencia está explícitamente manifestada.\nJesús hizo una promesa que podemos experimentar sensiblemente, su presencia entre nosotros. Dijo: “Donde hay dos o tres reunidos en mi Nombre, yo estoy presente en medio de ellos” (Mt. 18,20)\nCuando nos amamos como Jesús nos enseñó, atraemos su presencia entre nosotros.\nYa experimenté esta presencia y sus frutos, innumerables veces junto con mis compañeros de camino.\nLa presencia de Jesús en medio nuestro, no es solo un objetivo, es el punto de partida: debemos hacer todo con Él entre nosotros."
     }
   ]
 }

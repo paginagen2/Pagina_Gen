@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 31,
   "tamanioPagina": 6,
-  "total": 308,
+  "total": 309,
   "siguientePagina": 32,
   "items": [
+    {
+      "id": "pasapalabra_1772239188307",
+      "titulo": "QUERER EL BIEN DE LOS DEMÁS",
+      "fecha": "28/02/2026",
+      "reflexion": "Querer el bien de los demás, es salir de nosotros mismos y permitir que el amor guíe las intenciones de nuestro corazón. No se trata solo de hacer el bien, sino de desear sinceramente que el otro crezca, sea feliz y alcance su máximo potencial, incluso cuando no nos beneficie.\nQuerer el bien de los demás se expresa en acciones sencillas: una palabra de aliento, un gesto de cariño, en la capacidad de alegrarnos por los logros ajenos. A menudo, es también rezar y confiar a Dios lo que no podemos resolver.\nQuien desea el bien de los demás camina en el amor. Y en este camino, descubre que el bien ofrecido nunca se pierde, sino que regresa al corazón como paz y sentido de la vida."
+    },
     {
       "id": "pasapalabra_1772155740039",
       "titulo": "PONER EN DIOS TODAS LAS PREOCUPACIONES",
@@ -34,12 +40,6 @@
       "titulo": "REZAR POR LA PAZ",
       "fecha": "25/02/2026",
       "reflexion": "Cuando oramos por la paz, no solo pedimos el fin de las guerras o la violencia visible, sino también la reconciliación de los corazones heridos, la sanación de las palabras duras y la sabiduría para elegir el diálogo en lugar de la confrontación.\nLa oración nos educa para la mansedumbre y nos recuerda que la verdadera paz es fruto del amor vivido en el día a día.\nRezar por la paz es comprometerse con ella. Es vigilar nuestras acciones, cultivar el perdón, sembrar la comprensión y rechazar las actitudes que generan división. La paz que pedimos en oración debe desbordar en nuestras acciones.\nQue nuestra oración sea sincera y constante, para que la paz de Dios habite en nosotros y, a través de nosotros, llegue al mundo."
-    },
-    {
-      "id": "pasapalabra_1771948889703",
-      "titulo": "SONREÍR",
-      "fecha": "24/02/2026",
-      "reflexion": "Sonreír es un gesto sencillo, casi invisible, pero cargado de una fuerza extraordinaria. No cuesta nada, no requiere palabras elaboradas y, sin embargo, puede transformar el estado de ánimo de un día entero.\nUna sonrisa acoge, acerca y comunica lo que el corazón a menudo siente, pero la boca no puede expresar.\nEn medio de las prisas, las preocupaciones y los silencios de la vida diaria, una sonrisa se convierte en un signo de amistad y cariño.\nMe gusta mucho la expresión que usan los personajes de la película Avatar: \"Te veo\", lo que significa: \"Me importas\" o \"Me gustas\". A veces, sonreír es el único consuelo posible, la única luz en un momento oscuro.\nQue podamos ofrecer más sonrisas: sinceras, sencillas y llenas de amor."
     }
   ]
 }

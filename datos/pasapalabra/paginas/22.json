@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 22,
   "tamanioPagina": 6,
-  "total": 308,
+  "total": 309,
   "siguientePagina": 23,
   "items": [
+    {
+      "id": "pasapalabra_1776564342217",
+      "titulo": "CARIDAD ACTIVA",
+      "fecha": "19/04/2026",
+      "reflexion": "“La fe: si no va acompañada de las obras, está completamente muerta.” (Stg. 2,17)\nLa caridad activa significa transformar el sentimiento en acción concreta.\nNo basta con percibir el dolor del otro; es necesario tender la mano, ofrecer tiempo, apoyo y compañía. Es el amor que sale del discurso y se convierte en acción.\nLa verdadera espiritualidad se manifiesta en las pequeñas y grandes acciones de la vida diaria: en la comida compartida, en la palabra de consuelo, en el perdón otorgado, en la visita a quienes se sienten olvidados.\nLa caridad activa es silenciosa, constante y humilde. Como nos enseñó la Madre Teresa de Calcuta: “No todos podemos hacer grandes cosas, pero sí pequeñas cosas con gran amor”.\nNuestras acciones pueden ser la respuesta a la oración de alguien."
+    },
     {
       "id": "pasapalabra_1776473142097",
       "titulo": "ACEPTAR A LOS DEMÁS",
@@ -34,12 +40,6 @@
       "titulo": "COMPARTIR NUESTRO SUPERFLUO",
       "fecha": "14/04/2026",
       "reflexion": "Muchas veces acumulamos más de lo que necesitamos: ropa que no usamos, alimentos que sobran, tiempo que desperdiciamos.\nLo que es superfluo para algunos puede ser esencial para otros. Lo que se olvida en un armario puede abrigar a alguien en el frío. El valor que casi no  hace diferencia en nuestro presupuesto puede representar esperanza para quienes atraviesan dificultades.\nCompartir es brindar cuidado, atención y sensibilidad. Al compartir lo que nos sobra, cultivamos la empatía y reducimos las desigualdades.\nCompartir transforma el corazón de quien da: enseña desapego, gratitud y humanidad."
-    },
-    {
-      "id": "pasapalabra_1776040945717",
-      "titulo": "APRENDER DE TODOS",
-      "fecha": "13/04/2026",
-      "reflexion": "Cada persona que cruza nuestro camino lleva con él, conocimiento. Sin importar la edad, la profesión o el nivel de estudio, siempre hay algo que aprender.\nA veces aprendemos de quienes enseñan; otras veces, de quienes se equivocan, de quienes sufren o de quienes sueñan.\nAprendemos con los niños, la sencillez. Con los ancianos, la experiencia. Con los amigos, la lealtad. Con los desafíos, la perseverancia.\nCuando adoptamos una actitud humilde, nos abrimos al aprendizaje.\nLa vida es una gran escuela, y todos somos expertos en algún área. Quien comprende esto, nunca deja de aprender y evolucionar."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 308,
+  "total": 309,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1777594455112",
+      "titulo": "ENCUENTRA EL “NOSOTROS” ENTRE “TÚ” Y “YO”",
+      "fecha": "01/05/2026",
+      "reflexion": "Entre el \"yo\" y el \"tú\" existe el espacio del \"nosotros\". Es en él que los corazones aprenden a caminar juntos. El \"yo\" representa nuestros deseos, nuestras ideas, nuestras voluntades. El \"tú\" trae otra historia, otra forma de ver el mundo, otros sentimientos.\nCuando cada persona se encierra en sí misma, nace la distancia. Pero cuando hay apertura, nace el encuentro.\nEncontrar el \"nosotros\" significa unir las diferencias con respeto y amor.\nEs en este espacio donde nace la verdadera comunión, ya sea entre amigos, en familia o en la vida comunitaria. El \"nosotros\" transforma dos caminos separados en un recorrido compartido.\nQuizás el mayor desafío de la vida sea precisamente este: salir del \"yo solo\" y aprender a vivir el \"nosotros\"."
+    },
     {
       "id": "pasapalabra_1777518005117",
       "titulo": "REZAR POR LA PAZ",
@@ -34,12 +40,6 @@
       "titulo": "CONTEMPLANDO LA NATURALEZA ALABO LA CREACIÓN",
       "fecha": "26/04/2026",
       "reflexion": "Cuando contemplo la naturaleza, mi corazón se eleva en alabanza. Nada es casualidad. Cada detalle parece susurrar: hay Amor en el origen de todo.\nAlabar la Creación es reconocer que la vida es un don. Es dar gracias por el aire que respiro, por el agua que me sustenta, por la tierra que produce alimento. Es también asumir la responsabilidad de proteger lo que se me ha confiado.\nQue, al mirar la naturaleza, sepa detenerme, contemplar y dar gracias. Y que mi alabanza no se quede solo en palabras, sino que se concretice en acciones de cuidado, respeto y gratitud.\nPorque, al contemplar la naturaleza, mi corazón aprende a alabar no solo la Creación, sino también al Creador."
-    },
-    {
-      "id": "pasapalabra_1777089338918",
-      "titulo": "DESCARGAR EN EL PADRE CADA PREOCUPACIÓN",
-      "fecha": "25/04/2026",
-      "reflexion": "En la Primera Carta de San Pedro 5,7 encontramos un consejo lleno de ternura: “Descarguen en él todas sus inquietudes, ya que él se ocupa de ustedes”\nNo se refiere solo a alguna preocupación, sino a todas. Las grandes y las pequeñas, las que nos quitan el sueño y las que nos inquietan en silencio.\nPodemos ser como un niño que, cuando tiene miedo, se aferra a la mano de su padre y encuentra seguridad.\nJesús mismo, en Mateo 6,26 nos recuerda que el Padre cuida de las aves del cielo. ¡Cuánto más cuidará de nosotros, sus amados hijos!\nConfiar es decir en oración: “Padre, yo hice lo que estaba a mi alcance. El resto lo entrego en tus manos”.\nCuando entregamos nuestras preocupaciones a Dios, el alma respira y la esperanza renace."
     }
   ]
 }

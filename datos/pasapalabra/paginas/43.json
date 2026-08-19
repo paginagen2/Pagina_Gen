@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 43,
   "tamanioPagina": 6,
-  "total": 308,
+  "total": 309,
   "siguientePagina": 44,
   "items": [
+    {
+      "id": "pasapalabra_1766276994439",
+      "titulo": "DEJARSE SORPRENDER",
+      "fecha": "21/12/2025",
+      "reflexion": "Cuando damos espacio a lo inesperado, permitimos que la vida nos enseñe algo nuevo. A veces, lo inesperado es precisamente lo que más necesitamos. Una conversación inesperada, un simple gesto de bondad que recibimos, un cambio de rumbo: todo puede convertirse en una señal de gracia especial si estamos atentos y de corazón abierto.\nDejarse sorprender es un acto de humildad y confianza: es reconocer que no lo sabemos todo, que Dios puede trazar mejores caminos que los nuestros.\nTambién es una invitación a la alegría, porque la sorpresa renueva la esperanza y reaviva el encanto de la vida.\nEs en lo inesperado donde la vida y lo divino a menudo se revelan con mayor intensidad."
+    },
     {
       "id": "pasapalabra_1766193723708",
       "titulo": "SERVIR",
@@ -34,12 +40,6 @@
       "titulo": "SER PERSEVERANTES",
       "fecha": "16/12/2025",
       "reflexion": "La perseverancia no es terquedad, es fe en la acción y convicción en el amor. Es la valentía de volver a intentarlo, de aprender de los errores y de permanecer firme incluso sin tener certeza del resultado. Porque quien persevera entiende que el tiempo no es un enemigo, sino un aliado que, poco a poco, moldea nuestro carácter, fortalece nuestra voluntad y madura nuestros sueños y proyectos.\nLos frutos de la perseverancia no son solo los logros alcanzados, sino la transformación que ocurre en nuestro interior a lo largo del camino.\nLa perseverancia también fortalece nuestra confianza en Dios; la confianza en sus planes de amor para cada uno de nosotros."
-    },
-    {
-      "id": "pasapalabra_1765761912511",
-      "titulo": "EJERCITAR LA PACIENCIA",
-      "fecha": "15/12/2025",
-      "reflexion": "Practicar la paciencia es uno de los mayores desafíos de la vida moderna. En un mundo que valora la prisa y los resultados inmediatos, esperar se ha convertido en un acto casi extremamente ingenuo. Sin embargo, es precisamente durante la espera que maduramos, aprendemos y nos fortalecemos.\nLa paciencia no es pasividad; es sabiduría. Es comprender que todo tiene su ritmo, que las flores no florecen antes de tiempo y que lo importante requiere tiempo.\nCuando practicamos la paciencia, dejamos de luchar contra el tiempo y comenzamos a caminar con él. Así, descubrimos que lo que parecía tomar mucho tiempo era en realidad una preparación para lo que vendría después.\nLa paciencia, cuando se ejercita con amor, fomenta la esperanza y la fe."
     }
   ]
 }

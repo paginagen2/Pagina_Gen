@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 35,
   "tamanioPagina": 6,
-  "total": 308,
+  "total": 309,
   "siguientePagina": 36,
   "items": [
+    {
+      "id": "pasapalabra_1770435325730",
+      "titulo": "SER COMPASIVOS",
+      "fecha": "07/02/2026",
+      "reflexion": "Ser compasivos es permitir que el corazón se acerque al dolor del otro.\nLa compasión nace cuando reconocemos que todos llevamos dificultades y sufrimientos, a veces invisibles, y que un simple gesto puede aliviar una enorme carga.\nSer compasivo exige humildad: reconocer que también somos frágiles y necesitados de misericordia. Cuando miramos al prójimo con esta comprensión y esa sensibilidad, nuestras palabras se vuelven más amables, nuestras actitudes más pacientes y nuestras decisiones más humanas.\nLa compasión rompe las barreras de la indiferencia, sana las heridas internas y nos acerca al amor que Dios nos enseña a vivir cada día."
+    },
     {
       "id": "pasapalabra_1770337079223",
       "titulo": "PERSEVERAR EN LAS PRUEBAS",
@@ -34,12 +40,6 @@
       "titulo": "DETENERSE PARA CONFORTAR A LOS DEMÁS",
       "fecha": "02/02/2026",
       "reflexion": "Nos apresuramos a cumplir tareas, responder mensajes, resolver problemas, y en este movimiento constante, a menudo pasamos junto a personas sin verlas realmente.\nDetenerse no es perder el tiempo. Es crear espacio interior. Al detenernos, silenciamos el ruido interior y exterior, y solo entonces podemos percibir el dolor que no es expresado, la mirada cansada, el pedido de ayuda disfrazado de conversación común.\nEl consuelo no comienza con las palabras adecuadas, sino con la presencia genuina. Para eso, es necesario interrumpir nuestra agenda, nuestro ritmo, nuestro ego.\nDetenerse también nos hace más humanos. Quien acepta que también necesita pausas comprende mejor a quien necesita apoyo. Así, consolar al otro se convierte en un acto de comunión."
-    },
-    {
-      "id": "pasapalabra_1769941143886",
-      "titulo": "SER MANSOS",
-      "fecha": "01/02/2026",
-      "reflexion": "Ser manso no es ser débil. Es tener la fuerza suficiente para no tener que demostrarle nada a nadie.\nLa mansedumbre nace del autocontrol: de la capacidad de elegir el silencio, cuando el orgullo exige una respuesta; de ofrecer paz, cuando el entorno pide confrontación. El manso siente el dolor, percibe la injusticia, pero decide no devolver con la misma moneda, tal como lo hizo Jesús.\nSer manso es caminar con firmeza y un corazón tranquilo.\nEs saber quién eres, sin necesidad de alzar la voz.\nEs confiar en que no todas las batallas deben librarse para ganarse.\nEn un mundo ruidoso, la mansedumbre es resistencia.\nEn tiempos de prisa, es sabiduría.\nY, a menudo, es en la mansedumbre donde se revela la verdadera fuerza."
     }
   ]
 }
