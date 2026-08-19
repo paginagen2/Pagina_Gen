@@ -1,37 +1,331 @@
 {
   "schemaVersion": 1,
   "collection": "recursos",
-  "fromRevision": "",
-  "toRevision": "e44cd1feb5da9c01",
-  "generatedAt": "2026-08-04T03:39:17.410Z",
+  "fromRevision": "e44cd1feb5da9c01",
+  "toRevision": "e27d8aebc6b1e46e",
+  "generatedAt": "2026-08-19T03:05:03.940Z",
   "upserts": [
     {
-      "id": "8nCVwm7vZPpd85klAfa8",
-      "programa": "",
-      "titulo": "Alele",
-      "fechaCreacion": {
-        "_seconds": 1757876518,
-        "_nanoseconds": 272000000
-      },
-      "descripcion": "El alele es un juego de ronda para reir un rato",
-      "participantes": "-",
-      "duracion": "10 - 15 min",
-      "categoria": "juegos",
-      "objetivo": "\"Bailar\" entre todos",
+      "id": "recurso_1787103964372_0",
+      "titulo": "La red que nos une",
+      "categoria": "dinamicas",
+      "descripcion": "Una dinámica para reconocer los vínculos y aportes positivos que existen dentro del grupo mediante la construcción de una red visible.",
+      "objetivo": "Fortalecer los vínculos, valorar el aporte de cada integrante y reflexionar sobre la responsabilidad compartida de cuidar al grupo.",
+      "duracion": "25–35 minutos",
+      "participantes": "8–25 personas",
       "materiales": [
-        "-"
+        "Un ovillo de lana o hilo grueso"
+      ],
+      "pasos": [
+        "Formen un círculo, preferentemente de pie.",
+        "Una persona sostiene la punta del hilo, menciona a otro participante y expresa algo positivo que reconoce en él.",
+        "Sin soltar su extremo del hilo, le arroja el ovillo a la persona mencionada.",
+        "Quien recibe el ovillo repite la acción con otro integrante del grupo.",
+        "Continúen hasta que todos hayan recibido el hilo y se haya formado una red.",
+        "Observen juntos la red y conversen sobre cómo cada integrante ayuda a sostener al grupo.",
+        "Pregunten: ¿qué sentiste al escuchar lo que otra persona valora de vos?",
+        "Pregunten: ¿qué sucede con la red cuando alguien deja de sostenerla?",
+        "Para cerrar, cada persona expresa una acción concreta con la que quiere cuidar al grupo durante la semana."
       ],
       "estado": "publicado",
-      "autor": "-",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103964,
+        "_nanoseconds": 372000000
+      }
+    },
+    {
+      "id": "recurso_1787103965080_1",
+      "titulo": "Construcción a ciegas",
+      "categoria": "dinamicas",
+      "descripcion": "Los equipos intentan reproducir una construcción mientras sus integrantes cumplen distintos roles y se comunican con información limitada.",
+      "objetivo": "Ejercitar la comunicación clara, la confianza, la escucha y la distribución de responsabilidades dentro de un equipo.",
+      "duracion": "30–40 minutos",
+      "participantes": "9–30 personas",
+      "materiales": [
+        "Bloques, vasos plásticos o piezas de cartón",
+        "Una construcción modelo por equipo",
+        "Pañuelos opcionales"
+      ],
       "pasos": [
-        "El animador presenta el juego",
-        "Dice que el va a hacer la actividad y el resto lo tiene que copiar",
-        "Grita \"Alele\" y muestra como si tuviera algo pequeño en la mano (el publico copia)",
-        "Grita \"Alele quita tonga\" mientras levanta la mano como si tuviese algo pequeño entre el dedo índice y el pulgar  (el publico copia)",
-        "Grita \"Amasa amasa amasa\" moviendo el pulgar y el índice como si amasara lo que tiene ahi  (el publico copia)",
-        "Grita \"Ea oea oea o A\" y cuando grita \"A\" tira hacia arriba la masa  (el publico copia)",
-        "El juego se va repitiendo, la masa cuando \"cae\" se va agrandando, despues se amasa con la mano entera,  y depues con los dos brazos. En este punto, el animador busca a alguien del publico y juntos amasan (todos amasan de a 2) y asi, hasta que todos amasan la misma masa y la tiran hacia arriba."
-      ]
+        "Formen equipos de tres o cuatro personas.",
+        "Asignen los roles de observador, comunicador y constructor. Si hay cuatro integrantes, uno puede registrar lo que sucede.",
+        "Solo el observador puede ver la construcción modelo, pero no puede tocar las piezas.",
+        "El observador describe el modelo al comunicador.",
+        "El comunicador transmite las instrucciones al constructor sin mirar el modelo.",
+        "El constructor intenta reproducir la figura utilizando únicamente las indicaciones recibidas.",
+        "Cuando termine el tiempo, comparen el resultado con el modelo original.",
+        "Cambien los roles y realicen una nueva ronda.",
+        "Conversen sobre qué ayudó a que el mensaje fuera claro y en qué momentos apareció la frustración.",
+        "Cierren identificando qué actitudes favorecen el trabajo en equipo."
+      ],
+      "estado": "publicado",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103965,
+        "_nanoseconds": 80000000
+      }
+    },
+    {
+      "id": "recurso_1787103965249_2",
+      "titulo": "Misión imposible",
+      "categoria": "juegos",
+      "descripcion": "Un desafío por equipos en el que todos deben colaborar para completar una serie de misiones creativas antes de que termine el tiempo.",
+      "objetivo": "Favorecer la cooperación, la creatividad, la organización grupal y la participación activa de todos.",
+      "duracion": "35–50 minutos",
+      "participantes": "12–40 personas",
+      "materiales": [
+        "Sobres con las misiones",
+        "Hojas",
+        "Marcadores",
+        "Cinta adhesiva",
+        "Vasos plásticos",
+        "Globos",
+        "Cronómetro"
+      ],
+      "pasos": [
+        "Formen equipos equilibrados.",
+        "Entreguen a cada equipo un sobre con todas las misiones.",
+        "Expliquen que deberán completar la mayor cantidad posible dentro del tiempo disponible.",
+        "Aclaren que todos los integrantes deben participar al menos en una misión.",
+        "Misión 1: inventar y presentar un saludo propio del equipo.",
+        "Misión 2: trasladar un globo de un extremo al otro sin utilizar las manos.",
+        "Misión 3: construir una torre utilizando diez vasos.",
+        "Misión 4: representar una palabra para que otro equipo la adivine.",
+        "Misión 5: ordenarse por fecha de cumpleaños sin hablar.",
+        "Misión 6: inventar y cantar una breve estrofa relacionada con la unidad.",
+        "Al finalizar el tiempo, reúnan al grupo para compartir algunos resultados.",
+        "Cierren destacando las formas de colaboración y creatividad que aparecieron."
+      ],
+      "estado": "publicado",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103965,
+        "_nanoseconds": 249000000
+      }
+    },
+    {
+      "id": "recurso_1787103965387_3",
+      "titulo": "Cambio de lugar si…",
+      "categoria": "juegos",
+      "descripcion": "Un juego de movimiento para conocerse de manera dinámica y descubrir gustos, experiencias y búsquedas compartidas.",
+      "objetivo": "Romper el hielo, favorecer el conocimiento mutuo y reconocer experiencias comunes dentro del grupo.",
+      "duracion": "15–25 minutos",
+      "participantes": "10–35 personas",
+      "materiales": [
+        "Una silla menos que la cantidad de participantes"
+      ],
+      "pasos": [
+        "Coloquen las sillas en círculo, dejando una silla menos que la cantidad de participantes.",
+        "Todos se sientan excepto una persona, que permanece de pie en el centro.",
+        "La persona del centro dice: Cambio de lugar si… y completa la frase con algo verdadero sobre sí misma.",
+        "Quienes coincidan con la afirmación deben levantarse y buscar otra silla.",
+        "No está permitido sentarse nuevamente en la misma silla ni ocupar una silla contigua.",
+        "La persona que quede sin lugar pasa al centro y propone una nueva afirmación.",
+        "Comiencen con frases simples, como: disfrutás cantar o tenés una mascota.",
+        "Luego incorporen frases como: alguna vez llegaste a un grupo sin conocer a nadie.",
+        "También pueden usar: alguien tuvo un gesto que te cambió el día, te cuesta pedir ayuda o querés mejorar algo de tu comunidad.",
+        "Cierren recuperando algunas semejanzas inesperadas que hayan descubierto."
+      ],
+      "estado": "publicado",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103965,
+        "_nanoseconds": 387000000
+      }
+    },
+    {
+      "id": "recurso_1787103965498_4",
+      "titulo": "Lo que llevo en la mochila",
+      "categoria": "reflexiones",
+      "descripcion": "Una reflexión personal que utiliza la imagen de una mochila para reconocer las preocupaciones, dones, vínculos y esperanzas que cada persona lleva consigo.",
+      "objetivo": "Ayudar a revisar el momento personal, agradecer lo recibido, reconocer las cargas y descubrir qué dones pueden ponerse al servicio de los demás.",
+      "duracion": "35–45 minutos",
+      "participantes": "6–30 personas",
+      "materiales": [
+        "Hojas con el dibujo de una mochila",
+        "Lapiceras o marcadores",
+        "Música instrumental",
+        "Parlante"
+      ],
+      "pasos": [
+        "Preparen un ambiente tranquilo y comiencen con unos minutos de silencio.",
+        "Entreguen a cada participante una hoja con el dibujo de una mochila.",
+        "Inviten a imaginar que todo lo que forma parte de su vida actual debe entrar en esa mochila.",
+        "Dentro del dibujo, cada persona escribe aquello que desea conservar: personas, aprendizajes, sueños, dones y experiencias.",
+        "Fuera de la mochila, escribe aquello que necesita soltar, transformar o compartir para que pese menos.",
+        "Dejen algunos minutos de silencio para observar lo escrito.",
+        "Pregunten: ¿qué está ocupando más espacio en mi vida?",
+        "Pregunten: ¿qué carga estoy intentando llevar sin ayuda?",
+        "Pregunten: ¿qué don puedo poner al servicio de los demás?",
+        "Pregunten: ¿qué quiero confiarle hoy a Dios?",
+        "Quien lo desee puede compartir una palabra o un descubrimiento.",
+        "Cierren con una oración espontánea o con la elección de un compromiso personal."
+      ],
+      "estado": "publicado",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103965,
+        "_nanoseconds": 498000000
+      }
+    },
+    {
+      "id": "recurso_1787103965621_5",
+      "titulo": "Mirar con otros ojos",
+      "categoria": "reflexiones",
+      "descripcion": "Una propuesta para revisar las primeras impresiones y descubrir cuánto desconocemos de la historia y las experiencias de otras personas.",
+      "objetivo": "Reconocer prejuicios, desarrollar una mirada más empática y aprender a acercarse a cada persona con respeto y profundidad.",
+      "duracion": "30–40 minutos",
+      "participantes": "8–25 personas",
+      "materiales": [
+        "Fotografías variadas de personas",
+        "Hojas",
+        "Lapiceras o marcadores"
+      ],
+      "pasos": [
+        "Distribuyan las fotografías sobre una mesa o en el centro del círculo.",
+        "Cada participante elige una imagen sin conocer su contexto real.",
+        "En una hoja, escribe qué imagina sobre la vida, el estado de ánimo y las preocupaciones de esa persona.",
+        "Luego responde qué aspectos de su historia no puede conocer únicamente con mirarla.",
+        "Formen grupos pequeños para compartir lo descubierto.",
+        "Conversen sobre situaciones cotidianas en las que juzgamos a alguien antes de conocerlo.",
+        "Pregunten: ¿cuánto de lo que pensé era observación y cuánto era prejuicio?",
+        "Pregunten: ¿cuándo me sentí juzgado sin que conocieran mi historia?",
+        "Pregunten: ¿qué cambiaría si intentara ver a cada persona como la ve Jesús?",
+        "Cierren con un minuto de silencio, pensando en alguien a quien desean mirar de una manera nueva."
+      ],
+      "estado": "publicado",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103965,
+        "_nanoseconds": 621000000
+      }
+    },
+    {
+      "id": "recurso_1787103965760_6",
+      "titulo": "Estaciones del encuentro",
+      "categoria": "retiros",
+      "descripcion": "Un recorrido personal y comunitario por cuatro estaciones dedicadas a la identidad, los vínculos, la presencia de Dios y el compromiso.",
+      "objetivo": "Ofrecer un espacio de reflexión integral que ayude a reconocer la propia historia, agradecer los vínculos y elegir un paso concreto.",
+      "duracion": "90–120 minutos",
+      "participantes": "12–50 personas",
+      "materiales": [
+        "Carteles para identificar cada estación",
+        "Hojas",
+        "Sobres",
+        "Lapiceras y marcadores",
+        "Espejos pequeños",
+        "Velas LED",
+        "Hilo",
+        "Parlante y música instrumental"
+      ],
+      "pasos": [
+        "Preparen cuatro espacios diferenciados y coloquen en cada uno las instrucciones y los materiales necesarios.",
+        "Formen cuatro grupos equilibrados.",
+        "Expliquen que cada estación tendrá una duración aproximada de veinte minutos.",
+        "Inviten a realizar el recorrido manteniendo un clima de silencio y respeto.",
+        "Hagan rotar los grupos hasta que todos hayan pasado por las cuatro estaciones.",
+        "Al finalizar, reúnan a todos alrededor de una vela central.",
+        "Inviten a compartir libremente una palabra que resuma el recorrido.",
+        "Cierren con una oración comunitaria y la presentación de los compromisos personales."
+      ],
+      "estado": "publicado",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103965,
+        "_nanoseconds": 760000000
+      },
+      "programa": {
+        "Estación 1 — Quién soy": [
+          "Contemplarse en un espejo durante unos instantes.",
+          "Escribir cualidades, búsquedas y aspectos personales que se desean valorar o transformar."
+        ],
+        "Estación 2 — Quiénes caminan conmigo": [
+          "Crear un mapa con las personas significativas de la propia vida.",
+          "Reconocer qué recibió cada uno de esas personas y qué puede ofrecerles."
+        ],
+        "Estación 3 — Dios en mi historia": [
+          "Recordar momentos en los que cada persona se sintió acompañada, sostenida o iluminada.",
+          "Escribir una breve oración de agradecimiento o confianza."
+        ],
+        "Estación 4 — Mi próximo paso": [
+          "Revisar lo vivido durante el recorrido.",
+          "Elegir un compromiso personal, concreto y posible."
+        ]
+      }
+    },
+    {
+      "id": "recurso_1787103965916_7",
+      "titulo": "Volver al centro",
+      "categoria": "retiros",
+      "descripcion": "Una jornada de retiro para detenerse, revisar las prioridades personales y renovar el vínculo con Dios y con la comunidad.",
+      "objetivo": "Crear un espacio de silencio, reflexión y encuentro que permita reconocer dónde está puesto el corazón y elegir nuevas prioridades.",
+      "duracion": "Jornada completa — aproximadamente 7 horas",
+      "participantes": "10–40 personas",
+      "materiales": [
+        "Biblias",
+        "Hojas",
+        "Sobres",
+        "Lapiceras y marcadores",
+        "Velas LED",
+        "Parlante",
+        "Cinta adhesiva",
+        "Elementos para el desayuno, el almuerzo y la merienda"
+      ],
+      "pasos": [
+        "Preparen previamente los espacios para la oración, el trabajo personal y los momentos comunitarios.",
+        "Reciban a cada participante de manera personal y favorezcan un clima tranquilo desde el comienzo.",
+        "Presenten el lema de la jornada y expliquen brevemente el recorrido propuesto.",
+        "Alternen momentos personales, intercambios en grupos pequeños y encuentros de toda la comunidad.",
+        "Durante la actividad del mapa de prioridades, inviten a identificar qué cosas ocupan más tiempo y cuáles necesitan recuperar su lugar.",
+        "Antes del cierre, cada participante escribe un compromiso concreto y posible.",
+        "Guarden los compromisos en sobres identificados con el nombre de cada participante.",
+        "Entreguen nuevamente los sobres unas semanas después para ayudar a revisar el camino recorrido."
+      ],
+      "estado": "publicado",
+      "autor": "Equipo Página Gen",
+      "fechaCreacion": {
+        "_seconds": 1787103965,
+        "_nanoseconds": 916000000
+      },
+      "programa": {
+        "09:30 — Recepción": [
+          "Bienvenida y desayuno compartido."
+        ],
+        "10:00 — Apertura": [
+          "Dinámica breve de presentación.",
+          "Presentación del lema: ¿Dónde está hoy tu corazón?"
+        ],
+        "10:40 — Reflexión personal": [
+          "Lectura de Lucas 10, 38–42.",
+          "Tiempo de reflexión personal a partir de la lectura."
+        ],
+        "11:20 — Tiempo de silencio": [
+          "Caminata personal o permanencia en un espacio tranquilo."
+        ],
+        "12:00 — Intercambio": [
+          "Conversación en grupos pequeños sobre lo vivido durante la mañana."
+        ],
+        "13:00 — Almuerzo": [
+          "Almuerzo y tiempo libre."
+        ],
+        "14:15 — Mapa de prioridades": [
+          "Actividad personal para reconocer qué ocupa actualmente el tiempo, la energía y el corazón."
+        ],
+        "15:00 — Reconciliación y agradecimiento": [
+          "Momento para reconocer aquello que necesita ser sanado.",
+          "Escritura de una oración de agradecimiento."
+        ],
+        "15:45 — Compromiso": [
+          "Elección y escritura de un compromiso personal."
+        ],
+        "16:15 — Celebración": [
+          "Oración o celebración comunitaria."
+        ],
+        "16:45 — Despedida": [
+          "Merienda y cierre del retiro."
+        ]
+      }
     }
   ],
   "deletes": []

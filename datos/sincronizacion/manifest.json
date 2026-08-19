@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T01:43:47.017Z",
+  "generatedAt": "2026-08-19T03:05:03.940Z",
   "collections": {
     "canciones": {
       "revision": "5c474ee9f29458d8",
@@ -17,9 +17,9 @@
       "delta": "datos/sincronizacion/meditaciones.delta.json"
     },
     "recursos": {
-      "revision": "e44cd1feb5da9c01",
-      "previousRevision": "",
-      "count": 1,
+      "revision": "e27d8aebc6b1e46e",
+      "previousRevision": "e44cd1feb5da9c01",
+      "count": 9,
       "snapshot": "datos/sincronizacion/recursos.json",
       "delta": "datos/sincronizacion/recursos.delta.json"
     },
