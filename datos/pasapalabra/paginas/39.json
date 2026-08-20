@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 39,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 40,
   "items": [
+    {
+      "id": "pasapalabra_1768437218666",
+      "titulo": "TRABAJAR POR LOS VALORES",
+      "fecha": "15/01/2026",
+      "reflexion": "Trabajar por los valores es una decisión diaria, donde se revela nuestro carácter.\nLos valores auténticos guían el modo cómo tratamos a los demás, especialmente cuando ellos no tienen nada que ofrecernos a cambio.\nEs un llamado a la coherencia: actuar de la misma manera cuando nos observan y cuando nadie nos ve. Trabajar por los valores exige valentía, ya que a menudo significa ir contra la corriente del mundo, rechazar atajos fáciles y defender la verdad incluso cuando cuesta caro.\nLos valores vividos con sinceridad generan confianza y alimentan la esperanza en un mundo más justo.\nTrabajar por los valores es permitir que nuestras acciones hablen más que nuestras palabras, transformando la fe, la ética y el amor al prójimo en gestos concretos que dan sentido a la vida."
+    },
     {
       "id": "pasapalabra_1768355076217",
       "titulo": "SER FIELES",
@@ -34,12 +40,6 @@
       "titulo": "COMUNICAR LA ALEGRÍA",
       "fecha": "10/01/2026",
       "reflexion": "COMUNICAR LA ALEGRÍA \nLa alegría que se comunica nace de la esperanza, de la confianza de que la vida tiene sentido y de que el bien puede florecer incluso en las circunstancias más sencillas.\nCuando compartimos la alegría, ofrecemos al otro un espacio para respirar.\nUn gesto de acogida, una palabra sincera, una mirada atenta pueden renovar las fuerzas del cansancio. Esta alegría se ofrece con humildad, respetando el tiempo y el dolor de cada uno.\nComunicar alegría es también un acto de responsabilidad cristiana: reconocer que nuestras actitudes influyen en el ambiente que nos rodea.\nComunicar alegría es un servicio silencioso. Es sembrar luz sin esperar aplausos, confiando en que, en algún momento, esta luz, que viene de Dios, encontrará un corazón dispuesto a recibirla."
-    },
-    {
-      "id": "pasapalabra_1767937597617",
-      "titulo": "COMPARTIR LOS SUFRIMIENTOS DE QUIEN ESTÁ A NUESTRO LADO",
-      "fecha": "09/01/2026",
-      "reflexion": "Compartir el sufrimiento del otro es una de las formas más profundas de respeto. No es invadir, no es ocupar el lugar de alguien, es acompañarlo.\nHe aprendido que nadie se fortalece viviendo aislado en su propio dolor. La vida, a veces, pesa demasiado para uno solo.\nPor eso, cuando alguien a mi lado sufre, sé que mi papel no es ofrecer respuestas inmediatas, sino ofrecer presencia.\nEl dolor del otro me llama a salir de mí mismo, a ver más allá de lo cómodo, a recordar que el corazón humano también fue hecho para latir también por otros corazones.\nCompartir el sufrimiento es un gesto silencioso, pero lleno de dignidad.\nY, en el fondo, sé que cuando tiendo la mano a alguien que sufre, es a mí mismo a quien estoy ayudando."
     }
   ]
 }

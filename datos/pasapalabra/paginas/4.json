@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 4,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 5,
   "items": [
+    {
+      "id": "pasapalabra_1785703237025",
+      "titulo": "COMPARTIR TUS BIENES",
+      "fecha": "02/08/2026",
+      "reflexion": "Los bienes que poseemos alcanzan su verdadero significado cuando los ponemos al servicio de los demás, ya sean materiales, intelectuales o espirituales.\nEn la parábola de los talentos, Jesús enseña que el siervo fiel es aquél que hace fructificar los dones recibidos. Dios confía a cada persona habilidades y oportunidades para el bien común.\nPoner nuestras posesiones en circulación no significa actuar con irresponsabilidad, sino reconocer que somos administradores y no dueños absolutos de todo lo que recibimos.\nCuanto más compartimos con amor, más nos acercamos al corazón de Cristo, que vino al mundo para servir y entregarse por completo."
+    },
     {
       "id": "pasapalabra_1785642908516",
       "titulo": "COMPARTIR TUS BIENES",
@@ -34,12 +40,6 @@
       "titulo": "VALORAR EL SUFRIMIENTO",
       "fecha": "29/07/2026",
       "reflexion": "En la visión cristiana, el sufrimiento puede enseñarnos a amar de forma más verdadera y pura. Quien sufre llega a comprender mejor al prójimo, practicando la compasión, la paciencia y la solidaridad.\nJesucristo transformó la cruz, símbolo de dolor y humillación, en un camino de amor y salvación.\nCuando unimos nuestro dolor al sufrimiento de Cristo, este se transforma en ofrenda y oración.\nNo todo sufrimiento tiene explicación inmediata, pero ningún sufrimiento vivido con amor es en vano.\nQue delante de las dificultades, podamos pedir a Dios que no nos quite la cruz de nuestros hombros, sino que nos dé fuerza, sabiduría y fe para cargarla con esperanza."
-    },
-    {
-      "id": "pasapalabra_1785205562517",
-      "titulo": "ANUNCIAR EL AMOR DE DIOS",
-      "fecha": "28/07/2026",
-      "reflexion": "El amor de Dios debe ser anunciado con nuestra propia vida.\nYo descubrí que Dios me ama inmensamente gracias al testimonio de hermanos y hermanas que me amaron desinteresadamente. Vi que la motivación era el amor de Dios.\nPor eso, me sentí impulsado a hacer lo mismo.\nEl amor de Dios se manifiesta en el cuidado, en el perdón, en la paciencia, en la esperanza y en todo lo que ofrecemos a quien está a nuestro lado.\nCuando el amor de Dios es genuino en nosotros, se desborda naturalmente hacia los demás.\nAnunciemos el amor de Dios primero con la vida, después con las palabras."
     }
   ]
 }

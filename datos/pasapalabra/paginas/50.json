@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1762912894008",
+      "titulo": "PONER EN MARCHA LA GENEROSIDAD",
+      "fecha": "10/11/2025",
+      "reflexion": "La verdadera generosidad nace del reconocimiento de que todo lo que recibimos es también una oportunidad para servir.\nEn un mundo marcado por la prisa y el egoísmo, ser generoso es un acto que da esperanza.\nDespertar la generosidad es, fundamentalmente, despertar lo más divino que hay en nosotros: el amor que se multiplica cuando lo compartimos.\nPoner la generosidad en práctica es transformar el amor en gestos concretos: ver, escuchar y actuar.\nSer generoso es ofrecer tiempo a quienes lo necesitan, compartir lo que tenemos sin esperar nada a cambio, estar presente cuando el otro más lo necesita.\nLa generosidad en acción construye relaciones que se manifiestan en la reciprocidad.\nLa generosidad reaviva la esperanza en los corazones y los contagia con amor recíproco."
+    },
     {
       "id": "pasapalabra_1762913770191",
       "titulo": "REALIZAR INICIATIVAS DE  PAZ",
@@ -34,12 +40,6 @@
       "titulo": "EJERCITAR EL ARTE DE LA PAZ",
       "fecha": "05/11/2025",
       "reflexion": "Así como el cuerpo necesita ejercitar constantemente para mantenerse sano, el espíritu también necesita entrenamiento diario para cultivar la serenidad, la empatía y el equilibrio interior.\nEjercitar el arte de la paz significa actuar con serenidad, incluso ante las provocaciones. Es demostrar armonía en los pequeños gestos: en el tono de voz, en una mirada acogedora, en palabras que reconfortan en lugar de herir.\nEs un camino de práctica continua que requiere humildad para reconocer los propios límites y valentía para cambiar lo que necesita ser transformado.\nCuando ejercitamos el arte de la paz, no solo encontramos tranquilidad interior, sino que nos convertimos en instrumentos de paz en el mundo que nos rodea."
-    },
-    {
-      "id": "pasapalabra_1762913272227",
-      "titulo": "INICIATIVA Y LABORIOSIDAD",
-      "fecha": "04/11/2025",
-      "reflexion": "Tener iniciativa es dar el primer paso, sin esperar que las circunstancias cambien o que alguien te indique el camino. Es comprender lo que hay que hacer y actuar, incluso ante la incertidumbre. La iniciativa nace del deseo de transformar y lograr que las cosas sucedan.\nPero la iniciativa por sí sola no basta. Es la laboriosidad que sostiene el propósito iniciado.\nTrabajar con dedicación, constancia y empeño es lo que hace que mostremos productividad.\nLa laboriosidad es la virtud de la perseverancia en la acción; es continuar incluso cuando el entusiasmo inicial disminuye, cuando aparece el cansancio, cuando los resultados tardan en llegar.\nQuienes une iniciativa y laboriosidad comienzan con determinación y terminan con logros.\nActuar y perseverar es el secreto de quien transforma los sueños en realidad."
     }
   ]
 }

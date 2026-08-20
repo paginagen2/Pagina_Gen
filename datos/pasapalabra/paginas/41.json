@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 41,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 42,
   "items": [
+    {
+      "id": "pasapalabra_1767405386168",
+      "titulo": "VALENTÍA PARA CONSTRUIR LA PAZ",
+      "fecha": "03/01/2026",
+      "reflexion": "Construir la paz exige un tipo de valentía especial, que se revela en la vida cotidiana, silenciosa y persistente. Es el coraje de permanecer humano cuando el mundo parece endurecerse; de ​​mantener el corazón abierto cuando las heridas aún duelen; de elegir comprender cuando sería más fácil juzgar.\nLa paz se teje poco a poco, con palabras que no hieren, con actitudes que acogen, con gestos que desarman. Exige fuerza para sostener el diálogo cuando la impaciencia presiona por rupturas.\nLa verdadera valentía para construir la paz consiste en mirar al otro como un hermano, incluso cuando la historia, la cultura o la opinión nos separan. Es ser capaces de sembrar serenidad donde hay conflicto, respeto donde hay intolerancia, reconciliación donde hay heridas."
+    },
     {
       "id": "pasapalabra_1767317421876",
       "titulo": "MIRAR A TODOS CON BENEVOLENCIA",
@@ -34,12 +40,6 @@
       "titulo": "ENCONTRAR EL MOMENTO PARA ORAR",
       "fecha": "29/12/2025",
       "reflexion": "Hay un tipo de silencio que no es vacío; es refugio. En él, la gente se  arregla por dentro, como quien ordena la casa después de una larga visita. Ponemos cada sentimiento en su lugar, abrimos una rendija para que entre la luz, dejamos que circule el aire. Y, cuando nos damos cuenta, nos sentimos más ligeros, más completos, más nosotros mismos.\nEl retirarse a orar tiene algo de sagrado, aunque sea simple. Puede ocurrir en un rincón tranquilo de la casa, en la oración, en una respiración lenta o incluso en esa breve pausa entre un pensamiento y otro.\nCuando aprendemos a retirarnos a orar en el momento oportuno, descubrimos que la vida no exige que seamos fuertes todo el tiempo. Solo pide que seamos auténticos. Y ser auténticos, a veces, es admitir el cansancio, es bajar el ritmo, es cuidar nuestra propia llama antes que el viento la apague.\nRetirarse a orar es volver a nuestro interior, al centro, a lo esencial."
-    },
-    {
-      "id": "pasapalabra_1766890668354",
-      "titulo": "LLEVAR EL ESPÍRITU DE FAMILIA A TODAS PARTES",
-      "fecha": "28/12/2025",
-      "reflexion": "El espíritu de familia es una forma de ser que nace de cómo esperamos la llegada de la otra persona, de cómo se guarda silencio para escuchar, de cómo se ofrece el último pedazo sin ceremonias.\nCuando llevamos esto al mundo, también llevamos la capacidad de acoger. Es como si, dentro de nosotros, siempre hubiera un lugar en la mesa para alguien más.\nLlevar el espíritu de familia es aprender a tratar a cada persona con la dignidad que se da a los que amamos.\nY lo curioso es que cuanto más lo compartimos, más crece este espíritu.\nLlevar el espíritu de familia a todas partes es esto: ser una presencia que reconforta, un gesto que acerca a las personas, una palabra que crea pertenencia. Es recordarle al mundo, y a nosotros mismos, que nadie necesita caminar solo."
     }
   ]
 }

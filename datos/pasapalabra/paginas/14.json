@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 14,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 15,
   "items": [
+    {
+      "id": "pasapalabra_1780535980087",
+      "titulo": "AYUDAR A LOS POBRES",
+      "fecha": "04/06/2026",
+      "reflexion": "Ayudar a los pobres no se trata solo de realizar un acto de caridad, sino de reconocer en el otro, a menudo invisible para la sociedad, la misma dignidad que anhelamos para nosotros mismos.\nLa pobreza no es solo la falta de recursos materiales; también puede significar la ausencia de oportunidades, de voz y de esperanza.\nAdemás, esta ayuda nos transforma. Nos enseña gratitud por lo que tenemos, sensibilidad delante de las injusticias y responsabilidad social.\nAl tender la mano a quien lo necesita, comprendemos que la verdadera riqueza no reside en acumular, sino en compartir.\nCuando cuidamos de los más vulnerables, construimos una sociedad más justa."
+    },
     {
       "id": "pasapalabra_1783078819484",
       "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
@@ -34,12 +40,6 @@
       "titulo": "DAR TESTIMONIO DE CERCANÍA",
       "fecha": "01/06/2026",
       "reflexion": "Podemos testimoniar la cercanía de varias maneras: nuestra cercanía a Jesús, a sus enseñanzas, especialmente al mandamiento del amor recíproco; y la cercanía entre nosotros, precisamente la práctica de este mandamiento del amor.\nEste es el anuncio que Jesús pidió a sus discípulos que hicieran: el anuncio de la cercanía del Reino de los Cielos.\nPuedo testimoniar esta cercanía como una actitud individual, acogiendo a todos, a los necesitados, a los alejados de Dios; y podemos testimoniar la cercanía entre nosotros, viviendo el amor recíproco, que es también una forma de anunciar el Reino de los Cielos, mostrando cercanía como testimonio."
-    },
-    {
-      "id": "pasapalabra_1780200139903",
-      "titulo": "EL AMOR UNE",
-      "fecha": "31/05/2026",
-      "reflexion": "Cuando hay amor sincero entre las personas, nace la comprensión, crece el respeto y florece la unidad. Incluso en las diferencias, el amor encuentra caminos para unir y acortar las distancias.\nAmar es salir de uno mismo, acoger al otro tal como es y buscar su bienestar. Este tipo de amor genera reciprocidad.\nEl amor puede ser un instrumento de unión para todos, cuando las palabras nos acercan, las acciones construyen relaciones y el corazón siempre está abierto al diálogo.\nUn amor vivido con lealtad se convierte en un hilo invisible que entrelaza nuestras historias. Nuestras vidas se unen más profundamente y descubrimos que el amor es el camino más seguro hacia la verdadera unidad."
     }
   ]
 }

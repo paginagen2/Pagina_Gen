@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 29,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 30,
   "items": [
+    {
+      "id": "pasapalabra_1773189677590",
+      "titulo": "CON NUESTRA ACTITUD, MOSTRAR QUE ACOGEMOS A LA OTRA PERSONA",
+      "fecha": "11/03/2026",
+      "reflexion": "Acoger es una acción concreta. Mostrar con nuestras actitudes que acogemos a las personas es transformar el cuidado en una práctica diaria, es hacer que el otro se sienta visto, escuchado y respetado.\nA menudo, la acogida se revela en las cosas sencillas: un tiempo dedicado, un silencio respetuoso, una ayuda ofrecida sin ser solicitada. Son estos gestos que comunican más que las palabras.\nCuando nuestras actitudes reflejan acogida, creamos espacios seguros donde las personas pueden ser quienes son, sin temor a ser juzgadas.\nLa verdadera hospitalidad nace de la coherencia entre lo que decimos y lo que hacemos, y se convierte en un testimonio vivo de amor al prójimo."
+    },
     {
       "id": "pasapalabra_1773101213044",
       "titulo": "BUSCAR SOLUCIONES DE CONCORDIA",
@@ -34,12 +40,6 @@
       "titulo": "NO A LA CULTURA DEL DESCARTE",
       "fecha": "09/03/2026",
       "reflexion": "Decir no a la cultura del descarte es afirmar con acciones concretas, que nadie debe ser discriminado. Es reconocer que cada persona posee un valor que no puede ser ignorado ni descartado.\nLa cultura de la exclusión se manifiesta cuando cerramos los ojos, cuando juzgamos antes de conocer, cuando construimos muros entre nosotros. Ella crece en el silencio cómplice y en la indiferencia disfrazada de normalidad.\nOptar por el camino opuesto es practicar la inclusión en la vida cotidiana: escuchar a quienes no tienen voz, acoger a quienes fueron heridos, dar espacio a quienes siempre fueron marginados.\nNo a la cultura del descarte es, en el fondo, un sí radical a la dignidad humana y a la construcción de una sociedad más justa, sensible y fraterna."
-    },
-    {
-      "id": "pasapalabra_1772932785405",
-      "titulo": "EXPLORAR NUEVAS VÍAS DE PROXIMIDAD",
-      "fecha": "08/03/2026",
-      "reflexion": "En este camino, la novedad no reside en la otra persona, sino en mí mismo: en mi disposición de amar sin esperar nada a cambio, de servir sin buscar aplausos, de estar presente no por obligación, sino por elección. Es transformar la proximidad en un acto consciente de amor por el otro.\nLa proximidad no es solo estar físicamente cerca, sino crear relaciones.\nAl explorar estos caminos, descubrimos que la verdadera conexión nace de compartir dones.\nEstar cerca de una manera nueva, es elegir ir más allá de los viejos hábitos de presencia. Es no conformarse solo con estar al lado de alguien, sino buscar comprender, acoger y cuidar."
     }
   ]
 }

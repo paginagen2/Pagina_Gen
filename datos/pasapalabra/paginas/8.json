@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 8,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 9,
   "items": [
+    {
+      "id": "pasapalabra_1783728203138",
+      "titulo": "PROMOVER UNA VERDADERA FRATERNIDAD",
+      "fecha": "11/07/2026",
+      "reflexion": "Vivir la fraternidad es una decisión diaria de abrir nuestros corazones para acoger, comprender y servir.\nPromover una verdadera fraternidad implica un diálogo sincero, una mano extendida, una palabra de esperanza, la capacidad de compartir alegrías y de cargar juntos los sufrimientos.\nLa verdadera fraternidad nos recuerda que todos somos interdependientes y que cada persona aporta algo único.\nQue cada día sea una oportunidad para sembrar fraternidad mediante acciones sencillas pero sinceras. De esta manera, contribuiremos por un mundo más unido y lleno de esperanza."
+    },
     {
       "id": "pasapalabra_1783645978081",
       "titulo": "COMPROMETERSE EN FAVOR DE LA UNIDAD",
@@ -34,12 +40,6 @@
       "titulo": "VIVIR LA CERCANÍA",
       "fecha": "06/07/2026",
       "reflexion": "En un mundo acelerado, donde todo parece urgente, la cercanía nos invita a bajar el ritmo para ver al otro con atención, respeto y cariño.\nLa cercanía también requiere un corazón abierto. Acercarse al otro implica salir de uno mismo y construir una relación donde antes solo había distancia. Es en este encuentro auténtico donde nace y se fortalece la comunión.\nVivir en cercanía es elegir estar con el otro, y no solo a su lado. Es hacer de la propia vida un espacio de acogida, donde nadie se sienta solo."
-    },
-    {
-      "id": "pasapalabra_1783221022646",
-      "titulo": "ESTAR DISPUESTO A ESCUCHAR",
-      "fecha": "05/07/2026",
-      "reflexion": "La disponibilidad para escuchar es una forma silenciosa de amor.\nEscuchar no se limita a oír palabras, sino que implica establecer una relación con el otro, percibir sus necesidades, sus emociones e incluso lo que no se dice. Requiere humildad y la capacidad de dejar de lado el propio punto de vista para dar espacio al otro.\nEstar dispuesto a escuchar también significa aprender a no juzgar. Muchas veces, estamos listos para responder incluso antes de haber comprendido la realidad.\nLa escucha auténtica genera confianza y abre caminos para la comprensión mutua.\nCultivar esta disposición nos hace más atentos, más humanos y más capaces de construir relaciones genuinas."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 27,
   "tamanioPagina": 6,
-  "total": 309,
+  "total": 310,
   "siguientePagina": 28,
   "items": [
+    {
+      "id": "pasapalabra_1774132736936",
+      "titulo": "PRESTAR ATENCIÓN A QUIENES ENCONTRAMOS",
+      "fecha": "22/03/2026",
+      "reflexion": "En el vertiginoso ritmo de la vida diaria, pasamos de largo ante rostros, historias y sentimientos sin darnos cuenta.\nPrestar atención no es solo ver, sino reconocer al otro como alguien que lleva consigo luchas, sueños, miedos y esperanzas, igual que nosotros.\nA veces, un simple gesto, una palabra amable, un silencio respetuoso, puede ser justo lo que alguien necesita para seguir adelante.\nCuando aprendemos a ver a las personas más allá de las apariencias, ampliamos nuestra sensibilidad, nuestra paciencia y nuestra capacidad de amar.\nPrestar atención a los demás es una invitación a recordar que todos estamos en un camino y que nadie debería pasar desapercibido a nuestro lado."
+    },
     {
       "id": "pasapalabra_1774049162922",
       "titulo": "TENER COMPASIÓN POR LOS NECESITADOS",
@@ -34,12 +40,6 @@
       "titulo": "CUIDAR LA CASA COMÚN",
       "fecha": "17/03/2026",
       "reflexion": "La Tierra es un lugar sagrado donde la vida se manifiesta en todas sus formas. Estamos invitados a no explotarla sin límites, sino a protegerla, preservarla y respetarla.\nCuidar de la casa común es también un acto de amor al prójimo, especialmente a los más pobres, que siempre son los más afectados por las crisis ambientales.\nLa ecología comienza en el corazón: en la forma en que miramos el mundo.\nPodemos ser guardianes del planeta y transformar nuestra forma de vivir en un testimonio de que es posible habitar la Tierra sin destruirla, haciendo de ella un espacio de vida, justicia y esperanza."
-    },
-    {
-      "id": "pasapalabra_1773622169942",
-      "titulo": "APOYARNOS MUTUAMENTE",
-      "fecha": "16/03/2026",
-      "reflexion": "Apoyarnos mutuamente es más que un gesto de bondad; es una necesidad del ser humano.\nApoyar a alguien significa estar presente cuando su dolor es más grande que sus fuerzas.\nReconocer que nos necesitamos no nos hace débiles, sino más humanos.\nDios a menudo se manifiesta a través de las personas: en el consejo de un amigo, en un abrazo sincero, en la paciencia de quien camina a nuestro lado.\nCuando nos apoyamos mutuamente, creamos lazos de confianza, construimos comunidades más solidarias y transformamos la fragilidad en esperanza."
     }
   ]
 }
