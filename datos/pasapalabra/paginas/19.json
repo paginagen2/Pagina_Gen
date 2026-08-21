@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 19,
   "tamanioPagina": 6,
-  "total": 310,
+  "total": 311,
   "siguientePagina": 20,
   "items": [
+    {
+      "id": "pasapalabra_1778301865579",
+      "titulo": "PONER EN PRÁCTICA LA CARIDAD",
+      "fecha": "09/05/2026",
+      "reflexion": "La caridad se vuelve genuina cuando se transforma en acción, en gestos concretos de amor y cuidado al prójimo.\nPoner en práctica la caridad es mirar alrededor y darnos cuenta de quién necesita apoyo, atención o una palabra amiga. Muchas veces, pequeños gestos pueden llevar consuelo y esperanza a quien más lo necesita.\nLa caridad también nos invita a actuar con humildad y generosidad. El bien que hacemos, incluso cuando parece pequeño, tiene el poder de difundir bondad.\nCuando vivimos la caridad en nuestro día a día, contribuimos a construir un mundo más fraterno y más humano.\nLa caridad es amor en acción; es un camino concreto de servicio, solidaridad y cuidado para todos."
+    },
     {
       "id": "pasapalabra_1778206993291",
       "titulo": "ABRIRSE AL AMOR DE DIOS",
@@ -34,12 +40,6 @@
       "titulo": "TRABAJAR POR EL BIEN COMÚN",
       "fecha": "04/05/2026",
       "reflexion": "Trabajar por el bien común es comprender que nuestras acciones afectan no solo a nosotros mismos, sino también a las personas a nuestro alrededor y a la sociedad en su conjunto.\nCuando pensamos en el bien colectivo, comenzamos a considerar cuánto pueden contribuir nuestras actitudes para un mundo mejor.\nMuchas veces, las pequeñas acciones marcan una gran diferencia. El bien común nace precisamente de las decisiones cotidianas, sencillas pero llenas de significado.\nTrabajar por el bien común exige la conciencia de reconocer que todos tienen dignidad y merecen oportunidades, respeto y cuidado.\nBuscar el bien común fortalece valores como la solidaridad, la justicia y la fraternidad."
-    },
-    {
-      "id": "pasapalabra_1777767283628",
-      "titulo": "JUNTOS SOMOS MÁS FUERTES",
-      "fecha": "03/05/2026",
-      "reflexion": "Desde los primeros pasos de la vida, aprendemos que necesitamos unos de los otros. Cuando caminamos juntos, compartimos fuerzas, dividimos las cargas y multiplicamos las alegrías.\nLo que parece imposible para una persona muchas veces se hace posible cuando hay colaboración, apoyo y amistad. Cada persona posee diferentes talentos, experiencias y perspectivas, y cuando estos dones se unen, forman una fuerza mucho mayor.\nEn los momentos difíciles de la vida, es la presencia del otro que nos da fuerzas. Por lo tanto, vale la pena recordar: cuando elegimos caminar juntos, descubrimos que, en efecto, juntos somos más fuertes."
     }
   ]
 }

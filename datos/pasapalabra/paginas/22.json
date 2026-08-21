@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 22,
   "tamanioPagina": 6,
-  "total": 310,
+  "total": 311,
   "siguientePagina": 23,
   "items": [
+    {
+      "id": "pasapalabra_1776736911516",
+      "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
+      "fecha": "21/04/2026",
+      "reflexion": "La conciencia es como una luz que Dios enciende  dentro de nosotros. No grita, sino que guía.\nMuchas veces, acallamos esta voz con la prisa, el orgullo o el miedo. Pero la conciencia siempre regresa, recordándonos quiénes somos y quiénes podemos ser.\nEscuchar la voz de la conciencia es reconocer los errores, pedir perdón, recomenzar. Es elegir lo correcto, incluso cuando nadie está mirando. Es mantener la coherencia entre lo que decimos y lo que vivimos.\nQuien aprende a escuchar su propia conciencia camina con más serenidad, sabiendo que está en sintonía con la verdad y con el amor."
+    },
     {
       "id": "pasapalabra_1776654404374",
       "titulo": "¿LO QUIERES TÚ? ¡LO QUIERO TAMBIÉN YO!",
@@ -34,12 +40,6 @@
       "titulo": "COLABORAR CON QUIEN ENCUENTRE",
       "fecha": "16/04/2026",
       "reflexion": "Colaborar con las personas que encuentre es reconocer que siempre podemos ayudarnos unos a los otros.\nCuando elijo colaborar, dejo de lado el individualismo y cultivo la empatía. El otro no es mi competidor, sino un compañero de jornada.\nLa colaboración transforma los ambientes, aminora los conflictos y multiplica las soluciones, porque une diferentes talentos en torno a un mismo propósito.\nAl enseñar a alguien, aprendo cosas nuevas; al ayudar, crecemos juntos; al compartir, multiplico.\nAl colaborar con todos, ayudo a construir el Reino de Dios."
-    },
-    {
-      "id": "pasapalabra_1776212249322",
-      "titulo": "LLENAR LA JORNADA DE ACCIONES DE SOLIDARIDAD",
-      "fecha": "15/04/2026",
-      "reflexion": "Cada amanecer es una página en blanco que recibimos, y que podemos llenarla con gestos de solidaridad que transforman el día en algo más grande que nosotros mismos.\nLa solidaridad se manifiesta en ofrecer ayuda sin que nos la pidan, en compartir lo que tenemos y en pequeñas acciones que, sumadas, crean un ambiente más humano y acogedor a nuestro alrededor.\nCuando elegimos hacer el bien, nuestro corazón se expande, nuestra conciencia se ilumina y el día cobra sentido. La solidaridad rompe con el individualismo y nos recuerda que formamos parte de una misma familia humana.\nQue hoy, y cada nuevo día, podamos preguntarnos: \"¿Qué bien puedo hacer ahora?\"\nY que la respuesta se transforme en acción."
     }
   ]
 }

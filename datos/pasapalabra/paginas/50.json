@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 310,
+  "total": 311,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1762910974476",
+      "titulo": "HUMILDAD SINCERA",
+      "fecha": "11/11/2025",
+      "reflexion": "Ser verdaderamente humilde exige sinceridad, pues la humildad fingida es, en realidad, hipocresía.\nTiene humildad sincera quien reconoce sus propias limitaciones sin menospreciarse. Y, al mismo tiempo, valora a los demás sin exaltarlos exageradamente.\nSer humilde es saber que cada persona posee dones únicos y que juntos nos complementamos.\nLa verdadera humildad no busca reconocimiento, sino que se expresa en gestos sencillos y actitudes discretas de amor y servicio hacia todos.\nEs precisamente en el hecho de ponerse al servicio, donde se demuestra la humildad sincera, porque, servir con alegría es para quien es humilde, el mayor valor.\nLa humildad es el terreno fértil donde florece la grandeza del alma humana."
+    },
     {
       "id": "pasapalabra_1762912894008",
       "titulo": "PONER EN MARCHA LA GENEROSIDAD",
@@ -34,12 +40,6 @@
       "titulo": "DIFUNDIR EN TODO LUGAR EL AMOR VERDADERO",
       "fecha": "06/11/2025",
       "reflexion": "Cuando permitimos que la luz que llevamos en el corazón llegue a todas partes, irradiamos amor verdadero.\nEl amor no se mide solo por palabras o gestos, sino por la constante disposición a acoger y servir.\nEl amor verdadero no elige a quién tocar, pues no hace distinción entre personas; simplemente sucede, silencioso, generoso y paciente.\nCuando cultivamos este amor en nuestro interior, nos convertimos en sus instrumentos y difusores, sembrando paz donde hay conflicto, esperanza donde hay desánimo y empatía donde reina la indiferencia.\nQue cada día podamos ser pequeñas chispas de esta fuerza divina que todo lo renueva.\nAmar es, ante todo, irradiar vida, y quien ama de verdad jamás se siente infeliz."
-    },
-    {
-      "id": "pasapalabra_1762913264999",
-      "titulo": "EJERCITAR EL ARTE DE LA PAZ",
-      "fecha": "05/11/2025",
-      "reflexion": "Así como el cuerpo necesita ejercitar constantemente para mantenerse sano, el espíritu también necesita entrenamiento diario para cultivar la serenidad, la empatía y el equilibrio interior.\nEjercitar el arte de la paz significa actuar con serenidad, incluso ante las provocaciones. Es demostrar armonía en los pequeños gestos: en el tono de voz, en una mirada acogedora, en palabras que reconfortan en lugar de herir.\nEs un camino de práctica continua que requiere humildad para reconocer los propios límites y valentía para cambiar lo que necesita ser transformado.\nCuando ejercitamos el arte de la paz, no solo encontramos tranquilidad interior, sino que nos convertimos en instrumentos de paz en el mundo que nos rodea."
     }
   ]
 }

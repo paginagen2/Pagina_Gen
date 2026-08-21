@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 21,
   "tamanioPagina": 6,
-  "total": 310,
+  "total": 311,
   "siguientePagina": 22,
   "items": [
+    {
+      "id": "pasapalabra_1777253818903",
+      "titulo": "EL AMOR HACE SUPERAR LA FRIALDAD DEL CORAZÓN",
+      "fecha": "27/04/2026",
+      "reflexion": "El amor no llega imponiendo cambios; llega dando calor, poco a poco, a aquello que estaba endurecido por el miedo, por el dolor o por las decepciones.\nUn corazón frío no nació así; aprendió a protegerse. Y es precisamente el amor el que enseña a confiar nuevamente.\nEl amor quiebra barreras invisibles, disuelve rencores y reaviva sentimientos que parecían apagados. No ignora el dolor, sino que lo abraza y lo transforma.\nCuando el amor es verdadero, no solo da calor al corazón, sino que lo renueva.\nLa frialdad puede ser un escudo, pero el amor es el coraje de bajar ese escudo y permitir que el corazón se abra a todos."
+    },
     {
       "id": "pasapalabra_1777161898769",
       "titulo": "CONTEMPLANDO LA NATURALEZA ALABO LA CREACIÓN",
@@ -34,12 +40,6 @@
       "titulo": "CONSTRUIR RELACIONES DE CONFIANZA",
       "fecha": "22/04/2026",
       "reflexion": "La confianza nace cuando nuestras palabras coinciden con nuestras acciones y cuando permanecemos fieles incluso en las dificultades.\nJesús nos enseñó esto con su ejemplo. Él acogió, escuchó y acompañó. Nosotros también estamos llamados a hacer lo mismo: escuchar sin juzgar, hablar con sinceridad y actuar con lealtad.\nLas relaciones de confianza requieren transparencia. No existe un vínculo verdadero sin sinceridad. Es cuando mostramos quiénes somos realmente que permitimos que otros confíen en nosotros.\nQue seamos firmes en la palabra, constantes en el amor y generosos en todo. Porque donde hay confianza, hay paz. Y donde hay paz, florecen las relaciones que resisten al tiempo y a las adversidades."
-    },
-    {
-      "id": "pasapalabra_1776736911516",
-      "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
-      "fecha": "21/04/2026",
-      "reflexion": "La conciencia es como una luz que Dios enciende  dentro de nosotros. No grita, sino que guía.\nMuchas veces, acallamos esta voz con la prisa, el orgullo o el miedo. Pero la conciencia siempre regresa, recordándonos quiénes somos y quiénes podemos ser.\nEscuchar la voz de la conciencia es reconocer los errores, pedir perdón, recomenzar. Es elegir lo correcto, incluso cuando nadie está mirando. Es mantener la coherencia entre lo que decimos y lo que vivimos.\nQuien aprende a escuchar su propia conciencia camina con más serenidad, sabiendo que está en sintonía con la verdad y con el amor."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 4,
   "tamanioPagina": 6,
-  "total": 310,
+  "total": 311,
   "siguientePagina": 5,
   "items": [
+    {
+      "id": "pasapalabra_1785717724482",
+      "titulo": "VALORAR EL BIEN",
+      "fecha": "03/08/2026",
+      "reflexion": "Quien desea seguir el camino de Dios está llamado a reconocer, valorar y promover el bien dondequiera que se encuentre.\nCuando aprendemos a ver lo bueno, nuestro corazón se vuelve más sereno, más esperanzado y más capaz de amar.\nJesús nos enseñó que un buen árbol produce buen fruto. Al valorar el bien, nos animamos a producir también frutos de bondad, misericordia, justicia y paz. En lugar de centrarnos únicamente en los defectos de los demás, somos invitados a percibir la semilla de Dios presente en cada persona y en cada situación.\nEl bien, por pequeño que parezca, tiene el poder de transformar y acercar el mundo al Reino de Dios.\n“No te dejes vencer por el mal. Por el contrario, vence al mal, haciendo el bien.” (Rom. 12,21)"
+    },
     {
       "id": "pasapalabra_1785703237025",
       "titulo": "COMPARTIR TUS BIENES",
@@ -34,12 +40,6 @@
       "titulo": "VIVIR EL MOMENTO PRESENTE",
       "fecha": "30/07/2026",
       "reflexion": "El presente es un espacio en el cual puedo tener un encuentro con Dios, con los demás y conmigo mismo.\nMuchas veces, me quedo anclado en el pasado, con remordimientos y nostalgia, o ansioso por el futuro, lleno de incertidumbres.\nEl presente es el tiempo en el que puedo amar, perdonar, agradecer, servir y recomenzar.\nCada día trae sus desafíos, pero también trae la gracia necesaria para afrontarlos.\nVivir el momento presente no significa despreocuparse del futuro, sino evitar que el miedo a este robe mi paz. Tampoco significa olvidar el pasado, sino, no permitir que él me impida seguir adelante."
-    },
-    {
-      "id": "pasapalabra_1785296188299",
-      "titulo": "VALORAR EL SUFRIMIENTO",
-      "fecha": "29/07/2026",
-      "reflexion": "En la visión cristiana, el sufrimiento puede enseñarnos a amar de forma más verdadera y pura. Quien sufre llega a comprender mejor al prójimo, practicando la compasión, la paciencia y la solidaridad.\nJesucristo transformó la cruz, símbolo de dolor y humillación, en un camino de amor y salvación.\nCuando unimos nuestro dolor al sufrimiento de Cristo, este se transforma en ofrenda y oración.\nNo todo sufrimiento tiene explicación inmediata, pero ningún sufrimiento vivido con amor es en vano.\nQue delante de las dificultades, podamos pedir a Dios que no nos quite la cruz de nuestros hombros, sino que nos dé fuerza, sabiduría y fe para cargarla con esperanza."
     }
   ]
 }
