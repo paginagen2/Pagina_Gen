@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 25,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 26,
   "items": [
+    {
+      "id": "pasapalabra_1775264510914",
+      "titulo": "NO DESANIMARSE",
+      "fecha": "04/04/2026",
+      "reflexion": "Cuando todo parece abrumador, es importante recordar que el desánimo no es señal de fracaso; es una invitación a hacer una pausa. Hacer una pausa no es rendirse; es respirar, reorganizarse y continuar con mayor consciencia.\nCada pausa que hacemos nos aporta información: qué salió bien, qué se puede ajustar, qué se puede descartar.\nEn lugar de convertir los errores en una sentencia de desánimo, veámos en él un mapa: nos muestra dónde hemos estado y hacia dónde debemos cambiar el rumbo.\nPerseverar no significa hacerlo todo a la vez; significa seguir levantándose, volver a empezar, aprender y adaptarse, aunque sea poco a poco.\nNo desanimarse significa depositar toda nuestra esperanza en el Dios de lo imposible, que siempre está a nuestro lado."
+    },
     {
       "id": "pasapalabra_1775186356604",
       "titulo": "¡AQUÍ ESTOY!",
@@ -34,12 +40,6 @@
       "titulo": "*PONER EN RELIEVE A LA OTRA PERSONA*",
       "fecha": "30/03/2026",
       "reflexion": "“Porque el que se ensalza será humillado, y el que se humilla será ensalzado. (Lc. 14,11)\nPoner en relieve a los demás es un acto silencioso de grandeza. Es elegir iluminar en lugar de competir, reconocer en lugar de menospreciar, valorar en lugar de luchar por el protagonismo.\nEl brillo del otro no apaga el nuestro; al contrario, amplía el entorno donde todos pueden crecer.\nDar testimonio es tener la seguridad suficiente para no necesitar siempre ser el centro de atención.\nQuien aprende a poner en relieve a los demás descubre que el liderazgo no se trata de destacarse, sino de visibilizar a los demás."
-    },
-    {
-      "id": "pasapalabra_1774744485388",
-      "titulo": "TRANSFORMAR LOS MOMENTOS NEGATIVOS EN ALGO POSITIVO",
-      "fecha": "29/03/2026",
-      "reflexion": "El mejor ejemplo que tenemos es el de Jesús crucificado. Él transformó todo su sufrimiento y muerte en redención y resurrección. Nos amó tanto que dio su propia vida, transformando todo dolor en algo positivo.\nPara nosotros, transformar lo negativo en positivo significa comprender que no siempre podemos cambiar las circunstancias, pero siempre podemos dar un nuevo significado a lo que estamos viviendo.\nMuchas veces, es precisamente a partir de las heridas que nacen las versiones más humanas, fuertes y conscientes de nosotros mismos.\nDelante de cada dolor, podemos decirle a Jesús: Uno mi sufrimiento al tuyo, para que lo transformes en amor."
     }
   ]
 }

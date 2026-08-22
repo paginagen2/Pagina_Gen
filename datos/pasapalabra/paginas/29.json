@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 29,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 30,
   "items": [
+    {
+      "id": "pasapalabra_1773364985448",
+      "titulo": "ENTABLAR UN DIÁLOGO",
+      "fecha": "13/03/2026",
+      "reflexion": "Entablar un diálogo es más que simplemente intercambiar palabras; se trata de construir vínculos entre personas, ideas y sentimientos. El diálogo exige apertura interior, disposición para escuchar y humildad para reconocer que el otro siempre tiene algo que compartir.\nEl verdadero diálogo no se trata de convencer ni imponer, sino de comprender. Al dialogar, creamos espacios donde las diferencias no se convierten en conflictos, sino en oportunidades de entendimiento mutuo.\nEn un mundo marcado por la polarización, entablar el diálogo significa sembrar la paz."
+    },
     {
       "id": "pasapalabra_1773279147517",
       "titulo": "NUTRIR EL ESPÍRITU",
@@ -31,12 +37,6 @@
     },
     {
       "id": "pasapalabra_1773101206851",
-      "titulo": "BUSCAR SOLUCIONES DE CONCORDIA",
-      "fecha": "10/03/2026",
-      "reflexion": "Buscar soluciones de concordia es elegir el diálogo en lugar de la confrontación, la escucha en lugar de la imposición, construir juntos en lugar de la ruptura. Es reconocer que los conflictos existen, pero no necesariamente crean ganadores y perdedores.\nLa concordia comienza cuando dejamos de defender solo nuestro punto de vista y nos abrimos a comprender el del otro. No significa estar de acuerdo con todo, sino respetar, buscar puntos en común y crear caminos posibles para todos.\nLa concordia es un ejercicio de madurez y humildad. Requiere paciencia, empatía y valentía para ceder cuando sea necesario. Al final, la verdadera victoria no reside en tener razón, sino en preservar las relaciones, restaurar los lazos rotos y promover la paz donde hay división."
-    },
-    {
-      "id": "pasapalabra_1773101202458",
       "titulo": "BUSCAR SOLUCIONES DE CONCORDIA",
       "fecha": "10/03/2026",
       "reflexion": "Buscar soluciones de concordia es elegir el diálogo en lugar de la confrontación, la escucha en lugar de la imposición, construir juntos en lugar de la ruptura. Es reconocer que los conflictos existen, pero no necesariamente crean ganadores y perdedores.\nLa concordia comienza cuando dejamos de defender solo nuestro punto de vista y nos abrimos a comprender el del otro. No significa estar de acuerdo con todo, sino respetar, buscar puntos en común y crear caminos posibles para todos.\nLa concordia es un ejercicio de madurez y humildad. Requiere paciencia, empatía y valentía para ceder cuando sea necesario. Al final, la verdadera victoria no reside en tener razón, sino en preservar las relaciones, restaurar los lazos rotos y promover la paz donde hay división."

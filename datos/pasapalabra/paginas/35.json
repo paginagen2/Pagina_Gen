@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 35,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 36,
   "items": [
+    {
+      "id": "pasapalabra_1770691558004",
+      "titulo": "ACERCARSE A QUIEN VIVE EN SOLEDAD",
+      "fecha": "10/02/2026",
+      "reflexion": "La soledad, a menudo silenciosa, habita en corazones que permanecen invisibles entre la multitud.\nHay personas que no piden ayuda, pero esperan un gesto, una mirada, una palabra que les diga: \"Tú importas\".\nAcercarse  a quienes viven en soledad es un profundo acto de amor.\nEste encuentro comienza con la sensibilidad para percibir al otro y abrir un espacio de acogida.\nCuando nos acercarnos a quien está solo, descubrimos que la verdadera comunión nace del encuentro, y que nadie debería cargar solo con el peso de sus angustias.\nQue hoy podamos tener ojos atentos y corazón disponible para ir al encuentro de quien vive en soledad, convirtiéndonos en faros de luz donde hay silencio y ausencia."
+    },
     {
       "id": "pasapalabra_1770599436448",
       "titulo": "PONER EN PRÁCTICA EL AMOR MUTUO",
@@ -34,12 +40,6 @@
       "titulo": "RESPETAR LAS LEYES DE DIOS",
       "fecha": "05/02/2026",
       "reflexion": "Las leyes divinas existen para guiar el corazón humano hacia el bien, la justicia y el amor. Ellas no nos aprisionan ni nos restringen; al contrario, nos liberan, porque nos apartan del egoísmo y nos conducen a la verdadera felicidad.\nCuando respetamos las leyes de Dios, aprendemos a servir más que a dominar, a amar más que a juzgar. Cada mandamiento se convierte en una invitación diaria a la conversión interior, ayudándonos a alinear nuestros pensamientos, palabras y actitudes con el plan de Dios.\nRespetar las leyes de Dios, por tanto, es un acto de amor. Es responder a su cuidado con fidelidad, permitiendo que Él transforme nuestra vida en una señal de esperanza y luz para los demás."
-    },
-    {
-      "id": "pasapalabra_1770163656658",
-      "titulo": "VER A TODAS LAS PERSONAS CON NUEVOS OJOS",
-      "fecha": "04/02/2026",
-      "reflexion": "Ver a todas las personas con nuevos ojos es permitir que el corazón vuelva a aprender a ver con las enseñanzas del amor fraterno.\nTener nuevos ojos no significa negar la realidad, sino negarse a ser prisionero del prejuicio y de la indiferencia.\nCuando miramos a alguien con nuevos ojos, descubrimos que detrás de un gesto duro puede haber cansancio, que detrás del silencio puede haber un dolor oculto, e incluso un profundo deseo de ser amado y comprendido.\nTener nuevos ojos es recordar que nadie es solo su pasado, sus errores o su apariencia.\nCuando vemos a los demás con más bondad, algo dentro de nosotros también mejora.\nEl mundo no cambia de repente; sin embargo, cambia cada vez que alguien es visto con respeto, paciencia y esperanza."
     }
   ]
 }

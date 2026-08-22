@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 32,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 33,
   "items": [
+    {
+      "id": "pasapalabra_1772069409118",
+      "titulo": "HUMILDAD",
+      "fecha": "26/02/2026",
+      "reflexion": "La humildad no consiste en menospreciarse, sino en pensar menos en uno mismo. Quien es humilde no se disminuye, sino que se coloca en el lugar correcto: una criatura amada, dependiente de la gracia de Dios, siempre abierta a aprender.\nSer humilde es saber aceptar correcciones y reconocer los limites sin encerrarse en el orgullo.\nLa humildad nos libera de la comparación y de la necesidad de demostrar nuestro valor.\nEn la vida diaria, la humildad se revela en gestos sencillos: disculparse, agradecer, servir, aceptar el ritmo de los demás.\nLa humildad prepara el corazón para acoger la voluntad de Dios.\nQuien camina con ella encuentra la verdadera grandeza, porque es en el corazón sencillo donde habita Dios."
+    },
     {
       "id": "pasapalabra_1771984286537",
       "titulo": "REZAR POR LA PAZ",
@@ -34,12 +40,6 @@
       "titulo": "ENTRENARSE PARA VIVIR EL PRESENTE",
       "fecha": "22/02/2026",
       "reflexion": "Vivir el presente es un verdadero entrenamiento diario de atención y humildad. Es aprender a estar plenamente presente donde estás, sin dejar que el pasado nos aprisione en la culpa, o que el futuro nos robe la paz con excesivas preocupaciones.\nEntrenarse para vivir el presente no significa ignorar planes o recuerdos, sino, no permitir que dominen el corazón. Es percibir la belleza del momento sencillo, agradecer por lo que se tiene, incluso cuando parece poco.\nCuando elegimos vivir el presente, la vida adquiere profundidad en su verdadero significado. El tiempo deja de ser algo pasajero y se convierte en un espacio de encuentro, ya sea con nosotros mismos, con los demás y con Dios, que siempre se manifiesta en el momento presente."
-    },
-    {
-      "id": "pasapalabra_1771634352632",
-      "titulo": "ACOGER LA VOLUNTAD DE DIOS",
-      "fecha": "21/02/2026",
-      "reflexion": "Acoger la voluntad de Dios no es resignarse pasivamente, sino confiar activamente.\nLa voluntad de Dios se acoge en el silencio del corazón, donde la prisa da lugar a la escucha.\nAcoger la voluntad de Dios no significa ausencia de dudas. Significa, sobre todo, permitir que Dios nos guíe, incluso cuando el paso es lento y el horizonte parece lejano.\nCuando acogemos la voluntad de Dios, aprendemos a transformar las expectativas en entrega total y transformar el deseo de control en fe.\nCon este gesto de confianza en Dios, encontramos paz. No porque todo esté resuelto, sino porque sabemos en quién depositamos nuestra esperanza."
     }
   ]
 }

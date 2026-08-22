@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 43,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 44,
   "items": [
+    {
+      "id": "pasapalabra_1766541546929",
+      "titulo": "RECUERDA LOS DONES RECIBIDOS",
+      "fecha": "24/12/2025",
+      "reflexion": "A veces las cosas suceden tan rápido en la vida que olvidamos lo que ya tenemos dentro: nuestros dones innatos o adquiridos.\nRecordar los dones que hemos recibido, es darnos cuenta de que lo que somos y tenemos puede florecer aún más cuando lo ponemos al servicio: una palabra de sabiduría, una habilidad, un talento discreto, una valentía que solo aparece cuando más la necesitamos.\nEstos dones no fueron dados para ser escondidos, sino para iluminarnos a nosotros mismos y a los demás.\nCuando los recordamos, no olvidemos dar gracias, porque la gratitud abre espacio a nuevas inspiraciones.\nQue podamos mirar en nuestro interior y redescubrir lo que Dios ya ha depositado en nosotros: semillas de vida, de belleza, para cumplir nuestra misión."
+    },
     {
       "id": "pasapalabra_1766459834237",
       "titulo": "NO TEMER LAS NOVEDADES",
@@ -34,12 +40,6 @@
       "titulo": "BUSCAR SEMILLAS DE ESPERANZA EN LAS CIRCUNSTANCIAS DE LA JORNADA",
       "fecha": "19/12/2025",
       "reflexion": "Dios se revela en cada momento del día, sembrando semillas de esperanza en nuestro camino.\nEstas semillas son signos de su presencia en los acontecimientos: un gesto de amor recibido, una palabra de consuelo, un problema que encuentra solución, o simplemente la fuerza para seguir adelante cuando todo parece difícil. Dios actúa en las diferentes insinuaciones de la vida.\nCuando nos detenemos a mirar el día con los ojos de la fe, nos damos cuenta de que la esperanza no solo proviene de las cosas buenas que suceden, sino también de la certeza de que Dios está con nosotros en todas las cosas.\nLa verdadera esperanza nace de la confianza en Dios, que transforma el desierto en un jardín y el sufrimiento en un camino de salvación."
-    },
-    {
-      "id": "pasapalabra_1766033225312",
-      "titulo": "ABRIRSE A LOS OTROS",
-      "fecha": "18/12/2025",
-      "reflexion": "Abrirse a los otros significa, sobre todo, aceptación: acoger a quien nos busca, acoger los dolores y las alegrías de quien está a nuestro lado en el momento presente.\nAbrirse también significa acoger a quien es diferente de nosotros, sin hacer ningún tipo de distinción.\nJesús era acusado de acoger a los pecadores y sentarse a la mesa con ellos. ¿Cuál fue su respuesta? Su respuesta fue la parábola de la oveja perdida. El pastor que deja las noventa y nueve ovejas en el desierto y va en busca de aquella que se había perdido. (Cf. Lc. 15,4-6)\nCerrarse puede parecer seguro, pero es en los intercambios donde encontramos sentido y aprendizaje. Abrirse a los demás es, en definitiva, abrirse a la vida, con sus riesgos, sí, pero también con sus infinitas posibilidades de amor, amistad y crecimiento."
     }
   ]
 }

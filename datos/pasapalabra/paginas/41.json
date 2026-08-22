@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 41,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 42,
   "items": [
+    {
+      "id": "pasapalabra_1767610540043",
+      "titulo": "ACERCARSE A CADA PERSONA CON CORAZÓN SINCERO",
+      "fecha": "05/01/2026",
+      "reflexion": "La sinceridad de corazón crea un ambiente de confianza. Permite que nuestros gestos tengan peso, que nuestras palabras encuentren resonancia en el otro y que nuestras intenciones se perciban sin distorsiones. Es en este terreno que los vínculos se fortalecen y que los malentendidos se disuelven.\nCuando el corazón es sincero, cada encuentro, breve o largo, tiene valor. E incluso cuando las relaciones no prosperan como imaginamos, sabemos que dejamos algo verdadero en el mundo que nos rodea, algo que resuena y transforma de manera invisible.\nAcercarse a cada persona con un corazón sincero es un camino de autenticidad que nos hace más hermanos."
+    },
     {
       "id": "pasapalabra_1767497362919",
       "titulo": "LA PROXIMIDAD NOS IMPULSA A LA UNION CON DIOS",
@@ -34,12 +40,6 @@
       "titulo": "TAMBIÉN HOY PUEDO RECOMENZAR",
       "fecha": "31/12/2025",
       "reflexion": "En el último día del año, muchos creen que el tiempo se cierra, como si la vida esperara a la medianoche para comenzar un nuevo ciclo.\nEl calendario marca un final, pero el corazón marca posibilidades.\nRecomenzar no exige grandes revoluciones, basta con decidir que el pasado no tiene por qué ser una prisión y que los fracasos no me definen, solo me enseñan que el dolor no anula mi esperanza, solo la madura.\nEn el último día del año, el tiempo parece más tranquilo, como si me llamara a escuchar lo que ignoré durante meses: “Aún estás quí. Aún puedes elegir. Aún puedes recomenzar.”\nY puedo, sí. Puedo recomenzar en el modo de amar.\nQue el último día del año nos recuerde, entonces: también hoy, precisamente hoy, puedo recomenzar."
-    },
-    {
-      "id": "pasapalabra_1767056402726",
-      "titulo": "HACER SONREÍR AL MUNDO",
-      "fecha": "30/12/2025",
-      "reflexion": "Hacer sonreír al mundo no es solo provocar alegría; es participar conscientemente en la construcción del sentido de la existencia de las personas.\nEn el fondo, la sonrisa del mundo es el eco de nuestras decisiones, de nuestra capacidad de reconocer al otro como una extensión de nosotros mismos.\nSonreír al mundo y hacerlo sonreír, es afirmar que la vida merece ser celebrada.\nCuando decidimos ser fuente de alegría, revelamos una sutil comprensión: que el valor de cada momento no reside en lo que poseemos, sino en lo que irradiamos.\nPor lo tanto, hacer sonreír al mundo es menos una tarea y más una actitud, un compromiso íntimo con la amabilidad y la empatía.\nPorque la sonrisa del mundo es simplemente el reflejo de lo que decidimos ser."
     }
   ]
 }

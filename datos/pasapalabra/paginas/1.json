@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1787360211659",
+      "titulo": "ACORTAR LA DISTANCIA ENTRE EL DECIR Y EL HACER",
+      "fecha": "22/08/2026",
+      "reflexion": "Todos experimentamos, en algún momento, una distancia entre lo que creemos y lo que vivimos. Reconocer esta realidad no debe desanimarnos, sino impulsarnos hacia la conversión.\nAcortar la distancia entre el decir y el hacer exige humildad para reconocer nuestras incoherencias, valor para cambiar nuestros hábitos y perseverancia para recomenzar cada vez que fallamos.\nPequeñas acciones como cumplir la palabra dada, tratar a cada persona con respeto, actuar con honestidad, perdonar, servir sin esperar reconocimiento y practicar la caridad incluso cuando nadie está mirando, son gestos silenciosos que dan credibilidad a lo que proclamamos.\nQue nuestras vidas sean un testimonio fiel, para que, al ver nuestras obras, otros también glorifiquen el nombre de Dios."
+    },
     {
       "id": "pasapalabra_1787272595317",
       "titulo": "AMA CON TODO TU SER",
@@ -34,12 +40,6 @@
       "titulo": "ENTREGARSE CON GENEROSIDAD",
       "fecha": "17/08/2026",
       "reflexion": "Entregarse con generosidad no solo significa ofrecer bienes materiales, sino también estar disponible para servir al prójimo.\nA lo largo de su vida, Jesús se entregó sin reservas, acogiendo, enseñando, sanando y ofreciendo su propia vida por amor a la humanidad.\nTambién María, al decir “sí” al plan de Dios, puso toda su vida al servicio del Reino.\nCada pequeño acto de bondad, por simple que parezca, tiene el poder de aliviar sufrimientos, restaurar esperanzas y revelar el amor de Dios en el mundo.\nQue yo, siguiendo el ejemplo de Jesús y de María, pueda hacer de mi vida un regalo de amor para los demás."
-    },
-    {
-      "id": "pasapalabra_1786839617385",
-      "titulo": "TRANSFORMAR LOS OBSTÁCULOS EN OPORTUNIDADES",
-      "fecha": "16/08/2026",
-      "reflexion": "En nuestro camino surgen dificultades, decepciones, pérdidas y situaciones que, a primera vista, parecen impedir nuestros sueños. Sin embargo, cada obstáculo puede convertirse en una oportunidad de crecimiento, de aprendizaje y fortalecimiento de la fe.\nDios no promete un camino sin dificultades, sino que asegura su presencia constante.\nEn lugar de preguntarnos: \"¿Por qué me pasa esto?\", podemos preguntarnos: \"¿Qué quiere enseñarme Dios a través de esta situación?\".\nJesús demostró que incluso la cruz, símbolo de sufrimiento y derrota, se convirtió en el camino a la victoria y la salvación."
     }
   ]
 }

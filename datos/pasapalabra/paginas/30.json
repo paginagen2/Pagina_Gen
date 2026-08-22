@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 30,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 31,
   "items": [
+    {
+      "id": "pasapalabra_1773101202458",
+      "titulo": "BUSCAR SOLUCIONES DE CONCORDIA",
+      "fecha": "10/03/2026",
+      "reflexion": "Buscar soluciones de concordia es elegir el diálogo en lugar de la confrontación, la escucha en lugar de la imposición, construir juntos en lugar de la ruptura. Es reconocer que los conflictos existen, pero no necesariamente crean ganadores y perdedores.\nLa concordia comienza cuando dejamos de defender solo nuestro punto de vista y nos abrimos a comprender el del otro. No significa estar de acuerdo con todo, sino respetar, buscar puntos en común y crear caminos posibles para todos.\nLa concordia es un ejercicio de madurez y humildad. Requiere paciencia, empatía y valentía para ceder cuando sea necesario. Al final, la verdadera victoria no reside en tener razón, sino en preservar las relaciones, restaurar los lazos rotos y promover la paz donde hay división."
+    },
     {
       "id": "pasapalabra_1773019820281",
       "titulo": "NO A LA CULTURA DEL DESCARTE",
@@ -34,12 +40,6 @@
       "titulo": "NO PERMANECER INDIFERENTES ANTE LA POBREZA",
       "fecha": "04/03/2026",
       "reflexion": "La pobreza no es solo la ausencia de recursos materiales; a menudo, es la ausencia de oportunidades, de voz, de dignidad y de esperanza. Así como también puede ser la ausencia de Dios.\nSer indiferente es cerrar los ojos ante realidades que incomodan, es seguir adelante como si el dolor ajeno no tuviera nada que ver con nosotros.\nNo permanecer indiferente delante de la pobreza significa ver, sentir y actuar, incluso con pequeñas acciones. Es hacer nuestra parte para romper el ciclo de la invisibilidad.\nCuando la pobreza se vuelve \"normal\", algo esencial también se pierde en nosotros.\nNo permanecer indiferente, es elegir la compasión en lugar de la apatía, la responsabilidad en lugar de las excusas y la solidaridad en lugar del egoísmo."
-    },
-    {
-      "id": "pasapalabra_1772503647583",
-      "titulo": "DEJARSE  TRANSFORMAR POR LA PRESENCIA DE DIOS",
-      "fecha": "03/03/2026",
-      "reflexion": "Muchas veces deseamos que Dios cambie las circunstancias, pero Él quiere, sobre todo, cambiar nuestros corazones. Su presencia reorganiza nuestras vidas desde dentro.\nCuando nos presentamos ante Dios con sinceridad, nuestros pensamientos se ajustan, el orgullo se debilita y los miedos desaparecen. Nada de esto ocurre de inmediato, pero es profundo.\nLa presencia de Dios no nos transforma por imposición, sino por convivencia. Así como cuando convivimos con alguien y terminamos asemejándonos a él, quien camina con Dios aprende a ver como Él ve, a amar como Él ama y a actuar como Él actúa.\nDejarse transformar es confiar en los planes de Dios y entregarse en sus manos."
     }
   ]
 }

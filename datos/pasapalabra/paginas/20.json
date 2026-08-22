@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1777859285015",
+      "titulo": "TRABAJAR POR EL BIEN COMÚN",
+      "fecha": "04/05/2026",
+      "reflexion": "Trabajar por el bien común es comprender que nuestras acciones afectan no solo a nosotros mismos, sino también a las personas a nuestro alrededor y a la sociedad en su conjunto.\nCuando pensamos en el bien colectivo, comenzamos a considerar cuánto pueden contribuir nuestras actitudes para un mundo mejor.\nMuchas veces, las pequeñas acciones marcan una gran diferencia. El bien común nace precisamente de las decisiones cotidianas, sencillas pero llenas de significado.\nTrabajar por el bien común exige la conciencia de reconocer que todos tienen dignidad y merecen oportunidades, respeto y cuidado.\nBuscar el bien común fortalece valores como la solidaridad, la justicia y la fraternidad."
+    },
     {
       "id": "pasapalabra_1777767283628",
       "titulo": "JUNTOS SOMOS MÁS FUERTES",
@@ -34,12 +40,6 @@
       "titulo": "SER SENCILLOS",
       "fecha": "29/04/2026",
       "reflexion": "Ser \"sencillo\" no es humillarse, es purificarse. Significa eliminar los excesos que pesan, las expectativas exageradas, las comparaciones constantes, el orgullo innecesario, y quedarse con lo que realmente importa.\nLa sencillez es valorar lo esencial y comprender que la felicidad reside en las pequeñas cosas.\nSer sencillo es aprender a expresar los sentimientos sin máscaras, a vivir sin necesidad de impresionar, a elegir la verdad por encima de las apariencias.\nSer sencillo es liberarse de la necesidad de demostrarle algo al mundo y, finalmente, descansar en la propia esencia, que viene del amor."
-    },
-    {
-      "id": "pasapalabra_1777433300085",
-      "titulo": "VIVIR LA MANSEDUMBRE",
-      "fecha": "28/04/2026",
-      "reflexion": "Vivir la mansedumbre es elegir la fuerza que no hace ruido. Es comprender que no necesitamos responder a todo con dureza.\nLa mansedumbre no es debilidad, es equilibrio. Es la capacidad de mantener el corazón sereno incluso cuando el mundo a nuestro alrededor está agitado.\nSer manso es responder con calma donde se espera agresividad, es actuar con sabiduría donde muchos reaccionarían impulsivamente.\nLa mansedumbre nace de la confianza interior, cuando sabemos quiénes somos y no necesitamos demostrar nada a nadie.\nVivir con mansedumbre es permitir que la gentileza guíe nuestras palabras y acciones. Es comprender que es posible ser fuerte sin perder la dulzura.\nEn el silencio de la mansedumbre, encontramos una de las formas más elevadas de vivir: la de permanecer siempre en paz.\nUn abrazo,"
     }
   ]
 }

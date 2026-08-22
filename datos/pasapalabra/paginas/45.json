@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 45,
   "tamanioPagina": 6,
-  "total": 311,
+  "total": 312,
   "siguientePagina": 46,
   "items": [
+    {
+      "id": "pasapalabra_1765498975020",
+      "titulo": "EMPATÍA HACIA LOS DEMÁS",
+      "fecha": "12/12/2025",
+      "reflexion": "La empatía nos permite ver el mundo a través de los ojos del otro, comprender sus dolores, sus alegrías y sus dificultades.\nEn un tiempo en que el individualismo y la prisa dominan las relaciones, ser empático es casi un acto de resistencia, un recordatorio de que todos formamos parte de la misma familia humana.\nCuando practicamos la empatía, en lugar de buscar quién tiene la razón, buscamos comprender lo que el otro siente. Este simple gesto puede transformar los conflictos en diálogos, las distancias en presencias y las indiferencias en solidaridad.\nLa empatía es un acto de amor al prójimo, es ofrecer ayuda sin esperar nada a cambio, es respetar el tiempo y el espacio de cada persona."
+    },
     {
       "id": "pasapalabra_1765419404782",
       "titulo": "DESARMARSE",
@@ -34,12 +40,6 @@
       "titulo": "SÍ A DIOS",
       "fecha": "07/12/2025",
       "reflexion": "Dios tiene un llamado especial para cada uno de nosotros. Cada uno, a su manera, tiene una misión diferente.\nSin embargo, hay un llamado común a todos: es el llamado al amor. Al cual debemos responder sí.\nAl responder sí al amor, respondemos sí a Dios. Y podemos hacerlo en cada momento presente.\nResponder al llamado de Dios es, en esencia, amar sin reservas.\nComo dijo María: “Hágase en mí según tu palabra”.\nCada uno de nuestros “sí”, pequeños o grandes, colabora con el plan divino de amor para el mundo.\nCuando decimos este “si”, dejamos de simplemente existir y comenzamos a cumplir el profundo significado de nuestra existencia."
-    },
-    {
-      "id": "pasapalabra_1765007807375",
-      "titulo": "RECIBIR Y DAR",
-      "fecha": "06/12/2025",
-      "reflexion": "La vida es un flujo constante entre dar y recibir.\nDar es expresar amor, generosidad y empatía. Recibir es permitir que el otro practique el mismo gesto.\nA menudo, pensamos que dar es señal de fortaleza y recibir es señal de debilidad. Ambos exigen humildad y sensibilidad: quien solo da, sin permitirse recibir, puede terminar vaciándose, y quien solo recibe, sin aprender a dar, pierde la oportunidad de crecer en el amor y en el compartir. Dar y recibir es la verdadera comunión.\nAl dar con el corazón abierto, reforzamos los vínculos. Al recibir con gratitud, los fortalecemos. Y es en este equilibrio donde encontramos el verdadero significado de la generosidad."
     }
   ]
 }
