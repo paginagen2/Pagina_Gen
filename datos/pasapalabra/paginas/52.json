@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 52,
   "tamanioPagina": 6,
-  "total": 312,
-  "siguientePagina": null,
+  "total": 313,
+  "siguientePagina": 53,
   "items": [
+    {
+      "id": "pasapalabra_1762913343702",
+      "titulo": "ELEVARSE HACIA DIOS",
+      "fecha": "01/11/2025",
+      "reflexion": "Elevarse significa abrir el corazón a la presencia silenciosa y constante de Dios, que nos llama a ascender, no por orgullo, sino por amor. Es permitir que el Espíritu nos eleve de las sombras a la luz, de la agitación a la paz, de la duda a la fe.\nElevarse a Dios es también descender hasta el hermano. Quien realmente se acerca a Dios, descubre que Él habita en el más pequeño, en el que sufre, en el olvidado. La verdadera elevación espiritual se manifiesta en gestos concretos de compasión, perdón y servicio.\nY cuanto más nos elevamos, más comprendemos que Dios no está lejos; Él siempre estuvo dentro de nosotros, esperando que lo veamos con el corazón abierto."
+    },
     {
       "id": "pasapalabra_1762913351043",
       "titulo": "PONERSE AL SERVICIO DE LOS PRÓJIMOS",
@@ -34,12 +40,6 @@
       "titulo": "TENER EL VALOR DE RECOMENZAR",
       "fecha": "27/10/2025",
       "reflexion": "Muchas veces, empezar de nuevo significa dejar atrás errores, fracasos, frustraciones e incluso sueños que no se hicieron realidad. Necesitamos tener humildad para reconocer lo que no funcionó y el valor de dar un paso adelante, incluso cuando nuestro corazón aún carga cicatrices del pasado.\nPero cada nuevo comienzo es también un regalo de Dios. Es la oportunidad de escribir una nueva historia, de aprender de las lecciones ya vividas y de creer que siempre hay un camino abierto hacia la transformación.\nEmpezar de nuevo no borra lo vivido, sino que le da un nuevo significado, haciéndonos más fuertes, más conscientes y más confiados, sobre todo, en la gracia divina.\nCristo nos muestra que, para quien cree, la cruz se transforma en resurrección. Así, cada nuevo comienzo es una proclamación de que la última palabra nunca será de la derrota, sino de la esperanza."
-    },
-    {
-      "id": "pasapalabra_1762913379112",
-      "titulo": "CENTRARNOS EN LO ESENCIAL",
-      "fecha": "26/10/2025",
-      "reflexion": "Lo esencial se encuentra en el amor que ofrecemos, en la fidelidad a aquello que le da sentido a nuestro caminar.\nCuando nos centramos en lo esencial, encontramos claridad, paz y fuerza interior, porque sabemos lo que realmente importa y lo que puede dejarse de lado.\nCentrarnos en lo esencial es aprender a vivir con sencillez pero al mismo tiempo con profundidad; es reconocer que, al final, lo que queda son los actos de bondad, la verdad vivida con coherencia y la presencia de Dios en todo lo que hacemos.\nEl desafío de hoy podría ser: dejar de lado lo superfluo y elegir lo que realmente nos edifica y nos acerca a la plenitud de la vida.\nEn resumen: lo esencial es vivir el amor, teniendo a Jesús como referencia y dejando que el Evangelio guíe nuestras vidas."
     }
   ]
 }

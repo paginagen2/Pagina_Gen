@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 34,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 35,
   "items": [
+    {
+      "id": "pasapalabra_1771206113095",
+      "titulo": "LA PROXIMIDAD CREA EL VERDADERO SENTIDO DE FAMILIA",
+      "fecha": "16/02/2026",
+      "reflexion": "La proximidad crea el verdadero sentido de familia no porque elimine las diferencias, sino porque nos enseña a convivir con ellas.\nEs en la vida cotidiana compartida, en los gestos sencillos y la presencia constante que se fortalecen los lazos.\nLa familia no es solo lo que se hereda por la sangre, sino lo que se construye a través de la convivencia, el cuidado mutuo y la disposición de estar juntos, incluso cuando es difícil.\nLa proximidad transforma nuestras relaciones, que perduran más allá del tiempo y del espacio.\nEn la familia natural, entre amigos, en la comunidad, cuando el amor recíproco se vive intensamente, la proximidad es testimoniada en la práctica diaria."
+    },
     {
       "id": "pasapalabra_1771130336133",
       "titulo": "SALVAGUARDAR LA CREACIÓN",
@@ -34,12 +40,6 @@
       "titulo": "AMAR A TODOS",
       "fecha": "12/02/2026",
       "reflexion": "Amar a todos es uno de los mayores desafíos, porque somos selectivos con quién creemos que merece nuestro amor.\nAmamos con facilidad a quien nos agrada, a quien piensa como nosotros y quien nos retribuye. Sin embargo, el amor verdadero comienza cuando trasciende estos límites y alcanza también a quien nos hiere, a quien no está de acuerdo, a quien es diferente.\nAmar a todos no significa estar de acuerdo con todo ni aceptar las injusticias. Significa comprender que el amor no distingue entre las personas, incluso cuando sus actitudes nos decepcionan.\nCuando amamos a todos, eliminamos el peso del rencor de nuestro corazón. El amor deja de ser solo un sentimiento y se convierte en una práctica de compasión y misericordia."
-    },
-    {
-      "id": "pasapalabra_1770770174221",
-      "titulo": "BASAR NUESTRAS DECISIONES EN EL AMOR",
-      "fecha": "11/02/2026",
-      "reflexion": "Cuando basamos nuestras elecciones en el amor, nuestras decisiones tienen un significado más profundo.\nElegir a partir del amor no significa actuar según emociones pasajeras, sino dejarnos guiar por un bien mayor: el amor verdadero, que ilumina nuestra conciencia y nos ayuda a distinguir lo que une de lo que divide.\nEl camino del amor es más exigente que el del egoísmo o de la indiferencia. Requiere renuncia, escucha, paciencia y, a veces, silencio. Pero es precisamente este amor, vivido en decisiones concretas, el que genera paz interior y siembra esperanza a nuestro alrededor.\nQue, delante de cada decisión, podamos preguntarnos: ¿esto viene del amor? Si la respuesta es sí, aunque el camino sea estrecho, estaremos construyendo una vida más plena, fiel a lo más humano y divino que hay en nosotros."
     }
   ]
 }

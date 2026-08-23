@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 40,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 41,
   "items": [
+    {
+      "id": "pasapalabra_1768182132521",
+      "titulo": "DAR VOZ A LOS POBRES",
+      "fecha": "12/01/2026",
+      "reflexion": "Dar voz a los pobres es, ante todo, escucharlos. Escuchar sus dolores, sus esperanzas, sus luchas diarias y también su sabiduría, tantas veces ignorada.\nLos pobres tienen voz, pero muchas veces es silenciada por la indiferencia, por los prejuicios y por las estructuras que favorecen a unos pocos y silencian a muchos.\nCuando damos voz a los pobres, estamos llamados a reconsiderar nuestros privilegios y nuestra forma de vida. Su realidad nos interpela, nos inquieta y nos llama a la responsabilidad. No se trata solo de caridad ocasional, sino de justicia.\nDar voz a los pobres es también reconocer que Dios habla a través de ellos. En sus gritos, escuchamos una llamada a la conversión del corazón, a la solidaridad concreta y al compromiso por un mundo más fraterno."
+    },
     {
       "id": "pasapalabra_1768096755891",
       "titulo": "SER SOLIDARIOS CON TODOS",
@@ -34,12 +40,6 @@
       "titulo": "SILENCIAR EL ORGULLO",
       "fecha": "07/01/2026",
       "reflexion": "El orgullo habla fuerte, exige razón, crea muros, convierte el corazón en un campo de batalla. Nos convence de que ceder es debilidad, escuchar es derrota, cambiar es perder algo de nosotros.\nPero cuando se silencia el orgullo, se abre espacio para algo más grande: para la humildad que aprende, para la sabiduría que escucha, para la paz que llega sin hacer ruido.\nSilenciar el orgullo es descubrir que la verdad no necesita de gritos, que el amor no se sostiene con terquedad y que la grandeza está más en el equilibrio que en la imposición.\nRespirar hondo antes de responder, mirar y saber antes de juzgar, comprender antes de condenar. Eso es tener equilibrio y la ligereza de no tener máscaras, sin orgullo."
-    },
-    {
-      "id": "pasapalabra_1767694401932",
-      "titulo": "DEJÉMONOS ILUMINAR POR LA LUZ",
-      "fecha": "06/01/2026",
-      "reflexion": "Esta frase nos invita no solo a recibir la Luz, sino a permitir que nos transforme.\nLa Luz Divina no fuerza, no invade, no exige. Se ofrece.\nSomos nosotros quienes podemos abrir una brecha en nuestra alma para que entre, a través de la humildad, de la fe, de la escucha y de la sinceridad de nuestro corazón.\nCuando nos dejamos iluminar por la Luz, la inquietud encuentra reposo, lo que es confuso comienza a organizarse, lo que es pesado se suaviza, la herida se convierte en un camino de sanación, lo que es orgullo se rinde a la humildad.\nDejarse iluminar es permitir que Dios, o la presencia sagrada que cada uno reconoce, toque nuestras intenciones antes que nuestras acciones, y toque nuestro mirar antes de juzgar.\nEs un movimiento de adentro hacia afuera: primero la Luz nos llena, luego se desborda a través de nuestras actitudes."
     }
   ]
 }

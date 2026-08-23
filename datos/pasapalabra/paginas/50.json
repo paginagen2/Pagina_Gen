@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1763000954484",
+      "titulo": "ORIENTARSE HACIA EL BIEN",
+      "fecha": "13/11/2025",
+      "reflexion": "El bien no es un destino predeterminado, sino un camino que se construye paso a paso, con coherencia.\nVivimos en una época donde el ruido de las opiniones intenta distraernos de la escucha interior. Y es precisamente en esta escucha donde encontramos la brújula que apunta hacia el bien.\nEl bien no se mide por los aplausos ni por reconocimientos; él florece en lo invisible, en los gestos que nadie ve, en las pequeñas renuncias, en las palabras que evitamos por amor y respeto.\nEs en esta práctica silenciosa donde el mundo comienza a cambiar, no desde afuera hacia adentro, sino desde adentro hacia afuera.\nOrientarnos hacia el bien es, fundamentalmente, orientarnos hacia nosotros mismos, hacia la parte más pura y luminosa de lo que somos y de lo que tenemos dentro."
+    },
     {
       "id": "pasapalabra_1762916533713",
       "titulo": "LIBERTAD INTERIOR",
@@ -34,12 +40,6 @@
       "titulo": "NO RENDIRSE MIENTRAS NO HAYA CONCORDIA",
       "fecha": "08/11/2025",
       "reflexion": "Mantener la concordia y la armonía entre las personas, es uno de los mayores desafíos de la convivencia humana. Pueden surgir desacuerdos, las palabras pueden malinterpretarse y las heridas pueden reabrirse. Pero la verdadera madurez reside en no rendirse hasta que se restablezca la paz.\nLa concordia no significa la ausencia de conflicto, sino una sincera voluntad de reconstruir la relación. Es elegir el diálogo en lugar del orgullo y la arrogancia, el perdón en lugar del distanciamiento. Es comprender que ceder no es perder, sino abrir un espacio para que surja el entendimiento.\nAunque la reconciliación tarde en llegar, necesitamos comprender que cada paso hacia la armonía es un paso hacia la paz interior de todos los involucrados."
-    },
-    {
-      "id": "pasapalabra_1762913248678",
-      "titulo": "ESCUCHAR CON ATENCIÓN",
-      "fecha": "07/11/2025",
-      "reflexion": "Cuando escuchamos atentamente a alguien, abrimos espacio para comprender no solo lo que se dice, sino también lo que se siente: los silencios, las pausas, lo subjetivo.\nEn el ajetreo del día a día, es común escuchar sin prestar verdadera atención. Pensamos en nuestra respuesta mientras la otra persona habla, la interrumpimos o dejamos que nuestras propias opiniones filtren lo que nos llega. Pero escuchar de verdad exige calma y entrega total. Es ponerse por un momento en el lugar del otro, sin juzgar, con el corazón abierto.\nEl hecho de escuchar con atención transforma las relaciones. La escucha nos acerca, sana malentendidos y hace que el otro se sienta valorado.\nEscuchar es un regalo que ofrecemos al otro, y, al mismo tiempo, a nosotros mismos."
     }
   ]
 }

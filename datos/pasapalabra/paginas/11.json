@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 11,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 12,
   "items": [
+    {
+      "id": "pasapalabra_1782353587061",
+      "titulo": "NO JUZGAR",
+      "fecha": "25/06/2026",
+      "reflexion": "No juzguen, para no ser juzgados (Mt. 7,1)\nJuzgar es casi automático: vemos una actitud, escuchamos una historia incompleta y sacamos conclusiones rápidamente.\nCuando juzgamos, reducimos al otro a un fragmento, ignorando todo lo que no vemos: su historia, sus dolores, sus intenciones, sus luchas silenciosas.\nNo conocemos completamente el corazón del otro. Y, al admitir esto, nacen la prudencia y la misericordia.\nQuien aprende a evitar el juicio comienza a experimentar mayor ligereza. Ya no cargan con el peso de condenar todo el tiempo.\nNo juzgar es comprender que, al igual que nosotros, el otro está en camino, con éxitos y fracasos, intentándolo, cayéndose y volviendo a empezar."
+    },
     {
       "id": "pasapalabra_1782258909435",
       "titulo": "ORIENTAR LA VIDA HACIA DIOS",
@@ -34,12 +40,6 @@
       "titulo": "MOSTRAR DULZURA Y SERENIDAD CON LOS DEMÁS",
       "fecha": "20/06/2026",
       "reflexion": "Muchas veces, las personas que conocemos llevan cargas invisibles que no podemos percibir a simple vista. Es precisamente ahí donde la dulzura se hace necesaria.\nMostrar dulzura es saber acoger con una mirada serena, con una palabra amable, con una escucha atenta.\nLa calma, a su vez, es fruto de un corazón que confía, un corazón que no se deja dominar por la ansiedad, sino que busca actuar con equilibrio y sabiduría.\nMostrar calma es también elegir no reaccionar impulsivamente, sino responder a todo con amor. Es permitir que la paz que deseamos para nosotros llegue también a quienes nos rodean."
-    },
-    {
-      "id": "pasapalabra_1781840448396",
-      "titulo": "ALABAR A DIOS EN LAS CRIATURAS",
-      "fecha": "19/06/2026",
-      "reflexion": "Todo lo que existe lleva en sí una señal del amor del Creador. La belleza de una flor, el canto de los pájaros, el brillo del sol al amanecer e incluso el silencio de la noche hablan, cada uno a su manera, de la grandeza de Dios.\nCada criatura es como una invitación a la contemplación. Cuando nos detenemos a observar la naturaleza con atención, comprendemos que nada es casual: hay armonía, cuidado y un propósito en todo. Alabar a Dios, entonces, no se trata solo de usar bellas palabras, sino también de admirar, agradecer y respetar la vida en todas sus formas.\nAlabar a Dios en la creación también significa cuidar la naturaleza, preservar el medio ambiente y tratar a cada ser con dignidad. Es reconocer que todo proviene de Dios y todo regresa a Él."
     }
   ]
 }

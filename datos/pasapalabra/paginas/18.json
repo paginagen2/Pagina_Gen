@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 18,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 19,
   "items": [
+    {
+      "id": "pasapalabra_1778901328739",
+      "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
+      "fecha": "16/05/2026",
+      "reflexion": "En medio de las opiniones y el bullicio de la vida cotidiana, existe en nuestro corazón una voz que nos guía, ilumina y nos invita al bien.\nLa conciencia es como una luz interior que nos ayuda a distinguir lo que es correcto. Cuando nos detenemos por un instante, reflexionamos y examinamos con sinceridad nuestras actitudes, ella nos habla con claridad.\nDios también se comunica con nosotros a través de la conciencia. Es allí donde sentimos la invitación a amar más, perdonar, actuar con justicia y cuidar de los demás.\nEscuchar la voz de la conciencia significa aprender a caminar en la luz del bien y de la verdad."
+    },
     {
       "id": "pasapalabra_1778818034791",
       "titulo": "¡AQUÍ ESTOY!",
@@ -34,12 +40,6 @@
       "titulo": "EMPATIZAR CON LA VIDA DE LOS DEMÁS",
       "fecha": "11/05/2026",
       "reflexion": "A menudo vivimos centrados en nuestras propias preocupaciones, proyectos y problemas. Empatizar significa romper con este aislamiento interior y reconocer que la vida del otro también nos importa.\nEmpatizar es compartir. Es amar al otro como le gustaría ser amado: alegrarnos con sus alegrías, sufrir con sus dolores, caminar a su lado sin juzgar.\nCuando las personas viven así, inmediatamente surge un ambiente de confianza, unidad y fraternidad.\nEmpatizar se manifiesta en los pequeños gestos de la vida diaria: escuchar a alguien con atención, ayudar sin esperar nada a cambio, comprender, estar presente e interesarse por todo lo que le preocupa."
-    },
-    {
-      "id": "pasapalabra_1778464638154",
-      "titulo": "DAR TESTIMONIO JUNTOS DEL AMOR DE DIOS",
-      "fecha": "10/05/2026",
-      "reflexion": "“En esto todos reconocerán que ustedes son mis discípulos: en el amor que se tengan los unos a los otros” (Jn. 13,35)\nLa fe cristiana es, por naturaleza, comunitaria. Cuando caminamos juntos, apoyándonos en la oración, en el servicio y la fraternidad, nos convertimos en signos vivos de la presencia de Dios en el mundo.\nJesús no dijo que sus discípulos serían reconocidos por el poder, por el prestigio o simplemente por las palabras, sino por el amor concreto.\nAmarnos los unos a los otros significa acogernos, perdonarnos, comprendernos, ayudarnos y caminar juntos, incluso en las diferencias.\nVivir este mandamiento es continuar la misión de Jesús en el mundo: hacer visible el amor de Dios en las relaciones humanas."
     }
   ]
 }

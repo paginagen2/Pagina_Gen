@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 39,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 40,
   "items": [
+    {
+      "id": "pasapalabra_1768702953661",
+      "titulo": "REZAR POR LA UNIDAD",
+      "fecha": "18/01/2026",
+      "reflexion": "Rezar por la unidad es reconocer que estamos llamados a caminar juntos.\nCuando rezamos por la unidad, pedimos la gracia de superar divisiones, prejuicios y heridas que nos separan.\nLa unidad no significa uniformidad. En la oración, aprendemos a acoger la diversidad como una riqueza y a buscar lo que nos une: el deseo común de paz, de justicia y de amor.\nRezar por la unidad también nos compromete con actitudes concretas. Cada gesto de reconciliación, cada palabra que construye en lugar de herir, cada paso hacia el encuentro, se convierte en respuesta a la oración ofrecida."
+    },
     {
       "id": "pasapalabra_1768610632440",
       "titulo": "NO CEDER AL INDIVIDUALISMO",
@@ -34,12 +40,6 @@
       "titulo": "CUSTODIAR LA ESPERANZA",
       "fecha": "13/01/2026",
       "reflexion": "Cuando todo parece oscuro, la esperanza no niega el dolor ni ignora la realidad; prefiere creer que el sufrimiento no tiene la última palabra.\nElla no nace de un optimismo ingenuo, sino de la confianza en que cada paso, por pequeño que sea, puede abrir caminos.\nEn medio de las caídas y decepciones, custodiar la esperanza es recordar que la vida está hecha de recomienzos.\nCustodiar la esperanza también es un compromiso colectivo. Cuando sostenemos la esperanza unos de los otros, creamos vínculos que resisten el desánimo y construimos un futuro juntos.\nLa esperanza es como una llama: debemos protegerla del viento de la indiferencia y alimentarla con actitudes concretas de amor y fe en la perseverancia."
-    },
-    {
-      "id": "pasapalabra_1768182132521",
-      "titulo": "DAR VOZ A LOS POBRES",
-      "fecha": "12/01/2026",
-      "reflexion": "Dar voz a los pobres es, ante todo, escucharlos. Escuchar sus dolores, sus esperanzas, sus luchas diarias y también su sabiduría, tantas veces ignorada.\nLos pobres tienen voz, pero muchas veces es silenciada por la indiferencia, por los prejuicios y por las estructuras que favorecen a unos pocos y silencian a muchos.\nCuando damos voz a los pobres, estamos llamados a reconsiderar nuestros privilegios y nuestra forma de vida. Su realidad nos interpela, nos inquieta y nos llama a la responsabilidad. No se trata solo de caridad ocasional, sino de justicia.\nDar voz a los pobres es también reconocer que Dios habla a través de ellos. En sus gritos, escuchamos una llamada a la conversión del corazón, a la solidaridad concreta y al compromiso por un mundo más fraterno."
     }
   ]
 }

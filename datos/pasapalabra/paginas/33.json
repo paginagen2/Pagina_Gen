@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 33,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 34,
   "items": [
+    {
+      "id": "pasapalabra_1771728515534",
+      "titulo": "ENTRENARSE PARA VIVIR EL PRESENTE",
+      "fecha": "22/02/2026",
+      "reflexion": "Vivir el presente es un verdadero entrenamiento diario de atención y humildad. Es aprender a estar plenamente presente donde estás, sin dejar que el pasado nos aprisione en la culpa, o que el futuro nos robe la paz con excesivas preocupaciones.\nEntrenarse para vivir el presente no significa ignorar planes o recuerdos, sino, no permitir que dominen el corazón. Es percibir la belleza del momento sencillo, agradecer por lo que se tiene, incluso cuando parece poco.\nCuando elegimos vivir el presente, la vida adquiere profundidad en su verdadero significado. El tiempo deja de ser algo pasajero y se convierte en un espacio de encuentro, ya sea con nosotros mismos, con los demás y con Dios, que siempre se manifiesta en el momento presente."
+    },
     {
       "id": "pasapalabra_1771634352632",
       "titulo": "ACOGER LA VOLUNTAD DE DIOS",
@@ -34,12 +40,6 @@
       "titulo": "CONFIANZA EN DIOS",
       "fecha": "17/02/2026",
       "reflexion": "Confiar en Dios es caminar sin tener todas las respuestas, sostenidos por la certeza de que no estamos solos.\nLa confianza nace cuando entregamos el control en sus manos y aceptamos que hay un tiempo más grande que el nuestro.\nConfiar en Dios es descansar el corazón, incluso cuando la mente insiste en preocuparse. Es aprender que la fe no elimina los miedos, sino que nos da la valentía para seguir adelante a pesar de ellos.\nConfiar en Dios es una decisión diaria: elegir creer, elegir esperar, elegir avanzar, sabiendo que Él cuida de cada detalle."
-    },
-    {
-      "id": "pasapalabra_1771206113095",
-      "titulo": "LA PROXIMIDAD CREA EL VERDADERO SENTIDO DE FAMILIA",
-      "fecha": "16/02/2026",
-      "reflexion": "La proximidad crea el verdadero sentido de familia no porque elimine las diferencias, sino porque nos enseña a convivir con ellas.\nEs en la vida cotidiana compartida, en los gestos sencillos y la presencia constante que se fortalecen los lazos.\nLa familia no es solo lo que se hereda por la sangre, sino lo que se construye a través de la convivencia, el cuidado mutuo y la disposición de estar juntos, incluso cuando es difícil.\nLa proximidad transforma nuestras relaciones, que perduran más allá del tiempo y del espacio.\nEn la familia natural, entre amigos, en la comunidad, cuando el amor recíproco se vive intensamente, la proximidad es testimoniada en la práctica diaria."
     }
   ]
 }

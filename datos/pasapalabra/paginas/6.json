@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 6,
   "tamanioPagina": 6,
-  "total": 312,
+  "total": 313,
   "siguientePagina": 7,
   "items": [
+    {
+      "id": "pasapalabra_1785023821937",
+      "titulo": "COMPARTIR LAS ALEGRÍAS",
+      "fecha": "26/07/2026",
+      "reflexion": "Estar al lado de alguien no solo significa acompañarlo en su dolor, sino también celebrar sus logros, sonrisas y momentos felices.\nQuien aprende a alegrarse con el bien del prójimo supera la envidia, el egoísmo y la indiferencia.\nLa alegría compartida se multiplica, y cuando alguien se da cuenta de que su felicidad es acogida y no juzgada, se siente doblemente amado.\nParticipar en la alegría del otro es reconocer la acción de Dios en la vida de las personas y dar gracias junto con ellas."
+    },
     {
       "id": "pasapalabra_1784948501833",
       "titulo": "SER SENSIBLES AL DOLOR DE LOS DEMÁS",
@@ -34,12 +40,6 @@
       "titulo": "DIRIGIRSE AL HERMANO/HERMANA CON MANSEDUMBRE",
       "fecha": "21/07/2026",
       "reflexion": "“Una respuesta amable calma la furia, una palabra hiriente hace que aumente la cólera” (Prov. 15,1)\nDirigirse al hermano y a la hermana con mansedumbre es demostrar respeto, amor y sabiduría en las palabras. Muchas veces, lo que más duele no es lo que decimos, sino cómo lo decimos.\nUna palabra dicha sin cuidado puede herir profundamente, mientras que una palabra amable puede restaurar una relación rota.\nQuien aprende a hablar con calma evita conflictos innecesarios y construye relaciones sanas.\nHablar con mansedumbre es sembrar amor en el corazón de las personas."
-    },
-    {
-      "id": "pasapalabra_1784509270616",
-      "titulo": "VIVIR LA PAZ CON TODOS",
-      "fecha": "20/07/2026",
-      "reflexion": "“En cuanto dependa de ustedes, traten de vivir en paz con todos” (Rom. 12,18)\nEste versículo muestra que la paz comienza con nuestra actitud. No siempre podemos controlar los corazones de los demás, pero sí podemos cuidar del nuestro. Cuando difundimos calma, comprensión y bondad, nos convertimos en instrumentos de paz dondequiera que estemos.\nQuienes viven en paz aprenden a perdonar, a reconocer los errores y a respetar las diferencias. Esto no significa aceptar injusticias o permitir la falta de respeto, sino elegir caminos que construyan la paz.\nLa paz comienza en la forma en que respondemos, escuchamos y tratamos a los demás.\nHay situaciones en las que tenemos razón, pero necesitamos tener un corazón manso y humilde, como el de Jesús."
     }
   ]
 }
