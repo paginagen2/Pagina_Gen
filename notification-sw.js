@@ -1,6 +1,9 @@
+self.GEN_SHELL_CACHE = 'gen2-shell-v2';
+self.GEN_CONTENT_CACHE = 'gen2-content-v2';
+
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
-    const cache = await caches.open('gen2-shell-v1');
+    const cache = await caches.open(self.GEN_SHELL_CACHE);
     await cache.addAll([
       './index.html',
       './manifest.webmanifest',
@@ -24,7 +27,7 @@ self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const names = await caches.keys();
     await Promise.all(names
-      .filter(name => name.startsWith('gen2-') && !['gen2-shell-v1', 'gen2-content-v1'].includes(name))
+      .filter(name => name.startsWith('gen2-') && ![self.GEN_SHELL_CACHE, self.GEN_CONTENT_CACHE].includes(name))
       .map(name => caches.delete(name)));
     await self.clients.claim();
   })());
@@ -48,7 +51,7 @@ self.addEventListener('fetch', event => {
 
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
-      const cache = await caches.open('gen2-content-v1');
+      const cache = await caches.open(self.GEN_CONTENT_CACHE);
       try {
         const response = await fetch(request);
         if (response.ok) await cache.put(request, response.clone());
@@ -63,8 +66,20 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith((async () => {
+    if (/\.(?:js|css)$/i.test(url.pathname)) {
+      try {
+        const response = await fetch(request, { cache: 'no-cache' });
+        if (response.ok) {
+          const cache = await caches.open(self.GEN_CONTENT_CACHE);
+          await cache.put(request, response.clone());
+        }
+        return response;
+      } catch (_) {
+        return (await caches.match(request)) || Response.error();
+      }
+    }
     if (/\.json$/i.test(url.pathname)) {
-      const cache = await caches.open('gen2-content-v1');
+      const cache = await caches.open(self.GEN_CONTENT_CACHE);
       try {
         const response = await fetch(request);
         if (response.ok) await cache.put(request, response.clone());
@@ -77,7 +92,7 @@ self.addEventListener('fetch', event => {
     if (cached) return cached;
     const response = await fetch(request);
     if (response.ok || response.type === 'opaque') {
-      const cache = await caches.open('gen2-content-v1');
+      const cache = await caches.open(self.GEN_CONTENT_CACHE);
       await cache.put(request, response.clone());
     }
     return response;
@@ -88,7 +103,7 @@ self.addEventListener('message', event => {
   const message = event.data || {};
   if (message.type === 'GEN_CLEAR_OFFLINE') {
     event.waitUntil((async () => {
-      await caches.delete('gen2-content-v1');
+      await caches.delete(self.GEN_CONTENT_CACHE);
       event.ports?.[0]?.postMessage({ cleared: true });
     })());
   }

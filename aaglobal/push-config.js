@@ -1,1 +1,4 @@
-window.GEN2_VAPID_PUBLIC_KEY = 'BEd9GMZP_RfiqmCL1VrgznkgRgxr8fNcdl5kn6bM62b4rxqez_OGfpZ74xBbZ-VoWhQfdpdVjHJ8MkExHHj99Wo';
+// Esta clave pública se deriva de WEB_PUSH_PRIVATE_KEY. Cambiar una exige
+// cambiar la otra y renovar las suscripciones existentes.
+window.GEN2_VAPID_PUBLIC_KEY = 'BNmvZDnSBJuTLzltmXLXYOA4lewALLO1QiX1Juok30PvmMPNNkULufWviebPEtkdY6IaTWCcOF8FklAns4HALvU';
+window.GEN2_VAPID_KEY_ID = '20260819-1';

@@ -120,7 +120,7 @@ service cloud.firestore {
 
       match /dispositivosNotificaciones/{deviceId} {
         allow get, list: if ownUser(uid) || isAdmin();
-        allow create, update: if ownUser(uid)
+        allow create: if ownUser(uid)
           && request.resource.data.deviceId == deviceId
           && request.resource.data.enabled is bool
           && request.resource.data.platform == 'web'
@@ -132,7 +132,21 @@ service cloud.firestore {
           && request.resource.data.keys().hasOnly([
             'mode', 'categories', 'fixedTimes', 'schedule', 'timezone',
             'deviceId', 'platform', 'transport', 'enabled', 'permission',
-            'updatedAt', 'version', 'subscription', 'fcmToken'
+            'updatedAt', 'version', 'subscription', 'fcmToken', 'webPushKeyId'
+          ]);
+        allow update: if ownUser(uid)
+          && request.resource.data.deviceId == deviceId
+          && request.resource.data.enabled is bool
+          && request.resource.data.platform in ['web', 'android', 'ios']
+          && request.resource.data.transport in ['web-push', 'fcm']
+          && request.resource.data.timezone is string
+          && request.resource.data.permission in ['default', 'prompt', 'granted', 'denied']
+          && request.resource.data.version is int
+          && request.resource.data.version >= 1
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'mode', 'categories', 'fixedTimes', 'schedule', 'timezone',
+            'deviceId', 'platform', 'transport', 'enabled', 'permission',
+            'updatedAt', 'version', 'subscription', 'fcmToken', 'webPushKeyId'
           ]);
         allow delete: if ownUser(uid) || isAdmin();
       }
@@ -417,14 +431,8 @@ service cloud.firestore {
     }
 
     match /notificaciones_pendientes/{notificationId} {
-      allow read: if isAdmin() || hasRole('funcion_comunicacion');
-      allow create: if canManage('funcion_comunicacion')
-        || (
-          request.resource.data.roles is list
-          && request.resource.data.roles.size() == 1
-          && hasRole('funcion_comunicacion_' + request.resource.data.roles[0])
-        );
-      allow update, delete: if isAdmin();
+      allow read: if canManage('funcion_notificaciones');
+      allow create, update, delete: if canManage('funcion_notificaciones');
     }
 
     match /admin/{documentId} {

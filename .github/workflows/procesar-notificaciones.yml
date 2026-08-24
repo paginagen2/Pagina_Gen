@@ -28,4 +28,4 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           WEB_PUSH_PRIVATE_KEY: ${{ secrets.WEB_PUSH_PRIVATE_KEY }}
-          WEB_PUSH_PUBLIC_KEY: BEd9GMZP_RfiqmCL1VrgznkgRgxr8fNcdl5kn6bM62b4rxqez_OGfpZ74xBbZ-VoWhQfdpdVjHJ8MkExHHj99Wo
+          WEB_PUSH_PUBLIC_KEY: BNmvZDnSBJuTLzltmXLXYOA4lewALLO1QiX1Juok30PvmMPNNkULufWviebPEtkdY6IaTWCcOF8FklAns4HALvU

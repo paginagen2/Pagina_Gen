@@ -1,5 +1,7 @@
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const { getMessaging } = require('firebase-admin/messaging');
+const { createECDH } = require('node:crypto');
 const webpush = require('web-push');
 const { currentMinute, plansForLocalDay } = require('./notificaciones-planificador');
 
@@ -15,6 +17,12 @@ try {
   serviceAccount = JSON.parse(serviceAccountValue);
 } catch {
   serviceAccount = JSON.parse(Buffer.from(serviceAccountValue, 'base64').toString('utf8'));
+}
+
+const vapid = createECDH('prime256v1');
+vapid.setPrivateKey(Buffer.from(privateKey, 'base64url'));
+if (vapid.getPublicKey().toString('base64url') !== publicKey) {
+  throw new Error('WEB_PUSH_PUBLIC_KEY no corresponde a WEB_PUSH_PRIVATE_KEY.');
 }
 
 initializeApp({ credential: cert(serviceAccount) });
@@ -37,13 +45,45 @@ async function sendToDevice(doc, payload) {
   const device = doc.data();
   if (!device.enabled) return 'skipped';
   try {
-    if (validSubscription(device.subscription)) {
+    if (device.fcmToken) {
+      await getMessaging().send({
+        token: device.fcmToken,
+        notification: {
+          title: clean(payload.title, 90),
+          body: clean(payload.body),
+          ...(payload.image ? { imageUrl: absoluteAsset(payload.image) } : {})
+        },
+        data: {
+          url: clean(payload.url || 'index.html', 300),
+          tag: clean(payload.tag || 'gen2-notification', 120),
+          image: payload.image ? absoluteAsset(payload.image) : ''
+        },
+        android: {
+          priority: payload.urgency === 'high' ? 'high' : 'normal',
+          notification: {
+            ...(payload.image ? { imageUrl: absoluteAsset(payload.image) } : {}),
+            tag: clean(payload.tag || 'gen2-notification', 120),
+            sound: 'default'
+          }
+        },
+        apns: {
+          headers: { 'apns-priority': '10' },
+          payload: { aps: { sound: 'default', badge: Number(payload.badge || 1), mutableContent: true } },
+          ...(payload.image ? { fcmOptions: { imageUrl: absoluteAsset(payload.image) } } : {})
+        }
+      });
+    } else if (validSubscription(device.subscription)) {
       await webpush.sendNotification(device.subscription, JSON.stringify(payload), {
         TTL: 43200,
         urgency: payload.urgency || 'normal'
       });
     } else {
-      return 'skipped';
+      await doc.ref.set({
+        enabled: false,
+        ultimoError: 'El dispositivo no tiene un token o una suscripción válida.',
+        ultimoErrorEn: FieldValue.serverTimestamp()
+      }, { merge: true });
+      return 'failed';
     }
     await doc.ref.set({ ultimoEnvioEn: FieldValue.serverTimestamp(), ultimoError: FieldValue.delete() }, { merge: true });
     return 'sent';
@@ -55,6 +95,13 @@ async function sendToDevice(doc, payload) {
       ultimoError: clean(error.message, 240),
       ultimoErrorEn: FieldValue.serverTimestamp()
     }, { merge: true });
+    console.error('Falló una notificación', {
+      deviceId: doc.id,
+      platform: device.platform || 'unknown',
+      transport: device.transport || 'unknown',
+      code: error.code || error.statusCode || 'unknown',
+      message: clean(error.message, 240)
+    });
     return 'failed';
   }
 }
@@ -69,24 +116,36 @@ async function matchesRoles(doc, roles) {
   return (user.data()?.roles || []).some(role => roles.includes(role));
 }
 
-async function broadcast(payload, { category = 'general', roles = [] } = {}) {
+async function broadcast(payload, { category = 'general', roles = [], deliveryKey = '' } = {}) {
   const snapshot = await devices();
-  const result = { sent: 0, failed: 0 };
+  const result = { devices: snapshot.size, matched: 0, sent: 0, failed: 0, alreadyDelivered: 0, skipped: 0 };
   for (const doc of snapshot.docs) {
     const isEssentialCommunication = category === 'general' || category === 'zone';
     if (!isEssentialCommunication && (doc.data().categories?.[category] || 'off') === 'off') continue;
     if (!(await matchesRoles(doc, roles))) continue;
+    result.matched += 1;
+    const delivery = deliveryKey ? doc.ref.collection('entregas').doc(deliveryKey) : null;
+    if (delivery && (await delivery.get()).exists) {
+      result.alreadyDelivered += 1;
+      continue;
+    }
     const status = await sendToDevice(doc, payload);
-    if (status === 'sent') result.sent += 1;
+    if (status === 'sent') {
+      result.sent += 1;
+      if (delivery) await delivery.set({ category, creadoEn: FieldValue.serverTimestamp() });
+    }
     if (status === 'failed') result.failed += 1;
+    if (status === 'skipped') result.skipped += 1;
   }
   return result;
 }
 
 async function processQueue() {
+  const summary = { jobs: 0, sent: 0, failed: 0 };
   const snapshot = await db.collection('notificaciones_pendientes')
     .where('estado', '==', 'pendiente').limit(25).get();
   for (const job of snapshot.docs) {
+    summary.jobs += 1;
     const data = job.data();
     await job.ref.set({ estado: 'procesando', procesadoEn: FieldValue.serverTimestamp() }, { merge: true });
     try {
@@ -112,17 +171,23 @@ async function processQueue() {
           renotify: true
         }, {
           category: data.category || 'general',
-          roles: Array.isArray(data.roles) ? data.roles : []
+          roles: Array.isArray(data.roles) ? data.roles : [],
+          deliveryKey: `manual-${job.id}`
         });
       }
+      summary.sent += result.sent || 0;
+      summary.failed += result.failed || 0;
       await job.ref.set({ estado: 'completada', resultado: result, completadoEn: FieldValue.serverTimestamp() }, { merge: true });
     } catch (error) {
+      summary.failed += 1;
       await job.ref.set({ estado: 'error', error: clean(error.message, 300), completadoEn: FieldValue.serverTimestamp() }, { merge: true });
     }
   }
+  return summary;
 }
 
 async function notifyCanalPosts() {
+  const summary = { posts: 0, sent: 0, failed: 0, waitingForDevices: 0 };
   const now = new Date();
   const [published, programmed] = await Promise.all([
     db.collection('canal_publicaciones').where('estado', '==', 'publicada')
@@ -133,6 +198,7 @@ async function notifyCanalPosts() {
   for (const post of [...published.docs, ...programmed.docs]) {
     const data = post.data();
     if (data.notificacionEnviadaEn) continue;
+    summary.posts += 1;
     const result = await broadcast({
       title: clean(data.titulo || 'Nueva comunicación', 90),
       body: clean(data.resumen || 'Hay una novedad en Canal Gen.'),
@@ -143,10 +209,20 @@ async function notifyCanalPosts() {
       renotify: true
     }, {
       category: data.rolesDestinatarios?.length ? 'zone' : 'general',
-      roles: data.rolesDestinatarios || []
+      roles: data.rolesDestinatarios || [],
+      deliveryKey: `canal-${post.id}`
     });
-    await post.ref.set({ notificacionEnviadaEn: FieldValue.serverTimestamp(), resultadoNotificacion: result }, { merge: true });
+    summary.sent += result.sent;
+    summary.failed += result.failed;
+    const completed = result.matched > 0 && result.failed === 0 && result.skipped === 0;
+    if (!completed && result.matched === 0) summary.waitingForDevices += 1;
+    await post.ref.set({
+      ...(completed ? { notificacionEnviadaEn: FieldValue.serverTimestamp() } : {}),
+      resultadoNotificacion: result,
+      ultimoIntentoNotificacionEn: FieldValue.serverTimestamp()
+    }, { merge: true });
   }
+  return summary;
 }
 
 function localParts(timezone) {
@@ -165,44 +241,51 @@ const content = {
 };
 
 async function processScheduledContent() {
+  const summary = { devices: 0, due: 0, sent: 0, failed: 0 };
   const snapshot = await devices();
+  summary.devices = snapshot.size;
   for (const device of snapshot.docs) {
     const data = device.data();
     const parts = localParts(data.timezone);
     const plans = plansForLocalDay(data, parts, Object.keys(content));
     for (const plan of plans) {
       const nowMinute = currentMinute(parts);
-      if (nowMinute < plan.minute || nowMinute >= plan.minute + 60) continue;
+      if (nowMinute < plan.minute) continue;
+      summary.due += 1;
       const [title, body, url, image] = content[plan.category];
       const delivery = device.ref.collection('entregas').doc(`${plan.category}-${plan.dateKey}`);
-      const claimed = await db.runTransaction(async transaction => {
-        if ((await transaction.get(delivery)).exists) return false;
-        transaction.create(delivery, {
-          category: plan.category,
-          dateKey: plan.dateKey,
-          horaProgramada: plan.time,
-          horaFija: plan.fixed,
-          creadoEn: FieldValue.serverTimestamp()
-        });
-        return true;
-      });
-      if (!claimed) continue;
+      if ((await delivery.get()).exists) continue;
       const status = await sendToDevice(device, {
         title, body, url,
         image: `aadocumentos/imagenes/notificaciones/${image}`,
         tag: `gen2-${plan.category}-${plan.dateKey}`,
         badge: 1
       });
-      if (status !== 'sent') await delivery.delete();
+      if (status === 'sent') {
+        await delivery.set({
+          category: plan.category,
+          dateKey: plan.dateKey,
+          horaProgramada: plan.time,
+          horaFija: plan.fixed,
+          creadoEn: FieldValue.serverTimestamp()
+        });
+        summary.sent += 1;
+      }
+      if (status === 'failed') summary.failed += 1;
     }
   }
+  return summary;
 }
 
 (async () => {
-  await processQueue();
-  await notifyCanalPosts();
-  await processScheduledContent();
-  console.log('Procesamiento de notificaciones completado.');
+  const summary = {
+    queue: await processQueue(),
+    channel: await notifyCanalPosts(),
+    scheduled: await processScheduledContent()
+  };
+  console.log('Resumen de notificaciones:', JSON.stringify(summary));
+  const failures = summary.queue.failed + summary.channel.failed + summary.scheduled.failed;
+  if (failures > 0) throw new Error(`${failures} envío(s) de notificaciones fallaron.`);
 })().catch(error => {
   console.error(error);
   process.exitCode = 1;

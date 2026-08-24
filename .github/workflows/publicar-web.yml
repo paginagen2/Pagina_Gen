@@ -11,6 +11,16 @@ on:
       - 'firebase.json'
       - 'firestore.indexes.json'
       - 'firestore.rules'
+      - '.github/workflows/procesar-notificaciones.yml'
+      - 'aaglobal/**'
+      - 'perfil/**'
+      - 'notification-sw.js'
+      - 'auth.js'
+      - 'manifest.webmanifest'
+      - 'scripts/procesar-notificaciones.js'
+      - 'scripts/notificaciones-planificador.js'
+      - 'aadocumentos/imagenes/notificaciones/**'
+      - 'descargas/**'
       - 'pdv/**'
   workflow_dispatch:
 

@@ -42,6 +42,8 @@ const DAY_NAMES = { 0: 'domingo', 1: 'lunes', 2: 'martes', 3: 'miércoles', 4: '
 let currentUser = null;
 let loadedPreferences = null;
 let notificationsEnabled = false;
+let nativeNotificationPermission = 'prompt';
+let nativePushToken = '';
 let webPushRegistration = null;
 let webPushPublicKey = '';
 const notificationDeviceId = getNotificationDeviceId();
@@ -76,8 +78,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   elements.form.addEventListener('change', handleFormChange);
   elements.form.addEventListener('submit', savePreferences);
 
+  const nativeNotifications = getNativeNotifications();
+  if (nativeNotifications) {
+    await nativeNotifications.addListener('localNotificationActionPerformed', event => {
+      const destination = event?.notification?.extra?.url;
+      if (destination) window.location.href = new URL(`../${destination}`, window.location.href).href;
+    });
+  }
   try {
-    if (window.firebaseReady) await window.firebaseReady;
+    await withTimeout(prepareNativePush(), 5000, 'El registro móvil tardó demasiado.');
+  } catch (error) {
+    console.warn('La preparación de notificaciones móviles continuará en segundo plano:', error);
+  }
+
+  try {
+    if (window.firebaseReady) await withTimeout(window.firebaseReady, 12000, 'La conexión con la cuenta tardó demasiado.');
     if (!window.firebaseAuth || !window.firebaseUtils) throw new Error('Firebase no está disponible');
     window.firebaseUtils.onAuthStateChanged(window.firebaseAuth, handleAuthState);
   } catch (error) {
@@ -142,9 +157,10 @@ async function handleAuthState(user) {
   }
 
   try {
+    await withTimeout(refreshNativeNotificationPermission(), 4000, 'No se pudo consultar el permiso a tiempo.');
     await prepareWebPush();
     const { doc, getDoc } = window.firebaseUtils;
-    const snapshot = await getDoc(notificationDeviceRef(user.uid));
+    const snapshot = await withTimeout(getDoc(notificationDeviceRef(user.uid)), 8000, 'No se pudieron descargar las preferencias a tiempo.');
     const remotePreferences = snapshot.exists() ? snapshot.data() : null;
     loadedPreferences = newestPreferences(readCachedPreferences(), remotePreferences);
   } catch (error) {
@@ -152,12 +168,39 @@ async function handleAuthState(user) {
     loadedPreferences = readCachedPreferences();
   }
 
+  const wasEnabledForThisDevice = loadedPreferences?.enabled === true;
   applyLoadedPreferences(loadedPreferences);
-  if (webPushRegistration) {
-    const activeSubscription = await webPushRegistration.pushManager.getSubscription();
-    notificationsEnabled = loadedPreferences?.enabled !== false
-      && getNotificationPermission() === 'granted'
-      && Boolean(activeSubscription);
+  nativePushToken = loadedPreferences?.fcmToken || nativePushToken;
+  if (getNativePushNotifications() && wasEnabledForThisDevice && getNotificationPermission() === 'granted') {
+    try {
+      await withTimeout(registerNativePush(), 8000, 'El registro remoto tardó demasiado.');
+      notificationsEnabled = await persistEnabledState(true);
+      if (!notificationsEnabled) {
+        elements.activationStatus.textContent = `${nativePlatformName()} dio permiso, pero este dispositivo todavía no quedó registrado. Tocá “Activar notificaciones” para volver a intentarlo.`;
+      }
+    } catch (error) {
+      notificationsEnabled = false;
+      console.warn('La pantalla se mostrará aunque el registro remoto no esté listo:', error);
+      elements.activationStatus.textContent = `La configuración está disponible, pero ${nativePlatformName()} todavía no pudo completar el registro de avisos. Revisá la conexión y volvé a intentarlo más tarde.`;
+    }
+  }
+  if (!getNativeNotifications() && webPushRegistration) {
+    try {
+      let activeSubscription = await webPushRegistration.pushManager.getSubscription();
+      const shouldRestore = loadedPreferences?.enabled === true && getNotificationPermission() === 'granted';
+      const keyChanged = loadedPreferences?.webPushKeyId !== currentWebPushKeyId();
+      if (shouldRestore && keyChanged && activeSubscription) {
+        await activeSubscription.unsubscribe();
+        activeSubscription = null;
+      }
+      if (shouldRestore && !activeSubscription) activeSubscription = await subscribeWebPush();
+      notificationsEnabled = shouldRestore && Boolean(activeSubscription);
+      if (notificationsEnabled && keyChanged) notificationsEnabled = await persistEnabledState(true);
+    } catch (error) {
+      notificationsEnabled = false;
+      console.error('No se pudo renovar la suscripción web:', error);
+      elements.activationStatus.textContent = 'El permiso está activo, pero el navegador no pudo renovar la suscripción. Tocá “Activar notificaciones” para volver a intentarlo.';
+    }
   }
   updateActivationPresentation();
   elements.loading.hidden = true;
@@ -180,7 +223,10 @@ function applyLoadedPreferences(preferences) {
   applyCategories(source.categories, source.fixedTimes);
   applySchedule(source.schedule);
   updateModePresentation(mode);
-  notificationsEnabled = preferences?.enabled !== false && getNotificationPermission() === 'granted';
+  const hasNativeRegistration = !getNativePushNotifications() || Boolean(preferences?.fcmToken);
+  notificationsEnabled = preferences?.enabled === true
+    && getNotificationPermission() === 'granted'
+    && hasNativeRegistration;
 }
 
 async function toggleNotifications() {
@@ -188,17 +234,21 @@ async function toggleNotifications() {
 
   if (notificationsEnabled) {
     notificationsEnabled = false;
-    if (webPushRegistration) {
+    if (getNativePushNotifications()) {
+      await unregisterNativePush();
+    } else if (webPushRegistration) {
       const subscription = await webPushRegistration.pushManager.getSubscription();
       await subscription?.unsubscribe();
     }
-    cachePreferences({ ...buildCurrentPreferences(), ...getDeviceMetadata(), enabled: false, permission: getNotificationPermission(), updatedAt: new Date().toISOString(), version: 6, subscription: null, fcmToken: null });
+    cachePreferences({ ...buildCurrentPreferences(), ...getDeviceMetadata(), ...getWebPushMetadata(), enabled: false, permission: getNotificationPermission(), updatedAt: new Date().toISOString(), version: 7, subscription: null, fcmToken: null });
     await persistEnabledState(false);
     updateActivationPresentation();
     return;
   }
 
-  if (!('Notification' in window)) {
+  const nativeNotifications = getNativeNotifications();
+  const nativePush = getNativePushNotifications();
+  if (!nativePush && !nativeNotifications && !('Notification' in window)) {
     elements.activationStatus.textContent = 'Este navegador no admite notificaciones. Probá desde un navegador actualizado.';
     return;
   }
@@ -206,8 +256,20 @@ async function toggleNotifications() {
   elements.enable.disabled = true;
   elements.enable.textContent = 'Solicitando permiso…';
   try {
-    const permission = await Notification.requestPermission();
-    if (permission === 'granted') await subscribeWebPush();
+    let permission;
+    if (nativePush || nativeNotifications) {
+      const permissionPlugin = nativePush || nativeNotifications;
+      let status = await permissionPlugin.checkPermissions();
+      if (status.receive !== 'granted' && status.display !== 'granted') {
+        status = await permissionPlugin.requestPermissions();
+      }
+      permission = status.receive || status.display;
+      nativeNotificationPermission = permission;
+      if (permission === 'granted' && nativePush) await registerNativePush();
+    } else {
+      permission = await Notification.requestPermission();
+      if (permission === 'granted') await subscribeWebPush();
+    }
     notificationsEnabled = permission === 'granted';
     cachePreferences({
       ...buildCurrentPreferences(),
@@ -215,11 +277,19 @@ async function toggleNotifications() {
       enabled: notificationsEnabled,
       permission,
       updatedAt: new Date().toISOString(),
-      version: 6,
+      version: 7,
       subscription: await currentWebPushSubscription(),
-      fcmToken: null
+      fcmToken: notificationsEnabled ? (nativePushToken || loadedPreferences?.fcmToken || null) : null,
+      ...getWebPushMetadata()
     });
-    await persistEnabledState(notificationsEnabled);
+    const saved = await persistEnabledState(notificationsEnabled);
+    if (notificationsEnabled && !saved) {
+      notificationsEnabled = false;
+      elements.activationStatus.textContent = nativePush
+        ? `${nativePlatformName()} dio permiso, pero no pudimos registrar este dispositivo. Revisá la conexión y volvé a intentarlo.`
+        : 'El navegador dio permiso, pero no pudimos registrar este equipo. Revisá la conexión y volvé a intentarlo.';
+      return;
+    }
     if (permission === 'denied') {
       elements.activationStatus.textContent = 'El permiso está bloqueado. Podés habilitarlo desde la configuración del navegador.';
     } else if (notificationsEnabled) {
@@ -229,12 +299,15 @@ async function toggleNotifications() {
     console.error('No se pudo solicitar permiso para notificaciones:', error);
     notificationsEnabled = false;
     const isBrave = Boolean(navigator.brave);
+    const nativeRegistrationMessage = nativePush ? describeNativeRegistrationError(error) : '';
     if (!window.isSecureContext) {
       elements.activationStatus.textContent = 'Las notificaciones necesitan una conexión segura. Abrí la página desde su dirección web normal.';
     } else if (('Notification' in window && Notification.permission === 'denied') || error?.name === 'NotAllowedError') {
       elements.activationStatus.textContent = 'El permiso está bloqueado en el navegador. Habilitá las notificaciones para este sitio desde el candado de la barra de direcciones.';
     } else if (isBrave && error?.name === 'AbortError') {
       elements.activationStatus.textContent = 'Brave tiene desactivado su servicio de avisos. En Configuración › Privacidad y seguridad, activá “Usar servicios de Google para los mensajes push” y reiniciá Brave.';
+    } else if (nativeRegistrationMessage) {
+      elements.activationStatus.textContent = nativeRegistrationMessage;
     } else {
       elements.activationStatus.textContent = 'No pudimos registrar este dispositivo. Recargá la página y volvé a intentarlo.';
     }
@@ -245,26 +318,41 @@ async function toggleNotifications() {
 }
 
 async function persistEnabledState(enabled) {
-  if (!currentUser) return;
+  if (!currentUser) return false;
   const currentPreferences = buildCurrentPreferences();
   try {
-    const { setDoc } = window.firebaseUtils;
     const preferences = {
       ...currentPreferences,
       ...getDeviceMetadata(),
       enabled,
       permission: getNotificationPermission(),
       updatedAt: new Date().toISOString(),
-      version: 6,
+      version: 7,
       subscription: enabled ? await currentWebPushSubscription() : null,
-      fcmToken: null
+      fcmToken: enabled ? (nativePushToken || loadedPreferences?.fcmToken || null) : null,
+      ...getWebPushMetadata()
     };
     cachePreferences(preferences);
-    await setDoc(notificationDeviceRef(currentUser.uid), preferences, { merge: true });
+    await writeDevicePreferences(preferences);
     loadedPreferences = preferences;
+    return true;
   } catch (error) {
     console.error('No se pudo guardar el estado de notificaciones:', error);
     elements.activationStatus.textContent = 'El permiso cambió, pero no pudimos guardar la preferencia en tu cuenta.';
+    if (enabled) {
+      cachePreferences({
+        ...currentPreferences,
+        ...getDeviceMetadata(),
+        enabled: false,
+        permission: getNotificationPermission(),
+        updatedAt: new Date().toISOString(),
+        version: 7,
+        subscription: null,
+        fcmToken: null,
+        ...getWebPushMetadata()
+      });
+    }
+    return false;
   }
 }
 
@@ -281,11 +369,113 @@ function updateActivationPresentation() {
 }
 
 function getNotificationPermission() {
+  if (getNativePushNotifications() || getNativeNotifications()) return nativeNotificationPermission;
   return 'Notification' in window ? Notification.permission : 'unsupported';
 }
 
+function getNativeNotifications() {
+  return window.Capacitor?.isNativePlatform?.()
+    ? window.Capacitor?.Plugins?.LocalNotifications
+    : null;
+}
+
+function getNativePushNotifications() {
+  return window.Capacitor?.isNativePlatform?.()
+    ? (window.Capacitor?.Plugins?.FirebaseMessaging || window.Capacitor?.Plugins?.PushNotifications)
+    : null;
+}
+
+async function prepareNativePush() {
+  const nativePush = getNativePushNotifications();
+  if (!nativePush) return;
+
+  const firebaseMessaging = window.Capacitor?.Plugins?.FirebaseMessaging;
+  const tokenEvent = firebaseMessaging ? 'tokenReceived' : 'registration';
+  const receivedEvent = firebaseMessaging ? 'notificationReceived' : 'pushNotificationReceived';
+  const actionEvent = firebaseMessaging ? 'notificationActionPerformed' : 'pushNotificationActionPerformed';
+
+  await nativePush.addListener(tokenEvent, async token => {
+    nativePushToken = token?.token || token?.value || '';
+    if (currentUser && notificationsEnabled && nativePushToken) await persistEnabledState(true);
+  });
+  if (!firebaseMessaging) {
+    await nativePush.addListener('registrationError', error => {
+      console.error('No se pudo registrar el dispositivo para notificaciones remotas:', error);
+      elements.activationStatus.textContent = 'El permiso está activo, pero este dispositivo no pudo registrarse para recibir avisos.';
+    });
+  }
+  await nativePush.addListener(actionEvent, event => {
+    const destination = event?.notification?.data?.url;
+    if (destination) window.location.href = new URL(`../${destination}`, window.location.href).href;
+  });
+  await nativePush.addListener(receivedEvent, async event => {
+    if (window.Capacitor?.getPlatform?.() === 'ios') return;
+    const localNotifications = getNativeNotifications();
+    if (!localNotifications || document.visibilityState !== 'visible') return;
+    const notification = event?.notification || event;
+    await localNotifications.schedule({
+      notifications: [{
+        id: Math.floor(Date.now() / 1000) % 2147483647,
+        title: notification?.title || 'Gen 2',
+        body: notification?.body || 'Tenés una novedad en Gen 2.',
+        extra: { url: notification?.data?.url || 'index.html' }
+      }]
+    });
+  });
+}
+
+async function registerNativePush() {
+  const nativePush = getNativePushNotifications();
+  if (!nativePush) return;
+  if (window.Capacitor?.Plugins?.FirebaseMessaging) {
+    let lastError;
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      try {
+        const result = await withTimeout(nativePush.getToken(), 10000, 'Google Play no respondió a tiempo.');
+        nativePushToken = result?.token || nativePushToken;
+        if (!nativePushToken) throw new Error('Firebase no devolvió un identificador para este dispositivo.');
+        return;
+      } catch (error) {
+        lastError = error;
+        if (attempt < 3) await new Promise(resolve => setTimeout(resolve, attempt * 1200));
+      }
+    }
+    throw lastError;
+  }
+  await nativePush.register();
+}
+
+function describeNativeRegistrationError(error) {
+  const detail = String(error?.message || error?.error || error || '').toUpperCase();
+  if (window.Capacitor?.getPlatform?.() === 'ios') {
+    if (/GOOGLESERVICE|FIREBASE|APNS|TOKEN|CONFIGUR/.test(detail)) {
+      return 'El iPhone concedió permiso, pero Firebase o Apple rechazaron el registro. Verificá la conexión y la configuración de notificaciones de la app.';
+    }
+    return 'El iPhone concedió permiso, pero no pudo completar el registro de avisos. Revisá la conexión y volvé a intentarlo.';
+  }
+  if (/SERVICE_NOT_AVAILABLE|GOOGLE PLAY|TIMEOUT|TIEMPO/.test(detail)) {
+    return 'Android no pudo conectarse con Google Play Services. Comprobá la conexión, actualizá Google Play Services y asegurate de que no esté desactivado; después volvé a tocar “Activar notificaciones”.';
+  }
+  if (/FIS_AUTH_ERROR|AUTHENTICATION_FAILED|INVALID_SENDER|MISMATCH_SENDER/.test(detail)) {
+    return 'Firebase rechazó el registro de este dispositivo. La versión de la app no es el problema; revisaremos la clave de conexión de Android.';
+  }
+  return 'Android concedió el permiso, pero no pudo completar el registro de avisos. Revisá que Google Play Services esté activo y actualizado, y volvé a intentarlo.';
+}
+
+function nativePlatformName() {
+  return window.Capacitor?.getPlatform?.() === 'ios' ? 'El iPhone' : 'Android';
+}
+
+async function unregisterNativePush() {
+  const nativePush = getNativePushNotifications();
+  if (!nativePush) return;
+  if (window.Capacitor?.Plugins?.FirebaseMessaging) await nativePush.deleteToken();
+  else if (nativePush.unregister) await nativePush.unregister();
+  nativePushToken = '';
+}
+
 async function prepareWebPush() {
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+  if (getNativePushNotifications() || getNativeNotifications() || !('serviceWorker' in navigator) || !('PushManager' in window)) return;
   webPushRegistration = await navigator.serviceWorker.register('../notification-sw.js', { scope: '../' });
   await navigator.serviceWorker.ready;
   webPushPublicKey = window.GEN2_VAPID_PUBLIC_KEY || '';
@@ -305,8 +495,36 @@ async function subscribeWebPush() {
 }
 
 async function currentWebPushSubscription() {
+  if (getNativePushNotifications() || getNativeNotifications()) return null;
   const subscription = await webPushRegistration?.pushManager.getSubscription();
   return subscription?.toJSON() || null;
+}
+
+function currentWebPushKeyId() {
+  return getNativePushNotifications() || getNativeNotifications()
+    ? null
+    : (window.GEN2_VAPID_KEY_ID || 'legacy');
+}
+
+function getWebPushMetadata() {
+  return getNativePushNotifications() || getNativeNotifications()
+    ? {}
+    : { webPushKeyId: currentWebPushKeyId() };
+}
+
+async function writeDevicePreferences(preferences) {
+  const { setDoc, deleteDoc } = window.firebaseUtils;
+  const reference = notificationDeviceRef(currentUser.uid);
+  try {
+    await setDoc(reference, preferences, { merge: true });
+  } catch (error) {
+    const permissionDenied = error?.code === 'permission-denied' || /insufficient permissions/i.test(String(error?.message || ''));
+    if (!permissionDenied || !deleteDoc) throw error;
+    // Las versiones anteriores podían dejar campos internos del servidor que
+    // impedían actualizar el registro. Se reconstruye sólo este dispositivo.
+    await deleteDoc(reference);
+    await setDoc(reference, preferences);
+  }
 }
 
 function urlBase64ToUint8Array(value) {
@@ -314,6 +532,13 @@ function urlBase64ToUint8Array(value) {
   const base64 = (value + padding).replace(/-/g, '+').replace(/_/g, '/');
   const raw = atob(base64);
   return Uint8Array.from([...raw].map(character => character.charCodeAt(0)));
+}
+
+async function refreshNativeNotificationPermission() {
+  const permissionPlugin = getNativePushNotifications() || getNativeNotifications();
+  if (!permissionPlugin) return;
+  const status = await permissionPlugin.checkPermissions();
+  nativeNotificationPermission = status.receive || status.display;
 }
 
 function handleFormChange(event) {
@@ -511,9 +736,10 @@ async function savePreferences(event) {
     enabled: true,
     permission: getNotificationPermission(),
     updatedAt: new Date().toISOString(),
-    version: 6,
+    version: 7,
     subscription: await currentWebPushSubscription(),
-    fcmToken: null
+    fcmToken: nativePushToken || loadedPreferences?.fcmToken || null,
+    ...getWebPushMetadata()
   };
   cachePreferences(preferences);
 
@@ -521,8 +747,7 @@ async function savePreferences(event) {
   elements.save.textContent = 'Guardando…';
   showStatus('');
   try {
-    const { setDoc } = window.firebaseUtils;
-    await setDoc(notificationDeviceRef(currentUser.uid), preferences, { merge: true });
+    await writeDevicePreferences(preferences);
     loadedPreferences = preferences;
     showStatus('Preferencias guardadas.');
   } catch (error) {
@@ -565,10 +790,14 @@ function getNotificationDeviceId() {
 }
 
 function getDeviceMetadata() {
+  const userAgent = navigator.userAgent || '';
+  let platform = 'web';
+  if (/android/i.test(userAgent)) platform = 'android';
+  else if (/iphone|ipad|ipod/i.test(userAgent)) platform = 'ios';
   return {
     deviceId: notificationDeviceId,
-    platform: 'web',
-    transport: 'web-push',
+    platform,
+    transport: getNativePushNotifications() ? 'fcm' : 'web-push',
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Argentina/Buenos_Aires'
   };
 }
@@ -596,6 +825,15 @@ function newestPreferences(localPreferences, remotePreferences) {
   const localTime = Date.parse(localPreferences.updatedAt || '') || 0;
   const remoteTime = Date.parse(remotePreferences.updatedAt || '') || 0;
   return localTime >= remoteTime ? localPreferences : remotePreferences;
+}
+
+function withTimeout(promise, timeoutMs, message) {
+  let timeoutId;
+  const timeout = new Promise((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  return Promise.race([Promise.resolve(promise), timeout])
+    .finally(() => clearTimeout(timeoutId));
 }
 
 function showStatus(message, isError = false) {
