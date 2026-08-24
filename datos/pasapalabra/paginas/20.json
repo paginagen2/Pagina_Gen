@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 313,
+  "total": 314,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1778038917358",
+      "titulo": "NO TE QUEDES INDIFERENTE",
+      "fecha": "06/05/2026",
+      "reflexion": "En muchos momentos de la vida vemos situaciones de sufrimiento, injusticia o necesidad, pero la prisa, el miedo o la comodidad pueden llevarnos a la indiferencia.\nSin embargo, permanecer indiferentes ante el dolor del otro es cerrar el corazón a lo que nos hace verdaderamente humanos: la compasión.\nCada persona carga sus dolores, y una actitud de solidaridad puede marcar una gran diferencia en la vida de alguien.\nNo podemos resolver todos los problemas del mundo, pero podemos elegir no ignorar lo que sucede a nuestro alrededor.\nSer sensibles al sufrimiento del prójimo es reconocer que todos estamos conectados, como hermanos y hermanas."
+    },
     {
       "id": "pasapalabra_1777941132564",
       "titulo": "LOS MEDIOS NOS CONECTAN, EL DIÁLOGO NOS UNE",
@@ -34,12 +40,6 @@
       "titulo": "ENCUENTRA EL “NOSOTROS” ENTRE “TÚ” Y “YO”",
       "fecha": "01/05/2026",
       "reflexion": "Entre el \"yo\" y el \"tú\" existe el espacio del \"nosotros\". Es en él que los corazones aprenden a caminar juntos. El \"yo\" representa nuestros deseos, nuestras ideas, nuestras voluntades. El \"tú\" trae otra historia, otra forma de ver el mundo, otros sentimientos.\nCuando cada persona se encierra en sí misma, nace la distancia. Pero cuando hay apertura, nace el encuentro.\nEncontrar el \"nosotros\" significa unir las diferencias con respeto y amor.\nEs en este espacio donde nace la verdadera comunión, ya sea entre amigos, en familia o en la vida comunitaria. El \"nosotros\" transforma dos caminos separados en un recorrido compartido.\nQuizás el mayor desafío de la vida sea precisamente este: salir del \"yo solo\" y aprender a vivir el \"nosotros\"."
-    },
-    {
-      "id": "pasapalabra_1777518005117",
-      "titulo": "REZAR POR LA PAZ",
-      "fecha": "30/04/2026",
-      "reflexion": "Nunca está demás rezar por la paz. Nuestros tiempos son tiempos de guerra. Necesitamos unirnos en oración para que la paz regrese a nuestros corazones.\nRezar por la paz es alinear el corazón con lo que deseamos ver en el mundo. La paz comienza como un susurro en nuestro interior, un pedido sincero para que la luz sea mayor que la oscuridad, para que el amor venza al odio, para que el perdón sane las heridas.\nCuando rezamos por la paz, no solo pedimos el cese de los conflictos externos, sino también que se calmen las tormentas internas.\nRezar por la paz es un acto de esperanza. Es creer que cada gesto de bondad, cada palabra de reconciliación y cada actitud de compasión tiene el poder de transformar la realidad que nos rodea."
     }
   ]
 }

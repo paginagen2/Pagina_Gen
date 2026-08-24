@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 11,
   "tamanioPagina": 6,
-  "total": 313,
+  "total": 314,
   "siguientePagina": 12,
   "items": [
+    {
+      "id": "pasapalabra_1782434343796",
+      "titulo": "REDESCUBRIR LA BELLEZA DE LA CREACIÓN",
+      "fecha": "26/06/2026",
+      "reflexion": "En nuestras ajetreadas vidas, los detalles se vuelven invisibles. La vida palpita a nuestro alrededor y dentro de nosotros, pero pasamos demasiado apurados como para notarlo.\nDesafortunadamente, poco a poco, aquello que es extraordinario comienza a parecer común.\nPara redescubrir la belleza de la Creación, es necesario hacer una pausa interior. No se trata de ir lejos, sino de ver lo que está cerca.\nTambién hay belleza en las personas, incluso con sus imperfecciones. Cuando miramos con más atención y menos prejuicios, comenzamos a reconocer la profundidad que existe en cada ser humano.\nRedescubrir la belleza de la Creación es, en el fondo, reconocer la presencia de Dios en todo."
+    },
     {
       "id": "pasapalabra_1782353587061",
       "titulo": "NO JUZGAR",
@@ -34,12 +40,6 @@
       "titulo": "ENCONTRAR EL TIEMPO PARA REZAR",
       "fecha": "21/06/2026",
       "reflexion": "La oración no es solo más una tarea que cumplir, sino un encuentro necesario con Aquel que nos da sentido, fuerza y dirección.\nRezar es detenerse, aunque sea por unos instantes, y permitir que el corazón respire en Dios.\nNecesitamos aprender a dar prioridad al que alimenta nuestra alma. Así como cuidamos nuestro cuerpo, también necesitamos cuidar de nuestra vida espiritual.\nEncontrar tiempo para rezar es también descubrir que Dios está presente en todos los momentos del día. No es necesario esperar el momento perfecto; basta con tener el corazón disponible para conversar con Él.\nPoco a poco, la oración deja de ser un momento puntual y se convierte en una actitud constante, un diálogo continuo con Dios."
-    },
-    {
-      "id": "pasapalabra_1781914821559",
-      "titulo": "MOSTRAR DULZURA Y SERENIDAD CON LOS DEMÁS",
-      "fecha": "20/06/2026",
-      "reflexion": "Muchas veces, las personas que conocemos llevan cargas invisibles que no podemos percibir a simple vista. Es precisamente ahí donde la dulzura se hace necesaria.\nMostrar dulzura es saber acoger con una mirada serena, con una palabra amable, con una escucha atenta.\nLa calma, a su vez, es fruto de un corazón que confía, un corazón que no se deja dominar por la ansiedad, sino que busca actuar con equilibrio y sabiduría.\nMostrar calma es también elegir no reaccionar impulsivamente, sino responder a todo con amor. Es permitir que la paz que deseamos para nosotros llegue también a quienes nos rodean."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 313,
+  "total": 314,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1763131251983",
+      "titulo": "ARTÍFICES DE COMUNIÓN",
+      "fecha": "14/11/2025",
+      "reflexion": "Ser artífices de la comunión es asumir la misión de tejer los hilos que unen los corazones y construyen la fraternidad. Así como un artesano da forma a la materia con sus manos, quienes buscan la comunión dan forma a la interacción humana con gestos, palabras y actitudes inspiradas en el amor.\nEn un mundo marcado por divisiones, polarizaciones y egoísmos, ser artífices de la comunión exige ver al otro no como un obstáculo, sino como una oportunidad de encuentro. Es reconocer que la unidad no nace de la uniformidad, sino del respeto y de la valoración de las diferencias.\nSer artífices de la comunión es creer que la paz comienza donde hay encuentro. Y que ese encuentro comienza cuando alguien está dispuesto a amar primero."
+    },
     {
       "id": "pasapalabra_1763000954484",
       "titulo": "ORIENTARSE HACIA EL BIEN",
@@ -34,12 +40,6 @@
       "titulo": "REALIZAR INICIATIVAS DE  PAZ",
       "fecha": "09/11/2025",
       "reflexion": "Realizar acciones de paz es vivir el amor de Dios en su forma más pura. Jesús nos enseña que ser pacificador no se trata solo de evitar el conflicto, sino de actuar con sabiduría y compasión para transformar el odio en comprensión y el resentimiento en perdón.\nQuienes promueven la paz reflejan la presencia de Dios en el mundo porque hacen de su vida un instrumento de reconciliación y esperanza.\nSer llamado “hijo de Dios”(cf. Mt 5,9) es reconocer a quien vive según el corazón del Padre, aquel que siembra bondad donde hay dolor y construye unidad donde hay divisiones.\nEn tiempos de intolerancia, ser promotor de la paz es un verdadero acto de fe. Es creer que el amor vence al miedo, que la luz disipa las tinieblas y que el bien, incluso en silencio, siempre produce abundantes frutos."
-    },
-    {
-      "id": "pasapalabra_1762913241017",
-      "titulo": "NO RENDIRSE MIENTRAS NO HAYA CONCORDIA",
-      "fecha": "08/11/2025",
-      "reflexion": "Mantener la concordia y la armonía entre las personas, es uno de los mayores desafíos de la convivencia humana. Pueden surgir desacuerdos, las palabras pueden malinterpretarse y las heridas pueden reabrirse. Pero la verdadera madurez reside en no rendirse hasta que se restablezca la paz.\nLa concordia no significa la ausencia de conflicto, sino una sincera voluntad de reconstruir la relación. Es elegir el diálogo en lugar del orgullo y la arrogancia, el perdón en lugar del distanciamiento. Es comprender que ceder no es perder, sino abrir un espacio para que surja el entendimiento.\nAunque la reconciliación tarde en llegar, necesitamos comprender que cada paso hacia la armonía es un paso hacia la paz interior de todos los involucrados."
     }
   ]
 }

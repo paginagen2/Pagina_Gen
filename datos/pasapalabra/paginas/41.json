@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 41,
   "tamanioPagina": 6,
-  "total": 313,
+  "total": 314,
   "siguientePagina": 42,
   "items": [
+    {
+      "id": "pasapalabra_1767787659696",
+      "titulo": "SILENCIAR EL ORGULLO",
+      "fecha": "07/01/2026",
+      "reflexion": "El orgullo habla fuerte, exige razón, crea muros, convierte el corazón en un campo de batalla. Nos convence de que ceder es debilidad, escuchar es derrota, cambiar es perder algo de nosotros.\nPero cuando se silencia el orgullo, se abre espacio para algo más grande: para la humildad que aprende, para la sabiduría que escucha, para la paz que llega sin hacer ruido.\nSilenciar el orgullo es descubrir que la verdad no necesita de gritos, que el amor no se sostiene con terquedad y que la grandeza está más en el equilibrio que en la imposición.\nRespirar hondo antes de responder, mirar y saber antes de juzgar, comprender antes de condenar. Eso es tener equilibrio y la ligereza de no tener máscaras, sin orgullo."
+    },
     {
       "id": "pasapalabra_1767694401932",
       "titulo": "DEJÉMONOS ILUMINAR POR LA LUZ",
@@ -34,12 +40,6 @@
       "titulo": "MIRAR A TODOS CON BENEVOLENCIA",
       "fecha": "02/01/2026",
       "reflexion": "Mirar a todos con benevolencia significa elegir ver al otro con un corazón más amplio, donde la comprensión precede al juicio.\nCuando cultivamos la benevolencia en nosotros, en lugar de reaccionar inmediatamente a lo que vemos: irritaciones, defectos, gestos bruscos, buscamos ver al ser humano que existe detrás de estas capas. Esto nos permite reaccionar con más serenidad, compasión y madurez.\nLa benevolencia también nos devuelve algo precioso: la paz. Porque al suavizar nuestra mirada para el otro, también suavizamos el peso que llevamos dentro.\nQue podamos, entonces, practicar esta mirada generosa, que acoge sin medir, que comprende sin exigir, que ilumina sin cegar. Porque cada pequeño gesto de benevolencia es una semilla plantada en el suelo de la convivencia humana y una invitación a que el amor de Dios se manifieste en medio de nosotros."
-    },
-    {
-      "id": "pasapalabra_1767235599607",
-      "titulo": "VIVIR POR UNA PAZ “DESARMADA Y DESARMANTE”",
-      "fecha": "01/01/2026",
-      "reflexion": "La violencia a menudo surge de pequeñas tensiones cotidianas: un gesto duro, una palabra hiriente, un juicio precipitado.\nLa verdadera paz no se impone, se ofrece, como quien extiende la mano sin exigir nada a cambio.\nUna paz desarmada es aquella que no se basa en amenazas, miedos ni controles, como hacen los líderes de naciones consideradas poderosas.\nUna paz desarmante, en cambio, transforma con el ejemplo: su dulzura desmantela defensas, su diálogo desmoviliza hostilidades, su respeto neutraliza la agresión.\nLa paz desarmada y desarmante no es solo la ausencia de conflicto, sino una invitación a que cada uno sea fuente de reconciliación, constructor de puentes, guardian de gestos sencillos que sustentan la vida en común."
     }
   ]
 }

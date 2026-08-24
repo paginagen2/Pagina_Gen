@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 28,
   "tamanioPagina": 6,
-  "total": 313,
+  "total": 314,
   "siguientePagina": 29,
   "items": [
+    {
+      "id": "pasapalabra_1773978913327",
+      "titulo": "CONSTRUIR PUENTES DE AMISTAD",
+      "fecha": "20/03/2026",
+      "reflexion": "La idea de un puente es la mejor imagen para representar un vínculo de amistad.\nUn puente conecta las orillas opuestas de un río o de un precipicio. Une estas orillas, que entonces pasan a comunicarse.\nUn puente de amistad puede unirme a muchas personas, a innumerables personas. Fomenta el encuentro, el caminar juntos, la estima y el conocimiento recíproco.\nLa amistad no nace solo de la afinidad, sino de la disposición de comprender y de aceptar las diferencias.\nCada relación sincera se convierte en una pequeña señal de que es posible vivir sin exclusión, sin prejuicios y sin miedo, confiando en que el encuentro con el otro siempre es una oportunidad para aprender a amar mejor."
+    },
     {
       "id": "pasapalabra_1773874945615",
       "titulo": "ORIENTAR LA VIDA HACIA DIOS",
@@ -34,12 +40,6 @@
       "titulo": "APOYARNOS MUTUAMENTE",
       "fecha": "16/03/2026",
       "reflexion": "Apoyarnos mutuamente es más que un gesto de bondad; es una necesidad del ser humano.\nApoyar a alguien significa estar presente cuando su dolor es más grande que sus fuerzas.\nReconocer que nos necesitamos no nos hace débiles, sino más humanos.\nDios a menudo se manifiesta a través de las personas: en el consejo de un amigo, en un abrazo sincero, en la paciencia de quien camina a nuestro lado.\nCuando nos apoyamos mutuamente, creamos lazos de confianza, construimos comunidades más solidarias y transformamos la fragilidad en esperanza."
-    },
-    {
-      "id": "pasapalabra_1773538269803",
-      "titulo": "DAR GRACIAS A DIOS POR LOS DONES QUE NOS DA",
-      "fecha": "15/03/2026",
-      "reflexion": "La gratitud es una de las maneras más hermosas de reconocer la presencia de Dios en nuestras vidas.\nA menudo pedimos, esperamos, deseamos, pero olvidamos detenernos, darnos cuenta de cuántos dones ya hemos recibido, y agradecer.\nCuando tenemos un corazón agradecido, dejamos de enfocarnos solo en lo que nos falta y comenzamos a valorar lo que ya tenemos. La gratitud transforma las quejas en confianza y las preocupaciones en entrega total.\nRezar con gratitud es reconocer que todo es gracia, todo es un regalo. Y cuanto más agradecemos, más percibimos que Dios continúa regalándonos todos los días, señales de su amor."
     }
   ]
 }
