@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 10,
   "tamanioPagina": 6,
-  "total": 314,
+  "total": 315,
   "siguientePagina": 11,
   "items": [
+    {
+      "id": "pasapalabra_1783123321640",
+      "titulo": "REZAR POR LA PAZ",
+      "fecha": "04/07/2026",
+      "reflexion": "Cuando rezamos por la paz, reconocemos que nuestra fuerza por sí sola no basta: necesitamos una luz mayor que guíe nuestras decisiones, nuestras palabras y nuestras acciones. La oración se convierte así en un puente entre nuestro deseo de armonía y el compromiso concreto de vivir en paz cada día.\nRezar por la paz es un ejercicio de humildad y de confianza, que nos recuerda cómo cada pequeño acto de bondad contribuye a construir un mundo más unido.\nLa paz que invocamos comienza en nuestras relaciones cotidianas, en las palabras que elegimos, en el perdón que sabemos ofrecer. Y quizás, precisamente a través de la oración sincera, nosotros mismos podamos convertirnos en la respuesta a la paz que pedimos."
+    },
     {
       "id": "pasapalabra_1782951455976",
       "titulo": "PROTEGER LA CREACIÓN",
@@ -34,12 +40,6 @@
       "titulo": "VISITAR A QUIEN ESTÁ ENFERMO",
       "fecha": "28/06/2026",
       "reflexion": "Practicar las obras de misericordia puede parecer un gran gesto, pero muchas veces comienza con un acto sencillo, como visitar a una persona enferma.\nNo se trata solo de \"ir a ver a alguien\", sino de estar presente en la fragilidad del otro.\nNo necesito tener palabras perfectas. La verdadera presencia comunica algo que las palabras no pueden decir: \"no estás solo\".\nVisitar a una persona enferma puede ser, en esencia, hacer visible el amor de Dios en el momento en que más lo necesita. Y en estos encuentros, sucede algo silencioso: el dolor se comparte."
-    },
-    {
-      "id": "pasapalabra_1782571817748",
-      "titulo": "ENTRAR EN COMUNIÓN CON EL PADRE",
-      "fecha": "27/06/2026",
-      "reflexion": "Muchas veces, asociamos a Dios con momentos formales, pero la verdadera comunión se da en la vida cotidiana. Está en el momento en que reconocemos su presencia detrás de cada cosa, detrás de cada acontecimiento; está en el impulso de hacer el bien, en la conciencia tranquila tras una decisión correcta.\nLa comunión requiere perseverancia. No siempre habrá emoción, pero permanecer en la voluntad de Dios nos lleva a una comunión constante.\nAsí como cualquier relación, se profundiza con el tiempo, con la repetición, con la fidelidad incluso en los momentos difíciles.\nEn definitiva, entrar en comunión con el Padre es permitir que Él no solo sea una idea abstracta, sino una realidad viva en nuestra experiencia diaria."
     }
   ]
 }

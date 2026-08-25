@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 29,
   "tamanioPagina": 6,
-  "total": 314,
+  "total": 315,
   "siguientePagina": 30,
   "items": [
+    {
+      "id": "pasapalabra_1773622169763",
+      "titulo": "APOYARNOS MUTUAMENTE",
+      "fecha": "16/03/2026",
+      "reflexion": "Apoyarnos mutuamente es más que un gesto de bondad; es una necesidad del ser humano.\nApoyar a alguien significa estar presente cuando su dolor es más grande que sus fuerzas.\nReconocer que nos necesitamos no nos hace débiles, sino más humanos.\nDios a menudo se manifiesta a través de las personas: en el consejo de un amigo, en un abrazo sincero, en la paciencia de quien camina a nuestro lado.\nCuando nos apoyamos mutuamente, creamos lazos de confianza, construimos comunidades más solidarias y transformamos la fragilidad en esperanza."
+    },
     {
       "id": "pasapalabra_1773538269803",
       "titulo": "DAR GRACIAS A DIOS POR LOS DONES QUE NOS DA",
@@ -34,12 +40,6 @@
       "titulo": "CON NUESTRA ACTITUD, MOSTRAR QUE ACOGEMOS A LA OTRA PERSONA",
       "fecha": "11/03/2026",
       "reflexion": "Acoger es una acción concreta. Mostrar con nuestras actitudes que acogemos a las personas es transformar el cuidado en una práctica diaria, es hacer que el otro se sienta visto, escuchado y respetado.\nA menudo, la acogida se revela en las cosas sencillas: un tiempo dedicado, un silencio respetuoso, una ayuda ofrecida sin ser solicitada. Son estos gestos que comunican más que las palabras.\nCuando nuestras actitudes reflejan acogida, creamos espacios seguros donde las personas pueden ser quienes son, sin temor a ser juzgadas.\nLa verdadera hospitalidad nace de la coherencia entre lo que decimos y lo que hacemos, y se convierte en un testimonio vivo de amor al prójimo."
-    },
-    {
-      "id": "pasapalabra_1773101213044",
-      "titulo": "BUSCAR SOLUCIONES DE CONCORDIA",
-      "fecha": "10/03/2026",
-      "reflexion": "Buscar soluciones de concordia es elegir el diálogo en lugar de la confrontación, la escucha en lugar de la imposición, construir juntos en lugar de la ruptura. Es reconocer que los conflictos existen, pero no necesariamente crean ganadores y perdedores.\nLa concordia comienza cuando dejamos de defender solo nuestro punto de vista y nos abrimos a comprender el del otro. No significa estar de acuerdo con todo, sino respetar, buscar puntos en común y crear caminos posibles para todos.\nLa concordia es un ejercicio de madurez y humildad. Requiere paciencia, empatía y valentía para ceder cuando sea necesario. Al final, la verdadera victoria no reside en tener razón, sino en preservar las relaciones, restaurar los lazos rotos y promover la paz donde hay división."
     }
   ]
 }

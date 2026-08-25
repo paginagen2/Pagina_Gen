@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 40,
   "tamanioPagina": 6,
-  "total": 314,
+  "total": 315,
   "siguientePagina": 41,
   "items": [
+    {
+      "id": "pasapalabra_1768355076217",
+      "titulo": "SER FIELES",
+      "fecha": "14/01/2026",
+      "reflexion": "La fidelidad se demuestra en las elecciones cotidianas: cumplir la palabra dada, respetar al otro, actuar con coherencia entre lo que se dice y lo que se vive.\nSer fiel es cuidar el amor, la justicia y la solidaridad con constancia, sin dejarse llevar por las conveniencias del momento.\nQue podamos ser fieles a nuestros valores, a las personas que caminan con nosotros y al propósito mayor de vivir con dignidad, compasión y verdad.\nSer fiel a Dios significa confiar en Él en todas las circunstancias, tanto en los días de alegría como en los momentos de prueba. Es reconocer su presencia en nuestra vida y elegir vivir según su voluntad."
+    },
     {
       "id": "pasapalabra_1768263129273",
       "titulo": "CUSTODIAR LA ESPERANZA",
@@ -34,12 +40,6 @@
       "titulo": "COMPARTIR LOS SUFRIMIENTOS DE QUIEN ESTÁ A NUESTRO LADO",
       "fecha": "09/01/2026",
       "reflexion": "Compartir el sufrimiento del otro es una de las formas más profundas de respeto. No es invadir, no es ocupar el lugar de alguien, es acompañarlo.\nHe aprendido que nadie se fortalece viviendo aislado en su propio dolor. La vida, a veces, pesa demasiado para uno solo.\nPor eso, cuando alguien a mi lado sufre, sé que mi papel no es ofrecer respuestas inmediatas, sino ofrecer presencia.\nEl dolor del otro me llama a salir de mí mismo, a ver más allá de lo cómodo, a recordar que el corazón humano también fue hecho para latir también por otros corazones.\nCompartir el sufrimiento es un gesto silencioso, pero lleno de dignidad.\nY, en el fondo, sé que cuando tiendo la mano a alguien que sufre, es a mí mismo a quien estoy ayudando."
-    },
-    {
-      "id": "pasapalabra_1767831277369",
-      "titulo": "NO SER INDIFERENTES AL PRÓJIMO",
-      "fecha": "08/01/2026",
-      "reflexion": "La indiferencia es una forma silenciosa de distanciamiento.\nNo duele con palabras ni con gestos, duele con la ausencia. Y puede ser una de las formas más crueles de abandono.\nCuando elegimos no mirar al otro, no escucharlo, no percibirlo, terminamos borrando una parte de él que existe en nosotros.\nNo ser indiferentes al prójimo no significa resolver todos sus problemas, sino significa no dejar que su dolor y alegría pasen desapercibidos. Es extender una mano cuando es posible, es ofrecer una palabra cuando es necesario, es estar presente con el corazón, incluso cuando no hay mucho que hacer.\nEn cada persona que se cruza en nuestro camino, hay un mundo entero pidiendo ser visto."
     }
   ]
 }
