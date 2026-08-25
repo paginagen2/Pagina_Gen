@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-25T17:59:16.163Z",
+  "generatedAt": "2026-08-25T18:52:51.478Z",
   "collections": {
     "canciones": {
-      "revision": "5c474ee9f29458d8",
-      "previousRevision": "",
-      "count": 28,
+      "revision": "1b17d90a4e254bc6",
+      "previousRevision": "5c474ee9f29458d8",
+      "count": 29,
       "snapshot": "datos/sincronizacion/canciones.json",
       "delta": "datos/sincronizacion/canciones.delta.json"
     },

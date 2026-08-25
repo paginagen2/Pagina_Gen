@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "canciones",
-  "revision": "5c474ee9f29458d8",
-  "generatedAt": "2026-08-04T03:39:17.438Z",
+  "revision": "1b17d90a4e254bc6",
+  "generatedAt": "2026-08-25T18:52:51.440Z",
   "items": [
     {
       "id": "1ZETSxuNxq3uuiZLWPl0",
@@ -299,6 +299,22 @@
       },
       "estado": "publicado",
       "reproducciones": 188
+    },
+    {
+      "id": "LoRYQm9TliisueGAWmDr",
+      "titulo": "Rezo por vos",
+      "artista": "Charly García",
+      "categoria": "fogon",
+      "letra": "[Intro] \nD5  Riff 1\n        D  G  D  G\n\n[Tab - Riff 1]\n\nE|------------------------------------------|       \nB|-7-----7h8-7------------------------------|       \nG|---7---------7----------7----------7-7----| (10x) \nD|-----7---------7-9/10-----7-9/10----------|       \nA|------------------------------------------|       \nE|------------------------------------------|       \n\n[Primera Parte]\n\n[Tab - Riff 2]\n\nE|------------------------------------------| \nB|------------------------------------------| \nG|------------------------------------------| \nD|-----0------------------------------------| \nA|-0-2----2---------------------------------| \nE|------------------------------------------| \n\nD                           G          Riff 2\n  La indómita luz, se hizo carne en mi\nD                          Em\n  Y lo deje todo por esta soledad\nG                        Am7\n  Y leo revistas, en la tempestad\n\nBm7\n    Hice el sacrificio\n     Am7       Bm7\nAbrace la cruz al amanecer\n\n[Estribillo]\n\n( Riff 1 )\n\n   D  G  D   G\nRezo,   rezo\n D    G  D   G\nRezo,   rezo\n\n[Segunda Parte]\n\nD                             G        Riff 2\n  Morí sin morir, y me abrace al dolor\nD                          Em\n  Y lo deje todo por esta soledad\nG                                 Am7\n  Ya se hizo de noche, y ahora estoy aquí\n\nBm7\n    Mi cuerpo se cae\n      Am7        Bm7\nSolo veo la cruz al amanecer\n\n[Estribillo]\n\n( Riff 1 )\n\n   D  G  D   G\nRezo,   rezo\n D   G           D  G\nRezo,  rezo por vos\n\n[Ponte 1]\n\nA\n  Y curé mis heridas\n           \nG\nY me encendí de amor\n\nA\n  Y quemé las cortinas\n           \nG\nY me encendí de amor\n     A      D   Riff 1\nDe amor sagrado\n\n( D  G  D  \n\n[Ponte 2]\n\nG )\n\n[Ponte 2]\n\n[Tab - Ponte 2]\n\nE|------------------------------------------| \nB|------------------------------------------| \nG|------------------------------------------| \nD|------------------------------------------| \nA|---------------2-3----2----3----2----3----| \nE|-2----3----5------------------------------| \n\n           Bm7 C\nY entonces\n\n( Riff 1 )\n\n           D  G\nY entonces\n\n[Ponte 1]\n\nA\n  Y curé mis heridas\n           \nG\nY me encendí de amor\n\nA\n  Y quemé las cortinas\n           \nG\nY me encendí de amor\n     A      D   Riff 1\nDe amor sagrado\n\n( D  G  D  G )\n\n[Estribillo]\n\n D   G  D   G\nRezo,  rezo\n D   G           D  G\nRezo   rezo por vos\n D   G  D   G  D\nRezo,  rezo",
+      "tono": "D",
+      "idioma": "Español",
+      "fechaCreacion": {
+        "_seconds": 1787680865,
+        "_nanoseconds": 96000000
+      },
+      "activa": true,
+      "estado": "publicado",
+      "reproducciones": 1
     },
     {
       "id": "M2ya9TTfVVj78UngegNL",
