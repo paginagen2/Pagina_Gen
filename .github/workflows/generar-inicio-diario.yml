@@ -67,4 +67,3 @@ jobs:
           fi
           git commit -m "chore: actualizar inicio diario"
           git push
-
