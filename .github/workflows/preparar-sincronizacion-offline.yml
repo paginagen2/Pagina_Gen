@@ -54,5 +54,8 @@ jobs:
             exit 0
           fi
           git commit -m "chore: preparar sincronización offline"
+          # Otro generador puede haber publicado datos mientras se ejecutaba
+          # este job. Integrarlos antes del push evita rechazos no destructivos.
+          git pull --rebase origin main
           git push
           echo "publicar=true" >> "$GITHUB_OUTPUT"
