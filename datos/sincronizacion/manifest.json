@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-25T03:06:26.572Z",
+  "generatedAt": "2026-08-25T04:10:28.420Z",
   "collections": {
     "canciones": {
       "revision": "5c474ee9f29458d8",
@@ -45,9 +45,9 @@
       "delta": "datos/sincronizacion/pdv.delta.json"
     },
     "canal": {
-      "revision": "0ea7d6ca053562ce",
-      "previousRevision": "68837e280193c57b",
-      "count": 3,
+      "revision": "e915324dabb8822c",
+      "previousRevision": "0ea7d6ca053562ce",
+      "count": 2,
       "snapshot": "datos/sincronizacion/canal.json",
       "delta": "datos/sincronizacion/canal.delta.json"
     }

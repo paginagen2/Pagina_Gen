@@ -1,54 +1,9 @@
 {
   "schemaVersion": 1,
   "collection": "canal",
-  "revision": "0ea7d6ca053562ce",
-  "generatedAt": "2026-08-10T17:29:04.236Z",
+  "revision": "e915324dabb8822c",
+  "generatedAt": "2026-08-25T04:10:28.411Z",
   "items": [
-    {
-      "id": "J8qGLfPoP2YmH7vIRs1h",
-      "rolesDestinatarios": [],
-      "titulo": "Convivencia Mariápolis Lía-Invierno",
-      "creadoEn": {
-        "_seconds": 1785188638,
-        "_nanoseconds": 149000000
-      },
-      "destacarEnCarrusel": true,
-      "enlace": "https://forms.gle/yW17pucNXNKN1LzZ8",
-      "contenido": "Ya están abiertas las pre-inscripciones para la Convivencia Mariápolis Lía-Invierno 2026! ✨\n\nSi tenés entre 18 y 23 años y querés vivir una experiencia de encuentro, reflexión y compartir con otros jóvenes, te invitamos a sumarte!\n\n📍 Mariápolis Lía\n📅 Julio 2026 (fecha a confirmar)\n\nSerá un espacio para conocer la Escuela de Jóvenes, compartir actividades, charlas, momentos recreativos y vivir una convivencia distinta 💙\nGuardá tu lugar 🙌🏼",
-      "resumen": "Una experiencia de encuentro, reflexión y compartir con otros jóvenes",
-      "estado": "publicada",
-      "audiencia": "general",
-      "imagenUrl": "https://imgs.search.brave.com/_HPnYD13JBGlr-2-mZ65HRPCb-oynjjP_kodWMeQQ78/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pZGVu/dGlkYWRib25hZXJl/bnNlLmNvbS5hci9h/cmNoaXZvcy9ub3Rp/Y2lhcy9ub3RpY2lh/LTEyMS53ZWJw",
-      "textoEnlace": "Link de inscripción",
-      "tipoFechaEvento": "rango",
-      "fechaEventoFin": "2026-07-19",
-      "fechaEventoInicio": "2026-07-16",
-      "etiquetaCarrusel": "Novedad",
-      "fechaVencimiento": {
-        "_seconds": 1785369540,
-        "_nanoseconds": 0
-      },
-      "eliminarEn": {
-        "_seconds": 1785974340,
-        "_nanoseconds": 0
-      },
-      "actualizadoEn": {
-        "_seconds": 1785283187,
-        "_nanoseconds": 154000000
-      },
-      "fechaPublicacion": {
-        "_seconds": 1785283187,
-        "_nanoseconds": 154000000
-      },
-      "notificacionEnviadaEn": {
-        "_seconds": 1785814279,
-        "_nanoseconds": 743000000
-      },
-      "resultadoNotificacion": {
-        "failed": 0,
-        "sent": 0
-      }
-    },
     {
       "id": "MY3oeCO3azaXTWIThOrv",
       "rolesDestinatarios": [],
