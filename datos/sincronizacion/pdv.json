@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "pdv",
-  "revision": "3be1fc4d728e730c",
-  "generatedAt": "2026-08-04T03:39:17.384Z",
+  "revision": "f66173b141254350",
+  "generatedAt": "2026-08-25T15:42:47.293Z",
   "items": [
     {
       "id": "pdv_2026_06",
@@ -339,6 +339,123 @@
       "fechaPublicacion": {
         "_seconds": 1785627257,
         "_nanoseconds": 794000000
+      }
+    },
+    {
+      "id": "pdv_2026_09",
+      "version": 2,
+      "slug": "pdv_2026_09",
+      "mes": "Septiembre 2026",
+      "periodo": "2026-09-01",
+      "citaPrincipal": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+      "citaReferencia": "Rm 13, 10",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "texto": "¿Se le puede ordenar a alguien que ame? Si entendemos el amor como un sentimiento, ¡evidentemente es imposible! Pero si más bien lo entendemos como un don de Dios, la cosa cambia.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "En la Carta a los Romanos, de la que está tomada la Palabra de Vida, Pablo describe precisamente la relación entre Ley y amor, y afirma que el amor es pleno cumplimiento de la Ley. Poco antes nos ha revelado de dónde proviene este amor: “La prueba de que Dios nos ama es que Cristo, siendo nosotros todavía pecadores, murió por nosotros” (Rm 5, 8). Por su parte, la Primera Carta de Juan dice: “En esto consiste el amor: no en que nosotros hayamos amado a Dios, sino en que él nos amó y nos envió a su Hijo como propiciación por nuestros pecados” (1 Jn 4, 10).",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Nadie puede dar lo que no tiene. Lo había entendido bien Agustín cuando, dirigiéndose directamente a Dios, pedía: “Da lo que mandas y manda lo que quieras”. Hemos recibido el don inestimable del amor de Dios y estamos llamados a no guardárnoslo, sino a ponerlo en circulación. Podemos convertirnos en sujetos en lugar de ser simples destinatarios del amor de Dios: pasar de amados a amantes, y así participar en la vida misma del Padre, del Hijo y del Espíritu Santo: el Amante, el Amado y el Amor.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "No tenemos con nadie otra deuda que la del amor mutuo –nos reconforta Pablo–, pues quien ama al otro ha cumplido la Ley (cf. Rm 13, 8).",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "reflexion_autor",
+          "texto": "“El verdadero amor al prójimo no causa ningún daño” –afirma Chiara Lubich–. “Es decir, nos lleva a vivir todos los mandamientos de Dios sin exclusión, ya que el primer objetivo que tienen es llevarnos a evitar todas las formas del mal en que podríamos caer, ya sea contra nosotros mismos o contra nuestros hermanos y hermanas”.",
+          "referencia": "",
+          "titulo": "Escribe Chiara Lubich",
+          "fuente": "Chiara Lubich · Palabra de Vida, septiembre de 1993"
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Así entendidos, los mandamientos de la Ley se convierten en un don del amor de Dios más que en una obligación: no constriñen nuestro amor sino que lo liberan plenamente.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Para alcanzar este “pleno cumplimiento”, el primer paso en el amar al prójimo es no hacerle daño. Pero además hace falta ser creativos en el amor: “No basta con no hacer daño al prójimo –nos recordaba el papa Francisco–; es necesario elegir hacer el bien aprovechando las ocasiones para dar buen testimonio de que somos discípulos de Jesús”.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "¿Cómo vivir entonces esta Palabra de Vida? Volvamos a poner el amor en el centro de nuestra vida. Amemos a los demás concretamente, como los amaría Jesús: Él es la plenitud del amor que se dona completamente a Dios y a la humanidad. De Él podemos aprender la alta medida del amor.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "experiencia",
+          "texto": "En nuestras visitas habituales a un refugio para personas sin hogar, entro en un mundo muy distinto del mío. Sé que lo que cuenta no es tanto lo que siento, sino amar. Un día, un hombre que reflejaba una profunda tristeza me confesó que estaba dispuesto a terminar con todo, que quería incluso morir. Me puse simplemente a escucharlo; luego nos tomamos juntos un bocadillo y un café. Y entendí que escuchar y estar presente era ya un modo de demostrar amor. Cuando llegó el momento de irme, me dio un fuerte abrazo, me sonrió y me dijo que lo que estábamos haciendo era muy importante, no solo para él, sino para todos los que estaban allí. Sentí la fuerza increíble del amor. Quizá no lo haya ‘salvado’, pero su gratitud me llenó de alegría y esto, ya de por sí, es muy potente",
+          "referencia": "",
+          "titulo": "Doris, una chica escocesa, nos cuenta",
+          "fuente": ""
+        }
+      ],
+      "autor": "Claudio Cianfaglioni y el equipo de la Palabra de Vida",
+      "audioUrl": "",
+      "estado": "programado",
+      "fechaCreacion": {
+        "_seconds": 1787626303,
+        "_nanoseconds": 765000000
+      },
+      "fechaActualizacion": {
+        "_seconds": 1787626303,
+        "_nanoseconds": 765000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1788231600,
+        "_nanoseconds": 0
       }
     }
   ]

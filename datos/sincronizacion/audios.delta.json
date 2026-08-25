@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
   "collection": "audios",
-  "revision": "030f0b0be20c4f0a",
+  "fromRevision": "",
+  "toRevision": "030f0b0be20c4f0a",
   "generatedAt": "2026-08-25T15:42:47.308Z",
-  "items": [
+  "upserts": [
     {
       "id": "audio_1787106412377_tcdKK1rg",
       "cancionId": "sJwsMq1LZ81ZDWPKVL94",
@@ -337,5 +338,6 @@
       "versionId": "auto-cancion-1763046261970-cover-general-general-bruno-senn-espanol",
       "versionPrincipal": false
     }
-  ]
+  ],
+  "deletes": []
 }
