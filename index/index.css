@@ -445,6 +445,8 @@ body {
   display: grid;
   grid-template-columns: minmax(300px, 42%) minmax(0, 1fr);
   background: var(--home-panel);
+  color: inherit;
+  text-decoration: none;
 }
 
 .carrusel-slide.sin-imagen { grid-template-columns: 1fr; }
@@ -533,6 +535,13 @@ body {
 }
 .carrusel-action:hover { color: #fff; filter: brightness(1.1); transform: translateY(-1px); }
 
+.carrusel-slide:hover .carrusel-action { color: #fff; filter: brightness(1.1); transform: translateY(-1px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .carrusel-slides { transition: none; }
+  .carrusel-placeholder { animation: none; }
+}
+
 .carrusel-btn {
   width: 40px;
   height: 40px;
@@ -557,17 +566,20 @@ body {
 
 .carrusel-dots { min-height: 50px; display: flex; justify-content: center; align-items: center; gap: 8px; padding-top: 10px; }
 .carrusel-dot {
-  width: 9px;
-  height: 9px;
-  min-height: 9px !important;
-  flex: 0 0 9px;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  min-height: 44px !important;
+  flex: 0 0 44px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: #59616b;
+  border-radius: 12px;
+  background: transparent;
   cursor: pointer;
 }
-.carrusel-dot.active { width: 9px; background: var(--home-purple); }
+.carrusel-dot::before { content: ""; position: absolute; top: 50%; left: 50%; width: 9px; height: 9px; border-radius: 50%; background: #59616b; transform: translate(-50%, -50%); }
+.carrusel-dot.active::before { background: var(--home-purple); }
+.carrusel-dot:focus-visible { outline: 2px solid #bd9aff; outline-offset: -6px; }
 
 .home-footer {
   display: grid;

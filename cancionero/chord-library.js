@@ -175,5 +175,6 @@ export function getChordShape(root, type = 'major') {
 
 export const chordTypeLabels = {
   major: 'Mayor', minor: 'Menor', seventh: 'Séptima',
-  major_seventh: 'Séptima mayor', diminished: 'Disminuido', augmented: 'Aumentado'
+  major_seventh: 'Séptima mayor', diminished: 'Disminuido', augmented: 'Aumentado',
+  special: 'Suspendido, extensión o bajo alternativo'
 };

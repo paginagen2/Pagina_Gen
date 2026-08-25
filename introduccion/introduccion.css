@@ -298,7 +298,7 @@ a, button, summary { -webkit-tap-highlight-color: transparent; }
   .movement-hero .hero-content > p { max-width: 95%; margin-left: 2px; font-size: .9rem; }
   .hero-action { margin-left: 2px; }
   .section-nav { margin: 10px 0 39px; border-radius: 11px; }
-  .section-nav a { min-height: 37px; padding-inline: 13px; }
+  .section-nav a { min-height: 44px; padding-inline: 13px; }
   .section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
   .section-heading > p { text-align: left; }
   .overview-section, .timeline-section, .people-section, .spirituality-section { margin-bottom: 55px; }

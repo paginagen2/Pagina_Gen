@@ -1,0 +1,27 @@
+.playlist-list-title { display: flex; align-items: center; gap: 8px; }
+.playlist-list-title > span { color: #b986ff; }
+.playlist-type { display: block; margin-bottom: 4px; color: #b986ff; font-size: .65rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+.playlist-empty-heart { display: block; margin-bottom: 8px; color: #b986ff; font-size: 2rem; }
+.playlist-dialog { position: fixed; inset: 0; width: min(520px, calc(100% - 28px)); max-height: min(720px, calc(100dvh - 28px)); margin: auto; padding: 0; overflow: auto; border: 1px solid #65428f; border-radius: 16px; color: #f5f6f8; background: #0d1219; }
+.playlist-dialog::backdrop { background: #03060bd9; backdrop-filter: blur(4px); }
+.playlist-dialog form { display: grid; gap: 16px; padding: 24px; }
+.playlist-dialog h2 { margin: 0; }
+.playlist-dialog form > label { display: grid; gap: 7px; font-size: .78rem; font-weight: 750; }
+.playlist-dialog input[type="text"] { min-height: 43px; padding: 0 12px; border: 1px solid var(--pl-border); border-radius: 9px; color: #fff; background: #090e14; }
+.playlist-dialog textarea { padding: 11px 12px; border: 1px solid var(--pl-border); border-radius: 9px; color: #fff; background: #090e14; resize: vertical; font: inherit; }
+.playlist-dialog fieldset { display: grid; gap: 9px; margin: 0; padding: 0; border: 0; }
+.playlist-dialog legend { margin-bottom: 8px; font-size: .78rem; font-weight: 750; }
+.playlist-type-option { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--pl-border); border-radius: 10px; background: #090e14; }
+.playlist-type-option span { display: grid; gap: 3px; }
+.playlist-type-option small { color: var(--pl-muted); font-weight: 400; }
+.playlist-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.playlist-action.primary { color: #fff; background: #713ab4; }
+.playlist-empty.compact { min-height: 300px; }
+.playlist-empty a { display: inline-block; text-decoration: none; }
+.playlist-curated-heading { display: grid; gap: 3px; margin: 24px 2px 10px; padding-top: 18px; border-top: 1px solid var(--pl-border); }
+.playlist-curated-heading small { color: var(--pl-muted); }
+.curated-list { margin-top: 0; }
+.curated-list button { background: linear-gradient(135deg, rgba(115,63,172,.15), #0a0f15 60%); }
+.playlist-description { max-width: 650px; margin: 10px 0 0; color: #c8cdd5; line-height: 1.5; }
+.playlist-action.danger { border-color: #713c47; color: #ffbdc5; background: rgba(150,45,61,.1); }
+.playlist-item-actions button:disabled { cursor: default; opacity: .3; }

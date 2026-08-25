@@ -7,7 +7,7 @@
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <meta name="description" content="Herramientas de administración de Gen 2.">
 <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
-    <link rel="stylesheet" href="admin.css?v=20260730-centered-section-button">
+    <link rel="stylesheet" href="admin.css?v=20260825-version-editor">
   <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
   <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
   <!-- Vista previa al compartir -->
@@ -26,8 +26,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Panel de Administración">
   <meta name="twitter:description" content="Recursos del Movimiento Gen 2 para vivir y construir la unidad.">
-  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-general.png">
-</head>
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-general.png"><link rel="canonical" href="https://pagina-gen.web.app/admin/admin.html"><meta name="robots" content="noindex, nofollow"></head>
 <body>
     <div class="page-container">
         <!-- Sidebar -->
@@ -59,9 +58,29 @@
                 <div class="admin-section-controls">
                 <button id="admin-section-back" class="admin-section-back" type="button">← Cambiar sección</button>
                 <nav class="section-nav" aria-label="Elegir sección para administrar">
+                    <button class="nav-btn" data-section="pasapalabra">
+                        <span class="nav-icon">✨</span>
+                        <span class="nav-text">Pasapalabra</span>
+                    </button>
                     <button class="nav-btn" data-section="carrusel">
                         <span class="nav-icon">🖼️</span>
                         <span class="nav-text">Comunicación</span>
+                    </button>
+                    <button class="nav-btn" data-section="meditaciones">
+                        <span class="nav-icon">🧘</span>
+                        <span class="nav-text">Meditaciones</span>
+                    </button>
+                    <button class="nav-btn" data-section="pdv">
+                        <span class="nav-icon">📖</span>
+                        <span class="nav-text">PdV</span>
+                    </button>
+                    <button class="nav-btn" data-section="cancionero">
+                        <span class="nav-icon">🎸</span>
+                        <span class="nav-text">Cancionero</span>
+                    </button>
+                    <button class="nav-btn" data-section="audios">
+                        <span class="nav-icon">🎧</span>
+                        <span class="nav-text">Audios</span>
                     </button>
                     <button class="nav-btn" data-section="zonas-codigos">
                         <span class="nav-icon">🔑</span>
@@ -71,21 +90,13 @@
                         <span class="nav-icon">🔔</span>
                         <span class="nav-text">Notificaciones</span>
                     </button>
-                    <button class="nav-btn" data-section="pasapalabra">
-                        <span class="nav-icon">✨</span>
-                        <span class="nav-text">Pasapalabra</span>
-                    </button>
-                    <button class="nav-btn" data-section="meditaciones">
-                        <span class="nav-icon">🧘</span>
-                        <span class="nav-text">Meditaciones</span>
+                    <button class="nav-btn" data-section="versiones-android">
+                        <span class="nav-icon android-nav-icon"><img src="../aadocumentos/svg/plataforma-android.svg" alt=""></span>
+                        <span class="nav-text">Control de versiones de Android</span>
                     </button>
                     <button class="nav-btn" data-section="biblioteca">
                         <span class="nav-icon">📚</span>
                         <span class="nav-text">Biblioteca</span>
-                    </button>
-                    <button class="nav-btn" data-section="cancionero">
-                        <span class="nav-icon">🎸</span>
-                        <span class="nav-text">Cancionero</span>
                     </button>
                     <button class="nav-btn" data-section="recursos">
                         <span class="nav-icon">📚</span>
@@ -94,14 +105,6 @@
                     <button class="nav-btn" data-section="frases">
                         <span class="nav-icon">💭</span>
                         <span class="nav-text">Frases</span>
-                    </button>
-                    <button class="nav-btn" data-section="pdv">
-                        <span class="nav-icon">📖</span>
-                        <span class="nav-text">PdV</span>
-                    </button>
-                    <button class="nav-btn" data-section="lyrics">
-                        <span class="nav-icon">🎼</span>
-                        <span class="nav-text">Corrección Letras</span>
                     </button>
                     <button class="nav-btn" data-section="bulk-upload">
                         <span class="nav-icon">📤</span>
@@ -154,6 +157,97 @@
                                     <p style="text-align: center; color: var(--text-muted);">Cargando...</p>
                                 </div>
                             </div>
+                        </div>
+
+                        <nav class="audio-admin-tabs" aria-label="Vistas del administrador de audios">
+                            <button type="button" class="active" data-audio-view="pending">Pendientes <span id="audio-pending-tab-count">0</span></button>
+                            <button type="button" data-audio-view="catalog">Catálogo <span id="audio-catalog-tab-count">0</span></button>
+                            <button type="button" data-audio-view="issues">Requieren atención <span id="audio-issues-tab-count">0</span></button>
+                        </nav>
+                        <div class="audio-admin-grid" data-audio-view="pending">
+                            <section class="form-panel audio-review-panel">
+                                <span class="admin-step">Revisión</span>
+                                 <h2 id="audio-form-title">Seleccioná una propuesta</h2>
+                                 <form id="audio-form">
+                                    <div class="form-group" id="audio-submitter-group" hidden>
+                                        <label for="audio-submitter">Propuesta enviada por</label>
+                                        <input id="audio-submitter" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="audio-cancion">Canción *</label>
+                                        <select id="audio-cancion" required><option value="">Elegí una canción</option></select>
+                                    </div>
+                                    <div id="audio-current-principal" class="audio-current-principal" hidden role="status"></div>
+                                    <div class="form-group">
+                                        <label for="audio-url">Enlace del audio *</label>
+                                        <input id="audio-url" type="url" inputmode="url" placeholder="https://…" required>
+                                        <p class="field-help" id="audio-url-help">La plataforma se detectará automáticamente.</p>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="audio-proveedor">Plataforma</label>
+                                            <select id="audio-proveedor">
+                                                <option value="externo">Otro enlace</option><option value="youtube">YouTube</option><option value="spotify">Spotify</option><option value="soundcloud">SoundCloud</option><option value="drive">Google Drive</option><option value="bandcamp">Bandcamp</option><option value="applemusic">Apple Music</option><option value="vimeo">Vimeo</option><option value="directo">Audio directo</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="audio-tipo">Contenido del audio</label>
+                                            <select id="audio-tipo"><option value="oficial">Versión oficial</option><option value="en_vivo">En vivo</option><option value="cover">Cover</option><option value="remix">Remix</option><option value="instrumental">Instrumental</option><option value="voces">Voces</option><option value="otra">Otro</option><option value="guia" hidden>Guía (registro anterior)</option></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"><label for="audio-interprete">Intérprete</label><input id="audio-interprete" maxlength="120" placeholder="Ej.: Música Gen"></div>
+                                    <div class="form-row" id="audio-voice-fields" hidden>
+                                        <div class="form-group"><label for="audio-version-vocal">Versión de voces</label><input id="audio-version-vocal" maxlength="80" placeholder="Ej.: arreglo original o coro 2026"></div>
+                                        <div class="form-group"><label for="audio-tipo-voz">Tipo de voz</label><input id="audio-tipo-voz" list="audio-voice-options" maxlength="60" placeholder="Elegí o escribí otra voz"><datalist id="audio-voice-options"><option value="Soprano"><option value="Contralto"><option value="Tenor"><option value="Bajo"></datalist></div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label for="audio-idioma">Idioma</label><select id="audio-idioma"><option value="">Sin especificar</option><option value="Español">Español</option><option value="Italiano">Italiano</option><option value="Portugués">Portugués</option><option value="Inglés">Inglés</option><option value="Otro">Otro</option></select></div>
+                                        <div class="form-group"><label for="audio-estado">Estado</label><select id="audio-estado"><option value="pendiente">Pendiente</option><option value="publicado">Publicado</option><option value="rechazado">Rechazado</option><option value="archivado">Archivado</option></select></div>
+                                    </div>
+                                    <div class="form-group audio-generated-name"><label for="audio-nombre">Nombre público automático</label><input id="audio-nombre" readonly><p class="field-help">Se actualiza con la canción, categoría, idioma e intérprete.</p></div>
+                                    <div class="form-group"><label for="audio-descripcion">Descripción opcional</label><textarea id="audio-descripcion" maxlength="500" rows="3" placeholder="Aclaraciones sobre esta grabación"></textarea></div>
+                                    <label class="audio-check"><input id="audio-principal" type="checkbox"><span>Usar esta versión como audio guía principal</span></label>
+                                    <label class="audio-check"><input id="audio-permisos" type="checkbox" required><span>Confirmo que el enlace puede compartirse y que la grabación está autorizada.</span></label>
+                                    <div class="audio-preview" id="audio-admin-preview" hidden></div>
+                                    <div class="form-actions"><button class="btn-primary" id="audio-approve" type="button" hidden>Aprobar y publicar</button><button class="btn-secondary" id="audio-save" type="submit">Guardar revisión</button><button class="btn-danger" id="audio-reject" type="button" hidden>Rechazar</button><button class="btn-secondary" id="audio-cancel" type="button" hidden>Cancelar</button><button class="btn-danger" id="audio-delete" type="button" hidden>Eliminar</button></div>
+                                </form>
+                            </section>
+
+                            <section class="list-panel audio-list-panel">
+                                <div class="audio-list-heading"><div><span class="admin-step">Bandeja</span><h2>Propuestas recibidas</h2></div><span id="audio-list-count">0 propuestas</span></div>
+                                <div class="controls"><input id="audio-search" type="search" placeholder="Buscar en todos los audios…"><select id="audio-filter-state"><option value="">Todos los estados de propuestas</option><option value="pendiente">Pendientes</option><option value="rechazado">Rechazados</option><option value="archivado">Archivados</option></select><select id="audio-filter-provider"><option value="">Todas las plataformas</option><option value="youtube">YouTube</option><option value="spotify">Spotify</option><option value="soundcloud">SoundCloud</option><option value="drive">Drive</option><option value="externo">Otros</option></select></div>
+                                <div id="audio-list" class="item-list"></div>
+                            </section>
+
+                            <section class="list-panel audio-list-panel audio-published-panel">
+                                <div class="audio-list-heading"><div><span class="admin-step">Consulta</span><h2>Catálogo de canciones y audios</h2></div><span id="audio-published-count">0 canciones</span></div>
+                                <div class="audio-catalog-search">
+                                    <label for="audio-catalog-search">Buscar en el cancionero</label>
+                                    <div class="audio-catalog-search-field"><span aria-hidden="true">⌕</span><input id="audio-catalog-search" type="search" placeholder="Escribí el título o el artista…" autocomplete="off"></div>
+                                    <small>El resultado indica si la canción tiene audios y permite administrarlos.</small>
+                                </div>
+                                <p id="audio-sync-status" class="field-help">Buscá una canción para comprobar si tiene audios publicados.</p>
+                                <div id="audio-published-list" class="item-list"></div>
+                            </section>
+
+                            <section class="list-panel audio-list-panel audio-issues-panel">
+                                <div class="audio-list-heading"><div><span class="admin-step">Control</span><h2>Requieren atención</h2></div><span id="audio-issues-count">0 casos</span></div>
+                                <p class="field-help">Los controles están separados porque no tienen la misma importancia ni se resuelven de la misma manera.</p>
+                                <div id="audio-issues-list" class="audio-issue-groups">
+                                    <section class="audio-issue-group issue-official">
+                                        <div class="audio-issue-heading"><div><strong>Sin versión oficial</strong><small>Canciones publicadas que todavía no tienen un audio de tipo “Versión oficial”.</small></div><span id="audio-missing-official-count">0</span></div>
+                                        <div id="audio-missing-official-list" class="item-list"></div>
+                                    </section>
+                                    <section class="audio-issue-group issue-principal">
+                                        <div class="audio-issue-heading"><div><strong>Más de una versión principal</strong><small>Hay que decidir cuál será la guía principal de la canción.</small></div><span id="audio-multiple-principal-count">0</span></div>
+                                        <div id="audio-multiple-principal-list" class="item-list"></div>
+                                    </section>
+                                    <section class="audio-issue-group issue-source">
+                                        <div class="audio-issue-heading"><div><strong>Fuente incompleta</strong><small>Falta el enlace o la canción asociada; puede impedir la reproducción.</small></div><span id="audio-incomplete-source-count">0</span></div>
+                                        <div id="audio-incomplete-source-list" class="item-list"></div>
+                                    </section>
+                                </div>
+                            </section>
                         </div>
                     </section>
 
@@ -260,7 +354,13 @@
                             </div>
 
                             <div class="admin-list-card">
-                                <h2>⚙️ Funciones disponibles</h2>
+                                <h2>📣 Administración de comunicación</h2>
+                                <p class="field-help">Estos códigos permiten administrar Comunicación. Son independientes del código para pertenecer a una zona.</p>
+                                <div id="comunicacion-admin-list" class="access-list"><p class="admin-list-status">Cargando permisos...</p></div>
+                            </div>
+
+                            <div class="admin-list-card">
+                                <h2>⚙️ Otras funciones</h2>
                                 <div id="funciones-list" class="access-list"><p class="admin-list-status">Cargando funciones...</p></div>
                             </div>
 
@@ -351,6 +451,58 @@
                                 <p>Palabra de Vida, Pasapalabra y Meditación respetan las frecuencias, días, horarios y zona horaria elegidos por cada usuario.</p>
                             </div>
                         </div>
+                    </section>
+
+                    <section id="versiones-android-section" class="content-section">
+                        <header class="android-versions-heading">
+                            <div><span class="admin-step">Android</span><h2>Control de versiones de Android</h2><p>Documentá cada publicación y decidí desde qué versión se puede seguir usando la app.</p></div>
+                            <span id="android-version-source" class="android-version-source">Cargando configuración…</span>
+                        </header>
+                        <div class="android-version-summary">
+                            <article><small>Última versión disponible</small><strong id="android-latest-summary">—</strong></article>
+                            <article><small>Versión mínima permitida</small><strong id="android-minimum-summary">—</strong></article>
+                            <article><small>Tipo de actualización</small><strong id="android-policy-summary">—</strong></article>
+                        </div>
+                        <div class="section-grid android-version-grid">
+                            <form id="android-publication-form" class="admin-form-card">
+                                <h2>Estado de publicación</h2>
+                                <p class="field-help">La versión disponible genera la primera novedad. La mínima bloquea versiones anteriores.</p>
+                                <div class="form-row">
+                                    <div class="form-group"><label for="android-latest-version">Última versión disponible</label><select id="android-latest-version" required><option value="">Elegí una versión</option></select></div>
+                                    <div class="form-group"><label for="android-minimum-version">Versión mínima permitida</label><select id="android-minimum-version" required><option value="">Elegí una versión</option></select></div>
+                                </div>
+                                <div class="form-group"><label for="android-apk-url">Enlace del APK</label><input id="android-apk-url" type="url" required placeholder="https://pagina-gen.web.app/descargas/Pagina-Gen.apk"></div>
+                                <div class="form-group"><label for="android-update-title">Título del aviso</label><input id="android-update-title" maxlength="80" required value="Actualizá Gen 2"></div>
+                                <div class="form-group"><label for="android-update-description">Descripción del aviso</label><textarea id="android-update-description" maxlength="240" rows="3" required></textarea></div>
+                                <div class="form-group"><label for="android-update-action">Texto del botón</label><input id="android-update-action" maxlength="50" required value="Descargar actualización"></div>
+                                <div class="android-policy-preview" id="android-policy-preview" role="status"></div>
+                                <div class="form-actions"><button class="btn-primary" type="submit">Publicar configuración</button></div>
+                                <p id="android-publication-status" class="field-help" role="status"></p>
+                            </form>
+                            <form id="android-release-form" class="admin-form-card">
+                                <h2 id="android-release-form-title">Registrar una versión</h2>
+                                <input id="android-release-original-code" type="hidden">
+                                <div class="form-row">
+                                    <div class="form-group"><label for="android-release-name">Nombre de versión</label><input id="android-release-name" required placeholder="1.5"></div>
+                                    <div class="form-group"><label for="android-release-code">Código interno de Android</label><input id="android-release-code" type="number" min="1" step="1" required readonly><p class="field-help">Lo define el APK y se completa automáticamente. No es el nombre visible de la versión.</p></div>
+                                </div>
+                                <div class="form-group"><label for="android-release-apk-url">Enlace directo al APK en GitHub Releases</label><input id="android-release-apk-url" type="url" placeholder="https://github.com/.../releases/download/.../Gen.apk"><p class="field-help">Podés dejarlo vacío mientras la versión está pendiente.</p></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label for="android-release-date">Fecha de publicación</label><input id="android-release-date" type="date"></div>
+                                    <div class="form-group"><label for="android-release-state">Estado</label><select id="android-release-state"><option value="pendiente">Pendiente de revisión</option><option value="publicado">Publicada</option></select></div>
+                                </div>
+                                <div class="form-group"><label for="android-release-new">Funciones nuevas</label><textarea id="android-release-new" rows="4" placeholder="Una por línea"></textarea></div>
+                                <div class="form-group"><label for="android-release-improvements">Cambios y mejoras</label><textarea id="android-release-improvements" rows="4" placeholder="Una por línea"></textarea></div>
+                                <div class="form-group"><label for="android-release-fixes">Correcciones</label><textarea id="android-release-fixes" rows="4" placeholder="Una por línea"></textarea></div>
+                                <div class="form-group"><label for="android-release-removed">Funciones retiradas</label><textarea id="android-release-removed" rows="4" placeholder="Una por línea"></textarea></div>
+                                <div class="form-actions"><button class="btn-primary" type="submit">Guardar versión</button><button id="android-release-cancel" class="btn-secondary" type="button" hidden>Cancelar edición</button></div>
+                                <p id="android-release-status" class="field-help" role="status"></p>
+                            </form>
+                        </div>
+                        <section class="admin-list-card android-history-panel">
+                            <div class="android-history-heading"><div><h2>Historial de versiones</h2><p>Compará funciones incorporadas y retiradas antes de elevar la versión mínima.</p></div></div>
+                            <div id="android-version-history" class="android-version-history"><p class="admin-list-status">Cargando versiones…</p></div>
+                        </section>
                     </section>
 
                     <!-- SECCIÓN PASAPALABRA -->
@@ -609,7 +761,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Letra *</label>
-                                        <textarea id="cancion-letra" rows="12" placeholder="Letra completa de la canción" required></textarea>
+                                        <textarea id="cancion-letra" rows="16" spellcheck="false" placeholder="Acordes en la línea superior, letra debajo y tablaturas alineadas" required></textarea>
+                                        <p class="field-help">Se conserva el texto literal. La vista previa usa exactamente el mismo lector que el cancionero.</p>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group"><label>Tono original</label><input type="text" id="cancion-tono" maxlength="20" placeholder="Ej.: G o Sol"></div>
+                                        <div class="form-group"><label>Idioma</label><select id="cancion-idioma"><option>Español</option><option>Italiano</option><option>Inglés</option><option>Portugués</option><option>Otro</option></select></div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group">
@@ -630,6 +787,7 @@
                                     </div>
                                     <div class="form-actions">
                                         <button type="submit" class="btn-primary">💾 Guardar Canción</button>
+                                        <button type="button" id="cancion-preview" class="btn-secondary">👁 Vista previa</button>
                                         <button type="button" id="cancion-cancel" class="btn-secondary" style="display:none;">Cancelar</button>
                                         <button type="button" id="cancion-delete" class="btn-danger" style="display:none;">🗑️ Eliminar</button>
                                     </div>
@@ -652,9 +810,25 @@
                                         <option value="fogon">Fogón</option>
                                     </select>
                                 </div>
+                                <div id="cancion-bulk-actions" class="cancion-bulk-actions" hidden>
+                                    <label><input id="cancion-select-all-pending" type="checkbox"><span>Seleccionar pendientes visibles</span></label>
+                                    <span id="cancion-selected-count">0 seleccionadas</span>
+                                    <button id="cancion-approve-selected" class="btn-primary" type="button" disabled>Aprobar seleccionadas</button>
+                                </div>
                                 <div id="cancion-list" class="item-list"></div>
                             </div>
                         </div>
+                    </section>
+
+                    <!-- REVISIÓN DE AUDIOS PROPUESTOS -->
+                    <section id="audios-section" class="content-section">
+                        <header class="section-header audio-section-header">
+                            <div>
+                                <span class="admin-step">Cancionero</span>
+                                <h2>Administración de audios</h2>
+                                <p>Revisá propuestas y consultá qué canciones tienen audios publicados.</p>
+                            </div>
+                        </header>
                     </section>
 
                     <!-- SECCIÓN RECURSOS -->
@@ -883,77 +1057,39 @@
                         </div>
                     </section>
 
-                    <!-- SECCIÓN CORRECCIÓN LETRAS -->
-                    <section id="lyrics-section" class="content-section">
-                        <div class="section-grid">
-                            <div class="list-panel">
-                                <h2>🎼 Canciones para revisar</h2>
-                                <div class="controls">
-                                    <input type="text" id="lyrics-search" placeholder="🔍 Buscar canción...">
-                                    <select id="lyrics-filter">
-                                        <option value="">Todas</option>
-                                        <option value="pendiente">Pendientes</option>
-                                        <option value="revisando">Revisando</option>
-                                        <option value="publicado">Publicadas</option>
-                                    </select>
-                                </div>
-                                <div id="lyrics-list" class="item-list"></div>
-                            </div>
-                            <div class="form-panel">
-                                <h2 id="lyrics-form-title">✏️ Editar Letra</h2>
-                                <form id="lyrics-form">
-                                    <input type="hidden" id="lyrics-edit-id">
-                                    <div class="form-group">
-                                        <label for="lyrics-titulo">Título</label>
-                                        <input type="text" id="lyrics-titulo" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="lyrics-artista">Artista</label>
-                                        <input type="text" id="lyrics-artista">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="lyrics-letra">Letra</label>
-                                        <textarea id="lyrics-letra" rows="20"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="lyrics-estado">Estado</label>
-                                        <select id="lyrics-estado">
-                                            <option value="pendiente">Pendiente</option>
-                                            <option value="revisando">Revisando</option>
-                                            <option value="publicado">Publicado</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-actions">
-                                        <button type="submit" class="btn-primary">💾 Guardar Cambios</button>
-                                        <button type="button" id="lyrics-cancel" class="btn-secondary" style="display: none;">Cancelar</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </section>
-
                     <!-- SECCIÓN SUBIDA MÚLTIPLE -->
                     <section id="bulk-upload-section" class="content-section">
                         <div class="full-width-panel">
                             <h2>📤 Subida Múltiple</h2>
-                            <p style="color: var(--text-muted);">Carga canciones en formato JSON. Además de título, artista, letra, categoría y estado, podés incluir tono y fuente. Los diagramas se administran desde el centro común de acordes.</p>
+                            <p style="color: var(--text-muted);">Cargá elementos de cualquier sección de contenido. Cada objeto puede indicar su destino con <code>"coleccion"</code>. El archivo debe contener una sola colección, salvo la combinación Canciones + Audios.</p>
+
+                            <div class="form-group">
+                                <label for="bulk-type">Tipo de contenido:</label>
+                                <select id="bulk-type">
+                                    <option value="auto">Leer “coleccion” desde el JSON</option>
+                                    <option value="canciones">Canciones</option>
+                                    <option value="cancion_audios">Audios del cancionero</option>
+                                    <option value="cancionero_audio">Canciones + audios</option>
+                                    <option value="recursos">Recursos de Gen Animadores</option>
+                                    <option value="canal_publicaciones">Comunicación</option>
+                                    <option value="pasapalabra">Pasapalabra</option>
+                                    <option value="meditaciones">Meditaciones</option>
+                                    <option value="frases">Frases</option>
+                                    <option value="pdv">Palabra de Vida</option>
+                                    <option value="biblioteca_recursos">Biblioteca</option>
+                                    <option value="notificaciones_pendientes">Notificaciones</option>
+                                    <option value="versiones_android">Versiones Android</option>
+                                </select>
+                                <small style="color: var(--text-muted);">Por seguridad, usuarios, roles, códigos y zonas no se importan desde JSON.</small>
+                            </div>
                             
                             <div class="form-group">
                                 <label for="bulk-json">Pega el JSON aquí:</label>
                                 <textarea id="bulk-json" rows="15" placeholder='[
   {
-    "titulo": "Canción 1",
-    "artista": "Artista 1",
-    "letra": "Letra completa...",
-    "categoria": "gen",
-    "estado": "publicado"
-  },
-  {
-    "titulo": "Canción 2",
-    "artista": "Artista 2",
-    "letra": "Letra completa...",
-    "categoria": "fogon",
-    "estado": "pendiente"
+    "coleccion": "frases",
+    "frase": "Texto de la frase",
+    "autor": "Autor"
   }
 ]'></textarea>
                             </div>
@@ -980,7 +1116,7 @@
     <script src="../aaglobal/firebase-config.js?v=20260730-webpush1"></script>
     <script src="../aaglobal/vendor/mammoth.browser.min.js"></script>
     <script src="../aaglobal/pdv-model.js?v=20260804-chiara-literal"></script>
-    <script type="module" src="../auth.js?v=20260730-admin-session"></script>
-    <script type="module" src="admin.js?v=20260730-song-categories"></script>
+    <script type="module" src="../auth.js?v=20260824-remove-lyrics"></script>
+    <script type="module" src="admin.js?v=20260825-version-editor"></script>
 </body>
 </html>

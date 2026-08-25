@@ -143,6 +143,7 @@
 }
 
 .site-sidebar .sidebar-account-area:not(:has(.menu-item)) { display: none; }
+.site-sidebar .sidebar-account-area.has-account-actions { display: block; }
 
 .site-sidebar .sidebar-role-links { margin-bottom: 7px; }
 .site-sidebar .auth-sidebar-container { position: static; width: 100%; padding: 0; }
@@ -151,6 +152,7 @@
 .site-sidebar .auth-avatar-initial { background: linear-gradient(145deg, #8150d2, #56319b); font-size: .86rem; line-height: 1; }
 .site-sidebar .auth-avatar img { width: 20px; height: 20px; }
 .site-sidebar .admin-role-link { position: static; width: 100%; min-height: 37px; color: #d7c6ff; background: rgba(141,92,246,.08); border-color: rgba(141,92,246,.2); }
+.site-sidebar .admin-role-link[hidden] { display: none !important; }
 
 /* Reserva el ancho del menú sin alterar la estructura interna de cada sección. */
 .with-site-sidebar .site-sidebar ~ .main,

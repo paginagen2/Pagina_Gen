@@ -83,27 +83,26 @@ async function sendToDevice(doc, payload) {
         ultimoError: 'El dispositivo no tiene un token o una suscripción válida.',
         ultimoErrorEn: FieldValue.serverTimestamp()
       }, { merge: true });
-      return 'skipped';
+      return 'failed';
     }
     await doc.ref.set({ ultimoEnvioEn: FieldValue.serverTimestamp(), ultimoError: FieldValue.delete() }, { merge: true });
     return 'sent';
   } catch (error) {
-    const expired = [401, 403, 404, 410].includes(error.statusCode)
+    const expired = [404, 410].includes(error.statusCode)
       || ['messaging/registration-token-not-registered', 'messaging/invalid-registration-token'].includes(error.code);
     await doc.ref.set({
       ...(expired ? { enabled: false, subscription: null, fcmToken: null } : {}),
       ultimoError: clean(error.message, 240),
       ultimoErrorEn: FieldValue.serverTimestamp()
     }, { merge: true });
-    const log = expired ? console.warn : console.error;
-    log(expired ? 'Se retiró un registro de notificaciones vencido' : 'Falló una notificación', {
+    console.error('Falló una notificación', {
       deviceId: doc.id,
       platform: device.platform || 'unknown',
       transport: device.transport || 'unknown',
       code: error.code || error.statusCode || 'unknown',
       message: clean(error.message, 240)
     });
-    return expired ? 'skipped' : 'failed';
+    return 'failed';
   }
 }
 

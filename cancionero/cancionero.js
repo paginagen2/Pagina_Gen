@@ -1,4 +1,5 @@
 import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog';
+import { parseSongContent } from './song-content.js?v=20260819-1';
 
 const DATA_ROOT = '../datos/cancionero';
 let canciones = [];
@@ -19,18 +20,59 @@ let artistasCompletosCargados = false;
 let usuarioFavoritos = null;
 const favoritosIds = new Set();
 const favoritosConsultados = new Set();
+let favoritosPerfilCargados = false;
+let versionCargaFavoritos = 0;
 let soloFavoritos = false;
 let cancionesFavoritas = [];
 let pdfDraftSongs = [];
 let pdfLastFocus = null;
 let pdfPickerCategory = 'todas';
 let pdfPickerSearchTimer = null;
+const publicacionesRecientesCache = new Map();
 
 document.addEventListener('DOMContentLoaded', async () => {
   inicializarEventListeners();
+  restaurarBorradorAporte();
   inicializarFavoritos();
   await inicializar();
+  await prepararPDFDesdeLista();
 });
+
+function restaurarBorradorAporte() {
+  if (new URLSearchParams(location.search).get('editarAporte') !== '1') return;
+  let draft;
+  try { draft = JSON.parse(sessionStorage.getItem('gen_song_submission_draft') || 'null'); } catch { draft = null; }
+  if (!draft) return;
+  document.getElementById('titulo').value = draft.titulo || '';
+  document.getElementById('artista').value = draft.artista || '';
+  document.getElementById('categoria').value = draft.categoria || '';
+  document.getElementById('tonoPropuesto').value = draft.tono || '';
+  document.getElementById('idiomaPropuesto').value = draft.idioma || 'Español';
+  document.getElementById('letra').value = draft.letra || '';
+  mostrarFormulario();
+  history.replaceState(null, '', 'cancionero.html');
+}
+
+async function prepararPDFDesdeLista() {
+  if (new URLSearchParams(location.search).get('crearPDF') !== 'lista') return;
+  let draft;
+  try { draft = JSON.parse(sessionStorage.getItem('songbook_pdf_playlist') || 'null'); } catch { draft = null; }
+  sessionStorage.removeItem('songbook_pdf_playlist');
+  if (!Array.isArray(draft?.ids) || !draft.ids.length) return;
+  cancionesSeleccionadas = new Set(draft.ids.map(String));
+  try {
+    pdfDraftSongs = (await Promise.all(draft.ids.map((id) => DatabaseService.getCancionPorId(id)))).filter(Boolean);
+    if (!pdfDraftSongs.length) throw new Error('Lista vacía');
+    abrirConstructorPDF();
+    document.getElementById('pdfDocumentTitle').value = draft.nombre || 'Cancionero Gen';
+    document.getElementById('pdfFilename').value = limpiarNombreArchivo(draft.nombre || 'cancionero-gen');
+    actualizarResumenPDF();
+    history.replaceState(null, '', 'cancionero.html');
+  } catch (error) {
+    console.error('No se pudo preparar el PDF desde la lista:', error);
+    mostrarToast('No pudimos abrir esa lista en el creador de PDF', 'error');
+  }
+}
 
 async function inicializar() {
   try {
@@ -85,6 +127,21 @@ function combinarCanciones(...listas) {
   return [...unicas.values()];
 }
 
+function normalizarBusqueda(value) {
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').trim();
+}
+
+async function cargarPublicacionesRecientes(categoria) {
+  const key = categoria || 'todas';
+  if (!publicacionesRecientesCache.has(key)) {
+    publicacionesRecientesCache.set(key, DatabaseService.getCancionesLimitadas(15, key).catch((error) => {
+      publicacionesRecientesCache.delete(key);
+      throw error;
+    }));
+  }
+  return publicacionesRecientesCache.get(key);
+}
+
 async function cargarCategoria(categoria, reiniciar = true) {
   const pagina = reiniciar ? 1 : paginaActual + 1;
   mostrarEstadoCanciones('Cargando canciones...');
@@ -93,7 +150,7 @@ async function cargarCategoria(categoria, reiniciar = true) {
     const extras = reiniciar ? await cargarCancionesExtra() : [];
     const nuevasBase = Array.isArray(datos.canciones) ? datos.canciones : [];
     const publicadasOnline = reiniciar
-      ? await DatabaseService.getCancionesLimitadas(15, categoria).catch((error) => {
+      ? await cargarPublicacionesRecientes(categoria).catch((error) => {
           console.warn('No se pudieron sumar las publicaciones recientes:', error);
           return [];
         })
@@ -139,6 +196,7 @@ function inicializarEventListeners() {
   const favoriteFilter = document.getElementById('favoriteFilter');
   const form = document.getElementById('formCancion');
   const overlay = document.getElementById('formOverlay');
+  const contributionOverlay = document.getElementById('contributionOverlay');
   const artistsViewAll = document.getElementById('artistsViewAll');
   inicializarConstructorPDF();
 
@@ -164,6 +222,10 @@ function inicializarEventListeners() {
 
   // Confirmar cierre con Escape cuando el formulario está visible
   document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && contributionOverlay && !contributionOverlay.hidden) {
+      ocultarMenuAportes();
+      return;
+    }
     if (e.key === 'Escape' && overlay && overlay.style.display === 'flex') {
       const confirmar = window.confirm('¿Cerrar el formulario? Se perderá lo escrito.');
       if (confirmar) ocultarFormulario();
@@ -179,15 +241,18 @@ function inicializarEventListeners() {
       }
     });
   }
+  contributionOverlay?.addEventListener('click', (event) => {
+    if (event.target === contributionOverlay) ocultarMenuAportes();
+  });
 }
 
 function aplicarFiltros() {
   const searchInput = document.getElementById('searchInput');
-  const busqueda = (searchInput?.value || '').toLowerCase().trim();
+  const busqueda = normalizarBusqueda(searchInput?.value);
   const origen = soloFavoritos ? cancionesFavoritas : canciones;
   cancionesFiltradas = origen.filter((cancion) => {
     const coincideCategoria = categoriaActual === 'todas' || cancion.categoria === categoriaActual;
-    const texto = `${cancion.titulo || ''} ${cancion.artista || ''}`.toLowerCase();
+    const texto = normalizarBusqueda(`${cancion.titulo || ''} ${cancion.artista || ''}`);
     return coincideCategoria && (!busqueda || texto.includes(busqueda));
   });
 
@@ -209,7 +274,7 @@ function aplicarFiltros() {
 
 async function ejecutarBusqueda() {
   const searchInput = document.getElementById('searchInput');
-  const busqueda = (searchInput?.value || '').toLowerCase().trim();
+  const busqueda = normalizarBusqueda(searchInput?.value);
   if (soloFavoritos) {
     vistaActual = 'favoritos';
     aplicarFiltros();
@@ -229,14 +294,14 @@ async function ejecutarBusqueda() {
       registrarCanciones(indiceBusqueda);
     }
     const categoria = document.querySelector('.filter-pill[data-categoria].active')?.dataset.categoria || 'todas';
-    const publicadasOnline = await DatabaseService.getCancionesLimitadas(15, categoria).catch((error) => {
+    const publicadasOnline = await cargarPublicacionesRecientes(categoria).catch((error) => {
       console.warn('No se pudieron consultar las publicaciones recientes:', error);
       return [];
     });
     registrarCanciones(publicadasOnline);
     const indiceCompleto = combinarCanciones(publicadasOnline, indiceBusqueda);
     cancionesFiltradas = indiceCompleto.filter((cancion) => {
-      const texto = `${cancion.titulo || ''} ${cancion.artista || ''}`.toLowerCase();
+      const texto = normalizarBusqueda(`${cancion.titulo || ''} ${cancion.artista || ''}`);
       return texto.includes(busqueda) && (categoria === 'todas' || cancion.categoria === categoria);
     });
     vistaActual = 'busqueda';
@@ -321,9 +386,20 @@ function crearCancionCard(cancion, ranking) {
     </div>
   `;
 
-  card.querySelector('.cancion-content')?.addEventListener('click', () => {
+  const songContent = card.querySelector('.cancion-content');
+  songContent?.setAttribute('role', 'link');
+  songContent?.setAttribute('tabindex', '0');
+  songContent?.setAttribute('aria-label', `Abrir ${cancion.titulo || 'canción'} de ${cancion.artista || 'artista desconocido'}`);
+  const activarCancion = () => {
     if (window.modoSeleccion) toggleSelection(cancion.id);
     else abrirCancion(cancion.id);
+  };
+  songContent?.addEventListener('click', activarCancion);
+  songContent?.addEventListener('keydown', (event) => {
+    if (event.target !== songContent) return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    activarCancion();
   });
   card.querySelector('.artista-link')?.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -352,7 +428,8 @@ function inicializarFavoritos() {
   utils.onAuthStateChanged(auth, cambiarUsuarioFavoritos);
 }
 
-function cambiarUsuarioFavoritos(user) {
+async function cambiarUsuarioFavoritos(user) {
+  const cargaActual = ++versionCargaFavoritos;
   usuarioFavoritos = user || null;
   const toolFavorites = document.getElementById('toolFavorites');
   const favoriteFilter = document.getElementById('favoriteFilter');
@@ -360,8 +437,32 @@ function cambiarUsuarioFavoritos(user) {
   if (favoriteFilter) favoriteFilter.hidden = !usuarioFavoritos;
   favoritosIds.clear();
   favoritosConsultados.clear();
-  document.querySelectorAll('.favorite-button').forEach((button) => actualizarBotonFavorito(button, false));
+  favoritosPerfilCargados = false;
+  cancionesFavoritas = [];
+  document.querySelectorAll('.favorite-button').forEach((button) => {
+    actualizarBotonFavorito(button, false);
+    if (usuarioFavoritos) button.setAttribute('aria-busy', 'true');
+  });
   if (usuarioFavoritos) {
+    try {
+      const favoritas = await DatabaseService.getFavoritosUsuario(usuarioFavoritos.uid);
+      if (cargaActual !== versionCargaFavoritos || usuarioFavoritos?.uid !== user.uid) return;
+      cancionesFavoritas = favoritas;
+      favoritas.forEach((cancion) => {
+        const id = String(cancion.id || '');
+        if (!id) return;
+        favoritosIds.add(id);
+        favoritosConsultados.add(id);
+      });
+      favoritosPerfilCargados = true;
+      document.querySelectorAll('.favorite-button').forEach((button) => {
+        actualizarBotonFavorito(button, favoritosIds.has(String(button.dataset.songId || '')));
+        button.removeAttribute('aria-busy');
+      });
+    } catch (error) {
+      console.warn('No se pudo precargar la colección de favoritos:', error);
+      document.querySelectorAll('.favorite-button').forEach((button) => button.removeAttribute('aria-busy'));
+    }
     void actualizarFavoritosVisibles();
   } else if (soloFavoritos) {
     soloFavoritos = false;
@@ -388,7 +489,6 @@ async function alternarFiltroFavoritos() {
   if (button?.getAttribute('aria-busy') === 'true') return;
   if (soloFavoritos) {
     soloFavoritos = false;
-    cancionesFavoritas = [];
     vistaActual = 'categoria';
     actualizarEstadoFiltroFavoritos();
     await cargarCategoria(categoriaActual, true);
@@ -397,7 +497,9 @@ async function alternarFiltroFavoritos() {
   button?.setAttribute('aria-busy', 'true');
   mostrarEstadoCanciones('Cargando tus favoritos...');
   try {
-    cancionesFavoritas = await DatabaseService.getFavoritosUsuario(user.uid);
+    cancionesFavoritas = favoritosPerfilCargados
+      ? cancionesFavoritas
+      : await DatabaseService.getFavoritosUsuario(user.uid);
     if (window.firebaseAuth?.currentUser?.uid !== user.uid) return;
     registrarCanciones(cancionesFavoritas);
     cancionesFavoritas.forEach((cancion) => {
@@ -405,6 +507,7 @@ async function alternarFiltroFavoritos() {
       favoritosIds.add(id);
       favoritosConsultados.add(id);
     });
+    favoritosPerfilCargados = true;
     soloFavoritos = true;
     vistaActual = 'favoritos';
     actualizarEstadoFiltroFavoritos();
@@ -425,7 +528,11 @@ window.abrirMisFavoritos = function abrirMisFavoritos() {
     else document.getElementById('auth-btn')?.click();
     return;
   }
-  window.location.href = 'favoritos.html';
+  window.location.href = 'playlist.html#favoritos';
+};
+
+window.abrirMisPlaylists = function abrirMisPlaylists() {
+  window.location.href = 'playlist.html';
 };
 
 async function actualizarFavoritosVisibles() {
@@ -442,7 +549,11 @@ async function actualizarFavoritosVisibles() {
     const id = String(button.dataset.songId || '');
     if (favoritosConsultados.has(id)) actualizarBotonFavorito(button, favoritosIds.has(id));
   });
-  const pending = buttons.filter((button) => !favoritosConsultados.has(button.dataset.songId));
+  if (favoritosPerfilCargados) {
+    buttons.forEach((button) => actualizarBotonFavorito(button, favoritosIds.has(String(button.dataset.songId || ''))));
+    return;
+  }
+  const pending = buttons.filter((button) => !favoritosConsultados.has(String(button.dataset.songId || '')));
   await Promise.all(pending.map(async (button) => {
     const id = button.dataset.songId;
     button.setAttribute('aria-busy', 'true');
@@ -497,6 +608,8 @@ async function alternarFavorito(cancion, button) {
     if (active) favoritosIds.add(id);
     else favoritosIds.delete(id);
     favoritosConsultados.add(id);
+    if (active && !cancionesFavoritas.some((favorita) => String(favorita.id) === id)) cancionesFavoritas.unshift(cancion);
+    if (!active) cancionesFavoritas = cancionesFavoritas.filter((favorita) => String(favorita.id) !== id);
     actualizarBotonesFavorito(id);
     mostrarToast(active ? 'Agregada a favoritos' : 'Quitada de favoritos', 'success');
     if (soloFavoritos && !active) {
@@ -659,13 +772,33 @@ function inicializarConstructorPDF() {
       renderizarSelectorCancionesPDF();
     });
   });
-  modal.querySelectorAll('input').forEach((input) => input.addEventListener('change', actualizarResumenPDF));
+  modal.querySelectorAll('input').forEach((input) => input.addEventListener('change', () => { actualizarResumenPDF(); guardarPreferenciasPDF(); }));
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !modal.hidden) {
       if (!document.getElementById('pdfSongPicker')?.hidden) cerrarSelectorCancionesPDF();
       else cerrarConstructorPDF();
     }
   });
+}
+
+function guardarPreferenciasPDF() {
+  const mode = document.querySelector('input[name="pdfContentMode"]:checked')?.value || 'chords';
+  localStorage.setItem('songbook_pdf_preferences', JSON.stringify({
+    mode,
+    cover: Boolean(document.getElementById('pdfIncludeCover')?.checked),
+    index: Boolean(document.getElementById('pdfIncludeIndex')?.checked),
+    newPage: Boolean(document.getElementById('pdfSongNewPage')?.checked)
+  }));
+}
+
+function cargarPreferenciasPDF() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('songbook_pdf_preferences') || '{}');
+    document.querySelector(`input[name="pdfContentMode"][value="${saved.mode === 'lyrics' ? 'lyrics' : 'chords'}"]`)?.click();
+    if (typeof saved.cover === 'boolean') document.getElementById('pdfIncludeCover').checked = saved.cover;
+    if (typeof saved.index === 'boolean') document.getElementById('pdfIncludeIndex').checked = saved.index;
+    if (typeof saved.newPage === 'boolean') document.getElementById('pdfSongNewPage').checked = saved.newPage;
+  } catch { /* Se usan los valores recomendados. */ }
 }
 
 window.generarPDF = async function () {
@@ -690,6 +823,7 @@ function abrirConstructorPDF() {
   const modal = document.getElementById('pdfBuilderModal');
   const backdrop = document.getElementById('pdfBuilderBackdrop');
   pdfLastFocus = document.activeElement;
+  cargarPreferenciasPDF();
   document.getElementById('pdfFilename').value = `cancionero-gen-${new Date().toISOString().slice(0, 10)}`;
   renderizarOrdenPDF();
   actualizarResumenPDF();
@@ -741,11 +875,11 @@ function cerrarSelectorCancionesPDF() {
 function renderizarSelectorCancionesPDF() {
   const container = document.getElementById('pdfSongPickerResults');
   if (!container || !indiceBusqueda) return;
-  const query = (document.getElementById('pdfSongPickerSearch')?.value || '').trim().toLocaleLowerCase('es');
+  const query = normalizarBusqueda(document.getElementById('pdfSongPickerSearch')?.value);
   const selectedIds = new Set(pdfDraftSongs.map((song) => String(song.id)));
   const results = indiceBusqueda.filter((song) => {
     const matchesCategory = pdfPickerCategory === 'todas' || song.categoria === pdfPickerCategory;
-    const searchable = `${song.titulo || ''} ${song.artista || ''}`.toLocaleLowerCase('es');
+    const searchable = normalizarBusqueda(`${song.titulo || ''} ${song.artista || ''}`);
     return matchesCategory && (!query || searchable.includes(query));
   }).slice(0, 30);
 
@@ -867,7 +1001,10 @@ function limpiarNombreArchivo(value) {
 }
 
 function quitarAcordes(text) {
-  return String(text || '').replace(/\[[^\]\r\n]+\]/g, '').replace(/[ \t]+\n/g, '\n');
+  return parseSongContent(text).blocks
+    .filter(block => block.type !== 'tab')
+    .map(block => block.type === 'blank' ? '' : block.text || '')
+    .join('\n');
 }
 
 function limitesDeSegmentos(text, maxChars) {
@@ -924,11 +1061,58 @@ function prepararUnidadPDF(sourceLine, includeChords, maxChars) {
 }
 
 function prepararBloquesPDF(text, includeChords, maxChars) {
-  const normalized = String(text || '').replace(/\r\n?/g, '\n').trim();
-  if (!normalized) return [];
-  return normalized.split(/\n\s*\n+/).map((block) =>
-    block.split('\n').flatMap((line) => prepararUnidadPDF(line, includeChords, maxChars))
-  );
+  const parsed = parseSongContent(text);
+  const blocks = [];
+  let current = [];
+  const flush = () => {
+    if (current.length) blocks.push(current);
+    current = [];
+  };
+  parsed.blocks.forEach(block => {
+    if (block.type === 'blank') return flush();
+    if (block.type === 'tab') {
+      flush();
+      if (!includeChords) return;
+      const innerColumns = Math.max(18, maxChars - 3);
+      const width = Math.max(block.width, 1);
+      for (let start = 0; start < width; start += innerColumns) {
+        const size = Math.min(innerColumns, width - start);
+        const unit = [];
+        if (block.header) {
+          const heading = `  ${block.header.padEnd(width + 2).slice(start + 2, start + 2 + size)}`.trimEnd();
+          if (heading.trim()) unit.push({ text: heading, chord: true });
+        }
+        block.strings.forEach(string => {
+          const content = string.content.padEnd(width, '-').slice(start, start + size).padEnd(size, '-');
+          unit.push({ text: `${string.name}|${content}|`, chord: false });
+        });
+        blocks.push([unit]);
+      }
+      return;
+    }
+    if (!includeChords || !block.chords?.length) {
+      limitesDeSegmentos(block.text || '', maxChars).forEach(([start, end]) => {
+        current.push([{ text: (block.text || '').slice(start, end).trimEnd(), chord: false }]);
+      });
+      return;
+    }
+    let chordRow = '';
+    block.chords.forEach(chord => {
+      if (chordRow.length < chord.position) chordRow = chordRow.padEnd(chord.position, ' ');
+      chordRow = `${chordRow.slice(0, chord.position)}${chord.raw}${chordRow.slice(chord.position + chord.raw.length)}`;
+    });
+    const guide = (block.text || '').length ? block.text : chordRow;
+    limitesDeSegmentos(guide, maxChars).forEach(([start, end]) => {
+      const chord = chordRow.slice(start, end).trimEnd();
+      const lyric = (block.text || '').slice(start, end).trimEnd();
+      current.push([
+        ...(chord.trim() ? [{ text: chord, chord: true }] : []),
+        ...(lyric || !chord.trim() ? [{ text: lyric, chord: false }] : [])
+      ]);
+    });
+  });
+  flush();
+  return blocks;
 }
 
 function dibujarPortadaPDF(pdf, title, subtitle) {
@@ -1147,6 +1331,29 @@ function escaparAtributo(valor) {
 }
 
 // Formulario
+window.mostrarMenuAportes = function () {
+  document.getElementById('contributionOverlay').hidden = false;
+  document.body.style.overflow = 'hidden';
+};
+
+window.ocultarMenuAportes = function () {
+  document.getElementById('contributionOverlay').hidden = true;
+  document.body.style.overflow = '';
+};
+
+window.abrirAporteCancion = function () {
+  const user = window.firebaseAuth?.currentUser;
+  if (!user) {
+    ocultarMenuAportes();
+    if (typeof window.genOpenAuthModal === 'function') window.genOpenAuthModal();
+    else document.getElementById('auth-btn')?.click();
+    mostrarToast('Iniciá sesión para enviar una canción', 'error');
+    return;
+  }
+  ocultarMenuAportes();
+  mostrarFormulario();
+};
+
 window.mostrarFormulario = function () {
   const overlay = document.getElementById('formOverlay');
   overlay.style.display = 'flex';
@@ -1169,23 +1376,36 @@ window.abrirAcordes = function () {
   window.location.href = 'acordes.html';
 };
 
-// Guardar canción
+// Preparar la vista previa antes de guardar la canción
 async function guardarCancion(e) {
   e.preventDefault();
   try {
+    const user = window.firebaseAuth?.currentUser;
+    if (!user) {
+      if (typeof window.genOpenAuthModal === 'function') window.genOpenAuthModal();
+      throw new Error('Iniciá sesión para enviar una canción.');
+    }
     const cancionData = {
       titulo: document.getElementById('titulo').value.trim(),
       artista: document.getElementById('artista').value.trim(),
       categoria: document.getElementById('categoria').value,
       letra: document.getElementById('letra').value.trim(),
+      tono: document.getElementById('tonoPropuesto').value.trim(),
+      idioma: document.getElementById('idiomaPropuesto').value,
+      usuarioId: user.uid,
+      creadoPorNombre: String(user.displayName || user.email?.split('@')[0] || 'Perfil sin nombre').slice(0, 120)
     };
     if (!cancionData.titulo || !cancionData.categoria || !cancionData.letra) {
       mostrarToast('❌ Completa todos los campos obligatorios', 'error');
       return;
     }
-    await DatabaseService.agregarCancion(cancionData);
-    mostrarToast('✅ Canción guardada correctamente', 'success');
-    ocultarFormulario();
+    const parsed = parseSongContent(cancionData.letra);
+    if (!parsed.chords.length) {
+      mostrarToast('❌ No encontramos acordes. Pegá también las líneas de acordes de la canción.', 'error');
+      return;
+    }
+    sessionStorage.setItem('gen_song_submission_draft', JSON.stringify(cancionData));
+    window.location.href = 'cancion.html?preview=1';
   } catch (error) {
     console.error('❌ Error guardando canción:', error);
     mostrarToast(`❌ Error: ${error.message}`, 'error');

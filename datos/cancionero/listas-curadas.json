@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "playlists": [
+    {
+      "id": "curated_gen_esenciales",
+      "nombre": "Gen esenciales",
+      "descripcion": "Canciones centrales para encuentros, escuelas y momentos compartidos.",
+      "tipo": "canciones",
+      "curada": true,
+      "items": [
+        { "cancionId": "KUyS3lB77gRyawc034yG", "cancion": { "id": "KUyS3lB77gRyawc034yG", "titulo": "Luce (Español)", "artista": "Música Gen", "categoria": "gen" } },
+        { "cancionId": "cancion_1763217469980", "cancion": { "id": "cancion_1763217469980", "titulo": "Dejemos Huellas", "artista": "Escuela 2024", "categoria": "gen" } },
+        { "cancionId": "qPSX6wBz6Z9kIcxYNOBl", "cancion": { "id": "qPSX6wBz6Z9kIcxYNOBl", "titulo": "Nací para amar", "artista": "Escuela 2023", "categoria": "gen" } },
+        { "cancionId": "Ufl8rYilTSxRLnjWwdRZ", "cancion": { "id": "Ufl8rYilTSxRLnjWwdRZ", "titulo": "Gen Revolution", "artista": "Música Gen", "categoria": "gen" } },
+        { "cancionId": "2eW94ddqeXxEGgADqBqO", "cancion": { "id": "2eW94ddqeXxEGgADqBqO", "titulo": "La Justa Dirección", "artista": "Música Gen", "categoria": "gen" } },
+        { "cancionId": "TTWqKb2GVrQwAcNb7EJJ", "cancion": { "id": "TTWqKb2GVrQwAcNb7EJJ", "titulo": "Aprender a Vivir", "artista": "Escuela 2024", "categoria": "gen" } }
+      ]
+    },
+    {
+      "id": "curated_fogon",
+      "nombre": "Fogón para cantar",
+      "descripcion": "Clásicos y canciones actuales para guitarra y ronda.",
+      "tipo": "canciones",
+      "curada": true,
+      "items": [
+        { "cancionId": "1ZETSxuNxq3uuiZLWPl0", "cancion": { "id": "1ZETSxuNxq3uuiZLWPl0", "titulo": "Canción para mi muerte", "artista": "Sui Generis", "categoria": "fogon" } },
+        { "cancionId": "CoHOXybyLsKBhkfGDcLd", "cancion": { "id": "CoHOXybyLsKBhkfGDcLd", "titulo": "Flaca", "artista": "Andres Calamaro", "categoria": "fogon" } },
+        { "cancionId": "CgHDHbSmSBYXwvNYJNV7", "cancion": { "id": "CgHDHbSmSBYXwvNYJNV7", "titulo": "Trátame Suavemente", "artista": "Soda Stereo", "categoria": "fogon" } },
+        { "cancionId": "bivdM1cdtQtyUyppW0wC", "cancion": { "id": "bivdM1cdtQtyUyppW0wC", "titulo": "Icaro", "artista": "Alan Sutton y las Criaturitas de la Ansiedad", "categoria": "fogon" } },
+        { "cancionId": "F3seMjHgZKjKUUKTJJEL", "cancion": { "id": "F3seMjHgZKjKUUKTJJEL", "titulo": "Como eran las cosas", "artista": "Babasonicos", "categoria": "fogon" } }
+      ]
+    },
+    {
+      "id": "curated_encuentro",
+      "nombre": "Para abrir un encuentro",
+      "descripcion": "Un recorrido que empieza con energía y termina en clave de unidad.",
+      "tipo": "canciones",
+      "curada": true,
+      "items": [
+        { "cancionId": "4p9tIbaHFDS9dknvmvXq", "cancion": { "id": "4p9tIbaHFDS9dknvmvXq", "titulo": "Sueños de Papel", "artista": "Escuela 2023", "categoria": "gen" } },
+        { "cancionId": "cancion_1782745676087", "cancion": { "id": "cancion_1782745676087", "titulo": "En dirección al sol", "artista": "Música Gen", "categoria": "gen" } },
+        { "cancionId": "M2ya9TTfVVj78UngegNL", "cancion": { "id": "M2ya9TTfVVj78UngegNL", "titulo": "De mis Raices", "artista": "Escuela 2023", "categoria": "gen" } },
+        { "cancionId": "KjVtv3F0asIrjXFMFND3", "cancion": { "id": "KjVtv3F0asIrjXFMFND3", "titulo": "Mosaico", "artista": "Música Gen", "categoria": "gen" } },
+        { "cancionId": "sJwsMq1LZ81ZDWPKVL94", "cancion": { "id": "sJwsMq1LZ81ZDWPKVL94", "titulo": "Alma de Cristo", "artista": "Misa", "categoria": "misa" } }
+      ]
+    }
+  ]
+}

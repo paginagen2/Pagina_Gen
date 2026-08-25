@@ -4,6 +4,9 @@
 let carruselData = [];
 let carruselCurrentIndex = 0;
 let carruselInterval = null;
+let carruselPointerInside = false;
+let carruselFocusInside = false;
+const carruselReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const REMOTE_HOME_DATA_URL = 'https://raw.githubusercontent.com/paginagen2/Pagina_Gen/main/datos/inicio.json';
 const LOCAL_HOME_DATA_URL = 'datos/inicio.json';
 
@@ -18,6 +21,10 @@ function isNewsVisible(item, now = new Date()) {
     return !expiry || expiry > now;
 }
 
+function channelPublicationUrl(item = {}) {
+    return item.id ? `canal/publicacion.html?id=${encodeURIComponent(item.id)}` : (item.href || 'canal/canal.html');
+}
+
 // Inicialización
 document.addEventListener('DOMContentLoaded', async function() {
     setCurrentDate();
@@ -25,6 +32,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     setupEventListeners();
     const loadedCurrentSummary = await loadDailyHomeData();
     if (!loadedCurrentSummary) await loadHomeFromStaticCatalogs();
+    await loadHomeFromFirebase();
+});
+
+window.addEventListener('gen:android-update', event => {
+    applyAndroidUpdateNews(event.detail);
 });
 
 async function loadHomeFromFirebase() {
@@ -43,23 +55,31 @@ async function loadDailyHomeData() {
         month: '2-digit',
         day: '2-digit'
     }).format(new Date());
-    const sources = [
-        `${LOCAL_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`,
-        `${REMOTE_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`
-    ];
+    const localSource = {
+        name: 'daily-local',
+        url: `${LOCAL_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`
+    };
+    const remoteSource = {
+        name: 'daily-remote',
+        url: `${REMOTE_HOME_DATA_URL}?fecha=${encodeURIComponent(argentinaDate)}`
+    };
+    const isNativeApp = Boolean(window.Capacitor?.isNativePlatform?.());
+    const sources = isNativeApp ? [remoteSource, localSource] : [localSource, remoteSource];
+
     for (const source of sources) {
         try {
-            const response = await fetch(source, { cache: 'no-store' });
+            const response = await fetch(source.url, { cache: 'no-store' });
             if (!response.ok) throw new Error(`No se pudo leer inicio.json (${response.status})`);
             const data = await response.json();
             if (!data || data.schemaVersion !== 1) throw new Error('El formato de inicio.json no es válido');
             if (data.fechaGeneracion === argentinaDate) {
                 applyDailyHomeData(data);
+                document.documentElement.dataset.homeDataSource = source.name;
                 return true;
             }
-            console.warn(`Se descartó el resumen de ${source}: corresponde a ${data.fechaGeneracion || 'otra fecha'}.`);
+            console.warn(`Se descartó el resumen de ${source.url}: corresponde a ${data.fechaGeneracion || 'otra fecha'}.`);
         } catch (error) {
-            console.warn(`No se pudo cargar el resumen diario desde ${source}:`, error);
+            console.warn(`No se pudo cargar el resumen diario desde ${source.url}:`, error);
         }
     }
     return false;
@@ -124,7 +144,7 @@ async function loadExactCurrentPasapalabra(dateValue) {
 }
 
 async function loadHomeFromStaticCatalogs() {
-    const paths = ['meditaciones', 'pasapalabra', 'pdv', 'canal'];
+    const paths = ['meditaciones', 'pasapalabra', 'pdv'];
     try {
         const catalogs = await Promise.all(paths.map(async name => {
             const response = await fetch(`datos/sincronizacion/${name}.json`, { cache: 'no-store' });
@@ -133,7 +153,7 @@ async function loadHomeFromStaticCatalogs() {
             if (data.schemaVersion !== 1 || !Array.isArray(data.items)) throw new Error(`${name}: formato inválido`);
             return data.items;
         }));
-        const [meditations, pasapalabras, pdvs, channelPosts] = catalogs;
+        const [meditations, pasapalabras, pdvs] = catalogs;
         const today = argentinaToday();
         const now = new Date();
         const meditation = selectCatalogMeditation(meditations.filter(item => item.Publico === true), today);
@@ -144,23 +164,6 @@ async function loadHomeFromStaticCatalogs() {
             .filter(item => catalogDate(item.fechaPublicacion)?.getTime() <= now.getTime())
             .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || ''))
                 || (catalogDate(b.fechaPublicacion)?.getTime() || 0) - (catalogDate(a.fechaPublicacion)?.getTime() || 0))[0] || null;
-        const visibleChannel = channelPosts
-            .filter(item => item.estado === 'publicada' || (item.estado === 'programada' && catalogDate(item.fechaPublicacion)?.getTime() <= now.getTime()))
-            .filter(item => !catalogDate(item.fechaVencimiento) || catalogDate(item.fechaVencimiento) > now)
-            .sort((a, b) => (catalogDate(b.fechaPublicacion)?.getTime() || 0) - (catalogDate(a.fechaPublicacion)?.getTime() || 0));
-        const news = visibleChannel.filter(item => item.destacarEnCarrusel).slice(0, 5).map(item => ({
-            id: item.id,
-            titulo: item.titulo || 'Novedad Gen',
-            descripcion: item.resumen || '',
-            fotoUrl: item.imagenUrl || '',
-            href: `canal/canal.html#${encodeURIComponent(item.id)}`,
-            textoEnlace: item.textoEnlace || 'Más información',
-            etiquetaCarrusel: item.etiquetaCarrusel || 'Novedad',
-            fechaEventoInicio: item.fechaEventoInicio || '',
-            fechaEventoFin: item.fechaEventoFin || '',
-            fechaVencimiento: item.fechaVencimiento || null
-        }));
-
         applyDailyHomeData({
             schemaVersion: 1,
             fechaGeneracion: today.iso,
@@ -179,13 +182,8 @@ async function loadHomeFromStaticCatalogs() {
                 cita: pdv.citaPrincipal || pdv.titulo,
                 href: `pdv/pdv.html?id=${encodeURIComponent(pdv.id)}`
             } : null,
-            canal: visibleChannel[0] ? {
-                id: visibleChannel[0].id,
-                titulo: visibleChannel[0].titulo || visibleChannel[0].resumen,
-                fechaPublicacion: catalogDate(visibleChannel[0].fechaPublicacion)?.toISOString(),
-                href: `canal/canal.html#${encodeURIComponent(visibleChannel[0].id)}`
-            } : null,
-            novedades: news
+            canal: null,
+            novedades: []
         });
         document.documentElement.dataset.homeDataSource = 'static-catalogs';
         return true;
@@ -238,10 +236,31 @@ function applyDailyHomeData(data) {
     updateChannelBanner(latestNews);
 
     document.documentElement.dataset.homeDataDate = data.fechaGeneracion || '';
-    carruselData = Array.isArray(data.novedades) ? data.novedades.filter(item => isNewsVisible(item)) : [];
+    carruselData = Array.isArray(data.novedades)
+        ? data.novedades.filter(item => isNewsVisible(item)).map(item => ({ ...item, href: channelPublicationUrl(item) }))
+        : [];
+    applyAndroidUpdateNews(window.genAndroidUpdateState, false);
     carruselCurrentIndex = 0;
     renderizarCarrusel();
     iniciarCarruselAutomatico();
+}
+
+function applyAndroidUpdateNews(state, rerender = true) {
+    carruselData = carruselData.filter(item => item.id !== 'android-app-update');
+    if (!state?.updateAvailable || state.required) return;
+    carruselData.unshift({
+        id: 'android-app-update',
+        titulo: state.title,
+        descripcion: state.description,
+        href: state.apkUrl,
+        textoEnlace: state.actionText,
+        etiquetaCarrusel: `Nueva versión ${state.latestVersionName || ''}`.trim()
+    });
+    carruselCurrentIndex = 0;
+    if (rerender) {
+        renderizarCarrusel();
+        iniciarCarruselAutomatico();
+    }
 }
 
 function setPdvDestination(href) {
@@ -286,7 +305,7 @@ function updateChannelBanner(item) {
     const link = document.getElementById('channel-banner-link');
     const date = document.getElementById('canal-preview-date');
     if (link) {
-        link.href = item.href || (item.id ? `canal/canal.html#${encodeURIComponent(item.id)}` : 'canal/canal.html');
+        link.href = item.id ? channelPublicationUrl(item) : (item.href || 'canal/canal.html');
     }
     const rawDate = item.fechaPublicacion || item.createdAt;
     const parsedDate = rawDate?.toDate ? rawDate.toDate() : rawDate ? new Date(rawDate) : null;
@@ -343,13 +362,15 @@ async function cargarUltimaPdv(db) {
     }
 
     try {
-        const { collection, query, where, orderBy, getDocs } = window.firebaseUtils;
+        const { collection, query, where, orderBy, limit, getDocs } = window.firebaseUtils;
         const pdvRef = collection(db, 'pdv');
         const now = new Date();
         const snapshot = await getDocs(query(
             pdvRef,
+            where('version', '==', 2),
             where('fechaPublicacion', '<=', now),
-            orderBy('fechaPublicacion', 'desc')
+            orderBy('fechaPublicacion', 'desc'),
+            limit(1)
         ));
         const documents = snapshot.docs;
         
@@ -612,27 +633,19 @@ function updateTheme(isDark) {
 
 // Limpiar intervalos al salir de la página
 window.addEventListener('beforeunload', () => {
-    if (carruselInterval) clearInterval(carruselInterval);
+    detenerCarruselAutomatico();
 });
 
 // Funciones del carrusel de fotos
 async function cargarCarrusel(db, roles = []) {
     try {
-        const { collection, query, orderBy, getDocs } = window.firebaseUtils;
-        const [legacyResult, channelResult] = await Promise.allSettled([
-            getDocs(query(collection(db, 'carrusel'), orderBy('createdAt', 'desc'))),
-            cargarPublicacionesGeneralesVisibles(db, roles)
-        ]);
-        carruselData = legacyResult.status === 'fulfilled'
-            ? legacyResult.value.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-            : [];
+        const channelPosts = await cargarPublicacionesGeneralesVisibles(db, roles);
+        carruselData = [];
         // Las generales se muestran a todos; las segmentadas solo llegan a
         // usuarios que tengan alguna de sus zonas o categorías.
-        if (channelResult.status === 'fulfilled') {
-            channelResult.value.filter(post => post.destacarEnCarrusel && isNewsVisible(post)).forEach(post => {
-                carruselData.unshift({ ...post, fotoUrl: post.imagenUrl, descripcion: post.resumen, href: `canal/canal.html#${post.id}` });
-            });
-        }
+        channelPosts.filter(post => post.destacarEnCarrusel && isNewsVisible(post)).forEach(post => {
+            carruselData.push({ ...post, fotoUrl: post.imagenUrl, descripcion: post.resumen, href: channelPublicationUrl(post) });
+        });
 
         renderizarCarrusel();
         iniciarCarruselAutomatico();
@@ -661,18 +674,12 @@ function renderizarCarrusel() {
     document.getElementById('carrusel-next')?.removeAttribute('hidden');
 
     slidesContainer.replaceChildren(...carruselData.map((item, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'carrusel-slide';
         const destination = safeCarouselUrl(item.href);
+        const slide = document.createElement(destination ? 'a' : 'div');
+        slide.className = 'carrusel-slide';
         if (destination) {
-            slide.style.cursor = 'pointer';
-            slide.tabIndex = 0;
-            slide.setAttribute('role', 'link');
-            const open = () => { window.location.href = destination; };
-            slide.addEventListener('click', open);
-            slide.addEventListener('keydown', event => {
-                if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); }
-            });
+            slide.href = destination;
+            slide.setAttribute('aria-label', `${item.titulo || 'Novedad'}. ${String(item.textoEnlace || 'Más información').trim()}`);
         }
 
         const picture = safeCarouselUrl(item.fotoUrl);
@@ -706,11 +713,10 @@ function renderizarCarrusel() {
         if (item.titulo) { const title = document.createElement('h3'); title.textContent = item.titulo; content.appendChild(title); }
         if (item.descripcion) { const description = document.createElement('p'); description.textContent = item.descripcion; content.appendChild(description); }
         if (destination) {
-            const action = document.createElement('a');
+            const action = document.createElement('span');
             action.className = 'carrusel-action';
-            action.href = destination;
             action.textContent = String(item.textoEnlace || 'Más información').trim().split(/\s+/).slice(0, 4).join(' ') || 'Más información';
-            action.addEventListener('click', event => event.stopPropagation());
+            action.setAttribute('aria-hidden', 'true');
             content.appendChild(action);
         }
         slide.appendChild(content);
@@ -802,6 +808,11 @@ function actualizarCarruselPosition() {
     const slidesContainer = document.getElementById('carrusel-slides');
     if (slidesContainer) {
         slidesContainer.style.transform = `translateX(-${carruselCurrentIndex * 100}%)`;
+        [...slidesContainer.querySelectorAll('.carrusel-slide')].forEach((slide, index) => {
+            const isCurrent = index === carruselCurrentIndex;
+            slide.setAttribute('aria-hidden', String(!isCurrent));
+            if (slide.matches('a')) slide.tabIndex = isCurrent ? 0 : -1;
+        });
     }
 
     // Actualizar dots
@@ -832,21 +843,38 @@ function goToCarruselSlide(index) {
 }
 
 function iniciarCarruselAutomatico() {
-    if (carruselInterval) clearInterval(carruselInterval);
-    if (carruselData.length > 1) {
-        carruselInterval = setInterval(() => {
-            changeCarruselSlide(1);
-        }, 5000);
-    }
+    detenerCarruselAutomatico();
+    if (!puedeRotarCarrusel()) return;
+    carruselInterval = setTimeout(() => {
+        carruselInterval = null;
+        carruselCurrentIndex = (carruselCurrentIndex + 1) % carruselData.length;
+        actualizarCarruselPosition();
+        iniciarCarruselAutomatico();
+    }, 5000);
 }
 
 function reiniciarCarruselAutomatico() {
     iniciarCarruselAutomatico();
 }
 
+function detenerCarruselAutomatico() {
+    if (!carruselInterval) return;
+    clearTimeout(carruselInterval);
+    carruselInterval = null;
+}
+
+function puedeRotarCarrusel() {
+    return carruselData.length > 1
+        && !carruselPointerInside
+        && !carruselFocusInside
+        && !document.hidden
+        && !carruselReducedMotion.matches;
+}
+
 function setupCarruselEventListeners() {
     const prevBtn = document.getElementById('carrusel-prev');
     const nextBtn = document.getElementById('carrusel-next');
+    const section = document.querySelector('.carrusel-section');
 
     if (prevBtn) {
         prevBtn.addEventListener('click', () => changeCarruselSlide(-1));
@@ -854,6 +882,33 @@ function setupCarruselEventListeners() {
     if (nextBtn) {
         nextBtn.addEventListener('click', () => changeCarruselSlide(1));
     }
+    if (section) {
+        section.addEventListener('mouseenter', () => {
+            carruselPointerInside = true;
+            detenerCarruselAutomatico();
+        });
+        section.addEventListener('mouseleave', () => {
+            carruselPointerInside = false;
+            iniciarCarruselAutomatico();
+        });
+        section.addEventListener('focusin', () => {
+            carruselFocusInside = true;
+            detenerCarruselAutomatico();
+        });
+        section.addEventListener('focusout', event => {
+            if (section.contains(event.relatedTarget)) return;
+            carruselFocusInside = false;
+            iniciarCarruselAutomatico();
+        });
+    }
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) detenerCarruselAutomatico();
+        else iniciarCarruselAutomatico();
+    });
+    carruselReducedMotion.addEventListener('change', () => {
+        if (carruselReducedMotion.matches) detenerCarruselAutomatico();
+        else iniciarCarruselAutomatico();
+    });
 }
 
 // Funciones globales para HTML

@@ -20,8 +20,15 @@ on:
       - 'scripts/procesar-notificaciones.js'
       - 'scripts/notificaciones-planificador.js'
       - 'aadocumentos/imagenes/notificaciones/**'
+      - 'aadocumentos/svg/**'
       - 'descargas/**'
       - 'pdv/**'
+      - 'admin/**'
+      - 'cancionero/**'
+      - 'datos/inicio.json'
+      - 'datos/pasapalabra/**'
+      - 'datos/cancionero/**'
+      - 'datos/sincronizacion/**'
   workflow_dispatch:
 
 permissions:

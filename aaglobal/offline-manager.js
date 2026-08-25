@@ -4,9 +4,12 @@
   const SETTINGS_KEY = 'gen2-offline-enabled';
   const USED_SECTIONS_KEY = 'gen2-offline-used-sections';
   const LAST_CHECK_KEY = 'gen2-offline-last-check';
-  const DEFAULT_CHECK_INTERVAL = 6 * 60 * 60 * 1000;
-  const INCREMENTAL_SYNC_ENABLED = false;
+  const SYNC_CHECK_INTERVAL = 30 * 60 * 1000;
+  const DEFAULT_CACHE_FRESHNESS = 6 * 60 * 60 * 1000;
+  const INCREMENTAL_SYNC_ENABLED = true;
   const root = new URL('../', document.currentScript?.src || window.location.href);
+  const publicSyncRoot = new URL('https://paginagen2.github.io/Pagina_Gen/');
+  const syncRoot = window.Capacitor?.isNativePlatform?.() ? publicSyncRoot : root;
   const rootPath = root.pathname.replace(/\/$/, '');
 
   const connectedSections = [
@@ -87,8 +90,9 @@
     try {
       const registration = await navigator.serviceWorker.register(
         new URL('notification-sw.js', root),
-        { scope: root.pathname }
+        { scope: root.pathname, updateViaCache: 'none' }
       );
+      registration.update().catch(() => {});
       await navigator.serviceWorker.ready;
       registration.active?.postMessage({
         type: 'GEN_OFFLINE_SETTINGS',
@@ -159,7 +163,7 @@
   function shouldCheckForUpdates() {
     if (!isEnabled() || !navigator.onLine) return false;
     const last = Number(localStorage.getItem(LAST_CHECK_KEY) || 0);
-    return Date.now() - last >= DEFAULT_CHECK_INTERVAL;
+    return Date.now() - last >= SYNC_CHECK_INTERVAL;
   }
 
   function noteUpdateCheck() {
@@ -241,7 +245,7 @@
     );
   }
 
-  function isFresh(record, maxAge = DEFAULT_CHECK_INTERVAL) {
+  function isFresh(record, maxAge = DEFAULT_CACHE_FRESHNESS) {
     return Boolean(record?.updatedAt && Date.now() - record.updatedAt < maxAge);
   }
 
@@ -256,7 +260,7 @@
   };
 
   async function fetchSyncJson(relativePath) {
-    const response = await fetch(new URL(relativePath, root), { cache: 'no-store' });
+    const response = await fetch(new URL(relativePath, syncRoot), { cache: 'no-store' });
     if (!response.ok) throw new Error(`No se pudo leer ${relativePath}`);
     return response.json();
   }
@@ -318,6 +322,7 @@
     const manifest = await fetchSyncJson('datos/sincronizacion/manifest.json');
     if (manifest.schemaVersion !== 1) throw new Error('Manifiesto de sincronización incompatible');
     const required = new Set(usedSections().flatMap(section => SECTION_COLLECTIONS[section] || []));
+    if (!required.size) return;
     await Promise.all([...required].map(name => {
       const definition = manifest.collections?.[name];
       return definition ? syncCollection(name, definition) : null;
@@ -349,7 +354,10 @@
   if (guardCurrentPage()) return;
   document.addEventListener('click', guardNavigation, true);
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => markSectionUsed(), { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+      markSectionUsed();
+      syncUsedSections().catch(error => console.warn('No se pudo sincronizar contenido:', error));
+    }, { once: true });
   } else {
     markSectionUsed();
   }
@@ -357,6 +365,14 @@
     registerWorker();
     syncUsedSections().catch(error => console.warn('No se pudo sincronizar contenido:', error));
   });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      syncUsedSections().catch(error => console.warn('No se pudo sincronizar contenido:', error));
+    }
+  });
+  window.setInterval(() => {
+    syncUsedSections().catch(error => console.warn('No se pudo sincronizar contenido:', error));
+  }, SYNC_CHECK_INTERVAL);
   if (isEnabled()) navigator.storage?.persist?.().catch(() => false);
   registerWorker();
   syncUsedSections().catch(error => console.warn('No se pudo sincronizar contenido:', error));

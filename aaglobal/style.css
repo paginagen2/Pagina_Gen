@@ -398,6 +398,11 @@ p {
   text-underline-offset: 3px;
   cursor: pointer;
 }
+.auth-other-google-account {
+  width: 100%;
+  margin: .8rem 0 0;
+  text-align: center;
+}
 .auth-text-button { margin: .8rem auto 0; }
 .auth-inline-status {
   min-height: 1.3rem;

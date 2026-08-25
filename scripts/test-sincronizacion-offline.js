@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const {
   calculateDelta,
   mergeIncrementalSnapshot,
@@ -35,8 +37,19 @@ assert.deepEqual(
   ]
 );
 assert.deepEqual(
-  sanitizePublicItem({ id: 'a', titulo: 'Pública', usuarioId: 'privado', creadoPor: 'privado' }),
+  sanitizePublicItem({ id: 'a', titulo: 'Pública', usuarioId: 'privado', creadoPor: 'privado', creadoPorNombre: 'Perfil privado' }),
   { id: 'a', titulo: 'Pública' }
 );
+
+const offlineManager = fs.readFileSync(path.join(__dirname, '..', 'aaglobal', 'offline-manager.js'), 'utf8');
+assert.match(offlineManager, /SYNC_CHECK_INTERVAL\s*=\s*30\s*\*\s*60\s*\*\s*1000/);
+assert.match(offlineManager, /DEFAULT_CACHE_FRESHNESS\s*=\s*6\s*\*\s*60\s*\*\s*60\s*\*\s*1000/);
+assert.match(offlineManager, /INCREMENTAL_SYNC_ENABLED\s*=\s*true/);
+assert.match(offlineManager, /window\.Capacitor\?\.isNativePlatform\?\.\(\)\s*\?\s*publicSyncRoot\s*:\s*root/);
+assert.match(offlineManager, /https:\/\/paginagen2\.github\.io\/Pagina_Gen\//);
+assert.match(offlineManager, /setInterval\([\s\S]*syncUsedSections\(\)[\s\S]*SYNC_CHECK_INTERVAL/);
+assert.match(offlineManager, /visibilitychange[\s\S]*document\.hidden[\s\S]*syncUsedSections\(\)/);
+assert.match(offlineManager, /if \(!required\.size\) return/);
+assert.match(offlineManager, /DOMContentLoaded[\s\S]*markSectionUsed\(\)[\s\S]*syncUsedSections\(\)/);
 
 console.log('Sincronización incremental verificada.');

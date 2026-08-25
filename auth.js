@@ -1,5 +1,6 @@
 let db, utils, auth, currentUser = null;
 let currentUserProfile = null;
+let profileUnsubscribe = null;
 
 function expandInheritedRoles(roles = []) {
     const expanded = new Set(Array.isArray(roles) ? roles : []);
@@ -174,6 +175,7 @@ function ensureAuthInterface() {
                 <h2>Iniciar sesión</h2>
                 <p>Accedé de forma segura con tu cuenta de Google.</p>
                 <button type="button" class="auth-secondary-button" id="login-google"><img class="auth-google-icon" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">Iniciar con Google</button>
+                <button type="button" class="auth-text-button auth-other-google-account" id="login-google-other" hidden>Usar otra cuenta de Google</button>
               </div>
             </div>
             <div id="tab-roles" class="auth-modal-tab-content" hidden>
@@ -272,6 +274,10 @@ function setupAuthButton() {
 // Escuchar cambios de estado de autenticación
 function listenAuthState() {
     utils.onAuthStateChanged(auth, async (user) => {
+        if (profileUnsubscribe) {
+            profileUnsubscribe();
+            profileUnsubscribe = null;
+        }
         const previousUid = currentUser?.uid;
         currentUser = user;
         const allowedUser = isGoogleUser(user) ? user : null;
@@ -290,11 +296,26 @@ function listenAuthState() {
             return;
         }
 
+        // En Android la confirmación del estado puede llegar antes de que
+        // finalice la promesa del selector nativo. Cerramos el acceso apenas
+        // Firebase reconoce al usuario para no dejar la interfaz bloqueada.
+        closeAuthModal();
+
         try {
             // Al iniciar una página, releer el perfil para recibir de inmediato
             // zonas o funcionalidades asignadas por un administrador.
             const profile = await loadUserProfile(user, { force: true });
             updateAuthUI(user, profile);
+            if (typeof utils.onSnapshot === 'function') {
+                profileUnsubscribe = utils.onSnapshot(utils.doc(db, 'usuarios', user.uid), snapshot => {
+                    if (!snapshot.exists()) return;
+                    const freshProfile = { uid: user.uid, ...snapshot.data() };
+                    freshProfile.roles = Array.isArray(freshProfile.roles) ? freshProfile.roles : [];
+                    currentUserProfile = freshProfile;
+                    writeCachedProfile(freshProfile);
+                    updateAuthUI(user, freshProfile);
+                }, error => console.warn('No se pudo actualizar el perfil en tiempo real:', error));
+            }
         } catch (error) {
             console.error('No se pudo cargar el perfil del usuario:', error);
             updateAuthUI(user, readCachedProfile(user.uid));
@@ -340,23 +361,32 @@ function updateSidebarRoles(roles = currentUserProfile?.roles || []) {
     const sidebar = document.querySelector('.sidebar');
     if (!sidebar) return;
     const roleContainer = sidebar.querySelector('#sidebar-role-links') || sidebar;
+    const accountArea = sidebar.querySelector('.sidebar-account-area');
 
-    // Eliminar roles anteriores si existen
-    const existingRoleLinks = roleContainer.querySelectorAll('.role-link');
-    existingRoleLinks.forEach(link => link.remove());
-
-    if (!currentUser) return;
-
-    // Mostrar el panel a administradores totales y responsables de funciones.
-    if (roles.includes('admin') || roles.some(role => role.startsWith('funcion_'))) {
-        const adminLink = document.createElement('a');
+    // Mantener preparado el acceso administrativo para evitar que dependa
+    // del momento exacto en que termina de construirse la barra lateral.
+    let adminLink = roleContainer.querySelector('[data-static-admin-link]');
+    if (!adminLink) {
+        adminLink = document.createElement('a');
         adminLink.href = new URL('admin/admin.html', import.meta.url).href;
         adminLink.className = 'menu-item role-link admin-role-link';
+        adminLink.dataset.staticAdminLink = 'true';
         adminLink.innerHTML = `
-            <img src="${new URL('aadocumentos/svg/llave.svg', import.meta.url).href}" alt="Admin" class="menu-icon">
+            <img src="${new URL('aadocumentos/svg/llave.svg', import.meta.url).href}" alt="" class="menu-icon">
             <span class="menu-text">Administrador</span>
         `;
         roleContainer.appendChild(adminLink);
+    }
+
+    accountArea?.classList.toggle('has-account-actions', Boolean(currentUser));
+    const safeRoles = Array.isArray(roles) ? roles.filter(role => typeof role === 'string') : [];
+    const hasAdminAccess = Boolean(currentUser) && (
+        safeRoles.includes('admin') || safeRoles.some(role => role.startsWith('funcion_') && role !== 'funcion_correccion_letras')
+    );
+    adminLink.hidden = !hasAdminAccess;
+    adminLink.setAttribute('aria-hidden', String(!hasAdminAccess));
+    if (hasAdminAccess) {
+        accountArea?.classList.add('has-account-actions');
     }
 
     // Aquí puedes agregar más roles según necesites
@@ -423,18 +453,70 @@ function isGoogleUser(user) {
     return Boolean(user?.providerData?.some(provider => provider?.providerId === 'google.com'));
 }
 
+function isNativeApp() {
+    return Boolean(window.Capacitor?.isNativePlatform?.());
+}
+
+async function signInWithGoogleNative() {
+    const nativeAuth = window.Capacitor?.Plugins?.FirebaseAuthentication;
+    if (!nativeAuth?.signInWithGoogle) {
+        throw new Error('El acceso nativo de Google no está disponible en esta versión de la app.');
+    }
+
+    const result = await nativeAuth.signInWithGoogle({ skipNativeAuth: true });
+    const idToken = result?.credential?.idToken;
+    const accessToken = result?.credential?.accessToken;
+    if (!idToken && !accessToken) {
+        throw new Error('Google no devolvió una credencial válida.');
+    }
+
+    const credential = utils.GoogleAuthProvider.credential(idToken || null, accessToken || null);
+    await utils.signInWithCredential(auth, credential);
+}
+
 // Login con Google
 function setupGoogleLogin() {
     const btn = document.getElementById('login-google');
+    const otherAccountBtn = document.getElementById('login-google-other');
     if (!btn) return;
 
+    if (isNativeApp() && otherAccountBtn) {
+        otherAccountBtn.hidden = false;
+        otherAccountBtn.addEventListener('click', async () => {
+            const accountManager = window.Capacitor?.Plugins?.GoogleAccountManager;
+            if (!accountManager?.chooseOrAddAccount) {
+                alert('El administrador de cuentas no está disponible en esta versión de Android.');
+                return;
+            }
+
+            otherAccountBtn.disabled = true;
+            try {
+                await accountManager.chooseOrAddAccount();
+                await signInWithGoogleNative();
+                closeAuthModal();
+            } catch (error) {
+                // Volver atrás desde el administrador no debe bloquear el acceso.
+                console.warn('No se completó el acceso con otra cuenta:', error);
+            } finally {
+                otherAccountBtn.disabled = false;
+            }
+        });
+    }
+
     btn.addEventListener('click', async () => {
-        const provider = new utils.GoogleAuthProvider();
+        btn.disabled = true;
         try {
-            await utils.signInWithPopup(auth, provider);
+            if (isNativeApp()) {
+                await signInWithGoogleNative();
+            } else {
+                const provider = new utils.GoogleAuthProvider();
+                await utils.signInWithPopup(auth, provider);
+            }
             closeAuthModal();
         } catch (error) {
             alert(`Error al iniciar sesión con Google: ${error.message}`);
+        } finally {
+            btn.disabled = false;
         }
     });
 }

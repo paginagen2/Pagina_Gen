@@ -68,8 +68,6 @@ body:has(#songChordsPanel:target) #dictionaryPanel { display: none; }
 .song-search > svg { width: 22px; height: 22px; margin-left: 10px; flex: 0 0 auto; color: #aeb3c0; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.8; }
 .song-search input { min-width: 0; height: 46px; flex: 1; padding: 0 8px; border: 0; outline: 0; color: #fff; background: transparent; font: inherit; font-size: 14px; }
 .song-search input::placeholder { color: #747b89; }
-.search-submit { min-width: 102px; height: 44px; border: 1px solid #a86cf9; border-radius: 10px; color: #fff; background: linear-gradient(135deg, #8647db, #6128a5); cursor: pointer; font-size: 13px; font-weight: 750; }
-.search-submit:hover { filter: brightness(1.1); }
 .search-clear { display: grid; width: 36px; height: 36px; place-items: center; border: 0; border-radius: 50%; color: #aeb3c0; background: transparent; cursor: pointer; }
 .search-clear:hover { color: #fff; background: rgba(255, 255, 255, .06); }
 .search-clear svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.8; }
@@ -246,7 +244,6 @@ body:has(#songChordsPanel:target) #dictionaryPanel { display: none; }
   .panel-heading h2 { font-size: 25px; }
   .song-search { padding: 5px; }
   .song-search input { height: 43px; font-size: 13px; }
-  .search-submit { min-width: 78px; height: 41px; }
   .song-search > svg { display: none; }
   .song-results { min-height: 240px; padding: 14px; }
   .song-result-item { grid-template-columns: 48px minmax(0, 1fr) 18px; column-gap: 10px; }
@@ -271,7 +268,6 @@ body:has(#songChordsPanel:target) #dictionaryPanel { display: none; }
 @media (max-width: 420px) {
   .chord-tab { gap: 6px; }
   .chord-tab svg { display: none; }
-  .search-submit { min-width: 70px; padding-inline: 10px; }
   .sample-chords span { min-width: 38px; }
   .drawer-meta { grid-template-columns: 1fr; }
 }

@@ -7,7 +7,7 @@
   <title>Cancionero | Música y acordes · Gen 2</title>
   <meta name="description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
 <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
-  <link rel="stylesheet" href="cancionero.css?v=20260730-icons4">
+  <link rel="stylesheet" href="cancionero.css?v=20260819-song-audio-flow">
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
@@ -28,8 +28,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cancionero | Música y acordes · Gen 2">
   <meta name="twitter:description" content="Canciones y acordes para compartir.">
-  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
-</head>
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png"><link rel="canonical" href="https://pagina-gen.web.app/cancionero/cancionero.html"></head>
 <body>
   <svg class="icon-library" aria-hidden="true">
     <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 9l11-2M6 21c2.2 0 4-1.3 4-3s-1.8-3-4-3-4 1.3-4 3 1.8 3 4 3Zm11-2c2.2 0 4-1.3 4-3s-1.8-3-4-3-4 1.3-4 3 1.8 3 4 3Z"/></symbol>
@@ -68,7 +67,6 @@
           <div class="search-section">
             <svg class="search-icon"><use href="#i-search"/></svg>
             <input type="search" id="searchInput" aria-label="Buscar canciones" placeholder="Buscar canciones" class="search-input" autocomplete="off">
-            <button class="search-submit" type="button" aria-label="Buscar"><svg><use href="#i-arrow"/></svg></button>
           </div>
           <div class="filter-pills" aria-label="Categorías">
             <button class="filter-pill active" data-categoria="todas"><svg><use href="#i-grid"/></svg>Todas</button>
@@ -106,10 +104,10 @@
           <span class="tool-icon chords-tool-icon"><svg><use href="#i-chords"/></svg></span>
           <span class="tool-copy"><strong>Consultar acordes</strong><small>Busca canciones y explora sus acordes.</small></span><span class="tool-arrow">›</span>
         </button>
-        <button class="tool-card favorites-tool" id="toolFavorites" type="button" onclick="abrirMisFavoritos()" hidden>
-          <span class="tool-icon favorites-tool-icon"><svg><use href="#i-heart"/></svg></span>
-          <span class="tool-copy"><strong>Mis favoritos</strong><small>Encuentra las canciones que guardaste.</small></span><span class="tool-arrow">›</span>
-        </button>
+        <a class="tool-card" href="playlist.html">
+          <span class="tool-icon"><svg><use href="#i-list"/></svg></span>
+          <span class="tool-copy"><strong>Mis listas</strong><small>Favoritos, música y cancioneros personales.</small></span><span class="tool-arrow">›</span>
+        </a>
         <button class="tool-card" type="button" onclick="activarModoSeleccion()" id="btnActivarPDF">
           <span class="tool-icon"><svg><use href="#i-file"/></svg></span>
           <span class="tool-copy"><strong>Crear cancionero PDF</strong><small>Genera tu cancionero personalizado.</small></span><span class="tool-arrow">›</span>
@@ -120,14 +118,24 @@
           <button class="btn-cancel-selection" type="button" onclick="cancelarSeleccion()">Cancelar</button>
         </div>
         <div class="tools-divider"></div>
-        <button class="tool-card proposal-tool" type="button" onclick="mostrarFormulario()">
+        <button class="tool-card proposal-tool" type="button" onclick="mostrarMenuAportes()">
           <span class="tool-icon"><svg><use href="#i-upload"/></svg></span>
-          <span class="tool-copy"><strong>Subir una canción</strong><small>Será revisada antes de publicarse.</small></span><span class="tool-arrow">›</span>
+          <span class="tool-copy"><strong>Aportar al cancionero</strong><small>Proponé una canción o compartí un audio.</small></span><span class="tool-arrow">›</span>
         </button>
       </aside>
     </div>
 
   </main>
+
+  <div class="contribution-overlay" id="contributionOverlay" role="dialog" aria-modal="true" aria-labelledby="contributionTitle" hidden>
+    <section class="contribution-modal">
+      <header><div><span>TU APORTE</span><h2 id="contributionTitle">¿Qué querés compartir?</h2></div><button type="button" onclick="ocultarMenuAportes()" aria-label="Cerrar">×</button></header>
+      <div class="contribution-options">
+        <button type="button" onclick="abrirAporteCancion()"><span class="contribution-option-icon"><svg><use href="#i-music"/></svg></span><span><strong>Una canción</strong><small>Enviá la letra y los acordes para incorporarla al cancionero.</small></span><b>›</b></button>
+        <button type="button" onclick="window.location.href='subir-audio.html'"><span class="contribution-option-icon"><svg><use href="#i-upload"/></svg></span><span><strong>Un audio</strong><small>Compartí una guía, voces, cover o versión instrumental.</small></span><b>›</b></button>
+      </div>
+    </section>
+  </div>
 
   <div class="form-overlay" id="formOverlay" role="dialog" aria-modal="true" aria-labelledby="formTitle">
     <div class="form-container">
@@ -137,9 +145,11 @@
           <div class="form-group"><label for="titulo">Título de la canción *</label><input type="text" id="titulo" required placeholder="Ej: Nada te turbe"></div>
           <div class="form-group"><label for="artista">Artista o compositor</label><input type="text" id="artista" placeholder="Ej: Ain Karem"></div>
         </div>
-        <div class="form-group"><label for="categoria">Categoría *</label><select id="categoria" required><option value="">Seleccionar categoría...</option><option value="misa">Misa</option><option value="gen">Gen</option><option value="fogon">Fogón</option></select></div>
-        <div class="form-group"><label for="letra">Letra con acordes *</label><textarea id="letra" required rows="9" placeholder="[C] Escribe la letra y agrega los acordes entre corchetes..."></textarea><div class="form-help">La canción se publicará cuando el equipo la revise. Usa corchetes para los acordes: [C7], [Gmaj7], [Am].</div></div>
-        <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="ocultarFormulario()">Cancelar</button><button type="submit" class="btn btn-primary">Enviar para revisión</button></div>
+        <div class="form-row"><div class="form-group"><label for="categoria">Categoría *</label><select id="categoria" required><option value="">Seleccionar categoría...</option><option value="misa">Misa</option><option value="gen">Gen</option><option value="fogon">Fogón</option></select></div><div class="form-group"><label for="tonoPropuesto">Tono original</label><input type="text" id="tonoPropuesto" maxlength="20" placeholder="Ej: C, Do, F#m"></div></div>
+        <div class="form-group"><label for="idiomaPropuesto">Idioma</label><select id="idiomaPropuesto"><option value="Español">Español</option><option value="Italiano">Italiano</option><option value="Inglés">Inglés</option><option value="Portugués">Portugués</option><option value="Otro">Otro</option></select></div>
+        <div class="form-group"><label for="letra">Canción con acordes *</label><textarea id="letra" required rows="15" spellcheck="false" placeholder="Pegá la canción como aparece en el cancionero:&#10;&#10;G            B7&#10;Flaca, no me claves&#10;         Em               C&#10;Tus puñales, por la espalda"></textarea><div class="form-help">Conservá los espacios. Se admiten acordes en la línea superior, el formato con corchetes y tablaturas de seis cuerdas. La propuesta debe incluir acordes.</div></div>
+        <div class="song-import-note"><strong>La vista previa se abrirá como una canción real</strong><span>Podrás probar tamaño, tono, cifrado, guía rápida, tablaturas y auto-scroll antes de enviarla.</span></div>
+        <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="ocultarFormulario()">Cancelar</button><button type="submit" class="btn btn-primary">Revisar canción</button></div>
       </form>
     </div>
   </div>
@@ -212,6 +222,6 @@
 
   <script type="module" src="../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog"></script>
 <script type="module" src="../auth.js?v=20260730-google1"></script>
-  <script type="module" src="cancionero.js?v=20260804-favorites-state"></script>
+  <script type="module" src="cancionero.js?v=20260819-full-preview"></script>
 </body>
 </html>

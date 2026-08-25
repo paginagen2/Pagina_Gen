@@ -24,7 +24,6 @@
       "docs/**",
       "android/**",
       "_apk-pruebas/**",
-      "descargas/Pagina-Gen.apk",
       "www/**",
       "tmp/**",
       "**/*.local.*",
@@ -36,6 +35,15 @@
       "**/*.md"
     ],
     "headers": [
+      {
+        "source": "datos/sincronizacion/**/*.json",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300,must-revalidate"
+          }
+        ]
+      },
       {
         "source": "**",
         "headers": [

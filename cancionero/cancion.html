@@ -10,7 +10,7 @@
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
   <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
-  <link rel="stylesheet" href="cancion.css?v=20260805-songbook-blocks-28">
+  <link rel="stylesheet" href="cancion.css?v=20260825-mobile-guide-dock-off">
   <link rel="stylesheet" href="chord-diagrams.css?v=20260730-custom-voicings">
   <!-- Vista previa al compartir -->
   <meta property="og:locale" content="es_AR">
@@ -28,7 +28,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gen 2">
   <meta name="twitter:description" content="Canciones y acordes para compartir.">
-  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
+  <meta name="twitter:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png"><link rel="canonical" href="https://pagina-gen.web.app/cancionero/cancion.html">  <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
   <svg class="icon-library" aria-hidden="true">
@@ -73,6 +73,10 @@
   </header>
 
   <main class="cancion-main" id="contenido-principal">
+    <section class="song-preview-banner" id="songPreviewBanner" hidden>
+      <div><span>VISTA PREVIA</span><strong>Esta canción todavía no fue enviada</strong><small>Probá las herramientas y revisá la letra, los acordes y las tablaturas.</small></div>
+      <div><button type="button" id="previewEditSong">Volver a editar</button><button type="button" id="previewSubmitSong">Enviar para revisión</button></div>
+    </section>
     <section class="song-overview" aria-label="Información de la canción">
       <div class="metadata-list">
         <div class="metadata-item"><svg><use href="#i-folder"/></svg><span><small>Categoría</small><strong id="cancionCategoria">-</strong></span></div>
@@ -84,8 +88,12 @@
       </div>
     </section>
 
+    <button class="mobile-tools-trigger" id="mobileToolsTrigger" type="button" aria-controls="songTools" aria-expanded="false">
+      <svg><use href="#i-speed"/></svg><span>Herramientas</span>
+    </button>
+
     <section class="song-workspace">
-      <aside class="song-tools" id="songTools" aria-label="Herramientas de la canción">
+      <aside class="song-tools" id="songTools" aria-label="Herramientas de la canción" aria-modal="false">
         <div class="tools-heading">
           <span class="tools-heading-copy"><strong>Herramientas</strong><small>Personaliza la lectura</small></span>
           <button class="tools-collapse" id="toggleTools" type="button" aria-expanded="true" aria-controls="songTools" title="Contraer herramientas">
@@ -158,11 +166,23 @@
         <button class="reset-btn" type="button" onclick="resetearConfiguracion()"><svg><use href="#i-reset"/></svg>Restablecer ajustes</button>
       </aside>
 
+      <div class="mobile-tools-backdrop" id="mobileToolsBackdrop" hidden></div>
+
       <div class="song-content-column">
+        <section class="song-audio-section" id="songAudioSection" aria-labelledby="songAudioTitle" hidden>
+          <header class="song-audio-heading">
+            <div><span class="section-kicker">Escuchar</span><h2 id="songAudioTitle">Audio guía</h2></div>
+            <label class="song-audio-version-picker" id="songAudioVersionPicker" for="songAudioVersion" hidden>
+              <span>Versión</span><select id="songAudioVersion" aria-label="Versión para escuchar"></select>
+            </label>
+          </header>
+          <div class="song-audio-list" id="songAudioList"></div>
+          <div class="song-audio-active" id="songAudioActive" hidden></div>
+        </section>
         <article class="letra-section" aria-labelledby="lyricsTitle">
           <header class="lyrics-header">
             <div><span class="section-kicker">Letra y acordes</span><h2 id="lyricsTitle">Canción</h2></div>
-            <span class="lyrics-hint"><svg><use href="#i-music"/></svg>Toca un acorde para consultarlo</span>
+            <div class="lyrics-header-actions"><button id="saveSongToList" class="audio-playlists-link lyrics-save-button" type="button">+ Guardar en lista</button><span class="lyrics-hint"><svg><use href="#i-music"/></svg>Toca un acorde para consultarlo</span></div>
           </header>
           <div class="letra-container">
             <div class="letra-content texto-grande" id="letraContent" aria-live="polite" aria-busy="true">
@@ -173,6 +193,39 @@
       </div>
     </section>
   </main>
+
+  <div class="mobile-autoscroll-bar" id="mobileAutoScrollBar" role="toolbar" aria-label="Controles de desplazamiento automático" hidden>
+    <button type="button" id="mobileScrollSlower" aria-label="Disminuir velocidad">−</button>
+    <output id="mobileScrollStatus"><strong id="mobileScrollSpeedLabel">Normal</strong><small id="mobileScrollSpeedValue">5/10</small></output>
+    <button class="mobile-scroll-toggle" type="button" id="mobileScrollToggle" aria-pressed="true"><span>Pausar</span></button>
+    <button type="button" id="mobileScrollFaster" aria-label="Aumentar velocidad">+</button>
+    <button class="mobile-scroll-stop" type="button" id="mobileScrollStop" aria-label="Detener y cerrar desplazamiento">×</button>
+  </div>
+
+  <div class="preview-submitted-overlay" id="previewSubmittedOverlay" hidden>
+    <section class="preview-submitted-dialog" role="dialog" aria-modal="true" aria-labelledby="previewSubmittedTitle">
+      <span class="preview-submitted-check">✓</span><p>PROPUESTA RECIBIDA</p>
+      <h2 id="previewSubmittedTitle">La canción quedó pendiente</h2>
+      <div>La canción todavía no aparecerá públicamente. Administración debe revisarla y autorizarla.</div>
+      <aside><strong>¿También tenés un audio?</strong><span>Podés enviarlo ahora y quedará asociado a esta propuesta pendiente.</span></aside>
+      <footer><a href="cancionero.html">Terminar</a><button type="button" id="previewAddAudio">Agregar audio</button></footer>
+    </section>
+  </div>
+
+  <dialog class="audio-playlist-dialog" id="audioPlaylistDialog" aria-labelledby="audioPlaylistDialogTitle">
+    <header class="audio-playlist-dialog-header">
+      <div><span class="section-kicker">Guardar versión</span><h2 id="audioPlaylistDialogTitle">Agregar a una playlist</h2></div>
+      <button type="button" id="closeAudioPlaylistDialog" aria-label="Cerrar">×</button>
+    </header>
+    <div class="audio-playlist-dialog-body">
+      <p id="audioPlaylistSelectionTitle">Elegí dónde guardar este audio.</p>
+      <div class="audio-playlist-choices" id="audioPlaylistChoices"></div>
+      <form class="audio-playlist-create" id="createAudioPlaylistForm">
+        <label for="newAudioPlaylistName">Crear una nueva playlist</label>
+        <div><input id="newAudioPlaylistName" maxlength="60" placeholder="Ej.: Música para el encuentro" required><button type="submit">Crear y agregar</button></div>
+      </form>
+    </div>
+  </dialog>
 
   <div class="quick-guide-backdrop" id="quickGuideBackdrop" hidden></div>
   <section class="quick-guide-modal" id="quickGuideModal" role="dialog" aria-modal="true" aria-labelledby="quickGuideTitle" hidden>
@@ -228,6 +281,6 @@
   <div class="song-toast" id="songToast" role="status" aria-live="polite" hidden></div>
 
 <script type="module" src="../auth.js?v=20260730-google1"></script>
-  <script type="module" src="cancion.js?v=20260818-reliable-counts"></script>
+  <script type="module" src="cancion.js?v=20260825-mobile-guide-dock-off"></script>
 </body>
 </html>

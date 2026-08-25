@@ -1,13 +1,28 @@
+import { parseSongContent } from '../cancionero/song-content.js?v=20260819-1';
+
 let db, utils, auth;
 let currentUser = null;
 let currentUserRoles = [];
 let currentSection = 'carrusel';
 let editingId = null;
 const loadedSections = new Set();
+const ADMIN_QUERY_LIMIT = 500;
+const ADMIN_BATCH_SIZE = 450;
 const OFFLINE_SYNC_COLLECTIONS = new Set([
     'canciones', 'meditaciones', 'recursos', 'biblioteca_recursos',
-    'pasapalabra', 'pdv', 'canal_publicaciones'
+    'pasapalabra', 'pdv', 'canal_publicaciones', 'cancion_audios'
 ]);
+
+function adminEscapeHtml(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[character]);
+}
+
+function adminCssToken(value, fallback = 'pendiente') {
+    const token = String(value || fallback).toLowerCase().replace(/[^a-z0-9_-]/g, '');
+    return token || fallback;
+}
 
 function enableOfflineMutationTracking() {
     if (utils.__offlineMutationTrackingEnabled) return;
@@ -29,6 +44,10 @@ function enableOfflineMutationTracking() {
 
 // Variables globales para todas las secciones
 let allCanciones = [];
+const selectedSongApprovalIds = new Set();
+let visibleSongAdminItems = [];
+let allCancionAudios = [];
+let editingAudioId = null;
 let allRecursos = [];
 let allReflexiones = [];
 let allPdvs = [];
@@ -39,6 +58,8 @@ let accessZones = [];
 let accessFunctions = [];
 let accessCodes = [];
 let accessUsers = [];
+let androidVersionReleases = [];
+let androidPublicationConfig = null;
 const FIXED_AUDIENCE_ROLES = [
     { id: 'gen', nombre: 'Gen', descripcion: 'Contenido interno para los Gen.' },
     { id: 'gen2', nombre: 'Gen2', descripcion: 'Incluye también todo el contenido Gen.' },
@@ -47,6 +68,7 @@ const FIXED_AUDIENCE_ROLES = [
 const FIXED_FUNCTION_ROLES = [
     ['admin', 'Administrador total'],
     ['funcion_comunicacion', 'Comunicación'],
+    ['funcion_notificaciones', 'Notificaciones'],
     ['funcion_pasapalabra', 'Pasapalabra'],
     ['funcion_meditaciones', 'Meditaciones'],
     ['funcion_biblioteca', 'Biblioteca'],
@@ -58,12 +80,13 @@ const FIXED_FUNCTION_ROLES = [
 ].map(([id, nombre]) => ({ id, nombre, descripcion: '' }));
 const SECTION_ROLES = {
     carrusel: 'funcion_comunicacion',
-    notificaciones: 'funcion_comunicacion',
+    notificaciones: 'funcion_notificaciones',
+    'versiones-android': 'admin',
     pasapalabra: 'funcion_pasapalabra',
     meditaciones: 'funcion_meditaciones',
     biblioteca: 'funcion_biblioteca',
     cancionero: 'funcion_cancionero',
-    lyrics: 'funcion_cancionero',
+    audios: 'funcion_cancionero',
     'bulk-upload': 'funcion_subida_multiple',
     recursos: 'funcion_recursos',
     frases: 'funcion_frases',
@@ -76,7 +99,7 @@ function isFullAdmin() {
 
 function canAccessSection(section) {
     if (isFullAdmin()) return true;
-    if ((section === 'carrusel' || section === 'notificaciones')
+    if (section === 'carrusel'
         && currentUserRoles.some(role => role.startsWith('funcion_comunicacion_zona_'))) {
         return true;
     }
@@ -144,6 +167,7 @@ function initializeAdmin() {
 
             setupSectionNavigation();
             applySectionPermissions();
+            openOnlyAssignedSection();
             if (canAccessSection('notificaciones')) setupPushAdmin();
         } catch (error) {
             console.error('No se pudo verificar el acceso de administrador:', error);
@@ -254,6 +278,15 @@ function applySectionPermissions() {
         : 'Gestioná únicamente las secciones que tenés asignadas';
 }
 
+function openOnlyAssignedSection() {
+    const allowedButtons = [...document.querySelectorAll('.nav-btn[data-section]')]
+        .filter(button => !button.hidden);
+    const backButton = document.getElementById('admin-section-back');
+    const hasSingleSection = allowedButtons.length === 1;
+    if (backButton) backButton.hidden = hasSingleSection;
+    if (hasSingleSection) changeSection(allowedButtons[0].dataset.section);
+}
+
 function changeSection(section) {
     if (!canAccessSection(section)) {
         alert('No tenés permiso para administrar esta sección.');
@@ -299,11 +332,17 @@ function loadCurrentSection() {
         case 'cancionero':
             loadCanciones();
             break;
+        case 'audios':
+            loadCanciones();
+            break;
         case 'meditaciones':
             loadMeditaciones();
             break;
         case 'biblioteca':
             initBibliotecaAdmin();
+            break;
+        case 'versiones-android':
+            initAndroidVersionsAdmin();
             break;
         case 'recursos':
             loadRecursos();
@@ -316,9 +355,6 @@ function loadCurrentSection() {
             break;
         case 'pdv':
             loadPdV();
-            break;
-        case 'lyrics':
-            initLyricsCorrector();
             break;
         case 'bulk-upload':
             initBulkUpload();
@@ -365,7 +401,8 @@ async function loadCarruselList() {
     try {
         const q = utils.query(
             utils.collection(db, 'carrusel'),
-            utils.orderBy('createdAt', 'desc')
+            utils.orderBy('createdAt', 'desc'),
+            utils.limit(ADMIN_QUERY_LIMIT)
         );
         const querySnapshot = await utils.getDocs(q);
 
@@ -379,17 +416,30 @@ async function loadCarruselList() {
             const data = docSnap.data();
             const item = document.createElement('div');
             item.className = 'carrusel-item';
-            item.innerHTML = `
-                ${data.fotoUrl ? `<img src="../${data.fotoUrl}" alt="${data.titulo}" class="carrusel-item-img">` : ''}
-                <div class="carrusel-item-content">
-                    <h3>${data.titulo}</h3>
-                    <p>${data.descripcion}</p>
-                    <div class="carrusel-item-actions">
-                        <button class="btn-edit" onclick="editCarruselItem('${docSnap.id}', ${JSON.stringify(data).replace(/"/g, '&quot;')})">Editar</button>
-                        <button class="btn-delete" onclick="deleteCarruselItem('${docSnap.id}')">Borrar</button>
-                    </div>
-                </div>
-            `;
+            if (data.fotoUrl) {
+                const image = document.createElement('img');
+                image.src = `../${String(data.fotoUrl).replace(/^\/+/, '')}`;
+                image.alt = String(data.titulo || 'Imagen del carrusel');
+                image.className = 'carrusel-item-img';
+                item.appendChild(image);
+            }
+            const content = document.createElement('div');
+            content.className = 'carrusel-item-content';
+            const title = document.createElement('h3');
+            title.textContent = data.titulo || 'Sin título';
+            const description = document.createElement('p');
+            description.textContent = data.descripcion || '';
+            const actions = document.createElement('div');
+            actions.className = 'carrusel-item-actions';
+            const edit = document.createElement('button');
+            edit.type = 'button'; edit.className = 'btn-edit'; edit.textContent = 'Editar';
+            edit.addEventListener('click', () => editCarruselItem(docSnap.id, data));
+            const remove = document.createElement('button');
+            remove.type = 'button'; remove.className = 'btn-delete'; remove.textContent = 'Borrar';
+            remove.addEventListener('click', () => deleteCarruselItem(docSnap.id));
+            actions.append(edit, remove);
+            content.append(title, description, actions);
+            item.appendChild(content);
             listContainer.appendChild(item);
         });
     } catch (error) {
@@ -535,7 +585,7 @@ function normalizeCancionCategory(value) {
 
 async function loadCanciones() {
     try {
-        const q = utils.query(utils.collection(db, 'canciones'), utils.orderBy('fechaCreacion', 'desc'));
+        const q = utils.query(utils.collection(db, 'canciones'), utils.orderBy('fechaCreacion', 'desc'), utils.limit(ADMIN_QUERY_LIMIT));
         const querySnapshot = await utils.getDocs(q);
         allCanciones = querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         
@@ -547,32 +597,74 @@ async function loadCanciones() {
         
         displayCanciones(allCanciones);
         setupCancioneroListeners();
+        restoreAdminSongPreview();
     } catch (error) {
         console.error('Error al cargar canciones:', error);
     }
+    // La bandeja de audios debe abrir aunque la consulta de canciones falle;
+    // de lo contrario, propuestas ya guardadas quedaban invisibles.
+    setupAudioAdmin();
+    await loadCancionAudios();
 }
 
 function displayCanciones(canciones) {
     const list = document.getElementById('cancion-list');
     if (!list) return;
+    visibleSongAdminItems = canciones;
     list.innerHTML = '';
     
+    const bulkActions = document.getElementById('cancion-bulk-actions');
+    if (bulkActions) bulkActions.hidden = !isFullAdmin();
     canciones.forEach(cancion => {
         const item = document.createElement('div');
-        item.className = `item ${editingId === cancion.id ? 'active' : ''}`;
+        item.className = `item cancion-admin-item ${editingId === cancion.id ? 'active' : ''}`;
         
         const estado = cancion.estado || 'pendiente';
         const categoria = normalizeCancionCategory(cancion.categoria);
         
-        item.innerHTML = `
-            <div class="item-title">${cancion.titulo}</div>
-            <div class="item-subtitle">${cancion.artista || 'Sin artista'}</div>
-            <span class="item-badge badge-${categoria}">${categoria}</span>
-            <span class="item-badge badge-${estado}">${estado}</span>
+        if (isFullAdmin() && estado === 'pendiente') {
+            const selection = document.createElement('label');
+            selection.className = 'cancion-bulk-check';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = selectedSongApprovalIds.has(cancion.id);
+            checkbox.setAttribute('aria-label', `Seleccionar ${cancion.titulo || 'canción'}`);
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) selectedSongApprovalIds.add(cancion.id);
+                else selectedSongApprovalIds.delete(cancion.id);
+                updateSongBulkActions(canciones);
+            });
+            selection.append(checkbox);
+            item.append(selection);
+        }
+        const content = document.createElement('div');
+        content.className = 'cancion-admin-content';
+        content.innerHTML = `
+            <div class="item-title">${adminEscapeHtml(cancion.titulo || 'Sin título')}</div>
+            <div class="item-subtitle">${adminEscapeHtml(cancion.artista || 'Sin artista')}${cancion.creadoPorNombre ? ` · Enviada por ${adminEscapeHtml(cancion.creadoPorNombre)}` : ''}</div>
+            <span class="item-badge badge-${adminCssToken(categoria, 'gen')}">${adminEscapeHtml(categoria)}</span>
+            <span class="item-badge badge-${adminCssToken(estado)}">${adminEscapeHtml(estado)}</span>
         `;
-        item.addEventListener('click', () => editCancion(cancion));
+        item.append(content);
+        content.addEventListener('click', () => editCancion(cancion));
         list.appendChild(item);
     });
+    updateSongBulkActions(canciones);
+}
+
+function updateSongBulkActions(visibleSongs = allCanciones) {
+    if (!isFullAdmin()) return;
+    const selectedCount = document.getElementById('cancion-selected-count');
+    const approve = document.getElementById('cancion-approve-selected');
+    const selectAll = document.getElementById('cancion-select-all-pending');
+    const visiblePendingIds = visibleSongs.filter(song => (song.estado || 'pendiente') === 'pendiente').map(song => song.id);
+    const selectedVisible = visiblePendingIds.filter(id => selectedSongApprovalIds.has(id)).length;
+    if (selectedCount) selectedCount.textContent = `${selectedSongApprovalIds.size} seleccionada${selectedSongApprovalIds.size === 1 ? '' : 's'}`;
+    if (approve) approve.disabled = selectedSongApprovalIds.size === 0;
+    if (selectAll) {
+        selectAll.checked = visiblePendingIds.length > 0 && selectedVisible === visiblePendingIds.length;
+        selectAll.indeterminate = selectedVisible > 0 && selectedVisible < visiblePendingIds.length;
+    }
 }
 
 function editCancion(cancion) {
@@ -584,6 +676,8 @@ function editCancion(cancion) {
     document.getElementById('cancion-titulo').value = cancion.titulo || '';
     document.getElementById('cancion-artista').value = cancion.artista || '';
     document.getElementById('cancion-letra').value = cancion.letra || '';
+    document.getElementById('cancion-tono').value = cancion.tono || '';
+    document.getElementById('cancion-idioma').value = cancion.idioma || 'Español';
     document.getElementById('cancion-categoria').value = normalizeCancionCategory(cancion.categoria);
     document.getElementById('cancion-estado').value = cancion.estado || 'pendiente';
     
@@ -604,6 +698,25 @@ function resetCancionForm() {
     displayCanciones(allCanciones);
 }
 
+function restoreAdminSongPreview() {
+    if (new URLSearchParams(location.search).get('restaurarCancion') !== '1') return;
+    let draft;
+    try { draft = JSON.parse(sessionStorage.getItem('gen_admin_song_preview') || 'null'); } catch { draft = null; }
+    if (!draft) return;
+    if (draft.id) {
+        const existing = allCanciones.find(song => String(song.id) === String(draft.id));
+        if (existing) editCancion(existing);
+    }
+    document.getElementById('cancion-titulo').value = draft.titulo || '';
+    document.getElementById('cancion-artista').value = draft.artista || '';
+    document.getElementById('cancion-letra').value = draft.letra || '';
+    document.getElementById('cancion-tono').value = draft.tono || '';
+    document.getElementById('cancion-idioma').value = draft.idioma || 'Español';
+    document.getElementById('cancion-categoria').value = draft.categoria || 'gen';
+    document.getElementById('cancion-estado').value = draft.estado || 'pendiente';
+    history.replaceState(null, '', 'admin.html#cancionero');
+}
+
 function setupCancioneroListeners() {
     const search = document.getElementById('cancion-search');
     const filterEstado = document.getElementById('cancion-filter-estado');
@@ -611,12 +724,24 @@ function setupCancioneroListeners() {
     const form = document.getElementById('cancion-form');
     const cancelBtn = document.getElementById('cancion-cancel');
     const deleteBtn = document.getElementById('cancion-delete');
+    const previewBtn = document.getElementById('cancion-preview');
+    const selectAllPending = document.getElementById('cancion-select-all-pending');
+    const approveSelected = document.getElementById('cancion-approve-selected');
     if (!form || form.dataset.adminBound === 'true') return;
     form.dataset.adminBound = 'true';
 
     if (search) search.addEventListener('input', filterCanciones);
     if (filterEstado) filterEstado.addEventListener('change', filterCanciones);
     if (filterCategoria) filterCategoria.addEventListener('change', filterCanciones);
+    if (selectAllPending) selectAllPending.addEventListener('change', () => {
+        if (!isFullAdmin()) return;
+        visibleSongAdminItems.filter(song => (song.estado || 'pendiente') === 'pendiente').forEach(song => {
+            if (selectAllPending.checked) selectedSongApprovalIds.add(song.id);
+            else selectedSongApprovalIds.delete(song.id);
+        });
+        displayCanciones(visibleSongAdminItems);
+    });
+    if (approveSelected) approveSelected.addEventListener('click', approveSelectedSongs);
 
     if (form) form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -626,6 +751,8 @@ function setupCancioneroListeners() {
             titulo: document.getElementById('cancion-titulo').value.trim(),
             artista: document.getElementById('cancion-artista').value.trim(),
             letra: document.getElementById('cancion-letra').value.trim(),
+            tono: document.getElementById('cancion-tono').value.trim(),
+            idioma: document.getElementById('cancion-idioma').value,
             categoria: document.getElementById('cancion-categoria').value,
             estado: document.getElementById('cancion-estado').value,
             reproducciones: 0,
@@ -633,6 +760,10 @@ function setupCancioneroListeners() {
             activa: true
         };
         
+        if (!parseSongContent(data.letra).chords.length) {
+            return alert('La canción debe contener al menos un acorde reconocido.');
+        }
+
         if (formEditingId) {
             const cancionExistente = allCanciones.find(c => c.id === formEditingId);
             if (cancionExistente && cancionExistente.reproducciones) {
@@ -661,6 +792,22 @@ function setupCancioneroListeners() {
 
     if (cancelBtn) cancelBtn.addEventListener('click', resetCancionForm);
 
+    if (previewBtn) previewBtn.addEventListener('click', () => {
+        const draft = {
+            id: form.dataset.editingId || '',
+            titulo: document.getElementById('cancion-titulo').value.trim() || 'Canción sin título',
+            artista: document.getElementById('cancion-artista').value.trim(),
+            letra: document.getElementById('cancion-letra').value,
+            tono: document.getElementById('cancion-tono').value.trim(),
+            idioma: document.getElementById('cancion-idioma').value,
+            categoria: document.getElementById('cancion-categoria').value,
+            estado: document.getElementById('cancion-estado').value
+        };
+        if (!draft.letra.trim()) return alert('Pegá la canción antes de abrir la vista previa.');
+        sessionStorage.setItem('gen_admin_song_preview', JSON.stringify(draft));
+        window.location.href = '../cancionero/cancion.html?preview=1&admin=1';
+    });
+
     if (deleteBtn) deleteBtn.addEventListener('click', async () => {
         if (!editingId) return;
         if (confirm('¿Estás seguro de eliminar esta canción?')) {
@@ -675,6 +822,35 @@ function setupCancioneroListeners() {
             }
         }
     });
+}
+
+async function approveSelectedSongs() {
+    if (!isFullAdmin() || !selectedSongApprovalIds.size) return;
+    const songs = allCanciones.filter(song => selectedSongApprovalIds.has(song.id) && (song.estado || 'pendiente') === 'pendiente');
+    if (!songs.length) {
+        selectedSongApprovalIds.clear();
+        updateSongBulkActions();
+        return;
+    }
+    if (!confirm(`¿Aprobar y publicar ${songs.length} canción${songs.length === 1 ? '' : 'es'}?`)) return;
+    const button = document.getElementById('cancion-approve-selected');
+    if (button) { button.disabled = true; button.textContent = 'Publicando…'; }
+    try {
+        for (let offset = 0; offset < songs.length; offset += ADMIN_BATCH_SIZE) {
+            const batch = utils.writeBatch(db);
+            songs.slice(offset, offset + ADMIN_BATCH_SIZE).forEach(song => {
+                batch.update(utils.doc(db, 'canciones', song.id), { estado: 'publicado', activa: true });
+            });
+            await batch.commit();
+        }
+        selectedSongApprovalIds.clear();
+        await loadCanciones();
+    } catch (error) {
+        console.error('No se pudieron aprobar las canciones seleccionadas:', error);
+        alert(`No se pudieron aprobar todas las canciones: ${error.message}`);
+    } finally {
+        if (button) { button.textContent = 'Aprobar seleccionadas'; updateSongBulkActions(); }
+    }
 }
 
 function filterCanciones() {
@@ -693,11 +869,635 @@ function filterCanciones() {
     displayCanciones(filtered);
 }
 
+// ==================== AUDIOS DEL CANCIONERO ====================
+
+const AUDIO_PROVIDER_LABELS = {
+    youtube: 'YouTube', spotify: 'Spotify', soundcloud: 'SoundCloud', drive: 'Google Drive',
+    bandcamp: 'Bandcamp', applemusic: 'Apple Music', vimeo: 'Vimeo', directo: 'Audio directo', externo: 'Enlace externo'
+};
+const AUDIO_TYPE_LABELS = {
+    guia: 'Guía', oficial: 'Versión oficial', en_vivo: 'En vivo', cover: 'Cover', remix: 'Remix',
+    instrumental: 'Instrumental', voces: 'Voces', otra: 'Otro audio'
+};
+const AUDIO_STATE_LABELS = {
+    pendiente: 'Pendiente', publicado: 'Publicado', rechazado: 'Rechazado', archivado: 'Archivado'
+};
+const AUDIO_PUBLIC_FIELDS = [
+    'cancionId', 'cancionTitulo', 'url', 'proveedor', 'modoReproduccion', 'tipo',
+    'version', 'versionVocal', 'tipoVoz', 'interprete', 'idioma', 'nombre', 'descripcion', 'estado', 'esPrincipal',
+    'versionId', 'versionPrincipal'
+];
+
+function publicAudioData(audio) {
+    return Object.fromEntries(AUDIO_PUBLIC_FIELDS.map(field => [field, audio[field] ?? (['esPrincipal', 'versionPrincipal'].includes(field) ? false : '')]));
+}
+
+function audioToken(value) {
+    return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'general';
+}
+
+function audioVersionId(audio) {
+    if (audio.versionId) return String(audio.versionId);
+    return `legacy-${[audio.cancionId, audio.tipo, audio.version, audio.versionVocal, audio.tipoVoz, audio.interprete, audio.idioma].map(audioToken).join('-')}`;
+}
+
+function automaticAudioVersionId(audio) {
+    return `auto-${[audio.cancionId, audio.tipo, audio.versionVocal, audio.tipoVoz, audio.interprete, audio.idioma].map(audioToken).join('-')}`;
+}
+
+function audioVersionGroups(items = allCancionAudios.filter(audio => audio.estado === 'publicado')) {
+    const groups = new Map();
+    items.forEach(audio => {
+        const id = audioVersionId(audio);
+        if (!groups.has(id)) groups.set(id, { id, sources: [], songId: String(audio.cancionId || '') });
+        groups.get(id).sources.push(audio);
+    });
+    return [...groups.values()].map(group => ({
+        ...group,
+        representative: group.sources.find(source => source.esPrincipal) || group.sources[0],
+        principal: group.sources.some(source => source.versionPrincipal || source.esPrincipal)
+    }));
+}
+
+function audioVersionLabel(group) {
+    const audio = group.representative;
+    const providers = [...new Set(group.sources.map(source => AUDIO_PROVIDER_LABELS[source.proveedor] || 'Enlace externo'))];
+    const sourceLabel = providers.length === 1 ? `Fuente: ${providers[0]}` : `Fuentes: ${providers.join(', ')}`;
+    const versionLabel = audio.tipo === 'voces'
+        ? [AUDIO_TYPE_LABELS[audio.tipo], audio.versionVocal, audio.tipoVoz, audio.interprete].filter(Boolean).join(' · ')
+        : [AUDIO_TYPE_LABELS[audio.tipo] || 'Otro', audio.interprete, audio.idioma].filter(Boolean).join(' · ');
+    return `${versionLabel} · ${sourceLabel}`;
+}
+
+async function syncPublicAudioCatalog() {
+    // La consulta debe expresar la misma condición que las reglas públicas.
+    // Firestore no permite listar la colección completa aunque actualmente
+    // todos sus documentos sean publicados.
+    const publicQuery = utils.query(
+        utils.collection(db, 'cancion_audios_publicos'),
+        utils.where('estado', '==', 'publicado')
+    );
+    const publicSnapshot = await utils.getDocs(publicQuery);
+    const current = new Map(publicSnapshot.docs.map(document => [document.id, { id: document.id, ...document.data() }]));
+    const published = new Map(allCancionAudios.filter(audio => audio.estado === 'publicado')
+        .map(audio => [audio.id, publicAudioData(audio)]));
+    const operations = [];
+    const affectedSongs = new Set();
+
+    published.forEach((data, id) => {
+        const before = current.get(id);
+        if (!before || JSON.stringify(publicAudioData(before)) !== JSON.stringify(data)) {
+            operations.push({ type: 'set', ref: utils.doc(db, 'cancion_audios_publicos', id), data });
+            affectedSongs.add(data.cancionId);
+        }
+    });
+    current.forEach((audio, id) => {
+        if (!published.has(id)) {
+            operations.push({ type: 'delete', ref: utils.doc(db, 'cancion_audios_publicos', id) });
+            affectedSongs.add(audio.cancionId);
+        }
+    });
+    for (let offset = 0; offset < operations.length; offset += ADMIN_BATCH_SIZE) {
+        const batch = utils.writeBatch(db);
+        operations.slice(offset, offset + ADMIN_BATCH_SIZE).forEach(operation => {
+            if (operation.type === 'set') batch.set(operation.ref, operation.data);
+            else batch.delete(operation.ref);
+        });
+        await batch.commit();
+    }
+    affectedSongs.forEach(songId => {
+        try { sessionStorage.removeItem(`gen_song_audio_lookup_v1:${songId}`); } catch { /* Caché opcional. */ }
+    });
+    return operations.length;
+}
+
+function detectAudioProvider(value) {
+    let url;
+    try { url = new URL(value); } catch { return 'externo'; }
+    const host = url.hostname.toLowerCase().replace(/^www\./, '');
+    if (host === 'youtu.be' || host.endsWith('youtube.com')) return 'youtube';
+    if (host.endsWith('spotify.com')) return 'spotify';
+    if (host.endsWith('soundcloud.com')) return 'soundcloud';
+    if (host.endsWith('drive.google.com') || host.endsWith('docs.google.com')) return 'drive';
+    if (host.endsWith('bandcamp.com')) return 'bandcamp';
+    if (host.endsWith('music.apple.com')) return 'applemusic';
+    if (host.endsWith('vimeo.com')) return 'vimeo';
+    if (/\.(mp3|m4a|aac|ogg|wav)(?:$|\?)/i.test(url.pathname + url.search)) return 'directo';
+    return 'externo';
+}
+
+function selectedAudioSong() {
+    const id = document.getElementById('audio-cancion')?.value || '';
+    return allCanciones.find(song => String(song.id) === String(id)) || null;
+}
+
+function updateCurrentPrincipalNotice() {
+    const notice = document.getElementById('audio-current-principal');
+    if (!notice) return;
+    const songId = document.getElementById('audio-cancion')?.value || '';
+    const principal = allCancionAudios.find(audio => String(audio.cancionId) === String(songId) && audio.esPrincipal);
+    notice.replaceChildren();
+    notice.hidden = !principal;
+    if (!principal) return;
+    const heading = document.createElement('strong');
+    heading.textContent = principal.id === editingAudioId ? 'Este es el audio principal actual' : 'Audio principal actual';
+    const detail = document.createElement('span');
+    detail.textContent = principal.nombre || principal.version || principal.interprete || 'Audio sin nombre';
+    notice.append(heading, detail);
+}
+
+function generatedAudioName(values = {}) {
+    const song = values.song || selectedAudioSong();
+    const title = song?.titulo || 'Canción sin seleccionar';
+    const language = values.idioma ?? document.getElementById('audio-idioma')?.value ?? '';
+    const type = values.tipo ?? document.getElementById('audio-tipo')?.value ?? 'oficial';
+    const voiceVersion = (values.versionVocal ?? document.getElementById('audio-version-vocal')?.value ?? '').trim();
+    const voiceType = (values.tipoVoz ?? document.getElementById('audio-tipo-voz')?.value ?? '').trim();
+    const performer = (values.interprete ?? document.getElementById('audio-interprete')?.value ?? '').trim();
+    const url = values.url ?? document.getElementById('audio-url')?.value ?? '';
+    const provider = values.proveedor ?? document.getElementById('audio-proveedor')?.value ?? detectAudioProvider(url);
+    const versionLabel = type === 'voces'
+        ? [AUDIO_TYPE_LABELS[type], voiceVersion, voiceType].filter(Boolean).join(' · ')
+        : AUDIO_TYPE_LABELS[type] || 'Otro';
+    const qualifiers = [language ? `(${language})` : '', '—', versionLabel].filter(Boolean);
+    const source = type === 'oficial' && url ? AUDIO_PROVIDER_LABELS[provider] || 'Enlace externo' : '';
+    return `${title} ${qualifiers.join(' ')}${performer ? ` · ${performer}` : ''}${source ? ` · ${source}` : ''}`.replace(/\s+/g, ' ').trim();
+}
+
+function updateAudioFormPreview() {
+    const input = document.getElementById('audio-url');
+    const providerSelect = document.getElementById('audio-proveedor');
+    const nameInput = document.getElementById('audio-nombre');
+    if (!input || !providerSelect || !nameInput) return;
+    const voice = document.getElementById('audio-tipo')?.value === 'voces';
+    const voiceFields = document.getElementById('audio-voice-fields');
+    if (voiceFields) voiceFields.hidden = !voice;
+    const provider = detectAudioProvider(input.value.trim());
+    if (input.value.trim()) providerSelect.value = provider;
+    nameInput.value = generatedAudioName();
+    const help = document.getElementById('audio-url-help');
+    if (help) help.textContent = input.value.trim()
+        ? `Detectado: ${AUDIO_PROVIDER_LABELS[provider] || 'Enlace externo'}. Se validará antes de guardar.`
+        : 'La plataforma se detectará automáticamente.';
+    const preview = document.getElementById('audio-admin-preview');
+    if (preview) {
+        preview.hidden = !input.value.trim();
+        preview.replaceChildren();
+        if (input.value.trim()) {
+            const link = document.createElement('a');
+            link.href = input.value.trim();
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = `Probar enlace en ${AUDIO_PROVIDER_LABELS[provider] || 'la plataforma'} ↗`;
+            preview.append(link);
+        }
+    }
+}
+
+function populateAudioSongSelect() {
+    const select = document.getElementById('audio-cancion');
+    if (!select) return;
+    const selected = select.value;
+    select.replaceChildren(new Option('Elegí una canción', ''));
+    [...allCanciones]
+        .filter(song => !song._offlineDeleted)
+        .sort((a, b) => String(a.titulo || '').localeCompare(String(b.titulo || ''), 'es'))
+        .forEach(song => select.add(new Option(`${song.titulo || 'Sin título'} · ${song.artista || 'Sin artista'}`, song.id)));
+    if ([...select.options].some(option => option.value === selected)) select.value = selected;
+}
+
+async function loadCancionAudios() {
+    const list = document.getElementById('audio-list');
+    const publishedList = document.getElementById('audio-published-list');
+    const issuesList = document.getElementById('audio-issues-list');
+    if (!list || !publishedList || !issuesList) return;
+    populateAudioSongSelect();
+    list.innerHTML = '<p class="field-help">Cargando audios…</p>';
+    publishedList.innerHTML = '<p class="field-help">Cargando audios publicados…</p>';
+    ['audio-missing-official-list', 'audio-multiple-principal-list', 'audio-incomplete-source-list'].forEach(id => {
+        const container = document.getElementById(id);
+        if (container) container.innerHTML = '<p class="field-help">Revisando…</p>';
+    });
+    try {
+        const snapshot = await utils.getDocs(utils.query(
+            utils.collection(db, 'cancion_audios'),
+            utils.limit(ADMIN_QUERY_LIMIT)
+        ));
+        allCancionAudios = snapshot.docs.map(document => ({ id: document.id, ...document.data() }))
+            .filter(audio => !audio._offlineDeleted)
+            .sort((a, b) => String(a.nombre || '').localeCompare(String(b.nombre || ''), 'es'));
+        const syncStatus = document.getElementById('audio-sync-status');
+        try {
+            const changes = await syncPublicAudioCatalog();
+            if (syncStatus) {
+                syncStatus.textContent = changes
+                    ? `Catálogo público actualizado: ${changes} cambio${changes === 1 ? '' : 's'}.`
+                    : 'Catálogo público sincronizado.';
+                syncStatus.dataset.state = 'success';
+            }
+        } catch (error) {
+            console.warn('No se pudo actualizar el catálogo público de audios:', error);
+            if (syncStatus) {
+                syncStatus.textContent = error?.code === 'permission-denied'
+                    ? 'No se pudo publicar el catálogo de audios. Revisá que las reglas nuevas estén publicadas en Firebase.'
+                    : 'No se pudo sincronizar el catálogo público de audios. Recargá e intentá nuevamente.';
+                syncStatus.dataset.state = 'error';
+            }
+        }
+        displayCancionAudios();
+    } catch (error) {
+        console.error('Error al cargar audios del cancionero:', error);
+        const denied = error?.code === 'permission-denied';
+        const message = denied
+            ? 'No hay permiso para leer los audios. Publicá las reglas actuales de Firestore.'
+            : 'No se pudieron cargar los audios. Intentá nuevamente.';
+        if (denied) {
+            try {
+                const publicSnapshot = await utils.getDocs(utils.query(
+                    utils.collection(db, 'cancion_audios_publicos'),
+                    utils.where('estado', '==', 'publicado'),
+                    utils.limit(ADMIN_QUERY_LIMIT)
+                ));
+                allCancionAudios = publicSnapshot.docs.map(document => ({ id: document.id, ...document.data() }));
+                displayCancionAudios();
+                list.innerHTML = '<div class="audio-permission-notice"><strong>Las propuestas están bloqueadas por permisos</strong><span>El catálogo público sí pudo cargarse. Publicá las reglas actualizadas de Firestore para revisar propuestas y guardar cambios.</span></div>';
+                const syncStatus = document.getElementById('audio-sync-status');
+                if (syncStatus) {
+                    syncStatus.textContent = 'Vista de solo lectura: falta habilitar el permiso de Cancionero en Firestore.';
+                    syncStatus.dataset.state = 'error';
+                }
+                return;
+            } catch (publicError) {
+                console.error('Tampoco se pudo cargar el catálogo público de audios:', publicError);
+            }
+        }
+        list.innerHTML = `<p class="field-help">${message}</p>`;
+        publishedList.innerHTML = `<p class="field-help">${message}</p>`;
+        ['audio-missing-official-list', 'audio-multiple-principal-list', 'audio-incomplete-source-list'].forEach(id => {
+            const container = document.getElementById(id);
+            if (container) container.innerHTML = `<p class="field-help">${message}</p>`;
+        });
+    }
+}
+
+function displayCancionAudios() {
+    const proposalList = document.getElementById('audio-list');
+    const publishedList = document.getElementById('audio-published-list');
+    const issuesList = document.getElementById('audio-issues-list');
+    if (!proposalList || !publishedList || !issuesList) return;
+    const search = (document.getElementById('audio-search')?.value || '').trim().toLowerCase();
+    const provider = document.getElementById('audio-filter-provider')?.value || '';
+    const stateFilter = document.getElementById('audio-filter-state')?.value || '';
+    const matchingItems = allCancionAudios.filter(audio => {
+        const haystack = [audio.nombre, audio.interprete, audio.version, audio.descripcion, audio.cancionTitulo, audio.creadoPorNombre].join(' ').toLowerCase();
+        return (!search || haystack.includes(search))
+            && (!provider || audio.proveedor === provider);
+    });
+    const proposals = matchingItems.filter(audio => audio.estado !== 'publicado' && (!stateFilter || (audio.estado || 'pendiente') === stateFilter));
+    const allPublishedAudios = allCancionAudios.filter(audio => audio.estado === 'publicado');
+
+    const renderItems = (container, items, emptyMessage) => {
+        container.replaceChildren();
+        if (!items.length) {
+            const empty = document.createElement('p');
+            empty.className = 'field-help';
+            empty.textContent = emptyMessage;
+            container.append(empty);
+            return;
+        }
+        items.forEach(audio => container.append(createCancionAudioListItem(audio)));
+    };
+
+    const versions = audioVersionGroups(allPublishedAudios);
+    const catalogSongs = new Map();
+    versions.forEach(version => {
+        if (!catalogSongs.has(version.songId)) catalogSongs.set(version.songId, []);
+        catalogSongs.get(version.songId).push(version);
+    });
+    const allPublishedVersions = audioVersionGroups(allPublishedAudios);
+    const versionsBySong = new Map();
+    allPublishedVersions.forEach(version => {
+        if (!versionsBySong.has(version.songId)) versionsBySong.set(version.songId, []);
+        versionsBySong.get(version.songId).push(version);
+    });
+    const publishedSongs = allCanciones.filter(song => !song._offlineDeleted && ['publicado', 'publicada'].includes(song.estado));
+    const catalogSearch = (document.getElementById('audio-catalog-search')?.value || '').trim().toLowerCase();
+    const visibleCatalogSongs = publishedSongs.filter(song => !catalogSearch || [song.titulo, song.artista].join(' ').toLowerCase().includes(catalogSearch));
+    const songsWithAudio = publishedSongs.filter(song => catalogSongs.has(String(song.id))).length;
+    const missingOfficial = publishedSongs.filter(song => !allPublishedAudios.some(audio =>
+        String(audio.cancionId) === String(song.id) && audio.tipo === 'oficial'
+    ));
+    const multiplePrincipal = [];
+    versionsBySong.forEach(songVersions => {
+        const principals = songVersions.filter(version => version.principal);
+        if (principals.length > 1) multiplePrincipal.push({
+            audio: principals[0].representative,
+            message: `${principals.length} versiones están marcadas como principales`
+        });
+    });
+    const incompleteSources = allPublishedAudios.filter(audio => !String(audio.url || '').trim() || !String(audio.cancionId || '').trim());
+    const totalIssues = missingOfficial.length + multiplePrincipal.length + incompleteSources.length;
+
+    document.getElementById('audio-list-count').textContent = `${proposals.length} propuesta${proposals.length === 1 ? '' : 's'}`;
+    document.getElementById('audio-published-count').textContent = `${songsWithAudio} con audio · ${publishedSongs.length - songsWithAudio} sin audio`;
+    document.getElementById('audio-issues-count').textContent = `${totalIssues} caso${totalIssues === 1 ? '' : 's'}`;
+    document.getElementById('audio-pending-tab-count').textContent = proposals.length;
+    document.getElementById('audio-catalog-tab-count').textContent = publishedSongs.length;
+    document.getElementById('audio-issues-tab-count').textContent = totalIssues;
+    document.getElementById('audio-missing-official-count').textContent = missingOfficial.length;
+    document.getElementById('audio-multiple-principal-count').textContent = multiplePrincipal.length;
+    document.getElementById('audio-incomplete-source-count').textContent = incompleteSources.length;
+    renderItems(proposalList, proposals, 'No hay propuestas para mostrar.');
+    renderAudioCatalog(publishedList, catalogSongs, visibleCatalogSongs);
+    renderMissingOfficialSongs(document.getElementById('audio-missing-official-list'), missingOfficial);
+    renderAudioIssues(document.getElementById('audio-multiple-principal-list'), multiplePrincipal, 'No hay canciones con más de una versión principal.');
+    renderAudioIssues(document.getElementById('audio-incomplete-source-list'), incompleteSources.map(audio => ({ audio, message: 'Falta el enlace o la canción asociada' })), 'No hay fuentes incompletas.');
+}
+
+function renderAudioIssues(container, issues, emptyMessage) {
+    if (!container) return;
+    container.replaceChildren();
+    if (!issues.length) {
+        const empty = document.createElement('p'); empty.className = 'field-help'; empty.textContent = emptyMessage; container.append(empty); return;
+    }
+    issues.forEach(issue => {
+        const item = createCancionAudioListItem(issue.audio);
+        item.querySelector('small').textContent = issue.message;
+        container.append(item);
+    });
+}
+
+function renderMissingOfficialSongs(container, songs) {
+    if (!container) return;
+    container.replaceChildren();
+    if (!songs.length) {
+        const empty = document.createElement('p'); empty.className = 'field-help'; empty.textContent = 'Todas las canciones publicadas tienen una versión oficial.'; container.append(empty); return;
+    }
+    songs.sort((a, b) => String(a.titulo || '').localeCompare(String(b.titulo || ''), 'es')).forEach(song => {
+        const pendingOfficial = allCancionAudios.find(audio => String(audio.cancionId) === String(song.id) && audio.tipo === 'oficial' && audio.estado !== 'publicado');
+        const item = document.createElement(pendingOfficial ? 'button' : 'div');
+        if (pendingOfficial) item.type = 'button';
+        item.className = 'item audio-admin-item audio-missing-official-item';
+        const copy = document.createElement('span'); copy.className = 'audio-admin-copy';
+        const title = document.createElement('strong'); title.textContent = song.titulo || 'Canción sin título';
+        const detail = document.createElement('small'); detail.textContent = pendingOfficial
+            ? 'Hay una propuesta oficial pendiente: abrila para revisarla'
+            : 'Todavía no se recibió una versión oficial';
+        copy.append(title, detail);
+        const badge = document.createElement('span'); badge.className = `item-badge ${pendingOfficial ? 'badge-pendiente' : 'badge-archivado'}`; badge.textContent = pendingOfficial ? 'Propuesta pendiente' : 'Sin oficial';
+        item.append(copy, badge);
+        if (pendingOfficial) item.addEventListener('click', () => editCancionAudio(pendingOfficial));
+        container.append(item);
+    });
+}
+
+function renderAudioCatalog(container, versionsBySong, songs) {
+    container.replaceChildren();
+    if (!songs.length) {
+        const empty = document.createElement('p'); empty.className = 'field-help'; empty.textContent = 'No encontramos canciones con esa búsqueda.'; container.append(empty); return;
+    }
+    [...songs].sort((a, b) => String(a.titulo || '').localeCompare(String(b.titulo || ''), 'es')).forEach(songData => {
+        const versions = versionsBySong.get(String(songData.id)) || [];
+        const song = document.createElement('section'); song.className = `audio-song-group${versions.length ? ' has-audio' : ' no-audio'}`;
+        const heading = document.createElement('div'); heading.className = 'audio-song-heading';
+        const headingCopy = document.createElement('div'); headingCopy.className = 'audio-song-heading-copy';
+        const title = document.createElement('h3'); title.textContent = songData.titulo || 'Canción sin título';
+        const artist = document.createElement('small'); artist.textContent = songData.artista || 'Sin artista';
+        headingCopy.append(title, artist);
+        const status = document.createElement('span'); status.className = `audio-song-status ${versions.length ? 'has-audio' : 'no-audio'}`;
+        status.textContent = versions.length ? 'Tiene audio' : 'Sin audio';
+        heading.append(headingCopy, status); song.append(heading);
+        if (!versions.length) {
+            const empty = document.createElement('p'); empty.className = 'audio-song-empty'; empty.textContent = 'Esta canción todavía no tiene audios publicados.'; song.append(empty); container.append(song); return;
+        }
+        versions.sort((a, b) => Number(b.principal) - Number(a.principal) || audioVersionLabel(a).localeCompare(audioVersionLabel(b), 'es')).forEach(version => {
+            const box = document.createElement('div'); box.className = 'audio-version-group';
+            const versionHeading = document.createElement('div'); versionHeading.className = 'audio-version-heading';
+            const label = document.createElement('strong'); label.textContent = audioVersionLabel(version);
+            const badges = document.createElement('span'); badges.className = 'audio-version-badges';
+            if (version.principal) { const badge = document.createElement('span'); badge.textContent = 'Principal'; badges.append(badge); }
+            const sources = document.createElement('span'); sources.textContent = `${version.sources.length} fuente${version.sources.length === 1 ? '' : 's'}`; badges.append(sources);
+            versionHeading.append(label, badges); box.append(versionHeading);
+            const sourceList = document.createElement('div'); sourceList.className = 'audio-source-list';
+            version.sources.forEach(source => {
+                const row = document.createElement('div'); row.className = 'audio-catalog-source';
+                const copy = document.createElement('div'); copy.className = 'audio-catalog-source-copy';
+                const label = document.createElement('strong'); label.textContent = AUDIO_PROVIDER_LABELS[source.proveedor] || 'Enlace';
+                const detail = document.createElement('small'); detail.textContent = source.descripcion || source.nombre || 'Audio publicado';
+                copy.append(label, detail);
+                const actions = document.createElement('div'); actions.className = 'audio-catalog-source-actions';
+                const open = document.createElement('a'); open.href = source.url || '#'; open.target = '_blank'; open.rel = 'noopener noreferrer'; open.textContent = 'Abrir ↗';
+                const edit = document.createElement('button'); edit.type = 'button'; edit.textContent = 'Editar';
+                edit.addEventListener('click', () => {
+                    document.querySelector('.audio-admin-grid')?.classList.add('is-editing');
+                    editCancionAudio(source);
+                });
+                actions.append(open, edit); row.append(copy, actions); sourceList.append(row);
+            });
+            box.append(sourceList); song.append(box);
+        });
+        container.append(song);
+    });
+}
+
+function createCancionAudioListItem(audio, compact = false) {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.dataset.audioId = audio.id;
+        item.className = `item audio-admin-item${editingAudioId === audio.id ? ' active' : ''}`;
+        const copy = document.createElement('span'); copy.className = 'audio-admin-copy';
+        const title = document.createElement('strong'); title.textContent = compact ? (AUDIO_PROVIDER_LABELS[audio.proveedor] || 'Enlace') : (audio.cancionTitulo || audio.nombre || 'Audio sin canción');
+        const detailParts = [AUDIO_PROVIDER_LABELS[audio.proveedor] || 'Enlace'];
+        if (audio.nombre && audio.nombre !== audio.cancionTitulo) detailParts.push(audio.nombre);
+        if (audio.versionVocal) detailParts.push(`Voces: ${audio.versionVocal}`);
+        if (audio.tipoVoz) detailParts.push(`Tipo de voz: ${audio.tipoVoz}`);
+        if (audio.interprete) detailParts.push(`Intérprete: ${audio.interprete}`);
+        if (audio.idioma) detailParts.push(`Idioma: ${audio.idioma}`);
+        if (audio.creadoPorNombre) detailParts.push(`Subido por ${audio.creadoPorNombre}`);
+        if (audio.descripcion) detailParts.push(audio.descripcion);
+        if (audio.esPrincipal) detailParts.push('Principal');
+        const detail = document.createElement('small'); detail.textContent = detailParts.join(' · ');
+        copy.append(title, detail);
+        const audioState = audio.estado || 'pendiente';
+        const badge = document.createElement('span'); badge.className = `item-badge badge-${audioState}`; badge.textContent = AUDIO_STATE_LABELS[audioState] || 'Pendiente';
+        item.append(copy, badge);
+        item.addEventListener('click', () => editCancionAudio(audio));
+        return item;
+}
+
+function editCancionAudio(audio) {
+    editingAudioId = audio.id;
+    const isPublished = audio.estado === 'publicado';
+    document.getElementById('audio-form-title').textContent = isPublished ? 'Editar audio publicado' : 'Revisar propuesta';
+    document.getElementById('audio-submitter').value = audio.creadoPorNombre || 'No informado';
+    document.getElementById('audio-submitter-group').hidden = false;
+    document.getElementById('audio-cancion').value = audio.cancionId || '';
+    document.getElementById('audio-url').value = audio.url || '';
+    document.getElementById('audio-proveedor').value = audio.proveedor || 'externo';
+    document.getElementById('audio-tipo').value = audio.tipo || 'oficial';
+    document.getElementById('audio-version-vocal').value = audio.versionVocal || '';
+    document.getElementById('audio-tipo-voz').value = audio.tipoVoz || '';
+    document.getElementById('audio-interprete').value = audio.interprete || '';
+    document.getElementById('audio-descripcion').value = audio.descripcion || '';
+    document.getElementById('audio-idioma').value = audio.idioma || '';
+    document.getElementById('audio-estado').value = audio.estado || 'pendiente';
+    document.getElementById('audio-principal').checked = Boolean(audio.esPrincipal) || audio.tipo === 'oficial';
+    document.getElementById('audio-permisos').checked = Boolean(audio.permisosConfirmados);
+    document.getElementById('audio-cancel').hidden = false;
+    document.getElementById('audio-delete').hidden = false;
+    document.getElementById('audio-approve').hidden = isPublished;
+    document.getElementById('audio-reject').hidden = isPublished;
+    document.getElementById('audio-save').textContent = isPublished ? 'Guardar cambios' : 'Guardar revisión';
+    updateAudioFormPreview();
+    updateCurrentPrincipalNotice();
+    document.querySelectorAll('.audio-admin-item').forEach(item => item.classList.toggle('active', item.dataset.audioId === audio.id));
+    if (window.matchMedia('(max-width: 820px)').matches) {
+        document.getElementById('audio-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function resetAudioForm() {
+    editingAudioId = null;
+    const form = document.getElementById('audio-form');
+    form?.reset();
+    document.getElementById('audio-form-title').textContent = 'Seleccioná una propuesta';
+    document.getElementById('audio-submitter').value = '';
+    document.getElementById('audio-submitter-group').hidden = true;
+    document.getElementById('audio-cancel').hidden = true;
+    document.getElementById('audio-delete').hidden = true;
+    document.getElementById('audio-approve').hidden = true;
+    document.getElementById('audio-reject').hidden = true;
+    document.getElementById('audio-save').textContent = 'Guardar revisión';
+    document.getElementById('audio-admin-preview').hidden = true;
+    document.getElementById('audio-current-principal').hidden = true;
+    document.querySelectorAll('.audio-admin-item.active').forEach(item => item.classList.remove('active'));
+    document.querySelector('.audio-admin-grid')?.classList.remove('is-editing');
+    updateAudioFormPreview();
+}
+
+function setupAudioAdmin() {
+    const root = document.querySelector('.audio-admin-grid');
+    const tabs = document.querySelector('.audio-admin-tabs');
+    const section = document.getElementById('audios-section');
+    if (section) {
+        if (tabs && tabs.parentElement !== section) section.append(tabs);
+        if (root && root.parentElement !== section) section.append(root);
+    }
+    const form = document.getElementById('audio-form');
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+    document.querySelectorAll('[data-audio-view]').forEach(button => {
+        if (!button.closest('.audio-admin-tabs')) return;
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.audio-admin-tabs [data-audio-view]').forEach(tab => tab.classList.toggle('active', tab === button));
+            root.dataset.audioView = button.dataset.audioView;
+            if (button.dataset.audioView !== 'catalog') root.classList.remove('is-editing');
+        });
+    });
+    ['audio-cancion', 'audio-url', 'audio-tipo', 'audio-version-vocal', 'audio-tipo-voz', 'audio-interprete', 'audio-idioma']
+        .forEach(id => document.getElementById(id)?.addEventListener('input', updateAudioFormPreview));
+    document.getElementById('audio-cancion')?.addEventListener('change', () => {
+        updateCurrentPrincipalNotice();
+    });
+    document.getElementById('audio-tipo')?.addEventListener('change', event => {
+        if (event.target.value === 'oficial') document.getElementById('audio-principal').checked = true;
+    });
+    document.getElementById('audio-search')?.addEventListener('input', displayCancionAudios);
+    document.getElementById('audio-catalog-search')?.addEventListener('input', displayCancionAudios);
+    document.getElementById('audio-filter-state')?.addEventListener('change', displayCancionAudios);
+    document.getElementById('audio-filter-provider')?.addEventListener('change', displayCancionAudios);
+    document.getElementById('audio-cancel')?.addEventListener('click', resetAudioForm);
+    document.getElementById('audio-approve')?.addEventListener('click', () => {
+        if (!editingAudioId) return;
+        document.getElementById('audio-estado').value = 'publicado';
+        form.requestSubmit();
+    });
+    document.getElementById('audio-reject')?.addEventListener('click', () => {
+        if (!editingAudioId || !confirm('¿Rechazar esta propuesta de audio?')) return;
+        document.getElementById('audio-estado').value = 'rechazado';
+        form.requestSubmit();
+    });
+    document.getElementById('audio-delete')?.addEventListener('click', async () => {
+        if (!editingAudioId || !confirm('¿Eliminar esta asociación de audio? El archivo externo no se eliminará.')) return;
+        await utils.deleteDoc(utils.doc(db, 'cancion_audios', editingAudioId));
+        resetAudioForm(); await loadCancionAudios();
+    });
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!editingAudioId) return alert('Seleccioná una propuesta de la bandeja para revisarla.');
+        const song = selectedAudioSong();
+        const url = document.getElementById('audio-url').value.trim();
+        if (!song) return alert('Elegí una canción.');
+        try { new URL(url); } catch { return alert('El enlace no es válido.'); }
+        if (document.getElementById('audio-tipo').value === 'voces'
+            && (!document.getElementById('audio-version-vocal').value.trim() || !document.getElementById('audio-tipo-voz').value.trim())) {
+            return alert('Completá la versión de voces y el tipo de voz.');
+        }
+        const provider = document.getElementById('audio-proveedor').value || detectAudioProvider(url);
+        const currentAudio = allCancionAudios.find(audio => audio.id === editingAudioId);
+        const wantsPrincipal = document.getElementById('audio-principal').checked;
+        const data = {
+            cancionId: String(song.id), cancionTitulo: song.titulo || '', proveedor: provider, url,
+            modoReproduccion: ['youtube', 'spotify', 'soundcloud', 'drive', 'vimeo'].includes(provider) ? 'embed' : provider === 'directo' ? 'audio' : 'externo',
+            tipo: document.getElementById('audio-tipo').value,
+            version: currentAudio?.version || '',
+            versionVocal: document.getElementById('audio-tipo').value === 'voces' ? document.getElementById('audio-version-vocal').value.trim() : '',
+            tipoVoz: document.getElementById('audio-tipo').value === 'voces' ? document.getElementById('audio-tipo-voz').value.trim() : '',
+            interprete: document.getElementById('audio-interprete').value.trim(),
+            descripcion: document.getElementById('audio-descripcion').value.trim(),
+            idioma: document.getElementById('audio-idioma').value,
+            estado: document.getElementById('audio-estado').value,
+            versionId: '',
+            versionPrincipal: wantsPrincipal,
+            esPrincipal: wantsPrincipal,
+            permisosConfirmados: document.getElementById('audio-permisos').checked,
+            nombre: generatedAudioName({ song }), actualizadaEn: new Date(), actualizadoPor: currentUser?.uid || ''
+        };
+        const automaticVersion = automaticAudioVersionId(data);
+        const matchingPublishedAudio = allCancionAudios.find(audio =>
+            audio.estado === 'publicado' && audio.id !== editingAudioId && automaticAudioVersionId(audio) === automaticVersion
+        );
+        data.versionId = currentAudio?.estado === 'publicado'
+            ? audioVersionId(currentAudio)
+            : matchingPublishedAudio ? audioVersionId(matchingPublishedAudio) : automaticVersion;
+        if (!data.permisosConfirmados) return alert('Confirmá los permisos antes de guardar.');
+        const id = editingAudioId;
+        const currentPrincipals = data.versionPrincipal
+            ? allCancionAudios.filter(audio => audio.cancionId === data.cancionId && audio.id !== id && (audio.versionPrincipal || audio.esPrincipal) && audioVersionId(audio) !== data.versionId)
+            : [];
+        if (currentPrincipals.length) {
+            const currentNames = currentPrincipals
+                .map(audio => audio.nombre || audio.version || audio.interprete || 'Audio sin nombre')
+                .join(', ');
+            const replacePrincipal = confirm(
+                `Esta canción ya tiene como audio guía principal:\n\n${currentNames}\n\n` +
+                '¿Querés reemplazarlo por el audio que estás guardando?\n\n' +
+                'Aceptar: reemplazar el principal actual.\nCancelar: no guardar el cambio.'
+            );
+            if (!replacePrincipal) return;
+        }
+        if (data.versionPrincipal) {
+            await Promise.all(currentPrincipals
+                .map(audio => utils.updateDoc(utils.doc(db, 'cancion_audios', audio.id), { esPrincipal: false, versionPrincipal: false, actualizadaEn: new Date() })));
+            const sameVersionSources = allCancionAudios.filter(audio => audio.id !== id && audioVersionId(audio) === data.versionId);
+            await Promise.all(sameVersionSources.map(audio => utils.updateDoc(utils.doc(db, 'cancion_audios', audio.id), {
+                versionPrincipal: true,
+                esPrincipal: false,
+                actualizadaEn: new Date()
+            })));
+        }
+        await utils.setDoc(utils.doc(db, 'cancion_audios', id), data, { merge: true });
+        if (data.estado !== 'publicado') alert(data.estado === 'rechazado' ? 'Propuesta rechazada.' : 'Revisión guardada.');
+        resetAudioForm(); await loadCancionAudios();
+    });
+    updateAudioFormPreview();
+}
+
 // ==================== RECURSOS ====================
 
 async function loadRecursos() {
     try {
-        const q = utils.query(utils.collection(db, 'recursos'), utils.orderBy('fechaCreacion', 'desc'));
+        const q = utils.query(utils.collection(db, 'recursos'), utils.orderBy('fechaCreacion', 'desc'), utils.limit(ADMIN_QUERY_LIMIT));
         const querySnapshot = await utils.getDocs(q);
         allRecursos = querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         
@@ -733,9 +1533,9 @@ function displayRecursos(recursos) {
         const icono = iconos[recurso.categoria] || '📋';
         
         item.innerHTML = `
-            <div class="item-title">${icono} ${recurso.titulo || 'Sin título'}</div>
-            <div class="item-subtitle">Categoría: ${recurso.categoria || 'Sin categoría'}</div>
-            <span class="item-badge badge-${recurso.estado || 'pendiente'}">${recurso.estado || 'pendiente'}</span>
+            <div class="item-title">${icono} ${adminEscapeHtml(recurso.titulo || 'Sin título')}</div>
+            <div class="item-subtitle">Categoría: ${adminEscapeHtml(recurso.categoria || 'Sin categoría')}</div>
+            <span class="item-badge badge-${adminCssToken(recurso.estado)}">${adminEscapeHtml(recurso.estado || 'pendiente')}</span>
         `;
         item.addEventListener('click', () => editRecurso(recurso));
         list.appendChild(item);
@@ -873,7 +1673,10 @@ function filterRecursos() {
 
 async function loadPasapalabra() {
     try {
-        const querySnapshot = await utils.getDocs(utils.collection(db, 'pasapalabra'));
+        const querySnapshot = await utils.getDocs(utils.query(
+            utils.collection(db, 'pasapalabra'),
+            utils.limit(ADMIN_QUERY_LIMIT)
+        ));
         allReflexiones = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         displayPasapalabra(allReflexiones);
         setupPasapalabraListeners();
@@ -907,12 +1710,12 @@ function displayPasapalabra(reflexiones) {
         item.innerHTML = `
             <div class="reflexion-header">
                 <div>
-                    <div class="reflexion-date">${reflexion.fecha || 'Sin fecha'}</div>
-                    <div class="reflexion-title">${reflexion.titulo || 'Sin título'}</div>
+                    <div class="reflexion-date">${adminEscapeHtml(reflexion.fecha || 'Sin fecha')}</div>
+                    <div class="reflexion-title">${adminEscapeHtml(reflexion.titulo || 'Sin título')}</div>
                 </div>
                 <button class="btn-delete" onclick="deletePasapalabra('${reflexion.id}')">🗑️ Eliminar</button>
             </div>
-            <div class="reflexion-content">${(reflexion.reflexion || 'Sin contenido').substring(0, 250)}...</div>
+            <div class="reflexion-content">${adminEscapeHtml((reflexion.reflexion || 'Sin contenido').substring(0, 250))}...</div>
         `;
         list.appendChild(item);
     });
@@ -1030,7 +1833,7 @@ window.deletePasapalabra = deletePasapalabra;
 
 async function loadMeditaciones() {
     try {
-        const q = utils.query(utils.collection(db, 'meditaciones'), utils.orderBy('titulo'));
+        const q = utils.query(utils.collection(db, 'meditaciones'), utils.orderBy('titulo'), utils.limit(ADMIN_QUERY_LIMIT));
         const querySnapshot = await utils.getDocs(q);
         allMeditaciones = querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         
@@ -1055,10 +1858,10 @@ function displayMeditaciones(items) {
         el.innerHTML = `
             <div style="display:flex;justify-content:space-between;gap:12px;">
                 <div style="flex:1">
-                    <div class="item-title">${it.titulo}</div>
-                    <div class="item-subtitle">${(it.descripcion||'').substring(0,80)}</div>
-                    <div style="margin-top:6px;color:var(--text-muted);">${(it.contenido||'').substring(0,140)}...</div>
-                    <div style="margin-top:6px;color:var(--text-muted);font-size:13px;">${it.autor? 'Autor: '+it.autor : ''} ${it.libro? ' • '+it.libro : ''} ${it.pagina? ' (p. '+it.pagina+')' : ''}</div>
+                    <div class="item-title">${adminEscapeHtml(it.titulo || 'Sin título')}</div>
+                    <div class="item-subtitle">${adminEscapeHtml((it.descripcion||'').substring(0,80))}</div>
+                    <div style="margin-top:6px;color:var(--text-muted);">${adminEscapeHtml((it.contenido||'').substring(0,140))}...</div>
+                    <div style="margin-top:6px;color:var(--text-muted);font-size:13px;">${adminEscapeHtml(it.autor? 'Autor: '+it.autor : '')} ${adminEscapeHtml(it.libro? ' • '+it.libro : '')} ${adminEscapeHtml(it.pagina? ' (p. '+it.pagina+')' : '')}</div>
                 </div>
                 <div style="display:flex;flex-direction:column;gap:6px;">
                     <button class="btn-edit" onclick="editMeditacion('${it.id}')">✏️ Editar</button>
@@ -1198,24 +2001,30 @@ async function deleteMeditacion(id) {
 }
 
 async function registerMeditationLibraryChange(id, action) {
-    const reference = utils.doc(db, 'biblioteca_config', 'meditaciones');
-    const snapshot = await utils.getDoc(reference);
-    const previousData = snapshot.exists() ? snapshot.data() : {};
-    const previous = Array.isArray(previousData.cambios) ? previousData.cambios : [];
-    const revision = Date.now();
-    const combinedChanges = [...previous, { id, action, revision }];
-    const removedChanges = combinedChanges.slice(0, Math.max(0, combinedChanges.length - 100));
-    const changes = combinedChanges.slice(-100);
-    const revisionBase = removedChanges.length
-        ? Number(removedChanges[removedChanges.length - 1].revision) || 0
-        : Number(previousData.revisionBase ?? previousData.revision) || 0;
-    await utils.setDoc(reference, {
-        revision,
-        cambios: changes,
-        revisionBase,
-        actualizadoEn: new Date(),
-        actualizadoPor: currentUser.uid
-    }, { merge: true });
+    await registerLibraryChange('meditaciones', id, action);
+}
+
+async function registerLibraryChange(configId, id, action) {
+    const reference = utils.doc(db, 'biblioteca_config', configId);
+    await utils.runTransaction(db, async transaction => {
+        const snapshot = await transaction.get(reference);
+        const previousData = snapshot.exists() ? snapshot.data() : {};
+        const previous = Array.isArray(previousData.cambios) ? previousData.cambios : [];
+        const revision = Date.now();
+        const combinedChanges = [...previous, { id, action, revision }];
+        const removedChanges = combinedChanges.slice(0, Math.max(0, combinedChanges.length - 100));
+        const changes = combinedChanges.slice(-100);
+        const revisionBase = removedChanges.length
+            ? Number(removedChanges[removedChanges.length - 1].revision) || 0
+            : Number(previousData.revisionBase ?? previousData.revision) || 0;
+        transaction.set(reference, {
+            revision,
+            cambios: changes,
+            revisionBase,
+            actualizadoEn: new Date(),
+            actualizadoPor: currentUser.uid
+        }, { merge: true });
+    });
 }
 
 window.editMeditacion = editMeditacion;
@@ -1225,7 +2034,7 @@ window.deleteMeditacion = deleteMeditacion;
 
 async function loadFrases() {
     try {
-        const q = utils.query(utils.collection(db, 'frases'), utils.orderBy('fechaCreacion', 'desc'));
+        const q = utils.query(utils.collection(db, 'frases'), utils.orderBy('fechaCreacion', 'desc'), utils.limit(ADMIN_QUERY_LIMIT));
         const querySnapshot = await utils.getDocs(q);
         allFrases = querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
         
@@ -1252,9 +2061,9 @@ function displayFrases(frases) {
         item.className = `item ${editingId === frase.id ? 'active' : ''}`;
 
         item.innerHTML = `
-            <div class="item-title">"${(frase.frase || '').substring(0, 80)}..."</div>
-            <div class="item-subtitle">— ${frase.autor || 'Anónimo'}</div>
-            <span class="item-badge badge-${frase.estado || 'publicado'}">${frase.estado || 'publicado'}</span>
+            <div class="item-title">"${adminEscapeHtml((frase.frase || '').substring(0, 80))}..."</div>
+            <div class="item-subtitle">— ${adminEscapeHtml(frase.autor || 'Anónimo')}</div>
+            <span class="item-badge badge-${adminCssToken(frase.estado, 'publicado')}">${adminEscapeHtml(frase.estado || 'publicado')}</span>
         `;
         item.addEventListener('click', () => editFrase(frase));
         list.appendChild(item);
@@ -1346,7 +2155,7 @@ function setupFrasesListeners() {
 
 async function loadPdVLegacy() {
     try {
-        const q = utils.query(utils.collection(db, 'pdv'), utils.orderBy('fechaCreacion', 'desc'));
+        const q = utils.query(utils.collection(db, 'pdv'), utils.orderBy('fechaCreacion', 'desc'), utils.limit(ADMIN_QUERY_LIMIT));
         const querySnapshot = await utils.getDocs(q);
         
         allPdvs = querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1373,9 +2182,9 @@ function displayPdVLegacy(items) {
         el.innerHTML = `
             <div style="display:flex;justify-content:space-between;gap:12px;">
                 <div style="flex:1">
-                    <div class="item-title">${it.mes || 'Sin mes'}</div>
-                    <div class="item-subtitle">${it.citaReferencia || ''}</div>
-                    <div style="margin-top:6px;color:var(--text-muted);">${(it.citaPrincipal || '').substring(0,80)}...</div>
+                    <div class="item-title">${adminEscapeHtml(it.mes || 'Sin mes')}</div>
+                    <div class="item-subtitle">${adminEscapeHtml(it.citaReferencia || '')}</div>
+                    <div style="margin-top:6px;color:var(--text-muted);">${adminEscapeHtml((it.citaPrincipal || '').substring(0,80))}...</div>
                 </div>
                 <div style="display:flex;flex-direction:column;gap:6px;">
                     <button class="btn-edit" onclick="editPdV('${it.id}')">✏️ Editar</button>
@@ -1549,7 +2358,10 @@ function updatePdvScheduleHelp() {
 
 async function loadPdV() {
     try {
-        const snapshot = await utils.getDocs(utils.collection(db, 'pdv'));
+        const snapshot = await utils.getDocs(utils.query(
+            utils.collection(db, 'pdv'),
+            utils.limit(ADMIN_QUERY_LIMIT)
+        ));
         allPdvs = snapshot.docs
             .map(documentSnapshot => ({ id: documentSnapshot.id, ...documentSnapshot.data() }))
             .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || ''))
@@ -1897,127 +2709,28 @@ async function deletePdV(id) {
 window.editPdV = editPdV;
 window.deletePdV = deletePdV;
 
-// ==================== CORRECCIÓN DE LETRAS ====================
-
-let allLyricsCanciones = [];
-let lyricsEditingId = null;
-
-function initLyricsCorrector() {
-    loadLyricsList();
-    setupLyricsListeners();
-}
-
-async function loadLyricsList() {
-    const list = document.getElementById('lyrics-list');
-    if (!list) return;
-    list.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Cargando...</p>';
-    
-    try {
-        const q = utils.query(utils.collection(db, 'canciones'), utils.orderBy('fechaCreacion', 'desc'));
-        const querySnapshot = await utils.getDocs(q);
-        allLyricsCanciones = querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        
-        displayLyricsList(allLyricsCanciones);
-    } catch (error) {
-        console.error('Error al cargar lista de canciones:', error);
-        list.innerHTML = '<p style="text-align: center; color: var(--danger-color);">Error al cargar la lista.</p>';
-    }
-}
-
-function displayLyricsList(canciones) {
-    const list = document.getElementById('lyrics-list');
-    if (!list) return;
-    list.innerHTML = '';
-    
-    const search = document.getElementById('lyrics-search')?.value.toLowerCase() || '';
-    const filter = document.getElementById('lyrics-filter')?.value || '';
-    
-    const filtered = canciones.filter(c => {
-        const matchSearch = !search || (c.titulo || '').toLowerCase().includes(search) || (c.artista || '').toLowerCase().includes(search);
-        const matchFilter = !filter || c.estado === filter;
-        return matchSearch && matchFilter;
-    });
-    
-    if (filtered.length === 0) {
-        list.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No hay canciones para mostrar.</p>';
-        return;
-    }
-    
-    filtered.forEach(cancion => {
-        const item = document.createElement('div');
-        item.className = `item ${lyricsEditingId === cancion.id ? 'active' : ''}`;
-        
-        item.innerHTML = `
-            <div class="item-title">${cancion.titulo || 'Sin título'}</div>
-            <div class="item-subtitle">${cancion.artista || 'Sin artista'}</div>
-            <span class="item-badge badge-${cancion.categoria || 'gen'}">${cancion.categoria || 'gen'}</span>
-            <span class="item-badge badge-${cancion.estado || 'pendiente'}">${cancion.estado || 'pendiente'}</span>
-        `;
-        
-        item.addEventListener('click', () => editLyrics(cancion));
-        list.appendChild(item);
-    });
-}
-
-function editLyrics(cancion) {
-    lyricsEditingId = cancion.id;
-    document.getElementById('lyrics-edit-id').value = cancion.id;
-    document.getElementById('lyrics-titulo').value = cancion.titulo || '';
-    document.getElementById('lyrics-artista').value = cancion.artista || '';
-    document.getElementById('lyrics-letra').value = cancion.letra || '';
-    document.getElementById('lyrics-estado').value = cancion.estado || 'pendiente';
-    document.getElementById('lyrics-form-title').textContent = '✏️ Editando: ' + (cancion.titulo || 'Sin título');
-    document.getElementById('lyrics-cancel').style.display = 'inline-block';
-}
-
-function resetLyricsForm() {
-    lyricsEditingId = null;
-    document.getElementById('lyrics-form').reset();
-    document.getElementById('lyrics-form-title').textContent = '✏️ Editar Letra';
-    document.getElementById('lyrics-cancel').style.display = 'none';
-}
-
-function setupLyricsListeners() {
-    const search = document.getElementById('lyrics-search');
-    const filter = document.getElementById('lyrics-filter');
-    const form = document.getElementById('lyrics-form');
-    if (!form || form.dataset.adminBound === 'true') return;
-    form.dataset.adminBound = 'true';
-    const cancelBtn = document.getElementById('lyrics-cancel');
-    
-    if (search) search.addEventListener('input', () => displayLyricsList(allLyricsCanciones));
-    if (filter) filter.addEventListener('change', () => displayLyricsList(allLyricsCanciones));
-    
-    if (cancelBtn) cancelBtn.addEventListener('click', resetLyricsForm);
-    
-    if (form) form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const id = document.getElementById('lyrics-edit-id').value;
-        if (!id) return;
-        
-        const data = {
-            artista: document.getElementById('lyrics-artista').value.trim(),
-            letra: document.getElementById('lyrics-letra').value.trim(),
-            estado: document.getElementById('lyrics-estado').value
-        };
-        
-        try {
-            await utils.setDoc(utils.doc(db, 'canciones', id), data, { merge: true });
-            alert('✅ Letra actualizada con éxito!');
-            resetLyricsForm();
-            loadLyricsList();
-            // Also update the main allCanciones list
-            if (typeof loadCanciones === 'function') loadCanciones();
-        } catch (error) {
-            console.error('Error al guardar letra:', error);
-            alert('❌ Error al guardar los cambios: ' + error.message);
-        }
-    });
-}
-
 // ==================== SUBIDA MÚLTIPLE ====================
 
 let bulkPreviewData = [];
+let bulkPreviewType = '';
+let bulkPreparedOperations = [];
+const BULK_RESOURCE_CATEGORIES = new Set(['dinamicas', 'juegos', 'reflexiones', 'retiros']);
+const BULK_RESOURCE_STATES = new Set(['pendiente', 'publicado']);
+const BULK_SONG_STATES = new Set(['pendiente', 'publicado']);
+const BULK_COLLECTIONS = Object.freeze({
+    canciones: { label: 'Canciones', prefix: 'cancion' },
+    cancion_audios: { label: 'Audios', prefix: 'audio' },
+    recursos: { label: 'Recursos', prefix: 'recurso' },
+    canal_publicaciones: { label: 'Comunicaciones', prefix: 'comunicacion' },
+    pasapalabra: { label: 'Pasapalabra', prefix: 'pasapalabra' },
+    meditaciones: { label: 'Meditaciones', prefix: 'meditacion' },
+    frases: { label: 'Frases', prefix: 'frase' },
+    pdv: { label: 'Palabra de Vida', prefix: 'pdv' },
+    biblioteca_recursos: { label: 'Biblioteca', prefix: 'biblioteca' },
+    notificaciones_pendientes: { label: 'Notificaciones', prefix: 'notificacion' },
+    versiones_android: { label: 'Versiones Android', prefix: 'version' }
+});
+const BULK_MIXED_COLLECTIONS = new Set(['canciones', 'cancion_audios']);
 
 function initBulkUpload() {
     setupBulkUploadListeners();
@@ -2025,6 +2738,7 @@ function initBulkUpload() {
 
 function setupBulkUploadListeners() {
     const fileInput = document.getElementById('bulk-file');
+    const typeInput = document.getElementById('bulk-type');
     const previewBtn = document.getElementById('bulk-preview');
     const uploadBtn = document.getElementById('bulk-upload');
     const clearBtn = document.getElementById('bulk-clear');
@@ -2032,6 +2746,7 @@ function setupBulkUploadListeners() {
     previewBtn.dataset.adminBound = 'true';
     
     if (fileInput) fileInput.addEventListener('change', handleBulkFile);
+    if (typeInput) typeInput.addEventListener('change', clearBulkPreview);
     if (previewBtn) previewBtn.addEventListener('click', showBulkPreview);
     if (uploadBtn) uploadBtn.addEventListener('click', doBulkUpload);
     if (clearBtn) clearBtn.addEventListener('click', clearBulkForm);
@@ -2051,6 +2766,7 @@ function handleBulkFile(e) {
 function showBulkPreview() {
     const jsonText = document.getElementById('bulk-json').value.trim();
     const container = document.getElementById('bulk-preview-container');
+    const type = document.getElementById('bulk-type').value;
     
     if (!jsonText) {
         container.innerHTML = '<p style="color: var(--danger-color);">Por favor pega el JSON o sube un archivo.</p>';
@@ -2062,23 +2778,32 @@ function showBulkPreview() {
         if (!Array.isArray(bulkPreviewData)) {
             throw new Error('El JSON debe ser un array.');
         }
-        const invalidCategories = bulkPreviewData
-            .map((item, index) => ({ index: index + 1, category: item.categoria }))
-            .filter(item => !CANCION_CATEGORIES.has(item.category || 'gen'));
-        if (invalidCategories.length) {
-            throw new Error(`Categoría inválida en canción ${invalidCategories.map(item => item.index).join(', ')}. Usá solamente misa, gen o fogon.`);
-        }
-        
-        let html = `<h3 style="color: var(--text-light); margin-bottom: 1rem;">📋 Previsualización (${bulkPreviewData.length} canciones)</h3>`;
+        if (bulkPreviewData.length === 0) throw new Error('El array no puede estar vacío.');
+        const resolved = bulkPreviewData.map((item, index) => ({
+            item,
+            collection: resolveBulkCollection(item, type, index)
+        }));
+        validateBulkCollectionCombination(resolved, type);
+        validateBulkItems(resolved);
+        bulkPreparedOperations = prepareBulkOperations(resolved);
+        bulkPreviewType = type;
+
+        const totals = resolved.reduce((summary, entry) => {
+            summary[entry.collection] = (summary[entry.collection] || 0) + 1;
+            return summary;
+        }, {});
+        const totalLabel = Object.entries(totals).map(([collection, count]) => `${count} ${BULK_COLLECTIONS[collection].label}`).join(' · ');
+        let html = `<h3 style="color: var(--text-light); margin-bottom: 1rem;">📋 Previsualización (${bulkPreviewData.length})</h3><p style="color:var(--text-muted);">${bulkEscapeHtml(totalLabel)}</p>`;
         html += '<div style="max-height: 400px; overflow-y: auto;">';
         
-        bulkPreviewData.forEach((item, index) => {
+        resolved.forEach(({ item, collection }, index) => {
+            const title = bulkItemTitle(item, collection);
+            const secondary = String(item.descripcion || item.resumen || item.contenido || item.reflexion || item.letra || item.url || '').slice(0, 200);
             html += `
                 <div style="background: var(--admin-card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
-                    <div style="font-weight: bold; color: var(--text-light);">${index + 1}. ${item.titulo || 'Sin título'}</div>
-                    <div style="color: var(--text-muted);">Artista: ${item.artista || 'N/A'}</div>
-                    <div style="color: var(--text-muted);">Categoría: ${item.categoria || 'gen'} | Estado: ${item.estado || 'pendiente'}</div>
-                    <div style="color: var(--text-muted); margin-top: 0.5rem; white-space: pre-wrap; font-size: 0.875rem;">${(item.letra || '').substring(0, 200)}${item.letra && item.letra.length > 200 ? '...' : ''}</div>
+                    <div style="font-weight: bold; color: var(--text-light);">${index + 1}. ${bulkEscapeHtml(title)}</div>
+                    <div style="color: var(--text-muted);">${bulkEscapeHtml(BULK_COLLECTIONS[collection].label)} · ${bulkEscapeHtml(item.estado || 'estado automático')}</div>
+                    <div style="color: var(--text-muted); margin-top: 0.5rem; white-space: pre-wrap; font-size: 0.875rem;">${bulkEscapeHtml(secondary)}</div>
                 </div>
             `;
         });
@@ -2087,69 +2812,307 @@ function showBulkPreview() {
         container.innerHTML = html;
         
     } catch (error) {
-        container.innerHTML = `<p style="color: var(--danger-color);">Error al parsear el JSON: ${error.message}</p>`;
+        container.innerHTML = `<p style="color: var(--danger-color);">No se pudo preparar la subida: ${bulkEscapeHtml(error.message)}</p>`;
         bulkPreviewData = [];
+        bulkPreviewType = '';
+        bulkPreparedOperations = [];
     }
 }
 
+function resolveBulkCollection(item, selectedType, index) {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) throw new Error(`El elemento ${index + 1} no es un objeto válido.`);
+    const declared = String(item.coleccion || '').trim();
+    let collection = selectedType;
+    if (selectedType === 'auto') {
+        if (!declared) throw new Error(`Falta “coleccion” en el elemento ${index + 1}.`);
+        collection = declared;
+    } else if (selectedType === 'cancionero_audio') {
+        if (!declared) throw new Error(`Indicá “coleccion”: “canciones” o “cancion_audios” en el elemento ${index + 1}.`);
+        collection = declared;
+    } else if (declared && declared !== selectedType) {
+        throw new Error(`El elemento ${index + 1} declara “${declared}”, pero seleccionaste “${selectedType}”.`);
+    }
+    if (!BULK_COLLECTIONS[collection]) throw new Error(`La colección “${collection}” no está habilitada para importación.`);
+    return collection;
+}
+
+function validateBulkCollectionCombination(entries, selectedType) {
+    const collections = new Set(entries.map(entry => entry.collection));
+    if (collections.size <= 1) return;
+    const onlySongAndAudio = [...collections].every(collection => BULK_MIXED_COLLECTIONS.has(collection));
+    if (!onlySongAndAudio || collections.size !== 2) throw new Error('Cada subida debe corresponder a una sola colección. La única combinación permitida es canciones + cancion_audios.');
+    if (!['auto', 'cancionero_audio'].includes(selectedType)) throw new Error('Para combinar canciones y audios elegí “Canciones + audios” o leé la colección desde el JSON.');
+}
+
+function validateBulkItems(entries) {
+    const songs = entries.filter(entry => entry.collection === 'canciones').map(entry => entry.item);
+    const resources = entries.filter(entry => entry.collection === 'recursos').map(entry => entry.item);
+    if (songs.length) validateBulkSongs(songs);
+    if (resources.length) validateBulkResources(resources);
+    entries.forEach(({ item, collection }, index) => {
+        const number = index + 1;
+        if (collection === 'cancion_audios') {
+            if (!String(item.cancionId || item.cancionClave || '').trim()) throw new Error(`Falta cancionId o cancionClave en el audio ${number}.`);
+            if (!String(item.url || '').trim()) throw new Error(`Falta la URL en el audio ${number}.`);
+            try { new URL(item.url); } catch { throw new Error(`La URL del audio ${number} no es válida.`); }
+        } else if (collection === 'frases' && !String(item.frase || '').trim()) throw new Error(`Falta “frase” en el elemento ${number}.`);
+        else if (collection === 'pasapalabra' && (!String(item.titulo || '').trim() || !String(item.reflexion || '').trim())) throw new Error(`Pasapalabra ${number} necesita titulo y reflexion.`);
+        else if (collection === 'meditaciones' && (!String(item.titulo || '').trim() || !String(item.contenido || '').trim())) throw new Error(`La meditación ${number} necesita titulo y contenido.`);
+        else if (collection === 'canal_publicaciones' && (!String(item.titulo || '').trim() || !item.fechaVencimiento)) throw new Error(`La comunicación ${number} necesita titulo y fechaVencimiento.`);
+        else if (collection === 'biblioteca_recursos' && (!String(item.titulo || '').trim() || !String(item.linkRecurso || '').trim())) throw new Error(`El recurso de biblioteca ${number} necesita titulo y linkRecurso.`);
+        else if (collection === 'notificaciones_pendientes' && (!String(item.title || '').trim() || !String(item.body || '').trim())) throw new Error(`La notificación ${number} necesita title y body.`);
+        else if (collection === 'pdv' && !String(item.periodo || item.mes || '').trim()) throw new Error(`Palabra de Vida ${number} necesita periodo o mes.`);
+        else if (collection === 'versiones_android' && !String(item.versionCode || item.codigo || item.id || '').trim()) throw new Error(`La versión Android ${number} necesita versionCode.`);
+    });
+}
+
+function bulkItemTitle(item, collection) {
+    return item.titulo || item.title || item.frase || item.nombre || item.versionName || item.periodo || item.mes || item.url || BULK_COLLECTIONS[collection].label;
+}
+
+function validateBulkSongs(items) {
+    const seen = new Set();
+    items.forEach((item, index) => {
+        const number = index + 1;
+        if (!item || typeof item !== 'object' || Array.isArray(item)) throw new Error(`La canción ${number} no es un objeto válido.`);
+        const title = String(item.titulo || '').trim();
+        const artist = String(item.artista || '').trim();
+        const lyrics = String(item.letra || '').trim();
+        const category = item.categoria || 'gen';
+        const state = item.estado || 'pendiente';
+        if (!title) throw new Error(`Falta el título en la canción ${number}.`);
+        if (title.length > 160) throw new Error(`El título de la canción ${number} supera los 160 caracteres.`);
+        if (artist.length > 160) throw new Error(`El artista de la canción ${number} supera los 160 caracteres.`);
+        if (!lyrics) throw new Error(`Falta la letra en la canción ${number}.`);
+        if (lyrics.length > 30000) throw new Error(`La letra de la canción ${number} supera los 30.000 caracteres.`);
+        if (!parseSongContent(lyrics).chords.length) throw new Error(`La canción ${number} debe contener al menos un acorde reconocido.`);
+        if (!CANCION_CATEGORIES.has(category)) throw new Error(`Categoría inválida en la canción ${number}. Usá solamente misa, gen o fogon.`);
+        if (!BULK_SONG_STATES.has(state)) throw new Error(`Estado inválido en la canción ${number}. Usá pendiente o publicado.`);
+        const identity = `${title.toLocaleLowerCase('es')}|${artist.toLocaleLowerCase('es')}`;
+        if (seen.has(identity)) throw new Error(`La canción ${number} está duplicada dentro del archivo.`);
+        seen.add(identity);
+    });
+}
+
+function validateBulkResources(items) {
+    items.forEach((item, index) => {
+        const number = index + 1;
+        if (!item || typeof item !== 'object' || Array.isArray(item)) throw new Error(`El recurso ${number} no es un objeto válido.`);
+        ['titulo', 'descripcion', 'objetivo', 'duracion', 'participantes'].forEach(field => {
+            if (!String(item[field] || '').trim()) throw new Error(`Falta “${field}” en el recurso ${number}.`);
+        });
+        if (!BULK_RESOURCE_CATEGORIES.has(item.categoria)) {
+            throw new Error(`Categoría inválida en el recurso ${number}. Usá dinamicas, juegos, reflexiones o retiros.`);
+        }
+        if (!BULK_RESOURCE_STATES.has(item.estado || 'pendiente')) {
+            throw new Error(`Estado inválido en el recurso ${number}. Usá pendiente o publicado.`);
+        }
+        if (!Array.isArray(item.materiales) || !item.materiales.every(value => typeof value === 'string')) {
+            throw new Error(`“materiales” debe ser una lista de textos en el recurso ${number}.`);
+        }
+        if (!Array.isArray(item.pasos) || !item.pasos.length || !item.pasos.every(value => typeof value === 'string')) {
+            throw new Error(`“pasos” debe ser una lista de textos no vacía en el recurso ${number}.`);
+        }
+        if (item.programa !== undefined && (typeof item.programa !== 'object' || item.programa === null || Array.isArray(item.programa))) {
+            throw new Error(`“programa” debe ser un objeto en el recurso ${number}.`);
+        }
+    });
+}
+
+function bulkEscapeHtml(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[character]);
+}
+
 async function doBulkUpload() {
-    if (bulkPreviewData.length === 0) {
+    if (bulkPreviewData.length === 0 || bulkPreparedOperations.length === 0) {
         alert('Por favor previsualiza primero los datos.');
         return;
     }
     
-    if (!confirm(`¿Estás seguro de subir ${bulkPreviewData.length} canciones?`)) {
+    const selectedType = document.getElementById('bulk-type').value;
+    if (bulkPreviewType !== selectedType) {
+        alert('El tipo de contenido cambió. Volvé a previsualizar antes de subir.');
+        return;
+    }
+    const collectionNames = [...new Set(bulkPreparedOperations.map(operation => BULK_COLLECTIONS[operation.collection].label))].join(' + ');
+    if (!confirm(`¿Subir ${bulkPreviewData.length} elementos a ${collectionNames}?${bulkPreparedOperations.some(operation => operation.collection === 'notificaciones_pendientes') ? '\n\nLas notificaciones quedarán programadas para envío.' : ''}`)) {
         return;
     }
     
     const container = document.getElementById('bulk-preview-container');
+    const uploadButton = document.getElementById('bulk-upload');
     let successCount = 0;
     let errorCount = 0;
     
-    container.innerHTML = '<p style="color: var(--text-light);">Subiendo canciones...</p>';
+    container.innerHTML = `<p style="color: var(--text-light);">Subiendo ${bulkEscapeHtml(collectionNames)}...</p>`;
+    if (uploadButton) uploadButton.disabled = true;
     
-    for (let i = 0; i < bulkPreviewData.length; i++) {
-        const item = bulkPreviewData[i];
+    const prepared = bulkPreparedOperations;
+
+    for (let offset = 0; offset < prepared.length; offset += ADMIN_BATCH_SIZE) {
+        const chunk = prepared.slice(offset, offset + ADMIN_BATCH_SIZE);
         try {
-            const data = {
-                titulo: item.titulo || '',
-                artista: item.artista || '',
-                letra: item.letra || '',
-                categoria: normalizeCancionCategory(item.categoria),
-                estado: item.estado || 'pendiente',
-                tono: item.tono || 'C',
-                fuente: item.fuente || '',
-                fechaCreacion: new Date(),
-                activa: true,
-                reproducciones: 0
-            };
-            
-            const id = `cancion_${Date.now()}_${i}`;
-            await utils.setDoc(utils.doc(db, 'canciones', id), data);
-            successCount++;
-            
-            container.innerHTML = `<p style="color: var(--text-light);">Subiendo... ${i + 1}/${bulkPreviewData.length}</p>`;
+            const batch = utils.writeBatch(db);
+            chunk.forEach(operation => batch.set(operation.ref, operation.data));
+            await batch.commit();
+            successCount += chunk.length;
+            container.innerHTML = `<p style="color: var(--text-light);">Subiendo... ${Math.min(offset + chunk.length, prepared.length)}/${prepared.length}</p>`;
         } catch (error) {
-            console.error('Error al subir canción ' + (i + 1), error);
-            errorCount++;
+            console.error(`Error al subir el lote iniciado en ${offset + 1}`, error);
+            errorCount += chunk.length;
         }
     }
     
     container.innerHTML = `
         <div style="padding: 1.5rem; border-radius: 8px; background: var(--success-color); color: white;">
             <h3>✅ Completado!</h3>
-            <p>Canciones subidas exitosamente: ${successCount}</p>
+            <p>Elementos subidos exitosamente: ${successCount}</p>
             ${errorCount > 0 ? `<p style="margin-top: 0.5rem;">Errores: ${errorCount}</p>` : ''}
         </div>
     `;
     
     alert(`Subida completada! ${successCount} exitosas, ${errorCount} errores.`);
+    document.getElementById('bulk-json').value = '';
+    document.getElementById('bulk-file').value = '';
+    bulkPreviewData = [];
+    bulkPreviewType = '';
+    bulkPreparedOperations = [];
+    if (uploadButton) uploadButton.disabled = false;
     
-    // Clear form
-    clearBulkForm();
-    
-    // Refresh main canciones list if needed
-    if (typeof loadCanciones === 'function') loadCanciones();
+    if (prepared.some(operation => operation.collection === 'recursos') && typeof loadRecursos === 'function') loadRecursos();
+    if (prepared.some(operation => operation.collection === 'canciones') && typeof loadCanciones === 'function') loadCanciones();
+    if (prepared.some(operation => operation.collection === 'cancion_audios') && typeof loadCancionAudios === 'function') loadCancionAudios();
+}
+
+function prepareBulkOperations(entries) {
+    const now = Date.now();
+    const songReferences = new Map();
+    entries.forEach(({ item, collection }, index) => {
+        if (collection !== 'canciones') return;
+        const id = bulkDocumentId(item, collection, index, now);
+        if (item.clave) {
+            const key = String(item.clave).trim();
+            if (songReferences.has(key)) throw new Error(`La clave de canción “${key}” está repetida.`);
+            songReferences.set(key, { id, titulo: String(item.titulo || '').trim() });
+        }
+    });
+    return entries.map(({ item, collection }, index) => {
+        const id = bulkDocumentId(item, collection, index, now);
+        const data = normalizeBulkItem(item, collection, songReferences);
+        return {
+            collection,
+            ref: utils.doc(db, collection, id),
+            data: { ...data, _offlineDeleted: false, _offlineActualizadoEn: new Date() }
+        };
+    });
+}
+
+function bulkDocumentId(item, collection, index, now) {
+    const requested = String(item.id || (collection === 'versiones_android' ? item.versionCode || item.codigo : '') || '').trim();
+    if (requested) {
+        if (requested.includes('/') || requested.length > 180) throw new Error(`El id del elemento ${index + 1} no es válido.`);
+        return requested;
+    }
+    return `${BULK_COLLECTIONS[collection].prefix}_${now}_${index}`;
+}
+
+function normalizeBulkItem(item, collection, songReferences) {
+    if (collection === 'canciones') return normalizeBulkSong(item);
+    if (collection === 'recursos') return normalizeBulkResource(item);
+    if (collection === 'cancion_audios') return normalizeBulkAudio(item, songReferences);
+    const data = bulkCleanObject(item);
+    const now = new Date();
+    if (collection === 'frases') Object.assign(data, { estado: item.estado || 'publicado', fechaCreacion: bulkDate(item.fechaCreacion, now) });
+    if (collection === 'pasapalabra') Object.assign(data, { estado: item.estado || 'publicado', createdAt: bulkDate(item.createdAt, now) });
+    if (collection === 'meditaciones') Object.assign(data, { activa: item.activa === true, Publico: item.Publico !== false, Meditación: item.Meditación === true, Informacion: item.Informacion === true });
+    if (collection === 'canal_publicaciones') Object.assign(data, {
+        audiencia: item.audiencia || 'general', rolesDestinatarios: Array.isArray(item.rolesDestinatarios) ? item.rolesDestinatarios : [],
+        estado: item.estado || 'publicada', fechaPublicacion: bulkDate(item.fechaPublicacion, now), fechaVencimiento: bulkDate(item.fechaVencimiento),
+        destacarEnCarrusel: item.destacarEnCarrusel === true, creadoEn: bulkDate(item.creadoEn, now), creadoPor: currentUser?.uid || '', actualizadoEn: now, actualizadoPor: currentUser?.uid || ''
+    });
+    if (collection === 'biblioteca_recursos') Object.assign(data, { estado: item.estado || 'borrador', creadoEn: bulkDate(item.creadoEn, now), creadoPor: currentUser?.uid || '', actualizadoEn: now, actualizadoPor: currentUser?.uid || '' });
+    if (collection === 'notificaciones_pendientes') Object.assign(data, { tipo: item.tipo || 'manual', estado: 'pendiente', roles: Array.isArray(item.roles) ? item.roles : [], url: item.url || 'index.html', creadoPor: currentUser?.uid || '', creadoEn: now });
+    if (collection === 'versiones_android') Object.assign(data, {
+        versionCode: Number(item.versionCode || item.codigo),
+        versionName: String(item.versionName || item.version || ''),
+        newFeatures: Array.isArray(item.newFeatures) ? item.newFeatures : [],
+        improvements: Array.isArray(item.improvements) ? item.improvements : [],
+        fixes: Array.isArray(item.fixes) ? item.fixes : [],
+        removedFeatures: Array.isArray(item.removedFeatures) ? item.removedFeatures : [],
+        apkUrl: String(item.apkUrl || item.enlaceApk || ''),
+        releaseDate: String(item.releaseDate || item.fechaPublicacion || ''),
+        estado: 'pendiente',
+        updatedAt: now,
+        updatedBy: currentUser?.uid || ''
+    });
+    if (collection === 'pdv') {
+        Object.assign(data, { version: Number(item.version) || 2, estado: item.estado || 'borrador', fechaCreacion: bulkDate(item.fechaCreacion, now), fechaActualizacion: now });
+        if (item.fechaPublicacion) data.fechaPublicacion = bulkDate(item.fechaPublicacion);
+    }
+    return data;
+}
+
+function normalizeBulkAudio(item, songReferences) {
+    const linked = item.cancionClave ? songReferences.get(String(item.cancionClave).trim()) : null;
+    if (item.cancionClave && !linked) throw new Error(`No existe una canción con clave “${item.cancionClave}” dentro del JSON.`);
+    const url = String(item.url).trim();
+    const provider = item.proveedor || detectAudioProvider(url);
+    const type = item.tipo || 'guia';
+    return {
+        cancionId: String(linked?.id || item.cancionId || '').trim(), cancionTitulo: String(item.cancionTitulo || linked?.titulo || '').trim(),
+        url, proveedor: provider, modoReproduccion: item.modoReproduccion || (['youtube', 'spotify', 'soundcloud', 'drive', 'vimeo'].includes(provider) ? 'embed' : provider === 'directo' ? 'audio' : 'externo'),
+        tipo: type, version: '', versionVocal: type === 'voces' ? String(item.versionVocal || '') : '', tipoVoz: type === 'voces' ? String(item.tipoVoz || '') : '',
+        interprete: String(item.interprete || ''), idioma: String(item.idioma || 'Sin especificar'), nombre: String(item.nombre || item.cancionTitulo || linked?.titulo || 'Audio'), descripcion: String(item.descripcion || ''),
+        estado: item.estado || 'pendiente', esPrincipal: item.esPrincipal === true, versionPrincipal: item.esPrincipal === true,
+        permisosConfirmados: item.permisosConfirmados !== false, creadoPor: currentUser?.uid || '', creadoPorNombre: currentUser?.displayName || currentUser?.email || 'Administrador', fechaCreacion: bulkDate(item.fechaCreacion, new Date()), actualizadaEn: new Date()
+    };
+}
+
+function bulkCleanObject(item) {
+    return Object.fromEntries(Object.entries(item).filter(([key]) => !['coleccion', 'id', 'clave', 'cancionClave'].includes(key)));
+}
+
+function bulkDate(value, fallback = null) {
+    if (!value) return fallback;
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) throw new Error(`La fecha “${value}” no es válida.`);
+    return date;
+}
+
+function normalizeBulkSong(item) {
+    return {
+        titulo: String(item.titulo || '').trim(),
+        artista: String(item.artista || '').trim(),
+        letra: String(item.letra || ''),
+        categoria: normalizeCancionCategory(item.categoria),
+        estado: item.estado || 'pendiente',
+        tono: String(item.tono || 'C'),
+        idioma: String(item.idioma || 'Español'),
+        fuente: String(item.fuente || ''),
+        fechaCreacion: new Date(),
+        activa: true,
+        reproducciones: 0
+    };
+}
+
+function normalizeBulkResource(item) {
+    const data = {
+        titulo: String(item.titulo).trim(),
+        categoria: item.categoria,
+        descripcion: String(item.descripcion).trim(),
+        objetivo: String(item.objetivo).trim(),
+        duracion: String(item.duracion).trim(),
+        participantes: String(item.participantes).trim(),
+        materiales: item.materiales.map(value => value.trim()).filter(Boolean),
+        pasos: item.pasos.map(value => value.trim()).filter(Boolean),
+        estado: item.estado || 'pendiente',
+        autor: String(item.autor || 'Equipo Página Gen').trim(),
+        fechaCreacion: new Date()
+    };
+    if (item.programa && Object.keys(item.programa).length) data.programa = item.programa;
+    return data;
 }
 
 function clearBulkForm() {
@@ -2157,6 +3120,15 @@ function clearBulkForm() {
     document.getElementById('bulk-file').value = '';
     document.getElementById('bulk-preview-container').innerHTML = '';
     bulkPreviewData = [];
+    bulkPreviewType = '';
+    bulkPreparedOperations = [];
+}
+
+function clearBulkPreview() {
+    document.getElementById('bulk-preview-container').innerHTML = '';
+    bulkPreviewData = [];
+    bulkPreviewType = '';
+    bulkPreparedOperations = [];
 }
 
 // ==================== CANAL DE COMUNICACIÓN ====================
@@ -2431,12 +3403,19 @@ async function loadCanalAdmin() {
         const snapshots = limitedZones.length
             ? await Promise.all(limitedZones.map(zone => utils.getDocs(utils.query(
                 utils.collection(db, 'canal_publicaciones'),
-                utils.where('zonaAdministradora', '==', zone)
+                utils.where('zonaAdministradora', '==', zone),
+                utils.limit(ADMIN_QUERY_LIMIT)
             ))))
-            : [await utils.getDocs(utils.collection(db, 'canal_publicaciones'))];
+            : [await utils.getDocs(utils.query(
+                utils.collection(db, 'canal_publicaciones'),
+                utils.limit(ADMIN_QUERY_LIMIT)
+            ))];
         const legacySnapshot = limitedZones.length
             ? { docs: [] }
-            : await utils.getDocs(utils.collection(db, 'carrusel'));
+            : await utils.getDocs(utils.query(
+                utils.collection(db, 'carrusel'),
+                utils.limit(ADMIN_QUERY_LIMIT)
+            ));
         const currentItemMap = new Map();
         snapshots.flatMap(snapshot => snapshot.docs).forEach(docSnap => {
             currentItemMap.set(docSnap.id, { id: docSnap.id, ...docSnap.data() });
@@ -2845,12 +3824,14 @@ async function loadAccessAdmin() {
         const [zonesSnapshot, functionsSnapshot, codesSnapshot, usersSnapshot] = await Promise.all([
             utils.getDocs(utils.collection(db, 'zonas')),
             utils.getDocs(utils.collection(db, 'funcionalidades')),
-            utils.getDocs(utils.collection(db, 'codigos_roles')),
-            utils.getDocs(utils.collection(db, 'usuarios'))
+            utils.getDocs(utils.query(utils.collection(db, 'codigos_roles'), utils.limit(ADMIN_QUERY_LIMIT))),
+            utils.getDocs(utils.query(utils.collection(db, 'usuarios'), utils.limit(ADMIN_QUERY_LIMIT)))
         ]);
         accessZones = zonesSnapshot.docs.map(item => ({ id: item.id, ...item.data() }))
             .sort((a, b) => (a.nombre || a.id).localeCompare(b.nombre || b.id, 'es'));
-        const storedFunctions = functionsSnapshot.docs.map(item => ({ id: item.id, ...item.data() }));
+        const storedFunctions = functionsSnapshot.docs
+            .map(item => ({ id: item.id, ...item.data() }))
+            .filter(item => item.id !== 'funcion_correccion_letras');
         const fixedRoles = [
             ...FIXED_AUDIENCE_ROLES.map(item => ({ ...item, fixed: true, roleType: 'audiencia' })),
             ...FIXED_FUNCTION_ROLES.map(item => ({
@@ -2911,15 +3892,23 @@ function isAccessCodeAvailable(code) {
 
 function renderAccessZones() {
     const zoneContainer = document.getElementById('zonas-list');
+    const communicationContainer = document.getElementById('comunicacion-admin-list');
     const functionContainer = document.getElementById('funciones-list');
     const audienceContainer = document.getElementById('roles-generales-list');
     const zoneSelect = document.getElementById('codigo-zona');
     const functionSelect = document.getElementById('codigo-funcionalidad');
     zoneContainer.replaceChildren();
+    communicationContainer.replaceChildren();
     functionContainer.replaceChildren();
     audienceContainer.replaceChildren();
     zoneSelect.innerHTML = '<option value="">Elegí una zona</option>';
     functionSelect.innerHTML = '<option value="">Elegí un rol o función</option>';
+    const communicationOptions = document.createElement('optgroup');
+    communicationOptions.label = 'Administración de comunicación';
+    const functionOptions = document.createElement('optgroup');
+    functionOptions.label = 'Otras funciones';
+    const audienceOptions = document.createElement('optgroup');
+    audienceOptions.label = 'Roles generales';
 
     const renderEntry = (entry, accessType, container) => {
         const row = document.createElement('article');
@@ -2953,18 +3942,33 @@ function renderAccessZones() {
             const option = document.createElement('option');
             option.value = entry.id;
             option.textContent = entry.nombre || entry.id;
-            (accessType === 'zona' ? zoneSelect : functionSelect).appendChild(option);
+            if (accessType === 'zona') {
+                zoneSelect.appendChild(option);
+            } else if (entry.id === 'funcion_comunicacion' || entry.id.startsWith('funcion_comunicacion_')) {
+                communicationOptions.appendChild(option);
+            } else if (entry.roleType === 'audiencia') {
+                audienceOptions.appendChild(option);
+            } else {
+                functionOptions.appendChild(option);
+            }
         }
     };
 
     accessZones.forEach(item => renderEntry(item, 'zona', zoneContainer));
-    accessFunctions.forEach(item => renderEntry(
-        item,
-        'funcionalidad',
-        item.roleType === 'funcionalidad' ? functionContainer : audienceContainer
-    ));
+    accessFunctions.forEach(item => {
+        const isCommunicationAdmin = item.id === 'funcion_comunicacion'
+            || item.id.startsWith('funcion_comunicacion_');
+        const container = isCommunicationAdmin
+            ? communicationContainer
+            : (item.roleType === 'funcionalidad' ? functionContainer : audienceContainer);
+        renderEntry(item, 'funcionalidad', container);
+    });
+    [communicationOptions, functionOptions, audienceOptions].forEach(group => {
+        if (group.children.length) functionSelect.appendChild(group);
+    });
     if (!accessZones.length) zoneContainer.innerHTML = '<p class="admin-list-status">Todavía no hay zonas.</p>';
-    if (!accessFunctions.some(item => item.roleType === 'funcionalidad')) functionContainer.innerHTML = '<p class="admin-list-status">Todavía no hay funciones.</p>';
+    if (!accessFunctions.some(item => item.id === 'funcion_comunicacion' || item.id.startsWith('funcion_comunicacion_'))) communicationContainer.innerHTML = '<p class="admin-list-status">Todavía no hay permisos de comunicación.</p>';
+    if (!accessFunctions.some(item => item.roleType === 'funcionalidad' && item.id !== 'funcion_comunicacion' && !item.id.startsWith('funcion_comunicacion_'))) functionContainer.innerHTML = '<p class="admin-list-status">Todavía no hay otras funciones.</p>';
     if (!accessFunctions.some(item => item.roleType !== 'funcionalidad')) audienceContainer.innerHTML = '<p class="admin-list-status">Todavía no hay roles generales.</p>';
 }
 
@@ -3078,17 +4082,20 @@ async function toggleCodeHistory(code, container, button) {
     if (container.dataset.loaded) return;
     container.textContent = 'Cargando canjes...';
     try {
-        const snapshot = await utils.getDocs(utils.collection(db, 'codigos_roles', code.id, 'canjes'));
-        const redemptions = await Promise.all(snapshot.docs.map(async item => {
+        const snapshot = await utils.getDocs(utils.query(
+            utils.collection(db, 'codigos_roles', code.id, 'canjes'),
+            utils.limit(ADMIN_QUERY_LIMIT)
+        ));
+        const usersById = new Map(accessUsers.map(user => [user.id, user]));
+        const redemptions = snapshot.docs.map(item => {
             const data = item.data();
-            const profile = await utils.getDoc(utils.doc(db, 'usuarios', data.uid));
-            const user = profile.exists() ? profile.data() : {};
+            const user = usersById.get(data.uid) || {};
             return {
                 uid: data.uid,
                 name: user.nombre || user.displayName || user.email || data.uid,
                 date: accessDate(data.canjeadoEn)
             };
-        }));
+        });
         container.replaceChildren();
         redemptions.sort((a, b) => b.date - a.date).forEach(redemption => {
             const entry = document.createElement('p');
@@ -3144,37 +4151,17 @@ async function createAccessZone(event) {
         };
         const communicationRole = `funcion_comunicacion_${id}`;
         const audienceCode = await uniqueAccessCode();
-        let communicationCode = await uniqueAccessCode();
-        while (communicationCode === audienceCode) communicationCode = await uniqueAccessCode();
         const batch = utils.writeBatch(db);
         batch.set(reference, {
             ...baseData,
             rolComunicacion: communicationRole,
-            codigoInicial: audienceCode,
-            codigoComunicacionInicial: communicationCode
-        });
-        batch.set(utils.doc(db, 'funcionalidades', communicationRole), {
-            nombre: `Comunicación · ${name}`,
-            descripcion: `Administración de comunicaciones para ${name}.`,
-            activa: true,
-            zonaRol: id,
-            generadoAutomaticamente: true,
-            creadoEn: new Date(),
-            creadoPor: currentUser.uid
+            codigoInicial: audienceCode
         });
         batch.set(utils.doc(db, 'codigos_roles', audienceCode), accessCodeData(id, 'zona', 'libre', null, `Código inicial de ${name}`));
-        batch.set(utils.doc(db, 'codigos_roles', communicationCode), accessCodeData(
-            communicationRole,
-            'funcionalidad',
-            'limitado',
-            1,
-            `Código administrativo inicial de ${name}`
-        ));
         await batch.commit();
         const generated = document.getElementById('codigo-generado');
         generated.hidden = false;
-        document.getElementById('codigo-generado-valor').textContent =
-            `Zona: ${audienceCode}\nComunicación: ${communicationCode}`;
+        document.getElementById('codigo-generado-valor').textContent = audienceCode;
         event.target.reset();
         idInput.dataset.manual = '';
         await loadAccessAdmin();
@@ -3188,7 +4175,7 @@ function accessCodeData(role, destinationType, type, maxUses, note = '') {
     return {
         rol: role,
         destinoTipo: destinationType,
-        tipo,
+        tipo: type,
         maxUsos: maxUses,
         usosActuales: 0,
         activo: true,
@@ -3708,7 +4695,10 @@ async function loadBibliotecaAdmin() {
     const list = document.getElementById('bib-list');
     if (list) list.textContent = 'Cargando catálogo…';
     try {
-        const snapshot = await utils.getDocs(utils.collection(db, 'biblioteca_recursos'));
+        const snapshot = await utils.getDocs(utils.query(
+            utils.collection(db, 'biblioteca_recursos'),
+            utils.limit(ADMIN_QUERY_LIMIT)
+        ));
         bibItems = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
         bibItems.sort((a, b) => String(a.titulo || '').localeCompare(String(b.titulo || ''), 'es'));
         renderBibliotecaList();
@@ -3889,24 +4879,7 @@ async function deleteBibliotecaResource(id) {
 }
 
 async function registerBibliotecaCatalogChange(id, action) {
-    const reference = utils.doc(db, 'biblioteca_config', 'catalogo');
-    const snapshot = await utils.getDoc(reference);
-    const previousData = snapshot.exists() ? snapshot.data() : {};
-    const previous = Array.isArray(previousData.cambios) ? previousData.cambios : [];
-    const revision = Date.now();
-    const combinedChanges = [...previous, { id, action, revision }];
-    const removedChanges = combinedChanges.slice(0, Math.max(0, combinedChanges.length - 100));
-    const changes = combinedChanges.slice(-100);
-    const revisionBase = removedChanges.length
-        ? Number(removedChanges[removedChanges.length - 1].revision) || 0
-        : Number(previousData.revisionBase ?? previousData.revision) || 0;
-    await utils.setDoc(reference, {
-        revision,
-        cambios: changes,
-        revisionBase,
-        actualizadoEn: new Date(),
-        actualizadoPor: currentUser.uid
-    }, { merge: true });
+    await registerLibraryChange('catalogo', id, action);
 }
 
 async function loadBibliotecaAportes() {
@@ -3914,9 +4887,12 @@ async function loadBibliotecaAportes() {
     if (!list) return;
     list.textContent = 'Cargando aportes…';
     try {
-        const snapshot = await utils.getDocs(utils.collection(db, 'biblioteca_aportes'));
-        bibAportes = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }))
-            .filter(item => item.estado === 'pendiente');
+        const snapshot = await utils.getDocs(utils.query(
+            utils.collection(db, 'biblioteca_aportes'),
+            utils.where('estado', '==', 'pendiente'),
+            utils.limit(ADMIN_QUERY_LIMIT)
+        ));
+        bibAportes = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
         renderBibliotecaAportes();
         updateBibliotecaSummary();
     } catch (error) {
@@ -4034,8 +5010,15 @@ function updateBibliotecaSummary() {
 async function loadBibliotecaMetrics() {
     try {
         const [legacySnapshot, batchSnapshot] = await Promise.all([
-            utils.getDocs(utils.collection(db, 'biblioteca_eventos')),
-            utils.getDocs(utils.collection(db, 'biblioteca_metricas')).catch(() => ({ docs: [] }))
+            utils.getDocs(utils.query(
+                utils.collection(db, 'biblioteca_eventos'),
+                utils.limit(ADMIN_QUERY_LIMIT)
+            )),
+            utils.getDocs(utils.query(
+                utils.collection(db, 'biblioteca_metricas'),
+                utils.orderBy('creadoEn', 'desc'),
+                utils.limit(ADMIN_QUERY_LIMIT)
+            )).catch(() => ({ docs: [] }))
         ]);
         bibMetrics = [
             ...legacySnapshot.docs.map(docSnap => docSnap.data()),
@@ -4045,4 +5028,306 @@ async function loadBibliotecaMetrics() {
     } catch (error) {
         console.warn('No se pudieron cargar las métricas de Biblioteca:', error);
     }
+}
+
+// ==================== CONTROL DE VERSIONES DE ANDROID ====================
+async function initAndroidVersionsAdmin() {
+    const publicationForm = document.getElementById('android-publication-form');
+    if (!publicationForm?.dataset.ready) {
+        publicationForm.dataset.ready = 'true';
+        publicationForm.addEventListener('submit', saveAndroidPublicationConfig);
+        document.getElementById('android-latest-version')?.addEventListener('change', syncAndroidLatestRelease);
+        document.getElementById('android-minimum-version')?.addEventListener('change', updateAndroidPolicyPreview);
+        document.getElementById('android-release-form')?.addEventListener('submit', saveAndroidRelease);
+        document.getElementById('android-release-cancel')?.addEventListener('click', resetAndroidReleaseForm);
+    }
+    await Promise.all([loadAndroidPublicationConfig(), loadAndroidVersionHistory()]);
+    populateAndroidVersionSelectors();
+    applyAndroidPublicationConfig();
+    renderAndroidVersionHistory();
+    resetAndroidReleaseForm();
+}
+
+async function loadAndroidPublicationConfig() {
+    const source = document.getElementById('android-version-source');
+    try {
+        const snapshot = await utils.getDoc(utils.doc(db, 'configuracion_publica', 'android'));
+        if (snapshot.exists()) {
+            androidPublicationConfig = snapshot.data();
+            if (source) source.textContent = 'Configuración activa en Firestore';
+            return;
+        }
+        const response = await fetch('../datos/android-version.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('No existe una configuración inicial');
+        androidPublicationConfig = await response.json();
+        if (source) source.textContent = 'Configuración local pendiente de publicar';
+    } catch (error) {
+        console.error('No se pudo cargar la configuración de Android:', error);
+        androidPublicationConfig = null;
+        if (source) source.textContent = 'No se pudo cargar la configuración';
+    }
+}
+
+async function loadAndroidVersionHistory() {
+    try {
+        const snapshot = await utils.getDocs(utils.query(
+            utils.collection(db, 'versiones_android'),
+            utils.orderBy('versionCode', 'desc'),
+            utils.limit(100)
+        ));
+        androidVersionReleases = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
+    } catch (error) {
+        console.error('No se pudo cargar el historial de Android:', error);
+        androidVersionReleases = [];
+        const history = document.getElementById('android-version-history');
+        if (history) history.innerHTML = '<p class="admin-list-status">No pudimos cargar el historial de versiones.</p>';
+    }
+}
+
+function androidVersionLabel(version) {
+    return `Versión ${version?.versionName || 'sin nombre'}`;
+}
+
+function nextAndroidVersionCode() {
+    return Math.max(0, ...androidVersionReleases.map(item => Number(item.versionCode) || 0)) + 1;
+}
+
+function syncAndroidLatestRelease() {
+    const code = Number(document.getElementById('android-latest-version')?.value || 0);
+    const release = androidVersionReleases.find(item => Number(item.versionCode) === code);
+    if (release?.apkUrl) document.getElementById('android-apk-url').value = release.apkUrl;
+    updateAndroidPolicyPreview();
+}
+
+function populateAndroidVersionSelectors() {
+    const latest = document.getElementById('android-latest-version');
+    const minimum = document.getElementById('android-minimum-version');
+    if (!latest || !minimum) return;
+    const selectedLatest = String(androidPublicationConfig?.versionCode || latest.value || '');
+    const selectedMinimum = String(androidPublicationConfig?.minimumVersionCode || minimum.value || '');
+    const publishedReleases = androidVersionReleases.filter(version => version.estado === 'publicado');
+    const options = ['<option value="">Elegí una versión publicada</option>', ...publishedReleases.map(version =>
+        `<option value="${Number(version.versionCode)}">${adminEscapeHtml(androidVersionLabel(version))}</option>`
+    )].join('');
+    latest.innerHTML = options;
+    minimum.innerHTML = options;
+    latest.value = selectedLatest;
+    minimum.value = selectedMinimum;
+}
+
+function applyAndroidPublicationConfig() {
+    const config = androidPublicationConfig;
+    if (!config) return updateAndroidPolicyPreview();
+    document.getElementById('android-apk-url').value = config.apkUrl || 'https://pagina-gen.web.app/descargas/Pagina-Gen.apk';
+    document.getElementById('android-update-title').value = config.titulo || 'Actualizá Gen 2';
+    document.getElementById('android-update-description').value = config.descripcion || 'Hay una nueva versión disponible.';
+    document.getElementById('android-update-action').value = config.textoEnlace || 'Descargar actualización';
+    updateAndroidPolicyPreview();
+}
+
+function updateAndroidPolicyPreview() {
+    const latestCode = Number(document.getElementById('android-latest-version')?.value || androidPublicationConfig?.versionCode || 0);
+    const minimumCode = Number(document.getElementById('android-minimum-version')?.value || androidPublicationConfig?.minimumVersionCode || 0);
+    const latestRelease = androidVersionReleases.find(item => Number(item.versionCode) === latestCode);
+    const minimumRelease = androidVersionReleases.find(item => Number(item.versionCode) === minimumCode);
+    const latestLabel = latestRelease ? androidVersionLabel(latestRelease) : (latestCode ? `código ${latestCode}` : '—');
+    const minimumLabel = minimumRelease ? androidVersionLabel(minimumRelease) : (minimumCode ? `código ${minimumCode}` : '—');
+    document.getElementById('android-latest-summary').textContent = latestLabel;
+    document.getElementById('android-minimum-summary').textContent = minimumLabel;
+    const policy = latestCode && minimumCode && latestCode === minimumCode ? 'Obligatoria para versiones anteriores' : 'Recomendada con compatibilidad anterior';
+    document.getElementById('android-policy-summary').textContent = latestCode && minimumCode ? policy : '—';
+    const preview = document.getElementById('android-policy-preview');
+    if (!preview) return;
+    if (minimumCode > latestCode) {
+        preview.className = 'android-policy-preview is-error';
+        preview.textContent = 'La versión mínima no puede ser posterior a la última versión disponible.';
+    } else if (latestCode === minimumCode && latestCode) {
+        preview.className = 'android-policy-preview is-required';
+        preview.textContent = `Actualización obligatoria: todas las versiones anteriores a ${minimumLabel} quedarán bloqueadas.`;
+    } else if (latestCode) {
+        preview.className = 'android-policy-preview';
+        preview.textContent = `La actualización se anunciará, pero las versiones desde ${minimumLabel} podrán seguir usándose.`;
+    } else {
+        preview.className = 'android-policy-preview';
+        preview.textContent = 'Registrá una versión para configurar la publicación.';
+    }
+}
+
+async function saveAndroidPublicationConfig(event) {
+    event.preventDefault();
+    const status = document.getElementById('android-publication-status');
+    const latestCode = Number(document.getElementById('android-latest-version').value);
+    const minimumCode = Number(document.getElementById('android-minimum-version').value);
+    const latestRelease = androidVersionReleases.find(item => Number(item.versionCode) === latestCode && item.estado === 'publicado');
+    if (!latestRelease || !androidVersionReleases.some(item => Number(item.versionCode) === minimumCode && item.estado === 'publicado')) {
+        status.textContent = 'Elegí versiones revisadas y publicadas.';
+        return;
+    }
+    if (minimumCode > latestCode) {
+        status.textContent = 'La versión mínima no puede superar la última versión.';
+        return;
+    }
+    const config = {
+        versionCode: latestCode,
+        versionName: String(latestRelease.versionName),
+        minimumVersionCode: minimumCode,
+        apkUrl: document.getElementById('android-apk-url').value.trim(),
+        titulo: document.getElementById('android-update-title').value.trim(),
+        descripcion: document.getElementById('android-update-description').value.trim(),
+        textoEnlace: document.getElementById('android-update-action').value.trim(),
+        updatedAt: new Date(),
+        updatedBy: currentUser.uid
+    };
+    status.textContent = 'Publicando…';
+    try {
+        await utils.setDoc(utils.doc(db, 'configuracion_publica', 'android'), config);
+        androidPublicationConfig = config;
+        document.getElementById('android-version-source').textContent = 'Configuración activa en Firestore';
+        updateAndroidPolicyPreview();
+        status.textContent = 'Configuración publicada. Android comenzará a usarla inmediatamente.';
+    } catch (error) {
+        console.error('No se pudo publicar la configuración de Android:', error);
+        status.textContent = `No se pudo publicar: ${error.message}`;
+    }
+}
+
+function splitAndroidReleaseLines(id) {
+    return document.getElementById(id).value.split(/\r?\n/).map(value => value.trim()).filter(Boolean).slice(0, 30);
+}
+
+async function saveAndroidRelease(event) {
+    event.preventDefault();
+    const status = document.getElementById('android-release-status');
+    const code = Number(document.getElementById('android-release-code').value);
+    const originalCode = Number(document.getElementById('android-release-original-code').value || code);
+    if (!Number.isInteger(code) || code < 1) return;
+    const existingRelease = androidVersionReleases.find(item => Number(item.versionCode) === originalCode);
+    const requestedState = document.getElementById('android-release-state').value === 'publicado' ? 'publicado' : 'pendiente';
+    const release = {
+        versionCode: code,
+        versionName: document.getElementById('android-release-name').value.trim(),
+        newFeatures: splitAndroidReleaseLines('android-release-new'),
+        improvements: splitAndroidReleaseLines('android-release-improvements'),
+        fixes: splitAndroidReleaseLines('android-release-fixes'),
+        removedFeatures: splitAndroidReleaseLines('android-release-removed'),
+        apkUrl: document.getElementById('android-release-apk-url').value.trim(),
+        releaseDate: document.getElementById('android-release-date').value,
+        estado: requestedState,
+        updatedAt: new Date(),
+        updatedBy: currentUser.uid
+    };
+    if (![release.newFeatures, release.improvements, release.fixes, release.removedFeatures].some(items => items.length)) {
+        status.textContent = 'Documentá por lo menos una función, mejora, corrección o función retirada.';
+        return;
+    }
+    if (release.estado === 'publicado' && !release.apkUrl) {
+        status.textContent = 'Para publicar la versión, agregá primero el enlace directo al APK.';
+        return;
+    }
+    if (release.estado === 'pendiente' && existingRelease?.estado === 'publicado' && [Number(androidPublicationConfig?.versionCode), Number(androidPublicationConfig?.minimumVersionCode)].includes(code)) {
+        status.textContent = 'Esta versión está activa como actual o mínima. Cambiá primero la configuración de publicación antes de volverla pendiente.';
+        return;
+    }
+    if (release.estado === 'publicado' && existingRelease?.estado !== 'publicado' && !confirm(`¿Marcar la versión ${release.versionName} como publicada? Quedará disponible para elegirla como actual o mínima.`)) return;
+    if (release.estado === 'publicado' && existingRelease?.estado !== 'publicado') {
+        release.aprobadoEn = new Date();
+        release.aprobadoPor = currentUser.uid;
+    }
+    status.textContent = 'Guardando…';
+    try {
+        await utils.setDoc(utils.doc(db, 'versiones_android', String(code)), release, { merge: true });
+        if (originalCode !== code) await utils.deleteDoc(utils.doc(db, 'versiones_android', String(originalCode)));
+        await loadAndroidVersionHistory();
+        resetAndroidReleaseForm();
+        populateAndroidVersionSelectors();
+        applyAndroidPublicationConfig();
+        renderAndroidVersionHistory();
+        status.textContent = `Versión ${release.versionName} guardada.`;
+    } catch (error) {
+        console.error('No se pudo guardar la versión de Android:', error);
+        status.textContent = `No se pudo guardar: ${error.message}`;
+    }
+}
+
+function renderAndroidChangeGroup(title, values, className = '') {
+    if (!Array.isArray(values) || !values.length) return '';
+    return `<section class="android-change-group ${className}"><h4>${adminEscapeHtml(title)}</h4><ul>${values.map(value => `<li>${adminEscapeHtml(value)}</li>`).join('')}</ul></section>`;
+}
+
+function renderAndroidVersionHistory() {
+    const container = document.getElementById('android-version-history');
+    if (!container) return;
+    if (!androidVersionReleases.length) {
+        container.innerHTML = '<p class="admin-list-status">Todavía no hay versiones registradas. Empezá por la versión instalada actualmente.</p>';
+        return;
+    }
+    const latestCode = Number(androidPublicationConfig?.versionCode || 0);
+    const minimumCode = Number(androidPublicationConfig?.minimumVersionCode || 0);
+    container.innerHTML = androidVersionReleases.map(version => {
+        const code = Number(version.versionCode);
+        const isPending = version.estado !== 'publicado';
+        const badges = [isPending ? '<span class="android-version-badge is-pending">Pendiente de revisión</span>' : '<span class="android-version-badge is-published">Publicada</span>', code === latestCode ? '<span class="android-version-badge is-latest">Actual</span>' : '', code === minimumCode ? '<span class="android-version-badge is-minimum">Mínima</span>' : ''].join('');
+        return `<article class="android-version-card" data-version-code="${code}">
+            <header><div><span class="android-version-code">Código interno Android: ${code}</span><h3>Versión ${adminEscapeHtml(version.versionName)}</h3></div><div class="android-version-badges">${badges}</div></header>
+            <div class="android-version-metadata">${version.releaseDate ? `<span>Publicación: ${adminEscapeHtml(version.releaseDate)}</span>` : '<span>Sin fecha de publicación</span>'}${version.apkUrl ? `<a href="${adminEscapeHtml(version.apkUrl)}" target="_blank" rel="noopener noreferrer">Abrir APK en GitHub</a>` : '<span>Sin enlace al APK</span>'}</div>
+            <div class="android-version-changes">
+                ${renderAndroidChangeGroup('Funciones nuevas', version.newFeatures)}
+                ${renderAndroidChangeGroup('Cambios y mejoras', version.improvements)}
+                ${renderAndroidChangeGroup('Correcciones', version.fixes)}
+                ${renderAndroidChangeGroup('Funciones retiradas', version.removedFeatures, 'is-removed')}
+            </div>
+            <div class="android-version-actions"><button class="btn-secondary android-version-edit" type="button" data-version-code="${code}">Editar versión</button>${isPending ? `<button class="btn-primary android-version-approve" type="button" data-version-code="${code}">Aprobar versión</button>` : ''}</div>
+        </article>`;
+    }).join('');
+    container.querySelectorAll('.android-version-edit').forEach(button => button.addEventListener('click', () => editAndroidRelease(Number(button.dataset.versionCode))));
+    container.querySelectorAll('.android-version-approve').forEach(button => button.addEventListener('click', () => approveAndroidRelease(Number(button.dataset.versionCode))));
+}
+
+async function approveAndroidRelease(code) {
+    const release = androidVersionReleases.find(item => Number(item.versionCode) === code);
+    if (!release || release.estado === 'publicado') return;
+    if (!release.apkUrl) {
+        alert('Antes de aprobarla, editá la versión y agregá el enlace directo al APK de GitHub Releases.');
+        editAndroidRelease(code);
+        return;
+    }
+    if (!confirm(`¿Aprobar la versión ${release.versionName}? Después quedará disponible para elegirla como versión actual o mínima.`)) return;
+    try {
+        await utils.updateDoc(utils.doc(db, 'versiones_android', String(code)), {
+            estado: 'publicado', aprobadoEn: new Date(), aprobadoPor: currentUser.uid
+        });
+        await loadAndroidVersionHistory();
+        populateAndroidVersionSelectors();
+        applyAndroidPublicationConfig();
+        renderAndroidVersionHistory();
+    } catch (error) {
+        console.error('No se pudo aprobar la versión de Android:', error);
+        alert(`No se pudo aprobar la versión: ${error.message}`);
+    }
+}
+
+function editAndroidRelease(code) {
+    const release = androidVersionReleases.find(item => Number(item.versionCode) === code);
+    if (!release) return;
+    document.getElementById('android-release-form-title').textContent = `Editar versión ${release.versionName}`;
+    document.getElementById('android-release-original-code').value = String(code);
+    document.getElementById('android-release-name').value = release.versionName || '';
+    document.getElementById('android-release-code').value = String(code);
+    document.getElementById('android-release-apk-url').value = release.apkUrl || '';
+    document.getElementById('android-release-date').value = release.releaseDate || '';
+    document.getElementById('android-release-state').value = release.estado === 'publicado' ? 'publicado' : 'pendiente';
+    document.getElementById('android-release-new').value = (release.newFeatures || []).join('\n');
+    document.getElementById('android-release-improvements').value = (release.improvements || []).join('\n');
+    document.getElementById('android-release-fixes').value = (release.fixes || []).join('\n');
+    document.getElementById('android-release-removed').value = (release.removedFeatures || []).join('\n');
+    document.getElementById('android-release-cancel').hidden = false;
+    document.getElementById('android-release-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetAndroidReleaseForm() {
+    document.getElementById('android-release-form')?.reset();
+    document.getElementById('android-release-original-code').value = '';
+    document.getElementById('android-release-code').value = String(nextAndroidVersionCode());
+    document.getElementById('android-release-form-title').textContent = 'Registrar una versión';
+    document.getElementById('android-release-cancel').hidden = true;
 }

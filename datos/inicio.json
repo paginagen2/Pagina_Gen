@@ -1,7 +1,16 @@
 {
   "schemaVersion": 1,
   "fechaGeneracion": "2026-08-25",
-  "generadoEn": "2026-08-25T08:58:54.611Z",
+  "generadoEn": "2026-08-25T15:21:04.518Z",
+  "android": {
+    "versionCode": 5,
+    "versionName": "1.4",
+    "minimumVersionCode": 5,
+    "apkUrl": "https://pagina-gen.web.app/descargas/Pagina-Gen.apk",
+    "titulo": "Actualizá Gen 2",
+    "descripcion": "Hay una nueva versión de la aplicación con mejoras y correcciones.",
+    "textoEnlace": "Descargar actualización"
+  },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
     "id": "pasapalabra_1787618894568",
@@ -20,36 +29,6 @@
     "cita": "Mi alma canta la grandeza del Señor.",
     "href": "pdv/pdv.html?id=pdv_2026_08"
   },
-  "canal": {
-    "id": "vouHEcJg6OQWItWghxkM",
-    "titulo": "Roberto Almada",
-    "fechaPublicacion": "2026-08-10T17:13:08.219Z",
-    "href": "canal/canal.html#vouHEcJg6OQWItWghxkM"
-  },
-  "novedades": [
-    {
-      "id": "vouHEcJg6OQWItWghxkM",
-      "titulo": "Roberto Almada",
-      "descripcion": "Fue elegido Copresidente del Movimiento de los Focolares",
-      "fotoUrl": "https://imgs.search.brave.com/eCFoTNYQGRV5sBztCNMcOqARsIazdZs7qj8DycUss3A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/ZGlhcmlvY2FzdGVs/bGFub3MuY29tLmFy/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDI1/LzEwLzAzMTc1MzUw/L1doYXRzQXBwLUlt/YWdlLTIwMjUtMTAt/MDMtYXQtMi4yOC4w/MS1QTS5qcGVn",
-      "href": "canal/canal.html#vouHEcJg6OQWItWghxkM",
-      "textoEnlace": "Descarga su biografía",
-      "etiquetaCarrusel": "Aviso",
-      "fechaEventoInicio": "",
-      "fechaEventoFin": "",
-      "fechaVencimiento": "2026-09-30T21:57:00Z"
-    },
-    {
-      "id": "MY3oeCO3azaXTWIThOrv",
-      "titulo": "Margaret Karram",
-      "descripcion": "Fue reelegida como presidente del movimiento de los focolares.",
-      "fotoUrl": "https://imgs.search.brave.com/stYQ6hpjALODoO-63hNoNCUILiv1SmyakVcEl870MSw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMucmVsaWdpb25k/aWdpdGFsLm9yZy9j/bGlwLzY5NjUyY2U0/LWI5MTktNDFlZS04/MzU5LTA2YTI3NDM3/NmFlMV9zb3VyY2Ut/YXNwZWN0LXJhdGlv/XzE2MDB3XzAuanBn",
-      "href": "canal/canal.html#MY3oeCO3azaXTWIThOrv",
-      "textoEnlace": "Más información",
-      "etiquetaCarrusel": "Novedad",
-      "fechaEventoInicio": "",
-      "fechaEventoFin": "",
-      "fechaVencimiento": "2026-09-30T09:02:00Z"
-    }
-  ]
+  "canal": null,
+  "novedades": []
 }

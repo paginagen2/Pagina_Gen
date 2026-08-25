@@ -75,6 +75,7 @@
         state.recursos = recursos;
         state.visible = recursos;
         renderLista();
+        abrirRecursoDesdeEnlace();
     }
 
     async function consultarCategoria(categoria) {
@@ -215,7 +216,7 @@
         return String(texto).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     }
 
-    function abrirRecurso(id) {
+    function abrirRecurso(id, actualizarEnlace = true) {
         const recurso = state.recursos.find(item => item.id === id);
         if (!recurso) return notificar('No pudimos abrir este recurso.', 'error');
 
@@ -238,9 +239,15 @@
             ${listaDetalle('Materiales necesarios', recurso.materiales, 'ul')}
             ${programaDetalle(recurso.programa)}
             ${listaDetalle(recurso.categoria === 'reflexiones' ? 'Guía de reflexión' : 'Paso a paso', recurso.pasos, 'ol')}
-            <p class="modal-author">Compartido por ${escapeHtml(recurso.autor || 'la comunidad')} · ${formatearFecha(recurso.fechaCreacion)}</p>
+            <div class="modal-resource-footer">
+                <p class="modal-author">Compartido por ${escapeHtml(recurso.autor || 'la comunidad')} · ${formatearFecha(recurso.fechaCreacion)}</p>
+                <button type="button" class="secondary-button resource-share-button" data-share-resource="${escapeAttribute(recurso.id)}">
+                    <span aria-hidden="true">↗</span> Compartir enlace
+                </button>
+            </div>
         `;
 
+        if (actualizarEnlace) establecerRecursoEnUrl(id);
         modal.hidden = false;
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden', 'false');
@@ -274,6 +281,78 @@
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('modal-open');
+        if (id === 'modalRecurso') quitarRecursoDeUrl();
+    }
+
+    function abrirRecursoDesdeEnlace() {
+        const id = new URL(window.location.href).searchParams.get('recurso');
+        if (!id) return;
+        const existe = state.recursos.some(recurso => recurso.id === id);
+        if (existe) {
+            abrirRecurso(id, false);
+            return;
+        }
+        quitarRecursoDeUrl();
+        notificar('El recurso compartido ya no está disponible en esta sección.', 'warning');
+    }
+
+    function establecerRecursoEnUrl(id) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('recurso', id);
+        window.history.replaceState({}, '', url);
+    }
+
+    function quitarRecursoDeUrl() {
+        const url = new URL(window.location.href);
+        if (!url.searchParams.has('recurso')) return;
+        url.searchParams.delete('recurso');
+        window.history.replaceState({}, '', url);
+    }
+
+    async function compartirRecurso(id) {
+        const recurso = state.recursos.find(item => item.id === id);
+        if (!recurso) return notificar('No pudimos preparar el enlace.', 'error');
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('recurso', id);
+        const shareData = {
+            title: `${recurso.titulo} · Gen Animadores`,
+            text: recurso.descripcion || `Mirá este recurso de Gen Animadores: ${recurso.titulo}`,
+            url: url.toString()
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+                return;
+            } catch (error) {
+                if (error?.name === 'AbortError') return;
+            }
+        }
+
+        try {
+            await copiarEnlace(shareData.url);
+            notificar('Enlace copiado. Ya podés compartirlo.', 'success');
+        } catch (error) {
+            notificar('No pudimos copiar el enlace automáticamente.', 'error');
+        }
+    }
+
+    async function copiarEnlace(url) {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(url);
+            return;
+        }
+        const campo = document.createElement('textarea');
+        campo.value = url;
+        campo.setAttribute('readonly', '');
+        campo.style.position = 'fixed';
+        campo.style.opacity = '0';
+        document.body.appendChild(campo);
+        campo.select();
+        const copiado = document.execCommand('copy');
+        campo.remove();
+        if (!copiado) throw new Error('No se pudo copiar');
     }
 
     function mostrarFormulario() {
@@ -397,6 +476,8 @@
         document.addEventListener('click', event => {
             const abrir = event.target.closest('[data-resource-id]');
             if (abrir) abrirRecurso(abrir.dataset.resourceId);
+            const compartir = event.target.closest('[data-share-resource]');
+            if (compartir) compartirRecurso(compartir.dataset.shareResource);
             if (event.target.closest('[data-open-submit]')) mostrarFormulario();
             const cerrar = event.target.closest('[data-close-modal]');
             if (cerrar) cerrarModal(cerrar.dataset.closeModal);

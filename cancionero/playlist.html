@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#080b10">
+  <title>Mis listas | Cancionero Gen</title>
+  <meta name="description" content="Tus favoritos, playlists de audio y listas de letras y acordes.">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4"><link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor"><link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4"><link rel="stylesheet" href="cancionero.css?v=20260730-icons4"><link rel="stylesheet" href="playlist.css?v=20260825-android-files-mobile"><link rel="stylesheet" href="playlist-lists.css?v=20260825-mobile-flow"><link rel="canonical" href="https://pagina-gen.web.app/cancionero/playlist.html"><meta name="robots" content="noindex, nofollow"></head>
+<body>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside><script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
+  <main class="main songbook-main playlists-main" id="contenido-principal">
+    <header class="songbook-header playlists-header"><div><span class="playlists-kicker">Tu colección</span><h1>Mis listas</h1><p>Reuní favoritos, música para escuchar y cancioneros personales.</p></div><a class="playlists-back" href="cancionero.html">← Volver al cancionero</a></header>
+    <section class="shared-playlist" id="sharedPlaylist" hidden></section>
+    <section class="playlist-layout">
+      <aside class="playlist-sidebar-panel" id="playlistSelector">
+        <div class="playlist-panel-heading"><h2>Listas</h2><button id="createPlaylist" type="button">+ Nueva</button></div>
+        <div id="playlistList" class="playlist-list"></div>
+        <label class="playlist-import">Importar archivo<input id="playlistImport" type="file" accept=".playlistgen" hidden></label>
+        <div class="playlist-curated-heading"><span class="playlists-kicker">Selección Gen</span><small>Listas preparadas para empezar</small></div>
+        <div id="curatedPlaylistList" class="playlist-list curated-list"></div>
+      </aside>
+      <section class="playlist-detail" id="playlistDetail" aria-live="polite"></section>
+    </section>
+  </main>
+  <div class="playlist-status" id="playlistStatus" role="status" aria-live="polite" hidden></div>
+  <dialog class="playlist-dialog" id="createPlaylistDialog">
+    <form id="createPlaylistForm">
+      <span class="playlists-kicker">Nueva lista</span><h2>¿Qué querés guardar?</h2>
+      <label>Nombre<input id="playlistName" name="nombre" type="text" maxlength="60" placeholder="Ej. Canciones para el encuentro" required></label>
+      <fieldset><legend>Tipo de lista</legend>
+        <label class="playlist-type-option"><input type="radio" name="tipo" value="audio" checked><span><strong>Para escuchar</strong><small>Audios, covers y versiones reproducibles.</small></span></label>
+        <label class="playlist-type-option"><input type="radio" name="tipo" value="canciones"><span><strong>Letras y acordes</strong><small>Canciones listas para cantar o tocar.</small></span></label>
+      </fieldset>
+      <div class="playlist-dialog-actions"><button class="playlist-action" id="cancelPlaylist" type="button">Cancelar</button><button class="playlist-action primary" type="submit">Crear lista</button></div>
+    </form>
+  </dialog>
+  <dialog class="playlist-dialog" id="editPlaylistDialog">
+    <form id="editPlaylistForm">
+      <span class="playlists-kicker">Editar lista</span><h2>Datos de la lista</h2>
+      <label>Nombre<input id="editPlaylistName" name="nombre" type="text" maxlength="60" required></label>
+      <label>Descripción<textarea id="editPlaylistDescription" name="descripcion" maxlength="180" rows="3" placeholder="¿Para qué momento sirve esta lista?"></textarea></label>
+      <div class="playlist-dialog-actions"><button class="playlist-action" id="cancelEditPlaylist" type="button">Cancelar</button><button class="playlist-action primary" type="submit">Guardar cambios</button></div>
+    </form>
+  </dialog>
+  <dialog class="playlist-confirm-dialog" id="playlistConfirmDialog" aria-labelledby="playlistConfirmTitle" aria-describedby="playlistConfirmMessage">
+    <form method="dialog">
+      <span class="playlist-confirm-icon" aria-hidden="true">!</span>
+      <div class="playlist-confirm-copy"><span class="playlists-kicker">Confirmar acción</span><h2 id="playlistConfirmTitle">¿Estás seguro?</h2><p id="playlistConfirmMessage"></p></div>
+      <div class="playlist-confirm-actions"><button class="playlist-action subtle" id="playlistConfirmCancel" value="cancel">Cancelar</button><button class="playlist-action danger playlist-confirm-submit" id="playlistConfirmSubmit" value="confirm">Eliminar</button></div>
+    </form>
+  </dialog>
+  <script type="module" src="../auth.js?v=20260730-google1"></script>
+  <script type="module" src="playlist.js?v=20260825-media-session"></script>
+</body>
+</html>

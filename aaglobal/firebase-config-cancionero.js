@@ -26,11 +26,11 @@ import {
 import { getAuth, signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
 // 🔥 PEGA AQUÍ TU CONFIGURACIÓN REAL (reemplaza esto)
-const firebaseConfig = {
+const firebaseConfig = window.firebaseConfigWeb || {
   apiKey: "AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE",
   authDomain: "pagina-gen.firebaseapp.com",
   projectId: "pagina-gen",
-  storageBucket: "pagina-gen.appspot.com",
+  storageBucket: "pagina-gen.firebasestorage.app",
   messagingSenderId: "876893109130",
   appId: "1:876893109130:web:862f79fc7a609e512ee673",
 };
@@ -43,9 +43,12 @@ const auth = getAuth(app);
 window.firebaseDb = db;
 window.firebaseAuth = auth;
 window.firebaseUtils = {
-  collection, getDocs, query, where, doc, getDoc, setDoc, deleteDoc, updateDoc, writeBatch, runTransaction,
+  collection, collectionGroup, getDocs, query, where, doc, getDoc, setDoc, deleteDoc, updateDoc, writeBatch, runTransaction,
+  documentId, increment, orderBy, limit, startAfter, onSnapshot,
   signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged
 };
+
+window.firebaseConfigWeb = firebaseConfig;
 
 export const DatabaseService = {
   async getCancionPorId(cancionId) {
@@ -268,7 +271,7 @@ export const DatabaseService = {
 
   // Incrementar reproducciones
   async incrementarReproducciones(cancionId) {
-    if (!navigator.onLine) return false;
+    if (!navigator.onLine || !auth.currentUser) return false;
     try {
       const cancionRef = doc(db, 'canciones', cancionId);
       await updateDoc(cancionRef, {

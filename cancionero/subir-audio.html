@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b10">
+  <title>Proponer un audio | Cancionero Gen</title>
+  <meta name="description" content="Proponé una guía, grabación o cover para una canción del Cancionero Gen.">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
+  <link rel="stylesheet" href="cancionero.css?v=20260730-icons4">
+  <link rel="stylesheet" href="subir-audio.css?v=20260818-2"><link rel="canonical" href="https://pagina-gen.web.app/cancionero/subir-audio.html"><meta name="robots" content="noindex, nofollow"></head>
+<body>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
+  <main class="main audio-submit-main" id="contenido-principal">
+    <header class="audio-submit-header">
+      <a href="cancionero.html">← Volver al cancionero</a>
+      <span>APORTAR AL CANCIONERO</span>
+      <h1>Proponer un audio</h1>
+      <p>Compartí una guía, grabación propia o cover. El equipo la revisará antes de publicarla.</p>
+    </header>
+
+    <div class="audio-submit-layout">
+      <aside class="audio-submit-help">
+        <span class="audio-step">1</span><h2>Prepará el enlace</h2>
+        <p>Podés utilizar YouTube, Spotify, SoundCloud, Drive, Vimeo, Bandcamp, Apple Music o un archivo de audio público.</p>
+        <a href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener noreferrer">Abrir Google Drive ↗</a>
+        <div class="audio-help-divider"></div>
+        <span class="audio-step">2</span><h2>Enviá la propuesta</h2>
+        <p>Elegí la canción y describí la versión. El nombre público se completa automáticamente.</p>
+        <div class="audio-help-divider"></div>
+        <span class="audio-step">3</span><h2>Esperá la revisión</h2>
+        <p>Cuando sea aprobada aparecerá en la canción después de la próxima sincronización.</p>
+      </aside>
+
+      <section class="audio-submit-card">
+        <div class="audio-auth-notice" id="audioAuthNotice" hidden>
+          <h2>Iniciá sesión para continuar</h2>
+          <p>Necesitamos identificar quién envía la propuesta.</p>
+          <button id="audioLogin" type="button">Iniciar sesión</button>
+        </div>
+        <form id="publicAudioForm" hidden>
+          <div class="audio-form-heading"><div><span>FORMULARIO</span><h2>Datos del audio</h2></div><small id="audioUserLabel"></small></div>
+          <section class="pending-song-notice" id="pendingSongNotice" hidden>
+            <span aria-hidden="true">⌛</span>
+            <div><strong>Audio para una canción pendiente</strong><p><b id="pendingSongName"></b> todavía no aparece en el cancionero porque debe ser revisada. Este audio quedará vinculado ahora y también necesitará autorización antes de publicarse.</p></div>
+          </section>
+          <section class="audio-drive-upload">
+            <div class="audio-drive-copy"><strong>¿El MP3 está en tu dispositivo?</strong><small>Subilo directamente desde acá. Cuando termine, el enlace público se completará automáticamente.</small></div>
+            <div class="audio-drive-actions">
+              <input id="googleAudioFile" type="file" accept="audio/mpeg,.mp3" hidden>
+              <button id="googleAudioChoose" type="button">Elegir MP3</button>
+              <button id="googleAudioUpload" type="button" hidden>Subir a Drive</button>
+            </div>
+            <div class="audio-drive-progress" id="googleAudioProgress" hidden>
+              <div><span id="googleAudioFileName"></span><strong id="googleAudioProgressLabel">Preparando…</strong></div>
+              <progress id="googleAudioProgressBar" max="100" value="0"></progress>
+            </div>
+          </section>
+          <section class="audio-song-picker" id="audioSongPicker">
+            <div class="audio-song-picker-heading"><strong>¿A qué canción pertenece? *</strong><span id="audioSongResultsCount">Cargando…</span></div>
+            <label class="audio-song-search"><span>Buscar por título o artista</span><input id="publicAudioSongSearch" type="search" autocomplete="off" placeholder="Ej.: Nada te turbe o Ain Karem"></label>
+            <label><span>Canción</span><select id="publicAudioSong" required><option value="">Cargando canciones…</option></select></label>
+            <div class="audio-song-selected" id="audioSongSelected" hidden><span>SELECCIONADA</span><strong id="audioSongSelectedTitle"></strong><small id="audioSongSelectedMeta"></small></div>
+          </section>
+          <label>Enlace público *<input id="publicAudioUrl" type="url" inputmode="url" placeholder="YouTube, Spotify, SoundCloud, Drive…" required><small id="publicAudioProvider">La plataforma se detectará automáticamente.</small></label>
+          <div class="audio-form-row">
+            <label>Contenido del audio<select id="publicAudioType"><option value="oficial">Versión oficial</option><option value="en_vivo">En vivo</option><option value="cover">Cover</option><option value="remix">Remix</option><option value="instrumental">Instrumental</option><option value="voces">Voces</option><option value="otra">Otro</option></select></label>
+            <label>Idioma<select id="publicAudioLanguage"><option selected>Español</option><option>Italiano</option><option>Portugués</option><option>Inglés</option><option>Otro</option></select></label>
+          </div>
+          <label>Intérprete<input id="publicAudioPerformer" maxlength="120" placeholder="Nombre del grupo o intérprete"></label>
+          <section class="audio-voice-fields" id="publicAudioVoiceFields" hidden>
+            <div class="audio-form-row">
+              <label>Versión de voces *<input id="publicAudioVoiceVersion" maxlength="80" placeholder="Ej.: arreglo original o coro 2026"></label>
+              <label>Tipo de voz *<input id="publicAudioVoiceType" list="voiceTypeOptions" maxlength="60" placeholder="Elegí o escribí otra voz"><datalist id="voiceTypeOptions"><option value="Soprano"><option value="Contralto"><option value="Tenor"><option value="Bajo"></datalist></label>
+            </div>
+          </section>
+          <label>Nombre que se mostrará<input id="publicAudioName" readonly></label>
+          <label>Descripción opcional<textarea id="publicAudioDescription" maxlength="500" rows="3" placeholder="Agregá una aclaración útil sobre esta grabación."></textarea><small>No se incluirá en el nombre del audio.</small></label>
+          <label class="audio-permission-check"><input id="publicAudioPermission" type="checkbox" required><span>Confirmo que este enlace puede compartirse y que la grabación está autorizada.</span></label>
+          <div class="audio-submit-status" id="publicAudioStatus" role="status" hidden></div>
+          <button class="audio-submit-button" id="publicAudioSubmit" type="submit">Enviar para revisión</button>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog"></script>
+  <script type="module" src="../auth.js?v=20260730-google1"></script>
+  <script type="module" src="subir-audio.js?v=20260824-live-audio"></script>
+</body>
+</html>

@@ -9,6 +9,7 @@ let scheduledRefresh = null;
 let hasLoadedPosts = false;
 
 const QUERY_LIMIT = 30;
+const CHANNEL_CACHE_PREFIX = 'canal-admin-v2';
 // Firebase 9.22 admite hasta 10 valores en array-contains-any.
 // Se crean varias consultas para no descartar roles adicionales del usuario.
 const ROLE_QUERY_LIMIT = 10;
@@ -16,8 +17,14 @@ const ROLE_QUERY_LIMIT = 10;
 document.addEventListener('DOMContentLoaded', async () => {
     await waitForFirebase();
     if (!window.firebaseDb) {
-        const fallbackLoaded = await loadDailyFallback();
-        if (!fallbackLoaded) renderStatus('No se pudo conectar al Canal.');
+        const cacheKey = `${CHANNEL_CACHE_PREFIX}-publico`;
+        const guardados = await window.GenOffline?.getCollection(cacheKey).catch(() => null);
+        const cachedVisiblePosts = guardados?.items?.filter(item => isPostVisible(item)) || [];
+        if (cachedVisiblePosts.length) {
+            posts = cachedVisiblePosts;
+            hasLoadedPosts = true;
+            renderPosts();
+        } else renderStatus('No se pudo conectar al Canal.');
         return;
     }
 
@@ -100,10 +107,10 @@ async function loadPosts() {
     // automáticas posteriores mantienen el contenido actual en pantalla.
     if (!hasLoadedPosts) renderStatus('Cargando publicaciones...');
     try {
-        const cacheKey = `canal-${[...userRoles].sort().join('-') || 'publico'}`;
+        const cacheKey = `${CHANNEL_CACHE_PREFIX}-${[...userRoles].sort().join('-') || 'publico'}`;
         const guardados = await window.GenOffline?.getCollection(cacheKey).catch(() => null);
         const cachedVisiblePosts = guardados?.items?.filter(item => isPostVisible(item)) || [];
-        if (cachedVisiblePosts.length && (!navigator.onLine || window.GenOffline.isFresh(guardados))) {
+        if (cachedVisiblePosts.length && !navigator.onLine) {
             posts = cachedVisiblePosts;
             hasLoadedPosts = true;
             renderPosts();
@@ -115,10 +122,7 @@ async function loadPosts() {
             ...buildAudienceQueries(base, 'publicada', now),
             ...buildAudienceQueries(base, 'programada', now)
         ];
-        const [queryResults, legacyResult] = await Promise.all([
-            Promise.allSettled(requests),
-            Promise.allSettled([utils.getDocs(utils.collection(db, 'carrusel'))])
-        ]);
+        const queryResults = await Promise.allSettled(requests);
         const uniquePosts = new Map();
         const snapshots = queryResults
             .filter(result => result.status === 'fulfilled')
@@ -129,27 +133,6 @@ async function loadPosts() {
         queryResults.filter(result => result.status === 'rejected').forEach(result => {
             console.warn('Una consulta del Canal no estuvo disponible:', result.reason);
         });
-        // Compatibilidad temporal con las novedades creadas antes de unificar
-        // Carrusel y Comunicación. Al editarlas desde Administrador se migran.
-        const legacySnapshot = legacyResult[0]?.status === 'fulfilled' ? legacyResult[0].value : null;
-        legacySnapshot?.docs.forEach(document => {
-            const data = document.data();
-            uniquePosts.set(`legacy-${document.id}`, {
-                id: `legacy-${document.id}`,
-                titulo: data.titulo || 'Novedad',
-                resumen: data.descripcion || '',
-                contenido: '',
-                imagenUrl: data.fotoUrl || '',
-                enlace: data.href || '',
-                rolesDestinatarios: [],
-                estado: 'publicada',
-                fechaPublicacion: data.createdAt || new Date(0)
-            });
-        });
-        if (!uniquePosts.size) {
-            const fallbackLoaded = await loadDailyFallback();
-            if (fallbackLoaded) return;
-        }
         posts = [...uniquePosts.values()];
         await window.GenOffline?.replaceCollection(cacheKey, posts).catch(() => {});
         hasLoadedPosts = true;
@@ -160,43 +143,7 @@ async function loadPosts() {
         scheduledRefresh = setTimeout(loadPosts, 6 * 60 * 60 * 1000);
     } catch (error) {
         console.error('No se pudieron cargar las publicaciones:', error);
-        if (!hasLoadedPosts) {
-            const fallbackLoaded = await loadDailyFallback();
-            if (!fallbackLoaded) renderStatus('No se pudieron cargar las publicaciones.');
-        }
-    }
-}
-
-async function loadDailyFallback() {
-    try {
-        const response = await fetch('../datos/inicio.json', { cache: 'no-store' });
-        if (!response.ok) return false;
-        const data = await response.json();
-        const fallbackPosts = Array.isArray(data.novedades) ? data.novedades : [];
-        if (!fallbackPosts.length) return false;
-        posts = fallbackPosts.map(item => ({
-            id: item.id || `resumen-${Math.random().toString(36).slice(2)}`,
-            titulo: item.titulo || 'Novedad Gen',
-            resumen: item.descripcion || '',
-            contenido: '',
-            imagenUrl: item.fotoUrl || '',
-            enlace: item.href || '',
-            textoEnlace: item.textoEnlace || 'Más información',
-            rolesDestinatarios: [],
-            estado: 'publicada',
-            fechaPublicacion: data.generadoEn || data.fechaGeneracion,
-            fechaEventoInicio: item.fechaEventoInicio || '',
-            fechaEventoFin: item.fechaEventoFin || '',
-            fechaVencimiento: item.fechaVencimiento || null,
-            etiquetaCarrusel: item.etiquetaCarrusel || item.categoria || ''
-        })).filter(item => isPostVisible(item));
-        if (!posts.length) return false;
-        hasLoadedPosts = true;
-        renderPosts();
-        return true;
-    } catch (error) {
-        console.warn('Tampoco se pudo cargar el resumen diario del Canal:', error);
-        return false;
+        if (!hasLoadedPosts) renderStatus('No se pudieron cargar las publicaciones.');
     }
 }
 
@@ -258,27 +205,22 @@ function renderPosts() {
             || (activeFilter === 'general' ? !(post.rolesDestinatarios || []).length : (post.rolesDestinatarios || []).length > 0))
         .sort((a, b) => toDate(b.fechaPublicacion) - toDate(a.fechaPublicacion));
 
-    const count = document.getElementById('canal-count');
-    if (count) count.textContent = `${visible.length} ${visible.length === 1 ? 'publicación' : 'publicaciones'}`;
     if (!visible.length) return renderStatus('No hay publicaciones para mostrar todavía.');
 
     document.getElementById('canal-feed').innerHTML = visible.map(post => {
         const picture = imageUrl(post.imagenUrl || post.fotoUrl);
-        const link = safeWebUrl(post.enlace);
-        const linkText = String(post.textoEnlace || 'Más información').trim().split(/\s+/).slice(0, 4).join(' ');
         const eventDate = formatEventDate(post);
         return `
-        <article class="canal-post${picture ? '' : ' canal-post-no-image'}" id="${escapeHtml(post.id)}">
+        <a class="canal-post${picture ? '' : ' canal-post-no-image'}" id="${escapeHtml(post.id)}" href="publicacion.html?id=${encodeURIComponent(post.id)}" aria-label="Leer ${escapeHtml(post.titulo || 'publicación')}">
             ${picture ? `<img src="${escapeHtml(picture)}" alt="">` : renderPostPlaceholder(post)}
             <div class="canal-post-content">
                 <div class="canal-post-meta">${post.rolesDestinatarios?.length ? 'Para tus zonas' : 'General'} · ${toDate(post.fechaPublicacion, new Date()).toLocaleDateString('es-AR')}</div>
                 <h2>${escapeHtml(post.titulo)}</h2>
                 ${eventDate ? `<div class="canal-post-event">📅 ${escapeHtml(eventDate)}</div>` : ''}
                 ${post.resumen ? `<p class="canal-post-summary">${escapeHtml(post.resumen)}</p>` : ''}
-                ${post.contenido ? `<details class="canal-post-details"><summary>Leer publicación completa</summary><p class="canal-post-body">${escapeHtml(post.contenido)}</p></details>` : ''}
-                ${link ? `<a class="canal-post-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(linkText)} <span aria-hidden="true">↗</span></a>` : ''}
+                <span class="canal-post-link">Leer publicación <span aria-hidden="true">→</span></span>
             </div>
-        </article>`;
+        </a>`;
     }).join('');
 
     document.querySelectorAll('.canal-post img').forEach(image => {

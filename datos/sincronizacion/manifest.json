@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-25T15:24:27.135Z",
+  "generatedAt": "2026-08-04T03:39:17.753Z",
   "collections": {
     "canciones": {
       "revision": "5c474ee9f29458d8",
@@ -17,9 +17,9 @@
       "delta": "datos/sincronizacion/meditaciones.delta.json"
     },
     "recursos": {
-      "revision": "e27d8aebc6b1e46e",
-      "previousRevision": "e44cd1feb5da9c01",
-      "count": 9,
+      "revision": "e44cd1feb5da9c01",
+      "previousRevision": "",
+      "count": 1,
       "snapshot": "datos/sincronizacion/recursos.json",
       "delta": "datos/sincronizacion/recursos.delta.json"
     },
@@ -38,18 +38,11 @@
       "delta": "datos/sincronizacion/pasapalabra.delta.json"
     },
     "pdv": {
-      "revision": "f66173b141254350",
-      "previousRevision": "3be1fc4d728e730c",
-      "count": 4,
+      "revision": "3be1fc4d728e730c",
+      "previousRevision": "",
+      "count": 3,
       "snapshot": "datos/sincronizacion/pdv.json",
       "delta": "datos/sincronizacion/pdv.delta.json"
-    },
-    "canal": {
-      "revision": "e915324dabb8822c",
-      "previousRevision": "0ea7d6ca053562ce",
-      "count": 2,
-      "snapshot": "datos/sincronizacion/canal.json",
-      "delta": "datos/sincronizacion/canal.delta.json"
     }
   }
 }

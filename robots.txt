@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /perfil/
 
 Sitemap: https://pagina-gen.web.app/sitemap.xml

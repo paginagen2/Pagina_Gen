@@ -32,6 +32,13 @@ const COLLECTIONS = {
     source: 'canciones',
     include: item => item.estado === 'publicado'
   },
+  audios: {
+    source: 'cancion_audios_publicos',
+    // Las aprobaciones usan `actualizadaEn` y las bajas son eliminaciones reales.
+    // Un barrido completo evita perder ambos casos sin sumar lecturas al usuario.
+    incremental: false,
+    include: item => item.estado === 'publicado' && item.url && item.cancionId
+  },
   meditaciones: {
     source: 'meditaciones',
     include: item => item.Publico === true
@@ -51,18 +58,14 @@ const COLLECTIONS = {
   pdv: {
     source: 'pdv',
     include: item => item.version === 2 && ['publicado', 'programado'].includes(item.estado)
-  },
-  canal: {
-    source: 'canal_publicaciones',
-    include: item => ['publicada', 'programada'].includes(item.estado)
-      && Array.isArray(item.rolesDestinatarios)
-      && item.rolesDestinatarios.length === 0
   }
 };
 
 const PRIVATE_FIELDS = new Set([
   'creadoPor',
+  'creadoPorNombre',
   'actualizadoPor',
+  'permisosConfirmados',
   'usuarioId',
   'email',
   'correo',
@@ -183,12 +186,17 @@ function calculateDelta(previousItems, nextItems) {
   };
 }
 
+function shouldUseIncremental(definition, previousManifest, previousItems) {
+  return definition.incremental !== false
+    && Boolean(previousManifest?.generatedAt && previousItems.length);
+}
+
 async function prepareCollection(name, definition, previousManifest) {
   const snapshotPath = path.join(OUTPUT_ROOT, `${name}.json`);
   const deltaPath = path.join(OUTPUT_ROOT, `${name}.delta.json`);
   const previousSnapshot = await readJson(snapshotPath, { items: [] });
   const previousItems = previousSnapshot.items || [];
-  const canIncrement = Boolean(previousManifest?.generatedAt && previousItems.length);
+  const canIncrement = shouldUseIncremental(definition, previousManifest, previousItems);
   const fetchedItems = await runCollectionQuery(definition.source, canIncrement ? previousManifest.generatedAt : '');
   const items = canIncrement
     ? mergeIncrementalSnapshot(previousItems, fetchedItems, definition.include)
@@ -273,5 +281,6 @@ module.exports = {
   mergeIncrementalSnapshot,
   revisionFor,
   sanitizePublicItem,
+  shouldUseIncremental,
   stableValue
 };

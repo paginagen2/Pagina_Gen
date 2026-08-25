@@ -123,8 +123,8 @@ service cloud.firestore {
         allow create: if ownUser(uid)
           && request.resource.data.deviceId == deviceId
           && request.resource.data.enabled is bool
-          && request.resource.data.platform == 'web'
-          && request.resource.data.transport == 'web-push'
+          && request.resource.data.platform in ['web', 'android', 'ios']
+          && request.resource.data.transport in ['web-push', 'fcm']
           && request.resource.data.timezone is string
           && request.resource.data.permission in ['default', 'prompt', 'granted', 'denied']
           && request.resource.data.version is int
@@ -161,6 +161,26 @@ service cloud.firestore {
             'usuarioId', 'cancionId', 'creadoEn'
           ]);
         allow delete: if ownUser(uid) || isAdmin();
+      }
+
+      match /playlists/{playlistId} {
+        allow get, list, delete: if ownUser(uid) || isAdmin();
+        allow create, update: if ownUser(uid)
+          && request.resource.data.usuarioId == uid
+          && request.resource.data.nombre is string
+          && request.resource.data.nombre.size() > 0
+          && request.resource.data.nombre.size() <= 60
+          && request.resource.data.descripcion is string
+          && request.resource.data.descripcion.size() <= 180
+          && request.resource.data.tipo in ['audio', 'canciones']
+          && request.resource.data.creadaEn is string
+          && request.resource.data.actualizadaEn is string
+          && request.resource.data.eliminada is bool
+          && request.resource.data.items is list
+          && request.resource.data.items.size() <= 200
+          && request.resource.data.keys().hasOnly([
+            'usuarioId', 'nombre', 'descripcion', 'tipo', 'creadaEn', 'actualizadaEn', 'eliminada', 'items'
+          ]);
       }
     }
 
@@ -223,6 +243,18 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    match /configuracion_publica/{configId} {
+      allow get: if configId == 'android';
+      allow list: if false;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /versiones_android/{versionId} {
+      allow read: if isAdmin() || canManage('funcion_subida_multiple');
+      allow create: if isAdmin() || canManage('funcion_subida_multiple');
+      allow update, delete: if isAdmin();
+    }
+
     match /canal_publicaciones/{postId} {
       allow read: if canManage('funcion_comunicacion')
         || canReadManagedZoneCommunication(resource.data)
@@ -233,6 +265,7 @@ service cloud.firestore {
         && canReadRoleAudience(resource.data.rolesDestinatarios)
       );
       allow create: if canManage('funcion_comunicacion')
+        || canManage('funcion_subida_multiple')
         || canManageZoneCommunication(request.resource.data);
       allow update: if canManage('funcion_comunicacion')
         || (canManageZoneCommunication(resource.data)
@@ -247,15 +280,55 @@ service cloud.firestore {
       allow create: if request.resource.data.categoria in ['misa', 'gen', 'fogon']
         && (canManage('funcion_cancionero')
           || canManage('funcion_subida_multiple')
-          || (signedIn() && request.resource.data.estado == 'pendiente'));
+          || (
+            signedIn()
+            && request.resource.data.estado == 'pendiente'
+            && request.resource.data.usuarioId == request.auth.uid
+            && request.resource.data.keys().hasOnly([
+              'titulo', 'artista', 'categoria', 'letra', 'tono', 'idioma',
+              'referenciaUrl', 'usuarioId', 'creadoPorNombre', 'estado',
+              'activa', 'reproducciones', 'fechaCreacion'
+            ])
+            && request.resource.data.titulo is string
+            && request.resource.data.titulo.size() > 0
+            && request.resource.data.titulo.size() <= 160
+            && request.resource.data.artista is string
+            && request.resource.data.artista.size() <= 160
+            && request.resource.data.letra is string
+            && request.resource.data.letra.size() > 0
+            && request.resource.data.letra.size() <= 30000
+            && request.resource.data.tono is string
+            && request.resource.data.tono.size() <= 20
+            && request.resource.data.idioma is string
+            && request.resource.data.idioma.size() <= 30
+            && (!('referenciaUrl' in request.resource.data) || (
+              request.resource.data.referenciaUrl is string
+              && request.resource.data.referenciaUrl.size() <= 2000
+            ))
+            && request.resource.data.creadoPorNombre is string
+            && request.resource.data.creadoPorNombre.size() <= 120
+            && request.resource.data.activa == true
+            && request.resource.data.reproducciones == 0
+            && request.resource.data.fechaCreacion is timestamp
+          ));
       allow update: if request.resource.data.categoria in ['misa', 'gen', 'fogon']
         && (canManage('funcion_cancionero')
           || canManage('funcion_subida_multiple')
           || (
             resource.data.estado == 'publicado'
+            && signedIn()
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reproducciones'])
             && request.resource.data.reproducciones is int
-            && request.resource.data.reproducciones == resource.data.reproducciones + 1
+            && (
+              (
+                resource.data.reproducciones is int
+                && request.resource.data.reproducciones == resource.data.reproducciones + 1
+              )
+              || (
+                !('reproducciones' in resource.data)
+                && request.resource.data.reproducciones == 1
+              )
+            )
           ));
       allow delete: if canManage('funcion_cancionero')
         || canManage('funcion_subida_multiple');
@@ -270,11 +343,88 @@ service cloud.firestore {
       }
     }
 
+    match /cancion_audios/{audioId} {
+      // La web pública consume el catálogo estático generado periódicamente.
+      // Firestore queda como fuente administrativa y evita lecturas públicas repetidas.
+      // El rol parcial de Cancionero debe poder abrir y administrar esta bandeja
+      // aunque exista una configuración antigua de la función marcada como inactiva.
+      allow read: if canManage('funcion_cancionero') || hasRole('funcion_cancionero') || canManage('funcion_subida_multiple');
+      allow create: if canManage('funcion_cancionero') || hasRole('funcion_cancionero') || canManage('funcion_subida_multiple') || (
+        signedIn()
+        && request.resource.data.keys().hasOnly([
+          'cancionId', 'cancionTitulo', 'url', 'proveedor', 'modoReproduccion',
+          'tipo', 'version', 'versionVocal', 'tipoVoz', 'interprete', 'idioma', 'nombre', 'descripcion', 'estado',
+          'esPrincipal', 'permisosConfirmados', 'creadoPor', 'creadoPorNombre', 'fechaCreacion',
+          'actualizadaEn'
+        ])
+        && request.resource.data.cancionId is string
+        && request.resource.data.cancionId.size() > 0
+        && request.resource.data.cancionTitulo is string
+        && request.resource.data.cancionTitulo.size() > 0
+        && request.resource.data.cancionTitulo.size() <= 160
+        && request.resource.data.url is string
+        && request.resource.data.url.size() > 8
+        && request.resource.data.url.size() <= 2000
+        && request.resource.data.proveedor in [
+          'youtube', 'spotify', 'soundcloud', 'drive', 'bandcamp',
+          'applemusic', 'vimeo', 'directo', 'externo'
+        ]
+        && request.resource.data.modoReproduccion in ['embed', 'audio', 'externo']
+        && request.resource.data.tipo in [
+          'guia', 'oficial', 'en_vivo', 'cover', 'remix', 'instrumental', 'voces', 'otra'
+        ]
+        && request.resource.data.version is string
+        && request.resource.data.version.size() <= 80
+        && request.resource.data.versionVocal is string
+        && request.resource.data.versionVocal.size() <= 80
+        && request.resource.data.descripcion is string
+        && request.resource.data.descripcion.size() <= 500
+        && request.resource.data.tipoVoz is string
+        && request.resource.data.tipoVoz.size() <= 60
+        && (request.resource.data.tipo != 'voces' || (
+          request.resource.data.versionVocal.size() > 0
+          && request.resource.data.tipoVoz.size() > 0
+        ))
+        && request.resource.data.interprete is string
+        && request.resource.data.interprete.size() <= 120
+        && request.resource.data.idioma is string
+        && request.resource.data.idioma.size() <= 30
+        && request.resource.data.nombre is string
+        && request.resource.data.nombre.size() > 0
+        && request.resource.data.nombre.size() <= 260
+        && request.resource.data.estado == 'pendiente'
+        && request.resource.data.esPrincipal == false
+        && request.resource.data.permisosConfirmados == true
+        && request.resource.data.creadoPor == request.auth.uid
+        && request.resource.data.creadoPorNombre is string
+        && request.resource.data.creadoPorNombre.size() > 0
+        && request.resource.data.creadoPorNombre.size() <= 120
+        && request.resource.data.fechaCreacion is timestamp
+        && request.resource.data.actualizadaEn is timestamp
+        && exists(/databases/$(database)/documents/canciones/$(request.resource.data.cancionId))
+        && (
+          get(/databases/$(database)/documents/canciones/$(request.resource.data.cancionId)).data.estado in ['publicado', 'publicada']
+          || (
+            get(/databases/$(database)/documents/canciones/$(request.resource.data.cancionId)).data.estado == 'pendiente'
+            && get(/databases/$(database)/documents/canciones/$(request.resource.data.cancionId)).data.usuarioId == request.auth.uid
+          )
+        )
+      );
+      allow update, delete: if canManage('funcion_cancionero') || hasRole('funcion_cancionero');
+    }
+
+    match /cancion_audios_publicos/{audioId} {
+      // Espejo sin datos del usuario: permite el respaldo inmediato del catálogo fijo.
+      allow read: if resource.data.estado == 'publicado';
+      allow create, update, delete: if canManage('funcion_cancionero') || hasRole('funcion_cancionero');
+    }
+
     match /recursos/{resourceId} {
       // Los recursos publicados son públicos, pero nunca exponemos documentos
       // antiguos que todavía contengan datos privados de contacto.
       allow read: if canManage('funcion_recursos') || (published() && !('email' in resource.data));
-      allow create: if signedIn()
+      allow create: if canManage('funcion_subida_multiple') || (
+        signedIn()
         && request.resource.data.keys().hasOnly([
           'categoria', 'titulo', 'descripcion', 'duracion', 'participantes',
           'autor', 'objetivo', 'materiales', 'pasos', 'fechaCreacion',
@@ -307,7 +457,8 @@ service cloud.firestore {
         && request.resource.data.materiales.size() <= 30
         && request.resource.data.pasos is list
         && request.resource.data.pasos.size() <= 40
-        && request.resource.data.fechaCreacion is timestamp;
+        && request.resource.data.fechaCreacion is timestamp
+      );
       allow update, delete: if canManage('funcion_recursos');
     }
 
@@ -316,12 +467,14 @@ service cloud.firestore {
         resource.data.version == 2
         && resource.data.fechaPublicacion <= request.time
       );
-      allow create, update, delete: if canManage('funcion_pdv');
+      allow create: if canManage('funcion_pdv') || canManage('funcion_subida_multiple');
+      allow update, delete: if canManage('funcion_pdv');
     }
 
     match /biblioteca_recursos/{resourceId} {
       allow get, list: if canManage('funcion_biblioteca') || resource.data.estado == 'publicado';
-      allow create, update, delete: if canManage('funcion_biblioteca');
+      allow create: if canManage('funcion_biblioteca') || canManage('funcion_subida_multiple');
+      allow update, delete: if canManage('funcion_biblioteca');
     }
 
     match /biblioteca_config/{configId} {
@@ -416,23 +569,29 @@ service cloud.firestore {
     }
 
     match /{collectionName}/{documentId} {
-      allow read: if collectionName in [
-        'carrusel', 'frases', 'pasapalabra'
-      ];
-      allow write: if isAdmin()
-        || (collectionName == 'carrusel' && hasRole('funcion_comunicacion'))
-        || (collectionName == 'frases' && hasRole('funcion_frases'))
-        || (collectionName == 'pasapalabra' && hasRole('funcion_pasapalabra'));
+      allow read: if collectionName in ['carrusel', 'frases']
+        || (collectionName == 'pasapalabra' && resource.data.estado == 'publicado');
+      allow create: if isAdmin()
+        || (collectionName == 'carrusel' && canManage('funcion_comunicacion'))
+        || (collectionName == 'frases' && canManage('funcion_frases'))
+        || (collectionName == 'pasapalabra' && canManage('funcion_pasapalabra'))
+        || (collectionName in ['frases', 'pasapalabra'] && canManage('funcion_subida_multiple'));
+      allow update, delete: if isAdmin()
+        || (collectionName == 'carrusel' && canManage('funcion_comunicacion'))
+        || (collectionName == 'frases' && canManage('funcion_frases'))
+        || (collectionName == 'pasapalabra' && canManage('funcion_pasapalabra'));
     }
 
     match /meditaciones/{documentId} {
       allow read: if canManage('funcion_meditaciones') || resource.data.Publico == true;
-      allow write: if canManage('funcion_meditaciones');
+      allow create: if canManage('funcion_meditaciones') || canManage('funcion_subida_multiple');
+      allow update, delete: if canManage('funcion_meditaciones');
     }
 
     match /notificaciones_pendientes/{notificationId} {
       allow read: if canManage('funcion_notificaciones');
-      allow create, update, delete: if canManage('funcion_notificaciones');
+      allow create: if canManage('funcion_notificaciones') || canManage('funcion_subida_multiple');
+      allow update, delete: if canManage('funcion_notificaciones');
     }
 
     match /admin/{documentId} {

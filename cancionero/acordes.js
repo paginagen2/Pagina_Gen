@@ -17,6 +17,18 @@ const state = {
   lastFocus: null
 };
 
+try {
+  const saved = JSON.parse(localStorage.getItem('chord_center_preferences') || '{}');
+  if (['guitar', 'piano'].includes(saved.instrument)) state.instrument = saved.instrument;
+  if (['american', 'spanish'].includes(saved.notation)) state.notation = saved.notation;
+  if (typeof saved.note === 'string') state.note = saved.note;
+  if (typeof saved.type === 'string') state.type = saved.type;
+} catch { /* Preferencias opcionales. */ }
+
+function savePreferences() {
+  localStorage.setItem('chord_center_preferences', JSON.stringify({ instrument: state.instrument, notation: state.notation, note: state.note, type: state.type }));
+}
+
 const suffixByType = {
   major: '', minor: 'm', seventh: '7', major_seventh: 'maj7', diminished: 'dim', augmented: 'aug'
 };
@@ -80,7 +92,7 @@ function renderDictionary() {
       <span class="acorde-card-diagram"></span>
       <span class="acorde-info"><span class="acorde-notes"></span><span class="acorde-formula"></span></span>`;
     card.querySelector('.acorde-name').textContent = name;
-    card.querySelector('.acorde-type').textContent = chordTypeLabels[entry.tipo] || entry.tipo;
+    card.querySelector('.acorde-type').textContent = entry.typeLabel || chordTypeLabels[entry.tipo] || entry.tipo;
     card.querySelector('.acorde-card-diagram').innerHTML = renderChordDiagram(name, state.instrument, state.notation);
     card.querySelector('.acorde-notes').textContent = summary?.notes.join(' · ') || 'Posición de referencia';
     card.querySelector('.acorde-formula').textContent = summary?.formula || '';
@@ -92,12 +104,14 @@ function renderDictionary() {
 
 function selectInstrument(instrument) {
   state.instrument = instrument;
+  savePreferences();
   setActive('.instrument-btn', 'instrument', instrument);
   renderDictionary();
 }
 
 function selectNotation(value) {
   state.notation = value === 'europeo' ? 'spanish' : 'american';
+  savePreferences();
   setActive('.cifrado-btn', 'cifrado', value);
   renderDictionary();
   if (state.selectedSong) renderSongPreview(state.selectedSong);
@@ -105,12 +119,14 @@ function selectNotation(value) {
 
 function filterByNote(note) {
   state.note = note;
+  savePreferences();
   setActive('.nota-btn', 'nota', note);
   renderDictionary();
 }
 
 function filterByType(type) {
   state.type = type;
+  savePreferences();
   setActive('.tipo-btn', 'tipo', type);
   renderDictionary();
 }
@@ -160,7 +176,7 @@ function normalize(value) {
 function renderSongResults(songs, label = 'Canciones sugeridas') {
   const container = $('#songSearchResults');
   $('#songResultsTitle').textContent = label;
-  $('#songResultsCount').textContent = songs.length ? `${songs.length} resultado${songs.length === 1 ? '' : 's'}` : 'No encontramos coincidencias';
+  $('#songResultsCount').textContent = songs.length ? `Mostrando ${Math.min(songs.length, 12)} de ${songs.length}` : 'No encontramos coincidencias';
   if (!songs.length) {
     const empty = document.createElement('p');
     empty.className = 'song-results-empty';
@@ -309,6 +325,8 @@ document.querySelectorAll('[data-drawer-instrument]').forEach((button) => button
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !$('#chordDetailDrawer').hidden) closeDrawer(); });
 
 createNoteFilters();
+setActive('.instrument-btn', 'instrument', state.instrument);
+setActive('.cifrado-btn', 'cifrado', state.notation === 'spanish' ? 'europeo' : 'americano');
 renderDictionary();
 initTabs();
 runSearch();

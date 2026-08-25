@@ -18,6 +18,13 @@
     document.head.appendChild(offlineScript);
   }
 
+  if (window.Capacitor?.isNativePlatform?.() && !document.querySelector('script[data-gen-android-updates]')) {
+    const updatesScript = document.createElement('script');
+    updatesScript.src = siteUrl('aaglobal/android-updates.js?v=20260824-1');
+    updatesScript.dataset.genAndroidUpdates = 'true';
+    document.head.appendChild(updatesScript);
+  }
+
   let pageName = 'general';
   if (currentPath.includes('/pasapalabra/')) pageName = 'pasapalabra';
   else if (currentPath.includes('/meditacion/')) pageName = 'meditacion';
@@ -89,7 +96,11 @@
     </div>
     <nav class="home-nav">${navigation}</nav>
     <div class="sidebar-account-area">
-      <div id="sidebar-role-links" class="sidebar-role-links"></div>
+      <div id="sidebar-role-links" class="sidebar-role-links">
+        <a href="${siteUrl('admin/admin.html')}" class="menu-item role-link admin-role-link" data-static-admin-link hidden>
+          <img src="${siteUrl('aadocumentos/svg/llave.svg')}" class="menu-icon" alt="" aria-hidden="true"><span class="menu-text">Administrador</span>
+        </a>
+      </div>
       <div id="auth-button-container" class="auth-sidebar-container"></div>
     </div>
     <nav class="mobile-bottom-nav" aria-label="Navegaci&oacute;n m&oacute;vil">

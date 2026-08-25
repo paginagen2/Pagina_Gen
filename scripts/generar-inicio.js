@@ -3,6 +3,7 @@ const path = require('node:path');
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const OUTPUT_PATH = path.join(PROJECT_ROOT, 'datos', 'inicio.json');
+const ANDROID_VERSION_PATH = path.join(PROJECT_ROOT, 'datos', 'android-version.json');
 const PASAPALABRA_DATA_DIR = path.join(PROJECT_ROOT, 'datos', 'pasapalabra');
 const PASAPALABRA_PAGE_SIZE = 6;
 const TIME_ZONE = 'America/Argentina/Buenos_Aires';
@@ -12,6 +13,7 @@ const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'pagina-gen';
 const FIREBASE_WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY
   || 'AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE';
 const RUN_QUERY_URL = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents:runQuery?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`;
+const ANDROID_CONFIG_URL = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents/configuracion_publica/android?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`;
 
 function argentinaDateParts(date = new Date()) {
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -161,7 +163,7 @@ function compactNews(item) {
     titulo: item.titulo || 'Novedad Gen',
     descripcion: item.descripcion || item.resumen || '',
     fotoUrl: item.fotoUrl || item.imagenUrl || '',
-    href: item.fromChannel ? `canal/canal.html#${item.id}` : (item.href || item.enlace || ''),
+    href: item.fromChannel ? `canal/publicacion.html?id=${encodeURIComponent(item.id)}` : (item.href || item.enlace || ''),
     textoEnlace: item.textoEnlace || 'Más información',
     etiquetaCarrusel: item.etiquetaCarrusel || item.categoria || 'Novedad',
     fechaEventoInicio: item.fechaEventoInicio || '',
@@ -178,18 +180,46 @@ async function writeJson(filePath, value) {
   await fs.rename(temporaryPath, filePath);
 }
 
+function normalizeAndroidVersion(value) {
+  const normalized = {
+    versionCode: Number(value?.versionCode),
+    versionName: String(value?.versionName || ''),
+    minimumVersionCode: Number(value?.minimumVersionCode),
+    apkUrl: String(value?.apkUrl || ''),
+    titulo: String(value?.titulo || 'Actualizá Gen 2'),
+    descripcion: String(value?.descripcion || 'Hay una nueva versión disponible.'),
+    textoEnlace: String(value?.textoEnlace || 'Descargar actualización')
+  };
+  if (!Number.isInteger(normalized.versionCode)
+      || !Number.isInteger(normalized.minimumVersionCode)
+      || normalized.minimumVersionCode > normalized.versionCode
+      || !normalized.apkUrl.startsWith('https://')) {
+    throw new Error('La configuración de Android es inválida');
+  }
+  return normalized;
+}
+
+async function loadAndroidVersion() {
+  try {
+    const response = await fetch(ANDROID_CONFIG_URL, { signal: AbortSignal.timeout(10000) });
+    if (!response.ok) throw new Error(`Firestore respondió ${response.status}`);
+    return normalizeAndroidVersion(decodeDocument(await response.json()));
+  } catch (error) {
+    console.warn(`No se pudo leer la versión Android desde Firestore; se usará el respaldo local: ${error.message}`);
+    return normalizeAndroidVersion(JSON.parse(await fs.readFile(ANDROID_VERSION_PATH, 'utf8')));
+  }
+}
+
 async function main() {
   const date = argentinaDateParts();
   const now = new Date();
+  const androidVersion = await loadAndroidVersion();
 
   const [
     phrases,
     meditations,
     pasapalabrasPublicados,
-    pdvs,
-    carousel,
-    publishedChannel,
-    scheduledChannel
+    pdvs
   ] = await Promise.all([
     runQuery('frases', { limit: 100 }),
     runQuery('meditaciones', {
@@ -211,27 +241,6 @@ async function main() {
       ),
       orderBy: [['fechaPublicacion', 'DESCENDING']],
       limit: 12
-    }),
-    runQuery('carrusel', {
-      orderBy: [['createdAt', 'DESCENDING']],
-      limit: 5
-    }),
-    runQuery('canal_publicaciones', {
-      where: whereAll(
-        fieldFilter('estado', 'EQUAL', 'publicada'),
-        fieldFilter('rolesDestinatarios', 'EQUAL', [])
-      ),
-      orderBy: [['fechaPublicacion', 'DESCENDING']],
-      limit: 5
-    }),
-    runQuery('canal_publicaciones', {
-      where: whereAll(
-        fieldFilter('estado', 'EQUAL', 'programada'),
-        fieldFilter('rolesDestinatarios', 'EQUAL', []),
-        fieldFilter('fechaPublicacion', 'LESS_THAN_OR_EQUAL', now)
-      ),
-      orderBy: [['fechaPublicacion', 'DESCENDING']],
-      limit: 5
     })
   ]);
 
@@ -250,19 +259,11 @@ async function main() {
     .filter(item => timestampValue(item.fechaPublicacion) <= now.getTime())
     .sort((a, b) => String(b.periodo || '').localeCompare(String(a.periodo || ''))
       || timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion))[0] || null;
-  const channel = [...publishedChannel, ...scheduledChannel]
-    .filter(item => !item.fechaVencimiento || timestampValue(item.fechaVencimiento) > now.getTime())
-    .sort((a, b) => timestampValue(b.fechaPublicacion) - timestampValue(a.fechaPublicacion));
-
-  const news = [
-    ...channel.filter(item => item.destacarEnCarrusel).map(item => ({ ...item, fromChannel: true })),
-    ...carousel
-  ].slice(0, 5).map(compactNews);
-
   const output = {
     schemaVersion: 1,
     fechaGeneracion: date.iso,
     generadoEn: now.toISOString(),
+    android: androidVersion,
     frase: phrase?.frase || 'Que todos sean uno',
     pasapalabra: pasapalabra ? {
       id: pasapalabra.id,
@@ -281,13 +282,8 @@ async function main() {
       cita: pdv.citaPrincipal || pdv.titulo || 'Leé la Palabra de Vida de este mes',
       href: `pdv/pdv.html?id=${encodeURIComponent(pdv.id)}`
     } : null,
-    canal: channel[0] ? {
-      id: channel[0].id,
-      titulo: channel[0].titulo || channel[0].resumen || 'Nueva publicación',
-      fechaPublicacion: channel[0].fechaPublicacion || null,
-      href: `canal/canal.html#${encodeURIComponent(channel[0].id)}`
-    } : null,
-    novedades: news
+    canal: null,
+    novedades: []
   };
 
   await writeJson(OUTPUT_PATH, output);
@@ -312,7 +308,7 @@ async function main() {
   }
   console.log(`Inicio diario generado para ${date.iso}.`);
   console.log(`Pasapalabra generado en ${totalPaginas} página(s) de hasta ${PASAPALABRA_PAGE_SIZE} elementos.`);
-  console.log(`Lecturas del proceso diario: ${phrases.length + meditations.length + pasapalabrasPublicados.length + pdvs.length + carousel.length + publishedChannel.length + scheduledChannel.length}.`);
+  console.log(`Lecturas del proceso diario: ${phrases.length + meditations.length + pasapalabrasPublicados.length + pdvs.length}.`);
 }
 
 main().catch(error => {

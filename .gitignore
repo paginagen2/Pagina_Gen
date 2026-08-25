@@ -102,12 +102,10 @@ dist
 # Dependencias y restos de la app Android
 www/
 android/
-ios/
 assets/
 capacitor.config.json
 /aadocumentos/imagenes/icono-app-gen.png
 /docs/android.md
-/docs/ios-notificaciones.md
 /scripts/compilar-android.js
 /scripts/preparar-android.js
 /scripts/preparar-icono-android.js
@@ -160,6 +158,7 @@ Pasar_a_Android.txt
 
 *.apk
 _apk-pruebas/
+!descargas/Pagina-Gen.apk
 functions/.env
 functions/.env.*
 !functions/.env.example

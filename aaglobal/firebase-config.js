@@ -19,13 +19,13 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
         console.log('📦 Importando Firebase...');
         
         const [appModule, firestoreModule, authModule] = await Promise.all([
-            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js'),
-            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js'),
-            import('https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js')
+            import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'),
+            import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'),
+            import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js')
         ]);
         const { initializeApp } = appModule;
-        const { getFirestore, collection, getDocs, addDoc, setDoc, query, where, doc, updateDoc, orderBy, limit, getDoc, deleteDoc, writeBatch, runTransaction } = firestoreModule;
-        const { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } = authModule;
+        const { getFirestore, collection, getDocs, addDoc, setDoc, query, where, doc, updateDoc, orderBy, limit, getDoc, deleteDoc, writeBatch, runTransaction, onSnapshot } = firestoreModule;
+        const { getAuth, signInWithPopup, signInWithCredential, GoogleAuthProvider, signOut, onAuthStateChanged } = authModule;
         
         // Reutilizar si ya está inicializado; si no, inicializar
         const app = window.firebaseApp || initializeApp(firebaseConfig);
@@ -91,7 +91,9 @@ window.firebaseReady = window.firebaseReady || (async function inicializarFireba
             deleteDoc,
             writeBatch,
             runTransaction,
+            onSnapshot,
             signInWithPopup,
+            signInWithCredential,
             GoogleAuthProvider,
             signOut,
             onAuthStateChanged

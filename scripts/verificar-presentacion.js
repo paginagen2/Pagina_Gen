@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const ignored = new Set(['.git', 'node_modules', 'www', 'android', '.codex-worktrees']);
+const ignored = new Set(['.git', 'node_modules', 'www', 'android', 'docs', '.codex-worktrees']);
 
 function walk(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
