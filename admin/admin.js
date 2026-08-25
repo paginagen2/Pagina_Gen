@@ -5118,7 +5118,7 @@ function populateAndroidVersionSelectors() {
 function applyAndroidPublicationConfig() {
     const config = androidPublicationConfig;
     if (!config) return updateAndroidPolicyPreview();
-    document.getElementById('android-apk-url').value = config.apkUrl || 'https://pagina-gen.web.app/descargas/Pagina-Gen.apk';
+    document.getElementById('android-apk-url').value = config.apkUrl || 'https://paginagen2.github.io/Pagina_Gen/descargas/Pagina-Gen.apk';
     document.getElementById('android-update-title').value = config.titulo || 'Actualizá Gen 2';
     document.getElementById('android-update-description').value = config.descripcion || 'Hay una nueva versión disponible.';
     document.getElementById('android-update-action').value = config.textoEnlace || 'Descargar actualización';

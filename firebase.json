@@ -24,6 +24,7 @@
       "docs/**",
       "android/**",
       "_apk-pruebas/**",
+      "descargas/Pagina-Gen.apk",
       "www/**",
       "tmp/**",
       "**/*.local.*",
