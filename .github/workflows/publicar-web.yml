@@ -1,6 +1,6 @@
-name: Publicar web en Firebase
+name: Publicar Firestore
 
-# Despliega en orden para no activar reglas o código que dependan de índices pendientes.
+# Publica índices y reglas en orden. La web se despliega con GitHub Pages.
 
 on:
   push:
@@ -8,27 +8,8 @@ on:
       - main
     paths:
       - '.github/workflows/publicar-web.yml'
-      - 'firebase.json'
       - 'firestore.indexes.json'
       - 'firestore.rules'
-      - '.github/workflows/procesar-notificaciones.yml'
-      - 'aaglobal/**'
-      - 'perfil/**'
-      - 'notification-sw.js'
-      - 'auth.js'
-      - 'manifest.webmanifest'
-      - 'scripts/procesar-notificaciones.js'
-      - 'scripts/notificaciones-planificador.js'
-      - 'aadocumentos/imagenes/notificaciones/**'
-      - 'aadocumentos/svg/**'
-      - 'descargas/**'
-      - 'pdv/**'
-      - 'admin/**'
-      - 'cancionero/**'
-      - 'datos/inicio.json'
-      - 'datos/pasapalabra/**'
-      - 'datos/cancionero/**'
-      - 'datos/sincronizacion/**'
   workflow_dispatch:
 
 permissions:
@@ -87,6 +68,3 @@ jobs:
 
       - name: Publicar reglas de Firestore
         run: npx firebase-tools@15.25.1 deploy --only firestore:rules --project pagina-gen --non-interactive
-
-      - name: Publicar Firebase Hosting
-        run: npx firebase-tools@15.25.1 deploy --only hosting --project pagina-gen --non-interactive

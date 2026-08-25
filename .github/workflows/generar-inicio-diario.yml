@@ -68,10 +68,3 @@ jobs:
           git commit -m "chore: actualizar inicio diario"
           git push
 
-      - name: Preparar Firebase
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Publicar datos diarios en Hosting
-        run: npx firebase-tools@15.25.1 deploy --only hosting --project pagina-gen --non-interactive
