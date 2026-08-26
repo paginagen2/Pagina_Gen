@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 27,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 28,
   "items": [
+    {
+      "id": "pasapalabra_1774658612132",
+      "titulo": "VIVIR PARA EL OTRO/A",
+      "fecha": "28/03/2026",
+      "reflexion": "Nuestra existencia no es solitaria, es relacional. Fuimos creados para estar en relación unos con los otros.\nVivir para el otro es cambiar el centro de nuestra propia existencia. Es empezar a pensar en lo que el mundo necesita de nosotros. No como una obligación que pesa, sino como una elección consciente que da más sentido a nuestra vida.\nNo se trata de vivir para agradar a los demás, ni de borrar nuestra propia identidad, sino de reconocer que la vida es mejor y más agradable cuando se comparte.\nNadie alcanza la plenitud solo. La felicidad más duradera no viene de la acumulación, sino de la contribución.\nAl cuidar el camino del otro, encontramos silenciosamente, también el nuestro."
+    },
     {
       "id": "pasapalabra_1774592389752",
       "titulo": "ENTREGARNOS POR EL BIEN DE TODOS",
@@ -34,12 +40,6 @@
       "titulo": "EL AMOR NO ES PASIVO",
       "fecha": "23/03/2026",
       "reflexion": "El amor no se limita a sentir, porque amar es una actitud. No es simplemente esperar que el otro perciba nuestros sentimientos. El verdadero amor se manifiesta en acciones concretas: cuidar, proteger, perdonar, dialogar y, muchas veces, dejar de lado el orgullo.\nSer pasivo es observar; amar es participar. Es estar presente, es actuar cuando tenemos tentación de desistir, es mantenerse firme cuando todo invita a huir.\nEl amor que transforma no es solo el que te conmueve, sino el que se compromete.\nEl amor no es pasivo porque también sabe decir \"no\" y establecer límites. Amar es un verbo activo: construye, sostiene, corrige y fortalece.\nAmar es una decisión: elegir al otro, elegir cuidar y elegir ser mejor, no por obligación, sino por convicción."
-    },
-    {
-      "id": "pasapalabra_1774132736936",
-      "titulo": "PRESTAR ATENCIÓN A QUIENES ENCONTRAMOS",
-      "fecha": "22/03/2026",
-      "reflexion": "En el vertiginoso ritmo de la vida diaria, pasamos de largo ante rostros, historias y sentimientos sin darnos cuenta.\nPrestar atención no es solo ver, sino reconocer al otro como alguien que lleva consigo luchas, sueños, miedos y esperanzas, igual que nosotros.\nA veces, un simple gesto, una palabra amable, un silencio respetuoso, puede ser justo lo que alguien necesita para seguir adelante.\nCuando aprendemos a ver a las personas más allá de las apariencias, ampliamos nuestra sensibilidad, nuestra paciencia y nuestra capacidad de amar.\nPrestar atención a los demás es una invitación a recordar que todos estamos en un camino y que nadie debería pasar desapercibido a nuestro lado."
     }
   ]
 }

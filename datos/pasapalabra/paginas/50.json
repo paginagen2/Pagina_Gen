@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1763260246758",
+      "titulo": "DAR AMOR A LOS POBRES",
+      "fecha": "16/11/2025",
+      "reflexion": "Dar amor a los pobres es más que un gesto de caridad; es un acto de justicia, de reconocimiento de la dignidad que habita en cada ser humano.\nEl verdadero amor no se limita a la compasión distante, sino que se hace presencia, cercanía y compartir.\nCuando miramos a los pobres con los ojos del corazón, descubrimos que no son simplemente personas que carecen de algo, sino personas que revelan nuestra propia fragilidad y nuestra dependencia mutua.\nDar amor a los pobres es aprender a reconocer la presencia de Jesús en quienes sufren, en quienes piden, en quienes esperan.\nAmar a los pobres es compartir tiempo, atención y respeto. Es caminar juntos, sin juzgar, reconociendo que todos somos pobres en algo, todos necesitamos amor y cuidado.\nQuien da amor a los pobres, da amor a Dios mismo, que se hizo pobre para enriquecernos con su presencia y su gracia."
+    },
     {
       "id": "pasapalabra_1763224649639",
       "titulo": "PONER A DISPOSICIÓN LO QUE SE TIENE DE MÁS",
@@ -34,12 +40,6 @@
       "titulo": "HUMILDAD SINCERA",
       "fecha": "11/11/2025",
       "reflexion": "Ser verdaderamente humilde exige sinceridad, pues la humildad fingida es, en realidad, hipocresía.\nTiene humildad sincera quien reconoce sus propias limitaciones sin menospreciarse. Y, al mismo tiempo, valora a los demás sin exaltarlos exageradamente.\nSer humilde es saber que cada persona posee dones únicos y que juntos nos complementamos.\nLa verdadera humildad no busca reconocimiento, sino que se expresa en gestos sencillos y actitudes discretas de amor y servicio hacia todos.\nEs precisamente en el hecho de ponerse al servicio, donde se demuestra la humildad sincera, porque, servir con alegría es para quien es humilde, el mayor valor.\nLa humildad es el terreno fértil donde florece la grandeza del alma humana."
-    },
-    {
-      "id": "pasapalabra_1762912894008",
-      "titulo": "PONER EN MARCHA LA GENEROSIDAD",
-      "fecha": "10/11/2025",
-      "reflexion": "La verdadera generosidad nace del reconocimiento de que todo lo que recibimos es también una oportunidad para servir.\nEn un mundo marcado por la prisa y el egoísmo, ser generoso es un acto que da esperanza.\nDespertar la generosidad es, fundamentalmente, despertar lo más divino que hay en nosotros: el amor que se multiplica cuando lo compartimos.\nPoner la generosidad en práctica es transformar el amor en gestos concretos: ver, escuchar y actuar.\nSer generoso es ofrecer tiempo a quienes lo necesitan, compartir lo que tenemos sin esperar nada a cambio, estar presente cuando el otro más lo necesita.\nLa generosidad en acción construye relaciones que se manifiestan en la reciprocidad.\nLa generosidad reaviva la esperanza en los corazones y los contagia con amor recíproco."
     }
   ]
 }

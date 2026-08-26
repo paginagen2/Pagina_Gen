@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 37,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 38,
   "items": [
+    {
+      "id": "pasapalabra_1770001617642",
+      "titulo": "DETENERSE PARA CONFORTAR A LOS DEMÁS",
+      "fecha": "02/02/2026",
+      "reflexion": "Nos apresuramos a cumplir tareas, responder mensajes, resolver problemas, y en este movimiento constante, a menudo pasamos junto a personas sin verlas realmente.\nDetenerse no es perder el tiempo. Es crear espacio interior. Al detenernos, silenciamos el ruido interior y exterior, y solo entonces podemos percibir el dolor que no es expresado, la mirada cansada, el pedido de ayuda disfrazado de conversación común.\nEl consuelo no comienza con las palabras adecuadas, sino con la presencia genuina. Para eso, es necesario interrumpir nuestra agenda, nuestro ritmo, nuestro ego.\nDetenerse también nos hace más humanos. Quien acepta que también necesita pausas comprende mejor a quien necesita apoyo. Así, consolar al otro se convierte en un acto de comunión."
+    },
     {
       "id": "pasapalabra_1769941143886",
       "titulo": "SER MANSOS",
@@ -34,12 +40,6 @@
       "titulo": "ACOGER LA PALABRA DE DIOS",
       "fecha": "28/01/2026",
       "reflexion": "Acoger la Palabra de Dios es permitir que ella habite en nuestro corazón.\nCuando nos abrimos humildemente a escuchar lo que Dios nos dice, la Palabra ilumina nuestras decisiones, nos consuela en las pruebas y guía nuestros pasos cada día.\nLa Palabra de Dios no llega para acusar, sino para transformar. Ella pide silencio interior, atención y disponibilidad.\nA menudo, acoger la Palabra significa dejar que cuestione nuestras certezas, sane nuestras heridas y nos llame a comenzar una nueva vida.\nQue cada día, podamos guardar la Palabra en nuestro corazón, como lo hizo María, y dejarla fructificar en actos de amor, especialmente cuando amar se vuelve difícil."
-    },
-    {
-      "id": "pasapalabra_1769482617095",
-      "titulo": "VIVIR CON SERIEDAD EL MOMENTO PRESENTE",
-      "fecha": "27/01/2026",
-      "reflexion": "Cada momento, incluso sencillo o silencioso, tiene un valor sagrado que debe vivirse con solemnidad y entrega. No se trata de rigidez, sino de reverencia: estar plenamente presente donde uno está.\nLa solemnidad del momento presente nace cuando cesan la prisa y la distracción. Es el corazón que se aquieta para acoger el ahora, sin huir al pasado ni perderse en las angustias del futuro. En este espacio interior, la vida habla y Dios se deja encontrar.\nEn el momento presente, un gesto simple, cobra sentido, la palabra gana peso, el silencio deja de ser vacío.\nLa solemnidad del momento presente es aceptar que este ahora, tal como es, es el lugar donde el amor puede ser vivido y ser testimoniado."
     }
   ]
 }

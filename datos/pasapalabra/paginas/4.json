@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 4,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 5,
   "items": [
+    {
+      "id": "pasapalabra_1786152481805",
+      "titulo": "PERSEVERAR EN EL BIEN",
+      "fecha": "08/08/2026",
+      "reflexion": "Es un gran desafío seguir haciendo el bien cuando no recibimos elogios, cuando nos enfrentamos a la incomprensión o cuando los resultados parecen tardan en llegar.\nMuchas veces somos tentados a rendirnos delante de las dificultades, del desánimo o de la aparente indiferencia de los demás. Sin embargo, el cristiano no hace el bien esperando recompensa, sino porque desea reflejar el amor de Dios en el mundo.\nJesús fue el mayor ejemplo de esta perseverancia. A lo largo de toda su vida, se dedicó a hacer el bien. En la cruz, llevó al extremo el amor y el perdón y venció el mal con el bien.\nNo permitamos que la maldad ajena endurezca nuestro corazón, ni que el cansancio apague nuestra disposición de servir. Quien persevera en el bien se convierte en un instrumento de paz y un sembrador de esperanza en el mundo."
+    },
     {
       "id": "pasapalabra_1786066307975",
       "titulo": "APOYAR A QUIEN LO NECESITA",
@@ -34,12 +40,6 @@
       "titulo": "VALORAR EL BIEN",
       "fecha": "03/08/2026",
       "reflexion": "Quien desea seguir el camino de Dios está llamado a reconocer, valorar y promover el bien dondequiera que se encuentre.\nCuando aprendemos a ver lo bueno, nuestro corazón se vuelve más sereno, más esperanzado y más capaz de amar.\nJesús nos enseñó que un buen árbol produce buen fruto. Al valorar el bien, nos animamos a producir también frutos de bondad, misericordia, justicia y paz. En lugar de centrarnos únicamente en los defectos de los demás, somos invitados a percibir la semilla de Dios presente en cada persona y en cada situación.\nEl bien, por pequeño que parezca, tiene el poder de transformar y acercar el mundo al Reino de Dios.\n“No te dejes vencer por el mal. Por el contrario, vence al mal, haciendo el bien.” (Rom. 12,21)"
-    },
-    {
-      "id": "pasapalabra_1785703237025",
-      "titulo": "COMPARTIR TUS BIENES",
-      "fecha": "02/08/2026",
-      "reflexion": "Los bienes que poseemos alcanzan su verdadero significado cuando los ponemos al servicio de los demás, ya sean materiales, intelectuales o espirituales.\nEn la parábola de los talentos, Jesús enseña que el siervo fiel es aquél que hace fructificar los dones recibidos. Dios confía a cada persona habilidades y oportunidades para el bien común.\nPoner nuestras posesiones en circulación no significa actuar con irresponsabilidad, sino reconocer que somos administradores y no dueños absolutos de todo lo que recibimos.\nCuanto más compartimos con amor, más nos acercamos al corazón de Cristo, que vino al mundo para servir y entregarse por completo."
     }
   ]
 }

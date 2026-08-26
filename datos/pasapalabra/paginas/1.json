@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1787704022442",
+      "titulo": "RECONOCER NUESTRAS FRAGILIDADES",
+      "fecha": "26/08/2026",
+      "reflexion": "Quien acepta sus limitaciones deja de vivir atrapado por la necesidad de aparentar fortaleza y abre espacio a una verdadera transformación.\nTodos tenemos inseguridades y áreas que necesitan fortalecerse. Negar esta realidad solo nos aleja de quienes realmente somos.\nNuestras debilidades nos enseñan a pedir ayuda cuando la necesitamos, a valorar a las personas que caminan a nuestro lado y a confiar en que el cambio surge precisamente donde antes había miedo o inseguridad.\nEn lugar de ocultar nuestras fragilidades, podemos aceptarlas, aprender de ellas y transformarlas en oportunidades de crecimiento y de cercanía con Dios y con los demás."
+    },
     {
       "id": "pasapalabra_1787618894568",
       "titulo": "DAR PRIORIDAD A LO ESENCIAL",
@@ -34,12 +40,6 @@
       "titulo": "AMA CON TODO TU SER",
       "fecha": "21/08/2026",
       "reflexion": "“Amarás al Señor, tu Dios, con todo tu corazón, con toda tu alma, con todas tus fuerzas y con todo tu espíritu, y a tu prójimo como a ti mismo” (Cf. Lc. 10,27)\nAmar con todo nuestro ser significa ofrecer a Dios no solo una parte de nuestra vida, sino la totalidad de lo que somos. Es amar con el corazón, colocando nuestros afectos a su voluntad; con la mente, buscando conocer su Palabra; con el alma, viviendo en comunión con Él; y con las fuerzas, traduciendo este amor en actos concretos de servicio a nuestros hermanos y hermanas.\nQue seamos instrumentos del amor de Dios y que reflejemos su bondad en cada palabra y en cada gesto."
-    },
-    {
-      "id": "pasapalabra_1787189477039",
-      "titulo": "CUIDAR LA PROPIA INTERIORIDAD",
-      "fecha": "20/08/2026",
-      "reflexion": "Cuidar de nuestro ser interior significa permitir que Dios ilumine lo que necesita ser curado, fortalecido o transformado.\nCuando cuidamos de nuestro ser interior, adquirimos serenidad para afrontar los desafíos, sabiduría para tomar decisiones y sensibilidad para percibir la presencia de Dios dentro de nosotros.\nAsí como fue para Jesús, nuestra intimidad con el Padre no puede ser un mero detalle, sino que debe ser la fuente de inspiración de nuestras vidas. Necesitamos estos momentos de reflexión para renovar nuestras fuerzas y redescubrir el sentido de nuestro camino.\nQue nuestra vida exterior sea siempre el reflejo de la presencia de Dios en nosotros."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 29,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 30,
   "items": [
+    {
+      "id": "pasapalabra_1773622169942",
+      "titulo": "APOYARNOS MUTUAMENTE",
+      "fecha": "16/03/2026",
+      "reflexion": "Apoyarnos mutuamente es más que un gesto de bondad; es una necesidad del ser humano.\nApoyar a alguien significa estar presente cuando su dolor es más grande que sus fuerzas.\nReconocer que nos necesitamos no nos hace débiles, sino más humanos.\nDios a menudo se manifiesta a través de las personas: en el consejo de un amigo, en un abrazo sincero, en la paciencia de quien camina a nuestro lado.\nCuando nos apoyamos mutuamente, creamos lazos de confianza, construimos comunidades más solidarias y transformamos la fragilidad en esperanza."
+    },
     {
       "id": "pasapalabra_1773622169763",
       "titulo": "APOYARNOS MUTUAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "NUTRIR EL ESPÍRITU",
       "fecha": "12/03/2026",
       "reflexion": "Nutrir el espíritu es cuidar nuestra parte genuina, esa que no se conforma solo con los logros externos, sino que busca significado, paz y verdad. Es reservar tiempo para el silencio, para la escucha interior, para aquello que nos reconecta con lo esencial, con lo divino.\nNutrir el espíritu es elegir lo que ponemos en nuestro interior: pensamientos, lecturas, conversaciones, ambientes.\nCuando nutrimos el espíritu, nos volvemos más completos, más conscientes y más capaces de amar.\nEs en este cuidado interior donde encontramos fuerza para afrontar los desafíos, serenidad para lidiar con dolores y esperanza para seguir adelante."
-    },
-    {
-      "id": "pasapalabra_1773189677590",
-      "titulo": "CON NUESTRA ACTITUD, MOSTRAR QUE ACOGEMOS A LA OTRA PERSONA",
-      "fecha": "11/03/2026",
-      "reflexion": "Acoger es una acción concreta. Mostrar con nuestras actitudes que acogemos a las personas es transformar el cuidado en una práctica diaria, es hacer que el otro se sienta visto, escuchado y respetado.\nA menudo, la acogida se revela en las cosas sencillas: un tiempo dedicado, un silencio respetuoso, una ayuda ofrecida sin ser solicitada. Son estos gestos que comunican más que las palabras.\nCuando nuestras actitudes reflejan acogida, creamos espacios seguros donde las personas pueden ser quienes son, sin temor a ser juzgadas.\nLa verdadera hospitalidad nace de la coherencia entre lo que decimos y lo que hacemos, y se convierte en un testimonio vivo de amor al prójimo."
     }
   ]
 }

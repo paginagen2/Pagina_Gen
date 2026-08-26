@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 38,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 39,
   "items": [
+    {
+      "id": "pasapalabra_1769482617095",
+      "titulo": "VIVIR CON SERIEDAD EL MOMENTO PRESENTE",
+      "fecha": "27/01/2026",
+      "reflexion": "Cada momento, incluso sencillo o silencioso, tiene un valor sagrado que debe vivirse con solemnidad y entrega. No se trata de rigidez, sino de reverencia: estar plenamente presente donde uno está.\nLa solemnidad del momento presente nace cuando cesan la prisa y la distracción. Es el corazón que se aquieta para acoger el ahora, sin huir al pasado ni perderse en las angustias del futuro. En este espacio interior, la vida habla y Dios se deja encontrar.\nEn el momento presente, un gesto simple, cobra sentido, la palabra gana peso, el silencio deja de ser vacío.\nLa solemnidad del momento presente es aceptar que este ahora, tal como es, es el lugar donde el amor puede ser vivido y ser testimoniado."
+    },
     {
       "id": "pasapalabra_1769387940514",
       "titulo": "EL AMOR UNE",
@@ -34,12 +40,6 @@
       "titulo": "COMPROMETERNOS A TESTIMONIAR QUE DIOS ES AMOR",
       "fecha": "22/01/2026",
       "reflexion": "Dar testimonio de Dios Amor es permitir que Su amor se haga visible a través de nuestras vidas.\nEl compromiso con este testimonio, comienza en el corazón, cuando elegimos vivir de modo coherente con aquello en que creemos.\nEste testimonio se manifiesta en la paciencia, en el perdón ofrecido y en la solidaridad con quienes sufren.\nCada gesto de cuidado, cada palabra, se convierte en una señal visible de que Dios es amor.\nComprometerse en dar testimonio de Dios Amor es aceptar el desafío de amar como Él ama: de forma gratuita, fiel y abiertamente a todos.\nPara dar testimonio concreto, debemos ser amor, y así, la fe deja de ser sólo una convicción personal y se transforma en luz para los demás."
-    },
-    {
-      "id": "pasapalabra_1768960661888",
-      "titulo": "APERTURA ALEGRE A LOS DEMÁS",
-      "fecha": "21/01/2026",
-      "reflexion": "La apertura alegre a los demás nace de un corazón que no tiene miedo de entregarse. Es la actitud de quien se acerca con sencillez, no solo con la intención de entretener a los demás, sino de amarlos.\nLa alegría, cuando se comparte, deja de ser un estado de espíritu personal y se convierte en un espacio común donde todos pueden respirar confianza y esperanza.\nVivir una apertura alegre a los demás significa comprender que el amor debe ofrecerse sin reservas.\nCon una apertura alegre, la convivencia con todos se vuelve más ligera, más humana, y lo cotidiano, más luminoso."
     }
   ]
 }

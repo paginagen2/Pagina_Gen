@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 45,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 46,
   "items": [
+    {
+      "id": "pasapalabra_1765855727415",
+      "titulo": "SER PERSEVERANTES",
+      "fecha": "16/12/2025",
+      "reflexion": "La perseverancia no es terquedad, es fe en la acción y convicción en el amor. Es la valentía de volver a intentarlo, de aprender de los errores y de permanecer firme incluso sin tener certeza del resultado. Porque quien persevera entiende que el tiempo no es un enemigo, sino un aliado que, poco a poco, moldea nuestro carácter, fortalece nuestra voluntad y madura nuestros sueños y proyectos.\nLos frutos de la perseverancia no son solo los logros alcanzados, sino la transformación que ocurre en nuestro interior a lo largo del camino.\nLa perseverancia también fortalece nuestra confianza en Dios; la confianza en sus planes de amor para cada uno de nosotros."
+    },
     {
       "id": "pasapalabra_1765761912511",
       "titulo": "EJERCITAR LA PACIENCIA",
@@ -34,12 +40,6 @@
       "titulo": "DESARMARSE",
       "fecha": "11/12/2025",
       "reflexion": "Es difícil bajar la guardia, abrir el corazón y permitir que los demás nos vean como realmente somos: con miedos, defectos, con humanidad.\nDesarmarse significa elegir la paz antes que la razón. Es comprender que no toda discusión necesita un ganador, que el silencio a veces habla más fuerte que una respuesta cortante.\nEs darse cuenta de que la vida no es un campo de batalla, sino un espacio de encuentro.\nCuando nos desarmamos, abrimos espacio para el diálogo, para el perdón y para el afecto.\nCambiamos el escudo por la escucha, la espada por la empatía.\nY descubrimos que la verdadera fuerza no reside en derrotar al otro, sino en comprenderlo y abrazarlo."
-    },
-    {
-      "id": "pasapalabra_1765335651782",
-      "titulo": "ACERCARSE A QUIEN ESTÁ NECESITADO.",
-      "fecha": "10/12/2025",
-      "reflexion": "“Tuve hambre, y ustedes me dieron de comer; tuve sed, y me dieron de beber; estaba de paso, y me alojaron” (Mt. 25,35)\nAcercarse a quien necesita es acercarse a Cristo mismo.\nCuando miramos a alguien en necesidad, ya sea material, emocional o espiritual, tenemos ante nosotros una oportunidad sagrada para amar concretamente. Jesús no permaneció ajeno al dolor humano: tocó a los enfermos, acogió a los marginados, escuchó a los afligidos y dió de comer a los hambrientos. La verdadera compasión es ir al encuentro del otro.\nAcercarse exige salir de uno mismo, vencer el miedo, los prejuicios y la indiferencia. Es reconocer en el rostro del necesitado la presencia viva de Jesús que nos llama a la solidaridad.\nCuando nos acercamos a quien se encuentra en necesidad, somos liberados del egoísmo y transformados por el amor, que es sinónimo de dar."
     }
   ]
 }

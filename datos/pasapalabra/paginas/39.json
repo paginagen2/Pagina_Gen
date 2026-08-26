@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 39,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 40,
   "items": [
+    {
+      "id": "pasapalabra_1768960661888",
+      "titulo": "APERTURA ALEGRE A LOS DEMÁS",
+      "fecha": "21/01/2026",
+      "reflexion": "La apertura alegre a los demás nace de un corazón que no tiene miedo de entregarse. Es la actitud de quien se acerca con sencillez, no solo con la intención de entretener a los demás, sino de amarlos.\nLa alegría, cuando se comparte, deja de ser un estado de espíritu personal y se convierte en un espacio común donde todos pueden respirar confianza y esperanza.\nVivir una apertura alegre a los demás significa comprender que el amor debe ofrecerse sin reservas.\nCon una apertura alegre, la convivencia con todos se vuelve más ligera, más humana, y lo cotidiano, más luminoso."
+    },
     {
       "id": "pasapalabra_1768873040040",
       "titulo": "VIVIR EL DÍA A DÍA CON CONFIANZA",
@@ -34,12 +40,6 @@
       "titulo": "PEQUEÑOS GESTOS PARA UN MUNDO UNIDO",
       "fecha": "16/01/2026",
       "reflexion": "En un mundo marcado por las diferencias, son los pequeños gestos los que construyen puentes invisibles entre las personas. La unidad no nace de grandes discursos, sino de la decisión diaria de respetar, acoger y cuidar.\nCuando cada uno hace su parte, aunque parezca pequeña, el todo se fortalece. Así, los gestos sencillos suman y revelan una verdad esencial: la humanidad avanza hacia el bien cuando camina unida.\nUn mundo unido se construye a partir de pequeños gestos: de respeto en las palabras, de empatía en las actitudes y de solidaridad en las decisiones diarias. Es así, paso a paso, que la unidad deja de ser un ideal lejano y se convierte en un camino vivido por todos."
-    },
-    {
-      "id": "pasapalabra_1768437218666",
-      "titulo": "TRABAJAR POR LOS VALORES",
-      "fecha": "15/01/2026",
-      "reflexion": "Trabajar por los valores es una decisión diaria, donde se revela nuestro carácter.\nLos valores auténticos guían el modo cómo tratamos a los demás, especialmente cuando ellos no tienen nada que ofrecernos a cambio.\nEs un llamado a la coherencia: actuar de la misma manera cuando nos observan y cuando nadie nos ve. Trabajar por los valores exige valentía, ya que a menudo significa ir contra la corriente del mundo, rechazar atajos fáciles y defender la verdad incluso cuando cuesta caro.\nLos valores vividos con sinceridad generan confianza y alimentan la esperanza en un mundo más justo.\nTrabajar por los valores es permitir que nuestras acciones hablen más que nuestras palabras, transformando la fe, la ética y el amor al prójimo en gestos concretos que dan sentido a la vida."
     }
   ]
 }

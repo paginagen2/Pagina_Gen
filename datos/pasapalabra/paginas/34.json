@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 34,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 35,
   "items": [
+    {
+      "id": "pasapalabra_1771459741661",
+      "titulo": "SER CREATIVOS PARA AMAR AL PRÓJIMO",
+      "fecha": "19/02/2026",
+      "reflexion": "Amar al prójimo es una actitud que pide creatividad.\nEl amor se revela en la sensibilidad para percibir lo que el otro necesita y en la disposición a actuar de forma sencilla pero verdadera.\nSer creativo en el amor es encontrar nuevas maneras de cuidar, escuchar, ofrecer presencia, respetar límites y tender una mano en el momento oportuno. Es comprender que cada persona siente, sufre y espera de forma única, y que amar es adaptar el corazón a esta diversidad.\nCuando somos creativos en amar, transformamos lo cotidiano en un espacio de acogida. El amor deja de ser automático y pasa a ser intencional, apropiado para cada persona.\nEl amor nos prepara para la vida eterna, cuando será intenso e infinitamente creativo."
+    },
     {
       "id": "pasapalabra_1771377738288",
       "titulo": "HACER DE CADA OBSTÁCULO UN TRAMPOLÍN DE LANZAMIENTO",
@@ -34,12 +40,6 @@
       "titulo": "CUIDAR LAS RELACIONES",
       "fecha": "14/02/2026",
       "reflexion": "Las relaciones no se sustentan únicamente por el afecto inicial o por la convivencia diaria, sino por el cuidado constante y el respeto mutuo.\nCuando nos esforzamos por comprender al otro, aprendemos a hablar con más amabilidad, a actuar con más paciencia y a perdonar con más generosidad. Cuidar es hacer más allá de lo mínimo: es estar presente, valorar, corregir con amor, así como reconocer los propios defectos.\nLas relaciones bien cuidadas se convierten en una fuente de crecimiento y exigen tiempo, humildad y disposición para empezar de nuevo tantas veces como sea necesario.\nAl cuidar las relaciones, construimos vínculos más genuinos y reflejamos, en la vida diaria, el amor mutuo que Jesús nos enseñó a vivir."
-    },
-    {
-      "id": "pasapalabra_1770941845116",
-      "titulo": "DEMOS GRACIAS A DIOS POR SUS DONES",
-      "fecha": "13/02/2026",
-      "reflexion": "La gratitud a Dios nace cuando aprendemos a reconocer sus dones en las pequeñas dádivas del día a día: la vida, la salud, la fe, la familia, el trabajo e incluso las pruebas.\nAgradecer a Dios es un acto de humildad, pues reconocemos que no caminamos solos y que todo lo que tenemos es gracia recibida.\nCuando cultivamos un corazón agradecido, nuestra perspectiva cambia: lo que antes parecía faltar, da lugar al reconocimiento de lo que ya se nos ha concedido.\nIncluso en tiempos difíciles, la gratitud fortalece la esperanza y nos acerca a Dios. Ella nos enseña a confiar, a perseverar y a comprender que sus dones son inagotables."
     }
   ]
 }

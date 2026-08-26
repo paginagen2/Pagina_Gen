@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-08-25",
-  "generadoEn": "2026-08-25T15:40:49.141Z",
+  "fechaGeneracion": "2026-08-26",
+  "generadoEn": "2026-08-26T09:01:11.208Z",
   "android": {
     "versionCode": 5,
     "versionName": "1.4",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1787618894568",
-    "titulo": "DAR PRIORIDAD A LO ESENCIAL",
-    "fecha": "25/08/2026",
+    "id": "pasapalabra_1787704022442",
+    "titulo": "RECONOCER NUESTRAS FRAGILIDADES",
+    "fecha": "26/08/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777258862821_hrb893ezn",
-    "titulo": "No mi voluntad, sino la tuya",
+    "id": "meditacion_1776048662282",
+    "titulo": "Al calor del sol",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

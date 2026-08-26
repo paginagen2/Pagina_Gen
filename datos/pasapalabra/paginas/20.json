@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 315,
+  "total": 316,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1778206993291",
+      "titulo": "ABRIRSE AL AMOR DE DIOS",
+      "fecha": "08/05/2026",
+      "reflexion": "El amor de Dios siempre está presente, silencioso y fiel, acompañándonos en cada paso de nuestra vida. Sin embargo, muchas veces estamos tan ocupados con preocupaciones, miedos y tareas, que olvidamos abrir nuestro corazón para acoger este amor.\nAbrirnos al amor de Dios es permitir que Él entre en nuestra vida con su luz, su paz y su misericordia. Es reconocer que no estamos solos y que, incluso en las dificultades, hay una presencia que nos sostiene y nos fortalece.\nCuando nos abrimos al amor de Dios, aprendemos a confiar más, a perdonar con más facilidad y a mirar a los demás con más compasión. Este amor transforma nuestro interior y nos inspira a vivir con más esperanza y gratitud."
+    },
     {
       "id": "pasapalabra_1778154187669",
       "titulo": "SER ARTESANOS DE PAZ",
@@ -34,12 +40,6 @@
       "titulo": "JUNTOS SOMOS MÁS FUERTES",
       "fecha": "03/05/2026",
       "reflexion": "Desde los primeros pasos de la vida, aprendemos que necesitamos unos de los otros. Cuando caminamos juntos, compartimos fuerzas, dividimos las cargas y multiplicamos las alegrías.\nLo que parece imposible para una persona muchas veces se hace posible cuando hay colaboración, apoyo y amistad. Cada persona posee diferentes talentos, experiencias y perspectivas, y cuando estos dones se unen, forman una fuerza mucho mayor.\nEn los momentos difíciles de la vida, es la presencia del otro que nos da fuerzas. Por lo tanto, vale la pena recordar: cuando elegimos caminar juntos, descubrimos que, en efecto, juntos somos más fuertes."
-    },
-    {
-      "id": "pasapalabra_1777687378538",
-      "titulo": "DAR FORMA A LA ESPERANZA",
-      "fecha": "02/05/2026",
-      "reflexion": "Muchas veces la esperanza está en las pequeñas acciones de la vida cotidiana.\nDar forma a la esperanza es permitir que lo que llevamos dentro se transforme en luz para quienes nos rodean.\nEn un mundo que frecuentemente resalta las dificultades, las rupturas y las guerras; la esperanza, se convierte en un acto de fe.\nCuando elegimos actuar con bondad, paciencia y solidaridad, damos forma concreta a la esperanza.\nDar forma a la esperanza también significa cultivar pensamientos positivos que pueden abrirnos nuevos horizontes.\nCuando la esperanza se hace visible en nuestras acciones, se transforma en un camino capaz de iluminar el mundo."
     }
   ]
 }
