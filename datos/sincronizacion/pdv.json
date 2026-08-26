@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "pdv",
-  "revision": "f66173b141254350",
-  "generatedAt": "2026-08-25T15:42:47.293Z",
+  "revision": "ceda6eb966fe3bef",
+  "generatedAt": "2026-08-26T01:48:37.998Z",
   "items": [
     {
       "id": "pdv_2026_06",
@@ -450,8 +450,8 @@
         "_nanoseconds": 765000000
       },
       "fechaActualizacion": {
-        "_seconds": 1787626303,
-        "_nanoseconds": 765000000
+        "_seconds": 1787708293,
+        "_nanoseconds": 65000000
       },
       "fechaPublicacion": {
         "_seconds": 1788231600,
