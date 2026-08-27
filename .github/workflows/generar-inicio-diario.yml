@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/generar-inicio-diario.yml'
       - 'scripts/generar-inicio.js'
       - 'scripts/generar-cancionero.js'
   schedule:
