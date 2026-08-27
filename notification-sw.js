@@ -1,4 +1,4 @@
-self.GEN_SHELL_CACHE = 'gen2-shell-v2';
+self.GEN_SHELL_CACHE = 'gen2-shell-v3';
 self.GEN_CONTENT_CACHE = 'gen2-content-v2';
 
 self.addEventListener('install', event => {
@@ -16,8 +16,8 @@ self.addEventListener('install', event => {
       './perfil/sin-conexion.css',
       './perfil/sin-conexion.js',
       './perfil/sin-conexion-no-disponible.html',
-      './aadocumentos/imagenes/icono-gen-192.png',
-      './aadocumentos/imagenes/icono-gen-512.png'
+      './aadocumentos/imagenes/icono-app-gen-20260827-192.png',
+      './aadocumentos/imagenes/icono-app-gen-20260827-512.png'
     ]);
     await self.skipWaiting();
   })());
@@ -119,8 +119,8 @@ self.addEventListener('push', event => {
   const title = payload.title || 'Página Gen 2';
   const options = {
     body: payload.body || 'Tenés una novedad en Gen 2.',
-    icon: new URL('aadocumentos/imagenes/icono-gen-192.png', self.registration.scope).href,
-    badge: new URL('aadocumentos/imagenes/icono-gen-192.png', self.registration.scope).href,
+    icon: new URL('aadocumentos/imagenes/icono-app-gen-20260827-192.png', self.registration.scope).href,
+    badge: new URL('aadocumentos/imagenes/icono-app-gen-20260827-192.png', self.registration.scope).href,
     image: payload.image ? new URL(payload.image, self.registration.scope).href : undefined,
     tag: payload.tag || 'gen2-notification',
     renotify: Boolean(payload.renotify),

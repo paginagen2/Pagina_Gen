@@ -1,10 +1,11 @@
-import { addToLocalPlaylist, detectProvider, getLocalPlaylists, loadAudioCatalog, playerDescriptor, providerLabels } from './audio-catalog.js?v=20260825-mixed-playlists';
+import { addToLocalPlaylist, adoptGuestPlaylistsForCurrentUser, detectProvider, getLocalPlaylists, loadAudioCatalog, mergeCloudPlaylists, playerDescriptor, providerLabels } from './audio-catalog.js?v=20260827-account-playlists';
 import { clearMediaSession, connectMediaSession } from './media-session.js?v=20260825-1';
 import { hasNativeAudio, nativeStop, playNativeAudio } from './native-audio.js?v=20260825-1';
 
 const $ = selector => document.querySelector(selector);
 const AUDIO_CATALOG_SESSION_KEY = 'gen_public_audio_catalog_v1';
-const state = { audios: [], songs: new Map(), query: '', type: '', language: '', provider: '', sort: 'song', activeId: '', player: null, nativePlaying: false, playlistAudio: null, pickerReturnFocus: null, toastTimer: null };
+const state = { audios: [], songs: new Map(), query: '', type: '', language: '', provider: '', sort: 'song', activeId: '', player: null, nativePlaying: false, playlistAudio: null, pickerReturnFocus: null, pickerOpenedAt: 0, toastTimer: null };
+let accountPlaylistsReady = null;
 const collator = new Intl.Collator('es', { sensitivity: 'base', numeric: true });
 const normalized = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').trim();
 const field = (audio, ...keys) => keys.map(key => audio[key]).find(Boolean) || '';
@@ -106,6 +107,7 @@ function filteredAudios() {
 function badge(text) { const span = document.createElement('span'); span.textContent = displayLabel(text); return span; }
 
 function closePlaylistPicker() {
+  if ($('#playlistPicker').hidden) return;
   $('#playlistPicker').hidden = true; $('#playlistBackdrop').hidden = true; document.body.classList.remove('playlist-picker-open');
   state.playlistAudio = null; state.pickerReturnFocus?.focus(); state.pickerReturnFocus = null;
 }
@@ -116,9 +118,36 @@ function saveAudioToPlaylist(name) {
   showToast(`Agregado a ${playlist?.nombre || name.trim()}`);
 }
 
-function openPlaylistPicker(audio, trigger) {
+async function loadAccountPlaylists() {
+  if (accountPlaylistsReady) return accountPlaylistsReady;
+  accountPlaylistsReady = (async () => {
+    await import('../firebase-config-cancionero.js?v=20260730-google1');
+    const auth = window.firebaseAuth;
+    const onAuthStateChanged = window.firebaseUtils?.onAuthStateChanged;
+    if (!auth || !onAuthStateChanged) return getLocalPlaylists();
+    return new Promise(resolve => {
+      const unsubscribe = onAuthStateChanged(auth, async user => {
+        unsubscribe();
+        if (!user) return resolve(getLocalPlaylists());
+        try {
+          adoptGuestPlaylistsForCurrentUser();
+          resolve(await mergeCloudPlaylists(user.uid));
+        }
+        catch (error) {
+          console.warn('No se pudieron actualizar las playlists de la cuenta:', error);
+          resolve(getLocalPlaylists());
+        }
+      });
+    });
+  })();
+  return accountPlaylistsReady;
+}
+
+async function openPlaylistPicker(audio, trigger) {
   if (!audio?.url) return;
+  await loadAccountPlaylists();
   state.playlistAudio = audio; state.pickerReturnFocus = trigger;
+  state.pickerOpenedAt = performance.now();
   $('#playlistAudioName').textContent = audio.cancionTitulo;
   const choices = $('#playlistChoices'); choices.replaceChildren();
   const playlists = getLocalPlaylists().filter(playlist => playlist.tipo === 'audio');
@@ -134,7 +163,12 @@ function openPlaylistPicker(audio, trigger) {
     });
   }
   $('#newPlaylistName').value = ''; $('#playlistBackdrop').hidden = false; $('#playlistPicker').hidden = false; document.body.classList.add('playlist-picker-open');
-  requestAnimationFrame(() => (choices.querySelector('button') || $('#newPlaylistName')).focus());
+  requestAnimationFrame(() => {
+    const target = window.matchMedia('(max-width: 620px)').matches
+      ? $('#playlistPicker')
+      : (choices.querySelector('button') || $('#playlistPicker'));
+    target.focus({ preventScroll: true });
+  });
 }
 
 function audioCard(audio) {
@@ -148,7 +182,7 @@ function audioCard(audio) {
   const actions = document.createElement('div'); actions.className = 'audio-card-actions';
   const song = document.createElement('a'); song.href = `cancion.html?id=${encodeURIComponent(audio.cancionId)}`; song.title = 'Abrir letra y acordes'; song.setAttribute('aria-label', 'Abrir letra y acordes'); song.innerHTML = icons.external;
   if (audio?.url) {
-    const add = document.createElement('button'); add.type = 'button'; add.title = 'Agregar a una playlist'; add.setAttribute('aria-label', 'Agregar a una playlist'); add.innerHTML = icons.plus; add.addEventListener('click', () => openPlaylistPicker(audio, add));
+    const add = document.createElement('button'); add.type = 'button'; add.title = 'Agregar a una playlist'; add.setAttribute('aria-label', 'Agregar a una playlist'); add.innerHTML = icons.plus; add.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); void openPlaylistPicker(audio, add); });
     actions.append(add);
   }
   actions.append(song); card.append(play, copy, actions); return card;
@@ -206,7 +240,12 @@ function bind() {
   [['#typeFilter','type'],['#languageFilter','language'],['#providerFilter','provider'],['#sortFilter','sort']].forEach(([selector,key]) => $(selector).addEventListener('change', event => { state[key] = event.target.value; render(); }));
   $('#clearFilters').addEventListener('click', () => { state.query = state.type = state.language = state.provider = ''; state.sort = 'song'; ['#audioSearch','#typeFilter','#languageFilter','#providerFilter'].forEach(selector => { $(selector).value = ''; }); $('#sortFilter').value = 'song'; render(); });
   $('#filterToggle').addEventListener('click', () => { const open = $('#audioFilters').classList.toggle('is-open'); $('#filterToggle').setAttribute('aria-expanded', String(open)); });
-  $('#closePlaylistPicker').addEventListener('click', closePlaylistPicker); $('#playlistBackdrop').addEventListener('click', closePlaylistPicker);
+  $('#closePlaylistPicker').addEventListener('click', closePlaylistPicker);
+  $('#playlistBackdrop').addEventListener('click', event => {
+    event.preventDefault(); event.stopPropagation();
+    // Algunos WebView entregan al fondo el mismo toque que abrió el selector.
+    if (performance.now() - state.pickerOpenedAt > 500) closePlaylistPicker();
+  });
   $('#newPlaylistForm').addEventListener('submit', event => { event.preventDefault(); const name = $('#newPlaylistName').value.trim(); if (name) saveAudioToPlaylist(name); else $('#newPlaylistName').focus(); });
   document.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); $('#audioSearch').focus(); } if (event.key === 'Escape' && !$('#playlistPicker').hidden) closePlaylistPicker(); else if (event.key === 'Escape' && document.activeElement === $('#audioSearch')) { $('#audioSearch').value = ''; state.query = ''; render(); } });
 }

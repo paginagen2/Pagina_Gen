@@ -159,6 +159,28 @@ export function saveLocalPlaylists(playlists) {
   void syncLocalPlaylistsForCurrentUser(normalized).catch(error => console.warn('La lista quedó guardada localmente:', error));
 }
 
+export function adoptGuestPlaylistsForCurrentUser() {
+  const userId = window.firebaseAuth?.currentUser?.uid;
+  if (!userId) return getLocalPlaylists();
+  const guestKey = `${PLAYLIST_STORAGE_PREFIX}guest`;
+  let guest = [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem(guestKey) || '[]');
+    if (Array.isArray(parsed)) guest = parsed.filter(item => item?.id && Array.isArray(item.items));
+  } catch { /* Un dato local inválido no debe bloquear las listas de la cuenta. */ }
+  if (!guest.length) return getLocalPlaylists();
+  const account = getLocalPlaylists();
+  const merged = new Map(account.map(playlist => [playlist.id, playlist]));
+  guest.forEach(playlist => {
+    const current = merged.get(playlist.id);
+    if (!current || String(playlist.actualizadaEn || playlist.creadaEn || '') > String(current.actualizadaEn || current.creadaEn || '')) merged.set(playlist.id, playlist);
+  });
+  const result = [...merged.values()];
+  saveLocalPlaylists(result);
+  localStorage.removeItem(guestKey);
+  return result;
+}
+
 function playlistForCloud(playlist, userId) {
   return {
     usuarioId: userId,

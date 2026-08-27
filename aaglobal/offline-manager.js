@@ -6,7 +6,7 @@
   const LAST_CHECK_KEY = 'gen2-offline-last-check';
   const SYNC_CHECK_INTERVAL = 30 * 60 * 1000;
   const DEFAULT_CACHE_FRESHNESS = 6 * 60 * 60 * 1000;
-  const INCREMENTAL_SYNC_ENABLED = true;
+  const INCREMENTAL_SYNC_ENABLED = false;
   const root = new URL('../', document.currentScript?.src || window.location.href);
   const publicSyncRoot = new URL('https://paginagen2.github.io/Pagina_Gen/');
   const syncRoot = window.Capacitor?.isNativePlatform?.() ? publicSyncRoot : root;

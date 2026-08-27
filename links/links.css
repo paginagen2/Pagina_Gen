@@ -320,6 +320,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .network-mark.instagram { background: linear-gradient(135deg, #7b3fda, #d44872, #e39142); }
 .network-mark.youtube { background: #c72d35; }
 .network-mark.whatsapp { background: #258f58; }
+.network-mark.email { background: #596c9b; }
 .network-mark.spotify { background: #21854a; }
 .community-card strong, .community-card small { display: block; }
 .community-card strong { margin-bottom: 4px; font-size: .86rem; }

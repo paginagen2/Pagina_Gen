@@ -4,7 +4,7 @@
   "description": "Es una pagina Gen!\r Porfa que esta vez ande bien!",
   "main": "index.js",
   "scripts": {
-    "test": "node --check canal/canal.js && node --check index/index.js && node --check aaglobal/sidebar.js && node --check scripts/generar-inicio.js && node --check scripts/generar-sincronizacion-offline.js && node --check scripts/unificar-presentacion.js && node scripts/test-sincronizacion-offline.js && node scripts/test-cancion-mobile.js && node scripts/verificar-sidebar.js && node scripts/verificar-presentacion.js",
+    "test": "node --check canal/canal.js && node --check index/index.js && node --check aaglobal/sidebar.js && node --check scripts/generar-inicio.js && node --check scripts/generar-sincronizacion-offline.js && node --check scripts/unificar-presentacion.js && node scripts/test-sincronizacion-offline.js && node scripts/test-cancion-mobile.js && node scripts/test-index-zonas.js && node scripts/verificar-sidebar.js && node scripts/verificar-presentacion.js",
     "test:biblioteca": "node --check biblioteca/biblioteca-v2.js && node scripts/verificar-modulo.js admin/admin.js && node scripts/test-biblioteca.js",
     "test:notificaciones": "node --check perfil/notificaciones.js && node --check notification-sw.js && node --check scripts/procesar-notificaciones.js && node scripts/test-notificaciones-planificador.js && node scripts/verificar-notificaciones-config.js",
     "test:roles": "node scripts/verificar-modulo.js admin/admin.js && node --check canal/canal.js && node scripts/test-roles.js",

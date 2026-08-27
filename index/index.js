@@ -6,6 +6,8 @@ let carruselCurrentIndex = 0;
 let carruselInterval = null;
 let carruselPointerInside = false;
 let carruselFocusInside = false;
+let channelRefreshVersion = 0;
+let channelAudienceKey = '';
 const carruselReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const REMOTE_HOME_DATA_URL = 'https://raw.githubusercontent.com/paginagen2/Pagina_Gen/main/datos/inicio.json';
 const LOCAL_HOME_DATA_URL = 'datos/inicio.json';
@@ -41,6 +43,17 @@ window.addEventListener('gen:android-update', event => {
     applyAndroidUpdateNews(event.detail);
 });
 
+window.addEventListener('gen:profile-updated', event => {
+    const roles = window.genExpandRoles
+        ? window.genExpandRoles(event.detail?.roles || [])
+        : (event.detail?.roles || []);
+    refreshIndexChannel(roles, { force: true });
+});
+
+window.addEventListener('gen:auth-changed', event => {
+    if (!event.detail?.user) refreshIndexChannel([], { force: true });
+});
+
 async function loadHomeFromFirebase({ refreshDailyContent = true } = {}) {
     try {
         if (window.firebaseReady) await window.firebaseReady;
@@ -74,6 +87,10 @@ async function loadDailyHomeData() {
             if (!response.ok) throw new Error(`No se pudo leer inicio.json (${response.status})`);
             let data = await response.json();
             if (!data || data.schemaVersion !== 1) throw new Error('El formato de inicio.json no es válido');
+            // Algunos WebView de Android pueden conservar temporalmente la
+            // respuesta de raw.githubusercontent.com pese a no-store. Si la
+            // copia remota está fechada para otro día, reintentamos una sola
+            // vez con una URL única antes de pasar a los catálogos.
             if (source.name === 'daily-remote' && data.fechaGeneracion !== argentinaDate) {
                 const separator = source.url.includes('?') ? '&' : '?';
                 response = await fetch(`${source.url}${separator}actualizar=${Date.now()}`, { cache: 'no-store' });
@@ -283,11 +300,7 @@ async function initializePage({ refreshDailyContent = true } = {}) {
     const roles = window.genAuthSession
         ? await window.genAuthSession.getRoles().catch(() => [])
         : [];
-    // El carrusel y la tarjeta del canal usan la misma colección. Compartir
-    // la consulta evita descargar dos veces las mismas publicaciones.
-    const channelPostsPromise = cargarPublicacionesGeneralesVisibles(db, roles);
-    cargarCarrusel(db, roles, channelPostsPromise);
-    cargarCanalPreview(db, channelPostsPromise);
+    refreshIndexChannel(roles);
     if (refreshDailyContent) {
         cargarFraseAleatoria(db);
         cargarTituloPasapalabraHoy(db);
@@ -296,16 +309,34 @@ async function initializePage({ refreshDailyContent = true } = {}) {
     }
 }
 
-async function cargarCanalPreview(db, channelPostsPromise = null) {
+async function refreshIndexChannel(roles = [], { force = false } = {}) {
+    if (!window.firebaseDb || !window.firebaseUtils) return;
+    const normalizedRoles = [...new Set((Array.isArray(roles) ? roles : [])
+        .map(role => String(role || '').trim())
+        .filter(Boolean))].sort();
+    const audienceKey = normalizedRoles.join('|') || 'publico';
+    if (!force && audienceKey === channelAudienceKey) return;
+
+    channelAudienceKey = audienceKey;
+    const refreshVersion = ++channelRefreshVersion;
+    const channelPostsPromise = cargarPublicacionesGeneralesVisibles(window.firebaseDb, normalizedRoles);
+    await Promise.allSettled([
+        cargarCarrusel(window.firebaseDb, normalizedRoles, channelPostsPromise, refreshVersion),
+        cargarCanalPreview(window.firebaseDb, channelPostsPromise, refreshVersion)
+    ]);
+}
+
+async function cargarCanalPreview(db, channelPostsPromise = null, refreshVersion = channelRefreshVersion) {
     const text = document.getElementById('canal-banner-preview');
     const subtitle = document.getElementById('canal-subtitulo');
     if (!text) return;
     try {
         const publicaciones = await (channelPostsPromise || cargarPublicacionesGeneralesVisibles(db));
+        if (refreshVersion !== channelRefreshVersion) return;
         const toDate = value => value?.toDate ? value.toDate() : new Date(value);
         const general = publicaciones.sort((a, b) => toDate(b.fechaPublicacion) - toDate(a.fechaPublicacion))[0];
         if (general) {
-            subtitle.textContent = 'Canal General';
+            subtitle.textContent = general.rolesDestinatarios?.length ? 'Canal de tus zonas' : 'Canal General';
             text.textContent = general.titulo || general.resumen || 'Nueva publicación';
             updateChannelBanner(general);
         } else text.textContent = 'No hay novedades generales por el momento.';
@@ -347,6 +378,9 @@ async function cargarPublicacionesGeneralesVisibles(db, roles = []) {
         );
     }
     const results = await Promise.allSettled(requests);
+    results.filter(result => result.status === 'rejected').forEach(result => {
+        console.warn('Una consulta zonal del carrusel no estuvo disponible:', result.reason);
+    });
     const unique = new Map();
     results.filter(result => result.status === 'fulfilled').forEach(result => result.value.docs.forEach(document => {
         unique.set(document.id, { id: document.id, ...document.data() });
@@ -652,9 +686,10 @@ window.addEventListener('beforeunload', () => {
 });
 
 // Funciones del carrusel de fotos
-async function cargarCarrusel(db, roles = [], channelPostsPromise = null) {
+async function cargarCarrusel(db, roles = [], channelPostsPromise = null, refreshVersion = channelRefreshVersion) {
     try {
         const channelPosts = await (channelPostsPromise || cargarPublicacionesGeneralesVisibles(db, roles));
+        if (refreshVersion !== channelRefreshVersion) return;
         carruselData = [];
         // Las generales se muestran a todos; las segmentadas solo llegan a
         // usuarios que tengan alguna de sus zonas o categorías.

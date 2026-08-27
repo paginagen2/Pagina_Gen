@@ -114,22 +114,17 @@ export const DatabaseService = {
     const likeRef = doc(db, 'canciones', cancionId, 'likes', usuarioId);
     const favoritoRef = doc(db, 'usuarios', usuarioId, 'favoritos', cancionId);
     const creadoEn = new Date().toISOString();
+    const batch = writeBatch(db);
     if (activo) {
-      await setDoc(likeRef, { usuarioId, creadoEn });
+      batch.set(likeRef, { usuarioId, creadoEn });
+      batch.set(favoritoRef, { usuarioId, cancionId, creadoEn });
     } else {
-      await deleteDoc(likeRef);
+      batch.delete(likeRef);
+      batch.delete(favoritoRef);
     }
-    try {
-      if (activo) {
-        await setDoc(favoritoRef, { usuarioId, cancionId, creadoEn });
-      } else {
-        await deleteDoc(favoritoRef);
-      }
-    } catch (error) {
-      // El favorito principal ya quedó guardado. Esta copia sólo acelera
-      // la pantalla personal cuando sus reglas estén publicadas.
-      console.warn('No se pudo sincronizar la lista rápida de favoritos:', error);
-    }
+    // Ambas representaciones cambian juntas: el corazón de la canción y la
+    // lista rápida del perfil nunca pueden quedar con estados diferentes.
+    await batch.commit();
     return activo;
   },
 
@@ -180,9 +175,25 @@ export const DatabaseService = {
       return canciones.filter((_, index) => estados[index]);
     }
     referencias.sort((a, b) => String(b.creadoEn).localeCompare(String(a.creadoEn)));
-    const canciones = await Promise.all(referencias.map(async ({ cancionId }) => {
-      return this.getCancionPorId(cancionId);
-    }));
+
+    // El índice público ya contiene lo necesario para dibujar las tarjetas.
+    // Así, abrir Favoritos cuesta una sola lectura de la subcolección personal
+    // y una descarga estática cacheable, no una lectura Firestore por canción.
+    const indice = await cargarIndiceCancionero().catch((error) => {
+      console.warn('No se pudo usar el índice estático para favoritos:', error);
+      return [];
+    });
+    const porId = new Map(indice.map((cancion) => [String(cancion.id), cancion]));
+    const faltantes = referencias.filter(({ cancionId }) => !porId.has(String(cancionId)));
+    if (faltantes.length) {
+      const recuperadas = await Promise.all(faltantes.map(({ cancionId }) =>
+        this.getCancionPorId(cancionId).catch(() => null)
+      ));
+      recuperadas.forEach((cancion) => {
+        if (cancion?.id) porId.set(String(cancion.id), cancion);
+      });
+    }
+    const canciones = referencias.map(({ cancionId }) => porId.get(String(cancionId)) || null);
     return canciones.filter((cancion) =>
       cancion && (!cancion.estado || cancion.estado === 'publicado' || cancion.estado === 'publicada')
     );
@@ -385,6 +396,22 @@ async function ejecutarOfflineSeguro(offline, metodo, ...args) {
 }
 
 let snapshotCancionesPromise = null;
+let indiceCancioneroPromise = null;
+
+async function cargarIndiceCancionero() {
+  indiceCancioneroPromise ||= fetch(
+    new URL('../datos/cancionero/buscar.json', import.meta.url),
+    { cache: 'default' }
+  ).then(async (response) => {
+    if (!response.ok) throw new Error('No se pudo abrir el índice del cancionero.');
+    const data = await response.json();
+    return Array.isArray(data.canciones) ? data.canciones : [];
+  }).catch((error) => {
+    indiceCancioneroPromise = null;
+    throw error;
+  });
+  return indiceCancioneroPromise;
+}
 
 async function cargarCancionEstatica(cancionId) {
   try {

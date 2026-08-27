@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/generar-inicio-diario.yml'
       - 'scripts/generar-inicio.js'
       - 'scripts/generar-cancionero.js'
   schedule:
@@ -22,7 +21,9 @@ permissions:
   contents: write
 
 concurrency:
-  group: generar-inicio-diario
+  # Comparte la cola con cualquier workflow que publique archivos generados.
+  # Así dos procesos no intentan hacer git push sobre main al mismo tiempo.
+  group: publicar-datos-generados-main
   cancel-in-progress: false
 
 jobs:
@@ -31,6 +32,8 @@ jobs:
     steps:
       - name: Obtener repositorio
         uses: actions/checkout@v5
+        with:
+          ref: main
 
       - name: Comprobar si el archivo diario ya está vigente
         id: vigencia
@@ -96,7 +99,7 @@ jobs:
             exit 0
           fi
           git commit -m "chore: actualizar inicio diario"
-          # La sincronización offline puede publicar en paralelo. Integrar su
-          # commit antes del push evita rechazos sin perder datos generados.
+          # Integrar cualquier publicación que haya llegado mientras se
+          # generaban los datos antes de intentar escribir en main.
           git pull --rebase origin main
           git push

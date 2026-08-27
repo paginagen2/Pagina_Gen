@@ -19,7 +19,7 @@
 
   if (document.createElement && window.AndroidNativeAudio && !document.querySelector('script[data-gen-native-player]')) {
     const nativePlayerScript = document.createElement('script');
-    nativePlayerScript.src = siteUrl('aaglobal/native-player-ui.js?v=20260826-1');
+    nativePlayerScript.src = siteUrl('aaglobal/native-player-ui.js?v=20260826-player-icons');
     nativePlayerScript.dataset.genNativePlayer = 'true';
     document.head.append(nativePlayerScript);
   }

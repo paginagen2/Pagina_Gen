@@ -314,6 +314,7 @@ function listenAuthState() {
                     currentUserProfile = freshProfile;
                     writeCachedProfile(freshProfile);
                     updateAuthUI(user, freshProfile);
+                    window.dispatchEvent(new CustomEvent('gen:profile-updated', { detail: freshProfile }));
                 }, error => console.warn('No se pudo actualizar el perfil en tiempo real:', error));
             }
         } catch (error) {
