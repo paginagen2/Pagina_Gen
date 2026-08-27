@@ -141,6 +141,28 @@ async function runCollectionQuery(collectionId, changedAfter = '') {
   return (await response.json()).filter(row => row.document).map(row => decodeDocument(row.document));
 }
 
+async function runPublishedAudioQuery() {
+  const response = await fetch(RUN_QUERY_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      structuredQuery: {
+        from: [{ collectionId: COLLECTIONS.audios.source }],
+        where: {
+          fieldFilter: {
+            field: { fieldPath: 'estado' },
+            op: 'EQUAL',
+            value: { stringValue: 'publicado' }
+          }
+        }
+      }
+    }),
+    signal: AbortSignal.timeout(45000)
+  });
+  if (!response.ok) throw new Error(`Firestore rechazó el catálogo público de audios (${response.status}): ${await response.text()}`);
+  return (await response.json()).filter(row => row.document).map(row => decodeDocument(row.document));
+}
+
 function mergeIncrementalSnapshot(previousItems, changedItems, include) {
   const merged = new Map(previousItems.map(item => [String(item.id), item]));
   changedItems.forEach(item => {
@@ -269,8 +291,36 @@ async function main() {
   console.log(`Sincronización preparada para ${entries.length} colecciones.`);
 }
 
+async function syncPublicAudios() {
+  const definition = COLLECTIONS.audios;
+  const snapshotPath = path.join(OUTPUT_ROOT, 'audios.json');
+  const deltaPath = path.join(OUTPUT_ROOT, 'audios.delta.json');
+  const previousSnapshot = await readJson(snapshotPath, { items: [] });
+  const previousManifest = await readJson(MANIFEST_PATH, { schemaVersion: 1, collections: {} });
+  const items = (await runPublishedAudioQuery())
+    .filter(definition.include)
+    .map(sanitizePublicItem)
+    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  const revision = revisionFor(items);
+  const previousRevision = previousManifest.collections?.audios?.revision || previousSnapshot.revision || '';
+  const generatedAt = new Date().toISOString();
+  const delta = calculateDelta(previousSnapshot.items || [], items);
+  await writeJson(snapshotPath, { schemaVersion: 1, collection: 'audios', revision, generatedAt, items });
+  await writeJson(deltaPath, { schemaVersion: 1, collection: 'audios', fromRevision: previousRevision, toRevision: revision, generatedAt, upserts: delta.upserts, deletes: delta.deletes });
+  await writeJson(MANIFEST_PATH, {
+    ...previousManifest,
+    generatedAt,
+    collections: {
+      ...(previousManifest.collections || {}),
+      audios: { revision, previousRevision, count: items.length, snapshot: 'datos/sincronizacion/audios.json', delta: 'datos/sincronizacion/audios.delta.json' }
+    }
+  });
+  console.log(`Catálogo público de audios preparado con ${items.length} elementos.`);
+}
+
 if (require.main === module) {
-  main().catch(error => {
+  const action = process.argv.includes('--audios-publicos') ? syncPublicAudios : main;
+  action().catch(error => {
     console.error(error);
     process.exitCode = 1;
   });

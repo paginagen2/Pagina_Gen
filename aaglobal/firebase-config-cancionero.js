@@ -39,6 +39,7 @@ const firebaseConfig = window.firebaseConfigWeb || {
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 const auth = getAuth(app);
+const PUBLIC_SONG_QUERY_LIMIT = 200;
 
 window.firebaseDb = db;
 window.firebaseAuth = auth;
@@ -190,7 +191,12 @@ export const DatabaseService = {
   async getCanciones() {
     try {
       console.log('🔍 Obteniendo canciones públicas...');
-      const q = query(collection(db, 'canciones'), where('estado', '==', 'publicado'));
+      const q = query(
+        collection(db, 'canciones'),
+        where('estado', '==', 'publicado'),
+        orderBy('fechaCreacion', 'desc'),
+        limit(PUBLIC_SONG_QUERY_LIMIT)
+      );
       const snapshot = await getDocs(q);
       const canciones = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -235,7 +241,12 @@ export const DatabaseService = {
   // Función para escuchar cambios en tiempo real (filtradas por estado: 'publicado')
   onCancionesChange(callback) {
     console.log('🔄 Configurando listener en tiempo real para canciones públicas...');
-    const q = query(collection(db, 'canciones'), where('estado', '==', 'publicado'));
+    const q = query(
+      collection(db, 'canciones'),
+      where('estado', '==', 'publicado'),
+      orderBy('fechaCreacion', 'desc'),
+      limit(PUBLIC_SONG_QUERY_LIMIT)
+    );
     return onSnapshot(q, (snapshot) => {
       const canciones = snapshot.docs.map(doc => ({
         id: doc.id,

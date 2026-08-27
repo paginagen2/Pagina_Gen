@@ -10,7 +10,7 @@
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
   <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
-  <link rel="stylesheet" href="cancion.css?v=20260825-mobile-guide-dock-off">
+  <link rel="stylesheet" href="cancion.css?v=20260825-tabs-visible-hidden">
   <link rel="stylesheet" href="chord-diagrams.css?v=20260730-custom-voicings">
   <!-- Vista previa al compartir -->
   <meta property="og:locale" content="es_AR">
@@ -106,6 +106,9 @@
           <button class="tool-wide chords-visibility" type="button" id="btnMostrarAcordes" aria-pressed="true">
             <span class="cifrado-sample"><svg><use href="#i-music"/></svg></span><span>Letra y acordes</span><strong>Visibles</strong>
           </button>
+          <button class="tool-wide tabs-visibility" type="button" id="btnMostrarTablaturas" aria-label="Cambiar visualización de tablaturas">
+            <span class="cifrado-sample tab-sample">TAB</span><span>Tablaturas</span><strong>Visibles</strong>
+          </button>
         </div>
 
         <div class="tool-group">
@@ -152,6 +155,7 @@
           <summary><span>Atajos de teclado</span><span class="keyboard-help-action">Ver</span></summary>
           <dl>
             <div><dt><kbd>V</kbd></dt><dd>Alternar letra y acordes</dd></div>
+            <div><dt><kbd>T</kbd></dt><dd>Cambiar vista de tablaturas</dd></div>
             <div><dt><kbd>C</kbd></dt><dd>Alternar cifrado</dd></div>
             <div><dt><kbd>←</kbd> <kbd>→</kbd> <kbd>+</kbd> <kbd>−</kbd></dt><dd>Cambiar velocidad</dd></div>
             <div><dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>Desplazar la canción</dd></div>
@@ -281,6 +285,6 @@
   <div class="song-toast" id="songToast" role="status" aria-live="polite" hidden></div>
 
 <script type="module" src="../auth.js?v=20260730-google1"></script>
-  <script type="module" src="cancion.js?v=20260825-mobile-guide-dock-off"></script>
+  <script type="module" src="cancion.js?v=20260825-mixed-playlists"></script>
 </body>
 </html>

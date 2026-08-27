@@ -116,6 +116,7 @@ svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColo
 .tool-wide strong { color: #b98dfb; font-size: .72rem; }
 .cifrado-sample { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 7px; color: #fff; background: linear-gradient(145deg, #7740b9, #492b70); font-weight: 800; }
 .cifrado-sample svg { width: 17px; height: 17px; }
+.tab-sample { font-size:9px; letter-spacing:.04em; }
 .chords-visibility.active { border-color: #674198; background: rgba(111, 58, 170, .14); }
 .stepper { display: grid; grid-template-columns: 44px 1fr 44px; align-items: stretch; overflow: hidden; }
 .stepper button { display: grid; min-height: 44px; place-items: center; border: 0; background: transparent; cursor: pointer; }
@@ -239,7 +240,18 @@ body.guide-dock-visible .song-content-column { width: min(100%, 900px); max-widt
 .letra-container { min-height: 460px; padding: clamp(28px, 5vw, 58px); background: radial-gradient(circle at 100% 0, rgba(92,56,134,.08), transparent 30%), #0b1016; }
 .letra-content { max-width: 740px; margin: 0 auto; color: #e9ebee; font-family: "Cascadia Mono", Consolas, "Courier New", monospace; font-size: 1rem; line-height: 2.15; white-space: pre-wrap; overflow-wrap: break-word; }
 .lyrics-blank { height:.9em; }
-.song-tab-block { display:grid; gap:1.15em; margin:1.2em 0; }
+.song-tab-block { margin:1.05em 0; overflow:hidden; border:1px solid #29323e; border-radius:9px; background:#090e14; scroll-margin-block:120px; transition:border-color .2s ease,box-shadow .2s ease; }
+.song-tab-highlight { border-color:#a45eff; box-shadow:0 0 0 2px rgba(164,94,255,.18); }
+.song-musical-reference { display:inline-flex; align-items:center; min-height:25px; padding:2px 7px; border:1px solid rgba(171,108,255,.36); border-radius:6px; color:#d1a2ff; background:rgba(113,58,180,.1); cursor:pointer; font:800 .68em/1.2 Inter,Arial,sans-serif; letter-spacing:.02em; white-space:nowrap; }
+.song-musical-reference:hover,.song-musical-reference:focus-visible { border-color:#ae73f4; background:rgba(113,58,180,.22); outline:none; }
+.song-reference-line { margin:.35em 0 .7em; }
+.song-section-line { margin-top:1.7em !important; }
+.song-section-line .lyric-line { color:#f2a65a; font-size:.72em; font-weight:900; letter-spacing:.14em; text-transform:uppercase; }
+.song-tab-summary { display:flex; min-height:40px; align-items:center; justify-content:space-between; gap:12px; padding:.52em .72em; color:#eee7f8; background:#0e141c; font-family:Inter,Arial,sans-serif; }
+.song-tab-summary strong { min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:.82em; }
+.song-tab-summary span { margin-left:auto; color:#9d79c7; font-size:.58em; font-weight:800; letter-spacing:.08em; }
+.song-tab-content { display:grid; gap:1.15em; padding:.8em; border-top:1px solid #252d38; }
+.song-tab-content[hidden] { display:none; }
 .song-tab-fragment { width:max-content; max-width:100%; padding:.75em .9em; border:1px solid #303845; border-radius:10px; background:#080d13; color:#e8e9ed; font-size:.82em; line-height:1.35; white-space:pre; }
 .song-tab-chords { min-height:1.25em; color:#c797ff; font-weight:850; white-space:pre; }
 .song-tab-string { white-space:pre; }

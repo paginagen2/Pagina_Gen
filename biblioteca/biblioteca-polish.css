@@ -71,7 +71,7 @@ body { background: #090c0f; }
 .filtro_btn.active, .atributo_btn.active { border-color: #8d5cf6; color: #fff; background: linear-gradient(135deg,#6840c8,#8455ea); }
 .mostrar_meditaciones_check { color: #b9c2ce; font-size: .9rem; cursor: pointer; }
 .mostrar_meditaciones_check input { width: 17px; height: 17px; accent-color: #8d5cf6; }
-.mostrar_meditaciones_check[hidden] { display: none; }
+.mostrar_meditaciones_check[hidden] { display: none !important; }
 .busqueda_container { max-width: none; margin: 0; }
 .busqueda_input { border: 1px solid #3a4350; border-radius: 12px; background: #0d1217; }
 .busqueda_input:focus { border-color: #8d5cf6; box-shadow: 0 0 0 3px rgba(141,92,246,.13); }

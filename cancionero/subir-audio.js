@@ -200,7 +200,7 @@ async function uploadSelectedAudioToDrive() {
     const result = await waitForDriveUpload(uploadToken);
     $('#publicAudioUrl').value = result.url;
     setDriveProgress(100, 'Carga terminada');
-    showStatus('MP3 subido correctamente. El enlace público ya quedó agregado a la propuesta.');
+    showStatus('Audio subido correctamente. El enlace público ya quedó agregado a la propuesta.');
     selectedGoogleAudioFile = null;
     $('#googleAudioFile').value = '';
     $('#googleAudioUpload').hidden = true;
@@ -209,7 +209,7 @@ async function uploadSelectedAudioToDrive() {
   } catch (error) {
     console.error(error);
     setDriveProgress(0, 'No se pudo subir');
-    showStatus(error.message || 'No pudimos subir el MP3. Intentá nuevamente.', true);
+    showStatus(error.message || 'No pudimos subir el audio. Intentá nuevamente.', true);
     return null;
   } finally {
     uploadButton.disabled = false;
@@ -297,13 +297,14 @@ $('#googleAudioChoose').addEventListener('click', () => $('#googleAudioFile').cl
 $('#googleAudioFile').addEventListener('change', event => {
   const file = event.target.files?.[0] || null;
   if (!file) return resetDriveUpload();
-  if (!file.name.toLowerCase().endsWith('.mp3')) {
+  const extension = file.name.toLowerCase().match(/\.([^.]+)$/)?.[1] || '';
+  if (!['mp3', 'm4a'].includes(extension)) {
     resetDriveUpload();
-    return showStatus('Seleccioná un archivo MP3.', true);
+    return showStatus('Seleccioná un archivo MP3 o M4A.', true);
   }
   if (file.size > MAX_GOOGLE_AUDIO_BYTES) {
     resetDriveUpload();
-    return showStatus('El MP3 supera el máximo de 25 MB.', true);
+    return showStatus('El audio supera el máximo de 25 MB.', true);
   }
   selectedGoogleAudioFile = file;
   $('#googleAudioFileName').textContent = file.name;
@@ -336,12 +337,12 @@ $('#publicAudioForm').addEventListener('submit', async event => {
   button.disabled = true;
   try {
     if (selectedGoogleAudioFile) {
-      button.textContent = 'Subiendo MP3…';
+      button.textContent = 'Subiendo audio…';
       const uploadResult = await uploadSelectedAudioToDrive();
       if (!uploadResult) return;
     }
     const url = $('#publicAudioUrl').value.trim();
-    try { new URL(url); } catch { return showStatus('Agregá un enlace válido o seleccioná un MP3.', true); }
+    try { new URL(url); } catch { return showStatus('Agregá un enlace válido o seleccioná un archivo MP3 o M4A.', true); }
     const provider = detectProvider(url);
     button.textContent = 'Enviando…';
     const id = `audio_${Date.now()}_${currentUser.uid.slice(0, 8)}`;

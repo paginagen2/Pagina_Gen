@@ -1,4 +1,4 @@
-import { parseSongContent } from '../cancionero/song-content.js?v=20260819-1';
+import { parseSongContent } from '../cancionero/song-content.js?v=20260825-riff-links';
 
 let db, utils, auth;
 let currentUser = null;
@@ -1896,7 +1896,12 @@ function setupMeditacionesListeners() {
         const informacionCategoria = document.getElementById('meditacion-categoria-informacion').checked;
         const publicoCategoria = document.getElementById('meditacion-categoria-publico').checked;
 
-        const data = { titulo, contenido, activa: meditacionDiaria, 'Meditación': meditacionCategoria, 'Informacion': informacionCategoria, 'Publico': publicoCategoria };
+        const data = {
+            titulo, contenido, activa: meditacionDiaria,
+            'Meditación': meditacionCategoria, 'Informacion': informacionCategoria,
+            'Publico': publicoCategoria,
+            estado: publicoCategoria ? 'publicado' : 'borrador'
+        };
         if (libro) data.libro = libro;
         if (pagina) data.pagina = pagina;
         if (autor) data.autor = autor;
@@ -4684,7 +4689,7 @@ async function saveBibliotecaFormConfig() {
             googleFormUrl: url, actualizadoEn: new Date(), actualizadoPor: currentUser.uid
         });
         input.value = url;
-        status.textContent = 'Formulario guardado. Ya se mostrará dentro de la Biblioteca.';
+        status.textContent = 'Formulario guardado. Ya se usará desde la Biblioteca.';
     } catch (error) {
         console.error(error);
         status.textContent = `No se pudo guardar: ${error.message}`;
@@ -5118,7 +5123,7 @@ function populateAndroidVersionSelectors() {
 function applyAndroidPublicationConfig() {
     const config = androidPublicationConfig;
     if (!config) return updateAndroidPolicyPreview();
-    document.getElementById('android-apk-url').value = config.apkUrl || 'https://paginagen2.github.io/Pagina_Gen/descargas/Pagina-Gen.apk';
+    document.getElementById('android-apk-url').value = config.apkUrl || 'https://pagina-gen.web.app/descargas/Pagina-Gen.apk';
     document.getElementById('android-update-title').value = config.titulo || 'Actualizá Gen 2';
     document.getElementById('android-update-description').value = config.descripcion || 'Hay una nueva versión disponible.';
     document.getElementById('android-update-action').value = config.textoEnlace || 'Descargar actualización';

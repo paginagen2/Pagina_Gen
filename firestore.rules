@@ -70,6 +70,12 @@ service cloud.firestore {
       return !('estado' in resource.data) || resource.data.estado == 'publicado' || resource.data.estado == 'publicada';
     }
 
+    function recentClientTimestamp(value) {
+      return value is timestamp
+        && value <= request.time
+        && value >= request.time - duration.value(10, 'm');
+    }
+
     match /usuarios/{uid} {
       allow get: if ownUser(uid) || isAdmin();
       allow list: if isAdmin();
@@ -487,7 +493,7 @@ service cloud.firestore {
       allow create: if signedIn()
         && request.resource.data.keys().hasOnly([
           'codigo', 'titulo', 'autor', 'categoria', 'anio', 'idioma', 'tipo',
-          'temas', 'temaPropuesto', 'descripcion',
+          'temas', 'temaPropuesto', 'descripcion', 'archivoPasoAbiertoEn',
           'estado', 'creadoPor', 'creadoEn'
         ])
         && request.resource.data.codigo is string
@@ -513,9 +519,10 @@ service cloud.firestore {
         && request.resource.data.descripcion is string
         && request.resource.data.descripcion.size() > 0
         && request.resource.data.descripcion.size() <= 1000
+        && recentClientTimestamp(request.resource.data.archivoPasoAbiertoEn)
         && request.resource.data.estado == 'pendiente'
         && request.resource.data.creadoPor == request.auth.uid
-        && request.resource.data.creadoEn is timestamp;
+        && recentClientTimestamp(request.resource.data.creadoEn);
       allow update, delete: if canManage('funcion_biblioteca');
     }
 
@@ -531,7 +538,7 @@ service cloud.firestore {
         && request.resource.data.consulta is string
         && request.resource.data.consulta.size() <= 80
         && request.resource.data.creadoPor == request.auth.uid
-        && request.resource.data.creadoEn is timestamp;
+        && recentClientTimestamp(request.resource.data.creadoEn);
       allow update, delete: if canManage('funcion_biblioteca');
     }
 
@@ -564,7 +571,7 @@ service cloud.firestore {
         && request.resource.data.fecha is string
         && request.resource.data.fecha.size() == 10
         && request.resource.data.creadoPor == request.auth.uid
-        && request.resource.data.creadoEn is timestamp;
+        && recentClientTimestamp(request.resource.data.creadoEn);
       allow update, delete: if canManage('funcion_biblioteca');
     }
 
@@ -584,8 +591,19 @@ service cloud.firestore {
 
     match /meditaciones/{documentId} {
       allow read: if canManage('funcion_meditaciones') || resource.data.Publico == true;
-      allow create: if canManage('funcion_meditaciones') || canManage('funcion_subida_multiple');
-      allow update, delete: if canManage('funcion_meditaciones');
+      allow create: if (canManage('funcion_meditaciones') || canManage('funcion_subida_multiple'))
+        && (
+          !('estado' in request.resource.data)
+          || (request.resource.data.Publico == true && request.resource.data.estado in ['publicado', 'publicada'])
+          || (request.resource.data.Publico != true && !(request.resource.data.estado in ['publicado', 'publicada']))
+        );
+      allow update: if canManage('funcion_meditaciones')
+        && (
+          !('estado' in request.resource.data)
+          || (request.resource.data.Publico == true && request.resource.data.estado in ['publicado', 'publicada'])
+          || (request.resource.data.Publico != true && !(request.resource.data.estado in ['publicado', 'publicada']))
+        );
+      allow delete: if canManage('funcion_meditaciones');
     }
 
     match /notificaciones_pendientes/{notificationId} {

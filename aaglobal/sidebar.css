@@ -712,3 +712,36 @@
 
   body.mobile-menu-open { overflow: hidden; }
 }
+.gen-native-player {
+  position: fixed;
+  z-index: 1200;
+  right: 18px;
+  bottom: 18px;
+  width: min(440px, calc(100vw - 36px));
+  padding: 13px 14px 11px;
+  color: #f7fafc;
+  background: rgba(10, 15, 23, .97);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 18px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .42);
+}
+
+.gen-native-player[hidden] { display: none; }
+.gen-native-player-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.gen-native-player-info > div { min-width: 0; display: grid; }
+.gen-native-player-info strong, .gen-native-player-info small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gen-native-player-info small { margin-top: 2px; color: #aab6c5; }
+.gen-native-player-mark { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border-radius: 50%; color: #07110d; background: #69d7a1; font-size: 20px; }
+.gen-native-player-controls { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 11px; }
+.gen-native-player-controls button { min-height: 36px; padding: 7px 10px; color: #eaf0f6; background: #1d2734; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; font: inherit; font-size: .82rem; cursor: pointer; }
+.gen-native-player-controls .is-primary { color: #07110d; background: #69d7a1; border-color: #69d7a1; font-weight: 700; }
+.gen-native-player-controls .is-close { margin-left: auto; padding-inline: 9px; color: #c8d0da; background: transparent; }
+.gen-native-player-timeline { display: grid; grid-template-columns: 38px 1fr 38px; align-items: center; gap: 7px; margin-top: 8px; color: #aab6c5; font-size: .72rem; }
+.gen-native-player-timeline input { width: 100%; accent-color: #69d7a1; }
+.gen-native-player-timeline span:last-child { text-align: right; }
+
+@media (max-width: 600px) {
+  .gen-native-player { right: 8px; bottom: calc(var(--site-mobile-nav-height, 68px) + 8px); width: calc(100vw - 16px); }
+  .gen-native-player-controls { gap: 5px; }
+  .gen-native-player-controls button { padding-inline: 8px; font-size: .76rem; }
+}

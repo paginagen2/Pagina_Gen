@@ -1,5 +1,5 @@
 import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog';
-import { parseSongContent } from './song-content.js?v=20260819-1';
+import { normalizeImportedSong, parseSongContent } from './song-content.js?v=20260825-riff-links';
 
 const DATA_ROOT = '../datos/cancionero';
 let canciones = [];
@@ -29,6 +29,9 @@ let pdfLastFocus = null;
 let pdfPickerCategory = 'todas';
 let pdfPickerSearchTimer = null;
 const publicacionesRecientesCache = new Map();
+let activeSubmissionTab = null;
+let submissionTabInsertPosition = 0;
+let submissionTabTimer = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   inicializarEventListeners();
@@ -49,8 +52,121 @@ function restaurarBorradorAporte() {
   document.getElementById('tonoPropuesto').value = draft.tono || '';
   document.getElementById('idiomaPropuesto').value = draft.idioma || 'Español';
   document.getElementById('letra').value = draft.letra || '';
+  renderSubmissionTabs();
   mostrarFormulario();
   history.replaceState(null, '', 'cancionero.html');
+}
+
+function submissionTabBlocks() {
+  return parseSongContent(document.getElementById('letra')?.value || '').blocks.filter(block => block.type === 'tab');
+}
+
+function renderSubmissionTabs() {
+  const list = document.getElementById('submissionTabsList');
+  if (!list) return;
+  const tabs = submissionTabBlocks();
+  list.replaceChildren();
+  if (!tabs.length) {
+    const empty = document.createElement('span');
+    empty.className = 'submission-tabs-empty';
+    empty.textContent = 'Todavía no detectamos tablaturas.';
+    list.append(empty);
+    return;
+  }
+  tabs.forEach((tab, index) => {
+    const row = document.createElement('div');
+    row.className = 'submission-tab-item';
+    const copy = document.createElement('span');
+    copy.innerHTML = `<strong>${escaparHTML(tab.title || `Tablatura ${index + 1}`)}</strong><small>${tab.width} posiciones · 6 cuerdas</small>`;
+    const actions = document.createElement('span');
+    const edit = document.createElement('button');
+    edit.type = 'button';
+    edit.textContent = 'Editar';
+    edit.addEventListener('click', () => openTabEditor(tab));
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'submission-tab-remove';
+    remove.textContent = 'Eliminar';
+    remove.addEventListener('click', () => removeSubmissionTab(tab));
+    actions.append(edit, remove);
+    row.append(copy, actions);
+    list.append(row);
+  });
+}
+
+function normalizeTabString(value) {
+  return String(value || '').replace(/[|\r\n]/g, '').replace(/\s/g, '-').replace(/[^0-9a-zA-Z#\/\\~().^-]/g, '-');
+}
+
+function tabEditorInputs() {
+  return [...document.querySelectorAll('#tabEditorGrid [data-tab-string]')];
+}
+
+function openTabEditor(tab = null) {
+  const overlay = document.getElementById('tabEditorOverlay');
+  const textarea = document.getElementById('letra');
+  activeSubmissionTab = tab ? { start: tab.sourceStart, end: tab.sourceEnd } : null;
+  submissionTabInsertPosition = textarea.selectionStart ?? textarea.value.length;
+  document.getElementById('tabEditorTitle').textContent = tab ? 'Editar tablatura' : 'Nueva tablatura';
+  document.getElementById('tabEditorName').value = tab?.title || `Tablatura ${submissionTabBlocks().length + 1}`;
+  document.getElementById('tabEditorChords').value = tab?.header || '';
+  const values = tab?.strings?.map(string => string.content) || Array(6).fill('-'.repeat(24));
+  tabEditorInputs().forEach((input, index) => { input.value = values[index] || '-'.repeat(24); });
+  overlay.hidden = false;
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => document.getElementById('tabEditorName').focus());
+}
+
+function closeTabEditor() {
+  document.getElementById('tabEditorOverlay').hidden = true;
+  activeSubmissionTab = null;
+  document.body.style.overflow = document.getElementById('formOverlay')?.style.display === 'flex' ? 'hidden' : '';
+  document.getElementById('addSubmissionTab')?.focus();
+}
+
+function resizeTabEditor(delta) {
+  tabEditorInputs().forEach(input => {
+    const value = normalizeTabString(input.value);
+    if (delta > 0) input.value = `${value}${'-'.repeat(delta)}`;
+    else input.value = value.length > Math.abs(delta) ? value.slice(0, delta) : '-';
+  });
+}
+
+function buildTabBlock() {
+  const title = document.getElementById('tabEditorName').value.trim() || 'Tablatura';
+  const safeTitle = title.replace(/[[\]]/g, '').slice(0, 50) || 'Tablatura';
+  const chords = document.getElementById('tabEditorChords').value.replace(/[\r\n]/g, ' ').trimEnd();
+  const values = tabEditorInputs().map(input => normalizeTabString(input.value));
+  const width = Math.max(1, ...values.map(value => value.length));
+  const names = ['E', 'B', 'G', 'D', 'A', 'E'];
+  return [`[[TAB:${safeTitle}]]`, ...(chords.trim() ? [chords] : []), ...values.map((value, index) => `${names[index]}|${value.padEnd(width, '-')}|`)].join('\n');
+}
+
+function saveTabEditor() {
+  const textarea = document.getElementById('letra');
+  const block = buildTabBlock();
+  if (activeSubmissionTab) {
+    const lines = textarea.value.replace(/\r\n?/g, '\n').split('\n');
+    lines.splice(activeSubmissionTab.start, activeSubmissionTab.end - activeSubmissionTab.start + 1, ...block.split('\n'));
+    textarea.value = lines.join('\n');
+  } else {
+    const before = textarea.value.slice(0, submissionTabInsertPosition);
+    const after = textarea.value.slice(submissionTabInsertPosition);
+    const prefix = before && !before.endsWith('\n') ? '\n\n' : before.endsWith('\n\n') || !before ? '' : '\n';
+    const suffix = after && !after.startsWith('\n') ? '\n\n' : after.startsWith('\n\n') || !after ? '' : '\n';
+    textarea.setRangeText(`${prefix}${block}${suffix}`, submissionTabInsertPosition, submissionTabInsertPosition, 'end');
+  }
+  closeTabEditor();
+  renderSubmissionTabs();
+  textarea.focus();
+}
+
+function removeSubmissionTab(tab) {
+  const textarea = document.getElementById('letra');
+  const lines = textarea.value.replace(/\r\n?/g, '\n').split('\n');
+  lines.splice(tab.sourceStart, tab.sourceEnd - tab.sourceStart + 1);
+  textarea.value = lines.join('\n').replace(/\n{3,}/g, '\n\n');
+  renderSubmissionTabs();
 }
 
 async function prepararPDFDesdeLista() {
@@ -197,6 +313,8 @@ function inicializarEventListeners() {
   const form = document.getElementById('formCancion');
   const overlay = document.getElementById('formOverlay');
   const contributionOverlay = document.getElementById('contributionOverlay');
+  const tabEditorOverlay = document.getElementById('tabEditorOverlay');
+  const lyricsInput = document.getElementById('letra');
   const artistsViewAll = document.getElementById('artistsViewAll');
   inicializarConstructorPDF();
 
@@ -217,11 +335,41 @@ function inicializarEventListeners() {
   });
   if (favoriteFilter) favoriteFilter.addEventListener('click', alternarFiltroFavoritos);
 
+  lyricsInput?.addEventListener('input', () => {
+    clearTimeout(submissionTabTimer);
+    submissionTabTimer = setTimeout(renderSubmissionTabs, 180);
+  });
+  lyricsInput?.addEventListener('paste', (event) => {
+    const pasted = event.clipboardData?.getData('text/plain') || '';
+    if (!pasted) return;
+    const normalized = normalizeImportedSong(pasted);
+    if (normalized.text === pasted && !normalized.tone) return;
+    event.preventDefault();
+    lyricsInput.setRangeText(normalized.text, lyricsInput.selectionStart, lyricsInput.selectionEnd, 'end');
+    const toneInput = document.getElementById('tonoPropuesto');
+    if (normalized.tone && toneInput && !toneInput.value.trim()) toneInput.value = normalized.tone;
+    renderSubmissionTabs();
+    mostrarToast('Formato del cancionero reconocido y ordenado automáticamente');
+  });
+  document.getElementById('addSubmissionTab')?.addEventListener('click', () => openTabEditor());
+  document.getElementById('closeTabEditor')?.addEventListener('click', closeTabEditor);
+  document.getElementById('cancelTabEditor')?.addEventListener('click', closeTabEditor);
+  document.getElementById('saveTabEditor')?.addEventListener('click', saveTabEditor);
+  document.getElementById('tabShrink')?.addEventListener('click', () => resizeTabEditor(-8));
+  document.getElementById('tabGrow')?.addEventListener('click', () => resizeTabEditor(8));
+  tabEditorOverlay?.addEventListener('click', (event) => {
+    if (event.target === tabEditorOverlay) closeTabEditor();
+  });
+
   if (form) form.addEventListener('submit', guardarCancion);
   if (artistsViewAll) artistsViewAll.addEventListener('click', () => window.mostrarTodosArtistas());
 
   // Confirmar cierre con Escape cuando el formulario está visible
   document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && tabEditorOverlay && !tabEditorOverlay.hidden) {
+      closeTabEditor();
+      return;
+    }
     if (e.key === 'Escape' && contributionOverlay && !contributionOverlay.hidden) {
       ocultarMenuAportes();
       return;
@@ -1358,14 +1506,17 @@ window.mostrarFormulario = function () {
   const overlay = document.getElementById('formOverlay');
   overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  renderSubmissionTabs();
   setTimeout(() => document.getElementById('titulo')?.focus(), 100);
 };
 
 window.ocultarFormulario = function () {
+  if (!document.getElementById('tabEditorOverlay')?.hidden) closeTabEditor();
   const overlay = document.getElementById('formOverlay');
   overlay.style.display = 'none';
   document.body.style.overflow = 'auto';
   document.getElementById('formCancion')?.reset();
+  renderSubmissionTabs();
 };
 
 window.abrirCancion = function (id) {
@@ -1384,6 +1535,11 @@ async function guardarCancion(e) {
     if (!user) {
       if (typeof window.genOpenAuthModal === 'function') window.genOpenAuthModal();
       throw new Error('Iniciá sesión para enviar una canción.');
+    }
+    const normalizedImport = normalizeImportedSong(document.getElementById('letra').value);
+    document.getElementById('letra').value = normalizedImport.text;
+    if (normalizedImport.tone && !document.getElementById('tonoPropuesto').value.trim()) {
+      document.getElementById('tonoPropuesto').value = normalizedImport.tone;
     }
     const cancionData = {
       titulo: document.getElementById('titulo').value.trim(),

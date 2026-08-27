@@ -7,7 +7,7 @@
   <title>Cancionero | Música y acordes · Gen 2</title>
   <meta name="description" content="Canciones y acordes para encuentros, celebraciones y momentos compartidos.">
 <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
-  <link rel="stylesheet" href="cancionero.css?v=20260819-song-audio-flow">
+  <link rel="stylesheet" href="cancionero.css?v=20260825-tabs-editor">
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
@@ -46,6 +46,7 @@
     <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 22c4 0 7-2.7 7-6.5 0-3.1-1.8-5.1-4.2-7.9-.5 2.1-1.6 3.3-2.8 4.2.1-3.7-1.6-6.8-4-9.8.1 4.5-3 7-3 12.5C5 18.8 8 22 12 22Z"/></symbol>
     <symbol id="i-guitar" viewBox="0 0 24 24"><path d="M10 2h4l.5 3H9.5zM10 5v5M14 5v5"/><path d="M9.5 9.5c-1.8.7-3 2.2-3 4 0 1.1.5 2 1.3 2.7-.8.5-1.3 1.4-1.3 2.4 0 2 2.5 3.4 5.5 3.4s5.5-1.4 5.5-3.4c0-1-.5-1.9-1.3-2.4.8-.7 1.3-1.6 1.3-2.7 0-1.8-1.2-3.3-3-4"/><circle cx="12" cy="14.5" r="2"/><path d="M9.5 18.5h5M11 5v7.5M13 5v7.5"/></symbol>
     <symbol id="i-chords" viewBox="0 0 24 24"><circle cx="9.5" cy="9.5" r="7"/><path d="m14.5 14.5 5.5 5.5M8 12.5V7l4-1v4.5"/><ellipse cx="6.8" cy="12.5" rx="1.2" ry=".85"/><ellipse cx="10.8" cy="10.5" rx="1.2" ry=".85"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14a2 2 0 0 1 2-2h2v8H6a2 2 0 0 1-2-2v-4ZM20 14a2 2 0 0 0-2-2h-2v8h2a2 2 0 0 0 2-2v-4Z"/></symbol>
     <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3M7 8l5-5 5 5M4 14v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-6"/></symbol>
     <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 16h8M8 12h3"/></symbol>
     <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13M7 11l5 5 5-5M4 21h16"/></symbol>
@@ -58,7 +59,14 @@
   <main class="main songbook-main">
     <header class="songbook-header">
       <h1>Cancionero Gen</h1>
-      <a class="mobile-home" href="../index.html">Volver al inicio</a>
+      <div class="songbook-header-actions">
+        <a class="header-chords-link" href="acordes.html" aria-label="Consultar acordes">
+          <svg aria-hidden="true"><use href="#i-guitar"/></svg>
+          <span class="header-chords-label-full">Consultar acordes</span>
+          <span class="header-chords-label-short">Acordes</span>
+        </a>
+        <a class="mobile-home" href="../index.html">Volver al inicio</a>
+      </div>
     </header>
 
     <div class="cancionero-layout">
@@ -100,10 +108,10 @@
 
       <aside class="sidebar-right" id="herramientas">
         <h2>Herramientas del Cancionero</h2>
-        <button class="tool-card" type="button" onclick="abrirAcordes()">
-          <span class="tool-icon chords-tool-icon"><svg><use href="#i-chords"/></svg></span>
-          <span class="tool-copy"><strong>Consultar acordes</strong><small>Busca canciones y explora sus acordes.</small></span><span class="tool-arrow">›</span>
-        </button>
+        <a class="tool-card" href="audios.html">
+          <span class="tool-icon audio-tool-icon"><svg><use href="#i-headphones"/></svg></span>
+          <span class="tool-copy"><strong>Audios</strong><small>Escuchá versiones y audios guía.</small></span><span class="tool-arrow">›</span>
+        </a>
         <a class="tool-card" href="playlist.html">
           <span class="tool-icon"><svg><use href="#i-list"/></svg></span>
           <span class="tool-copy"><strong>Mis listas</strong><small>Favoritos, música y cancioneros personales.</small></span><span class="tool-arrow">›</span>
@@ -117,10 +125,9 @@
           <button class="btn-generate-pdf" type="button" onclick="generarPDF()">Crear PDF</button>
           <button class="btn-cancel-selection" type="button" onclick="cancelarSeleccion()">Cancelar</button>
         </div>
-        <div class="tools-divider"></div>
         <button class="tool-card proposal-tool" type="button" onclick="mostrarMenuAportes()">
           <span class="tool-icon"><svg><use href="#i-upload"/></svg></span>
-          <span class="tool-copy"><strong>Aportar al cancionero</strong><small>Proponé una canción o compartí un audio.</small></span><span class="tool-arrow">›</span>
+          <span class="tool-copy"><strong>Aportar contenido</strong><small>Compartí una canción o un audio.</small></span><span class="tool-arrow">›</span>
         </button>
       </aside>
     </div>
@@ -147,11 +154,36 @@
         </div>
         <div class="form-row"><div class="form-group"><label for="categoria">Categoría *</label><select id="categoria" required><option value="">Seleccionar categoría...</option><option value="misa">Misa</option><option value="gen">Gen</option><option value="fogon">Fogón</option></select></div><div class="form-group"><label for="tonoPropuesto">Tono original</label><input type="text" id="tonoPropuesto" maxlength="20" placeholder="Ej: C, Do, F#m"></div></div>
         <div class="form-group"><label for="idiomaPropuesto">Idioma</label><select id="idiomaPropuesto"><option value="Español">Español</option><option value="Italiano">Italiano</option><option value="Inglés">Inglés</option><option value="Portugués">Portugués</option><option value="Otro">Otro</option></select></div>
-        <div class="form-group"><label for="letra">Canción con acordes *</label><textarea id="letra" required rows="15" spellcheck="false" placeholder="Pegá la canción como aparece en el cancionero:&#10;&#10;G            B7&#10;Flaca, no me claves&#10;         Em               C&#10;Tus puñales, por la espalda"></textarea><div class="form-help">Conservá los espacios. Se admiten acordes en la línea superior, el formato con corchetes y tablaturas de seis cuerdas. La propuesta debe incluir acordes.</div></div>
+        <div class="form-group"><label for="letra">Canción con acordes *</label><textarea id="letra" required rows="15" spellcheck="false" placeholder="Pegá la canción como aparece en el cancionero:&#10;&#10;G            B7&#10;Flaca, no me claves&#10;         Em               C&#10;Tus puñales, por la espalda"></textarea><div class="form-help">Pegala directamente desde el cancionero de origen. Ordenaremos automáticamente secciones, acordes, referencias como “Riff 1”, versos duplicados y tablaturas de seis cuerdas.</div></div>
+        <section class="submission-tabs" aria-labelledby="submissionTabsTitle">
+          <div class="submission-tabs-heading"><div><strong id="submissionTabsTitle">Tablaturas</strong><small>Las detectamos al pegar la canción o podés crearlas con el editor.</small></div><button type="button" id="addSubmissionTab">+ Agregar tablatura</button></div>
+          <div class="submission-tabs-list" id="submissionTabsList"><span class="submission-tabs-empty">Todavía no detectamos tablaturas.</span></div>
+        </section>
         <div class="song-import-note"><strong>La vista previa se abrirá como una canción real</strong><span>Podrás probar tamaño, tono, cifrado, guía rápida, tablaturas y auto-scroll antes de enviarla.</span></div>
         <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="ocultarFormulario()">Cancelar</button><button type="submit" class="btn btn-primary">Revisar canción</button></div>
       </form>
     </div>
+  </div>
+
+  <div class="tab-editor-overlay" id="tabEditorOverlay" hidden>
+    <section class="tab-editor-modal" role="dialog" aria-modal="true" aria-labelledby="tabEditorTitle">
+      <header><div><span>TABLATURA</span><h2 id="tabEditorTitle">Nueva tablatura</h2></div><button type="button" id="closeTabEditor" aria-label="Cerrar">×</button></header>
+      <div class="tab-editor-body">
+        <label>Título<input id="tabEditorName" type="text" maxlength="50" placeholder="Ej.: Introducción, riff principal o solo"></label>
+        <label>Acordes superiores, opcional<input id="tabEditorChords" type="text" spellcheck="false" placeholder="G          B7          Em"></label>
+        <div class="tab-grid-heading"><div><strong>Seis cuerdas</strong><small>Escribí solamente posiciones, guiones y símbolos.</small></div><div><button type="button" id="tabShrink">−8</button><button type="button" id="tabGrow">+8</button></div></div>
+        <div class="tab-editor-grid" id="tabEditorGrid">
+          <label><span>E</span><input data-tab-string="E" spellcheck="false" value="------------------------"></label>
+          <label><span>B</span><input data-tab-string="B" spellcheck="false" value="------------------------"></label>
+          <label><span>G</span><input data-tab-string="G" spellcheck="false" value="------------------------"></label>
+          <label><span>D</span><input data-tab-string="D" spellcheck="false" value="------------------------"></label>
+          <label><span>A</span><input data-tab-string="A" spellcheck="false" value="------------------------"></label>
+          <label><span>E</span><input data-tab-string="e" spellcheck="false" value="------------------------"></label>
+        </div>
+        <p class="tab-editor-help">Podés usar números y técnicas como h, p, /, \, b, ~ y x. La tablatura se adaptará automáticamente a cada pantalla.</p>
+      </div>
+      <footer><button type="button" class="btn btn-secondary" id="cancelTabEditor">Cancelar</button><button type="button" class="btn btn-primary" id="saveTabEditor">Guardar tablatura</button></footer>
+    </section>
   </div>
 
   <div class="pdf-builder-backdrop" id="pdfBuilderBackdrop" hidden></div>
@@ -222,6 +254,6 @@
 
   <script type="module" src="../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog"></script>
 <script type="module" src="../auth.js?v=20260730-google1"></script>
-  <script type="module" src="cancionero.js?v=20260819-full-preview"></script>
+  <script type="module" src="cancionero.js?v=20260825-riff-links"></script>
 </body>
 </html>

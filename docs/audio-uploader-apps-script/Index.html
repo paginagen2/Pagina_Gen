@@ -10,10 +10,10 @@
 <body>
   <main class="card">
     <span class="kicker">CANCIONERO GEN</span>
-    <h1>Subir un MP3</h1>
+    <h1>Subir un audio</h1>
     <p>El archivo quedará guardado en el Drive institucional. Al terminar, copiá el enlace y pegalo en la propuesta del cancionero.</p>
     <form id="uploadForm">
-      <label class="file">Archivo MP3, máximo 30 MB<input name="audioFile" type="file" accept="audio/mpeg,.mp3" required></label>
+      <label class="file">Archivo MP3 o M4A, máximo 25 MB<input name="audioFile" type="file" accept="audio/mpeg,audio/mp4,audio/x-m4a,.mp3,.m4a" required></label>
       <button id="submitButton" type="submit">Subir al Drive de Gen</button>
     </form>
     <div class="status" id="status" role="status"></div>
@@ -25,7 +25,7 @@
   </main>
   <script>
     const form=document.getElementById('uploadForm'),button=document.getElementById('submitButton'),status=document.getElementById('status'),result=document.getElementById('result');
-    form.addEventListener('submit',event=>{event.preventDefault();button.disabled=true;button.textContent='Subiendo…';status.className='status';status.textContent='No cierres esta ventana mientras se carga el archivo.';result.hidden=true;google.script.run.withSuccessHandler(data=>{button.disabled=false;button.textContent='Subir otro MP3';status.textContent='Carga terminada.';document.getElementById('fileName').textContent=data.name;document.getElementById('fileLink').href=data.url;document.getElementById('copyLink').dataset.url=data.url;result.hidden=false;form.reset();}).withFailureHandler(error=>{button.disabled=false;button.textContent='Intentar nuevamente';status.className='status error';status.textContent=error.message||'No se pudo subir el archivo.';}).uploadAudio(form);});
+    form.addEventListener('submit',event=>{event.preventDefault();button.disabled=true;button.textContent='Subiendo…';status.className='status';status.textContent='No cierres esta ventana mientras se carga el archivo.';result.hidden=true;google.script.run.withSuccessHandler(data=>{button.disabled=false;button.textContent='Subir otro audio';status.textContent='Carga terminada.';document.getElementById('fileName').textContent=data.name;document.getElementById('fileLink').href=data.url;document.getElementById('copyLink').dataset.url=data.url;result.hidden=false;form.reset();}).withFailureHandler(error=>{button.disabled=false;button.textContent='Intentar nuevamente';status.className='status error';status.textContent=error.message||'No se pudo subir el archivo.';}).uploadAudio(form);});
     document.getElementById('copyLink').addEventListener('click',async event=>{const url=event.currentTarget.dataset.url;try{await navigator.clipboard.writeText(url);event.currentTarget.textContent='Enlace copiado';}catch{window.prompt('Copiá este enlace:',url);}});
   </script>
 </body>

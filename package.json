@@ -9,6 +9,8 @@
     "test:notificaciones": "node --check perfil/notificaciones.js && node --check notification-sw.js && node --check scripts/procesar-notificaciones.js && node scripts/test-notificaciones-planificador.js && node scripts/verificar-notificaciones-config.js",
     "test:roles": "node scripts/verificar-modulo.js admin/admin.js && node --check canal/canal.js && node scripts/test-roles.js",
     "test:listas": "node scripts/test-listas-cancionero.js",
+    "test:hosting": "node scripts/verificar-hosting.js",
+    "test:release": "npm test && npm run test:biblioteca && npm run test:notificaciones && npm run test:roles && npm run test:listas && npm run test:hosting",
     "generar-inicio": "node scripts/generar-inicio.js",
     "generar-cancionero": "node scripts/generar-cancionero.js",
     "generar-sincronizacion-offline": "node scripts/generar-sincronizacion-offline.js",

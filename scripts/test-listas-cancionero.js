@@ -9,6 +9,9 @@ const exists = relativePath => fs.existsSync(path.join(root, relativePath));
 const playlist = read('cancionero/playlist.js');
 const playlistHtml = read('cancionero/playlist.html');
 const playlistCss = read('cancionero/playlist.css');
+const audioCatalog = read('cancionero/audio-catalog.js');
+const song = read('cancionero/cancion.js');
+const audios = read('cancionero/audios.js');
 const unavailable = read('perfil/sin-conexion-no-disponible.html');
 
 assert.match(playlistHtml, /accept="\.playlistgen"/);
@@ -21,10 +24,18 @@ assert.match(playlist, /AndroidPlaylistFiles\.savePlaylist/);
 assert.match(playlist, /Guardar archivo/);
 assert.match(playlist, /function selectPlaylist/);
 assert.match(playlist, /scrollIntoView\(\{ behavior: 'smooth'/);
+assert.match(playlist, /onError\(\).*playNext\(\)/, 'Un video de YouTube no disponible debe avanzar la cola.');
+assert.match(audioCatalog, /queueCompatibleProviders\s*=\s*new Set\(\['youtube', 'drive', 'vimeo', 'directo'\]\)/);
+assert.doesNotMatch(audioCatalog, /queueCompatibleProviders\s*=.*soundcloud/);
+assert.match(audioCatalog, /function addToLocalPlaylist\(audio, requestedName = ''\) \{\s*if \(!audio\?\.id \|\| !audio\?\.url\) return null;/);
+assert.match(song, /if \(audio\?\.url\)/, 'Toda fuente con enlace puede agregarse a una lista.');
+assert.match(audios, /if \(audio\?\.url\) \{[\s\S]*actions\.append\(add\);/);
+assert.match(playlist, /playerDescriptor\(audio\)\.mode === 'audio'/, 'El modo continuo debe incluir únicamente audios reproducibles en segundo plano.');
+assert.match(playlist, /item\.audio\?\.url/, 'La importación debe aceptar fuentes mixtas con enlaces válidos.');
 assert.match(playlistCss, /--site-mobile-nav-height/);
 assert.match(playlistCss, /\.playlist-selector-back/);
 assert.match(unavailable, /<base href="\/">/);
-assert.match(unavailable, /href="perfil\/sin-conexion\.html"/);
+assert.match(unavailable, /href="\/?perfil\/sin-conexion\.html"/);
 
 if (exists('android/app/src/main/AndroidManifest.xml')) {
   const androidManifest = read('android/app/src/main/AndroidManifest.xml');

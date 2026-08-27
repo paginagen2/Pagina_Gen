@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b10">
+  <title>Audios · Cancionero Gen</title>
+  <meta name="description" content="Explorá y escuchá versiones de las canciones del Cancionero Gen.">
+  <meta property="og:title" content="Audios · Cancionero Gen">
+  <meta property="og:description" content="Versiones para escuchar, aprender y compartir.">
+  <meta property="og:image" content="https://pagina-gen.web.app/aadocumentos/imagenes/compartir/og-cancionero.png">
+  <link rel="canonical" href="https://pagina-gen.web.app/cancionero/audios.html">
+  <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
+  <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
+  <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
+  <link rel="stylesheet" href="audios.css?v=20260825-1">
+</head>
+<body>
+  <aside class="sidebar home-sidebar site-sidebar" data-gen-sidebar aria-label="Navegación principal"></aside>
+  <script src="../aaglobal/sidebar.js?v=20260730-pin1"></script>
+
+  <div class="main-content audio-main-content">
+  <main class="audio-page">
+    <header class="audio-topbar">
+      <a href="cancionero.html" class="audio-back">← Cancionero</a>
+      <a href="playlist.html" class="audio-lists">Mis listas</a>
+    </header>
+
+    <section class="audio-hero" aria-labelledby="audioTitle">
+      <div class="audio-hero-copy">
+        <p class="audio-kicker">Cancionero Gen</p>
+        <h1 id="audioTitle">Audios</h1>
+        <p>Encontrá una canción, compará sus versiones y llevá la música con vos.</p>
+      </div>
+      <div class="audio-hero-art" aria-hidden="true"><span>♪</span><i></i><i></i><i></i></div>
+    </section>
+
+    <section class="audio-tools" aria-label="Buscar y filtrar audios">
+      <label class="audio-search">
+        <span class="audio-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg></span>
+        <span class="sr-only">Buscar audios</span>
+        <input id="audioSearch" type="search" placeholder="Canción, artista, versión o intérprete…" autocomplete="off">
+      </label>
+      <button id="filterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="audioFilters">Filtros <span id="filterCount" hidden>0</span></button>
+      <div class="audio-filters" id="audioFilters">
+        <label>Tipo<select id="typeFilter"><option value="">Todos</option></select></label>
+        <label>Idioma<select id="languageFilter"><option value="">Todos</option></select></label>
+        <label>Fuente<select id="providerFilter"><option value="">Todas</option></select></label>
+        <label>Orden<select id="sortFilter"><option value="song">Canción A–Z</option><option value="artist">Artista A–Z</option><option value="recent">Más recientes</option></select></label>
+        <button id="clearFilters" type="button">Limpiar</button>
+      </div>
+    </section>
+
+    <section class="audio-results" aria-labelledby="resultsTitle">
+      <header class="audio-results-head"><div><p>Biblioteca de versiones</p><h2 id="resultsTitle">Todos los audios</h2></div><span id="resultCount" aria-live="polite">Cargando…</span></header>
+      <div id="audioState" class="audio-state"><span class="audio-loader">♪</span><p>Buscando audios disponibles…</p></div>
+      <div id="audioGrid" class="audio-grid" hidden></div>
+    </section>
+  </main>
+  </div>
+
+  <section id="audioPlayer" class="audio-player" aria-label="Reproductor" hidden></section>
+  <div id="audioToast" class="audio-toast" role="status" aria-live="polite" hidden></div>
+
+  <div id="playlistBackdrop" class="playlist-picker-backdrop" hidden></div>
+  <section id="playlistPicker" class="playlist-picker" role="dialog" aria-modal="true" aria-labelledby="playlistPickerTitle" hidden>
+    <header>
+      <div><p>Guardar audio</p><h2 id="playlistPickerTitle">Elegí una playlist</h2></div>
+      <button id="closePlaylistPicker" type="button" aria-label="Cerrar">×</button>
+    </header>
+    <p id="playlistAudioName" class="playlist-audio-name"></p>
+    <div id="playlistChoices" class="playlist-choices"></div>
+    <form id="newPlaylistForm" class="new-playlist-form">
+      <label for="newPlaylistName">O creá una nueva</label>
+      <div><input id="newPlaylistName" maxlength="60" placeholder="Nombre de la playlist"><button type="submit">Crear y agregar</button></div>
+    </form>
+  </section>
+
+  <script type="module" src="../firebase-config-cancionero.js?v=20260730-google1"></script>
+  <script type="module" src="../auth.js?v=20260730-google1"></script>
+  <script type="module" src="audios.js?v=20260825-native-mixed-playlists"></script>
+</body>
+</html>

@@ -10,6 +10,20 @@
     `<svg class="${className} icon-${name}" aria-hidden="true"><use href="${spriteUrl}#${name}"></use></svg>`;
   const currentPath = decodeURIComponent(window.location.pathname).replace(/\\/g, '/').toLowerCase();
 
+  if (document.createElement && !window.GenExternalAudio && !document.querySelector('script[data-gen-external-audio]')) {
+    const audioScript = document.createElement('script');
+    audioScript.src = siteUrl('aaglobal/external-audio-performance.js?v=20260825-1');
+    audioScript.dataset.genExternalAudio = 'true';
+    document.head.appendChild(audioScript);
+  }
+
+  if (document.createElement && window.AndroidNativeAudio && !document.querySelector('script[data-gen-native-player]')) {
+    const nativePlayerScript = document.createElement('script');
+    nativePlayerScript.src = siteUrl('aaglobal/native-player-ui.js?v=20260826-1');
+    nativePlayerScript.dataset.genNativePlayer = 'true';
+    document.head.append(nativePlayerScript);
+  }
+
   if (document.createElement && !window.GenOffline && !document.querySelector('script[data-gen-offline-manager]')) {
     const offlineScript = document.createElement('script');
     offlineScript.src = siteUrl('aaglobal/offline-manager.js?v=20260730-1');

@@ -9,7 +9,7 @@ export const providerLabels = {
   youtube: 'YouTube', spotify: 'Spotify', soundcloud: 'SoundCloud', drive: 'Google Drive',
   bandcamp: 'Bandcamp', applemusic: 'Apple Music', vimeo: 'Vimeo', directo: 'Audio', externo: 'Enlace externo'
 };
-export const queueCompatibleProviders = new Set(['youtube', 'drive', 'soundcloud', 'vimeo', 'directo']);
+export const queueCompatibleProviders = new Set(['youtube', 'drive', 'vimeo', 'directo']);
 
 export function detectProvider(value) {
   let url;
@@ -248,7 +248,7 @@ export async function deleteCloudPlaylist(playlist) {
 window.addEventListener('online', () => { void syncLocalPlaylistsForCurrentUser(); });
 
 export function addToLocalPlaylist(audio, requestedName = '') {
-  if (!isQueueCompatibleAudio(audio)) return null;
+  if (!audio?.id || !audio?.url) return null;
   const playlists = getLocalPlaylists();
   const name = requestedName.trim() || 'Mi playlist';
   let playlist = playlists.find(item => item.tipo === 'audio' && item.nombre.toLocaleLowerCase('es') === name.toLocaleLowerCase('es'));

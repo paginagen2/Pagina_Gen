@@ -491,7 +491,8 @@ function setupGoogleLogin() {
 
             otherAccountBtn.disabled = true;
             try {
-                await accountManager.chooseOrAddAccount();
+                const selection = await accountManager.chooseOrAddAccount();
+                if (!selection?.returned) return;
                 await signInWithGoogleNative();
                 closeAuthModal();
             } catch (error) {

@@ -1,7 +1,6 @@
-name: Publicar Firestore y compatibilidad web
+name: Publicar Firestore
 
-# GitHub Pages es la publicación principal. Firebase Hosting se mantiene
-# sincronizado para dispositivos y suscripciones creados con la URL anterior.
+# GitHub Pages publica la web. Este workflow actualiza solamente Firestore.
 
 on:
   push:
@@ -11,12 +10,6 @@ on:
       - '.github/workflows/publicar-web.yml'
       - 'firestore.indexes.json'
       - 'firestore.rules'
-      - 'firebase.json'
-      - 'aaglobal/push-config.js'
-      - 'notification-sw.js'
-      - 'perfil/notificaciones.html'
-      - 'perfil/notificaciones.js'
-      - 'perfil/notificaciones.css'
   workflow_dispatch:
 
 permissions:
@@ -75,6 +68,3 @@ jobs:
 
       - name: Publicar reglas de Firestore
         run: npx firebase-tools@15.25.1 deploy --only firestore:rules --project pagina-gen --non-interactive
-
-      - name: Sincronizar Firebase Hosting
-        run: npx firebase-tools@15.25.1 deploy --only hosting --project pagina-gen --non-interactive

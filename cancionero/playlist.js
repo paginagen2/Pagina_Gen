@@ -1,4 +1,4 @@
-import { deleteCloudPlaylist, getLocalPlaylists, isQueueCompatibleAudio, loadAudioCatalog, mergeCloudPlaylists, playerDescriptor, playlistFromLocation, providerLabels, removeFromLocalPlaylist, saveLocalPlaylists } from './audio-catalog.js?v=20260825-native-save-import-fix';
+import { deleteCloudPlaylist, getLocalPlaylists, loadAudioCatalog, mergeCloudPlaylists, playerDescriptor, playlistFromLocation, providerLabels, removeFromLocalPlaylist, saveLocalPlaylists } from './audio-catalog.js?v=20260825-mixed-playlists';
 import { clearMediaSession, connectMediaSession } from './media-session.js?v=20260825-1';
 import { hasNativeAudio, nativeNext, nativePause, nativePlay, nativePrevious, nativeStop, playNativeQueue } from './native-audio.js?v=20260825-1';
 
@@ -22,7 +22,8 @@ let activeId = FAVORITES_ID;
 let currentAudioId = null;
 let queueIndex = -1, youtubePlayer = null;
 let providerPlayer = null, playbackSession = 0;
-let youtubeApiPromise = null, soundCloudApiPromise = null, vimeoApiPromise = null;
+let playbackMode = 'all';
+let youtubeApiPromise = null, vimeoApiPromise = null;
 
 function confirmPlaylistAction({ title, message, confirmLabel = 'Eliminar' }) {
   const dialog = $('#playlistConfirmDialog');
@@ -58,13 +59,13 @@ function loadScriptApi(source, ready, existingPromise, remember) {
   });
   remember(promise); return promise;
 }
-function loadSoundCloudApi() { return loadScriptApi('https://w.soundcloud.com/player/api.js', () => Boolean(window.SC?.Widget), soundCloudApiPromise, promise => { soundCloudApiPromise = promise; }); }
 function loadVimeoApi() { return loadScriptApi('https://player.vimeo.com/api/player.js', () => Boolean(window.Vimeo?.Player), vimeoApiPromise, promise => { vimeoApiPromise = promise; }); }
 
 function audioQueue() {
   const playlist = activePlaylist();
   if (playlist?.tipo !== 'audio') return [];
-  return playlist.items.map(reference => audioById(reference.audioId) || reference.audio).filter(Boolean);
+  const all = playlist.items.map(reference => audioById(reference.audioId) || reference.audio).filter(Boolean);
+  return playbackMode === 'continuous' ? all.filter(audio => playerDescriptor(audio).mode === 'audio') : all;
 }
 function stopCurrentPlayback(preserveNative = false) {
   playbackSession += 1;
@@ -153,7 +154,7 @@ function sanitizeAudioPlaylists(source) {
     ...playlist,
     items: playlist.items.filter(reference => {
       const audio = audioById(reference.audioId) || reference.audio;
-      return audio ? isQueueCompatibleAudio(audio) : false;
+      return Boolean(reference.audioId && audio?.url);
     })
   });
 }
@@ -189,20 +190,35 @@ function orderButtons(playlist, index) {
   return [-1, 1].map(offset => { const button = document.createElement('button'); button.type = 'button'; button.textContent = offset < 0 ? '↑' : '↓'; button.title = offset < 0 ? 'Subir' : 'Bajar'; button.disabled = index + offset < 0 || index + offset >= playlist.items.length; button.addEventListener('click', () => moveItem(playlist, index, offset)); return button; });
 }
 
-function playAudio(audio, requestedIndex = null) {
+function appendFullQueueControls(body, needsManualAdvance = false) {
+  if (playbackMode !== 'all') return;
+  const queue = audioQueue();
+  if (needsManualAdvance) {
+    const note = document.createElement('p'); note.className = 'playlist-player-native-status'; note.textContent = 'Esta fuente no avisa cuándo termina. Usá “Siguiente” para continuar.'; body.append(note);
+  }
+  const controls = document.createElement('div'); controls.className = 'playlist-native-queue-controls';
+  const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '‹ Anterior'; previous.disabled = queueIndex <= 0; previous.addEventListener('click', playPrevious);
+  const next = document.createElement('button'); next.type = 'button'; next.textContent = 'Siguiente ›'; next.disabled = queueIndex >= queue.length - 1; next.addEventListener('click', playNext);
+  controls.append(previous, next); body.append(controls);
+}
+
+function playAudio(audio, requestedIndex = null, requestedMode = playbackMode) {
+  playbackMode = requestedMode;
   const descriptor = playerDescriptor(audio);
-  stopCurrentPlayback(descriptor.mode === 'audio' && hasNativeAudio());
+  stopCurrentPlayback(playbackMode === 'continuous' && descriptor.mode === 'audio' && hasNativeAudio());
   const queue = audioQueue(); queueIndex = requestedIndex ?? queue.findIndex(item => String(item.id) === String(audio.id));
   currentAudioId = String(audio.id); renderAudioSelection();
   const container = $('#playlistPlayer'); container.replaceChildren(); container.hidden = false; container.classList.remove('is-drive-player');
-  if (descriptor.mode === 'external') { window.open(descriptor.url, '_blank', 'noopener,noreferrer'); container.hidden = true; return; }
   const header = document.createElement('header'); header.className = 'playlist-player-header';
   const mark = document.createElement('span'); mark.className = 'playlist-player-mark'; mark.textContent = '♪';
   const copy = document.createElement('div'); const label = document.createElement('small'); label.textContent = 'REPRODUCIENDO'; const title = document.createElement('strong'); title.textContent = audio.nombre || 'Audio de la canción'; copy.append(label, title);
   const close = document.createElement('button'); close.type = 'button'; close.className = 'playlist-player-close'; close.setAttribute('aria-label', 'Cerrar reproductor'); close.textContent = '×'; close.addEventListener('click', closePlayer);
   header.append(mark, copy, close); const body = document.createElement('div'); body.className = 'playlist-player-body'; container.append(header, body);
+  if (descriptor.mode === 'external') {
+    const external = document.createElement('a'); external.className = 'playlist-player-fallback'; external.href = descriptor.url; external.target = '_blank'; external.rel = 'noopener noreferrer'; external.innerHTML = '<span>↗</span><strong>Abrir en el sitio de origen</strong><small>Después volvé para continuar la playlist.</small>'; body.append(external); appendFullQueueControls(body, true); return;
+  }
   if (descriptor.mode === 'audio') {
-    if (hasNativeAudio() && playNativeQueue(queue, audio, playerDescriptor, activePlaylist()?.nombre || 'Playlist Gen')) {
+    if (playbackMode === 'continuous' && hasNativeAudio() && playNativeQueue(queue, audio, playerDescriptor, activePlaylist()?.nombre || 'Playlist Gen')) {
       const nativeStatus = document.createElement('p'); nativeStatus.className = 'playlist-player-native-status'; nativeStatus.textContent = 'La reproducción continúa en Android aunque cambies de sección.';
       const queueControls = document.createElement('div'); queueControls.className = 'playlist-native-queue-controls';
       const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '‹ Anterior'; previous.addEventListener('click', nativePrevious);
@@ -222,15 +238,23 @@ function playAudio(audio, requestedIndex = null) {
     const queueControls = document.createElement('div'); queueControls.className = 'playlist-native-queue-controls';
     const previous = document.createElement('button'); previous.type = 'button'; previous.textContent = '‹ Anterior'; previous.disabled = queueIndex <= 0; previous.addEventListener('click', playPrevious);
     const next = document.createElement('button'); next.type = 'button'; next.textContent = 'Siguiente ›'; next.disabled = queueIndex >= queue.length - 1; next.addEventListener('click', playNext);
-    queueControls.append(previous, next); body.append(player, queueControls); void player.play().catch(error => console.warn('El navegador espera que pulses reproducir:', error)); return;
+    queueControls.append(previous, next); body.append(player, queueControls);
+    const nextAudio = queue[queueIndex + 1]; const nextDescriptor = nextAudio ? playerDescriptor(nextAudio) : null;
+    if (nextDescriptor?.mode === 'audio') window.GenExternalAudio?.preload(nextDescriptor.url);
+    void player.play().catch(error => console.warn('El navegador espera que pulses reproducir:', error)); return;
   }
   if (descriptor.kind === 'youtube') {
     const session = playbackSession; body.classList.add('has-video'); const mount = document.createElement('div'); body.append(mount);
-    loadYouTubeApi().then(YT => { if (!mount.isConnected || session !== playbackSession) return; youtubePlayer = new YT.Player(mount, { videoId: descriptor.videoId, playerVars: { autoplay: 1, rel: 0 }, events: { onStateChange(event) { if (event.data === YT.PlayerState.ENDED && session === playbackSession) playNext(); } } }); });
+    loadYouTubeApi().then(YT => { if (!mount.isConnected || session !== playbackSession) return; youtubePlayer = new YT.Player(mount, { videoId: descriptor.videoId, playerVars: { autoplay: 1, rel: 0 }, events: {
+      onStateChange(event) { if (event.data === YT.PlayerState.ENDED && session === playbackSession) playNext(); },
+      onError() { if (session !== playbackSession) return; showPlaylistStatus('Este video de YouTube no está disponible. Pasamos a la siguiente pista.', true); setTimeout(() => { if (session === playbackSession) playNext(); }, 500); }
+    } }); });
+    appendFullQueueControls(body);
     return;
   }
   const frame = document.createElement('iframe'); frame.src = descriptor.url; frame.title = descriptor.title || 'Reproductor'; frame.allow = 'autoplay; encrypted-media; picture-in-picture'; frame.allowFullscreen = true; body.classList.add('has-video');
   body.append(frame);
+  appendFullQueueControls(body, !['soundcloud', 'vimeo'].includes(descriptor.kind));
   const session = playbackSession;
   if (descriptor.kind === 'soundcloud') {
     loadSoundCloudApi().then(() => {
@@ -247,6 +271,16 @@ function playAudio(audio, requestedIndex = null) {
       providerPlayer = { cleanup() { player.off('ended', finish); void player.pause().catch(() => {}); void player.destroy().catch(() => {}); } };
     }).catch(error => console.warn('No se pudo conectar el control de Vimeo:', error));
   }
+}
+
+function startPlaylistPlayback(mode) {
+  playbackMode = mode;
+  const queue = audioQueue();
+  if (!queue.length) {
+    showPlaylistStatus(mode === 'continuous' ? 'Esta playlist no tiene audios compatibles con reproducción continua.' : 'Esta playlist está vacía.', true);
+    return;
+  }
+  playAudio(queue[0], 0, mode);
 }
 
 function renderAudioSelection() { document.querySelectorAll('.playlist-item[data-audio-id]').forEach(row => row.classList.toggle('is-playing', row.dataset.audioId === currentAudioId)); }
@@ -270,8 +304,9 @@ function audioRow(reference, playlist, index) {
   const audio = audioById(reference.audioId) || reference.audio; const row = document.createElement('article'); row.className = 'playlist-item'; row.dataset.audioId = String(reference.audioId || audio?.id || '');
   const number = document.createElement('span'); number.className = 'playlist-item-number'; number.textContent = String(index + 1).padStart(2, '0'); const copy = document.createElement('div'); copy.className = 'playlist-item-copy';
   const h = document.createElement('h3'); h.textContent = audio?.nombre || 'Audio no disponible'; const p = document.createElement('p'); p.textContent = audio ? [providerLabels[audio.proveedor], audio.interprete].filter(Boolean).join(' · ') : 'Este audio fue retirado del catálogo.'; copy.append(h, p);
+  if (audio && hasNativeAudio()) { const capability = document.createElement('span'); const continuous = playerDescriptor(audio).mode === 'audio'; capability.className = `playlist-source-capability ${continuous ? 'is-continuous' : 'is-section-only'}`; capability.textContent = continuous ? '🎧 Continúa en segundo plano' : '▶ Solo en esta pantalla'; copy.append(capability); }
   const actions = document.createElement('div'); actions.className = 'playlist-item-actions'; actions.append(...orderButtons(playlist, index));
-  if (audio) { const play = document.createElement('button'); play.className = 'playlist-play-button'; play.textContent = '▶'; play.title = 'Reproducir'; play.setAttribute('aria-label', `Reproducir ${audio.nombre || 'audio'}`); play.addEventListener('click', () => playAudio(audio)); const song = document.createElement('a'); song.className = 'playlist-open-link'; song.href = `cancion.html?id=${encodeURIComponent(audio.cancionId)}`; song.textContent = 'Ver letra'; actions.append(play, song); }
+  if (audio) { const play = document.createElement('button'); play.className = 'playlist-play-button'; play.textContent = '▶'; play.title = 'Reproducir'; play.setAttribute('aria-label', `Reproducir ${audio.nombre || 'audio'}`); play.addEventListener('click', () => playAudio(audio, null, 'all')); const song = document.createElement('a'); song.className = 'playlist-open-link'; song.href = `cancion.html?id=${encodeURIComponent(audio.cancionId)}`; song.textContent = 'Ver letra'; actions.append(play, song); }
   const del = document.createElement('button'); del.className = 'playlist-remove-button'; del.textContent = '×'; del.title = 'Quitar de la lista'; del.addEventListener('click', async () => { const accepted = await confirmPlaylistAction({ title: 'Quitar audio', message: `“${audio?.nombre || 'Este audio'}” dejará de formar parte de “${playlist.nombre}”.`, confirmLabel: 'Quitar audio' }); if (!accepted) return; removeFromLocalPlaylist(playlist.id, reference.audioId); playlists = getLocalPlaylists(); render(); }); actions.append(del); row.append(number, copy, actions); row.classList.toggle('is-playing', row.dataset.audioId === currentAudioId); return row;
 }
 
@@ -283,6 +318,21 @@ function renderDetail() {
   const title = document.createElement('h2'); title.textContent = playlist.nombre; const count = document.createElement('p'); count.textContent = playlist.tipo === 'favoritos' ? `${itemLabel(playlist)} · sincronizada con tu perfil` : playlist.curada ? `${itemLabel(playlist)} · selección preparada por Gen` : `${itemLabel(playlist)} · ${currentUser ? 'sincronizada con tu cuenta' : 'guardada en este dispositivo'}`; copy.append(eyebrow, title, count);
   if (playlist.descripcion) { const description = document.createElement('p'); description.className = 'playlist-description'; description.textContent = playlist.descripcion; copy.append(description); }
   const actions = document.createElement('div'); actions.className = 'playlist-detail-actions';
+  if (playlist.tipo === 'audio' && playlist.items.length) {
+    const nativeContinuous = hasNativeAudio();
+    const available = playlist.items.map(reference => audioById(reference.audioId) || reference.audio).filter(audio => audio && playerDescriptor(audio).mode === 'audio').length;
+    const omitted = Math.max(0, playlist.items.length - available);
+    const modes = document.createElement('div'); modes.className = 'playlist-playback-modes';
+    const buttons = document.createElement('div'); buttons.className = 'playlist-playback-buttons';
+    const continuous = document.createElement('button'); continuous.type = 'button'; continuous.className = 'playlist-playback-mode is-continuous'; continuous.textContent = '🎧 Reproducción en segundo plano'; continuous.disabled = available === 0; continuous.addEventListener('click', () => startPlaylistPlayback('continuous'));
+    const complete = document.createElement('button'); complete.type = 'button'; complete.className = 'playlist-playback-mode is-complete'; complete.textContent = nativeContinuous ? '▶ Reproducir todo' : '▶ Reproducir playlist'; complete.addEventListener('click', () => startPlaylistPlayback('all'));
+    const description = document.createElement('p'); description.className = 'playlist-playback-description';
+    description.textContent = nativeContinuous
+      ? `Segundo plano: ${available} audio${available === 1 ? '' : 's'} compatible${available === 1 ? '' : 's'}${omitted ? `; omite ${omitted} ${omitted === 1 ? 'enlace externo' : 'enlaces externos'}` : ''}. Reproducir todo: ${playlist.items.length} ${playlist.items.length === 1 ? 'contenido' : 'contenidos'}; mantené abierta esta pantalla.`
+      : 'Mantené abierta esta pantalla durante la reproducción.';
+    if (nativeContinuous) buttons.append(continuous);
+    buttons.append(complete); modes.append(buttons, description); copy.append(modes);
+  }
   if (playlist.curada) {
     const save = document.createElement('button'); save.className = 'playlist-action primary'; save.textContent = 'Guardar en mis listas'; save.addEventListener('click', () => { const copy = { ...playlist, id: `playlist_${Date.now()}`, curada: undefined, creadaEn: new Date().toISOString(), actualizadaEn: new Date().toISOString(), items: playlist.items.map(item => ({ ...item })) }; playlists.push(copy); saveLocalPlaylists(playlists); activeId = copy.id; render(); }); actions.append(save);
   } else if (playlist.tipo !== 'favoritos') {
@@ -295,12 +345,14 @@ function renderDetail() {
     actions.append(share, download, remove);
   }
   header.append(copy, actions);
-  const notice = document.createElement('aside'); notice.className = 'playlist-queue-notice'; notice.hidden = playlist.tipo !== 'audio';
-  notice.innerHTML = '<strong>Cola automática</strong><span>Drive, YouTube, SoundCloud, Vimeo y audios directos comparten la misma cola. Cuando termina una pista, comienza la siguiente.</span>';
+  const notice = document.createElement('aside'); notice.className = 'playlist-queue-notice'; notice.hidden = playlist.tipo !== 'audio' || !hasNativeAudio();
+  notice.innerHTML = hasNativeAudio()
+    ? '<strong>Elegí cómo escuchar</strong><span>La reproducción en segundo plano está disponible en Android y usa audios compatibles. “Reproducir todo” incluye las demás fuentes, pero necesita que permanezcas en esta pantalla.</span>'
+    : '';
   const addMore = document.createElement('aside'); addMore.className = `playlist-add-more${playlist.items.length ? '' : ' is-empty'}`;
   const addMoreCopy = document.createElement('div'); const addMoreTitle = document.createElement('strong'); addMoreTitle.textContent = playlist.items.length ? '¿Querés sumar algo más?' : 'Esta playlist está esperando contenido';
-  const addMoreText = document.createElement('span'); addMoreText.textContent = playlist.tipo === 'audio' ? 'Abrí una canción, elegí una fuente compatible y tocá “+ Playlist”.' : 'Explorá el cancionero y guardá canciones desde su letra.'; addMoreCopy.append(addMoreTitle, addMoreText);
-  const addMoreLink = document.createElement('a'); addMoreLink.href = 'cancionero.html#canciones'; addMoreLink.textContent = playlist.tipo === 'audio' ? 'Buscar audios' : 'Buscar canciones'; addMore.append(addMoreCopy, addMoreLink);
+  const addMoreText = document.createElement('span'); addMoreText.textContent = playlist.tipo === 'audio' ? 'Explorá la sección de audios y agregá nuevas versiones a esta playlist.' : 'Explorá el cancionero y guardá canciones desde su letra.'; addMoreCopy.append(addMoreTitle, addMoreText);
+  const addMoreLink = document.createElement('a'); addMoreLink.href = playlist.tipo === 'audio' ? 'audios.html' : 'cancionero.html#canciones'; addMoreLink.textContent = playlist.tipo === 'audio' ? 'Buscar audios' : 'Buscar canciones'; addMore.append(addMoreCopy, addMoreLink);
   addMore.hidden = playlist.tipo === 'favoritos';
   const player = document.createElement('div'); player.id = 'playlistPlayer'; player.className = 'playlist-player'; player.hidden = true; const items = document.createElement('div'); items.className = 'playlist-items';
   playlist.items.forEach((reference, index) => items.append(playlist.tipo === 'audio' ? audioRow(reference, playlist, index) : songRow(reference, playlist, index)));
@@ -308,6 +360,8 @@ function renderDetail() {
   detail.append(back, header, notice, addMore, player, items);
 }
 function render() { renderList(); renderDetail(); }
+
+window.addEventListener('gen:native-audio-error', event => showPlaylistStatus(event.detail?.message || 'No pudimos reproducir este audio.', true));
 
 $('#createPlaylist').addEventListener('click', () => { $('#createPlaylistDialog').showModal(); $('#playlistName').focus(); });
 $('#cancelPlaylist').addEventListener('click', () => $('#createPlaylistDialog').close());
@@ -323,8 +377,8 @@ async function importPlaylistFile(file) {
     if (![1, 2, undefined].includes(data.v) || !Array.isArray(data.items) || data.items.length > 500) throw new Error('La estructura o versión de la playlist no es válida.');
     const tipo = data.tipo === 'canciones' ? 'canciones' : data.tipo === 'audio' ? 'audio' : null;
     if (!tipo) throw new Error('El tipo de playlist no es válido.');
-    const items = data.items.filter(item => item && typeof item === 'object' && (tipo === 'audio' ? item.audioId && item.audio && isQueueCompatibleAudio(item.audio) : item.cancionId)).slice(0, 500);
-    if (items.length !== data.items.length) throw new Error('La playlist contiene elementos incompletos o fuentes que no admiten avance automático.');
+    const items = data.items.filter(item => item && typeof item === 'object' && (tipo === 'audio' ? item.audioId && item.audio?.url : item.cancionId)).slice(0, 500);
+    if (items.length !== data.items.length) throw new Error('La playlist contiene elementos incompletos o enlaces de audio inválidos.');
     const playlist = { id: `playlist_${Date.now()}`, nombre: String(data.nombre || 'Lista importada').trim().slice(0, 60), tipo, creadaEn: new Date().toISOString(), items };
     playlists.push(playlist); saveLocalPlaylists(playlists); activeId = playlist.id; render();
   } catch (error) { const message = error instanceof SyntaxError ? 'El archivo no contiene datos JSON válidos.' : error?.message || 'El archivo no es una playlist de Gen válida.'; showPlaylistStatus(message, true); alert(message); }
@@ -357,7 +411,7 @@ async function connectAccountPlaylists() {
       favoritesLoading = Boolean(user);
       if (user) {
         try { playlists = sanitizeAudioPlaylists(await mergeCloudPlaylists(user.uid)); saveLocalPlaylists(playlists); }
-        catch (error) { playlists = getLocalPlaylists(); console.warn('Se mantienen las listas de esta cuenta en el dispositivo:', error); }
+        catch (error) { playlists = sanitizeAudioPlaylists(getLocalPlaylists()); saveLocalPlaylists(playlists); console.warn('Se mantienen las listas de esta cuenta en el dispositivo:', error); }
         void loadFavorites(user);
       } else {
         playlists = getLocalPlaylists();
@@ -378,8 +432,8 @@ async function init() {
   playlists = sanitizeAudioPlaylists(playlists); saveLocalPlaylists(playlists);
   const shared = playlistFromLocation();
   if (shared) {
-    if (shared.tipo === 'audio') shared.items = shared.items.filter(item => item?.audio && isQueueCompatibleAudio(item.audio));
-    const panel = $('#sharedPlaylist'); panel.hidden = false; const h = document.createElement('h2'); h.textContent = `Lista compartida: ${shared.nombre || 'Sin nombre'}`; const p = document.createElement('p'); p.textContent = `${typeLabel(shared.tipo)} · ${shared.items.length} elementos compatibles. Podés guardarla en este dispositivo.`; const button = document.createElement('button'); button.className = 'playlist-action'; button.type = 'button'; button.textContent = 'Guardar lista'; button.addEventListener('click', () => { const playlist = { id: `playlist_${Date.now()}`, nombre: String(shared.nombre || 'Lista compartida'), tipo: shared.tipo, creadaEn: new Date().toISOString(), items: shared.items }; playlists.push(playlist); saveLocalPlaylists(playlists); activeId = playlist.id; history.replaceState(null, '', location.pathname); panel.hidden = true; render(); }); panel.append(h, p, button);
+    if (shared.tipo === 'audio') shared.items = shared.items.filter(item => item?.audioId && item?.audio?.url);
+    const panel = $('#sharedPlaylist'); panel.hidden = false; const h = document.createElement('h2'); h.textContent = `Lista compartida: ${shared.nombre || 'Sin nombre'}`; const p = document.createElement('p'); p.textContent = `${typeLabel(shared.tipo)} · ${shared.items.length} elementos. Podés guardarla en este dispositivo.`; const button = document.createElement('button'); button.className = 'playlist-action'; button.type = 'button'; button.textContent = 'Guardar lista'; button.addEventListener('click', () => { const playlist = { id: `playlist_${Date.now()}`, nombre: String(shared.nombre || 'Lista compartida'), tipo: shared.tipo, creadaEn: new Date().toISOString(), items: shared.items }; playlists.push(playlist); saveLocalPlaylists(playlists); activeId = playlist.id; history.replaceState(null, '', location.pathname); panel.hidden = true; render(); }); panel.append(h, p, button);
   }
   await importNativePlaylistIfPresent();
   render();

@@ -1,8 +1,8 @@
 import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260818-song-fallback';
 import { transposeChord, convertChordNotation } from './chord-engine.js';
-import { renderSongContent } from './song-content.js?v=20260819-1';
+import { renderSongContent } from './song-content.js?v=20260825-tabs-visible-hidden';
 import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js?v=20260804-guide-dock-2';
-import { addSongToLocalPlaylist, addToLocalPlaylist, getLocalPlaylists, isQueueCompatibleAudio, loadAudiosForSong, playerDescriptor, providerLabels } from './audio-catalog.js?v=20260825-playlist-compatible-only';
+import { addSongToLocalPlaylist, addToLocalPlaylist, getLocalPlaylists, loadAudiosForSong, playerDescriptor, providerLabels } from './audio-catalog.js?v=20260825-mixed-playlists';
 import { clearMediaSession, connectMediaSession } from './media-session.js?v=20260825-1';
 import { hasNativeAudio, nativePause, nativePlay, nativeStop, playNativeAudio } from './native-audio.js?v=20260825-1';
 
@@ -12,6 +12,7 @@ const audioTypeLabels = {
 };
 
 const $ = (selector) => document.querySelector(selector);
+window.addEventListener('gen:native-audio-error', event => showToast(event.detail?.message || 'No pudimos reproducir este audio.'));
 const TEXT_CLASSES = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande', 'texto-muy-grande', 'texto-enorme', 'texto-maximo'];
 let pendingPlaylistAudio = null;
 let pendingPlaylistSong = null;
@@ -24,6 +25,7 @@ const state = {
   speed: 5,
   notation: 'american',
   showChords: true,
+  tabMode: 'expanded',
   toolsCollapsed: false,
   mobileToolsOpen: false,
   autoScroll: false,
@@ -200,7 +202,7 @@ function renderSongAudios() {
     play.textContent = descriptor.mode === 'external' ? 'Abrir ↗' : '▶ Escuchar';
     play.addEventListener('click', () => playSongAudio(audio, card));
     actions.append(play);
-    if (isQueueCompatibleAudio(audio)) {
+    if (audio?.url) {
       const save = document.createElement('button'); save.type = 'button'; save.className = 'audio-save-button'; save.textContent = '+ Playlist';
       save.addEventListener('click', () => saveAudioToPlaylist(audio)); actions.append(save);
     }
@@ -258,6 +260,9 @@ function playSongAudio(audio, card) {
     }
     active.append(heading, player);
     connectMediaSession(player, audio, { album: 'Cancionero Gen' });
+    const currentIndex = state.audios.findIndex(item => String(item.id) === String(audio.id));
+    const nextDescriptor = currentIndex >= 0 && state.audios[currentIndex + 1] ? playerDescriptor(state.audios[currentIndex + 1]) : null;
+    if (nextDescriptor?.mode === 'audio') window.GenExternalAudio?.preload(nextDescriptor.url);
     void player.play().catch(error => console.warn('El navegador espera que pulses reproducir:', error));
   } else {
     const frame = document.createElement('iframe'); frame.src = descriptor.url; frame.title = descriptor.title || 'Reproductor externo';
@@ -337,7 +342,7 @@ function finishPlaylistSave(name) {
   const playlist = pendingPlaylistAudio
     ? addToLocalPlaylist(pendingPlaylistAudio, name)
     : addSongToLocalPlaylist(pendingPlaylistSong, name);
-  if (!playlist) { showToast('Esta fuente no admite reproducción automática y no puede agregarse a playlists.'); return; }
+  if (!playlist) { showToast('No pudimos agregar esta fuente a la playlist.'); return; }
   showToast(`Guardada en “${playlist.nombre}”.`);
   $('#audioPlaylistDialog')?.close();
 }
@@ -471,8 +476,10 @@ function renderLyrics() {
 
   const chords = renderSongContent(container, lyric, {
     showChords: state.showChords,
+    tabMode: state.tabMode,
     displayChord,
-    onChordClick: openChordDrawer
+    onChordClick: openChordDrawer,
+    onTabReference: focusTabReference
   });
   container.classList.toggle('lyrics-only', !state.showChords);
   renderUsedChords(chords.map(displayChord));
@@ -557,6 +564,11 @@ function syncControls() {
   chordsButton.querySelector('span:nth-child(2)').textContent = state.showChords ? 'Letra y acordes' : 'Solo letra';
   chordsButton.querySelector('strong').textContent = state.showChords ? 'Visibles' : 'Ocultos';
   chordsButton.classList.toggle('active', state.showChords);
+  const tabsButton = $('#btnMostrarTablaturas');
+  const tabLabels = { hidden: 'Ocultas', expanded: 'Visibles' };
+  tabsButton.querySelector('strong').textContent = tabLabels[state.tabMode];
+  tabsButton.setAttribute('aria-pressed', String(state.tabMode !== 'hidden'));
+  tabsButton.classList.toggle('active', state.tabMode !== 'hidden');
   $('.lyrics-hint').innerHTML = state.showChords
     ? '<svg><use href="#i-music"/></svg>Toca un acorde para consultarlo'
     : '<svg><use href="#i-text"/></svg>Modo solo letra';
@@ -644,6 +656,31 @@ function toggleChordVisibility() {
   renderLyrics();
   syncControls();
   savePreferences();
+}
+
+function toggleTabVisibility() {
+  state.tabMode = state.tabMode === 'hidden' ? 'expanded' : 'hidden';
+  renderLyrics();
+  syncControls();
+  savePreferences();
+}
+
+function focusTabReference(key) {
+  if (state.tabMode === 'hidden') {
+    state.tabMode = 'expanded';
+    renderLyrics();
+    syncControls();
+    savePreferences();
+  }
+  requestAnimationFrame(() => {
+    const target = [...document.querySelectorAll('#letraContent [data-tab-key]')]
+      .find(element => element.dataset.tabKey === key);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    target.classList.remove('song-tab-highlight');
+    requestAnimationFrame(() => target.classList.add('song-tab-highlight'));
+    window.setTimeout(() => target.classList.remove('song-tab-highlight'), 1500);
+  });
 }
 
 function toggleTools() {
@@ -744,6 +781,7 @@ function resetSettings() {
   state.speed = 5;
   state.notation = 'american';
   state.showChords = true;
+  state.tabMode = 'expanded';
   renderLyrics();
   syncControls();
   savePreferences();
@@ -1037,6 +1075,8 @@ function loadPreferences() {
     if (Number.isInteger(saved.textSize)) state.textSize = Math.max(0, Math.min(TEXT_CLASSES.length - 1, saved.textSize));
     if (Number.isInteger(saved.speed)) state.speed = Math.max(1, Math.min(10, saved.speed));
     if (typeof saved.showChords === 'boolean') state.showChords = saved.showChords;
+    if (saved.tabMode === 'hidden') state.tabMode = 'hidden';
+    else if (saved.tabMode === 'expanded' || saved.tabMode === 'collapsed') state.tabMode = 'expanded';
     // Las herramientas comienzan desplegadas para que el lector sea descubrible;
     // el usuario puede contraerlas manualmente durante la lectura.
     state.toolsCollapsed = false;
@@ -1050,6 +1090,7 @@ function savePreferences() {
       textSize: state.textSize,
       speed: state.speed,
       showChords: state.showChords,
+      tabMode: state.tabMode,
       toolsCollapsed: state.toolsCollapsed
     }));
   } catch { /* La lectura sigue funcionando sin almacenamiento. */ }
@@ -1060,6 +1101,7 @@ window.cambiarTamano = changeTextSize;
 window.cambiarVelocidad = changeSpeed;
 window.toggleCifrado = toggleNotation;
 window.toggleMostrarAcordes = toggleChordVisibility;
+window.toggleMostrarTablaturas = toggleTabVisibility;
 window.toggleAutoScroll = toggleAutoScroll;
 window.resetearConfiguracion = resetSettings;
 window.imprimirCancion = printSong;
@@ -1070,6 +1112,7 @@ $('#scrollSpeed').addEventListener('input', (event) => {
   savePreferences();
 });
 $('#btnMostrarAcordes').addEventListener('click', toggleChordVisibility);
+$('#btnMostrarTablaturas').addEventListener('click', toggleTabVisibility);
 $('#toggleTools').addEventListener('click', toggleTools);
 $('#mobileToolsTrigger').addEventListener('click', openMobileTools);
 $('#mobileToolsBackdrop').addEventListener('click', () => closeMobileTools());
@@ -1168,6 +1211,7 @@ document.addEventListener('keydown', (event) => {
     a: () => toggleAutoScroll(),
     space: () => toggleAutoScroll(),
     v: () => toggleChordVisibility(),
+    t: () => toggleTabVisibility(),
     c: () => toggleNotation(),
     '+': () => changeSpeed(1),
     '=': () => changeSpeed(1),

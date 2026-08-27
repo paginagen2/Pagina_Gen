@@ -643,7 +643,6 @@
   border: 1px solid #555;
   padding: 2px 5px;
   border-radius: 4px;
-  width: 50px;
 }
 
 /* Vista Continua */
@@ -689,7 +688,7 @@
 }
 
 .libro_pag_input {
-  width: 50px;
+  width: 70px;
   padding: 4px;
   border: 1px solid #dcdde1;
   border-radius: 4px;

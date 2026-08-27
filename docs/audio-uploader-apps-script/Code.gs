@@ -16,14 +16,18 @@ function doPost(event) {
     setUploadStatus_(uploadToken, { state: 'uploading' });
 
     const originalName = String(payload.fileName || 'audio.mp3');
-    if (!originalName.toLowerCase().endsWith('.mp3')) throw new Error('Solo se permiten archivos MP3.');
+    const extensionMatch = originalName.toLowerCase().match(/\.([^.]+)$/);
+    const extension = extensionMatch ? extensionMatch[1] : '';
+    if (['mp3', 'm4a'].indexOf(extension) === -1) throw new Error('Solo se permiten archivos MP3 o M4A.');
     if (!payload.base64) throw new Error('El archivo está vacío.');
 
     const bytes = Utilities.base64Decode(payload.base64);
     if (bytes.length > MAX_FILE_SIZE) throw new Error('El archivo supera el máximo de 25 MB.');
-    if (!looksLikeMp3_(bytes)) throw new Error('El contenido no corresponde a un MP3 válido.');
+    if (extension === 'mp3' && !looksLikeMp3_(bytes)) throw new Error('El contenido no corresponde a un MP3 válido.');
+    if (extension === 'm4a' && !looksLikeM4a_(bytes)) throw new Error('El contenido no corresponde a un M4A válido.');
     const safeName = originalName.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ._() -]/g, '_');
-    const blob = Utilities.newBlob(bytes, 'audio/mpeg', safeName);
+    const mimeType = extension === 'm4a' ? 'audio/mp4' : 'audio/mpeg';
+    const blob = Utilities.newBlob(bytes, mimeType, safeName);
     const file = DriveApp.getFolderById(DESTINATION_FOLDER_ID).createFile(blob);
     try { file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (error) { /* La carpeta puede otorgar el permiso por herencia. */ }
 
@@ -73,6 +77,11 @@ function looksLikeMp3_(bytes) {
   const startsWithId3 = bytes[0] === 73 && bytes[1] === 68 && bytes[2] === 51;
   const startsWithFrame = (bytes[0] & 255) === 255 && ((bytes[1] & 255) & 224) === 224;
   return startsWithId3 || startsWithFrame;
+}
+
+function looksLikeM4a_(bytes) {
+  if (bytes.length < 12) return false;
+  return bytes[4] === 102 && bytes[5] === 116 && bytes[6] === 121 && bytes[7] === 112;
 }
 
 function jsonResponse_(result) {

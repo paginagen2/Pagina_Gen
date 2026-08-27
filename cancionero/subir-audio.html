@@ -50,10 +50,10 @@
             <div><strong>Audio para una canción pendiente</strong><p><b id="pendingSongName"></b> todavía no aparece en el cancionero porque debe ser revisada. Este audio quedará vinculado ahora y también necesitará autorización antes de publicarse.</p></div>
           </section>
           <section class="audio-drive-upload">
-            <div class="audio-drive-copy"><strong>¿El MP3 está en tu dispositivo?</strong><small>Subilo directamente desde acá. Cuando termine, el enlace público se completará automáticamente.</small></div>
+            <div class="audio-drive-copy"><strong>¿El audio está en tu dispositivo?</strong><small>Podés subir un MP3 o M4A. Cuando termine, el enlace público se completará automáticamente.</small></div>
             <div class="audio-drive-actions">
-              <input id="googleAudioFile" type="file" accept="audio/mpeg,.mp3" hidden>
-              <button id="googleAudioChoose" type="button">Elegir MP3</button>
+              <input id="googleAudioFile" type="file" accept="audio/mpeg,audio/mp4,audio/x-m4a,.mp3,.m4a" hidden>
+              <button id="googleAudioChoose" type="button">Elegir audio</button>
               <button id="googleAudioUpload" type="button" hidden>Subir a Drive</button>
             </div>
             <div class="audio-drive-progress" id="googleAudioProgress" hidden>
@@ -90,6 +90,6 @@
   </main>
   <script type="module" src="../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog"></script>
   <script type="module" src="../auth.js?v=20260730-google1"></script>
-  <script type="module" src="subir-audio.js?v=20260824-live-audio"></script>
+  <script type="module" src="subir-audio.js?v=20260825-m4a"></script>
 </body>
 </html>

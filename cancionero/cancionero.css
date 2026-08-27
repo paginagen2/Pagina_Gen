@@ -124,6 +124,12 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 }
 .songbook-header { display: flex; height: 86px; align-items: center; justify-content: space-between; padding: 0 32px; border-bottom: 1px solid var(--sb-border); }
 .songbook-header h1 { margin: 0; color: var(--sb-text); font-size: 27px; font-weight: 700; letter-spacing: -.8px; }
+.songbook-header-actions { display: flex; align-items: center; gap: 12px; }
+.header-chords-link { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; gap: 10px; padding: 0 17px; border: 1px solid rgba(153,89,255,.72); border-radius: 13px; color: #e4d5ff; background: rgba(23,17,34,.62); text-decoration: none; font-size: 14px; font-weight: 650; touch-action: manipulation; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+.header-chords-link svg { width: 22px; height: 22px; color: var(--sb-purple-light); }
+.header-chords-link:hover { border-color: var(--sb-purple-light); background: rgba(112,57,177,.18); transform: translateY(-1px); }
+.header-chords-link:focus-visible { outline: 2px solid var(--sb-purple-light); outline-offset: 3px; }
+.header-chords-label-short { display: none; }
 .mobile-home { display: none; color: var(--sb-purple-light); font-size: 13px; }
 .cancionero-layout { display: grid; grid-template-columns: minmax(0, 1fr) 400px; align-items: start; gap: 30px; padding: 29px 32px 48px; }
 .main-column { min-width: 0; }
@@ -220,6 +226,8 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .tool-icon svg { width: 46px; height: 46px; stroke-width: 1.7; }
 .chords-tool-icon { border: 1px solid rgba(169,108,255,.28); border-radius: 15px; background: linear-gradient(145deg, rgba(153,89,255,.18), rgba(83,44,137,.08)); }
 .chords-tool-icon svg { width: 43px; height: 43px; stroke-width: 1.75; }
+.audio-tool-icon { border: 1px solid rgba(169,108,255,.28); border-radius: 15px; background: linear-gradient(145deg, rgba(153,89,255,.18), rgba(83,44,137,.08)); }
+.audio-tool-icon svg { width: 38px; height: 38px; stroke-width: 1.7; }
 .favorites-tool-icon { border: 1px solid rgba(169,108,255,.28); border-radius: 50%; background: rgba(153,89,255,.12); }
 .favorites-tool-icon svg { width: 29px; height: 29px; }
 .favorites-tool:hover .favorites-tool-icon svg { fill: rgba(153,89,255,.28); }
@@ -358,6 +366,36 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .form-group textarea { resize: vertical; line-height: 1.5; }
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--sb-purple); box-shadow: 0 0 0 3px rgba(153,89,255,.12); }
 .form-help { margin-top: 9px; color: var(--sb-muted); font-size: 12px; line-height: 1.45; }
+.submission-tabs { display:grid; gap:12px; margin:0 0 20px; padding:15px; border:1px solid var(--sb-border); border-radius:12px; background:#0a1017; }
+.submission-tabs-heading { display:flex; align-items:center; justify-content:space-between; gap:14px; }
+.submission-tabs-heading > div { display:grid; gap:3px; }
+.submission-tabs-heading small, .submission-tab-item small, .submission-tabs-empty { color:var(--sb-muted); font-size:12px; line-height:1.4; }
+.submission-tabs-heading button, .submission-tab-item button, .tab-grid-heading button { min-height:36px; padding:7px 11px; border:1px solid #6f469c; border-radius:8px; color:#eee8f7; background:#20152e; cursor:pointer; font-weight:700; }
+.submission-tabs-list { display:grid; gap:8px; }
+.submission-tabs-empty { padding:10px 0; text-align:center; }
+.submission-tab-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 12px; border:1px solid #2b3440; border-radius:10px; background:#0e151e; }
+.submission-tab-item > span:first-child { display:grid; min-width:0; gap:3px; }
+.submission-tab-item > span:last-child { display:flex; flex:none; gap:7px; }
+.submission-tab-remove { border-color:#6d3945 !important; color:#ffb5bf !important; background:#251218 !important; }
+.tab-editor-overlay { position:fixed; inset:0; z-index:4100; display:grid; place-items:center; padding:20px; background:rgba(0,0,0,.76); backdrop-filter:blur(5px); }
+.tab-editor-overlay[hidden] { display:none; }
+.tab-editor-modal { display:flex; width:min(820px,100%); max-height:min(760px,calc(100dvh - 32px)); overflow:hidden; flex-direction:column; border:1px solid #684495; border-radius:16px; background:#0c121a; box-shadow:0 25px 75px #000b; }
+.tab-editor-modal header, .tab-editor-modal footer { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 20px; border-bottom:1px solid var(--sb-border); }
+.tab-editor-modal header span { color:#ab6cff; font-size:11px; font-weight:800; letter-spacing:.14em; }
+.tab-editor-modal header h2 { margin:4px 0 0; font-size:21px; }
+.tab-editor-modal header > button { width:40px; height:40px; border:1px solid var(--sb-border); border-radius:9px; color:#fff; background:#111821; cursor:pointer; font-size:23px; }
+.tab-editor-modal footer { justify-content:flex-end; border-top:1px solid var(--sb-border); border-bottom:0; }
+.tab-editor-body { display:grid; overflow:auto; gap:15px; padding:20px; }
+.tab-editor-body > label { display:grid; gap:7px; color:#e7e3ed; font-size:13px; font-weight:700; }
+.tab-editor-body input { width:100%; min-height:43px; padding:10px 12px; border:1px solid #35404e; border-radius:9px; color:#fff; background:#090e15; }
+.tab-grid-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.tab-grid-heading > div:first-child { display:grid; gap:3px; }
+.tab-grid-heading small, .tab-editor-help { color:var(--sb-muted); font-size:12px; }
+.tab-grid-heading > div:last-child { display:flex; gap:7px; }
+.tab-editor-grid { display:grid; gap:5px; padding:12px; border:1px solid #303a47; border-radius:11px; background:#070b11; overflow-x:auto; }
+.tab-editor-grid label { display:grid; grid-template-columns:22px minmax(560px,1fr); align-items:center; font:700 14px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace; }
+.tab-editor-grid input { min-height:34px; padding:6px 8px; border:0; border-bottom:1px solid #222c37; border-radius:0; font:inherit; letter-spacing:.04em; }
+.tab-editor-help { margin:0; line-height:1.5; }
 .song-import-note { display:grid; gap:4px; margin-bottom:20px; padding:14px; border:1px solid #493463; border-radius:11px; background:rgba(113,58,180,.09); }
 .song-import-note span { color:var(--sb-muted); font-size:.75rem; line-height:1.45; }
 .form-actions { display: flex; justify-content: flex-end; gap: 11px; }
@@ -405,6 +443,10 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 @media (max-width: 680px) {
   .songbook-header { height: 68px; padding: 0 18px; }
   .songbook-header h1 { font-size: 21px; }
+  .header-chords-link { min-height: 44px; padding-inline: 13px; font-size: 13px; }
+  .header-chords-link svg { width: 20px; height: 20px; }
+  .header-chords-label-full { display: none; }
+  .header-chords-label-short { display: inline; }
   .cancionero-layout { padding: 20px 15px 38px; }
   .search-section { height: 68px; }
   .search-input { padding: 0 72px 0 50px; border-width: 2px; border-radius: 18px; font-size: 16px; }
@@ -418,6 +460,16 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
   .tool-card { min-height: 98px; padding: 15px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .form-body, .form-header { padding: 20px; }
+  .submission-tabs-heading, .submission-tab-item { align-items:stretch; flex-direction:column; }
+  .submission-tabs-heading button { width:100%; }
+  .submission-tab-item > span:last-child { display:grid; grid-template-columns:1fr 1fr; }
+  .tab-editor-overlay { align-items:end; padding:0; }
+  .tab-editor-modal { width:100%; max-height:92dvh; border-radius:16px 16px 0 0; }
+  .tab-editor-modal header, .tab-editor-modal footer, .tab-editor-body { padding:16px; }
+  .tab-editor-modal footer { padding-bottom:calc(16px + env(safe-area-inset-bottom)); }
+  .tab-editor-modal footer .btn { flex:1; }
+  .tab-grid-heading { align-items:flex-end; }
+  .tab-editor-grid label { grid-template-columns:20px minmax(460px,1fr); }
   .artista-section { margin: 20px 15px; }
   .artista-header { align-items: flex-start; flex-direction: column; gap: 15px; }
   .pdf-builder-header, .pdf-order-panel, .pdf-settings-panel { padding-inline: 17px; }

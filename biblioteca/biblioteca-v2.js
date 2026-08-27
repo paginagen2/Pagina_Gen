@@ -22,6 +22,7 @@ const state = {
   contributionDirty: false,
   contributionCompleted: false,
   pendingContribution: null,
+  contributionFileStepOpened: false,
   showMeditations: false,
   metricFlushTimer: null,
   metricFlushInProgress: false,
@@ -74,8 +75,12 @@ async function init() {
   try {
     await window.firebaseReady;
     state.db = window.firebaseDb; state.utils = window.firebaseUtils; state.auth = window.firebaseAuth;
-    await loadCloudResources();
-    await Promise.all([loadDigitalBooks(), loadContributionConfig(), loadLibraryTopics()]);
+    const catalogResult = await Promise.allSettled([loadCloudResources()]);
+    if (catalogResult[0].status === 'rejected') console.warn('No se pudo actualizar el catálogo:', catalogResult[0].reason);
+    const secondaryResults = await Promise.allSettled([loadDigitalBooks(), loadContributionConfig(), loadLibraryTopics()]);
+    secondaryResults.forEach((result, index) => {
+      if (result.status === 'rejected') console.warn(['Libros digitales', 'Formulario de aportes', 'Temas'][index], result.reason);
+    });
     setTimeout(() => flushMetricBuffer(), 1200);
   } catch (error) {
     console.warn('Biblioteca en modo local:', error);
@@ -125,6 +130,7 @@ function bindControls() {
   $('#aporteForm')?.addEventListener('change', markContributionDirty);
   $('#nuevoAporte')?.addEventListener('click', startAnotherContribution);
   $('#finalizarAporte')?.addEventListener('click', finishContribution);
+  $('#aporteGoogleForm')?.addEventListener('click', markContributionFileStepOpened);
   $('#aportePanel')?.addEventListener('click', event => {
     if (event.target.id === 'aportePanel') requestCloseContributionPanel();
   });
@@ -289,7 +295,7 @@ function appendDigitalBooks(pages) {
     });
     books.get(key).paginas.push(page);
   });
-  books.forEach(book => book.paginas.sort((a, b) => (Number(a.pagina) || 0) - (Number(b.pagina) || 0)));
+  books.forEach(book => book.paginas.sort((a, b) => pageRange(a.pagina).start - pageRange(b.pagina).start));
   state.resources.push(...books.values());
 }
 async function loadContributionConfig() {
@@ -487,6 +493,12 @@ function appendMeditationText(container, content) {
     container.append(document.createTextNode(line));
   });
 }
+function pageRange(value) {
+  const numbers = String(value || '').match(/\d+(?:[.,]\d+)?/g)?.map(number => Number(number.replace(',', '.'))) || [];
+  const start = Number.isFinite(numbers[0]) ? numbers[0] : Infinity;
+  const end = Number.isFinite(numbers[1]) ? numbers[1] : start;
+  return { start, end: Math.max(start, end) };
+}
 function renderBookPage() {
   const page = state.currentBook?.paginas[state.bookPage]; if (!page) return;
   const container = $('#paginaContenido'); container.replaceChildren(); const header = create('div', 'pagina_header');
@@ -494,8 +506,8 @@ function renderBookPage() {
   const text = create('div', 'texto_meditacion');
   appendMeditationText(text, page.contenido);
   container.append(header, text); $('#libroPaginaInput').value = page.pagina || '';
-  const finalPage = [...state.currentBook.paginas].reverse().find(item => String(item.pagina || '').trim())?.pagina || '';
-  $('#libroTotalPaginas').textContent = finalPage;
+  const finalPage = Math.max(...state.currentBook.paginas.map(item => pageRange(item.pagina).end).filter(Number.isFinite));
+  $('#libroTotalPaginas').textContent = Number.isFinite(finalPage) ? String(finalPage) : '';
   $('#libroAnterior').disabled = state.bookPage === 0; $('#libroSiguiente').disabled = state.bookPage >= state.currentBook.paginas.length - 1;
 }
 function changeBookPage(delta) {
@@ -509,12 +521,18 @@ function goToBookPage(value) {
   let closestIndex = -1;
   let closestPage = -Infinity;
   state.currentBook.paginas.forEach((page, index) => {
-    const pageNumber = Number(page.pagina);
-    if (Number.isFinite(pageNumber) && pageNumber <= requested && pageNumber > closestPage) {
-      closestPage = pageNumber;
+    const range = pageRange(page.pagina);
+    if (requested >= range.start && requested <= range.end) {
+      closestIndex = index;
+      closestPage = requested;
+      return;
+    }
+    if (range.end < requested && range.end > closestPage) {
+      closestPage = range.end;
       closestIndex = index;
     }
   });
+  if (closestIndex < 0 && state.currentBook.paginas.length) closestIndex = 0;
   if (closestIndex >= 0) state.bookPage = closestIndex;
   renderBookPage();
 }
@@ -632,9 +650,17 @@ function resetContributionForm({ keepPanel = true } = {}) {
   document.querySelectorAll('input[name="aporte-tema"]').forEach(input => { input.checked = false; });
   $('#aporteTemaNuevo').value = '';
   state.pendingContribution = null;
+  state.contributionFileStepOpened = false;
   state.contributionDirty = false;
   state.contributionCompleted = false;
   if (keepPanel) $('#aporteTitulo').focus();
+}
+function markContributionFileStepOpened() {
+  if (!state.pendingContribution) return;
+  state.contributionFileStepOpened = true;
+  state.pendingContribution.archivoPasoAbiertoEn = new Date();
+  const button = $('#finalizarAporte');
+  if (button) button.disabled = false;
 }
 function startAnotherContribution() {
   if (hasContributionProgress() && !window.confirm('¿Ya terminaste de adjuntar el archivo? Si continuás, se iniciará un aporte nuevo.')) return;
@@ -642,8 +668,8 @@ function startAnotherContribution() {
 }
 async function finishContribution() {
   const user = state.auth?.currentUser;
-  if (!user || !state.pendingContribution) {
-    showNotice('No encontramos una ficha lista para enviar.');
+  if (!user || !state.pendingContribution || !state.contributionFileStepOpened) {
+    showNotice(state.pendingContribution ? 'Primero abrí Google Forms para adjuntar el archivo.' : 'No encontramos una ficha lista para enviar.');
     return;
   }
   const button = $('#finalizarAporte');
@@ -694,6 +720,8 @@ async function saveContributionMetadata(event) {
     };
     $('#aporteForm').hidden = true;
     $('#aporteArchivoPaso').hidden = false;
+    state.contributionFileStepOpened = false;
+    $('#finalizarAporte').disabled = true;
     state.contributionDirty = true;
     if (state.googleFileFormUrl) {
       $('#aporteGoogleForm').hidden = false;

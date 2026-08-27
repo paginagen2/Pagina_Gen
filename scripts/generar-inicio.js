@@ -14,8 +14,6 @@ const FIREBASE_WEB_API_KEY = process.env.FIREBASE_WEB_API_KEY
   || 'AIzaSyB7US5r--cM82usyzLqd-ckamgIdyewfKE';
 const RUN_QUERY_URL = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents:runQuery?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`;
 const ANDROID_CONFIG_URL = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_PROJECT_ID)}/databases/(default)/documents/configuracion_publica/android?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`;
-const LEGACY_FIREBASE_APK_URL = 'https://pagina-gen.web.app/descargas/Pagina-Gen.apk';
-const PUBLIC_APK_URL = 'https://paginagen2.github.io/Pagina_Gen/descargas/Pagina-Gen.apk';
 
 function argentinaDateParts(date = new Date()) {
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -183,12 +181,11 @@ async function writeJson(filePath, value) {
 }
 
 function normalizeAndroidVersion(value) {
-  const configuredApkUrl = String(value?.apkUrl || '');
   const normalized = {
     versionCode: Number(value?.versionCode),
     versionName: String(value?.versionName || ''),
     minimumVersionCode: Number(value?.minimumVersionCode),
-    apkUrl: configuredApkUrl === LEGACY_FIREBASE_APK_URL ? PUBLIC_APK_URL : configuredApkUrl,
+    apkUrl: String(value?.apkUrl || ''),
     titulo: String(value?.titulo || 'Actualizá Gen 2'),
     descripcion: String(value?.descripcion || 'Hay una nueva versión disponible.'),
     textoEnlace: String(value?.textoEnlace || 'Descargar actualización')

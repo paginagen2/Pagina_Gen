@@ -1,5 +1,17 @@
 export function hasNativeAudio() { return Boolean(window.AndroidNativeAudio?.playQueue); }
 
+let errorWatchGeneration = 0;
+function watchNativeError() {
+  const generation = ++errorWatchGeneration;
+  [900, 2400, 5200].forEach(delay => setTimeout(() => {
+    if (generation !== errorWatchGeneration) return;
+    const state = nativeAudioState();
+    if (!state.error) return;
+    errorWatchGeneration += 1;
+    window.dispatchEvent(new CustomEvent('gen:native-audio-error', { detail: { message: state.error } }));
+  }, delay));
+}
+
 function nativeItem(audio, descriptor, album) {
   return {
     id: String(audio.id || audio.audioId || ''),
@@ -13,7 +25,9 @@ function nativeItem(audio, descriptor, album) {
 
 export function playNativeAudio(audio, descriptor, album = 'Cancionero Gen') {
   if (!hasNativeAudio() || descriptor?.mode !== 'audio') return false;
-  return window.AndroidNativeAudio.playQueue(JSON.stringify([nativeItem(audio, descriptor, album)]), 0) === true;
+  const started = window.AndroidNativeAudio.playQueue(JSON.stringify([nativeItem(audio, descriptor, album)]), 0) === true;
+  if (started) watchNativeError();
+  return started;
 }
 
 export function playNativeQueue(audios, activeAudio, descriptorFor, album = 'Playlist Gen') {
@@ -22,7 +36,9 @@ export function playNativeQueue(audios, activeAudio, descriptorFor, album = 'Pla
   const index = playable.findIndex(item => String(item.audio.id) === String(activeAudio.id));
   if (index < 0) return false;
   const payload = playable.map(item => nativeItem(item.audio, item.descriptor, album));
-  return window.AndroidNativeAudio.playQueue(JSON.stringify(payload), index) === true;
+  const started = window.AndroidNativeAudio.playQueue(JSON.stringify(payload), index) === true;
+  if (started) watchNativeError();
+  return started;
 }
 
 export function nativePlay() { window.AndroidNativeAudio?.play?.(); }

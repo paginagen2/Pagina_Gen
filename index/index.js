@@ -428,7 +428,7 @@ async function cargarFraseAleatoria(db) {
         return;
     }
     
-    const { collection, getDocs } = window.firebaseUtils;
+    const { collection, query, where, getDocs } = window.firebaseUtils;
     
     try {
         const querySnapshot = await getDocs(collection(db, 'frases'));
@@ -557,7 +557,10 @@ async function cargarMeditacionHoy(db) {
     const { collection, getDocs } = window.firebaseUtils;
     
     try {
-        const querySnapshot = await getDocs(collection(db, 'meditaciones'));
+        const querySnapshot = await getDocs(query(
+            collection(db, 'meditaciones'),
+            where('Publico', '==', true)
+        ));
         console.log('📄 Meditaciones encontradas:', querySnapshot.size);
         
         const meditaciones = [];
