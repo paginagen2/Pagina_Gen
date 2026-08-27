@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 39,
   "tamanioPagina": 6,
-  "total": 316,
+  "total": 317,
   "siguientePagina": 40,
   "items": [
+    {
+      "id": "pasapalabra_1769040221328",
+      "titulo": "COMPROMETERNOS A TESTIMONIAR QUE DIOS ES AMOR",
+      "fecha": "22/01/2026",
+      "reflexion": "Dar testimonio de Dios Amor es permitir que Su amor se haga visible a través de nuestras vidas.\nEl compromiso con este testimonio, comienza en el corazón, cuando elegimos vivir de modo coherente con aquello en que creemos.\nEste testimonio se manifiesta en la paciencia, en el perdón ofrecido y en la solidaridad con quienes sufren.\nCada gesto de cuidado, cada palabra, se convierte en una señal visible de que Dios es amor.\nComprometerse en dar testimonio de Dios Amor es aceptar el desafío de amar como Él ama: de forma gratuita, fiel y abiertamente a todos.\nPara dar testimonio concreto, debemos ser amor, y así, la fe deja de ser sólo una convicción personal y se transforma en luz para los demás."
+    },
     {
       "id": "pasapalabra_1768960661888",
       "titulo": "APERTURA ALEGRE A LOS DEMÁS",
@@ -34,12 +40,6 @@
       "titulo": "NO CEDER AL INDIVIDUALISMO",
       "fecha": "17/01/2026",
       "reflexion": "En una sociedad que a menudo valora solo el \"yo\", resistir al individualismo es un acto de conciencia y humanidad, animado por el amor.\nNo ceder a esta lógica es reconocer que nadie crece solo y que el bien común fortalece a todos.\nSignifica mirar más allá de los propios intereses, aprender a compartir, escuchar y cooperar.\nCuando elegimos el camino de la solidaridad, descubrimos que la verdadera realización nace del encuentro, del cuidado mutuo y de la construcción colectiva de un futuro más justo y fraterno."
-    },
-    {
-      "id": "pasapalabra_1768525773731",
-      "titulo": "PEQUEÑOS GESTOS PARA UN MUNDO UNIDO",
-      "fecha": "16/01/2026",
-      "reflexion": "En un mundo marcado por las diferencias, son los pequeños gestos los que construyen puentes invisibles entre las personas. La unidad no nace de grandes discursos, sino de la decisión diaria de respetar, acoger y cuidar.\nCuando cada uno hace su parte, aunque parezca pequeña, el todo se fortalece. Así, los gestos sencillos suman y revelan una verdad esencial: la humanidad avanza hacia el bien cuando camina unida.\nUn mundo unido se construye a partir de pequeños gestos: de respeto en las palabras, de empatía en las actitudes y de solidaridad en las decisiones diarias. Es así, paso a paso, que la unidad deja de ser un ideal lejano y se convierte en un camino vivido por todos."
     }
   ]
 }

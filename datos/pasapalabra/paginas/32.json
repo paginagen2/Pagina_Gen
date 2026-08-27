@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 32,
   "tamanioPagina": 6,
-  "total": 316,
+  "total": 317,
   "siguientePagina": 33,
   "items": [
+    {
+      "id": "pasapalabra_1772416984914",
+      "titulo": "RECOMENZAR",
+      "fecha": "02/03/2026",
+      "reflexion": "En la práctica, casi siempre recomenzar es un pequeño pensamiento diferente, una elección más consciente, un paso firme en una nueva dirección.\nRecomenzar es aceptar que fallamos, que nos cansamos, que cometimos errores y, aun así, elegir continuar.\nNo es repetir el mismo camino, sino seguir avanzando de una manera diferente.\nQuien recomienza no vuelve al punto de partida. Regresa con experiencia y lecciones aprendidas.\nLo que salió mal puede convertirse en la motivación para lo que aún puede salir bien."
+    },
     {
       "id": "pasapalabra_1772342357347",
       "titulo": "NO DESANIMARSE POR LOS FRACASOS",
@@ -34,12 +40,6 @@
       "titulo": "HUMILDAD",
       "fecha": "26/02/2026",
       "reflexion": "La humildad no consiste en menospreciarse, sino en pensar menos en uno mismo. Quien es humilde no se disminuye, sino que se coloca en el lugar correcto: una criatura amada, dependiente de la gracia de Dios, siempre abierta a aprender.\nSer humilde es saber aceptar correcciones y reconocer los limites sin encerrarse en el orgullo.\nLa humildad nos libera de la comparación y de la necesidad de demostrar nuestro valor.\nEn la vida diaria, la humildad se revela en gestos sencillos: disculparse, agradecer, servir, aceptar el ritmo de los demás.\nLa humildad prepara el corazón para acoger la voluntad de Dios.\nQuien camina con ella encuentra la verdadera grandeza, porque es en el corazón sencillo donde habita Dios."
-    },
-    {
-      "id": "pasapalabra_1771984286537",
-      "titulo": "REZAR POR LA PAZ",
-      "fecha": "25/02/2026",
-      "reflexion": "Cuando oramos por la paz, no solo pedimos el fin de las guerras o la violencia visible, sino también la reconciliación de los corazones heridos, la sanación de las palabras duras y la sabiduría para elegir el diálogo en lugar de la confrontación.\nLa oración nos educa para la mansedumbre y nos recuerda que la verdadera paz es fruto del amor vivido en el día a día.\nRezar por la paz es comprometerse con ella. Es vigilar nuestras acciones, cultivar el perdón, sembrar la comprensión y rechazar las actitudes que generan división. La paz que pedimos en oración debe desbordar en nuestras acciones.\nQue nuestra oración sea sincera y constante, para que la paz de Dios habite en nosotros y, a través de nosotros, llegue al mundo."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 45,
   "tamanioPagina": 6,
-  "total": 316,
+  "total": 317,
   "siguientePagina": 46,
   "items": [
+    {
+      "id": "pasapalabra_1765935017238",
+      "titulo": "DERRIBAR LAS BARRERAS CON EL AMOR",
+      "fecha": "17/12/2025",
+      "reflexion": "El amor es capaz de traspasar barreras invisibles, sanar viejas heridas y acercar los corazones.\nCuando elegimos actuar con amor y por amor, incluso delante de la incomprensión, del dolor o del miedo, algo cambia no solo a nuestro alrededor, sino también en nuestro interior.\nLas barreras que nos separan de los demás a menudo son levantadas por el orgullo, los prejuicios o viejas heridas mal curadas.\nDerribar barreras con el amor, es comprender que la paz vale más que la razón, que el respeto al prójimo es más fuerte que el egoísmo y que la empatía es el camino más rápido hacia la verdadera unidad.\nDonde entra el amor, el miedo sale, y lo imposible se hace posible."
+    },
     {
       "id": "pasapalabra_1765855727415",
       "titulo": "SER PERSEVERANTES",
@@ -34,12 +40,6 @@
       "titulo": "EMPATÍA HACIA LOS DEMÁS",
       "fecha": "12/12/2025",
       "reflexion": "La empatía nos permite ver el mundo a través de los ojos del otro, comprender sus dolores, sus alegrías y sus dificultades.\nEn un tiempo en que el individualismo y la prisa dominan las relaciones, ser empático es casi un acto de resistencia, un recordatorio de que todos formamos parte de la misma familia humana.\nCuando practicamos la empatía, en lugar de buscar quién tiene la razón, buscamos comprender lo que el otro siente. Este simple gesto puede transformar los conflictos en diálogos, las distancias en presencias y las indiferencias en solidaridad.\nLa empatía es un acto de amor al prójimo, es ofrecer ayuda sin esperar nada a cambio, es respetar el tiempo y el espacio de cada persona."
-    },
-    {
-      "id": "pasapalabra_1765419404782",
-      "titulo": "DESARMARSE",
-      "fecha": "11/12/2025",
-      "reflexion": "Es difícil bajar la guardia, abrir el corazón y permitir que los demás nos vean como realmente somos: con miedos, defectos, con humanidad.\nDesarmarse significa elegir la paz antes que la razón. Es comprender que no toda discusión necesita un ganador, que el silencio a veces habla más fuerte que una respuesta cortante.\nEs darse cuenta de que la vida no es un campo de batalla, sino un espacio de encuentro.\nCuando nos desarmamos, abrimos espacio para el diálogo, para el perdón y para el afecto.\nCambiamos el escudo por la escucha, la espada por la empatía.\nY descubrimos que la verdadera fuerza no reside en derrotar al otro, sino en comprenderlo y abrazarlo."
     }
   ]
 }
