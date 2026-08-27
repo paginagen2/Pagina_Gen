@@ -15,8 +15,8 @@ const keyId = pushConfig.match(/GEN2_VAPID_KEY_ID\s*=\s*'([^']+)'/)?.[1];
 if (!publicKey || !keyId) throw new Error('Faltan la clave pública o la versión Web Push.');
 
 const workflow = read('.github/workflows/procesar-notificaciones.yml');
-if (!workflow.includes(`WEB_PUSH_PUBLIC_KEY: ${publicKey}`)) {
-  throw new Error('La web y el procesador usan claves públicas Web Push diferentes.');
+if (!workflow.includes('WEB_PUSH_PUBLIC_KEY: ${{ secrets.WEB_PUSH_PUBLIC_KEY }}')) {
+  throw new Error('El procesador no usa el secreto WEB_PUSH_PUBLIC_KEY.');
 }
 
 let privateKey = process.env.WEB_PUSH_PRIVATE_KEY || '';
