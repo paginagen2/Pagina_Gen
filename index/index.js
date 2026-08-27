@@ -30,19 +30,21 @@ document.addEventListener('DOMContentLoaded', async function() {
     setCurrentDate();
     setupCarruselEventListeners();
     setupEventListeners();
-    const loadedCurrentSummary = await loadDailyHomeData();
-    if (!loadedCurrentSummary) await loadHomeFromStaticCatalogs();
-    await loadHomeFromFirebase();
+    let loadedCurrentContent = await loadDailyHomeData();
+    if (!loadedCurrentContent) loadedCurrentContent = await loadHomeFromStaticCatalogs();
+    // Si el resumen o los catálogos ya resolvieron el contenido diario, no
+    // repetir esas lecturas en Firebase ni permitir que un error lo reemplace.
+    await loadHomeFromFirebase({ refreshDailyContent: !loadedCurrentContent });
 });
 
 window.addEventListener('gen:android-update', event => {
     applyAndroidUpdateNews(event.detail);
 });
 
-async function loadHomeFromFirebase() {
+async function loadHomeFromFirebase({ refreshDailyContent = true } = {}) {
     try {
         if (window.firebaseReady) await window.firebaseReady;
-        if (window.firebaseDb && window.firebaseUtils) await initializePage();
+        if (window.firebaseDb && window.firebaseUtils) await initializePage({ refreshDailyContent });
     } catch (error) {
         console.warn('No se pudo actualizar el Inicio desde Firebase:', error);
     }
@@ -271,25 +273,30 @@ function setPdvDestination(href) {
 }
 
 // Inicializar página
-async function initializePage() {
+async function initializePage({ refreshDailyContent = true } = {}) {
     const db = window.firebaseDb;
     const roles = window.genAuthSession
         ? await window.genAuthSession.getRoles().catch(() => [])
         : [];
-    cargarCarrusel(db, roles);
-    cargarFraseAleatoria(db);
-    cargarTituloPasapalabraHoy(db);
-    cargarMeditacionHoy(db);
-    cargarUltimaPdv(db);
-    cargarCanalPreview(db);
+    // El carrusel y la tarjeta del canal usan la misma colección. Compartir
+    // la consulta evita descargar dos veces las mismas publicaciones.
+    const channelPostsPromise = cargarPublicacionesGeneralesVisibles(db, roles);
+    cargarCarrusel(db, roles, channelPostsPromise);
+    cargarCanalPreview(db, channelPostsPromise);
+    if (refreshDailyContent) {
+        cargarFraseAleatoria(db);
+        cargarTituloPasapalabraHoy(db);
+        cargarMeditacionHoy(db);
+        cargarUltimaPdv(db);
+    }
 }
 
-async function cargarCanalPreview(db) {
+async function cargarCanalPreview(db, channelPostsPromise = null) {
     const text = document.getElementById('canal-banner-preview');
     const subtitle = document.getElementById('canal-subtitulo');
     if (!text) return;
     try {
-        const publicaciones = await cargarPublicacionesGeneralesVisibles(db);
+        const publicaciones = await (channelPostsPromise || cargarPublicacionesGeneralesVisibles(db));
         const toDate = value => value?.toDate ? value.toDate() : new Date(value);
         const general = publicaciones.sort((a, b) => toDate(b.fechaPublicacion) - toDate(a.fechaPublicacion))[0];
         if (general) {
@@ -640,9 +647,9 @@ window.addEventListener('beforeunload', () => {
 });
 
 // Funciones del carrusel de fotos
-async function cargarCarrusel(db, roles = []) {
+async function cargarCarrusel(db, roles = [], channelPostsPromise = null) {
     try {
-        const channelPosts = await cargarPublicacionesGeneralesVisibles(db, roles);
+        const channelPosts = await (channelPostsPromise || cargarPublicacionesGeneralesVisibles(db, roles));
         carruselData = [];
         // Las generales se muestran a todos; las segmentadas solo llegan a
         // usuarios que tengan alguna de sus zonas o categorías.

@@ -8,9 +8,12 @@ on:
       - 'scripts/generar-inicio.js'
       - 'scripts/generar-cancionero.js'
   schedule:
-    # Firestore reinicia la cuota diaria a medianoche del Pacífico.
-    # Las 05:15 de Argentina dejan margen incluso durante el horario de verano de EE.UU.
-    - cron: '15 5 * * *'
+    # Primer intento y comprobación temprana, evitando el minuto 0 porque
+    # GitHub Actions suele tener más demoras al comienzo de cada hora.
+    - cron: '2,7 0 * * *'
+      timezone: 'America/Argentina/Buenos_Aires'
+    # Respaldo posterior al reinicio diario de cuota de Firestore.
+    - cron: '30 5 * * *'
       timezone: 'America/Argentina/Buenos_Aires'
   workflow_dispatch:
 
@@ -28,16 +31,41 @@ jobs:
       - name: Obtener repositorio
         uses: actions/checkout@v5
 
+      - name: Comprobar si el archivo diario ya está vigente
+        id: vigencia
+        shell: bash
+        env:
+          EVENTO: ${{ github.event_name }}
+        run: |
+          if [ "$EVENTO" != "schedule" ]; then
+            echo "generar=true" >> "$GITHUB_OUTPUT"
+            echo "Ejecución manual o por cambio de código: se fuerza la actualización."
+            exit 0
+          fi
+
+          fecha_hoy="$(TZ=America/Argentina/Buenos_Aires date +%F)"
+          fecha_archivo="$(node -e "try { process.stdout.write(require('./datos/inicio.json').fechaGeneracion || '') } catch (_) {}")"
+          if [ "$fecha_archivo" = "$fecha_hoy" ]; then
+            echo "generar=false" >> "$GITHUB_OUTPUT"
+            echo "inicio.json ya corresponde a $fecha_hoy; no se consultará Firebase."
+          else
+            echo "generar=true" >> "$GITHUB_OUTPUT"
+            echo "inicio.json corresponde a ${fecha_archivo:-ninguna fecha}; se generará $fecha_hoy."
+          fi
+
       - name: Preparar Node.js
+        if: steps.vigencia.outputs.generar == 'true'
         uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
       - name: Instalar dependencias
+        if: steps.vigencia.outputs.generar == 'true'
         run: npm ci
 
       - name: Generar datos diarios
+        if: steps.vigencia.outputs.generar == 'true'
         shell: bash
         run: |
           for intento in 1 2 3; do
@@ -56,6 +84,7 @@ jobs:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Publicar archivo actualizado
+        if: steps.vigencia.outputs.generar == 'true'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
