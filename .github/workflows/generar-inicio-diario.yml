@@ -66,4 +66,7 @@ jobs:
             exit 0
           fi
           git commit -m "chore: actualizar inicio diario"
+          # La sincronización offline puede publicar en paralelo. Integrar su
+          # commit antes del push evita rechazos sin perder datos generados.
+          git pull --rebase origin main
           git push
