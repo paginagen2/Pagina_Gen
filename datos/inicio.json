@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-08-26",
-  "generadoEn": "2026-08-27T02:55:33.308Z",
+  "fechaGeneracion": "2026-08-27",
+  "generadoEn": "2026-08-27T15:07:08.433Z",
   "android": {
-    "versionCode": 5,
-    "versionName": "1.4",
+    "versionCode": 7,
+    "versionName": "1.5.1",
     "minimumVersionCode": 5,
     "apkUrl": "https://paginagen2.github.io/Pagina_Gen/descargas/Pagina-Gen.apk",
     "titulo": "Actualizá Gen 2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1787704022442",
-    "titulo": "RECONOCER NUESTRAS FRAGILIDADES",
-    "fecha": "26/08/2026",
+    "id": "pasapalabra_1787794601652",
+    "titulo": "CUIDAR DE QUIENES NOS HAN SIDO CONFIADOS",
+    "fecha": "27/08/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1776048662282",
-    "titulo": "Al calor del sol",
+    "id": "meditacion_1775848164472",
+    "titulo": "Contenido divino",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
