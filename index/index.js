@@ -70,10 +70,15 @@ async function loadDailyHomeData() {
 
     for (const source of sources) {
         try {
-            const response = await fetch(source.url, { cache: 'no-store' });
+            let response = await fetch(source.url, { cache: 'no-store' });
             if (!response.ok) throw new Error(`No se pudo leer inicio.json (${response.status})`);
-            const data = await response.json();
+            let data = await response.json();
             if (!data || data.schemaVersion !== 1) throw new Error('El formato de inicio.json no es válido');
+            if (source.name === 'daily-remote' && data.fechaGeneracion !== argentinaDate) {
+                const separator = source.url.includes('?') ? '&' : '?';
+                response = await fetch(`${source.url}${separator}actualizar=${Date.now()}`, { cache: 'no-store' });
+                if (response.ok) data = await response.json();
+            }
             if (data.fechaGeneracion === argentinaDate) {
                 applyDailyHomeData(data);
                 document.documentElement.dataset.homeDataSource = source.name;
@@ -561,7 +566,7 @@ async function cargarMeditacionHoy(db) {
         return;
     }
     
-    const { collection, getDocs } = window.firebaseUtils;
+    const { collection, query, where, getDocs } = window.firebaseUtils;
     
     try {
         const querySnapshot = await getDocs(query(
