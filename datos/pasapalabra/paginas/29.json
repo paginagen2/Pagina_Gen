@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 29,
   "tamanioPagina": 6,
-  "total": 317,
+  "total": 318,
   "siguientePagina": 30,
   "items": [
+    {
+      "id": "pasapalabra_1773800207016",
+      "titulo": "ESPERAR SIN CANSARSE",
+      "fecha": "18/03/2026",
+      "reflexion": "La esperanza es una decisión diaria de confiar en que Dios sigue actuando, incluso cuando no entendemos sus caminos.\nEs humano cansarse de esperar, especialmente ante el dolor, la pérdida y las incertidumbres de la vida. Pero la esperanza nos enseña a mirar más allá del presente, a creer que la última palabra no es nuestra, ni de nuestro desánimo, sino de la vida misma.\nTener esperanza es seguir sembrando el bien aunque los frutos aún no aparezcan. Es creer que cada gesto de amor no es en vano.\nEsperar sin cansarse es mantener viva la fe, es caminar con la seguridad de que Dios transforma la noche en amanecer."
+    },
     {
       "id": "pasapalabra_1773705750298",
       "titulo": "CUIDAR LA CASA COMÚN",
@@ -34,12 +40,6 @@
       "titulo": "AVANCEMOS JUNTOS",
       "fecha": "14/03/2026",
       "reflexion": "La vida se vuelve más fácil cuando comprendemos que nuestros logros tienen más sentido al compartirlos y que nuestras dificultades se hacen más livianas cuando las enfrentamos juntos.\nCaminar juntos no significa pensar igual. Es saber esperar el ritmo del otro, tender la mano cuando alguien tropieza y aceptar ayuda cuando somos nosotros los que la necesitamos.\nAvanzar juntos es una invitación a la solidaridad, es la práctica del amor mutuo. Es elegir la cooperación en lugar de la competencia, la construcción colectiva en lugar del individualismo.\nCuando avanzamos de la mano, el camino se vuelve menos arduo y el horizonte de nuestros objetivos se hace más cercano."
-    },
-    {
-      "id": "pasapalabra_1773364985448",
-      "titulo": "ENTABLAR UN DIÁLOGO",
-      "fecha": "13/03/2026",
-      "reflexion": "Entablar un diálogo es más que simplemente intercambiar palabras; se trata de construir vínculos entre personas, ideas y sentimientos. El diálogo exige apertura interior, disposición para escuchar y humildad para reconocer que el otro siempre tiene algo que compartir.\nEl verdadero diálogo no se trata de convencer ni imponer, sino de comprender. Al dialogar, creamos espacios donde las diferencias no se convierten en conflictos, sino en oportunidades de entendimiento mutuo.\nEn un mundo marcado por la polarización, entablar el diálogo significa sembrar la paz."
     }
   ]
 }

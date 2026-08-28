@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 8,
   "tamanioPagina": 6,
-  "total": 317,
+  "total": 318,
   "siguientePagina": 9,
   "items": [
+    {
+      "id": "pasapalabra_1784430813164",
+      "titulo": "DISPONIBILIDAD GENEROSA",
+      "fecha": "19/07/2026",
+      "reflexion": "La disponibilidad es la actitud de abrir el corazón para servir, ayudar y acoger sin calcular ventajas. Es estar dispuesto a dar tiempo, atención y habilidades, incluso en las cosas pequeñas.\nSer generoso no significa solo dar lo que sobra, sino ofrecerse uno mismo con amor.\nLa verdadera disponibilidad nace de un corazón sensible al bienestar de los demás.\nIsaías nos ofrece una hermosa expresión de esta entrega: “Aquí estoy, envíame” (Is. 6,8). Estas palabras revelan la disposición de quien se pone al servicio de Dios y de los hermanos.\nMi generosidad no puede manifestarse solo cuando es conveniente, sino que debe ser fruto de un amor sincero y desinteresado."
+    },
     {
       "id": "pasapalabra_1784349461014",
       "titulo": "PROVEER A LAS NECESIDADES DE LOS DEMÁS",
@@ -34,12 +40,6 @@
       "titulo": "SERVIR SIN ESPERAR NADA A CAMBIO",
       "fecha": "14/07/2026",
       "reflexion": "Servir sin esperar nada a cambio es una expresión de amor puro.\nEl verdadero servicio nace de un corazón disponible, capaz de hacer el bien simplemente porque es necesario hacerlo.\nJesucristo enseñó, con sus palabras y acciones, que la grandeza está en servir. Él mismo dijo que vino a servir y no a ser servido. Su ejemplo demuestra que el amor auténtico es gratuito y generoso.\nServir sin esperar nada a cambio también libera el corazón del orgullo y de la constante necesidad de aprobación.\nCada actitud de servicio desinteresado se convierte en una señal de la presencia de Dios en el mundo."
-    },
-    {
-      "id": "pasapalabra_1783912310071",
-      "titulo": "COMUNIÓN VIVIDA",
-      "fecha": "13/07/2026",
-      "reflexion": "Esta comunión vivida es una expresión concreta del amor entendido a partir de las enseñanzas de Jesús.\nLos primeros cristianos comprendieron que seguir a Cristo implicaba compartir la vida, afrontar juntos las dificultades y celebrar juntos las alegrías. La comunión fortalecía la esperanza y hacía el testimonio cristiano más convincente ante la sociedad.\nHoy, el ejemplo de los primeros cristianos sigue vigente. La comunión vivida continúa siendo un llamado a la fraternidad, al compartir y al cuidado de los más vulnerables. Vivir en comunión es construir relaciones basadas en el amor y en la presencia de Dios en medio de la comunidad."
     }
   ]
 }

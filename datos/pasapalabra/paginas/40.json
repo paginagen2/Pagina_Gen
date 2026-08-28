@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 40,
   "tamanioPagina": 6,
-  "total": 317,
+  "total": 318,
   "siguientePagina": 41,
   "items": [
+    {
+      "id": "pasapalabra_1768610632440",
+      "titulo": "NO CEDER AL INDIVIDUALISMO",
+      "fecha": "17/01/2026",
+      "reflexion": "En una sociedad que a menudo valora solo el \"yo\", resistir al individualismo es un acto de conciencia y humanidad, animado por el amor.\nNo ceder a esta lógica es reconocer que nadie crece solo y que el bien común fortalece a todos.\nSignifica mirar más allá de los propios intereses, aprender a compartir, escuchar y cooperar.\nCuando elegimos el camino de la solidaridad, descubrimos que la verdadera realización nace del encuentro, del cuidado mutuo y de la construcción colectiva de un futuro más justo y fraterno."
+    },
     {
       "id": "pasapalabra_1768525773731",
       "titulo": "PEQUEÑOS GESTOS PARA UN MUNDO UNIDO",
@@ -34,12 +40,6 @@
       "titulo": "DAR VOZ A LOS POBRES",
       "fecha": "12/01/2026",
       "reflexion": "Dar voz a los pobres es, ante todo, escucharlos. Escuchar sus dolores, sus esperanzas, sus luchas diarias y también su sabiduría, tantas veces ignorada.\nLos pobres tienen voz, pero muchas veces es silenciada por la indiferencia, por los prejuicios y por las estructuras que favorecen a unos pocos y silencian a muchos.\nCuando damos voz a los pobres, estamos llamados a reconsiderar nuestros privilegios y nuestra forma de vida. Su realidad nos interpela, nos inquieta y nos llama a la responsabilidad. No se trata solo de caridad ocasional, sino de justicia.\nDar voz a los pobres es también reconocer que Dios habla a través de ellos. En sus gritos, escuchamos una llamada a la conversión del corazón, a la solidaridad concreta y al compromiso por un mundo más fraterno."
-    },
-    {
-      "id": "pasapalabra_1768096755891",
-      "titulo": "SER SOLIDARIOS CON TODOS",
-      "fecha": "11/01/2026",
-      "reflexion": "Ser solidario con todos significa comprender que el dolor del otro también nos importa, incluso cuando no lo comprendemos del todo o cuando parece lejano de nuestra realidad.\nLa solidaridad se revela en palabras que reconfortan y en actitudes que incluyen.\nSer solidario es rechazar la indiferencia, es dejar el corazón sensible al sufrimiento humano, sea este cercano o invisible.\nCuando somos solidarios, aprendemos que la verdadera fuerza nace del cuidado mutuo.\nHay un solo cuerpo y un solo espíritu (cf. Ef 4,4). Por lo tanto, vivir la solidaridad es reconocer que somos parte unos de los otros, y que el bien de uno, solo encuentra sentido cuando se convierte en el bien de todos."
     }
   ]
 }

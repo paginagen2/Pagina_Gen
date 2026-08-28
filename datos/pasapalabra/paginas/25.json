@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 25,
   "tamanioPagina": 6,
-  "total": 317,
+  "total": 318,
   "siguientePagina": 26,
   "items": [
+    {
+      "id": "pasapalabra_1775838768486",
+      "titulo": "LLEVAR LA PAZ A NUESTROS AMBIENTES",
+      "fecha": "10/04/2026",
+      "reflexion": "La paz comienza en nuestro interior y se extiende a través de nuestras palabras, decisiones y reacciones.\nEn casa, en el trabajo, en la comunidad, siempre habrá desafíos, opiniones divergentes y momentos de tensión. Es precisamente ahí donde estamos llamados a ser instrumentos de serenidad.\nCada ambiente lleva consigo la energía de quienes lo frecuentan. Cuando elegimos actuar con calma y amabilidad, contribuimos a crear un espacio más ligero, más humano y más acogedor.\nQue nuestras palabras sean semillas de armonía y nuestras acciones, reflejo de un corazón sereno. Porque cuando la paz habita en nosotros, ella naturalmente llega a quienes nos rodean."
+    },
     {
       "id": "pasapalabra_1775697864742",
       "titulo": "CREER EN EL AMOR",
@@ -34,12 +40,6 @@
       "titulo": "ENCENDER LA ESPERANZA",
       "fecha": "05/04/2026",
       "reflexion": "La esperanza no es un sentimiento mágico que aparece de la nada; es una virtud que se adquiere a través de la fe y la vivencia del amor.\nEncender la esperanza no significa tener siempre un sol radiante, sino saber encender una vela que venza la oscuridad y muestre el camino.\nEncender la esperanza es recordar que el ahora es solo el momento presente de la vida y no el final de la historia.\nLa esperanza es una virtud que nos conecta directamente con Dios; por lo tanto, es una luz que podemos encender en los momentos más oscuros de nuestra vida.\nLa esperanza puede ser una luz pequeña y persistente, un faro que indica la llegada o un sol radiante que ilumina toda nuestra vida.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1775264510914",
-      "titulo": "NO DESANIMARSE",
-      "fecha": "04/04/2026",
-      "reflexion": "Cuando todo parece abrumador, es importante recordar que el desánimo no es señal de fracaso; es una invitación a hacer una pausa. Hacer una pausa no es rendirse; es respirar, reorganizarse y continuar con mayor consciencia.\nCada pausa que hacemos nos aporta información: qué salió bien, qué se puede ajustar, qué se puede descartar.\nEn lugar de convertir los errores en una sentencia de desánimo, veámos en él un mapa: nos muestra dónde hemos estado y hacia dónde debemos cambiar el rumbo.\nPerseverar no significa hacerlo todo a la vez; significa seguir levantándose, volver a empezar, aprender y adaptarse, aunque sea poco a poco.\nNo desanimarse significa depositar toda nuestra esperanza en el Dios de lo imposible, que siempre está a nuestro lado."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 24,
   "tamanioPagina": 6,
-  "total": 317,
+  "total": 318,
   "siguientePagina": 25,
   "items": [
+    {
+      "id": "pasapalabra_1776301167459",
+      "titulo": "COLABORAR CON QUIEN ENCUENTRE",
+      "fecha": "16/04/2026",
+      "reflexion": "Colaborar con las personas que encuentre es reconocer que siempre podemos ayudarnos unos a los otros.\nCuando elijo colaborar, dejo de lado el individualismo y cultivo la empatía. El otro no es mi competidor, sino un compañero de jornada.\nLa colaboración transforma los ambientes, aminora los conflictos y multiplica las soluciones, porque une diferentes talentos en torno a un mismo propósito.\nAl enseñar a alguien, aprendo cosas nuevas; al ayudar, crecemos juntos; al compartir, multiplico.\nAl colaborar con todos, ayudo a construir el Reino de Dios."
+    },
     {
       "id": "pasapalabra_1776212249322",
       "titulo": "LLENAR LA JORNADA DE ACCIONES DE SOLIDARIDAD",
@@ -34,12 +40,6 @@
       "titulo": "ANUNCIAR EL AMOR DE DIOS",
       "fecha": "11/04/2026",
       "reflexion": "El amor de Dios debe ser anunciado con nuestra propia vida.\nYo descubrí que Dios me ama inmensamente gracias al testimonio de hermanos y hermanas que me amaron desinteresadamente. Vi que la motivación era el amor de Dios.\nPor eso, me sentí impulsado a hacer lo mismo.\nEl amor de Dios se manifiesta en el cuidado, en el perdón, en la paciencia, en la esperanza y en todo lo que ofrecemos a quien está a nuestro lado.\nCuando el amor de Dios es genuino en nosotros, se desborda naturalmente hacia los demás.\nAnunciemos el amor de Dios primero con la vida, después con las palabras."
-    },
-    {
-      "id": "pasapalabra_1775838768486",
-      "titulo": "LLEVAR LA PAZ A NUESTROS AMBIENTES",
-      "fecha": "10/04/2026",
-      "reflexion": "La paz comienza en nuestro interior y se extiende a través de nuestras palabras, decisiones y reacciones.\nEn casa, en el trabajo, en la comunidad, siempre habrá desafíos, opiniones divergentes y momentos de tensión. Es precisamente ahí donde estamos llamados a ser instrumentos de serenidad.\nCada ambiente lleva consigo la energía de quienes lo frecuentan. Cuando elegimos actuar con calma y amabilidad, contribuimos a crear un espacio más ligero, más humano y más acogedor.\nQue nuestras palabras sean semillas de armonía y nuestras acciones, reflejo de un corazón sereno. Porque cuando la paz habita en nosotros, ella naturalmente llega a quienes nos rodean."
     }
   ]
 }

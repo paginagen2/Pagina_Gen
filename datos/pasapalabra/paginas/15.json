@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 15,
   "tamanioPagina": 6,
-  "total": 317,
+  "total": 318,
   "siguientePagina": 16,
   "items": [
+    {
+      "id": "pasapalabra_1780715279743",
+      "titulo": "GENEROSIDAD HACIA LOS HERMANOS Y HERMANAS",
+      "fecha": "06/06/2026",
+      "reflexion": "Ser generoso no es solo ofrecer algo material, sino compartir tiempo, atención, comprensión y cuidado.\nVivir la generosidad es aprender a mirar a nuestro alrededor y darnos cuenta de quién necesita apoyo.\nLas necesidades no siempre son visibles; hay personas que llevan sus dificultades en silencio. Cuando nos disponemos a ayudar, creamos lazos de solidaridad y fortalecemos a aquellos que nos unen como comunidad.\nLa generosidad también nos enseña a desapegarnos. Al compartir lo que tenemos, sea mucho o poco, descubrimos que el amor aumenta cuando es compartido.\nLa generosidad es una forma de amar con intensidad y sin exageraciones."
+    },
     {
       "id": "pasapalabra_1780621506963",
       "titulo": "APRENDER A PERDONAR",
@@ -34,12 +40,6 @@
       "titulo": "VIVIR EL AMOR MUTUO",
       "fecha": "03/06/2026",
       "reflexion": "Vivir el amor mutuo es hacer presente entre nosotros la realidad del Reino de los Cielos.\nCuando nos amamos unos a los otros, creamos un ambiente donde Dios puede manifestarse y actuar.\nEl amor mutuo es reciprocidad: es dar, pero también recibir; es hablar, pero también escuchar; es comprender, pero también dejarse comprender. Así, crece entre nosotros una comunión que ilumina y transforma nuestra vida.\nEste amor se manifiesta en gestos sencillos: en la paciencia ante las debilidades, en el perdón ofrecido con generosidad, en el compartir el tiempo y los bienes, en la alegría por el bienestar del otro.\nCuando vivimos así, nuestra vida se convierte en testimonio. Sin muchas palabras, mostramos que el Reino de los Cielos no es algo lejano, sino una realidad que comienza con el amor vivido en el día a día."
-    },
-    {
-      "id": "pasapalabra_1780365751410",
-      "titulo": "CAMINAR JUNTOS",
-      "fecha": "02/06/2026",
-      "reflexion": "Caminar juntos significa mucho más que solo  ir en la misma dirección; significa compartir la vida.\nEn el camino común, debemos respetar el ritmo del otro, saber esperar, animar y, cuando sea necesario, ofrecer apoyo para que nadie se quede atrás.\nCada persona aporta algo único, y si estamos juntos, el camino se hace más fácil de recorrer.\nCaminar juntos también significa compartir alegrías y dificultades.\nCaminar juntos es una invitación a vivir con espíritu de comunión, fortaleciendo los vínculos fraternos y promoviendo la unidad."
     }
   ]
 }

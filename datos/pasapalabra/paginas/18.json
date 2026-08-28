@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 18,
   "tamanioPagina": 6,
-  "total": 317,
+  "total": 318,
   "siguientePagina": 19,
   "items": [
+    {
+      "id": "pasapalabra_1779333063678",
+      "titulo": "ANUNCIAR EL AMOR DE DIOS.",
+      "fecha": "21/05/2026",
+      "reflexion": "Muchas veces pensamos que evangelizar se reduce a usar solo palabras, pero el verdadero anuncio comienza con nuestras acciones. Cada gesto sencillo puede convertirse en un mensaje vivo del amor de Dios.\nQuien experimenta este amor siente el deseo natural de compartirlo.\nCuando alguien vive así, su propia vida se convierte en un testimonio: en casa, en el trabajo, en la sociedad. Y muchas veces, la vida de quien ama habla más que mil palabras.\nAnunciar el amor de Dios es permitir que el amor que recibimos de Él pase a través de nosotros para alcanzar a otras personas."
+    },
     {
       "id": "pasapalabra_1779241742389",
       "titulo": "SER AUTÉNTICOS",
@@ -34,12 +40,6 @@
       "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
       "fecha": "16/05/2026",
       "reflexion": "En medio de las opiniones y el bullicio de la vida cotidiana, existe en nuestro corazón una voz que nos guía, ilumina y nos invita al bien.\nLa conciencia es como una luz interior que nos ayuda a distinguir lo que es correcto. Cuando nos detenemos por un instante, reflexionamos y examinamos con sinceridad nuestras actitudes, ella nos habla con claridad.\nDios también se comunica con nosotros a través de la conciencia. Es allí donde sentimos la invitación a amar más, perdonar, actuar con justicia y cuidar de los demás.\nEscuchar la voz de la conciencia significa aprender a caminar en la luz del bien y de la verdad."
-    },
-    {
-      "id": "pasapalabra_1778818034791",
-      "titulo": "¡AQUÍ ESTOY!",
-      "fecha": "15/05/2026",
-      "reflexion": "Repetir \"Aquí estoy\" no es decir algo nuevo, sino renovar un compromiso. Es reconocer que, incluso con límites, cansancios y fragilidades, el corazón desea permanecer disponible. Cada vez que se pronuncia esta frase, ella nace de un modo más auténtico, purificado por las experiencias vividas.\nDecir \"Aquí estoy\" es confiar y aceptar que el llamado de Dios se revela paso a paso, a menudo en la normalidad del día a día, en los pequeños gestos de fidelidad y amor. No es una promesa de perfección que le hacemos a Dios, sino de presencia.\nAl repetir \"Aquí estoy\", aprendemos que la respuesta no depende de nuestra fuerza personal, sino de la gracia que nos sostiene. Dios solo pide disponibilidad. Y en esta simple disponibilidad, Él logra lo que supera nuestros cálculos."
     }
   ]
 }
