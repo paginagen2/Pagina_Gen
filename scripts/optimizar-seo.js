@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const origin = 'https://pagina-gen.web.app';
+const origin = 'https://paginagen2.github.io/Pagina_Gen';
 const excludedDirectories = new Set(['.git', '.codex-worktrees', 'node_modules', 'android', 'ios', 'www', 'docs', 'scripts', 'tmp', '_apk-pruebas']);
 const noindex = new Set([
   '404.html',

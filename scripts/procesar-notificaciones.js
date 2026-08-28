@@ -27,7 +27,7 @@ if (vapid.getPublicKey().toString('base64url') !== publicKey) {
 
 initializeApp({ credential: cert(serviceAccount) });
 const db = getFirestore();
-webpush.setVapidDetails('https://pagina-gen.web.app', publicKey, privateKey);
+webpush.setVapidDetails('https://paginagen2.github.io/Pagina_Gen', publicKey, privateKey);
 
 function clean(value, max = 220) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
@@ -38,7 +38,7 @@ function validSubscription(value) {
 }
 
 function absoluteAsset(value) {
-  return new URL(String(value || '').replace(/^\/+/, ''), 'https://pagina-gen.web.app/').href;
+  return new URL(String(value || '').replace(/^\/+/, ''), 'https://paginagen2.github.io/Pagina_Gen/').href;
 }
 
 async function sendToDevice(doc, payload) {

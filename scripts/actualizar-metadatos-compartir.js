@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const siteBase = 'https://pagina-gen.web.app/';
+const siteBase = 'https://paginagen2.github.io/Pagina_Gen/';
 
 const sections = [
   { test: file => file.startsWith('cancionero/'), image: 'cancionero', description: 'Canciones y acordes para compartir.' },

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pagina-gen.web.app/sitemap.xml
+Sitemap: https://paginagen2.github.io/Pagina_Gen/sitemap.xml

@@ -569,7 +569,7 @@ function resetCarruselForm() {
     document.getElementById('carrusel-form-title').textContent = 'Agregar nuevo elemento';
     document.getElementById('carrusel-cancel').style.display = 'none';
     document.getElementById('carrusel-foto-preview').style.display = 'none';
-    document.getElementById('carrusel-foto-preview').src = '';
+    document.getElementById('carrusel-foto-preview').src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 }
 
 window.editCarruselItem = editCarruselItem;
@@ -5123,7 +5123,7 @@ function populateAndroidVersionSelectors() {
 function applyAndroidPublicationConfig() {
     const config = androidPublicationConfig;
     if (!config) return updateAndroidPolicyPreview();
-    document.getElementById('android-apk-url').value = config.apkUrl || 'https://pagina-gen.web.app/descargas/Pagina-Gen.apk';
+    document.getElementById('android-apk-url').value = config.apkUrl || 'https://paginagen2.github.io/Pagina_Gen/descargas/Pagina-Gen.apk';
     document.getElementById('android-update-title').value = config.titulo || 'Actualizá Gen 2';
     document.getElementById('android-update-description').value = config.descripcion || 'Hay una nueva versión disponible.';
     document.getElementById('android-update-action').value = config.textoEnlace || 'Descargar actualización';

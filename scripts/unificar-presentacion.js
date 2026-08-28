@@ -3,7 +3,7 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const ignored = new Set(['.git', 'node_modules', 'www', 'android', '.codex-worktrees']);
-const baseUrl = 'https://pagina-gen.web.app/';
+const baseUrl = 'https://paginagen2.github.io/Pagina_Gen/';
 const previewImage = `${baseUrl}aadocumentos/imagenes/og-image.jpg`;
 
 const descriptions = [
