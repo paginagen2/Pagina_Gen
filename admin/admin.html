@@ -7,7 +7,7 @@
   <link rel="icon" href="../aadocumentos/svg/gen-favicon.svg?v=20260730-4" type="image/svg+xml">
   <meta name="description" content="Herramientas de administración de Gen 2.">
 <link rel="stylesheet" href="../aaglobal/style.css?v=20260730-icons4">
-    <link rel="stylesheet" href="admin.css?v=20260825-version-editor">
+    <link rel="stylesheet" href="admin.css?v=20260827-save-publish">
   <link rel="stylesheet" href="../aaglobal/sidebar.css?v=20260804-brand-anchor">
   <link rel="stylesheet" href="../aaglobal/site-polish.css?v=20260730-icons4">
   <!-- Vista previa al compartir -->
@@ -760,6 +760,11 @@
                                         <input type="text" id="cancion-artista" placeholder="Artista o autor">
                                     </div>
                                     <div class="form-group">
+                                        <label for="cancion-origen">Cancionero de origen</label>
+                                        <input type="text" id="cancion-origen" list="cancioneros-origen-list" maxlength="160" placeholder="Ej.: Libro de cantos para misa">
+                                        <p class="field-help">Dato administrativo opcional. No se muestra en la página pública.</p>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Letra *</label>
                                         <textarea id="cancion-letra" rows="16" spellcheck="false" placeholder="Acordes en la línea superior, letra debajo y tablaturas alineadas" required></textarea>
                                         <p class="field-help">Se conserva el texto literal. La vista previa usa exactamente el mismo lector que el cancionero.</p>
@@ -781,12 +786,14 @@
                                             <label>Estado</label>
                                             <select id="cancion-estado">
                                                 <option value="pendiente">Pendiente</option>
+                                                <option value="revisar">Revisar antes de aprobar</option>
                                                 <option value="publicado">Publicado</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-actions">
                                         <button type="submit" class="btn-primary">💾 Guardar Canción</button>
+                                        <button type="button" id="cancion-save-publish" class="btn-publish">✓ Guardar y publicar</button>
                                         <button type="button" id="cancion-preview" class="btn-secondary">👁 Vista previa</button>
                                         <button type="button" id="cancion-cancel" class="btn-secondary" style="display:none;">Cancelar</button>
                                         <button type="button" id="cancion-delete" class="btn-danger" style="display:none;">🗑️ Eliminar</button>
@@ -801,6 +808,7 @@
                                     <select id="cancion-filter-estado">
                                         <option value="">Todos los estados</option>
                                         <option value="pendiente">Pendientes</option>
+                                        <option value="revisar">Para revisar</option>
                                         <option value="publicado">Publicados</option>
                                     </select>
                                     <select id="cancion-filter-categoria">
@@ -808,6 +816,9 @@
                                         <option value="misa">Misa</option>
                                         <option value="gen">Gen</option>
                                         <option value="fogon">Fogón</option>
+                                    </select>
+                                    <select id="cancion-filter-origen">
+                                        <option value="">Todos los cancioneros de origen</option>
                                     </select>
                                 </div>
                                 <div id="cancion-bulk-actions" class="cancion-bulk-actions" hidden>
@@ -1082,6 +1093,12 @@
                                 </select>
                                 <small style="color: var(--text-muted);">Por seguridad, usuarios, roles, códigos y zonas no se importan desde JSON.</small>
                             </div>
+
+                            <div class="form-group" id="bulk-song-origin-group">
+                                <label for="bulk-song-origin">Cancionero de origen:</label>
+                                <input type="text" id="bulk-song-origin" list="cancioneros-origen-list" maxlength="160" placeholder="Ej.: Libro de cantos para misa">
+                                <small style="color: var(--text-muted);">Opcional. Se aplicará a todas las canciones del lote y no será visible públicamente.</small>
+                            </div>
                             
                             <div class="form-group">
                                 <label for="bulk-json">Pega el JSON aquí:</label>
@@ -1108,6 +1125,7 @@
                             <div id="bulk-preview-container" style="margin-top: 2rem;"></div>
                         </div>
                     </section>
+                    <datalist id="cancioneros-origen-list"></datalist>
                 </div>
             </main>
         </div>
@@ -1117,6 +1135,6 @@
     <script src="../aaglobal/vendor/mammoth.browser.min.js"></script>
     <script src="../aaglobal/pdv-model.js?v=20260804-chiara-literal"></script>
     <script type="module" src="../auth.js?v=20260824-remove-lyrics"></script>
-    <script type="module" src="admin.js?v=20260826-biblioteca"></script>
+    <script type="module" src="admin.js?v=20260827-save-publish"></script>
 </body>
 </html>

@@ -594,7 +594,8 @@ async function loadCanciones() {
             const tb = b.fechaCreacion && b.fechaCreacion.toMillis ? b.fechaCreacion.toMillis() : (b.fechaCreacion || 0);
             return tb - ta;
         });
-        
+
+        updateCancionerosOrigenOptions();
         displayCanciones(allCanciones);
         setupCancioneroListeners();
         restoreAdminSongPreview();
@@ -642,6 +643,7 @@ function displayCanciones(canciones) {
         content.innerHTML = `
             <div class="item-title">${adminEscapeHtml(cancion.titulo || 'Sin título')}</div>
             <div class="item-subtitle">${adminEscapeHtml(cancion.artista || 'Sin artista')}${cancion.creadoPorNombre ? ` · Enviada por ${adminEscapeHtml(cancion.creadoPorNombre)}` : ''}</div>
+            ${cancion.cancioneroOrigen ? `<div class="item-subtitle">Cancionero: ${adminEscapeHtml(cancion.cancioneroOrigen)}</div>` : ''}
             <span class="item-badge badge-${adminCssToken(categoria, 'gen')}">${adminEscapeHtml(categoria)}</span>
             <span class="item-badge badge-${adminCssToken(estado)}">${adminEscapeHtml(estado)}</span>
         `;
@@ -675,6 +677,7 @@ function editCancion(cancion) {
     document.getElementById('cancion-form-title').textContent = '✏️ Editar Canción';
     document.getElementById('cancion-titulo').value = cancion.titulo || '';
     document.getElementById('cancion-artista').value = cancion.artista || '';
+    document.getElementById('cancion-origen').value = cancion.cancioneroOrigen || '';
     document.getElementById('cancion-letra').value = cancion.letra || '';
     document.getElementById('cancion-tono').value = cancion.tono || '';
     document.getElementById('cancion-idioma').value = cancion.idioma || 'Español';
@@ -709,6 +712,7 @@ function restoreAdminSongPreview() {
     }
     document.getElementById('cancion-titulo').value = draft.titulo || '';
     document.getElementById('cancion-artista').value = draft.artista || '';
+    document.getElementById('cancion-origen').value = draft.cancioneroOrigen || '';
     document.getElementById('cancion-letra').value = draft.letra || '';
     document.getElementById('cancion-tono').value = draft.tono || '';
     document.getElementById('cancion-idioma').value = draft.idioma || 'Español';
@@ -721,10 +725,12 @@ function setupCancioneroListeners() {
     const search = document.getElementById('cancion-search');
     const filterEstado = document.getElementById('cancion-filter-estado');
     const filterCategoria = document.getElementById('cancion-filter-categoria');
+    const filterOrigen = document.getElementById('cancion-filter-origen');
     const form = document.getElementById('cancion-form');
     const cancelBtn = document.getElementById('cancion-cancel');
     const deleteBtn = document.getElementById('cancion-delete');
     const previewBtn = document.getElementById('cancion-preview');
+    const savePublishBtn = document.getElementById('cancion-save-publish');
     const selectAllPending = document.getElementById('cancion-select-all-pending');
     const approveSelected = document.getElementById('cancion-approve-selected');
     if (!form || form.dataset.adminBound === 'true') return;
@@ -733,6 +739,7 @@ function setupCancioneroListeners() {
     if (search) search.addEventListener('input', filterCanciones);
     if (filterEstado) filterEstado.addEventListener('change', filterCanciones);
     if (filterCategoria) filterCategoria.addEventListener('change', filterCanciones);
+    if (filterOrigen) filterOrigen.addEventListener('change', filterCanciones);
     if (selectAllPending) selectAllPending.addEventListener('change', () => {
         if (!isFullAdmin()) return;
         visibleSongAdminItems.filter(song => (song.estado || 'pendiente') === 'pendiente').forEach(song => {
@@ -742,6 +749,10 @@ function setupCancioneroListeners() {
         displayCanciones(visibleSongAdminItems);
     });
     if (approveSelected) approveSelected.addEventListener('click', approveSelectedSongs);
+    if (savePublishBtn) savePublishBtn.addEventListener('click', () => {
+        document.getElementById('cancion-estado').value = 'publicado';
+        form.requestSubmit();
+    });
 
     if (form) form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -750,6 +761,7 @@ function setupCancioneroListeners() {
         const data = {
             titulo: document.getElementById('cancion-titulo').value.trim(),
             artista: document.getElementById('cancion-artista').value.trim(),
+            cancioneroOrigen: document.getElementById('cancion-origen').value.trim(),
             letra: document.getElementById('cancion-letra').value.trim(),
             tono: document.getElementById('cancion-tono').value.trim(),
             idioma: document.getElementById('cancion-idioma').value,
@@ -781,7 +793,7 @@ function setupCancioneroListeners() {
                 const id = `cancion_${Date.now()}`;
                 await utils.setDoc(utils.doc(db, 'canciones', id), data);
             }
-            alert('✅ Canción guardada con éxito');
+            alert(data.estado === 'publicado' ? '✅ Canción guardada y publicada.' : '✅ Canción guardada con éxito');
             resetCancionForm();
             loadCanciones();
         } catch (error) {
@@ -797,6 +809,7 @@ function setupCancioneroListeners() {
             id: form.dataset.editingId || '',
             titulo: document.getElementById('cancion-titulo').value.trim() || 'Canción sin título',
             artista: document.getElementById('cancion-artista').value.trim(),
+            cancioneroOrigen: document.getElementById('cancion-origen').value.trim(),
             letra: document.getElementById('cancion-letra').value,
             tono: document.getElementById('cancion-tono').value.trim(),
             idioma: document.getElementById('cancion-idioma').value,
@@ -810,18 +823,58 @@ function setupCancioneroListeners() {
 
     if (deleteBtn) deleteBtn.addEventListener('click', async () => {
         if (!editingId) return;
-        if (confirm('¿Estás seguro de eliminar esta canción?')) {
+        const songId = editingId;
+        const song = allCanciones.find(item => item.id === songId);
+        const confirmed = confirm(
+            `¿Eliminar definitivamente “${song?.titulo || 'esta canción'}”?\n\n` +
+            'También se eliminarán todos sus audios y reacciones. Esta acción no se puede deshacer.'
+        );
+        if (confirmed) {
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = 'Eliminando…';
             try {
-                await utils.deleteDoc(utils.doc(db, 'canciones', editingId));
-                alert('✅ Canción eliminada con éxito');
+                const result = await deleteCancionCompleta(songId);
+                alert(`✅ Canción eliminada definitivamente. También se eliminaron ${result.audios} audio${result.audios === 1 ? '' : 's'} y ${result.likes} reacción${result.likes === 1 ? '' : 'es'}.`);
                 resetCancionForm();
-                loadCanciones();
+                await loadCanciones();
             } catch (error) {
                 console.error('Error al eliminar canción:', error);
-                alert('❌ Error al eliminar la canción');
+                alert(`❌ No se pudo completar la eliminación: ${error.message}`);
+            } finally {
+                deleteBtn.disabled = false;
+                deleteBtn.textContent = '🗑️ Eliminar';
             }
         }
     });
+}
+
+async function deleteCancionCompleta(songId) {
+    const [audioSnapshot, likesSnapshot] = await Promise.all([
+        utils.getDocs(utils.query(
+            utils.collection(db, 'cancion_audios'),
+            utils.where('cancionId', '==', songId)
+        )),
+        utils.getDocs(utils.collection(db, 'canciones', songId, 'likes'))
+    ]);
+
+    const references = [];
+    audioSnapshot.docs.forEach(audioDocument => {
+        references.push(utils.doc(db, 'cancion_audios', audioDocument.id));
+        references.push(utils.doc(db, 'cancion_audios_publicos', audioDocument.id));
+    });
+    likesSnapshot.docs.forEach(likeDocument => references.push(likeDocument.ref));
+    // El documento principal se elimina al final para no dejar subcolecciones huérfanas.
+    references.push(utils.doc(db, 'canciones', songId));
+
+    for (let offset = 0; offset < references.length; offset += ADMIN_BATCH_SIZE) {
+        const batch = utils.writeBatch(db);
+        references.slice(offset, offset + ADMIN_BATCH_SIZE).forEach(reference => batch.delete(reference));
+        await batch.commit();
+    }
+
+    selectedSongApprovalIds.delete(songId);
+    try { sessionStorage.removeItem(`gen_song_audio_lookup_v1:${songId}`); } catch { /* Caché opcional. */ }
+    return { audios: audioSnapshot.size, likes: likesSnapshot.size };
 }
 
 async function approveSelectedSongs() {
@@ -857,16 +910,36 @@ function filterCanciones() {
     const search = document.getElementById('cancion-search').value.toLowerCase();
     const filterEstado = document.getElementById('cancion-filter-estado').value;
     const filterCategoria = document.getElementById('cancion-filter-categoria').value;
+    const filterOrigen = document.getElementById('cancion-filter-origen')?.value || '';
     
     let filtered = allCanciones.filter(c => {
         const matchSearch = (c.titulo || '').toLowerCase().includes(search) ||
-                           (c.artista || '').toLowerCase().includes(search);
+                           (c.artista || '').toLowerCase().includes(search) ||
+                           (c.cancioneroOrigen || '').toLowerCase().includes(search);
         const matchEstado = !filterEstado || (c.estado || 'pendiente') === filterEstado;
         const matchCategoria = !filterCategoria || normalizeCancionCategory(c.categoria) === filterCategoria;
-        return matchSearch && matchEstado && matchCategoria;
+        const matchOrigen = !filterOrigen || (c.cancioneroOrigen || '') === filterOrigen;
+        return matchSearch && matchEstado && matchCategoria && matchOrigen;
     });
     
     displayCanciones(filtered);
+}
+
+function updateCancionerosOrigenOptions() {
+    const values = [...new Set(allCanciones
+        .map(cancion => String(cancion.cancioneroOrigen || '').trim())
+        .filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+    const datalist = document.getElementById('cancioneros-origen-list');
+    if (datalist) datalist.replaceChildren(...values.map(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        return option;
+    }));
+    const filter = document.getElementById('cancion-filter-origen');
+    if (!filter) return;
+    const selected = filter.value;
+    filter.replaceChildren(new Option('Todos los cancioneros de origen', ''), ...values.map(value => new Option(value, value)));
+    filter.value = values.includes(selected) ? selected : '';
 }
 
 // ==================== AUDIOS DEL CANCIONERO ====================
@@ -1672,6 +1745,8 @@ function filterRecursos() {
 // ==================== PASAPALABRA ====================
 
 async function loadPasapalabra() {
+    const list = document.getElementById('pasapalabra-list');
+    if (list) list.innerHTML = '<p class="admin-list-status">Cargando Pasapalabras…</p>';
     try {
         const querySnapshot = await utils.getDocs(utils.query(
             utils.collection(db, 'pasapalabra'),
@@ -1682,6 +1757,16 @@ async function loadPasapalabra() {
         setupPasapalabraListeners();
     } catch (error) {
         console.error('Error al cargar pasapalabra:', error);
+        loadedSections.delete('pasapalabra');
+        if (list) {
+            list.innerHTML = `
+                <div class="admin-empty-state">
+                    <strong>No se pudieron cargar los Pasapalabras</strong>
+                    <p>${adminEscapeHtml(error?.message || 'Error desconocido')}</p>
+                    <button type="button" class="btn-secondary" id="pasapalabra-retry">Volver a intentar</button>
+                </div>`;
+            document.getElementById('pasapalabra-retry')?.addEventListener('click', loadPasapalabra, { once: true });
+        }
     }
 }
 
@@ -1691,6 +1776,7 @@ function displayPasapalabra(reflexiones) {
     list.innerHTML = '';
     
     if (reflexiones.length === 0) {
+        list.innerHTML = '<div class="admin-empty-state"><strong>No hay Pasapalabras cargados</strong><p>Cuando agregues uno, aparecerá en esta lista.</p></div>';
         return;
     }
     
@@ -2721,7 +2807,7 @@ let bulkPreviewType = '';
 let bulkPreparedOperations = [];
 const BULK_RESOURCE_CATEGORIES = new Set(['dinamicas', 'juegos', 'reflexiones', 'retiros']);
 const BULK_RESOURCE_STATES = new Set(['pendiente', 'publicado']);
-const BULK_SONG_STATES = new Set(['pendiente', 'publicado']);
+const BULK_SONG_STATES = new Set(['pendiente', 'revisar', 'publicado']);
 const BULK_COLLECTIONS = Object.freeze({
     canciones: { label: 'Canciones', prefix: 'cancion' },
     cancion_audios: { label: 'Audios', prefix: 'audio' },
@@ -2747,14 +2833,26 @@ function setupBulkUploadListeners() {
     const previewBtn = document.getElementById('bulk-preview');
     const uploadBtn = document.getElementById('bulk-upload');
     const clearBtn = document.getElementById('bulk-clear');
+    const songOrigin = document.getElementById('bulk-song-origin');
     if (!previewBtn || previewBtn.dataset.adminBound === 'true') return;
     previewBtn.dataset.adminBound = 'true';
     
     if (fileInput) fileInput.addEventListener('change', handleBulkFile);
-    if (typeInput) typeInput.addEventListener('change', clearBulkPreview);
+    if (typeInput) typeInput.addEventListener('change', () => {
+        updateBulkSongOriginVisibility();
+        clearBulkPreview();
+    });
+    if (songOrigin) songOrigin.addEventListener('input', clearBulkPreview);
     if (previewBtn) previewBtn.addEventListener('click', showBulkPreview);
     if (uploadBtn) uploadBtn.addEventListener('click', doBulkUpload);
     if (clearBtn) clearBtn.addEventListener('click', clearBulkForm);
+    updateBulkSongOriginVisibility();
+}
+
+function updateBulkSongOriginVisibility() {
+    const type = document.getElementById('bulk-type')?.value || 'auto';
+    const group = document.getElementById('bulk-song-origin-group');
+    if (group) group.hidden = !['auto', 'canciones', 'cancionero_audio'].includes(type);
 }
 
 function handleBulkFile(e) {
@@ -2790,7 +2888,8 @@ function showBulkPreview() {
         }));
         validateBulkCollectionCombination(resolved, type);
         validateBulkItems(resolved);
-        bulkPreparedOperations = prepareBulkOperations(resolved);
+        const cancioneroOrigen = document.getElementById('bulk-song-origin')?.value.trim() || '';
+        bulkPreparedOperations = prepareBulkOperations(resolved, cancioneroOrigen);
         bulkPreviewType = type;
 
         const totals = resolved.reduce((summary, entry) => {
@@ -2798,7 +2897,7 @@ function showBulkPreview() {
             return summary;
         }, {});
         const totalLabel = Object.entries(totals).map(([collection, count]) => `${count} ${BULK_COLLECTIONS[collection].label}`).join(' · ');
-        let html = `<h3 style="color: var(--text-light); margin-bottom: 1rem;">📋 Previsualización (${bulkPreviewData.length})</h3><p style="color:var(--text-muted);">${bulkEscapeHtml(totalLabel)}</p>`;
+        let html = `<h3 style="color: var(--text-light); margin-bottom: 1rem;">📋 Previsualización (${bulkPreviewData.length})</h3><p style="color:var(--text-muted);">${bulkEscapeHtml(totalLabel)}${cancioneroOrigen && resolved.some(entry => entry.collection === 'canciones') ? ` · Cancionero: ${bulkEscapeHtml(cancioneroOrigen)}` : ''}</p>`;
         html += '<div style="max-height: 400px; overflow-y: auto;">';
         
         resolved.forEach(({ item, collection }, index) => {
@@ -2883,16 +2982,18 @@ function validateBulkSongs(items) {
         const title = String(item.titulo || '').trim();
         const artist = String(item.artista || '').trim();
         const lyrics = String(item.letra || '').trim();
+        const cancioneroOrigen = String(item.cancioneroOrigen || '').trim();
         const category = item.categoria || 'gen';
         const state = item.estado || 'pendiente';
         if (!title) throw new Error(`Falta el título en la canción ${number}.`);
         if (title.length > 160) throw new Error(`El título de la canción ${number} supera los 160 caracteres.`);
         if (artist.length > 160) throw new Error(`El artista de la canción ${number} supera los 160 caracteres.`);
+        if (cancioneroOrigen.length > 160) throw new Error(`El cancionero de origen de la canción ${number} supera los 160 caracteres.`);
         if (!lyrics) throw new Error(`Falta la letra en la canción ${number}.`);
         if (lyrics.length > 30000) throw new Error(`La letra de la canción ${number} supera los 30.000 caracteres.`);
         if (!parseSongContent(lyrics).chords.length) throw new Error(`La canción ${number} debe contener al menos un acorde reconocido.`);
         if (!CANCION_CATEGORIES.has(category)) throw new Error(`Categoría inválida en la canción ${number}. Usá solamente misa, gen o fogon.`);
-        if (!BULK_SONG_STATES.has(state)) throw new Error(`Estado inválido en la canción ${number}. Usá pendiente o publicado.`);
+        if (!BULK_SONG_STATES.has(state)) throw new Error(`Estado inválido en la canción ${number}. Usá pendiente, revisar o publicado.`);
         const identity = `${title.toLocaleLowerCase('es')}|${artist.toLocaleLowerCase('es')}`;
         if (seen.has(identity)) throw new Error(`La canción ${number} está duplicada dentro del archivo.`);
         seen.add(identity);
@@ -2991,7 +3092,7 @@ async function doBulkUpload() {
     if (prepared.some(operation => operation.collection === 'cancion_audios') && typeof loadCancionAudios === 'function') loadCancionAudios();
 }
 
-function prepareBulkOperations(entries) {
+function prepareBulkOperations(entries, cancioneroOrigen = '') {
     const now = Date.now();
     const songReferences = new Map();
     entries.forEach(({ item, collection }, index) => {
@@ -3005,7 +3106,7 @@ function prepareBulkOperations(entries) {
     });
     return entries.map(({ item, collection }, index) => {
         const id = bulkDocumentId(item, collection, index, now);
-        const data = normalizeBulkItem(item, collection, songReferences);
+        const data = normalizeBulkItem(item, collection, songReferences, cancioneroOrigen);
         return {
             collection,
             ref: utils.doc(db, collection, id),
@@ -3023,8 +3124,8 @@ function bulkDocumentId(item, collection, index, now) {
     return `${BULK_COLLECTIONS[collection].prefix}_${now}_${index}`;
 }
 
-function normalizeBulkItem(item, collection, songReferences) {
-    if (collection === 'canciones') return normalizeBulkSong(item);
+function normalizeBulkItem(item, collection, songReferences, cancioneroOrigen = '') {
+    if (collection === 'canciones') return normalizeBulkSong(item, cancioneroOrigen);
     if (collection === 'recursos') return normalizeBulkResource(item);
     if (collection === 'cancion_audios') return normalizeBulkAudio(item, songReferences);
     const data = bulkCleanObject(item);
@@ -3086,7 +3187,7 @@ function bulkDate(value, fallback = null) {
     return date;
 }
 
-function normalizeBulkSong(item) {
+function normalizeBulkSong(item, cancioneroOrigen = '') {
     return {
         titulo: String(item.titulo || '').trim(),
         artista: String(item.artista || '').trim(),
@@ -3095,6 +3196,7 @@ function normalizeBulkSong(item) {
         estado: item.estado || 'pendiente',
         tono: String(item.tono || 'C'),
         idioma: String(item.idioma || 'Español'),
+        cancioneroOrigen: String(cancioneroOrigen || item.cancioneroOrigen || '').trim(),
         fuente: String(item.fuente || ''),
         fechaCreacion: new Date(),
         activa: true,
@@ -3123,6 +3225,7 @@ function normalizeBulkResource(item) {
 function clearBulkForm() {
     document.getElementById('bulk-json').value = '';
     document.getElementById('bulk-file').value = '';
+    document.getElementById('bulk-song-origin').value = '';
     document.getElementById('bulk-preview-container').innerHTML = '';
     bulkPreviewData = [];
     bulkPreviewType = '';

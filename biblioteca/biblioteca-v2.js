@@ -318,11 +318,11 @@ async function loadLibraryTopics() {
 function score(item, query) {
   if (!query) return 0;
   const q = normalize(query); const title = normalize(item.titulo);
-  const haystack = normalize([item.titulo, item.autor, item.descripcion, ...resourceTopics(item), item.searchText].join(' '));
   if (title === q) return 100;
   if (title.startsWith(q)) return 80;
   if (title.includes(q)) return 60;
-  return q.split(/\s+/).filter(Boolean).reduce((total, token) => total + (haystack.includes(token) ? 10 : 0), 0);
+  const tokens = q.split(/\s+/).filter(Boolean);
+  return tokens.length && tokens.every(token => title.includes(token)) ? 40 : 0;
 }
 function applyFilters() {
   const activeTopics = [...state.topics]; const favoritesOnly = $('#soloFavoritos')?.checked;

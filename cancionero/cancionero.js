@@ -1,18 +1,18 @@
-import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260730-online-catalog';
+import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=20260828-firebase-pagination';
 import { normalizeImportedSong, parseSongContent } from './song-content.js?v=20260825-riff-links';
 
-const DATA_ROOT = '../datos/cancionero';
 let canciones = [];
 let cancionesFiltradas = [];
 let cancionesSeleccionadas = new Set();
 let cancionesConocidas = new Map();
 let indiceBusqueda = null;
-let cancionesExtra = null;
 let temporizadorBusqueda = null;
 let vistaActual = 'destacados';
 let categoriaActual = 'todas';
 let paginaActual = 0;
 let hayMasCanciones = false;
+let cursorCanciones = null;
+let catalogoCompletoPromise = null;
 window.modoSeleccion = false;
 let mostrandoTodosArtistas = false;
 let artistasOrdenados = [];
@@ -28,7 +28,6 @@ let pdfDraftSongs = [];
 let pdfLastFocus = null;
 let pdfPickerCategory = 'todas';
 let pdfPickerSearchTimer = null;
-const publicacionesRecientesCache = new Map();
 let activeSubmissionTab = null;
 let submissionTabInsertPosition = 0;
 let submissionTabTimer = null;
@@ -192,45 +191,16 @@ async function prepararPDFDesdeLista() {
 
 async function inicializar() {
   try {
-    const portada = await cargarJson(`${DATA_ROOT}/inicio.json`);
-    canciones = Array.isArray(portada.destacados) ? portada.destacados : [];
+    canciones = await DatabaseService.getCancionesLimitadas(6);
     registrarCanciones(canciones);
-    establecerArtistas(portada.artistas || [], false);
+    actualizarTopArtistas();
     vistaActual = 'destacados';
     aplicarFiltros();
   } catch (error) {
-    console.warn('No se encontró el resumen del cancionero; se usa una consulta limitada.', error);
-    try {
-      canciones = await DatabaseService.getCancionesLimitadas(15);
-      registrarCanciones(canciones);
-      vistaActual = 'categoria';
-      paginaActual = 1;
-      aplicarFiltros();
-      actualizarTopArtistas();
-    } catch (fallbackError) {
-      console.error('No se pudo cargar el cancionero:', fallbackError);
-      mostrarEstadoCanciones('No pudimos cargar las canciones.');
-    }
+    console.error('No se pudo cargar el cancionero:', error);
+    mostrarEstadoCanciones('No pudimos cargar las canciones.');
   }
 }
-async function cargarJson(url) {
-  const response = await fetch(url, { cache: 'no-cache' });
-  if (!response.ok) throw new Error(`No se pudo cargar ${url}`);
-  return response.json();
-}
-
-async function cargarCancionesExtra() {
-  if (cancionesExtra) return cancionesExtra;
-  try {
-    const data = await cargarJson(`${DATA_ROOT}/extras.json`);
-    cancionesExtra = Array.isArray(data.canciones) ? data.canciones : [];
-  } catch {
-    cancionesExtra = [];
-  }
-  registrarCanciones(cancionesExtra);
-  return cancionesExtra;
-}
-
 function registrarCanciones(lista) {
   lista.forEach((cancion) => cancionesConocidas.set(cancion.id, cancion));
 }
@@ -247,61 +217,45 @@ function normalizarBusqueda(value) {
   return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es').trim();
 }
 
-async function cargarPublicacionesRecientes(categoria) {
-  const key = categoria || 'todas';
-  if (!publicacionesRecientesCache.has(key)) {
-    publicacionesRecientesCache.set(key, DatabaseService.getCancionesLimitadas(15, key).catch((error) => {
-      publicacionesRecientesCache.delete(key);
+async function cargarCatalogoCompleto() {
+  if (!catalogoCompletoPromise) {
+    catalogoCompletoPromise = (async () => {
+      const acumuladas = [];
+      let cursor = null;
+      let hayMas = true;
+      while (hayMas) {
+        const pagina = await DatabaseService.getCancionesPagina(100, 'todas', cursor);
+        acumuladas.push(...pagina.canciones);
+        cursor = pagina.cursor;
+        hayMas = pagina.hayMas;
+      }
+      return combinarCanciones(acumuladas);
+    })().catch((error) => {
+      catalogoCompletoPromise = null;
       throw error;
-    }));
+    });
   }
-  return publicacionesRecientesCache.get(key);
+  const catalogo = await catalogoCompletoPromise;
+  registrarCanciones(catalogo);
+  return catalogo;
 }
 
 async function cargarCategoria(categoria, reiniciar = true) {
-  const pagina = reiniciar ? 1 : paginaActual + 1;
   mostrarEstadoCanciones('Cargando canciones...');
   try {
-    const datos = await cargarJson(`${DATA_ROOT}/${categoria}/${pagina}.json`);
-    const extras = reiniciar ? await cargarCancionesExtra() : [];
-    const nuevasBase = Array.isArray(datos.canciones) ? datos.canciones : [];
-    const publicadasOnline = reiniciar
-      ? await cargarPublicacionesRecientes(categoria).catch((error) => {
-          console.warn('No se pudieron sumar las publicaciones recientes:', error);
-          return [];
-        })
-      : [];
-    const nuevas = combinarCanciones(
-      publicadasOnline,
-      nuevasBase,
-      extras.filter((song) => categoria === 'todas' || song.categoria === categoria)
-    );
-    canciones = reiniciar ? nuevas : [...canciones, ...nuevas];
-    registrarCanciones(nuevas);
+    const resultado = await DatabaseService.getCancionesPagina(15, categoria, reiniciar ? null : cursorCanciones);
+    const nuevas = Array.isArray(resultado.canciones) ? resultado.canciones : [];
+    canciones = reiniciar ? nuevas : combinarCanciones(canciones, nuevas);
+    registrarCanciones(canciones);
     categoriaActual = categoria;
-    paginaActual = pagina;
-    hayMasCanciones = Boolean(datos.hayMas);
+    paginaActual = reiniciar ? 1 : paginaActual + 1;
+    cursorCanciones = resultado.cursor;
+    hayMasCanciones = Boolean(resultado.hayMas);
     vistaActual = 'categoria';
     aplicarFiltros();
   } catch (error) {
-    console.warn('La página estática no está disponible; se usa Firebase limitado.', error);
-    if (!reiniciar) {
-      hayMasCanciones = false;
-      actualizarBotonCanciones();
-      return;
-    }
-    try {
-      canciones = await DatabaseService.getCancionesLimitadas(15, categoria);
-      registrarCanciones(canciones);
-      categoriaActual = categoria;
-      paginaActual = 1;
-      hayMasCanciones = false;
-      vistaActual = 'categoria';
-      aplicarFiltros();
-    } catch (fallbackError) {
-      console.error('No se pudo cargar la categoría:', fallbackError);
-      mostrarEstadoCanciones('No pudimos cargar estas canciones.');
-    }
+    console.error('No se pudo cargar la categoría:', error);
+    mostrarEstadoCanciones('No pudimos cargar estas canciones.');
   }
 }
 
@@ -435,20 +389,9 @@ async function ejecutarBusqueda() {
   }
 
   try {
-    if (!indiceBusqueda) {
-      const datos = await cargarJson(`${DATA_ROOT}/buscar.json`);
-      const extras = await cargarCancionesExtra();
-      indiceBusqueda = combinarCanciones(datos.canciones || [], extras);
-      registrarCanciones(indiceBusqueda);
-    }
+    if (!indiceBusqueda) indiceBusqueda = await cargarCatalogoCompleto();
     const categoria = document.querySelector('.filter-pill[data-categoria].active')?.dataset.categoria || 'todas';
-    const publicadasOnline = await cargarPublicacionesRecientes(categoria).catch((error) => {
-      console.warn('No se pudieron consultar las publicaciones recientes:', error);
-      return [];
-    });
-    registrarCanciones(publicadasOnline);
-    const indiceCompleto = combinarCanciones(publicadasOnline, indiceBusqueda);
-    cancionesFiltradas = indiceCompleto.filter((cancion) => {
+    cancionesFiltradas = indiceBusqueda.filter((cancion) => {
       const texto = normalizarBusqueda(`${cancion.titulo || ''} ${cancion.artista || ''}`);
       return texto.includes(busqueda) && (categoria === 'todas' || cancion.categoria === categoria);
     });
@@ -790,18 +733,6 @@ function actualizarTopArtistas() {
   renderizarArtistas();
 }
 
-function establecerArtistas(artistas, completos) {
-  artistasOrdenados = artistas.map((artista) => [
-    artista.nombre || artista.artista || 'Desconocido',
-    {
-      canciones: Number(artista.cancionesCount || artista.canciones || 0),
-      likes: Number(artista.likesCount || artista.likes || 0)
-    }
-  ]);
-  artistasCompletosCargados = completos;
-  renderizarArtistas();
-}
-
 function renderizarArtistas() {
   const container = document.getElementById('artistasList');
   if (!container) return;
@@ -847,8 +778,9 @@ function renderizarArtistas() {
 window.mostrarTodosArtistas = async function () {
   if (!mostrandoTodosArtistas && !artistasCompletosCargados) {
     try {
-      const data = await cargarJson(`${DATA_ROOT}/artistas.json`);
-      establecerArtistas(data.artistas || [], true);
+      canciones = await cargarCatalogoCompleto();
+      actualizarTopArtistas();
+      artistasCompletosCargados = true;
     } catch (error) {
       console.error('No se pudo cargar la lista de artistas:', error);
       mostrarToast('No se pudieron cargar todos los artistas', 'error');
@@ -997,13 +929,7 @@ async function abrirSelectorCancionesPDF() {
   document.getElementById('pdfSongPickerResults').innerHTML = '<div class="pdf-picker-state">Cargando canciones...</div>';
   try {
     if (!indiceBusqueda) {
-      const datos = await cargarJson(`${DATA_ROOT}/buscar.json`);
-      const extras = await cargarCancionesExtra();
-      const base = Array.isArray(datos.canciones) ? datos.canciones : [];
-      indiceBusqueda = [...base, ...extras.filter((song) =>
-        !base.some((item) => String(item.id) === String(song.id))
-      )];
-      registrarCanciones(indiceBusqueda);
+      indiceBusqueda = await cargarCatalogoCompleto();
     }
     renderizarSelectorCancionesPDF();
     document.getElementById('pdfSongPickerSearch')?.focus();

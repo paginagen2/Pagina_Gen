@@ -24,7 +24,12 @@ const firebaseRuntime = read('aaglobal/firebase-config.js');
 ].forEach(id => assert.match(adminHtml, new RegExp(`id="${id}"`), `Falta #${id} en Admin`));
 
 assert.match(publicHtml, /biblioteca-v2\.js/, 'La Biblioteca no carga el controlador v2');
-assert.match(publicHtml, /biblioteca-v2\.js\?v=20260826-funciones/, 'La Biblioteca puede seguir usando un controlador anterior desde caché');
+assert.match(publicHtml, /biblioteca-v2\.js\?v=20260827-busqueda-titulo/, 'La Biblioteca puede seguir usando un controlador anterior desde caché');
+assert.match(publicHtml, /id="toggleText">Mostrar filtros</, 'Los filtros no comienzan cerrados');
+assert.match(publicHtml, /class="filtros_atributos collapsed" id="filtrosAtributos"/, 'Los temas aparecen abiertos durante la carga');
+assert.match(publicHtml, /aria-label="Buscar exclusivamente por título"/, 'El buscador no explica su alcance');
+assert.doesNotMatch(publicJs, /const haystack = normalize\(\[item\.titulo, item\.autor/, 'El buscador todavía consulta autor, descripción o temas');
+assert.match(publicJs, /tokens\.every\(token => title\.includes\(token\)\)/, 'La búsqueda por palabras del título no está activa');
 assert.match(publicHtml, /id="soloFavoritos"[\s\S]{0,300}id="mostrarMeditaciones"/, 'Mostrar meditaciones no está junto a Solo guardados');
 assert.doesNotMatch(publicHtml, /onclick="(?:toggleModoVista|cambiarPaginaLibro)/, 'El visor conserva controles antiguos que bloquean sus botones');
 assert.match(publicJs, /state\.bookContinuous = !state\.bookContinuous/, 'La vista continua no mantiene un estado confiable');

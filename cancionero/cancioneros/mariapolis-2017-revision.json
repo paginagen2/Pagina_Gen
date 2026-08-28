@@ -1,0 +1,72 @@
+{
+  "source": "CancioneroMariapolis2017PRINT.pdf",
+  "detected": 119,
+  "with_chords": 107,
+  "ready_to_publish": 107,
+  "without_artist": [],
+  "without_tone": [],
+  "duplicate_existing": [],
+  "duplicate_internal": [],
+  "excluded_without_chords": [
+    {
+      "number": 12,
+      "title": "Dentro de tu ciudad",
+      "artist": "Gen Rosso"
+    },
+    {
+      "number": 17,
+      "title": "Gloria folclórico",
+      "artist": ""
+    },
+    {
+      "number": 18,
+      "title": "Que todo el mundo te alabe",
+      "artist": "B. Enderle"
+    },
+    {
+      "number": 23,
+      "title": "Aleluya",
+      "artist": "Gen Rosso"
+    },
+    {
+      "number": 25,
+      "title": "Hijos de toda la tierra",
+      "artist": "A. R. Amuchástegui"
+    },
+    {
+      "number": 48,
+      "title": "Santo",
+      "artist": "Gen Rosso"
+    },
+    {
+      "number": 52,
+      "title": "El cielo con nosotros",
+      "artist": "Gen Rosso"
+    },
+    {
+      "number": 70,
+      "title": "La voz de mis canciones",
+      "artist": "A. R. Amuchástegui"
+    },
+    {
+      "number": 78,
+      "title": "Estrella polar",
+      "artist": "Gen Verde"
+    },
+    {
+      "number": 92,
+      "title": "Niña de Nazaret",
+      "artist": "Gen Rosso"
+    },
+    {
+      "number": 118,
+      "title": "Canción de María",
+      "artist": ""
+    },
+    {
+      "number": 119,
+      "title": "Fratello sole, sorella luna",
+      "artist": ""
+    }
+  ]
+}

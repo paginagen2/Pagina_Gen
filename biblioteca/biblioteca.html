@@ -69,17 +69,17 @@
           <div class="filtros_titulo_container">
             <div class="filtros_titulo">🏷️ Filtrar por temas:</div>
             <button type="button" class="toggle_filtros_btn" id="toggleFiltrosBtn" aria-expanded="false" aria-controls="filtrosAtributos">
-              <span id="toggleIcon">▼</span> <span id="toggleText">Ocultar filtros</span>
+              <span id="toggleIcon">▶</span> <span id="toggleText">Mostrar filtros</span>
             </button>
           </div>
-          <div class="filtros_atributos" id="filtrosAtributos">
+          <div class="filtros_atributos collapsed" id="filtrosAtributos">
             <!-- Se cargan dinámicamente desde JavaScript -->
           </div>
         </div>
 
         <!-- Búsqueda -->
         <div class="busqueda_container">
-          <input type="text" id="busquedaInput" class="busqueda_input" aria-label="Buscar en la biblioteca" placeholder="Buscar en biblioteca...">
+          <input type="search" id="busquedaInput" class="busqueda_input" aria-label="Buscar exclusivamente por título" placeholder="Buscar por título...">
           <span class="busqueda_icono" aria-hidden="true"><svg><use href="../aadocumentos/svg/iconos-gen.svg?v=20260730-7#buscar"></use></svg></span>
         </div>
 
@@ -235,7 +235,7 @@
   <script src="../aaglobal/firebase-config.js?v=20260730-google1"></script>
 <script type="module" src="../auth.js?v=20260730-google1"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="biblioteca-v2.js?v=20260826-funciones" type="module"></script>
+  <script src="biblioteca-v2.js?v=20260827-busqueda-titulo" type="module"></script>
 </body>
 
 </html>
