@@ -1,4 +1,4 @@
-import { deleteCloudPlaylist, getLocalPlaylists, loadAudioCatalog, mergeCloudPlaylists, playerDescriptor, playlistFromLocation, providerLabels, removeFromLocalPlaylist, saveLocalPlaylists } from './audio-catalog.js?v=20260825-mixed-playlists';
+import { adoptGuestPlaylistsForCurrentUser, deleteCloudPlaylist, getLocalPlaylists, loadAudioCatalog, mergeCloudPlaylists, playerDescriptor, playlistFromLocation, providerLabels, removeFromLocalPlaylist, saveLocalPlaylists } from './audio-catalog.js?v=20260827-unified-playlists';
 import { clearMediaSession, connectMediaSession } from './media-session.js?v=20260825-1';
 import { hasNativeAudio, nativeNext, nativePause, nativePlay, nativePrevious, nativeStop, playNativeQueue } from './native-audio.js?v=20260825-1';
 
@@ -410,7 +410,7 @@ async function connectAccountPlaylists() {
       favoriteSongs = [];
       favoritesLoading = Boolean(user);
       if (user) {
-        try { playlists = sanitizeAudioPlaylists(await mergeCloudPlaylists(user.uid)); saveLocalPlaylists(playlists); }
+        try { adoptGuestPlaylistsForCurrentUser(); playlists = sanitizeAudioPlaylists(await mergeCloudPlaylists(user.uid)); saveLocalPlaylists(playlists); }
         catch (error) { playlists = sanitizeAudioPlaylists(getLocalPlaylists()); saveLocalPlaylists(playlists); console.warn('Se mantienen las listas de esta cuenta en el dispositivo:', error); }
         void loadFavorites(user);
       } else {

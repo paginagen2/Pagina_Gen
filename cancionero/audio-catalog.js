@@ -164,10 +164,12 @@ export function adoptGuestPlaylistsForCurrentUser() {
   if (!userId) return getLocalPlaylists();
   const guestKey = `${PLAYLIST_STORAGE_PREFIX}guest`;
   let guest = [];
-  try {
-    const parsed = JSON.parse(localStorage.getItem(guestKey) || '[]');
-    if (Array.isArray(parsed)) guest = parsed.filter(item => item?.id && Array.isArray(item.items));
-  } catch { /* Un dato local inválido no debe bloquear las listas de la cuenta. */ }
+  [guestKey, LEGACY_PLAYLIST_STORAGE_KEY].forEach(key => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(key) || '[]');
+      if (Array.isArray(parsed)) guest.push(...parsed.filter(item => item?.id && Array.isArray(item.items)));
+    } catch { /* Un dato local inválido no debe bloquear las listas de la cuenta. */ }
+  });
   if (!guest.length) return getLocalPlaylists();
   const account = getLocalPlaylists();
   const merged = new Map(account.map(playlist => [playlist.id, playlist]));
@@ -178,7 +180,38 @@ export function adoptGuestPlaylistsForCurrentUser() {
   const result = [...merged.values()];
   saveLocalPlaylists(result);
   localStorage.removeItem(guestKey);
+  localStorage.removeItem(LEGACY_PLAYLIST_STORAGE_KEY);
   return result;
+}
+
+export async function initializePlaylistStore() {
+  if (!window.firebaseAuth || !window.firebaseUtils || !window.firebaseDb) {
+    try { await import('../aaglobal/firebase-config-cancionero.js?v=20260827-account-playlists'); }
+    catch (error) {
+      console.warn('Las playlists seguirán disponibles en este dispositivo:', error);
+      return getLocalPlaylists();
+    }
+  }
+  const auth = window.firebaseAuth;
+  if (!auth) return getLocalPlaylists();
+  if (typeof auth.authStateReady === 'function') {
+    await auth.authStateReady();
+  } else if (window.firebaseUtils?.onAuthStateChanged) {
+    await new Promise(resolve => {
+      let unsubscribe = () => {};
+      unsubscribe = window.firebaseUtils.onAuthStateChanged(auth, () => {
+        unsubscribe();
+        resolve();
+      });
+    });
+  }
+  if (!auth.currentUser) return getLocalPlaylists();
+  adoptGuestPlaylistsForCurrentUser();
+  try { return await mergeCloudPlaylists(auth.currentUser.uid); }
+  catch (error) {
+    console.warn('No se pudieron actualizar las playlists de la cuenta:', error);
+    return getLocalPlaylists();
+  }
 }
 
 function playlistForCloud(playlist, userId) {
@@ -269,11 +302,12 @@ export async function deleteCloudPlaylist(playlist) {
 
 window.addEventListener('online', () => { void syncLocalPlaylistsForCurrentUser(); });
 
-export function addToLocalPlaylist(audio, requestedName = '') {
+export function addToLocalPlaylist(audio, requestedName = '', requestedId = '') {
   if (!audio?.id || !audio?.url) return null;
   const playlists = getLocalPlaylists();
   const name = requestedName.trim() || 'Mi playlist';
-  let playlist = playlists.find(item => item.tipo === 'audio' && item.nombre.toLocaleLowerCase('es') === name.toLocaleLowerCase('es'));
+  let playlist = requestedId ? playlists.find(item => item.tipo === 'audio' && item.id === requestedId) : null;
+  if (!playlist) playlist = playlists.find(item => item.tipo === 'audio' && item.nombre.toLocaleLowerCase('es') === name.toLocaleLowerCase('es'));
   if (!playlist) {
     playlist = { id: `playlist_${Date.now()}`, nombre: name, descripcion: '', tipo: 'audio', creadaEn: new Date().toISOString(), items: [] };
     playlists.push(playlist);

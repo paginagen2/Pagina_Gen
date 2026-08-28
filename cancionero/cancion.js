@@ -2,7 +2,7 @@ import { DatabaseService } from '../aaglobal/firebase-config-cancionero.js?v=202
 import { transposeChord, convertChordNotation } from './chord-engine.js';
 import { renderSongContent } from './song-content.js?v=20260825-tabs-visible-hidden';
 import { renderChordDiagram, chordShapeSummary } from './chord-diagrams.js?v=20260804-guide-dock-2';
-import { addSongToLocalPlaylist, addToLocalPlaylist, getLocalPlaylists, loadAudiosForSong, playerDescriptor, providerLabels } from './audio-catalog.js?v=20260825-mixed-playlists';
+import { addSongToLocalPlaylist, addToLocalPlaylist, getLocalPlaylists, initializePlaylistStore, isQueueCompatibleAudio, loadAudiosForSong, playerDescriptor, providerLabels } from './audio-catalog.js?v=20260827-unified-playlists';
 import { clearMediaSession, connectMediaSession } from './media-session.js?v=20260825-1';
 import { hasNativeAudio, nativePause, nativePlay, nativeStop, playNativeAudio } from './native-audio.js?v=20260825-1';
 
@@ -16,6 +16,7 @@ window.addEventListener('gen:native-audio-error', event => showToast(event.detai
 const TEXT_CLASSES = ['texto-pequeno', 'texto-normal', 'texto-grande', 'texto-extra-grande', 'texto-muy-grande', 'texto-enorme', 'texto-maximo'];
 let pendingPlaylistAudio = null;
 let pendingPlaylistSong = null;
+let playlistStoreReady = initializePlaylistStore();
 const state = {
   song: null,
   audios: [],
@@ -202,7 +203,7 @@ function renderSongAudios() {
     play.textContent = descriptor.mode === 'external' ? 'Abrir ↗' : '▶ Escuchar';
     play.addEventListener('click', () => playSongAudio(audio, card));
     actions.append(play);
-    if (audio?.url) {
+    if (isQueueCompatibleAudio(audio)) {
       const save = document.createElement('button'); save.type = 'button'; save.className = 'audio-save-button'; save.textContent = '+ Playlist';
       save.addEventListener('click', () => saveAudioToPlaylist(audio)); actions.append(save);
     }
@@ -331,16 +332,19 @@ function saveAudioToPlaylist(audio) {
   renderAudioPlaylistChoices();
   $('#newAudioPlaylistName').value = '';
   dialog.showModal();
+  void playlistStoreReady.then(() => {
+    if (dialog.open && pendingPlaylistAudio?.id === audio.id) renderAudioPlaylistChoices();
+  });
 }
 
 function playlistHasAudio(playlist, audio) {
   return playlist.items?.some(item => String(item.audioId) === String(audio.id));
 }
 
-function finishPlaylistSave(name) {
+function finishPlaylistSave(name, playlistId = '') {
   if ((!pendingPlaylistAudio && !pendingPlaylistSong) || !name.trim()) return;
   const playlist = pendingPlaylistAudio
-    ? addToLocalPlaylist(pendingPlaylistAudio, name)
+    ? addToLocalPlaylist(pendingPlaylistAudio, name, playlistId)
     : addSongToLocalPlaylist(pendingPlaylistSong, name);
   if (!playlist) { showToast('No pudimos agregar esta fuente a la playlist.'); return; }
   showToast(`Guardada en “${playlist.nombre}”.`);
@@ -376,7 +380,7 @@ function renderAudioPlaylistChoices() {
     copy.append(title, count);
     const action = document.createElement('b'); action.textContent = saved ? 'Ya guardada' : 'Agregar';
     button.append(copy, action);
-    button.addEventListener('click', () => finishPlaylistSave(playlist.nombre));
+    button.addEventListener('click', () => finishPlaylistSave(playlist.nombre, playlist.id));
     container.append(button);
   });
 }
@@ -401,9 +405,18 @@ function saveSongToList() {
   renderAudioPlaylistChoices();
   $('#newAudioPlaylistName').value = '';
   $('#audioPlaylistDialog')?.showModal();
+  void playlistStoreReady.then(() => {
+    if ($('#audioPlaylistDialog')?.open && pendingPlaylistSong) renderAudioPlaylistChoices();
+  });
 }
 
 $('#saveSongToList')?.addEventListener('click', saveSongToList);
+window.addEventListener('gen:auth-changed', () => {
+  playlistStoreReady = initializePlaylistStore();
+  void playlistStoreReady.then(() => {
+    if ($('#audioPlaylistDialog')?.open) renderAudioPlaylistChoices();
+  });
+});
 
 async function incrementView(id) {
   const key = `song_viewed:${id}`;
