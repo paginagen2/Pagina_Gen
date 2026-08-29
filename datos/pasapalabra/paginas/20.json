@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 318,
+  "total": 319,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1778464638154",
+      "titulo": "DAR TESTIMONIO JUNTOS DEL AMOR DE DIOS",
+      "fecha": "10/05/2026",
+      "reflexion": "“En esto todos reconocerán que ustedes son mis discípulos: en el amor que se tengan los unos a los otros” (Jn. 13,35)\nLa fe cristiana es, por naturaleza, comunitaria. Cuando caminamos juntos, apoyándonos en la oración, en el servicio y la fraternidad, nos convertimos en signos vivos de la presencia de Dios en el mundo.\nJesús no dijo que sus discípulos serían reconocidos por el poder, por el prestigio o simplemente por las palabras, sino por el amor concreto.\nAmarnos los unos a los otros significa acogernos, perdonarnos, comprendernos, ayudarnos y caminar juntos, incluso en las diferencias.\nVivir este mandamiento es continuar la misión de Jesús en el mundo: hacer visible el amor de Dios en las relaciones humanas."
+    },
     {
       "id": "pasapalabra_1778443274456",
       "titulo": "DAR TESTIMONIO JUNTOS DEL AMOR DE DIOS",
@@ -34,12 +40,6 @@
       "titulo": "NO TE QUEDES INDIFERENTE",
       "fecha": "06/05/2026",
       "reflexion": "En muchos momentos de la vida vemos situaciones de sufrimiento, injusticia o necesidad, pero la prisa, el miedo o la comodidad pueden llevarnos a la indiferencia.\nSin embargo, permanecer indiferentes ante el dolor del otro es cerrar el corazón a lo que nos hace verdaderamente humanos: la compasión.\nCada persona carga sus dolores, y una actitud de solidaridad puede marcar una gran diferencia en la vida de alguien.\nNo podemos resolver todos los problemas del mundo, pero podemos elegir no ignorar lo que sucede a nuestro alrededor.\nSer sensibles al sufrimiento del prójimo es reconocer que todos estamos conectados, como hermanos y hermanas."
-    },
-    {
-      "id": "pasapalabra_1777941132564",
-      "titulo": "LOS MEDIOS NOS CONECTAN, EL DIÁLOGO NOS UNE",
-      "fecha": "05/05/2026",
-      "reflexion": "En los medios, en cuestión de segundos, un mensaje cruza ciudades, países y continentes, acercando a personas que de otro modo jamás se conocerían personalmente. De hecho, los medios tienen un gran poder para conectar. Pero conectar no es lo mismo que unir.\nLa verdadera unidad nace cuando existe el diálogo, que exige escucha, respeto y apertura comprender al otro. Si bien los medios transmiten mensajes rápidamente, el diálogo construye conexiones más profundas entre las personas.\nCuando utilizamos los medios como punto de partida para el encuentro y para la conversación sincera, ellos se convierten en un instrumento de comunión.\nLa tecnología puede acercarnos, pero es el corazón dispuesto a escuchar y dialogar lo que realmente nos une."
     }
   ]
 }

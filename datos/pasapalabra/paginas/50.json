@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 318,
+  "total": 319,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1763511112977",
+      "titulo": "CONOCERSE",
+      "fecha": "19/11/2025",
+      "reflexion": "Conocerse es permitir que el otro exista delante de nosotros y, al mismo tiempo, tener el valor de mostrar quién realmente somos. Es un ejercicio de apertura, delicada, a veces desafiante, en el que cada gesto se convierte en un vínculo y cada silencio, en una invitación.\nCuando dos personas están dispuestas a conocerse de verdad y vivir el amor mutuo, los límites dejan de existir y se convierten en ventanas una de frente a la otra.\nEn este reconocimiento mutuo, descubrimos que nadie es completo solo.\nConocerse no es llegar a un destino, sino caminar juntos, con respeto, escucha, aceptación y curiosidad genuina.\nY es en este reconocimiento mutuo que la vida se vuelve más ligera, más auténtica e infinitamente más bella."
+    },
     {
       "id": "pasapalabra_1763428593341",
       "titulo": "HACER CIRCULAR LAS IDEAS POSITIVAS",
@@ -34,12 +40,6 @@
       "titulo": "ARTÍFICES DE COMUNIÓN",
       "fecha": "14/11/2025",
       "reflexion": "Ser artífices de la comunión es asumir la misión de tejer los hilos que unen los corazones y construyen la fraternidad. Así como un artesano da forma a la materia con sus manos, quienes buscan la comunión dan forma a la interacción humana con gestos, palabras y actitudes inspiradas en el amor.\nEn un mundo marcado por divisiones, polarizaciones y egoísmos, ser artífices de la comunión exige ver al otro no como un obstáculo, sino como una oportunidad de encuentro. Es reconocer que la unidad no nace de la uniformidad, sino del respeto y de la valoración de las diferencias.\nSer artífices de la comunión es creer que la paz comienza donde hay encuentro. Y que ese encuentro comienza cuando alguien está dispuesto a amar primero."
-    },
-    {
-      "id": "pasapalabra_1763000954484",
-      "titulo": "ORIENTARSE HACIA EL BIEN",
-      "fecha": "13/11/2025",
-      "reflexion": "El bien no es un destino predeterminado, sino un camino que se construye paso a paso, con coherencia.\nVivimos en una época donde el ruido de las opiniones intenta distraernos de la escucha interior. Y es precisamente en esta escucha donde encontramos la brújula que apunta hacia el bien.\nEl bien no se mide por los aplausos ni por reconocimientos; él florece en lo invisible, en los gestos que nadie ve, en las pequeñas renuncias, en las palabras que evitamos por amor y respeto.\nEs en esta práctica silenciosa donde el mundo comienza a cambiar, no desde afuera hacia adentro, sino desde adentro hacia afuera.\nOrientarnos hacia el bien es, fundamentalmente, orientarnos hacia nosotros mismos, hacia la parte más pura y luminosa de lo que somos y de lo que tenemos dentro."
     }
   ]
 }

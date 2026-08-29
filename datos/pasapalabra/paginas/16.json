@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 16,
   "tamanioPagina": 6,
-  "total": 318,
+  "total": 319,
   "siguientePagina": 17,
   "items": [
+    {
+      "id": "pasapalabra_1780484342848",
+      "titulo": "VIVIR EL AMOR MUTUO",
+      "fecha": "03/06/2026",
+      "reflexion": "Vivir el amor mutuo es hacer presente entre nosotros la realidad del Reino de los Cielos.\nCuando nos amamos unos a los otros, creamos un ambiente donde Dios puede manifestarse y actuar.\nEl amor mutuo es reciprocidad: es dar, pero también recibir; es hablar, pero también escuchar; es comprender, pero también dejarse comprender. Así, crece entre nosotros una comunión que ilumina y transforma nuestra vida.\nEste amor se manifiesta en gestos sencillos: en la paciencia ante las debilidades, en el perdón ofrecido con generosidad, en el compartir el tiempo y los bienes, en la alegría por el bienestar del otro.\nCuando vivimos así, nuestra vida se convierte en testimonio. Sin muchas palabras, mostramos que el Reino de los Cielos no es algo lejano, sino una realidad que comienza con el amor vivido en el día a día."
+    },
     {
       "id": "pasapalabra_1780365751410",
       "titulo": "CAMINAR JUNTOS",
@@ -34,12 +40,6 @@
       "titulo": "SOBRIEDAD",
       "fecha": "29/05/2026",
       "reflexion": "La sobriedad es una invitación al equilibrio. Es lo mismo que vivir sin excesos, con claridad mental y serenidad en el corazón.\nMuchas veces recibimos estímulos que nos llevan a la exageración, la prisa y los impulsos. Ser sobrio es elegir la medida justa, actuar con consciencia y responsabilidad.\nSer sobrio no significa vivir sin alegría, sino encontrar la alegría en lo simple y verdadero. Es saber elegir las palabras adecuadas para cada momento y saber cuándo guardar silencio.\nTener sobriedad es decidir con prudencia, sin dejar que las emociones dominen nuestras acciones.\nHoy puedo buscar esta sobriedad en palabras, pensamientos y acciones. Tener calma para reflexionar antes de actuar, equilibrio para evitar la exageración y sabiduría para mantener la paz en mi corazón.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1779926281711",
-      "titulo": "TODOS NECESITAMOS SER PERDONADOS",
-      "fecha": "28/05/2026",
-      "reflexion": "Todos cometemos errores. A veces impulsivamente, otras veces por falta de comprensión, por miedo o por debilidad. Reconocer esto nos hace más humildes y también más capaces de mirar al otro con misericordia.\nNecesitamos ser perdonados, pero también necesitamos aprender a perdonar. El perdón no borra lo sucedido, pero abre un camino nuevo, libera el corazón y alivia el peso que cargamos por causa del resentimiento y de las culpas. Cuando perdono, dejo de alimentar los resentimientos y elijo la paz.\nHoy recuerdo que nadie es perfecto. Así como deseo comprensión para mis errores, puedo ofrecer lo mismo a quienes me rodean.\nEl perdón es un gesto de amor que sana las relaciones y trae ligereza al alma."
     }
   ]
 }

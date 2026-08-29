@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 21,
   "tamanioPagina": 6,
-  "total": 318,
+  "total": 319,
   "siguientePagina": 22,
   "items": [
+    {
+      "id": "pasapalabra_1777941132564",
+      "titulo": "LOS MEDIOS NOS CONECTAN, EL DIÁLOGO NOS UNE",
+      "fecha": "05/05/2026",
+      "reflexion": "En los medios, en cuestión de segundos, un mensaje cruza ciudades, países y continentes, acercando a personas que de otro modo jamás se conocerían personalmente. De hecho, los medios tienen un gran poder para conectar. Pero conectar no es lo mismo que unir.\nLa verdadera unidad nace cuando existe el diálogo, que exige escucha, respeto y apertura comprender al otro. Si bien los medios transmiten mensajes rápidamente, el diálogo construye conexiones más profundas entre las personas.\nCuando utilizamos los medios como punto de partida para el encuentro y para la conversación sincera, ellos se convierten en un instrumento de comunión.\nLa tecnología puede acercarnos, pero es el corazón dispuesto a escuchar y dialogar lo que realmente nos une."
+    },
     {
       "id": "pasapalabra_1777859285015",
       "titulo": "TRABAJAR POR EL BIEN COMÚN",
@@ -34,12 +40,6 @@
       "titulo": "REZAR POR LA PAZ",
       "fecha": "30/04/2026",
       "reflexion": "Nunca está demás rezar por la paz. Nuestros tiempos son tiempos de guerra. Necesitamos unirnos en oración para que la paz regrese a nuestros corazones.\nRezar por la paz es alinear el corazón con lo que deseamos ver en el mundo. La paz comienza como un susurro en nuestro interior, un pedido sincero para que la luz sea mayor que la oscuridad, para que el amor venza al odio, para que el perdón sane las heridas.\nCuando rezamos por la paz, no solo pedimos el cese de los conflictos externos, sino también que se calmen las tormentas internas.\nRezar por la paz es un acto de esperanza. Es creer que cada gesto de bondad, cada palabra de reconciliación y cada actitud de compasión tiene el poder de transformar la realidad que nos rodea."
-    },
-    {
-      "id": "pasapalabra_1777433305410",
-      "titulo": "SER SENCILLOS",
-      "fecha": "29/04/2026",
-      "reflexion": "Ser \"sencillo\" no es humillarse, es purificarse. Significa eliminar los excesos que pesan, las expectativas exageradas, las comparaciones constantes, el orgullo innecesario, y quedarse con lo que realmente importa.\nLa sencillez es valorar lo esencial y comprender que la felicidad reside en las pequeñas cosas.\nSer sencillo es aprender a expresar los sentimientos sin máscaras, a vivir sin necesidad de impresionar, a elegir la verdad por encima de las apariencias.\nSer sencillo es liberarse de la necesidad de demostrarle algo al mundo y, finalmente, descansar en la propia esencia, que viene del amor."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-08-28",
-  "generadoEn": "2026-08-28T15:15:16.965Z",
+  "fechaGeneracion": "2026-08-29",
+  "generadoEn": "2026-08-29T09:57:57.747Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1787878976012",
-    "titulo": "MENOS PALABRAS, MÁS HECHOS",
-    "fecha": "28/08/2026",
+    "id": "pasapalabra_1787970167154",
+    "titulo": "LLEVAR LA ESPERANZA A TODAS PARTES",
+    "fecha": "29/08/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775846541064",
-    "titulo": "El cielo se ha derramado sobre la tierra",
+    "id": "meditaciones_1777259542100_g01i3vzmu",
+    "titulo": "Las palabras de un padre",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
