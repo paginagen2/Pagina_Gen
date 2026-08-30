@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 48,
   "tamanioPagina": 6,
-  "total": 319,
+  "total": 320,
   "siguientePagina": 49,
   "items": [
+    {
+      "id": "pasapalabra_1764642839132",
+      "titulo": "EL AMOR ABRE CAMINOS IMPENSABLES",
+      "fecha": "02/12/2025",
+      "reflexion": "El amor tiene el poder de iluminar caminos que antes parecían cerrados, de revelar salidas donde solo veíamos obstáculos.\nNo sigue mapas ni obedece a la lógica del control. El amor es la fuerza que nos hace cambiar de dirección sin miedo, que nos enseña a confiar en lo invisible, que transforma lo imposible en descubrimiento.\nA veces, un simple gesto de amor, de perdón, de escucha, una presencia, abre puertas que la razón jamás encontraría.\nEl amor es un camino que se hace al andar. No promete facilidades, pero ofrece significado.\nAl final, el amor es lo que hace que la vida sea sorprendente, porque donde hay amor, siempre hay una nueva posibilidad."
+    },
     {
       "id": "pasapalabra_1764554362735",
       "titulo": "ABRIR EL CORAZÓN A LA ESPERANZA",
@@ -34,12 +40,6 @@
       "titulo": "EVADIR LA PROPIA COMODIDAD",
       "fecha": "27/11/2025",
       "reflexion": "Nuestra zona de confort nos da una sensación de seguridad, previsibilidad y control de todo, pero también puede convertirse en una prisión silenciosa que nos impide experimentar cosas nuevas, aprender y evolucionar.\nA menudo, no es el miedo al fracaso lo que nos paraliza, sino nuestro apego a lo que ya conocemos. La cómoda rutina, las excusas convenientes y el conformismo disfrazado de \"prudencia\" nos hacen creer que estamos bien así. Sin embargo, la verdadera vida, la que se respira a cada momento, la que nos transforma y nos hace sentir vivos, comienza cuando nos atrevemos a cruzar los límites de lo que es cómodo.\nEvadir nuestra propia comodidad, es elegir la incomodidad temporal en nombre de un proyecto innovador. Es aceptar que crecer exige esfuerzo, y, a veces, dolor. Pero también es comprender que cada paso fuera de la zona segura es un paso hacia una versión más auténtica y plena de nosotros mismos."
-    },
-    {
-      "id": "pasapalabra_1764205392259",
-      "titulo": "DAR CONFIANZA",
-      "fecha": "26/11/2025",
-      "reflexion": "La confianza no es la ausencia de miedo, sino la presencia de fe, una fe que nace en el corazón y aparece en la acción.\nConfiar es soltar el control y asegurarse firmemente en la esperanza.\nCuando confiamos, encontramos paz no porque todo esté bien, sino porque sabemos que hay un propósito en cada retraso, en cada desvío, en cada silencio.\nConfiar en uno mismo es levantarse de una caída, aprender de los errores y seguir adelante con esperanza.\nConfiar en el hermano es elegir ver el bien antes que el error y caminar juntos, creyendo que Dios también se manifiesta a través del otro.\nConfiar en Dios es caminar con los ojos cerrados, seguros de que cada paso está guiado por su amor."
     }
   ]
 }

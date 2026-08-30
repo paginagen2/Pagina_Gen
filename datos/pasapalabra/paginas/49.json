@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 49,
   "tamanioPagina": 6,
-  "total": 319,
+  "total": 320,
   "siguientePagina": 50,
   "items": [
+    {
+      "id": "pasapalabra_1764205392259",
+      "titulo": "DAR CONFIANZA",
+      "fecha": "26/11/2025",
+      "reflexion": "La confianza no es la ausencia de miedo, sino la presencia de fe, una fe que nace en el corazón y aparece en la acción.\nConfiar es soltar el control y asegurarse firmemente en la esperanza.\nCuando confiamos, encontramos paz no porque todo esté bien, sino porque sabemos que hay un propósito en cada retraso, en cada desvío, en cada silencio.\nConfiar en uno mismo es levantarse de una caída, aprender de los errores y seguir adelante con esperanza.\nConfiar en el hermano es elegir ver el bien antes que el error y caminar juntos, creyendo que Dios también se manifiesta a través del otro.\nConfiar en Dios es caminar con los ojos cerrados, seguros de que cada paso está guiado por su amor."
+    },
     {
       "id": "pasapalabra_1764037610906",
       "titulo": "ESTAR ATENTOS A LO QUE SUCEDE",
@@ -34,12 +40,6 @@
       "titulo": "HECHOS, NO PALABRAS",
       "fecha": "21/11/2025",
       "reflexion": "Las palabras tienen poder; pueden inspirar, consolar y guiar. Pero cuando no van acompañadas de acciones, pierden su fuerza y se vuelven vacías.\nEl verdadero valor del testimonio está en los hechos, pues estos revelan quiénes somos realmente y en qué creemos.\nHablar es fácil; actuar exige coraje, coherencia y compromiso.\nEs en los gestos concretos, en la paciencia, en la solidaridad, en la honestidad y en la perseverancia donde se manifiesta la verdad de las intenciones.\nMás que palabras bonitas, el mundo necesita ejemplos. Que nuestras acciones hablen por nosotros y que nuestras palabras solo confirmen lo que ya se ve en nuestros actos."
-    },
-    {
-      "id": "pasapalabra_1763605720357",
-      "titulo": "AYUDARSE TODO LO POSIBLE",
-      "fecha": "20/11/2025",
-      "reflexion": "La frase de hoy puede tener el sentido de ayudarse a uno mismo, y un sentido más amplio, de ayudarnos mutuamente.\nPuede ser un acto de amor con nosotros mismos y de responsabilidad con nuestra propia vida.\nAyudarse todo lo posible significa cuidar del cuerpo, de la mente y del espíritu. Es permitirse descansar cuando el cansancio pesa, buscar conocimiento cuando la duda aprieta, pedir ayuda cuando la carga es demasiado pesada.\nAyudarnos mutuamente es reconocer que nadie camina solo, que cada gesto de solidaridad es un hilo que teje la red de la vida.\nAyudarse a uno mismo es honrar el don de la vida que Dios nos ha dado; ayudar al prójimo es participar de la obra divina, volviendo concreto el amor de Dios en el mundo; y cuando ambas cosas suceden, la voluntad de Dios prevalece."
     }
   ]
 }

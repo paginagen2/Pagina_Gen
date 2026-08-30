@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 35,
   "tamanioPagina": 6,
-  "total": 319,
+  "total": 320,
   "siguientePagina": 36,
   "items": [
+    {
+      "id": "pasapalabra_1771286785001",
+      "titulo": "CONFIANZA EN DIOS",
+      "fecha": "17/02/2026",
+      "reflexion": "Confiar en Dios es caminar sin tener todas las respuestas, sostenidos por la certeza de que no estamos solos.\nLa confianza nace cuando entregamos el control en sus manos y aceptamos que hay un tiempo más grande que el nuestro.\nConfiar en Dios es descansar el corazón, incluso cuando la mente insiste en preocuparse. Es aprender que la fe no elimina los miedos, sino que nos da la valentía para seguir adelante a pesar de ellos.\nConfiar en Dios es una decisión diaria: elegir creer, elegir esperar, elegir avanzar, sabiendo que Él cuida de cada detalle."
+    },
     {
       "id": "pasapalabra_1771206113095",
       "titulo": "LA PROXIMIDAD CREA EL VERDADERO SENTIDO DE FAMILIA",
@@ -34,12 +40,6 @@
       "titulo": "DEMOS GRACIAS A DIOS POR SUS DONES",
       "fecha": "13/02/2026",
       "reflexion": "La gratitud a Dios nace cuando aprendemos a reconocer sus dones en las pequeñas dádivas del día a día: la vida, la salud, la fe, la familia, el trabajo e incluso las pruebas.\nAgradecer a Dios es un acto de humildad, pues reconocemos que no caminamos solos y que todo lo que tenemos es gracia recibida.\nCuando cultivamos un corazón agradecido, nuestra perspectiva cambia: lo que antes parecía faltar, da lugar al reconocimiento de lo que ya se nos ha concedido.\nIncluso en tiempos difíciles, la gratitud fortalece la esperanza y nos acerca a Dios. Ella nos enseña a confiar, a perseverar y a comprender que sus dones son inagotables."
-    },
-    {
-      "id": "pasapalabra_1770863134311",
-      "titulo": "AMAR A TODOS",
-      "fecha": "12/02/2026",
-      "reflexion": "Amar a todos es uno de los mayores desafíos, porque somos selectivos con quién creemos que merece nuestro amor.\nAmamos con facilidad a quien nos agrada, a quien piensa como nosotros y quien nos retribuye. Sin embargo, el amor verdadero comienza cuando trasciende estos límites y alcanza también a quien nos hiere, a quien no está de acuerdo, a quien es diferente.\nAmar a todos no significa estar de acuerdo con todo ni aceptar las injusticias. Significa comprender que el amor no distingue entre las personas, incluso cuando sus actitudes nos decepcionan.\nCuando amamos a todos, eliminamos el peso del rencor de nuestro corazón. El amor deja de ser solo un sentimiento y se convierte en una práctica de compasión y misericordia."
     }
   ]
 }

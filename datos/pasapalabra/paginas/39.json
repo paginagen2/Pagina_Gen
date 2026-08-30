@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 39,
   "tamanioPagina": 6,
-  "total": 319,
+  "total": 320,
   "siguientePagina": 40,
   "items": [
+    {
+      "id": "pasapalabra_1769311158826",
+      "titulo": "AMAR TAMBIÉN CUANDO SEA DIFÍCIL",
+      "fecha": "25/01/2026",
+      "reflexion": "El desafío de amar surge cuando el amor exige más que sentimientos: cuando exige decisión y paciencia.\nAmar, incluso cuando es difícil, es permanecer abierto cuando la voluntad es cerrarse y aislarse del mundo; es escuchar cuando el cansancio aparece ; es perdonar no porque el otro lo merezca, sino porque el amor libera a quien perdona.\nHay días en que amar significa silencio respetuoso. En otros, firmeza serena. A veces, amar es dar un paso atrás para no herir; otras veces, es dar un paso adelante para no abandonar.\nAmar así nos acerca al corazón de Dios, que ama incondicionalmente, sin cálculos, sin rendirse.\nCuando elegimos amar a pesar de la dificultad, nos convertimos en signos vivos de esperanza en un mundo tan a menudo marcado por la indiferencia."
+    },
     {
       "id": "pasapalabra_1769215694505",
       "titulo": "¡AQUÍ ESTOY!",
@@ -34,12 +40,6 @@
       "titulo": "VIVIR EL DÍA A DÍA CON CONFIANZA",
       "fecha": "20/01/2026",
       "reflexion": "Vivir el día a día con confianza significa aceptar el presente como el único lugar de encuentro con la vida.\nEl momento presente, con sus alegrías y desafíos, es el tiempo que verdaderamente se nos ha dado.\nConfiar en el presente significa creer que, incluso en medio de la incertidumbre, todo lo que hacemos tiene sentido.\nCuando vivimos con confianza el presente, el miedo al mañana, no nos paraliza.\nCada día trae oportunidades de nuevos comienzos y de amor. Al vivir el momento presente con confianza, abrimos espacio a la serenidad y a la valentía necesarias para seguir adelante."
-    },
-    {
-      "id": "pasapalabra_1768782134550",
-      "titulo": "LO QUE VALE ES AMAR",
-      "fecha": "19/01/2026",
-      "reflexion": "El amor da sentido a las decisiones, ilumina nuestros caminos y transforma los gestos sencillos en señales de esperanza.\nEl amor es una decisión diaria. Es elegir la paciencia en lugar de la prisa, el perdón en lugar del resentimiento, el cuidado en lugar de la indiferencia. Cuando amamos, ponemos al otro en el centro y reconocemos su valor.\nTodo lo que no nace del amor se vuelve vacío. El éxito sin amor cansa, las palabras sin amor hieren, las acciones sin amor dividen. El amor, por su parte, construye, sana y une. Es la verdadera medida de lo que hacemos y de lo que somos.\nSeremos recordados por todos, y sobre todo, por Dios, por el amor que transmitimos. Porque, por encima de todo, lo que vale es amar."
     }
   ]
 }

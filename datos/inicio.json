@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-08-29",
-  "generadoEn": "2026-08-29T09:57:57.747Z",
+  "fechaGeneracion": "2026-08-30",
+  "generadoEn": "2026-08-30T09:09:04.659Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1787970167154",
-    "titulo": "LLEVAR LA ESPERANZA A TODAS PARTES",
-    "fecha": "29/08/2026",
+    "id": "pasapalabra_1788054439915",
+    "titulo": "ESTAR DEL LADO DE LOS MÁS VULNERABLES",
+    "fecha": "30/08/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259542100_g01i3vzmu",
-    "titulo": "Las palabras de un padre",
+    "id": "meditaciones_1777259542211_c30ab8558",
+    "titulo": "Si tú sufres",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

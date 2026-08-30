@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 32,
   "tamanioPagina": 6,
-  "total": 319,
+  "total": 320,
   "siguientePagina": 33,
   "items": [
+    {
+      "id": "pasapalabra_1772680292209",
+      "titulo": "RECOMENZAR CON CONFIANZA",
+      "fecha": "05/03/2026",
+      "reflexion": "Podemos tener la confianza como punto de partida. No se trata de empezar a ver si funcionará, se trata de recomenzar creyendo en nosotros mismos.\nRecomenzar no es señal de fracaso, sino de coraje. No es algo que nos sucede, es algo que decidimos. Y de ahí nace la confianza.\nRecomenzar es mirar lo que pasó, comprender dónde estuvo el error, aprender de él y decirnos: “Ahora lo hago diferente”.\nRecomenzar con confianza, no porque hayamos olvidado el pasado, sino, porque aprendimos lo suficiente para no tenerle miedo.\nEn resumen: recomenzar entregándonos con confianza en las manos de Dios."
+    },
     {
       "id": "pasapalabra_1772588002266",
       "titulo": "NO PERMANECER INDIFERENTES ANTE LA POBREZA",
@@ -34,12 +40,6 @@
       "titulo": "QUERER EL BIEN DE LOS DEMÁS",
       "fecha": "28/02/2026",
       "reflexion": "Querer el bien de los demás, es salir de nosotros mismos y permitir que el amor guíe las intenciones de nuestro corazón. No se trata solo de hacer el bien, sino de desear sinceramente que el otro crezca, sea feliz y alcance su máximo potencial, incluso cuando no nos beneficie.\nQuerer el bien de los demás se expresa en acciones sencillas: una palabra de aliento, un gesto de cariño, en la capacidad de alegrarnos por los logros ajenos. A menudo, es también rezar y confiar a Dios lo que no podemos resolver.\nQuien desea el bien de los demás camina en el amor. Y en este camino, descubre que el bien ofrecido nunca se pierde, sino que regresa al corazón como paz y sentido de la vida."
-    },
-    {
-      "id": "pasapalabra_1772155740039",
-      "titulo": "PONER EN DIOS TODAS LAS PREOCUPACIONES",
-      "fecha": "27/02/2026",
-      "reflexion": "Depositar todas nuestras preocupaciones en Dios no significa eludir nuestras responsabilidades, sino reconocer que hay límites para nuestras fuerzas y que no tenemos por qué cargar solos el peso de las dificultades.\nCuando entregamos a Dios aquello que nos preocupa, abrimos espacio para que la paz obre en nosotros.\nLa preocupación excesiva surge del deseo de tenerlo todo bajo control. Al confiar en Dios, aprendemos a soltar las riendas y a creer que Él nos cuida con amor.\nDepositar nuestras preocupaciones en Dios es un ejercicio diario: en la oración, en el silencio del corazón, en la renuncia al miedo. Cada entrega fortalece la esperanza y nos ayuda a vivir el presente con más tranquilidad."
     }
   ]
 }

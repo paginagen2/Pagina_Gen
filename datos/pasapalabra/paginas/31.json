@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 31,
   "tamanioPagina": 6,
-  "total": 319,
+  "total": 320,
   "siguientePagina": 32,
   "items": [
+    {
+      "id": "pasapalabra_1773101208181",
+      "titulo": "BUSCAR SOLUCIONES DE CONCORDIA",
+      "fecha": "10/03/2026",
+      "reflexion": "Buscar soluciones de concordia es elegir el diálogo en lugar de la confrontación, la escucha en lugar de la imposición, construir juntos en lugar de la ruptura. Es reconocer que los conflictos existen, pero no necesariamente crean ganadores y perdedores.\nLa concordia comienza cuando dejamos de defender solo nuestro punto de vista y nos abrimos a comprender el del otro. No significa estar de acuerdo con todo, sino respetar, buscar puntos en común y crear caminos posibles para todos.\nLa concordia es un ejercicio de madurez y humildad. Requiere paciencia, empatía y valentía para ceder cuando sea necesario. Al final, la verdadera victoria no reside en tener razón, sino en preservar las relaciones, restaurar los lazos rotos y promover la paz donde hay división."
+    },
     {
       "id": "pasapalabra_1773101206851",
       "titulo": "BUSCAR SOLUCIONES DE CONCORDIA",
@@ -34,12 +40,6 @@
       "titulo": "CREAR ESPACIOS DE ESPERANZA",
       "fecha": "06/03/2026",
       "reflexion": "Esta frase me lleva a pensar que no solo debo tener esperanza, sino que debo cultivarla. Incluso en medio de las dificultades.\nLa esperanza no es un sentimiento vago y pasivo; es una virtud que debe practicarse a diario.\nLos espacios que puedo crear no son abstractos; son espacios físicos o “emocionales”, donde las personas pueden estar sin miedo: puede ser una conversación con un amigo, una aula escolástica o cualquier ambiente de trabajo, puede ser una comunidad o incluso un simple gesto de cuidado a una persona desconocida.\nCrear espacios de esperanza es transformar la presencia en un refugio seguro, la palabra en una señal de unidad y el silencio en escucha confidente."
-    },
-    {
-      "id": "pasapalabra_1772680292209",
-      "titulo": "RECOMENZAR CON CONFIANZA",
-      "fecha": "05/03/2026",
-      "reflexion": "Podemos tener la confianza como punto de partida. No se trata de empezar a ver si funcionará, se trata de recomenzar creyendo en nosotros mismos.\nRecomenzar no es señal de fracaso, sino de coraje. No es algo que nos sucede, es algo que decidimos. Y de ahí nace la confianza.\nRecomenzar es mirar lo que pasó, comprender dónde estuvo el error, aprender de él y decirnos: “Ahora lo hago diferente”.\nRecomenzar con confianza, no porque hayamos olvidado el pasado, sino, porque aprendimos lo suficiente para no tenerle miedo.\nEn resumen: recomenzar entregándonos con confianza en las manos de Dios."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 41,
   "tamanioPagina": 6,
-  "total": 319,
+  "total": 320,
   "siguientePagina": 42,
   "items": [
+    {
+      "id": "pasapalabra_1768263129273",
+      "titulo": "CUSTODIAR LA ESPERANZA",
+      "fecha": "13/01/2026",
+      "reflexion": "Cuando todo parece oscuro, la esperanza no niega el dolor ni ignora la realidad; prefiere creer que el sufrimiento no tiene la última palabra.\nElla no nace de un optimismo ingenuo, sino de la confianza en que cada paso, por pequeño que sea, puede abrir caminos.\nEn medio de las caídas y decepciones, custodiar la esperanza es recordar que la vida está hecha de recomienzos.\nCustodiar la esperanza también es un compromiso colectivo. Cuando sostenemos la esperanza unos de los otros, creamos vínculos que resisten el desánimo y construimos un futuro juntos.\nLa esperanza es como una llama: debemos protegerla del viento de la indiferencia y alimentarla con actitudes concretas de amor y fe en la perseverancia."
+    },
     {
       "id": "pasapalabra_1768182132521",
       "titulo": "DAR VOZ A LOS POBRES",
@@ -34,12 +40,6 @@
       "titulo": "NO SER INDIFERENTES AL PRÓJIMO",
       "fecha": "08/01/2026",
       "reflexion": "La indiferencia es una forma silenciosa de distanciamiento.\nNo duele con palabras ni con gestos, duele con la ausencia. Y puede ser una de las formas más crueles de abandono.\nCuando elegimos no mirar al otro, no escucharlo, no percibirlo, terminamos borrando una parte de él que existe en nosotros.\nNo ser indiferentes al prójimo no significa resolver todos sus problemas, sino significa no dejar que su dolor y alegría pasen desapercibidos. Es extender una mano cuando es posible, es ofrecer una palabra cuando es necesario, es estar presente con el corazón, incluso cuando no hay mucho que hacer.\nEn cada persona que se cruza en nuestro camino, hay un mundo entero pidiendo ser visto."
-    },
-    {
-      "id": "pasapalabra_1767787659696",
-      "titulo": "SILENCIAR EL ORGULLO",
-      "fecha": "07/01/2026",
-      "reflexion": "El orgullo habla fuerte, exige razón, crea muros, convierte el corazón en un campo de batalla. Nos convence de que ceder es debilidad, escuchar es derrota, cambiar es perder algo de nosotros.\nPero cuando se silencia el orgullo, se abre espacio para algo más grande: para la humildad que aprende, para la sabiduría que escucha, para la paz que llega sin hacer ruido.\nSilenciar el orgullo es descubrir que la verdad no necesita de gritos, que el amor no se sostiene con terquedad y que la grandeza está más en el equilibrio que en la imposición.\nRespirar hondo antes de responder, mirar y saber antes de juzgar, comprender antes de condenar. Eso es tener equilibrio y la ligereza de no tener máscaras, sin orgullo."
     }
   ]
 }
