@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 320,
+  "total": 321,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1778543513463",
+      "titulo": "VIVIR LAS DIFICULTADES CON PACIENCIA",
+      "fecha": "12/05/2026",
+      "reflexion": "La paciencia no elimina las dificultades, pero nos da la serenidad necesaria para superarlas y salir de ellas más fuertes y más sabios.\nLas dificultades son parte del camino de todo ser humano. Aunque causen dolor, cansancio o desánimo, pueden convertirse en oportunidades de crecimiento.\nLa paciencia es una fuerza interior que nos ayuda a sobrellevar los momentos difíciles sin perder la esperanza.\nLa paciencia nos ayuda a esperar, reflexionar y actuar con sabiduría, sin dejar que la ansiedad nos domine.\nQuien ya pasó momentos difíciles aprende a mirar a los demás con más compasión y solidaridad. Cada desafío superado fortalece el corazón y nos prepara para seguir adelante con más valentía y fe."
+    },
     {
       "id": "pasapalabra_1778516506041",
       "titulo": "EMPATIZAR CON LA VIDA DE LOS DEMÁS",
@@ -34,12 +40,6 @@
       "titulo": "ABRIRSE AL AMOR DE DIOS",
       "fecha": "08/05/2026",
       "reflexion": "El amor de Dios siempre está presente, silencioso y fiel, acompañándonos en cada paso de nuestra vida. Sin embargo, muchas veces estamos tan ocupados con preocupaciones, miedos y tareas, que olvidamos abrir nuestro corazón para acoger este amor.\nAbrirnos al amor de Dios es permitir que Él entre en nuestra vida con su luz, su paz y su misericordia. Es reconocer que no estamos solos y que, incluso en las dificultades, hay una presencia que nos sostiene y nos fortalece.\nCuando nos abrimos al amor de Dios, aprendemos a confiar más, a perdonar con más facilidad y a mirar a los demás con más compasión. Este amor transforma nuestro interior y nos inspira a vivir con más esperanza y gratitud."
-    },
-    {
-      "id": "pasapalabra_1778154187669",
-      "titulo": "SER ARTESANOS DE PAZ",
-      "fecha": "07/05/2026",
-      "reflexion": "Así como un artesano trabaja con paciencia, cuidado y dedicación, la paz también es fruto de pequeños gestos hechos con amor y responsabilidad.\nLa paz comienza dentro de cada persona y se refleja a través de acciones sencillas: perdonar, comprender, acoger y promover el bien.\nSer artesano de paz es tener el valor de actuar diferente. Es responder al mal con el bien, transformar los conflictos en oportunidades de reconciliación.\nCada gesto de bondad, cada acto de justicia y cada palabra de aliento son como pequeñas piezas que ayudan a construir un mundo más pacífico.\nQue podamos ser verdaderos artesanos de paz, llevando serenidad, comprensión y amor a todos los que se crucen en nuestro camino."
     }
   ]
 }

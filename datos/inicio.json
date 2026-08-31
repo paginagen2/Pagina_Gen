@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-08-30",
-  "generadoEn": "2026-08-30T09:09:04.659Z",
+  "fechaGeneracion": "2026-08-31",
+  "generadoEn": "2026-08-31T09:37:43.006Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788054439915",
-    "titulo": "ESTAR DEL LADO DE LOS MÁS VULNERABLES",
-    "fecha": "30/08/2026",
+    "id": "pasapalabra_1788144073164",
+    "titulo": "ESCUCHAR",
+    "fecha": "31/08/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259542211_c30ab8558",
-    "titulo": "Si tú sufres",
+    "id": "meditacion_1775880107486",
+    "titulo": "Como si fuera la última vez",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

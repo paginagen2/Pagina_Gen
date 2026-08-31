@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 32,
   "tamanioPagina": 6,
-  "total": 320,
+  "total": 321,
   "siguientePagina": 33,
   "items": [
+    {
+      "id": "pasapalabra_1772763087489",
+      "titulo": "CREAR ESPACIOS DE ESPERANZA",
+      "fecha": "06/03/2026",
+      "reflexion": "Esta frase me lleva a pensar que no solo debo tener esperanza, sino que debo cultivarla. Incluso en medio de las dificultades.\nLa esperanza no es un sentimiento vago y pasivo; es una virtud que debe practicarse a diario.\nLos espacios que puedo crear no son abstractos; son espacios físicos o “emocionales”, donde las personas pueden estar sin miedo: puede ser una conversación con un amigo, una aula escolástica o cualquier ambiente de trabajo, puede ser una comunidad o incluso un simple gesto de cuidado a una persona desconocida.\nCrear espacios de esperanza es transformar la presencia en un refugio seguro, la palabra en una señal de unidad y el silencio en escucha confidente."
+    },
     {
       "id": "pasapalabra_1772680292209",
       "titulo": "RECOMENZAR CON CONFIANZA",
@@ -34,12 +40,6 @@
       "titulo": "NO DESANIMARSE POR LOS FRACASOS",
       "fecha": "01/03/2026",
       "reflexion": "Perder el coraje ante las caídas es comprensible, pero rendirse por culpa de ellas es abandonar nuestro proceso de crecimiento.\nEl coraje no es la ausencia de miedo, sino la decisión de continuar a pesar de él. Los fracasos revelan limitaciones, señalan ajustes necesarios y nos hacen más realistas, humildes y fuertes.\nA quien se reconoce humildemente imperfecto, Dios lo capacita y ayuda a recorrer el camino de la perfección.\nCada intento fallido es como un paso invisible: puede ser que no parezca progreso, pero está mostrando cuál podría ser el siguiente paso.\nCuando el error se convierte en experiencia de aprendizaje, deja de ser motivo de renuncia y pasa a ser parte de la construcción de un proyecto."
-    },
-    {
-      "id": "pasapalabra_1772239188307",
-      "titulo": "QUERER EL BIEN DE LOS DEMÁS",
-      "fecha": "28/02/2026",
-      "reflexion": "Querer el bien de los demás, es salir de nosotros mismos y permitir que el amor guíe las intenciones de nuestro corazón. No se trata solo de hacer el bien, sino de desear sinceramente que el otro crezca, sea feliz y alcance su máximo potencial, incluso cuando no nos beneficie.\nQuerer el bien de los demás se expresa en acciones sencillas: una palabra de aliento, un gesto de cariño, en la capacidad de alegrarnos por los logros ajenos. A menudo, es también rezar y confiar a Dios lo que no podemos resolver.\nQuien desea el bien de los demás camina en el amor. Y en este camino, descubre que el bien ofrecido nunca se pierde, sino que regresa al corazón como paz y sentido de la vida."
     }
   ]
 }

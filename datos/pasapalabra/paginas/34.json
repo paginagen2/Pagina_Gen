@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 34,
   "tamanioPagina": 6,
-  "total": 320,
+  "total": 321,
   "siguientePagina": 35,
   "items": [
+    {
+      "id": "pasapalabra_1771948889703",
+      "titulo": "SONREÍR",
+      "fecha": "24/02/2026",
+      "reflexion": "Sonreír es un gesto sencillo, casi invisible, pero cargado de una fuerza extraordinaria. No cuesta nada, no requiere palabras elaboradas y, sin embargo, puede transformar el estado de ánimo de un día entero.\nUna sonrisa acoge, acerca y comunica lo que el corazón a menudo siente, pero la boca no puede expresar.\nEn medio de las prisas, las preocupaciones y los silencios de la vida diaria, una sonrisa se convierte en un signo de amistad y cariño.\nMe gusta mucho la expresión que usan los personajes de la película Avatar: \"Te veo\", lo que significa: \"Me importas\" o \"Me gustas\". A veces, sonreír es el único consuelo posible, la única luz en un momento oscuro.\nQue podamos ofrecer más sonrisas: sinceras, sencillas y llenas de amor."
+    },
     {
       "id": "pasapalabra_1771806925892",
       "titulo": "EVITAR LOS CHISMORREOS",
@@ -34,12 +40,6 @@
       "titulo": "SER CREATIVOS PARA AMAR AL PRÓJIMO",
       "fecha": "19/02/2026",
       "reflexion": "Amar al prójimo es una actitud que pide creatividad.\nEl amor se revela en la sensibilidad para percibir lo que el otro necesita y en la disposición a actuar de forma sencilla pero verdadera.\nSer creativo en el amor es encontrar nuevas maneras de cuidar, escuchar, ofrecer presencia, respetar límites y tender una mano en el momento oportuno. Es comprender que cada persona siente, sufre y espera de forma única, y que amar es adaptar el corazón a esta diversidad.\nCuando somos creativos en amar, transformamos lo cotidiano en un espacio de acogida. El amor deja de ser automático y pasa a ser intencional, apropiado para cada persona.\nEl amor nos prepara para la vida eterna, cuando será intenso e infinitamente creativo."
-    },
-    {
-      "id": "pasapalabra_1771377738288",
-      "titulo": "HACER DE CADA OBSTÁCULO UN TRAMPOLÍN DE LANZAMIENTO",
-      "fecha": "18/02/2026",
-      "reflexion": "Los obstáculos que se presentan en nuestro camino no solo existen para detenernos, sino para impulsarnos. \nCada dificultad conlleva una lección, cada desafío encierra la oportunidad de hacernos más fuertes, más conscientes y más preparados para lo que viene después.\nCuando vemos el obstáculo como un trampolín, cambiamos la perspectiva: el problema deja de ser un fin y se convierte en un medio. \nEs en el esfuerzo por superar los obstáculos donde maduramos la fe y fortalecemos la esperanza.\nNo progresamos en la vida por la ausencia de obstáculos, sino por el valor de enfrentarlos. Así, cada obstáculo superado nos eleva un poco más, sostenidos por la fe en Dios y la esperanza."
     }
   ]
 }

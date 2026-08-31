@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 4,
   "tamanioPagina": 6,
-  "total": 320,
+  "total": 321,
   "siguientePagina": 5,
   "items": [
+    {
+      "id": "pasapalabra_1786583372904",
+      "titulo": "PERDONAR SINCERAMENTE",
+      "fecha": "13/08/2026",
+      "reflexion": "Jesús nos enseña que el perdón no es solo un gesto hacia la otra persona, sino un camino de liberación personal.\nPerdonar sinceramente no significa olvidar lo sucedido ni fingir que la ofensa no existió. Es un proceso que a menudo necesita renovarse día tras día.\nCuando perdonamos, imitamos a Cristo mismo, quien, en la cruz, rezó: “Padre, perdónalos, porque no saben lo que hacen”.\nVale la pena preguntarse: ¿Hay alguien que aún ocupa un lugar en mi corazón por causa del rencor?\nEl primer paso no es sentir ganas de perdonar, sino pedirle a Dios la gracia de querer perdonar, incluso a aquellos a quienes consideramos enemigos.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1786541298668",
       "titulo": "BUSCAR EL ACUERDO",
@@ -34,12 +40,6 @@
       "titulo": "PERSEVERAR EN EL BIEN",
       "fecha": "08/08/2026",
       "reflexion": "Es un gran desafío seguir haciendo el bien cuando no recibimos elogios, cuando nos enfrentamos a la incomprensión o cuando los resultados parecen tardan en llegar.\nMuchas veces somos tentados a rendirnos delante de las dificultades, del desánimo o de la aparente indiferencia de los demás. Sin embargo, el cristiano no hace el bien esperando recompensa, sino porque desea reflejar el amor de Dios en el mundo.\nJesús fue el mayor ejemplo de esta perseverancia. A lo largo de toda su vida, se dedicó a hacer el bien. En la cruz, llevó al extremo el amor y el perdón y venció el mal con el bien.\nNo permitamos que la maldad ajena endurezca nuestro corazón, ni que el cansancio apague nuestra disposición de servir. Quien persevera en el bien se convierte en un instrumento de paz y un sembrador de esperanza en el mundo."
-    },
-    {
-      "id": "pasapalabra_1786066307975",
-      "titulo": "APOYAR A QUIEN LO NECESITA",
-      "fecha": "07/08/2026",
-      "reflexion": "Dios no nos concede sus dones solo para nuestro beneficio, sino para que, a través de nosotros, su Providencia alcance a quienes atraviesan dificultades.\nApoyar no significa solo ofrecer bienes materiales. Hay personas que necesitan una palabra de esperanza, una visita, un gesto de bienvenida o una oración sincera.\nNo perdamos la oportunidad de ser cada día, instrumentos de la bondad de Dios, recordando que todo lo que hacemos por los más necesitados lo hacemos por Cristo mismo.\nUn abrazo,"
     }
   ]
 }

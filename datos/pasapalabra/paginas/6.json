@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 6,
   "tamanioPagina": 6,
-  "total": 320,
+  "total": 321,
   "siguientePagina": 7,
   "items": [
+    {
+      "id": "pasapalabra_1785642908516",
+      "titulo": "COMPARTIR TUS BIENES",
+      "fecha": "02/08/2026",
+      "reflexion": "Los bienes que poseemos alcanzan su verdadero significado cuando los ponemos al servicio de los demás, ya sean materiales, intelectuales o espirituales.\nEn la parábola de los talentos, Jesús enseña que el siervo fiel es aquél que hace fructificar los dones recibidos. Dios confía a cada persona habilidades y oportunidades para el bien común.\nPoner nuestras posesiones en circulación no significa actuar con irresponsabilidad, sino reconocer que somos administradores y no dueños absolutos de todo lo que recibimos.\nCuanto más compartimos con amor, más nos acercamos al corazón de Cristo, que vino al mundo para servir y entregarse por completo."
+    },
     {
       "id": "pasapalabra_1785604730600",
       "titulo": "PREFERIR LA VERDAD AL CONSENSO",
@@ -34,12 +40,6 @@
       "titulo": "ANUNCIAR EL AMOR DE DIOS",
       "fecha": "28/07/2026",
       "reflexion": "El amor de Dios debe ser anunciado con nuestra propia vida.\nYo descubrí que Dios me ama inmensamente gracias al testimonio de hermanos y hermanas que me amaron desinteresadamente. Vi que la motivación era el amor de Dios.\nPor eso, me sentí impulsado a hacer lo mismo.\nEl amor de Dios se manifiesta en el cuidado, en el perdón, en la paciencia, en la esperanza y en todo lo que ofrecemos a quien está a nuestro lado.\nCuando el amor de Dios es genuino en nosotros, se desborda naturalmente hacia los demás.\nAnunciemos el amor de Dios primero con la vida, después con las palabras."
-    },
-    {
-      "id": "pasapalabra_1785184695057",
-      "titulo": "DEDICAR TIEMPO A LA ORACIÓN",
-      "fecha": "27/07/2026",
-      "reflexion": "La oración no es simplemente un conjunto de palabras repetidas, sino un encuentro sincero con Dios, en el que el alma encuentra paz, guía y fortaleza.\nIncluso en situaciones donde faltan respuestas, la oración mantiene la esperanza y renueva las fuerzas para seguir adelante.\n“Perseveren en la oración” (Col. 4,2). Esta perseverancia no significa rezar solo en los momentos difíciles, sino cultivar una relación constante con Dios.\nLa dedicación a la oración no cambia inmediatamente las circunstancias que nos rodean, pero sí cambia la manera en que afrontamos cada situación.\nIncluso en unos pocos minutos de silencio y sinceridad, la oración puede iluminar nuestro día."
     }
   ]
 }

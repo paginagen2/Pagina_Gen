@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 10,
   "tamanioPagina": 6,
-  "total": 320,
+  "total": 321,
   "siguientePagina": 11,
   "items": [
+    {
+      "id": "pasapalabra_1783645978081",
+      "titulo": "COMPROMETERSE EN FAVOR DE LA UNIDAD",
+      "fecha": "10/07/2026",
+      "reflexion": "La unidad no significa pensar igual ni eliminar opiniones diferentes, sino aprender a convivir con respeto, diálogo y comprensión.\nEsforzarse por la unidad también significa ser un instrumento de paz: evitar las palabras que hieren, fomentar la reconciliación, acoger a quienes piensan diferente y cultivar ambientes armoniosos.\nBuscar la unidad es elegir el amor por encima de las divisiones y comprender que la verdadera grandeza reside en la capacidad de unir, no de separar.\nLa verdadera unidad la hace el mismo Jesús, cuando nos amamos como Él nos amó. Él está en medio de nosotros y nos hace una sola cosa."
+    },
     {
       "id": "pasapalabra_1783566949888",
       "titulo": "SOLIDARIDAD CON QUIEN SUFRE",
@@ -34,12 +40,6 @@
       "titulo": "ESTAR DISPUESTO A ESCUCHAR",
       "fecha": "05/07/2026",
       "reflexion": "La disponibilidad para escuchar es una forma silenciosa de amor.\nEscuchar no se limita a oír palabras, sino que implica establecer una relación con el otro, percibir sus necesidades, sus emociones e incluso lo que no se dice. Requiere humildad y la capacidad de dejar de lado el propio punto de vista para dar espacio al otro.\nEstar dispuesto a escuchar también significa aprender a no juzgar. Muchas veces, estamos listos para responder incluso antes de haber comprendido la realidad.\nLa escucha auténtica genera confianza y abre caminos para la comprensión mutua.\nCultivar esta disposición nos hace más atentos, más humanos y más capaces de construir relaciones genuinas."
-    },
-    {
-      "id": "pasapalabra_1783123321640",
-      "titulo": "REZAR POR LA PAZ",
-      "fecha": "04/07/2026",
-      "reflexion": "Cuando rezamos por la paz, reconocemos que nuestra fuerza por sí sola no basta: necesitamos una luz mayor que guíe nuestras decisiones, nuestras palabras y nuestras acciones. La oración se convierte así en un puente entre nuestro deseo de armonía y el compromiso concreto de vivir en paz cada día.\nRezar por la paz es un ejercicio de humildad y de confianza, que nos recuerda cómo cada pequeño acto de bondad contribuye a construir un mundo más unido.\nLa paz que invocamos comienza en nuestras relaciones cotidianas, en las palabras que elegimos, en el perdón que sabemos ofrecer. Y quizás, precisamente a través de la oración sincera, nosotros mismos podamos convertirnos en la respuesta a la paz que pedimos."
     }
   ]
 }
