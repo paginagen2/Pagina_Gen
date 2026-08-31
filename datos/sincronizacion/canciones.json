@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "canciones",
-  "revision": "1c95bee35c8068ca",
-  "generatedAt": "2026-08-28T05:35:22.915Z",
+  "revision": "b6c5eac0304b81ed",
+  "generatedAt": "2026-08-31T00:22:08.494Z",
   "items": [
     {
       "id": "1ZETSxuNxq3uuiZLWPl0",
@@ -247,6 +247,24 @@
         "_seconds": 1785809367,
         "_nanoseconds": 352000000
       }
+    },
+    {
+      "id": "cancion_1787884340027_3",
+      "tono": "E",
+      "fechaCreacion": {
+        "_seconds": 1787884340,
+        "_nanoseconds": 28000000
+      },
+      "artista": "Música Gen",
+      "categoria": "gen",
+      "cancioneroOrigen": "FDJ 23",
+      "fuente": "",
+      "titulo": "Un río de felicidad",
+      "activa": true,
+      "idioma": "Español",
+      "reproducciones": 0,
+      "estado": "publicado",
+      "letra": "E B\n\nE B\nHay un desierto, que vive junto a\nmí,\nC#m A B\nmiradas tristes, con mucha\nsoledad y desilusión.\n\nE B\nAbro los ojos y me doy cuenta\nque,\nC#m A B\nla respuesta que espera la\nhumanidad\nes vida ya aquí.\n\nC#m C#m B A\nE B\nUn río de felicidad\nC#m C#m B A\nestá llegando hasta aquí,\nE B C#m C#m B A\namor que invade ya la ciudad\nE B\nUn río de felicidad,\nC#m C#m B A\nque construye un mundo que\nC#m E A B\ntrae un futuro de paz y de amor.\n\nE B\n\nE B\nMundo nuevo, mundo de la\nunidad,\nC#m A B\nsí existe, sin detenerse avanza ya\nhacia el futuro\nE B\nGente viva, que ama siempre\nmás,\nC#m A B\nabre una era, una nueva\ncivilización\nentre los hombres.\n\nC#m C#m B A\nE B\nUn río de felicidad\nC#m C#m B A\nestá llegando hasta aquí,\nE B C#m C#m B A\namor que invade ya la ciudad\nE B\nUn río de felicidad,\nC#m C#m B A\nque construye un mundo que\nC#m E A B\ntrae un futuro de paz y de amor.\n\nD A E\nE-es una corriente de unidad,\nD A E\nquee cambia esta humanidad,\nG#m A F#\npor la presencia de Dios aquí,\nA\nde Dios aquí…\n\nE B\nSo let the happy rever Flow\nC#m C#m B A\nAs the reaches you and me\nE B\nIt is a love that invades,\nC#m C#m B A\nthe whole world.\n\nE B\nUn río de felicidad,\nC#m C#m B A\nque construye un mundo que\nC#m E A B\ntrae un futuro de paz y de amor.\n(Bis)\n\n E B E B E"
     },
     {
       "id": "cancion_1787885513642_0",
