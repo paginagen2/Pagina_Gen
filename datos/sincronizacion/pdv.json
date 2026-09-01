@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "pdv",
-  "revision": "ceda6eb966fe3bef",
-  "generatedAt": "2026-08-26T01:48:37.998Z",
+  "revision": "cca66710b73f03dc",
+  "generatedAt": "2026-09-01T14:42:38.327Z",
   "items": [
     {
       "id": "pdv_2026_06",
@@ -343,12 +343,10 @@
     },
     {
       "id": "pdv_2026_09",
-      "version": 2,
-      "slug": "pdv_2026_09",
-      "mes": "Septiembre 2026",
-      "periodo": "2026-09-01",
-      "citaPrincipal": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
-      "citaReferencia": "Rm 13, 10",
+      "fechaPublicacion": {
+        "_seconds": 1788231600,
+        "_nanoseconds": 0
+      },
       "bloques": [
         {
           "tipo": "parrafo",
@@ -394,17 +392,10 @@
         },
         {
           "tipo": "reflexion_autor",
-          "texto": "“El verdadero amor al prójimo no causa ningún daño” –afirma Chiara Lubich–. “Es decir, nos lleva a vivir todos los mandamientos de Dios sin exclusión, ya que el primer objetivo que tienen es llevarnos a evitar todas las formas del mal en que podríamos caer, ya sea contra nosotros mismos o contra nuestros hermanos y hermanas”.",
-          "referencia": "",
-          "titulo": "Escribe Chiara Lubich",
-          "fuente": "Chiara Lubich · Palabra de Vida, septiembre de 1993"
-        },
-        {
-          "tipo": "parrafo",
-          "texto": "Así entendidos, los mandamientos de la Ley se convierten en un don del amor de Dios más que en una obligación: no constriñen nuestro amor sino que lo liberan plenamente.",
+          "texto": "“El verdadero amor al prójimo no causa ningún daño” –afirma Chiara Lubich–. “Es decir, nos lleva a vivir todos los mandamientos de Dios sin exclusión, ya que el primer objetivo que tienen es llevarnos a evitar todas las formas del mal en que podríamos caer, ya sea contra nosotros mismos o contra nuestros hermanos y hermanas”. Así entendidos, los mandamientos de la Ley se convierten en un don del amor de Dios más que en una obligación: no constriñen nuestro amor sino que lo liberan plenamente.",
           "referencia": "",
           "titulo": "",
-          "fuente": ""
+          "fuente": "Chiara Lubich · Palabra de Vida, septiembre de 1993"
         },
         {
           "tipo": "cita_destacada",
@@ -442,20 +433,22 @@
           "fuente": ""
         }
       ],
-      "autor": "Claudio Cianfaglioni y el equipo de la Palabra de Vida",
-      "audioUrl": "",
+      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/08/PdV-Septiembre-2026.mp3",
+      "citaReferencia": "Rm 13, 10",
       "estado": "programado",
+      "autor": "Claudio Cianfaglioni y el equipo de la Palabra de Vida",
+      "periodo": "2026-09-01",
+      "citaPrincipal": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+      "fechaActualizacion": {
+        "_seconds": 1788273108,
+        "_nanoseconds": 233000000
+      },
+      "mes": "Septiembre 2026",
+      "version": 2,
+      "slug": "pdv_2026_09",
       "fechaCreacion": {
         "_seconds": 1787626303,
         "_nanoseconds": 765000000
-      },
-      "fechaActualizacion": {
-        "_seconds": 1787708293,
-        "_nanoseconds": 65000000
-      },
-      "fechaPublicacion": {
-        "_seconds": 1788231600,
-        "_nanoseconds": 0
       }
     }
   ]
