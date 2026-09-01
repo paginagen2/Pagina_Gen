@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 42,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 43,
   "items": [
+    {
+      "id": "pasapalabra_1767937597617",
+      "titulo": "COMPARTIR LOS SUFRIMIENTOS DE QUIEN ESTÁ A NUESTRO LADO",
+      "fecha": "09/01/2026",
+      "reflexion": "Compartir el sufrimiento del otro es una de las formas más profundas de respeto. No es invadir, no es ocupar el lugar de alguien, es acompañarlo.\nHe aprendido que nadie se fortalece viviendo aislado en su propio dolor. La vida, a veces, pesa demasiado para uno solo.\nPor eso, cuando alguien a mi lado sufre, sé que mi papel no es ofrecer respuestas inmediatas, sino ofrecer presencia.\nEl dolor del otro me llama a salir de mí mismo, a ver más allá de lo cómodo, a recordar que el corazón humano también fue hecho para latir también por otros corazones.\nCompartir el sufrimiento es un gesto silencioso, pero lleno de dignidad.\nY, en el fondo, sé que cuando tiendo la mano a alguien que sufre, es a mí mismo a quien estoy ayudando."
+    },
     {
       "id": "pasapalabra_1767831277369",
       "titulo": "NO SER INDIFERENTES AL PRÓJIMO",
@@ -34,12 +40,6 @@
       "titulo": "LA PROXIMIDAD NOS IMPULSA A LA UNION CON DIOS",
       "fecha": "04/01/2026",
       "reflexion": "El amor fraterno no es un camino paralelo al amor de Dios, sino el camino mismo que nos lleva a Él.\nLa convivencia con los hermanos nos desafía, nos moldea y nos purifica. Nos invita a practicar la paciencia, el perdón y la generosidad. Y, en este ejercicio, crecemos interiormente. Descubrimos que la unión con Dios no es solo individual: también es comunitaria, porque Dios está presente en los vínculos que construimos.\nAcoger al hermano es acoger a Dios. Amar al hermano es amar a Dios, y permitir que el corazón se habra al otro, es preparar un espacio donde Dios pueda habitar plenamente.\nPor lo tanto la proximidad con los hermanos, no solo nos humaniza, sino que nos diviniza. Aproximarse al otro, es aproximarse a Dios mismo, que se revela en la comunión, en el compartir y en la unidad."
-    },
-    {
-      "id": "pasapalabra_1767405386168",
-      "titulo": "VALENTÍA PARA CONSTRUIR LA PAZ",
-      "fecha": "03/01/2026",
-      "reflexion": "Construir la paz exige un tipo de valentía especial, que se revela en la vida cotidiana, silenciosa y persistente. Es el coraje de permanecer humano cuando el mundo parece endurecerse; de ​​mantener el corazón abierto cuando las heridas aún duelen; de elegir comprender cuando sería más fácil juzgar.\nLa paz se teje poco a poco, con palabras que no hieren, con actitudes que acogen, con gestos que desarman. Exige fuerza para sostener el diálogo cuando la impaciencia presiona por rupturas.\nLa verdadera valentía para construir la paz consiste en mirar al otro como un hermano, incluso cuando la historia, la cultura o la opinión nos separan. Es ser capaces de sembrar serenidad donde hay conflicto, respeto donde hay intolerancia, reconciliación donde hay heridas."
     }
   ]
 }

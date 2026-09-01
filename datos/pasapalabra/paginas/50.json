@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1763781990328",
+      "titulo": "VIVIR POR LA FRATERNIDAD UNIVERSAL",
+      "fecha": "22/11/2025",
+      "reflexion": "La fraternidad universal es más que un hermoso ideal; exige empatía ante el sufrimiento ajeno, solidaridad en tiempos de crisis y valentía para construir lazos duraderos.\nCuando vivimos para la fraternidad, la humanidad deja de ser un conjunto de individuos aislados y se convierte en una gran familia. Cada gesto de comprensión, perdón y cuidado contribuye a construir un mundo más justo y fraterno.\nEn tiempos de tantas divisiones, vivir para la fraternidad universal es un acto de esperanza. Es creer que el amor es más fuerte que el odio y que la paz es posible cuando nos reconocemos como hermanos, hijos de un mismo Padre."
+    },
     {
       "id": "pasapalabra_1763684595799",
       "titulo": "HECHOS, NO PALABRAS",
@@ -34,12 +40,6 @@
       "titulo": "NO DISCRIMINAR A LAS PERSONAS",
       "fecha": "17/11/2025",
       "reflexion": "Cuando dejamos de hacer distinciones, ya sea por apariencia, estatus social, color, creencias o cualquier otro motivo, abrimos espacio para ver lo que realmente importa: la esencia de cada ser humano.\nLa verdadera grandeza del amor reside en reconocer el valor que hay en cada persona, sin juzgar ni comparar. Cada persona tiene una historia, un aprendizaje y un propósito únicos.\nNo hacer distinciones no significa negar las diferencias, sino aceptarlas como parte de la riqueza de la vida. Es comprender que todos somos diferentes, pero igualmente dignos de amor, respeto y oportunidades.\nEl amor cristiano tiene dos características básicas: amar a todos, es decir, sin hacer distinciones; y amar al prójimo como a uno mismo, que es la medida de la justicia."
-    },
-    {
-      "id": "pasapalabra_1763260246758",
-      "titulo": "DAR AMOR A LOS POBRES",
-      "fecha": "16/11/2025",
-      "reflexion": "Dar amor a los pobres es más que un gesto de caridad; es un acto de justicia, de reconocimiento de la dignidad que habita en cada ser humano.\nEl verdadero amor no se limita a la compasión distante, sino que se hace presencia, cercanía y compartir.\nCuando miramos a los pobres con los ojos del corazón, descubrimos que no son simplemente personas que carecen de algo, sino personas que revelan nuestra propia fragilidad y nuestra dependencia mutua.\nDar amor a los pobres es aprender a reconocer la presencia de Jesús en quienes sufren, en quienes piden, en quienes esperan.\nAmar a los pobres es compartir tiempo, atención y respeto. Es caminar juntos, sin juzgar, reconociendo que todos somos pobres en algo, todos necesitamos amor y cuidado.\nQuien da amor a los pobres, da amor a Dios mismo, que se hizo pobre para enriquecernos con su presencia y su gracia."
     }
   ]
 }

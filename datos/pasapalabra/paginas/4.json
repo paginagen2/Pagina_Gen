@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 4,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 5,
   "items": [
+    {
+      "id": "pasapalabra_1786677379959",
+      "titulo": "ACTUAR EN FAVOR DEL PROGRESO SOCIAL DE LA COMUNIDAD",
+      "fecha": "14/08/2026",
+      "reflexion": "Estamos llamados a contribuir al bien común, poniendo nuestros dones y talentos al servicio de la comunidad. El progreso social comienza cuando cada persona asume su responsabilidad de promover la justicia, la solidaridad, la paz y el respeto a la dignidad de todos.\nUna comunidad crece cuando sus miembros dejan de pensar solo en sí mismos y comienzan a ver al otro como hermano.\nJesús nos enseñó que el verdadero amor se manifiesta en acciones concretas. Él se acercó a los necesitados, acogió a los excluidos y restauró la esperanza. Seguir su ejemplo significa trabajar para que nuestra comunidad sea un lugar donde prevalezcan la fraternidad, la justicia y la cooperación."
+    },
     {
       "id": "pasapalabra_1786583372904",
       "titulo": "PERDONAR SINCERAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "NO TENER MIEDO DE ATREVERSE",
       "fecha": "09/08/2026",
       "reflexion": "El miedo es natural, pero no puede ser mayor que nuestra confianza en Dios. La fe no elimina los riesgos, pero nos da el valor para enfrentarlos.\nEn la parábola de los talentos (cf. Mt 25,14-30), el siervo que enterró el talento se dejó llevar por el miedo. Mientras los demás corrían riesgos, trabajaban y multiplicaban lo que recibieron, él prefirió la seguridad de la inercia y terminó perdiendo la oportunidad de crecer.\nMaría, al oír el anuncio del ángel de que sería la madre del Salvador, no comprendió de inmediato cómo ocurriría este milagro, sin embargo, no dudó en decir que sí: “He aquí la sierva del Señor; hágase en mí según tu palabra” (Lc 1,38).\nQue Dios nos libre del miedo que paraliza y nos dé el valor de atrevernos a hacer el bien siempre."
-    },
-    {
-      "id": "pasapalabra_1786152481805",
-      "titulo": "PERSEVERAR EN EL BIEN",
-      "fecha": "08/08/2026",
-      "reflexion": "Es un gran desafío seguir haciendo el bien cuando no recibimos elogios, cuando nos enfrentamos a la incomprensión o cuando los resultados parecen tardan en llegar.\nMuchas veces somos tentados a rendirnos delante de las dificultades, del desánimo o de la aparente indiferencia de los demás. Sin embargo, el cristiano no hace el bien esperando recompensa, sino porque desea reflejar el amor de Dios en el mundo.\nJesús fue el mayor ejemplo de esta perseverancia. A lo largo de toda su vida, se dedicó a hacer el bien. En la cruz, llevó al extremo el amor y el perdón y venció el mal con el bien.\nNo permitamos que la maldad ajena endurezca nuestro corazón, ni que el cansancio apague nuestra disposición de servir. Quien persevera en el bien se convierte en un instrumento de paz y un sembrador de esperanza en el mundo."
     }
   ]
 }

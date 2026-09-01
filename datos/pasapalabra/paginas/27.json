@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 27,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 28,
   "items": [
+    {
+      "id": "pasapalabra_1775101306072",
+      "titulo": "AMOR MUTUO",
+      "fecha": "02/04/2026",
+      "reflexion": "El amor mutuo exige equilibrio: dar sin anularse y recibir sin volverse dependiente. Es un encuentro de dos libertades que deciden caminar lado a lado con el compromiso de vivir el uno para el otro.\nEl amor mutuo sostiene la comunidad, sana las relaciones y da testimonio al mundo.\nCuando hay amor verdadero entre las personas, la fe deja de ser solo discurso y se convierte en vida. Es a través de este amor que el cristiano se convierte en signo de Dios en el mundo. No por cuánto sabe, sino por cuánto ama.\nEn la vida cristiana, el amor mutuo no es solo una virtud deseable, sino un mandamiento central. Jesús no lo presenta como una sugerencia, sino como una exigencia fundamental para quien desea seguirlo: amar como Él amó."
+    },
     {
       "id": "pasapalabra_1775053538147",
       "titulo": "DIOS CAMINA CON NOSOTROS",
@@ -34,12 +40,6 @@
       "titulo": "TRANSFORMAR LOS MOMENTOS NEGATIVOS EN ALGO POSITIVO",
       "fecha": "29/03/2026",
       "reflexion": "El mejor ejemplo que tenemos es el de Jesús crucificado. Él transformó todo su sufrimiento y muerte en redención y resurrección. Nos amó tanto que dio su propia vida, transformando todo dolor en algo positivo.\nPara nosotros, transformar lo negativo en positivo significa comprender que no siempre podemos cambiar las circunstancias, pero siempre podemos dar un nuevo significado a lo que estamos viviendo.\nMuchas veces, es precisamente a partir de las heridas que nacen las versiones más humanas, fuertes y conscientes de nosotros mismos.\nDelante de cada dolor, podemos decirle a Jesús: Uno mi sufrimiento al tuyo, para que lo transformes en amor."
-    },
-    {
-      "id": "pasapalabra_1774658612132",
-      "titulo": "VIVIR PARA EL OTRO/A",
-      "fecha": "28/03/2026",
-      "reflexion": "Nuestra existencia no es solitaria, es relacional. Fuimos creados para estar en relación unos con los otros.\nVivir para el otro es cambiar el centro de nuestra propia existencia. Es empezar a pensar en lo que el mundo necesita de nosotros. No como una obligación que pesa, sino como una elección consciente que da más sentido a nuestra vida.\nNo se trata de vivir para agradar a los demás, ni de borrar nuestra propia identidad, sino de reconocer que la vida es mejor y más agradable cuando se comparte.\nNadie alcanza la plenitud solo. La felicidad más duradera no viene de la acumulación, sino de la contribución.\nAl cuidar el camino del otro, encontramos silenciosamente, también el nuestro."
     }
   ]
 }

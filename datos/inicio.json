@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-08-31",
-  "generadoEn": "2026-08-31T09:37:43.006Z",
+  "fechaGeneracion": "2026-09-01",
+  "generadoEn": "2026-09-01T08:33:29.305Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,21 +13,21 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788144073164",
-    "titulo": "ESCUCHAR",
-    "fecha": "31/08/2026",
+    "id": "pasapalabra_1788223913505",
+    "titulo": "ACTUAR CON ENTUSIASMO",
+    "fecha": "01/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775880107486",
-    "titulo": "Como si fuera la última vez",
+    "id": "meditaciones_1777055697046_pf6em21yl",
+    "titulo": "Tú eres Todo, yo soy nada",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
-    "id": "pdv_2026_08",
-    "mes": "Agosto 2026",
-    "cita": "Mi alma canta la grandeza del Señor.",
-    "href": "pdv/pdv.html?id=pdv_2026_08"
+    "id": "pdv_2026_09",
+    "mes": "Septiembre 2026",
+    "cita": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+    "href": "pdv/pdv.html?id=pdv_2026_09"
   },
   "canal": null,
   "novedades": []

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 12,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 13,
   "items": [
+    {
+      "id": "pasapalabra_1782604951662",
+      "titulo": "VISITAR A QUIEN ESTÁ ENFERMO",
+      "fecha": "28/06/2026",
+      "reflexion": "Practicar las obras de misericordia puede parecer un gran gesto, pero muchas veces comienza con un acto sencillo, como visitar a una persona enferma.\nNo se trata solo de \"ir a ver a alguien\", sino de estar presente en la fragilidad del otro.\nNo necesito tener palabras perfectas. La verdadera presencia comunica algo que las palabras no pueden decir: \"no estás solo\".\nVisitar a una persona enferma puede ser, en esencia, hacer visible el amor de Dios en el momento en que más lo necesita. Y en estos encuentros, sucede algo silencioso: el dolor se comparte."
+    },
     {
       "id": "pasapalabra_1782571817748",
       "titulo": "ENTRAR EN COMUNIÓN CON EL PADRE",
@@ -34,12 +40,6 @@
       "titulo": "NO DEJARSE ATRAER POR LO EFÍMERO",
       "fecha": "23/06/2026",
       "reflexion": "Vivimos rodeados de estímulos que prometen placer rápido, reconocimiento inmediato y satisfacción momentánea.\nReflexionar sobre esto nos lleva a comprender que no todo lo que nos encanta merece ser perseguido. Lo efímero no es necesariamente malo, pero se vuelve peligroso cuando ocupa el lugar de lo que es esencial.\nTener solo relaciones superficiales, consumir impulsivamente y valorar las apariencias puede alejarnos de lo que realmente importa en nuestras vidas: tener propósito, valores, profundidad y paz interior.\nEn realidad, todo pasa. Solo Dios permanece para siempre. Por lo tanto, hagamos de Él el ideal de nuestras vidas."
-    },
-    {
-      "id": "pasapalabra_1782100401049",
-      "titulo": "REGALAR UN OBJETO QUE APRECIO A QUIEN LO NECESITE",
-      "fecha": "22/06/2026",
-      "reflexion": "Regalar aquello que apreciamos es un ejercicio de desapego y amor.\nMuchas veces, estos objetos representan seguridad, recuerdos o hasta incluso identidad. Al dárselos a alguien que realmente los necesita, damos un paso para que el bien pueda circular.\nNo se trata solo del objeto, sino de reconocer las necesidades del prójimo y responder a ellas con lo mejor que tenemos, incluso con lo que nos cuesta.\nHay una alegría silenciosa que nace de este tipo de donación. No es una alegría basada en la pérdida, sino en la libertad. Al desapegarnos, abrimos espacio en nuestro corazón para la compasión, la gratitud y la confianza en la Providencia."
     }
   ]
 }

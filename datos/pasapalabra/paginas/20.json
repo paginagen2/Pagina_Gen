@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1778635593364",
+      "titulo": "VER LA REALIDAD COMO UN REGALO",
+      "fecha": "13/05/2026",
+      "reflexion": "Todo lo que existe, la vida, las personas, los acontecimientos e incluso los desafíos, pueden ser recibidos como un regalo.\nHay momentos de alegría, pero también de dolor, de incertidumbre y de dificultades. Aun así, la fe nos invita a mirar más profundamente.\nCuando vemos la realidad como un regalo, cambiamos nuestra actitud delante de la vida. En lugar de solo reclamar  lo que nos falta o por lo que no salió como esperábamos, comenzamos a percibir las señales de la presencia de Dios en las pequeñas cosas.\nIncluso en las dificultades, hay un regalo oculto. Muchas veces, es en ellas donde maduramos, fortalecemos nuestra fe y aprendemos a confiar más profundamente en Dios."
+    },
     {
       "id": "pasapalabra_1778543513463",
       "titulo": "VIVIR LAS DIFICULTADES CON PACIENCIA",
@@ -34,12 +40,6 @@
       "titulo": "PONER EN PRÁCTICA LA CARIDAD",
       "fecha": "09/05/2026",
       "reflexion": "La caridad se vuelve genuina cuando se transforma en acción, en gestos concretos de amor y cuidado al prójimo.\nPoner en práctica la caridad es mirar alrededor y darnos cuenta de quién necesita apoyo, atención o una palabra amiga. Muchas veces, pequeños gestos pueden llevar consuelo y esperanza a quien más lo necesita.\nLa caridad también nos invita a actuar con humildad y generosidad. El bien que hacemos, incluso cuando parece pequeño, tiene el poder de difundir bondad.\nCuando vivimos la caridad en nuestro día a día, contribuimos a construir un mundo más fraterno y más humano.\nLa caridad es amor en acción; es un camino concreto de servicio, solidaridad y cuidado para todos."
-    },
-    {
-      "id": "pasapalabra_1778206993291",
-      "titulo": "ABRIRSE AL AMOR DE DIOS",
-      "fecha": "08/05/2026",
-      "reflexion": "El amor de Dios siempre está presente, silencioso y fiel, acompañándonos en cada paso de nuestra vida. Sin embargo, muchas veces estamos tan ocupados con preocupaciones, miedos y tareas, que olvidamos abrir nuestro corazón para acoger este amor.\nAbrirnos al amor de Dios es permitir que Él entre en nuestra vida con su luz, su paz y su misericordia. Es reconocer que no estamos solos y que, incluso en las dificultades, hay una presencia que nos sostiene y nos fortalece.\nCuando nos abrimos al amor de Dios, aprendemos a confiar más, a perdonar con más facilidad y a mirar a los demás con más compasión. Este amor transforma nuestro interior y nos inspira a vivir con más esperanza y gratitud."
     }
   ]
 }

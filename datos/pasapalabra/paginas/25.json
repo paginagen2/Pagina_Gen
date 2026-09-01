@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 25,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 26,
   "items": [
+    {
+      "id": "pasapalabra_1776126177658",
+      "titulo": "COMPARTIR NUESTRO SUPERFLUO",
+      "fecha": "14/04/2026",
+      "reflexion": "Muchas veces acumulamos más de lo que necesitamos: ropa que no usamos, alimentos que sobran, tiempo que desperdiciamos.\nLo que es superfluo para algunos puede ser esencial para otros. Lo que se olvida en un armario puede abrigar a alguien en el frío. El valor que casi no  hace diferencia en nuestro presupuesto puede representar esperanza para quienes atraviesan dificultades.\nCompartir es brindar cuidado, atención y sensibilidad. Al compartir lo que nos sobra, cultivamos la empatía y reducimos las desigualdades.\nCompartir transforma el corazón de quien da: enseña desapego, gratitud y humanidad."
+    },
     {
       "id": "pasapalabra_1776040945717",
       "titulo": "APRENDER DE TODOS",
@@ -34,12 +40,6 @@
       "titulo": "CREER EN EL AMOR",
       "fecha": "09/04/2026",
       "reflexion": "Habrá momentos en que el amor parecerá frágil, casi invisible. Sin embargo, es en esos momentos cuando más se esfuerza, reconstruyendo silenciosamente puentes y restaurando vidas. El verdadero amor no hace ruido, pero transforma todo alrededor.\nCreer en el amor es confiar en que es más fuerte que el odio, más resistente que el dolor, más duradero que cualquier dificultad.\nQue nunca perdamos la capacidad de amar, de empezar de nuevo y de confiar. Porque donde hay amor, hay luz. Y donde hay luz, siempre habrá esperanza.\nEl amor no es una teoría, es práctica. Cuando empezamos a vivir el amor, no solo creemos en él, sino que lo testimoniamos."
-    },
-    {
-      "id": "pasapalabra_1775613087533",
-      "titulo": "AGRADECER LOS DONES RECIBIDOS",
-      "fecha": "08/04/2026",
-      "reflexion": "Cada habilidad, cada sensibilidad, cada virtud, es un don, un talento que poseemos, y todos tienen un propósito. Cuando aprendemos a agradecer, dejamos de compararnos con los demás y comenzamos a valorar quiénes somos y lo que podemos ofrecer al mundo.\nLa gratitud transforma nuestra perspectiva. Comenzamos a percibir las riquezas que ya llevamos dentro. Y cuando usamos nuestros dones para servir, ellos crecen y se multiplican.\nDios distribuye los talentos con sabiduría. Cada persona recibe lo necesario para cumplir su misión. Lo importante no es la cantidad de dones, sino el amor con el que los ponemos al servicio."
     }
   ]
 }

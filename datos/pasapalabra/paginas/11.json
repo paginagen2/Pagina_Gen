@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 11,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 12,
   "items": [
+    {
+      "id": "pasapalabra_1783221022646",
+      "titulo": "ESTAR DISPUESTO A ESCUCHAR",
+      "fecha": "05/07/2026",
+      "reflexion": "La disponibilidad para escuchar es una forma silenciosa de amor.\nEscuchar no se limita a oír palabras, sino que implica establecer una relación con el otro, percibir sus necesidades, sus emociones e incluso lo que no se dice. Requiere humildad y la capacidad de dejar de lado el propio punto de vista para dar espacio al otro.\nEstar dispuesto a escuchar también significa aprender a no juzgar. Muchas veces, estamos listos para responder incluso antes de haber comprendido la realidad.\nLa escucha auténtica genera confianza y abre caminos para la comprensión mutua.\nCultivar esta disposición nos hace más atentos, más humanos y más capaces de construir relaciones genuinas."
+    },
     {
       "id": "pasapalabra_1783123321640",
       "titulo": "REZAR POR LA PAZ",
@@ -34,12 +40,6 @@
       "titulo": "EL VALOR DE DECIR LA VERDAD",
       "fecha": "29/06/2026",
       "reflexion": "Decir la verdad no es solo una cuestión de sinceridad, sino de valentía.\nLa verdad debe ir de la mano con la caridad. La valentía consiste en unir ambas, hablar lo que necesita decirse, pero con sensibilidad y con la intención de construir, no de destruir.\nHay una verdad que debemos decirnos a nosotros mismos: nuestras propias contradicciones. Esta confrontación interna es una de las más difíciles, pero también una de las más liberadoras.\nEn cada situación, podemos preguntarnos con sinceridad: \"¿Qué es verdad aquí?\" y \"¿Cómo puedo expresar eso con amor?\".\nTener el valor de decir la verdad es, en esencia, un acto de fidelidad, a Dios, a los demás y a uno mismo. Y es esta fidelidad, vivida día tras día, la que construye una vida sólida y pacífica.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1782604951662",
-      "titulo": "VISITAR A QUIEN ESTÁ ENFERMO",
-      "fecha": "28/06/2026",
-      "reflexion": "Practicar las obras de misericordia puede parecer un gran gesto, pero muchas veces comienza con un acto sencillo, como visitar a una persona enferma.\nNo se trata solo de \"ir a ver a alguien\", sino de estar presente en la fragilidad del otro.\nNo necesito tener palabras perfectas. La verdadera presencia comunica algo que las palabras no pueden decir: \"no estás solo\".\nVisitar a una persona enferma puede ser, en esencia, hacer visible el amor de Dios en el momento en que más lo necesita. Y en estos encuentros, sucede algo silencioso: el dolor se comparte."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 48,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 49,
   "items": [
+    {
+      "id": "pasapalabra_1764813970705",
+      "titulo": "SEGUIR ADELANTE CON DECISIÓN",
+      "fecha": "04/12/2025",
+      "reflexion": "Decidir es más que desear; es actuar, incluso sin garantías; es confiar en que cada paso, por pequeño que parezca, nos acerca a algo que tiene el sentido de una meta alcanzada: el plan de Dios para nuestra vida.\nAvanzar siempre, no significa nunca mirar atrás, simplemente significa no quedarse anclado en el pasado.\nEl pasado enseña, pero es el presente el que construye el futuro.\nEl mundo se abre a quien camina con un corazón decidido y una mirada confiada en la salvación que viene de Dios.\nY quien no se rinde, tarde o temprano, descubre que: el camino se hace al andar. Y siempre comienza con la decisión de dar el primer paso."
+    },
     {
       "id": "pasapalabra_1764724504208",
       "titulo": "ENJUGAR LAS LÁGRIMAS",
@@ -34,12 +40,6 @@
       "titulo": "COMPARTIR NUESTRAS EXPERIENCIAS",
       "fecha": "29/11/2025",
       "reflexion": "“Brille delante de los hombres la luz que hay en ustedes, para que vean sus buenas obras y glorifiquen al Padre que está en los cielos” (Cf. Mt 5,16)\nCada gracia recibida, cada lucha vencida por la fe y cada encuentro con el Señor son señales concretas del amor de Dios que obra en nosotros. Cuando compartimos estas experiencias, ayudamos a otros a reconocer que Dios también actúa en sus vidas.\nEl testimonio personal es una forma de evangelización silenciosa, pero profunda. El testimonio no impone, inspira; no predica con palabras, sino con actitudes y autenticidad. Al narrar lo que Cristo ha obrado en nosotros, abrimos puertas para que otros sientan el deseo de experimentar el mismo amor transformador.\nCompartir nuestras experiencias es también un acto de gratitud. Es reconocer que lo que hemos vivido no es solo para nosotros, sino para la edificación de la comunidad y el fortalecimiento de todos."
-    },
-    {
-      "id": "pasapalabra_1764299175959",
-      "titulo": "INCREMENTAR LA CULTURA DEL DAR",
-      "fecha": "28/11/2025",
-      "reflexion": "Vivimos en un mundo marcado por el individualismo. La “cultura del dar” surge como una invitación a recuperar los valores de la solidaridad, la colaboración y la empatía.\nPotenciar esta cultura implica comprender que el conocimiento, los recursos y las oportunidades no pierden valor cuando son compartidos; al contrario, se multiplican.\nEn todos los ambientes, compartir genera un sentido de comunidad.\nCultivar esta mentalidad exige desprendimiento y generosidad, reconociendo que todos tienen algo que ofrecer y algo que recibir.\nPequeños gestos, como compartir experiencias, ayudar a alguien o donar lo que no usamos, son señales de comunión fraterna.\nEn resumen, potenciar la cultura del compartir es cuando lo \"mío\" se convierte en \"nuestro\"."
     }
   ]
 }

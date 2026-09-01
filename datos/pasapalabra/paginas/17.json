@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 17,
   "tamanioPagina": 6,
-  "total": 321,
+  "total": 322,
   "siguientePagina": 18,
   "items": [
+    {
+      "id": "pasapalabra_1780200139903",
+      "titulo": "EL AMOR UNE",
+      "fecha": "31/05/2026",
+      "reflexion": "Cuando hay amor sincero entre las personas, nace la comprensión, crece el respeto y florece la unidad. Incluso en las diferencias, el amor encuentra caminos para unir y acortar las distancias.\nAmar es salir de uno mismo, acoger al otro tal como es y buscar su bienestar. Este tipo de amor genera reciprocidad.\nEl amor puede ser un instrumento de unión para todos, cuando las palabras nos acercan, las acciones construyen relaciones y el corazón siempre está abierto al diálogo.\nUn amor vivido con lealtad se convierte en un hilo invisible que entrelaza nuestras historias. Nuestras vidas se unen más profundamente y descubrimos que el amor es el camino más seguro hacia la verdadera unidad."
+    },
     {
       "id": "pasapalabra_1780112034566",
       "titulo": "DIRIGIRSE A DIOS",
@@ -34,12 +40,6 @@
       "titulo": "RESALTAR AL OTRO/A",
       "fecha": "26/05/2026",
       "reflexion": "“Porque el que se ensalza será humillado, y el que se humilla será ensalzado. (Lc. 14,11)\nResaltar a los demás es un acto silencioso de grandeza. Es elegir iluminar en lugar de competir, reconocer en lugar de menospreciar, valorar en lugar de luchar por el protagonismo.\nEl brillo del otro no apaga el nuestro; al contrario, amplía el entorno donde todos pueden crecer.\nResaltar al otro es tener la seguridad suficiente para no necesitar siempre ser el centro de atención.\nQuien aprende a resaltar a los demás descubre que el liderazgo no se trata de destacarse, sino de visibilizar a los demás."
-    },
-    {
-      "id": "pasapalabra_1779672032550",
-      "titulo": "SER MADRES/PADRES DE TODOS",
-      "fecha": "25/05/2026",
-      "reflexion": "“A Timoteo, su verdadero hijo en la fe” (1Tim. 1,2)\nEste saludo de Pablo al comienzo de su primera carta a Timoteo revela su celo como predicador.\nAsume la paternidad espiritual de las personas a quienes proclama a Cristo y las acompaña en su crecimiento y fortalecimiento en la fe.\nSer padre o madre va más allá de generar a un hijo. Muchas veces, significa acoger, guiar, cuidar y amar a las personas que Dios pone en nuestro camino.\nCuando abrimos el corazón para cuidar del prójimo, reflejamos el amor de Dios mismo. Así, nos convertimos en familia unos para los otros.\nSer padre o madre espiritual significa: acompañar a alguien en su caminar con Dios, enseñar y compartir la Palabra, aconsejar con amor y sabiduría, orar e interceder por la vida del otro, demostrando cuidado y aceptación."
     }
   ]
 }
