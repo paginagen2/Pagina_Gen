@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 41,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 42,
   "items": [
+    {
+      "id": "pasapalabra_1768525773731",
+      "titulo": "PEQUEÑOS GESTOS PARA UN MUNDO UNIDO",
+      "fecha": "16/01/2026",
+      "reflexion": "En un mundo marcado por las diferencias, son los pequeños gestos los que construyen puentes invisibles entre las personas. La unidad no nace de grandes discursos, sino de la decisión diaria de respetar, acoger y cuidar.\nCuando cada uno hace su parte, aunque parezca pequeña, el todo se fortalece. Así, los gestos sencillos suman y revelan una verdad esencial: la humanidad avanza hacia el bien cuando camina unida.\nUn mundo unido se construye a partir de pequeños gestos: de respeto en las palabras, de empatía en las actitudes y de solidaridad en las decisiones diarias. Es así, paso a paso, que la unidad deja de ser un ideal lejano y se convierte en un camino vivido por todos."
+    },
     {
       "id": "pasapalabra_1768437218666",
       "titulo": "TRABAJAR POR LOS VALORES",
@@ -34,12 +40,6 @@
       "titulo": "SER SOLIDARIOS CON TODOS",
       "fecha": "11/01/2026",
       "reflexion": "Ser solidario con todos significa comprender que el dolor del otro también nos importa, incluso cuando no lo comprendemos del todo o cuando parece lejano de nuestra realidad.\nLa solidaridad se revela en palabras que reconfortan y en actitudes que incluyen.\nSer solidario es rechazar la indiferencia, es dejar el corazón sensible al sufrimiento humano, sea este cercano o invisible.\nCuando somos solidarios, aprendemos que la verdadera fuerza nace del cuidado mutuo.\nHay un solo cuerpo y un solo espíritu (cf. Ef 4,4). Por lo tanto, vivir la solidaridad es reconocer que somos parte unos de los otros, y que el bien de uno, solo encuentra sentido cuando se convierte en el bien de todos."
-    },
-    {
-      "id": "pasapalabra_1768003911071",
-      "titulo": "COMUNICAR LA ALEGRÍA",
-      "fecha": "10/01/2026",
-      "reflexion": "COMUNICAR LA ALEGRÍA \nLa alegría que se comunica nace de la esperanza, de la confianza de que la vida tiene sentido y de que el bien puede florecer incluso en las circunstancias más sencillas.\nCuando compartimos la alegría, ofrecemos al otro un espacio para respirar.\nUn gesto de acogida, una palabra sincera, una mirada atenta pueden renovar las fuerzas del cansancio. Esta alegría se ofrece con humildad, respetando el tiempo y el dolor de cada uno.\nComunicar alegría es también un acto de responsabilidad cristiana: reconocer que nuestras actitudes influyen en el ambiente que nos rodea.\nComunicar alegría es un servicio silencioso. Es sembrar luz sin esperar aplausos, confiando en que, en algún momento, esta luz, que viene de Dios, encontrará un corazón dispuesto a recibirla."
     }
   ]
 }

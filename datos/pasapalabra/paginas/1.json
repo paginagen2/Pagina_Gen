@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1788310592509",
+      "titulo": "SER SERVICIALES",
+      "fecha": "02/09/2026",
+      "reflexion": "Ponernos al servicio de los demás es una de las maneras más hermosas de demostrar amor. Cuando ofrecemos nuestro tiempo, nuestros dones y nuestra atención al prójimo, contribuimos a hacer del mundo un lugar más humano y fraterno.\nServir no se limita a hacer grandes gestos. A menudo, una palabra de consuelo o una simple ayuda son suficientes para brindar un servicio a alguien.\nQuien vive el espíritu de servicio descubre que, al cuidar de los demás, también fortalece su propio corazón. El servicio prestado nos acerca a Dios y nos enseña a amar sin esperar nada a cambio.\n“Pongan al servicio de los demás los dones que han recibido, como buenos administradores de la multiforme gracia de Dios.” (1P 4,10)"
+    },
     {
       "id": "pasapalabra_1788223913505",
       "titulo": "ACTUAR CON ENTUSIASMO",
@@ -34,12 +40,6 @@
       "titulo": "MENOS PALABRAS, MÁS HECHOS",
       "fecha": "28/08/2026",
       "reflexion": "Es fácil prometer, opinar, justificar o declarar buenas intenciones. Sin embargo, el verdadero carácter no se revela por lo que decimos, sino por lo que hacemos.\nUn gesto de cariño vale más que un discurso sobre el amor. Una decisión honesta habla más alto que innumerables explicaciones.\nJesús enseñó que un árbol se conoce por sus frutos. Esto nos recuerda que la autenticidad de la fe y de la vida se manifiesta en acciones concretas.\nEs mejor hablar menos y actuar más, demostrando amor, porque son las acciones las que dan credibilidad a las palabras y revelan quiénes realmente somos."
-    },
-    {
-      "id": "pasapalabra_1787794601652",
-      "titulo": "CUIDAR DE QUIENES NOS HAN SIDO CONFIADOS",
-      "fecha": "27/08/2026",
-      "reflexion": "Ya sea en la familia, entre amigos, en el trabajo o en la comunidad, hay personas que, por alguna razón, depositan su confianza en nosotros.\nCuidar significa crear un ambiente seguro donde la persona pueda desarrollar sus talentos, afrontar desafíos y saber que no estará sola cuando surjan dificultades.\nEncomendar a nuestros seres queridos al cuidado de Dios nos recuerda que existe un Guardián más grande, cuya sabiduría y amor son superiores a los nuestros.\nQue tengamos un corazón atento y generoso para cuidar de las personas que Dios pone en nuestro camino."
     }
   ]
 }

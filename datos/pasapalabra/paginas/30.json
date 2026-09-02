@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 30,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 31,
   "items": [
+    {
+      "id": "pasapalabra_1773705750298",
+      "titulo": "CUIDAR LA CASA COMÚN",
+      "fecha": "17/03/2026",
+      "reflexion": "La Tierra es un lugar sagrado donde la vida se manifiesta en todas sus formas. Estamos invitados a no explotarla sin límites, sino a protegerla, preservarla y respetarla.\nCuidar de la casa común es también un acto de amor al prójimo, especialmente a los más pobres, que siempre son los más afectados por las crisis ambientales.\nLa ecología comienza en el corazón: en la forma en que miramos el mundo.\nPodemos ser guardianes del planeta y transformar nuestra forma de vivir en un testimonio de que es posible habitar la Tierra sin destruirla, haciendo de ella un espacio de vida, justicia y esperanza."
+    },
     {
       "id": "pasapalabra_1773622169942",
       "titulo": "APOYARNOS MUTUAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "ENTABLAR UN DIÁLOGO",
       "fecha": "13/03/2026",
       "reflexion": "Entablar un diálogo es más que simplemente intercambiar palabras; se trata de construir vínculos entre personas, ideas y sentimientos. El diálogo exige apertura interior, disposición para escuchar y humildad para reconocer que el otro siempre tiene algo que compartir.\nEl verdadero diálogo no se trata de convencer ni imponer, sino de comprender. Al dialogar, creamos espacios donde las diferencias no se convierten en conflictos, sino en oportunidades de entendimiento mutuo.\nEn un mundo marcado por la polarización, entablar el diálogo significa sembrar la paz."
-    },
-    {
-      "id": "pasapalabra_1773279147517",
-      "titulo": "NUTRIR EL ESPÍRITU",
-      "fecha": "12/03/2026",
-      "reflexion": "Nutrir el espíritu es cuidar nuestra parte genuina, esa que no se conforma solo con los logros externos, sino que busca significado, paz y verdad. Es reservar tiempo para el silencio, para la escucha interior, para aquello que nos reconecta con lo esencial, con lo divino.\nNutrir el espíritu es elegir lo que ponemos en nuestro interior: pensamientos, lecturas, conversaciones, ambientes.\nCuando nutrimos el espíritu, nos volvemos más completos, más conscientes y más capaces de amar.\nEs en este cuidado interior donde encontramos fuerza para afrontar los desafíos, serenidad para lidiar con dolores y esperanza para seguir adelante."
     }
   ]
 }

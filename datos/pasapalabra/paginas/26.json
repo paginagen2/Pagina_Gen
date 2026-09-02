@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 26,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 27,
   "items": [
+    {
+      "id": "pasapalabra_1775697864742",
+      "titulo": "CREER EN EL AMOR",
+      "fecha": "09/04/2026",
+      "reflexion": "Habrá momentos en que el amor parecerá frágil, casi invisible. Sin embargo, es en esos momentos cuando más se esfuerza, reconstruyendo silenciosamente puentes y restaurando vidas. El verdadero amor no hace ruido, pero transforma todo alrededor.\nCreer en el amor es confiar en que es más fuerte que el odio, más resistente que el dolor, más duradero que cualquier dificultad.\nQue nunca perdamos la capacidad de amar, de empezar de nuevo y de confiar. Porque donde hay amor, hay luz. Y donde hay luz, siempre habrá esperanza.\nEl amor no es una teoría, es práctica. Cuando empezamos a vivir el amor, no solo creemos en él, sino que lo testimoniamos."
+    },
     {
       "id": "pasapalabra_1775613087533",
       "titulo": "AGRADECER LOS DONES RECIBIDOS",
@@ -34,12 +40,6 @@
       "titulo": "NO DESANIMARSE",
       "fecha": "04/04/2026",
       "reflexion": "Cuando todo parece abrumador, es importante recordar que el desánimo no es señal de fracaso; es una invitación a hacer una pausa. Hacer una pausa no es rendirse; es respirar, reorganizarse y continuar con mayor consciencia.\nCada pausa que hacemos nos aporta información: qué salió bien, qué se puede ajustar, qué se puede descartar.\nEn lugar de convertir los errores en una sentencia de desánimo, veámos en él un mapa: nos muestra dónde hemos estado y hacia dónde debemos cambiar el rumbo.\nPerseverar no significa hacerlo todo a la vez; significa seguir levantándose, volver a empezar, aprender y adaptarse, aunque sea poco a poco.\nNo desanimarse significa depositar toda nuestra esperanza en el Dios de lo imposible, que siempre está a nuestro lado."
-    },
-    {
-      "id": "pasapalabra_1775186356604",
-      "titulo": "¡AQUÍ ESTOY!",
-      "fecha": "03/04/2026",
-      "reflexion": "Decirle a Dios “Aquí estoy” es una actitud interior de constante disponibilidad. Es reconocer que la vida no nos pertenece enteramente, sino que es un don, una misión y una respuesta.\nNo cansarse de repetir “Aquí estoy” significa renovar esta disponibilidad todos los días.\nEste “Aquí estoy” no se vive solo en los grandes momentos, sino también en los pequeños actos de fidelidad: en el trabajo bien hecho, en el amor vivido con paciencia, en el servicio silencioso, en la perseverancia en medio de las dificultades.\nRepetir “Aquí estoy” es, en el fondo, repetir: “Señor, cuenta conmigo, incluso con mis debilidades”. Y es precisamente ahí donde Dios actúa con mayor intensidad: no en la perfección, sino en la disponibilidad."
     }
   ]
 }

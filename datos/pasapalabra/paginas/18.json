@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 18,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 19,
   "items": [
+    {
+      "id": "pasapalabra_1779769468919",
+      "titulo": "RESALTAR AL OTRO/A",
+      "fecha": "26/05/2026",
+      "reflexion": "“Porque el que se ensalza será humillado, y el que se humilla será ensalzado. (Lc. 14,11)\nResaltar a los demás es un acto silencioso de grandeza. Es elegir iluminar en lugar de competir, reconocer en lugar de menospreciar, valorar en lugar de luchar por el protagonismo.\nEl brillo del otro no apaga el nuestro; al contrario, amplía el entorno donde todos pueden crecer.\nResaltar al otro es tener la seguridad suficiente para no necesitar siempre ser el centro de atención.\nQuien aprende a resaltar a los demás descubre que el liderazgo no se trata de destacarse, sino de visibilizar a los demás."
+    },
     {
       "id": "pasapalabra_1779672032550",
       "titulo": "SER MADRES/PADRES DE TODOS",
@@ -34,12 +40,6 @@
       "titulo": "ANUNCIAR EL AMOR DE DIOS.",
       "fecha": "21/05/2026",
       "reflexion": "Muchas veces pensamos que evangelizar se reduce a usar solo palabras, pero el verdadero anuncio comienza con nuestras acciones. Cada gesto sencillo puede convertirse en un mensaje vivo del amor de Dios.\nQuien experimenta este amor siente el deseo natural de compartirlo.\nCuando alguien vive así, su propia vida se convierte en un testimonio: en casa, en el trabajo, en la sociedad. Y muchas veces, la vida de quien ama habla más que mil palabras.\nAnunciar el amor de Dios es permitir que el amor que recibimos de Él pase a través de nosotros para alcanzar a otras personas."
-    },
-    {
-      "id": "pasapalabra_1779241742389",
-      "titulo": "SER AUTÉNTICOS",
-      "fecha": "20/05/2026",
-      "reflexion": "En un mundo donde muchas veces somos presionados a seguir normas, agradar a los demás u ocultar nuestras verdaderas opiniones, la autenticidad se convierte en un acto de libertad interior.\nSer auténtico significa reconocer nuestras cualidades, aceptar nuestras limitaciones y actuar de acuerdo con nuestros valores.\nCuando una persona es auténtica, sus palabras, actitudes y sentimientos están en armonía.\nLa autenticidad crea relaciones más genuinas, basadas en la confianza y el respeto, sin máscaras que oculten quiénes somos realmente.\nCada persona es única. Y cuando tenemos el valor de vivir esa singularidad, mostramos al mundo nuestra verdadera esencia y somos auténticos."
     }
   ]
 }

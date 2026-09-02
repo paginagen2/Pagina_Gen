@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 32,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 33,
   "items": [
+    {
+      "id": "pasapalabra_1773019820281",
+      "titulo": "NO A LA CULTURA DEL DESCARTE",
+      "fecha": "09/03/2026",
+      "reflexion": "Decir no a la cultura del descarte es afirmar con acciones concretas, que nadie debe ser discriminado. Es reconocer que cada persona posee un valor que no puede ser ignorado ni descartado.\nLa cultura de la exclusión se manifiesta cuando cerramos los ojos, cuando juzgamos antes de conocer, cuando construimos muros entre nosotros. Ella crece en el silencio cómplice y en la indiferencia disfrazada de normalidad.\nOptar por el camino opuesto es practicar la inclusión en la vida cotidiana: escuchar a quienes no tienen voz, acoger a quienes fueron heridos, dar espacio a quienes siempre fueron marginados.\nNo a la cultura del descarte es, en el fondo, un sí radical a la dignidad humana y a la construcción de una sociedad más justa, sensible y fraterna."
+    },
     {
       "id": "pasapalabra_1772932785405",
       "titulo": "EXPLORAR NUEVAS VÍAS DE PROXIMIDAD",
@@ -34,12 +40,6 @@
       "titulo": "DEJARSE  TRANSFORMAR POR LA PRESENCIA DE DIOS",
       "fecha": "03/03/2026",
       "reflexion": "Muchas veces deseamos que Dios cambie las circunstancias, pero Él quiere, sobre todo, cambiar nuestros corazones. Su presencia reorganiza nuestras vidas desde dentro.\nCuando nos presentamos ante Dios con sinceridad, nuestros pensamientos se ajustan, el orgullo se debilita y los miedos desaparecen. Nada de esto ocurre de inmediato, pero es profundo.\nLa presencia de Dios no nos transforma por imposición, sino por convivencia. Así como cuando convivimos con alguien y terminamos asemejándonos a él, quien camina con Dios aprende a ver como Él ve, a amar como Él ama y a actuar como Él actúa.\nDejarse transformar es confiar en los planes de Dios y entregarse en sus manos."
-    },
-    {
-      "id": "pasapalabra_1772416984914",
-      "titulo": "RECOMENZAR",
-      "fecha": "02/03/2026",
-      "reflexion": "En la práctica, casi siempre recomenzar es un pequeño pensamiento diferente, una elección más consciente, un paso firme en una nueva dirección.\nRecomenzar es aceptar que fallamos, que nos cansamos, que cometimos errores y, aun así, elegir continuar.\nNo es repetir el mismo camino, sino seguir avanzando de una manera diferente.\nQuien recomienza no vuelve al punto de partida. Regresa con experiencia y lecciones aprendidas.\nLo que salió mal puede convertirse en la motivación para lo que aún puede salir bien."
     }
   ]
 }

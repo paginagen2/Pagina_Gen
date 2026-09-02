@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 25,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 26,
   "items": [
+    {
+      "id": "pasapalabra_1776212249322",
+      "titulo": "LLENAR LA JORNADA DE ACCIONES DE SOLIDARIDAD",
+      "fecha": "15/04/2026",
+      "reflexion": "Cada amanecer es una página en blanco que recibimos, y que podemos llenarla con gestos de solidaridad que transforman el día en algo más grande que nosotros mismos.\nLa solidaridad se manifiesta en ofrecer ayuda sin que nos la pidan, en compartir lo que tenemos y en pequeñas acciones que, sumadas, crean un ambiente más humano y acogedor a nuestro alrededor.\nCuando elegimos hacer el bien, nuestro corazón se expande, nuestra conciencia se ilumina y el día cobra sentido. La solidaridad rompe con el individualismo y nos recuerda que formamos parte de una misma familia humana.\nQue hoy, y cada nuevo día, podamos preguntarnos: \"¿Qué bien puedo hacer ahora?\"\nY que la respuesta se transforme en acción."
+    },
     {
       "id": "pasapalabra_1776126177658",
       "titulo": "COMPARTIR NUESTRO SUPERFLUO",
@@ -34,12 +40,6 @@
       "titulo": "LLEVAR LA PAZ A NUESTROS AMBIENTES",
       "fecha": "10/04/2026",
       "reflexion": "La paz comienza en nuestro interior y se extiende a través de nuestras palabras, decisiones y reacciones.\nEn casa, en el trabajo, en la comunidad, siempre habrá desafíos, opiniones divergentes y momentos de tensión. Es precisamente ahí donde estamos llamados a ser instrumentos de serenidad.\nCada ambiente lleva consigo la energía de quienes lo frecuentan. Cuando elegimos actuar con calma y amabilidad, contribuimos a crear un espacio más ligero, más humano y más acogedor.\nQue nuestras palabras sean semillas de armonía y nuestras acciones, reflejo de un corazón sereno. Porque cuando la paz habita en nosotros, ella naturalmente llega a quienes nos rodean."
-    },
-    {
-      "id": "pasapalabra_1775697864742",
-      "titulo": "CREER EN EL AMOR",
-      "fecha": "09/04/2026",
-      "reflexion": "Habrá momentos en que el amor parecerá frágil, casi invisible. Sin embargo, es en esos momentos cuando más se esfuerza, reconstruyendo silenciosamente puentes y restaurando vidas. El verdadero amor no hace ruido, pero transforma todo alrededor.\nCreer en el amor es confiar en que es más fuerte que el odio, más resistente que el dolor, más duradero que cualquier dificultad.\nQue nunca perdamos la capacidad de amar, de empezar de nuevo y de confiar. Porque donde hay amor, hay luz. Y donde hay luz, siempre habrá esperanza.\nEl amor no es una teoría, es práctica. Cuando empezamos a vivir el amor, no solo creemos en él, sino que lo testimoniamos."
     }
   ]
 }

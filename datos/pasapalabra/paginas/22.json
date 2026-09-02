@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 22,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 23,
   "items": [
+    {
+      "id": "pasapalabra_1777767283628",
+      "titulo": "JUNTOS SOMOS MÁS FUERTES",
+      "fecha": "03/05/2026",
+      "reflexion": "Desde los primeros pasos de la vida, aprendemos que necesitamos unos de los otros. Cuando caminamos juntos, compartimos fuerzas, dividimos las cargas y multiplicamos las alegrías.\nLo que parece imposible para una persona muchas veces se hace posible cuando hay colaboración, apoyo y amistad. Cada persona posee diferentes talentos, experiencias y perspectivas, y cuando estos dones se unen, forman una fuerza mucho mayor.\nEn los momentos difíciles de la vida, es la presencia del otro que nos da fuerzas. Por lo tanto, vale la pena recordar: cuando elegimos caminar juntos, descubrimos que, en efecto, juntos somos más fuertes."
+    },
     {
       "id": "pasapalabra_1777687378538",
       "titulo": "DAR FORMA A LA ESPERANZA",
@@ -34,12 +40,6 @@
       "titulo": "VIVIR LA MANSEDUMBRE",
       "fecha": "28/04/2026",
       "reflexion": "Vivir la mansedumbre es elegir la fuerza que no hace ruido. Es comprender que no necesitamos responder a todo con dureza.\nLa mansedumbre no es debilidad, es equilibrio. Es la capacidad de mantener el corazón sereno incluso cuando el mundo a nuestro alrededor está agitado.\nSer manso es responder con calma donde se espera agresividad, es actuar con sabiduría donde muchos reaccionarían impulsivamente.\nLa mansedumbre nace de la confianza interior, cuando sabemos quiénes somos y no necesitamos demostrar nada a nadie.\nVivir con mansedumbre es permitir que la gentileza guíe nuestras palabras y acciones. Es comprender que es posible ser fuerte sin perder la dulzura.\nEn el silencio de la mansedumbre, encontramos una de las formas más elevadas de vivir: la de permanecer siempre en paz.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1777253818903",
-      "titulo": "EL AMOR HACE SUPERAR LA FRIALDAD DEL CORAZÓN",
-      "fecha": "27/04/2026",
-      "reflexion": "El amor no llega imponiendo cambios; llega dando calor, poco a poco, a aquello que estaba endurecido por el miedo, por el dolor o por las decepciones.\nUn corazón frío no nació así; aprendió a protegerse. Y es precisamente el amor el que enseña a confiar nuevamente.\nEl amor quiebra barreras invisibles, disuelve rencores y reaviva sentimientos que parecían apagados. No ignora el dolor, sino que lo abraza y lo transforma.\nCuando el amor es verdadero, no solo da calor al corazón, sino que lo renueva.\nLa frialdad puede ser un escudo, pero el amor es el coraje de bajar ese escudo y permitir que el corazón se abra a todos."
     }
   ]
 }

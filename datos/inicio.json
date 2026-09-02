@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-01",
-  "generadoEn": "2026-09-01T08:33:29.305Z",
+  "fechaGeneracion": "2026-09-02",
+  "generadoEn": "2026-09-02T07:50:45.280Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788223913505",
-    "titulo": "ACTUAR CON ENTUSIASMO",
-    "fecha": "01/09/2026",
+    "id": "pasapalabra_1788310592509",
+    "titulo": "SER SERVICIALES",
+    "fecha": "02/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777055697046_pf6em21yl",
-    "titulo": "Tú eres Todo, yo soy nada",
+    "id": "meditacion_1777044202868",
+    "titulo": "Solamente",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

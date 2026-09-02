@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 11,
   "tamanioPagina": 6,
-  "total": 322,
+  "total": 323,
   "siguientePagina": 12,
   "items": [
+    {
+      "id": "pasapalabra_1783298134841",
+      "titulo": "VIVIR LA CERCANÍA",
+      "fecha": "06/07/2026",
+      "reflexion": "En un mundo acelerado, donde todo parece urgente, la cercanía nos invita a bajar el ritmo para ver al otro con atención, respeto y cariño.\nLa cercanía también requiere un corazón abierto. Acercarse al otro implica salir de uno mismo y construir una relación donde antes solo había distancia. Es en este encuentro auténtico donde nace y se fortalece la comunión.\nVivir en cercanía es elegir estar con el otro, y no solo a su lado. Es hacer de la propia vida un espacio de acogida, donde nadie se sienta solo."
+    },
     {
       "id": "pasapalabra_1783221022646",
       "titulo": "ESTAR DISPUESTO A ESCUCHAR",
@@ -34,12 +40,6 @@
       "titulo": "ESFORZARSE EN HACER LA VOLUNTAD DE DIOS",
       "fecha": "30/06/2026",
       "reflexion": "Muchas veces imaginamos la voluntad de Dios como algo difícil de discernir, pero suele revelarse en el bien que podemos hacer, en las responsabilidades que se nos confían, en las decisiones correctas incluso cuando nadie nos observa.\nLa voluntad de Dios no siempre coincide con nuestros deseos inmediatos. A veces ella pasa por la renuncia, por la fidelidad. Y es precisamente ahí donde el corazón se moldea mediante la entrega y la confianza. Hacer la voluntad de Dios es dar pasos en la oscuridad, sostenidos más por la fe que por la certeza.\nLa oración ayuda a iluminar este camino; es ahí donde el corazón se adapta, donde las ansiedades se calman y donde nuestra voluntad se une con la de Él."
-    },
-    {
-      "id": "pasapalabra_1782694126614",
-      "titulo": "EL VALOR DE DECIR LA VERDAD",
-      "fecha": "29/06/2026",
-      "reflexion": "Decir la verdad no es solo una cuestión de sinceridad, sino de valentía.\nLa verdad debe ir de la mano con la caridad. La valentía consiste en unir ambas, hablar lo que necesita decirse, pero con sensibilidad y con la intención de construir, no de destruir.\nHay una verdad que debemos decirnos a nosotros mismos: nuestras propias contradicciones. Esta confrontación interna es una de las más difíciles, pero también una de las más liberadoras.\nEn cada situación, podemos preguntarnos con sinceridad: \"¿Qué es verdad aquí?\" y \"¿Cómo puedo expresar eso con amor?\".\nTener el valor de decir la verdad es, en esencia, un acto de fidelidad, a Dios, a los demás y a uno mismo. Y es esta fidelidad, vivida día tras día, la que construye una vida sólida y pacífica.\nUn abrazo,"
     }
   ]
 }
