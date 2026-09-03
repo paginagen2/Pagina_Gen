@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 17,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 18,
   "items": [
+    {
+      "id": "pasapalabra_1780365751410",
+      "titulo": "CAMINAR JUNTOS",
+      "fecha": "02/06/2026",
+      "reflexion": "Caminar juntos significa mucho más que solo  ir en la misma dirección; significa compartir la vida.\nEn el camino común, debemos respetar el ritmo del otro, saber esperar, animar y, cuando sea necesario, ofrecer apoyo para que nadie se quede atrás.\nCada persona aporta algo único, y si estamos juntos, el camino se hace más fácil de recorrer.\nCaminar juntos también significa compartir alegrías y dificultades.\nCaminar juntos es una invitación a vivir con espíritu de comunión, fortaleciendo los vínculos fraternos y promoviendo la unidad."
+    },
     {
       "id": "pasapalabra_1780284574589",
       "titulo": "DAR TESTIMONIO DE CERCANÍA",
@@ -34,12 +40,6 @@
       "titulo": "TODOS NECESITAMOS SER PERDONADOS",
       "fecha": "28/05/2026",
       "reflexion": "Todos cometemos errores. A veces impulsivamente, otras veces por falta de comprensión, por miedo o por debilidad. Reconocer esto nos hace más humildes y también más capaces de mirar al otro con misericordia.\nNecesitamos ser perdonados, pero también necesitamos aprender a perdonar. El perdón no borra lo sucedido, pero abre un camino nuevo, libera el corazón y alivia el peso que cargamos por causa del resentimiento y de las culpas. Cuando perdono, dejo de alimentar los resentimientos y elijo la paz.\nHoy recuerdo que nadie es perfecto. Así como deseo comprensión para mis errores, puedo ofrecer lo mismo a quienes me rodean.\nEl perdón es un gesto de amor que sana las relaciones y trae ligereza al alma."
-    },
-    {
-      "id": "pasapalabra_1779846549778",
-      "titulo": "HOY ESTOY ATENTO A LAS NECESIDADES DE QUIENES ME RODEAN",
-      "fecha": "27/05/2026",
-      "reflexion": "Hoy intentaré vivir con el corazón más atento. Muchas veces, pasamos de largo junto a las personas sin percibir sus dolores y alegrías. Hoy quiero bajar el ritmo, para escuchar con paciencia y mirar con mayor sensibilidad.\nPrestar atención a las necesidades de quienes me rodean no exige grandes gestos; a veces, basta una palabra de aliento, un gesto de ayuda o simplemente estar presente.\nQue hoy pueda ser un ejemplo de cariño, comprensión y disponibilidad. Que no me encierre en mis propias preocupaciones, sino que tenga el valor de percibir quién me necesita. Después de todo, la atención sincera es una forma sencilla y profunda de amar."
     }
   ]
 }

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 10,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 11,
   "items": [
+    {
+      "id": "pasapalabra_1783912310071",
+      "titulo": "COMUNIÓN VIVIDA",
+      "fecha": "13/07/2026",
+      "reflexion": "Esta comunión vivida es una expresión concreta del amor entendido a partir de las enseñanzas de Jesús.\nLos primeros cristianos comprendieron que seguir a Cristo implicaba compartir la vida, afrontar juntos las dificultades y celebrar juntos las alegrías. La comunión fortalecía la esperanza y hacía el testimonio cristiano más convincente ante la sociedad.\nHoy, el ejemplo de los primeros cristianos sigue vigente. La comunión vivida continúa siendo un llamado a la fraternidad, al compartir y al cuidado de los más vulnerables. Vivir en comunión es construir relaciones basadas en el amor y en la presencia de Dios en medio de la comunidad."
+    },
     {
       "id": "pasapalabra_1783822943271",
       "titulo": "SERVIR AL PRÓJIMO ES SERVIR A DIOS",
@@ -34,12 +40,6 @@
       "titulo": "CUIDAR A LOS MÁS VULNERABLES",
       "fecha": "08/07/2026",
       "reflexion": "Una sociedad se revela no por la fuerza de los poderosos, sino por la forma como trata a quienes necesitan apoyo.\nLa fragilidad nos recuerda que todos, en algún momento de la vida, necesitaremos cuidado, comprensión y compañía.\nCuidar de los más vulnerables exige sensibilidad. Es también un ejercicio de madurez espiritual y emocional. Quienes aprenden a contemplar el dolor ajeno sin indiferencia desarrollan empatía, humildad y compasión.\nEn un mundo que valora el rendimiento, la rapidez y la apariencia, elegir proteger a los más vulnerables es afirmar que la vida humana vale más que la utilidad, el estatus o la fuerza.\nQue seamos un refugio seguro para quienes atraviesan momentos difíciles."
-    },
-    {
-      "id": "pasapalabra_1783390243327",
-      "titulo": "RESPETARSE MUTUAMENTE",
-      "fecha": "07/07/2026",
-      "reflexion": "Cuando nos respetamos a nosotros mismos, vivimos lo que es la base del amor al otro: \"Ama a tu prójimo como a ti mismo\".\nRespetarse es reconocer nuestro propio valor sin necesidad de menospreciar a nadie.\nEl respeto por uno mismo se manifiesta en las pequeñas decisiones que tomamos: en la forma cómo hablamos de nosotros mismos, en los límites que nos fijamos, en el valor de alejarnos de lo que no nos hace bien.\nMuchas veces, esperamos que los demás nos valoren antes de aprender a valorarnos a nosotros mismos.\nRespetarse no significa ser orgulloso, sino preservar la propia dignidad."
     }
   ]
 }

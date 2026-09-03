@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 21,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 22,
   "items": [
+    {
+      "id": "pasapalabra_1778443274456",
+      "titulo": "DAR TESTIMONIO JUNTOS DEL AMOR DE DIOS",
+      "fecha": "10/05/2026",
+      "reflexion": "“En esto todos reconocerán que ustedes son mis discípulos: en el amor que se tengan los unos a los otros” (Jn. 13,35)\nLa fe cristiana es, por naturaleza, comunitaria. Cuando caminamos juntos, apoyándonos en la oración, en el servicio y la fraternidad, nos convertimos en signos vivos de la presencia de Dios en el mundo.\nJesús no dijo que sus discípulos serían reconocidos por el poder, por el prestigio o simplemente por las palabras, sino por el amor concreto.\nAmarnos los unos a los otros significa acogernos, perdonarnos, comprendernos, ayudarnos y caminar juntos, incluso en las diferencias.\nVivir este mandamiento es continuar la misión de Jesús en el mundo: hacer visible el amor de Dios en las relaciones humanas."
+    },
     {
       "id": "pasapalabra_1778301865579",
       "titulo": "PONER EN PRÁCTICA LA CARIDAD",
@@ -34,12 +40,6 @@
       "titulo": "LOS MEDIOS NOS CONECTAN, EL DIÁLOGO NOS UNE",
       "fecha": "05/05/2026",
       "reflexion": "En los medios, en cuestión de segundos, un mensaje cruza ciudades, países y continentes, acercando a personas que de otro modo jamás se conocerían personalmente. De hecho, los medios tienen un gran poder para conectar. Pero conectar no es lo mismo que unir.\nLa verdadera unidad nace cuando existe el diálogo, que exige escucha, respeto y apertura comprender al otro. Si bien los medios transmiten mensajes rápidamente, el diálogo construye conexiones más profundas entre las personas.\nCuando utilizamos los medios como punto de partida para el encuentro y para la conversación sincera, ellos se convierten en un instrumento de comunión.\nLa tecnología puede acercarnos, pero es el corazón dispuesto a escuchar y dialogar lo que realmente nos une."
-    },
-    {
-      "id": "pasapalabra_1777859285015",
-      "titulo": "TRABAJAR POR EL BIEN COMÚN",
-      "fecha": "04/05/2026",
-      "reflexion": "Trabajar por el bien común es comprender que nuestras acciones afectan no solo a nosotros mismos, sino también a las personas a nuestro alrededor y a la sociedad en su conjunto.\nCuando pensamos en el bien colectivo, comenzamos a considerar cuánto pueden contribuir nuestras actitudes para un mundo mejor.\nMuchas veces, las pequeñas acciones marcan una gran diferencia. El bien común nace precisamente de las decisiones cotidianas, sencillas pero llenas de significado.\nTrabajar por el bien común exige la conciencia de reconocer que todos tienen dignidad y merecen oportunidades, respeto y cuidado.\nBuscar el bien común fortalece valores como la solidaridad, la justicia y la fraternidad."
     }
   ]
 }

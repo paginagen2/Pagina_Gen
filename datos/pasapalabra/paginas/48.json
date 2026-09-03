@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 48,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 49,
   "items": [
+    {
+      "id": "pasapalabra_1765007807375",
+      "titulo": "RECIBIR Y DAR",
+      "fecha": "06/12/2025",
+      "reflexion": "La vida es un flujo constante entre dar y recibir.\nDar es expresar amor, generosidad y empatía. Recibir es permitir que el otro practique el mismo gesto.\nA menudo, pensamos que dar es señal de fortaleza y recibir es señal de debilidad. Ambos exigen humildad y sensibilidad: quien solo da, sin permitirse recibir, puede terminar vaciándose, y quien solo recibe, sin aprender a dar, pierde la oportunidad de crecer en el amor y en el compartir. Dar y recibir es la verdadera comunión.\nAl dar con el corazón abierto, reforzamos los vínculos. Al recibir con gratitud, los fortalecemos. Y es en este equilibrio donde encontramos el verdadero significado de la generosidad."
+    },
     {
       "id": "pasapalabra_1764906539017",
       "titulo": "SER HONESTOS",
@@ -34,12 +40,6 @@
       "titulo": "ABRIR EL CORAZÓN A LA ESPERANZA",
       "fecha": "01/12/2025",
       "reflexion": "La esperanza no es una ilusión ingenua; es una fuerza silenciosa que nos mueve cuando todo parece estancado, que reaviva la llama cuando el frío de la duda amenaza con apagar lo mejor que hay en nosotros.\nAbrir el corazón a la esperanza es elegir creer que seremos capaces de enfrentar todos los desafíos, con la ayuda de aquel que dice: “¡Yo he vencido al mundo!” (Cf. Jn 16,33).\nTener esperanza es confiar en el tiempo, es aceptar que cada dificultad conlleva una lección y que cada noche, por larga que sea, termina cuando nace el sol.\nPor lo tanto, abrir el corazón a la esperanza es decir “sí” a la posibilidad de empezar de nuevo, de perdonar, de soñar y de seguir caminando, con la fe de que en cada paso contamos con la compañía de Dios."
-    },
-    {
-      "id": "pasapalabra_1764467111485",
-      "titulo": "ENCENDER LA ESPERANZA",
-      "fecha": "30/11/2025",
-      "reflexion": "En medio de la incertidumbre y los desafíos, la esperanza es como una pequeña llama, a veces parpadeante, pero obstinadamente viva. Ilumina la oscuridad, incluso cuando todo a nuestro alrededor parece derrumbarse. Encender la esperanza es creer en el mañana, incluso sin garantías.\nNo se trata de fingir que todo está bien, sino de reconocer que dentro de nosotros hay una fuerza que insiste en volver a empezar. Cada acto de bondad, cada palabra de aliento, cada paso dado a pesar del miedo: todo esto es el combustible que mantiene viva esa llama.\nLa esperanza no necesita ser un fuego intenso; basta que sea constante. Porque mientras arde, incluso como una tímida brasa, hay vida, hay posibilidad, hay futuro.\nEncender la esperanza es recordar que incluso la noche más larga termina al amanecer."
     }
   ]
 }

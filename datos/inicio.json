@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-02",
-  "generadoEn": "2026-09-02T07:50:45.280Z",
+  "fechaGeneracion": "2026-09-03",
+  "generadoEn": "2026-09-03T07:58:32.846Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788310592509",
-    "titulo": "SER SERVICIALES",
-    "fecha": "02/09/2026",
+    "id": "pasapalabra_1788401144524",
+    "titulo": "CONFIAR",
+    "fecha": "03/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777044202868",
-    "titulo": "Solamente",
+    "id": "meditaciones_1777052721636_uxpfiw1pv",
+    "titulo": "\"Si muere...\"",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 40,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 41,
   "items": [
+    {
+      "id": "pasapalabra_1769140993225",
+      "titulo": "RECOGERSE INTERIORMENTE",
+      "fecha": "23/01/2026",
+      "reflexion": "El recogerse no se trata de escapar del mundo, sino de crear un espacio interior donde el alma pueda respirar. En medio del ruido de las urgencias, el retiro es un gesto fundamental: silenciarse para escuchar la voz interior, detenerse para discernir, vaciarse para dejarse llenar por Dios.\nCuando nos recogemos, nos damos cuenta de que muchas inquietudes nacen de la distracción. El corazón, entonces reencuentra su rumbo. En el silencio, aprendemos a reconocer lo esencial y a confiar.\nEl recogerse es volver a la fuente. Es permitir que el amor de Dios nos reorganice por dentro, para que, al salir de nuevo al encuentro de los demás, llevemos paz y presencia.\nQue el recogimiento no sea solo un momento, sino una actitud interior duradera. Que sea un caminar atento y enraizados en Dios."
+    },
     {
       "id": "pasapalabra_1769040221328",
       "titulo": "COMPROMETERNOS A TESTIMONIAR QUE DIOS ES AMOR",
@@ -34,12 +40,6 @@
       "titulo": "REZAR POR LA UNIDAD",
       "fecha": "18/01/2026",
       "reflexion": "Rezar por la unidad es reconocer que estamos llamados a caminar juntos.\nCuando rezamos por la unidad, pedimos la gracia de superar divisiones, prejuicios y heridas que nos separan.\nLa unidad no significa uniformidad. En la oración, aprendemos a acoger la diversidad como una riqueza y a buscar lo que nos une: el deseo común de paz, de justicia y de amor.\nRezar por la unidad también nos compromete con actitudes concretas. Cada gesto de reconciliación, cada palabra que construye en lugar de herir, cada paso hacia el encuentro, se convierte en respuesta a la oración ofrecida."
-    },
-    {
-      "id": "pasapalabra_1768610632440",
-      "titulo": "NO CEDER AL INDIVIDUALISMO",
-      "fecha": "17/01/2026",
-      "reflexion": "En una sociedad que a menudo valora solo el \"yo\", resistir al individualismo es un acto de conciencia y humanidad, animado por el amor.\nNo ceder a esta lógica es reconocer que nadie crece solo y que el bien común fortalece a todos.\nSignifica mirar más allá de los propios intereses, aprender a compartir, escuchar y cooperar.\nCuando elegimos el camino de la solidaridad, descubrimos que la verdadera realización nace del encuentro, del cuidado mutuo y de la construcción colectiva de un futuro más justo y fraterno."
     }
   ]
 }

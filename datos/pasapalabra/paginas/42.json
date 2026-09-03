@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 42,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 43,
   "items": [
+    {
+      "id": "pasapalabra_1768096755891",
+      "titulo": "SER SOLIDARIOS CON TODOS",
+      "fecha": "11/01/2026",
+      "reflexion": "Ser solidario con todos significa comprender que el dolor del otro también nos importa, incluso cuando no lo comprendemos del todo o cuando parece lejano de nuestra realidad.\nLa solidaridad se revela en palabras que reconfortan y en actitudes que incluyen.\nSer solidario es rechazar la indiferencia, es dejar el corazón sensible al sufrimiento humano, sea este cercano o invisible.\nCuando somos solidarios, aprendemos que la verdadera fuerza nace del cuidado mutuo.\nHay un solo cuerpo y un solo espíritu (cf. Ef 4,4). Por lo tanto, vivir la solidaridad es reconocer que somos parte unos de los otros, y que el bien de uno, solo encuentra sentido cuando se convierte en el bien de todos."
+    },
     {
       "id": "pasapalabra_1768003911071",
       "titulo": "COMUNICAR LA ALEGRÍA",
@@ -34,12 +40,6 @@
       "titulo": "DEJÉMONOS ILUMINAR POR LA LUZ",
       "fecha": "06/01/2026",
       "reflexion": "Esta frase nos invita no solo a recibir la Luz, sino a permitir que nos transforme.\nLa Luz Divina no fuerza, no invade, no exige. Se ofrece.\nSomos nosotros quienes podemos abrir una brecha en nuestra alma para que entre, a través de la humildad, de la fe, de la escucha y de la sinceridad de nuestro corazón.\nCuando nos dejamos iluminar por la Luz, la inquietud encuentra reposo, lo que es confuso comienza a organizarse, lo que es pesado se suaviza, la herida se convierte en un camino de sanación, lo que es orgullo se rinde a la humildad.\nDejarse iluminar es permitir que Dios, o la presencia sagrada que cada uno reconoce, toque nuestras intenciones antes que nuestras acciones, y toque nuestro mirar antes de juzgar.\nEs un movimiento de adentro hacia afuera: primero la Luz nos llena, luego se desborda a través de nuestras actitudes."
-    },
-    {
-      "id": "pasapalabra_1767610540043",
-      "titulo": "ACERCARSE A CADA PERSONA CON CORAZÓN SINCERO",
-      "fecha": "05/01/2026",
-      "reflexion": "La sinceridad de corazón crea un ambiente de confianza. Permite que nuestros gestos tengan peso, que nuestras palabras encuentren resonancia en el otro y que nuestras intenciones se perciban sin distorsiones. Es en este terreno que los vínculos se fortalecen y que los malentendidos se disuelven.\nCuando el corazón es sincero, cada encuentro, breve o largo, tiene valor. E incluso cuando las relaciones no prosperan como imaginamos, sabemos que dejamos algo verdadero en el mundo que nos rodea, algo que resuena y transforma de manera invisible.\nAcercarse a cada persona con un corazón sincero es un camino de autenticidad que nos hace más hermanos."
     }
   ]
 }

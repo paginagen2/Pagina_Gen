@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1788401144524",
+      "titulo": "CONFIAR",
+      "fecha": "03/09/2026",
+      "reflexion": "La confianza nos fortalece ante la incertidumbre y nos ayuda a enfrentar los desafíos sin dejarnos vencer por el miedo.\nConfiamos en Dios, en su providencia y en su amor, seguros de que Él camina con nosotros en todo momento. Aprendemos también a confiar en los demás, valorando el diálogo, la sinceridad y el respeto, pilares fundamentales de las relaciones sólidas y fraternas.\nLa confianza nos invita a perseverar, a mantener viva la esperanza y a creer que cada experiencia nos ayuda a crecer."
+    },
     {
       "id": "pasapalabra_1788310592509",
       "titulo": "SER SERVICIALES",
@@ -34,12 +40,6 @@
       "titulo": "LLEVAR LA ESPERANZA A TODAS PARTES",
       "fecha": "29/08/2026",
       "reflexion": "Cuando enfrentamos los desafíos con valentía, serenidad y confianza, mostramos que es posible seguir adelante incluso en medio de las adversidades. Nuestra forma de vida puede inspirar a otras personas a no desistir.\nQue nuestras palabras consuelen, nuestras acciones fortalezcan y nuestra presencia sea una señal de que siempre hay un nuevo camino, una nueva oportunidad y una razón para continuar.\nQue seamos portadores de esperanza, iluminando la vida de las personas con amor, fe y generosidad, para que el bien florezca por donde pasemos."
-    },
-    {
-      "id": "pasapalabra_1787878976012",
-      "titulo": "MENOS PALABRAS, MÁS HECHOS",
-      "fecha": "28/08/2026",
-      "reflexion": "Es fácil prometer, opinar, justificar o declarar buenas intenciones. Sin embargo, el verdadero carácter no se revela por lo que decimos, sino por lo que hacemos.\nUn gesto de cariño vale más que un discurso sobre el amor. Una decisión honesta habla más alto que innumerables explicaciones.\nJesús enseñó que un árbol se conoce por sus frutos. Esto nos recuerda que la autenticidad de la fe y de la vida se manifiesta en acciones concretas.\nEs mejor hablar menos y actuar más, demostrando amor, porque son las acciones las que dan credibilidad a las palabras y revelan quiénes realmente somos."
     }
   ]
 }

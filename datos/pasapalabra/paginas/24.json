@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 24,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 25,
   "items": [
+    {
+      "id": "pasapalabra_1776823089228",
+      "titulo": "CONSTRUIR RELACIONES DE CONFIANZA",
+      "fecha": "22/04/2026",
+      "reflexion": "La confianza nace cuando nuestras palabras coinciden con nuestras acciones y cuando permanecemos fieles incluso en las dificultades.\nJesús nos enseñó esto con su ejemplo. Él acogió, escuchó y acompañó. Nosotros también estamos llamados a hacer lo mismo: escuchar sin juzgar, hablar con sinceridad y actuar con lealtad.\nLas relaciones de confianza requieren transparencia. No existe un vínculo verdadero sin sinceridad. Es cuando mostramos quiénes somos realmente que permitimos que otros confíen en nosotros.\nQue seamos firmes en la palabra, constantes en el amor y generosos en todo. Porque donde hay confianza, hay paz. Y donde hay paz, florecen las relaciones que resisten al tiempo y a las adversidades."
+    },
     {
       "id": "pasapalabra_1776736911516",
       "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
@@ -34,12 +40,6 @@
       "titulo": "RESPETAR A LOS DEMÁS",
       "fecha": "17/04/2026",
       "reflexion": "Respetar a los demás es más que ser educado. Es reconocer que cada persona tiene una historia y derecho a tener sus propias opiniones.\nNo siempre concordamos en todo, pero el respeto nos enseña a convivir en medio de las diferencias.\nCuando respetamos a alguien, escuchamos su opinión, evitamos juicios precipitados y lo tratamos con dignidad.\nEl respeto también comienza dentro de nosotros. Quien aprende a respetarse entiende sus propios límites y valores, y así, es capaz de respetar el espacio y las decisiones del prójimo.\nEn un mundo con tantas opiniones diferentes, el respeto es lo que mantiene una convivencia armoniosa."
-    },
-    {
-      "id": "pasapalabra_1776301167459",
-      "titulo": "COLABORAR CON QUIEN ENCUENTRE",
-      "fecha": "16/04/2026",
-      "reflexion": "Colaborar con las personas que encuentre es reconocer que siempre podemos ayudarnos unos a los otros.\nCuando elijo colaborar, dejo de lado el individualismo y cultivo la empatía. El otro no es mi competidor, sino un compañero de jornada.\nLa colaboración transforma los ambientes, aminora los conflictos y multiplica las soluciones, porque une diferentes talentos en torno a un mismo propósito.\nAl enseñar a alguien, aprendo cosas nuevas; al ayudar, crecemos juntos; al compartir, multiplico.\nAl colaborar con todos, ayudo a construir el Reino de Dios."
     }
   ]
 }

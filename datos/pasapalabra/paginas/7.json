@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 7,
   "tamanioPagina": 6,
-  "total": 323,
+  "total": 324,
   "siguientePagina": 8,
   "items": [
+    {
+      "id": "pasapalabra_1785377077916",
+      "titulo": "VIVIR EL MOMENTO PRESENTE",
+      "fecha": "30/07/2026",
+      "reflexion": "El presente es un espacio en el cual puedo tener un encuentro con Dios, con los demás y conmigo mismo.\nMuchas veces, me quedo anclado en el pasado, con remordimientos y nostalgia, o ansioso por el futuro, lleno de incertidumbres.\nEl presente es el tiempo en el que puedo amar, perdonar, agradecer, servir y recomenzar.\nCada día trae sus desafíos, pero también trae la gracia necesaria para afrontarlos.\nVivir el momento presente no significa despreocuparse del futuro, sino evitar que el miedo a este robe mi paz. Tampoco significa olvidar el pasado, sino, no permitir que él me impida seguir adelante."
+    },
     {
       "id": "pasapalabra_1785296188299",
       "titulo": "VALORAR EL SUFRIMIENTO",
@@ -34,12 +40,6 @@
       "titulo": "COMPARTIR LAS ALEGRÍAS",
       "fecha": "26/07/2026",
       "reflexion": "Estar al lado de alguien no solo significa acompañarlo en su dolor, sino también celebrar sus logros, sonrisas y momentos felices.\nQuien aprende a alegrarse con el bien del prójimo supera la envidia, el egoísmo y la indiferencia.\nLa alegría compartida se multiplica, y cuando alguien se da cuenta de que su felicidad es acogida y no juzgada, se siente doblemente amado.\nParticipar en la alegría del otro es reconocer la acción de Dios en la vida de las personas y dar gracias junto con ellas."
-    },
-    {
-      "id": "pasapalabra_1784948501833",
-      "titulo": "SER SENSIBLES AL DOLOR DE LOS DEMÁS",
-      "fecha": "25/07/2026",
-      "reflexion": "Jesucristo demostró una profunda sensibilidad ante el sufrimiento humano. Jamás trató el sufrimiento ajeno con indiferencia. Su ejemplo nos enseña que percibir el dolor de los demás es vivir en cercanía y actuar con misericordia.\nNo siempre tendremos respuestas para el sufrimiento de las personas, pero podemos ofrecer compañía, respeto y cuidado.\nPodemos tener un corazón más compasivo, capaz de percibir las lágrimas ocultas y las necesidades silenciosas.\n“Alégrense con los que están alegres, y lloren con los que lloran” (Rom. 12,15)"
     }
   ]
 }
