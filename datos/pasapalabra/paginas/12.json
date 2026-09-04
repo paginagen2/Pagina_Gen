@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 12,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 13,
   "items": [
+    {
+      "id": "pasapalabra_1782865856219",
+      "titulo": "BUSCAR EL BIEN",
+      "fecha": "01/07/2026",
+      "reflexion": "“Buscar el bien” es una reflexión que implica elegir conscientemente aquello que construye, mejora e ilumina, tanto en nosotros como en los demás.\nBuscar el bien requiere atención, porque el mundo también ofrece distracciones, atajos y soluciones fáciles.\nEs una práctica diaria preguntarse: \"¿Esta elección aporta valor o daño?\", y tener el valor de seguir la respuesta, incluso cuando requiere esfuerzo.\nCon el tiempo, buscar el bien se convierte en un hábito que moldea nuestro carácter e influye también a quienes nos rodean.\nEn definitiva, buscar el bien es también una forma de dar sentido a nuestra propia vida y de estar en sintonía con la Palabra de Dios, para que dé fruto."
+    },
     {
       "id": "pasapalabra_1782784095840",
       "titulo": "ESFORZARSE EN HACER LA VOLUNTAD DE DIOS",
@@ -34,12 +40,6 @@
       "titulo": "REDESCUBRIR LA BELLEZA DE LA CREACIÓN",
       "fecha": "26/06/2026",
       "reflexion": "En nuestras ajetreadas vidas, los detalles se vuelven invisibles. La vida palpita a nuestro alrededor y dentro de nosotros, pero pasamos demasiado apurados como para notarlo.\nDesafortunadamente, poco a poco, aquello que es extraordinario comienza a parecer común.\nPara redescubrir la belleza de la Creación, es necesario hacer una pausa interior. No se trata de ir lejos, sino de ver lo que está cerca.\nTambién hay belleza en las personas, incluso con sus imperfecciones. Cuando miramos con más atención y menos prejuicios, comenzamos a reconocer la profundidad que existe en cada ser humano.\nRedescubrir la belleza de la Creación es, en el fondo, reconocer la presencia de Dios en todo."
-    },
-    {
-      "id": "pasapalabra_1782353587061",
-      "titulo": "NO JUZGAR",
-      "fecha": "25/06/2026",
-      "reflexion": "No juzguen, para no ser juzgados (Mt. 7,1)\nJuzgar es casi automático: vemos una actitud, escuchamos una historia incompleta y sacamos conclusiones rápidamente.\nCuando juzgamos, reducimos al otro a un fragmento, ignorando todo lo que no vemos: su historia, sus dolores, sus intenciones, sus luchas silenciosas.\nNo conocemos completamente el corazón del otro. Y, al admitir esto, nacen la prudencia y la misericordia.\nQuien aprende a evitar el juicio comienza a experimentar mayor ligereza. Ya no cargan con el peso de condenar todo el tiempo.\nNo juzgar es comprender que, al igual que nosotros, el otro está en camino, con éxitos y fracasos, intentándolo, cayéndose y volviendo a empezar."
     }
   ]
 }

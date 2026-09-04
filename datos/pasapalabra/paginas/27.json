@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 27,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 28,
   "items": [
+    {
+      "id": "pasapalabra_1775376558674",
+      "titulo": "ENCENDER LA ESPERANZA",
+      "fecha": "05/04/2026",
+      "reflexion": "La esperanza no es un sentimiento mágico que aparece de la nada; es una virtud que se adquiere a través de la fe y la vivencia del amor.\nEncender la esperanza no significa tener siempre un sol radiante, sino saber encender una vela que venza la oscuridad y muestre el camino.\nEncender la esperanza es recordar que el ahora es solo el momento presente de la vida y no el final de la historia.\nLa esperanza es una virtud que nos conecta directamente con Dios; por lo tanto, es una luz que podemos encender en los momentos más oscuros de nuestra vida.\nLa esperanza puede ser una luz pequeña y persistente, un faro que indica la llegada o un sol radiante que ilumina toda nuestra vida.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1775264510914",
       "titulo": "NO DESANIMARSE",
@@ -34,12 +40,6 @@
       "titulo": "EL AMOR CREA LA COMUNIDAD",
       "fecha": "31/03/2026",
       "reflexion": "“En esto conocerán todos que son mis discípulos, en que se amen unos a otros” (Jn. 13,35)\nLa comunidad no surge solo de la proximidad física, sino de la disposición de cuidarnos unos de los otros.\nCuando el amor es el origen, la comunidad deja de ser simplemente un grupo de personas y se convierte en un lugar de encuentro, apoyo mutuo y crecimiento conjunto.\nEs en el amor que se aprende que vivir juntos no es solo convivir, sino construir un sentido para existir.\nConstruir en el amor es saber que la comunidad no será perfecta, pero puede ser verdadera.\nLa comunidad se convierte en un signo vivo cuando es un espacio donde Dios se hace presente a través del amor vivido entre hermanos y hermanas.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1774834151395",
-      "titulo": "*PONER EN RELIEVE A LA OTRA PERSONA*",
-      "fecha": "30/03/2026",
-      "reflexion": "“Porque el que se ensalza será humillado, y el que se humilla será ensalzado. (Lc. 14,11)\nPoner en relieve a los demás es un acto silencioso de grandeza. Es elegir iluminar en lugar de competir, reconocer en lugar de menospreciar, valorar en lugar de luchar por el protagonismo.\nEl brillo del otro no apaga el nuestro; al contrario, amplía el entorno donde todos pueden crecer.\nDar testimonio es tener la seguridad suficiente para no necesitar siempre ser el centro de atención.\nQuien aprende a poner en relieve a los demás descubre que el liderazgo no se trata de destacarse, sino de visibilizar a los demás."
     }
   ]
 }

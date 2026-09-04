@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 6,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 7,
   "items": [
+    {
+      "id": "pasapalabra_1785894818789",
+      "titulo": "NO DESANIMARNOS",
+      "fecha": "05/08/2026",
+      "reflexion": "“No nos cansemos de hacer el bien, porque la cosecha llegará a su tiempo si no desfallecemos” (Gal. 6,9)\nNo ceder al desánimo no significa ignorar el dolor o fingir que todo está bien. Significa confiar en que Dios permanece presente incluso cuando no podemos percibir su acción.\nEl ejemplo de Jesús nos enseña que la perseverancia es fruto de la confianza en el Padre. Cuando nos sentimos débiles, podemos recurrir a la oración, pedir ayuda y recordar las muchas veces que Dios nos ha sostenido en el pasado.\nLa esperanza cristiana nos recuerda que Dios camina con nosotros y que ninguna lucha es inútil cuando vivida con fe y amor."
+    },
     {
       "id": "pasapalabra_1785806372866",
       "titulo": "ESTAR ATENTOS A LO QUE DECIMOS",
@@ -34,12 +40,6 @@
       "titulo": "PREFERIR LA VERDAD AL CONSENSO",
       "fecha": "01/08/2026",
       "reflexion": "“Entonces conocerán la verdad, y la verdad los hará libres” (Jn. 8,32)\nEl consenso no siempre está alineado con lo que es justo, correcto o verdadero.\nPreferir la verdad sobre el consenso no significa ser arrogante o inflexible. Significa tener la humildad de reconocer la verdad, incluso cuando eso exige valentía, sacrificio o incomprensión.\nEl cristiano está llamado a vivir esta libertad, buscando agradar a Dios antes que a los hombres.\nQue Dios me dé el valor para buscar y vivir la verdad, incluso cuando no sea la opción más fácil. Que yo tenga un corazón humilde para acogerla y firmeza para dar testimonio de ella con amor."
-    },
-    {
-      "id": "pasapalabra_1785505058846",
-      "titulo": "AMOR DESINTERESADO",
-      "fecha": "31/07/2026",
-      "reflexion": "En el mundo actual, muchas relaciones terminan marcadas por el intercambio de intereses: se ama esperando algo a cambio, se ayuda esperando elogios, se aproxima buscando obtener beneficios.\nEl amor desinteresado sigue un camino diferente. Nace de un corazón libre, capaz de entregarse incluso cuando nadie lo ve ni agradece.\nJesús vivió este amor a la perfección, y su ejemplo nos muestra que el verdadero amor es servicio, entrega y compasión.\nAmar desinteresadamente no significa aceptar la humillación, sino aprender a actuar con generosidad y pureza de intención.\nEl verdadero amor no pregunta qué ganará; solo pregunta qué puede ofrecer."
     }
   ]
 }

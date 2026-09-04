@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 7,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 8,
   "items": [
+    {
+      "id": "pasapalabra_1785505058846",
+      "titulo": "AMOR DESINTERESADO",
+      "fecha": "31/07/2026",
+      "reflexion": "En el mundo actual, muchas relaciones terminan marcadas por el intercambio de intereses: se ama esperando algo a cambio, se ayuda esperando elogios, se aproxima buscando obtener beneficios.\nEl amor desinteresado sigue un camino diferente. Nace de un corazón libre, capaz de entregarse incluso cuando nadie lo ve ni agradece.\nJesús vivió este amor a la perfección, y su ejemplo nos muestra que el verdadero amor es servicio, entrega y compasión.\nAmar desinteresadamente no significa aceptar la humillación, sino aprender a actuar con generosidad y pureza de intención.\nEl verdadero amor no pregunta qué ganará; solo pregunta qué puede ofrecer."
+    },
     {
       "id": "pasapalabra_1785377077916",
       "titulo": "VIVIR EL MOMENTO PRESENTE",
@@ -31,12 +37,6 @@
     },
     {
       "id": "pasapalabra_1785045676701",
-      "titulo": "COMPARTIR LAS ALEGRÍAS",
-      "fecha": "26/07/2026",
-      "reflexion": "Estar al lado de alguien no solo significa acompañarlo en su dolor, sino también celebrar sus logros, sonrisas y momentos felices.\nQuien aprende a alegrarse con el bien del prójimo supera la envidia, el egoísmo y la indiferencia.\nLa alegría compartida se multiplica, y cuando alguien se da cuenta de que su felicidad es acogida y no juzgada, se siente doblemente amado.\nParticipar en la alegría del otro es reconocer la acción de Dios en la vida de las personas y dar gracias junto con ellas."
-    },
-    {
-      "id": "pasapalabra_1785023821937",
       "titulo": "COMPARTIR LAS ALEGRÍAS",
       "fecha": "26/07/2026",
       "reflexion": "Estar al lado de alguien no solo significa acompañarlo en su dolor, sino también celebrar sus logros, sonrisas y momentos felices.\nQuien aprende a alegrarse con el bien del prójimo supera la envidia, el egoísmo y la indiferencia.\nLa alegría compartida se multiplica, y cuando alguien se da cuenta de que su felicidad es acogida y no juzgada, se siente doblemente amado.\nParticipar en la alegría del otro es reconocer la acción de Dios en la vida de las personas y dar gracias junto con ellas."

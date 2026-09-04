@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 24,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 25,
   "items": [
+    {
+      "id": "pasapalabra_1776947091704",
+      "titulo": "LLEVAR LA UNIDAD",
+      "fecha": "23/04/2026",
+      "reflexion": "En un mundo marcado por opiniones fuertes y profundas diferencias, promover la unidad es un verdadero desafío, pero al mismo tiempo un acto de amor.\nEl mismo Jesucristo rezó por la unidad entre las personas, sabiendo que unidad no significa uniformidad, sino armonía en la diversidad. Su petición al Padre fue: “¡Que todos sean uno!” (cf. Jn. 17,21).\nSer instrumento de unidad requiere humildad y valentía. Humildad para reconocer que no somos dueños de la verdad. Valentía para dar el primer paso y reconstruir los lazos rotos.\nDonde hay unidad, hay comunión y esperanza."
+    },
     {
       "id": "pasapalabra_1776823089228",
       "titulo": "CONSTRUIR RELACIONES DE CONFIANZA",
@@ -34,12 +40,6 @@
       "titulo": "ACEPTAR A LOS DEMÁS",
       "fecha": "18/04/2026",
       "reflexion": "Aceptar es abrir un espacio en el corazón para que el otro exista tal como es, sin intentar moldearlo a nuestra forma de pensar.\nAceptar es ofrecer presencia antes de ofrecer soluciones. Muchas veces, lo que alguien más necesita, no son consejos, sino comprensión y una mirada sin prejuicios.\nAceptar es extender la mano sin preguntar por qué, es decir \"estoy aquí\" incluso cuando no sabemos exactamente qué decir.\nAceptar es incluso, reconocer el dolor, la alegría, las dudas y los miedos del otro como algo legítimo.\nCuando acogemos, transformamos la soledad en compañía y el sufrimiento en compartir."
-    },
-    {
-      "id": "pasapalabra_1776389211844",
-      "titulo": "RESPETAR A LOS DEMÁS",
-      "fecha": "17/04/2026",
-      "reflexion": "Respetar a los demás es más que ser educado. Es reconocer que cada persona tiene una historia y derecho a tener sus propias opiniones.\nNo siempre concordamos en todo, pero el respeto nos enseña a convivir en medio de las diferencias.\nCuando respetamos a alguien, escuchamos su opinión, evitamos juicios precipitados y lo tratamos con dignidad.\nEl respeto también comienza dentro de nosotros. Quien aprende a respetarse entiende sus propios límites y valores, y así, es capaz de respetar el espacio y las decisiones del prójimo.\nEn un mundo con tantas opiniones diferentes, el respeto es lo que mantiene una convivencia armoniosa."
     }
   ]
 }

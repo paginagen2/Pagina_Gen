@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 25,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 26,
   "items": [
+    {
+      "id": "pasapalabra_1776389211844",
+      "titulo": "RESPETAR A LOS DEMÁS",
+      "fecha": "17/04/2026",
+      "reflexion": "Respetar a los demás es más que ser educado. Es reconocer que cada persona tiene una historia y derecho a tener sus propias opiniones.\nNo siempre concordamos en todo, pero el respeto nos enseña a convivir en medio de las diferencias.\nCuando respetamos a alguien, escuchamos su opinión, evitamos juicios precipitados y lo tratamos con dignidad.\nEl respeto también comienza dentro de nosotros. Quien aprende a respetarse entiende sus propios límites y valores, y así, es capaz de respetar el espacio y las decisiones del prójimo.\nEn un mundo con tantas opiniones diferentes, el respeto es lo que mantiene una convivencia armoniosa."
+    },
     {
       "id": "pasapalabra_1776301167459",
       "titulo": "COLABORAR CON QUIEN ENCUENTRE",
@@ -34,12 +40,6 @@
       "titulo": "SER MISERICORDIOSOS",
       "fecha": "12/04/2026",
       "reflexion": "“Felices los misericordiosos, porque obtendrán misericordia.” (Mt. 5,7)\nSer misericordioso es reflejarse en el corazón de Dios.\nTener misericordia es actuar con compasión delante del dolor, de los defectos y de la fragilidad del otro.\nEn Jesucristo vemos el mayor ejemplo de misericordia: Él acogió a los rechazados, perdonó a los pecadores y mostró amor incluso a quienes lo condenaban.\nSer misericordioso no significa estar de acuerdo con el error, sino elegir amar a pesar de ello. Significa mirar a las personas no solo por sus defectos, sino por su humanidad. Todos necesitamos misericordia, y muchas veces, más de lo que imaginamos.\nAl ser misericordiosos, reflejamos el amor de Dios al mundo."
-    },
-    {
-      "id": "pasapalabra_1775868627783",
-      "titulo": "ANUNCIAR EL AMOR DE DIOS",
-      "fecha": "11/04/2026",
-      "reflexion": "El amor de Dios debe ser anunciado con nuestra propia vida.\nYo descubrí que Dios me ama inmensamente gracias al testimonio de hermanos y hermanas que me amaron desinteresadamente. Vi que la motivación era el amor de Dios.\nPor eso, me sentí impulsado a hacer lo mismo.\nEl amor de Dios se manifiesta en el cuidado, en el perdón, en la paciencia, en la esperanza y en todo lo que ofrecemos a quien está a nuestro lado.\nCuando el amor de Dios es genuino en nosotros, se desborda naturalmente hacia los demás.\nAnunciemos el amor de Dios primero con la vida, después con las palabras."
     }
   ]
 }

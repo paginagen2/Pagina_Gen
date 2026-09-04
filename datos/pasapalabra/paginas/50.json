@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 50,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 51,
   "items": [
+    {
+      "id": "pasapalabra_1764037610906",
+      "titulo": "ESTAR ATENTOS A LO QUE SUCEDE",
+      "fecha": "25/11/2025",
+      "reflexion": "Estar atentos es un despertar de consciencia, una llamada a percibir lo que realmente sucede a nuestro alrededor y en nuestro interior.\nA menudo, preferimos la comodidad de la distracción, el refugio de la rutina o el silencio que evita lo incómodo de la verdad. Pero la vida, en su esencia, exige atención: a toda injusticia, al dolor de quienes nos rodean y a las oportunidades para actuar con amor.\nEstar atentos es decidir ver lo que el egoísmo intenta ocultar, lo que el mundo enmascara y lo que el corazón se empeña en mostrar.\nCuando vemos con claridad la realidad en la que vivimos, empezamos a ver lo que se puede transformar. Y toda verdadera transformación comienza con una mirada despierta y atenta, dispuesta a ver, a involucrarse y a actuar."
+    },
     {
       "id": "pasapalabra_1764010660453",
       "titulo": "COMPARTIR ESPONTÁNEAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "AYUDARSE TODO LO POSIBLE",
       "fecha": "20/11/2025",
       "reflexion": "La frase de hoy puede tener el sentido de ayudarse a uno mismo, y un sentido más amplio, de ayudarnos mutuamente.\nPuede ser un acto de amor con nosotros mismos y de responsabilidad con nuestra propia vida.\nAyudarse todo lo posible significa cuidar del cuerpo, de la mente y del espíritu. Es permitirse descansar cuando el cansancio pesa, buscar conocimiento cuando la duda aprieta, pedir ayuda cuando la carga es demasiado pesada.\nAyudarnos mutuamente es reconocer que nadie camina solo, que cada gesto de solidaridad es un hilo que teje la red de la vida.\nAyudarse a uno mismo es honrar el don de la vida que Dios nos ha dado; ayudar al prójimo es participar de la obra divina, volviendo concreto el amor de Dios en el mundo; y cuando ambas cosas suceden, la voluntad de Dios prevalece."
-    },
-    {
-      "id": "pasapalabra_1763511112977",
-      "titulo": "CONOCERSE",
-      "fecha": "19/11/2025",
-      "reflexion": "Conocerse es permitir que el otro exista delante de nosotros y, al mismo tiempo, tener el valor de mostrar quién realmente somos. Es un ejercicio de apertura, delicada, a veces desafiante, en el que cada gesto se convierte en un vínculo y cada silencio, en una invitación.\nCuando dos personas están dispuestas a conocerse de verdad y vivir el amor mutuo, los límites dejan de existir y se convierten en ventanas una de frente a la otra.\nEn este reconocimiento mutuo, descubrimos que nadie es completo solo.\nConocerse no es llegar a un destino, sino caminar juntos, con respeto, escucha, aceptación y curiosidad genuina.\nY es en este reconocimiento mutuo que la vida se vuelve más ligera, más auténtica e infinitamente más bella."
     }
   ]
 }

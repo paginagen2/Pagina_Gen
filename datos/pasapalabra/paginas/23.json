@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 23,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 24,
   "items": [
+    {
+      "id": "pasapalabra_1777433305410",
+      "titulo": "SER SENCILLOS",
+      "fecha": "29/04/2026",
+      "reflexion": "Ser \"sencillo\" no es humillarse, es purificarse. Significa eliminar los excesos que pesan, las expectativas exageradas, las comparaciones constantes, el orgullo innecesario, y quedarse con lo que realmente importa.\nLa sencillez es valorar lo esencial y comprender que la felicidad reside en las pequeñas cosas.\nSer sencillo es aprender a expresar los sentimientos sin máscaras, a vivir sin necesidad de impresionar, a elegir la verdad por encima de las apariencias.\nSer sencillo es liberarse de la necesidad de demostrarle algo al mundo y, finalmente, descansar en la propia esencia, que viene del amor."
+    },
     {
       "id": "pasapalabra_1777433300085",
       "titulo": "VIVIR LA MANSEDUMBRE",
@@ -34,12 +40,6 @@
       "titulo": "HOY MEJOR QUE AYER",
       "fecha": "24/04/2026",
       "reflexion": "“Sean perfectos como es perfecto el Padre que está en el cielo” (Mt. 5,28)\nLa vida espiritual y humana es un camino de crecimiento continuo. En esta frase, Jesús no nos llama a la perfección inmediata, sino al progreso constante. Cada día es una nueva oportunidad para recomenzar, para aprender de los errores y dar un paso más hacia el bien.\n“Hoy mejor que ayer” no significa compararse con otros días, sino con nosotros mismos. Pequeños avances, casi imperceptibles, construyen grandes transformaciones a lo largo del tiempo.\nEsta perfección no es rigidez, sino plenitud de amor. Y el amor crece poco a poco, en las acciones sencillas de lo cotidiano.\nLo que importa no es la velocidad del cambio, sino la dirección. Si cada día damos un paso sincero hacia el bien, Dios hace el resto."
-    },
-    {
-      "id": "pasapalabra_1776947091704",
-      "titulo": "LLEVAR LA UNIDAD",
-      "fecha": "23/04/2026",
-      "reflexion": "En un mundo marcado por opiniones fuertes y profundas diferencias, promover la unidad es un verdadero desafío, pero al mismo tiempo un acto de amor.\nEl mismo Jesucristo rezó por la unidad entre las personas, sabiendo que unidad no significa uniformidad, sino armonía en la diversidad. Su petición al Padre fue: “¡Que todos sean uno!” (cf. Jn. 17,21).\nSer instrumento de unidad requiere humildad y valentía. Humildad para reconocer que no somos dueños de la verdad. Valentía para dar el primer paso y reconstruir los lazos rotos.\nDonde hay unidad, hay comunión y esperanza."
     }
   ]
 }

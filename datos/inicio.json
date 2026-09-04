@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-03",
-  "generadoEn": "2026-09-03T07:58:32.846Z",
+  "fechaGeneracion": "2026-09-04",
+  "generadoEn": "2026-09-04T07:59:55.304Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788401144524",
-    "titulo": "CONFIAR",
-    "fecha": "03/09/2026",
+    "id": "pasapalabra_1788481903082",
+    "titulo": "TENER EL VALOR DE CAMBIAR",
+    "fecha": "04/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777052721636_uxpfiw1pv",
-    "titulo": "\"Si muere...\"",
+    "id": "meditacion_1777044221546",
+    "titulo": "Rocío divino",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

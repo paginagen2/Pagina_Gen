@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 29,
   "tamanioPagina": 6,
-  "total": 324,
+  "total": 325,
   "siguientePagina": 30,
   "items": [
+    {
+      "id": "pasapalabra_1774446200122",
+      "titulo": "IMPLICARSE EN EL SUFRIMIENTO AJENO",
+      "fecha": "25/03/2026",
+      "reflexion": "En un mundo marcado por la prisa y por la indiferencia, detenerse a percibir el dolor ajeno es, en sí mismo, un acto de amor.\nMuchas veces, no podemos resolver los problemas de los demás, pero sí podemos estar presentes. Escuchar sin juzgar, acoger sin minimizar, respetar el tiempo del otro: todo esto es como si dijésemos: “No estás solo”.\nPrestar atención al sufrimiento del otro derriba el egoísmo, refuerza nuestra sensibilidad y nos recuerda que todos cargamos con batallas invisibles.\nDedicar atención al dolor del otro no es cargar con el peso del mundo, sino elegir no pasar por él con los ojos cerrados. Es comprender que, a veces, el mayor cuidado no es una solución, sino una presencia amiga. Y, a menudo, eso ya es sanador."
+    },
     {
       "id": "pasapalabra_1774305895372",
       "titulo": "DECIDIR AMAR",
@@ -34,12 +40,6 @@
       "titulo": "CONSTRUIR PUENTES DE AMISTAD",
       "fecha": "20/03/2026",
       "reflexion": "La idea de un puente es la mejor imagen para representar un vínculo de amistad.\nUn puente conecta las orillas opuestas de un río o de un precipicio. Une estas orillas, que entonces pasan a comunicarse.\nUn puente de amistad puede unirme a muchas personas, a innumerables personas. Fomenta el encuentro, el caminar juntos, la estima y el conocimiento recíproco.\nLa amistad no nace solo de la afinidad, sino de la disposición de comprender y de aceptar las diferencias.\nCada relación sincera se convierte en una pequeña señal de que es posible vivir sin exclusión, sin prejuicios y sin miedo, confiando en que el encuentro con el otro siempre es una oportunidad para aprender a amar mejor."
-    },
-    {
-      "id": "pasapalabra_1773874945615",
-      "titulo": "ORIENTAR LA VIDA HACIA DIOS",
-      "fecha": "19/03/2026",
-      "reflexion": "Orientar nuestra vida hacia Dios significa entregar nuestro pasado a su misericordia, poner nuestro presente en sus manos y esperar solo en Él para nuestro futuro. De esta manera, podemos tener la certeza de que Él actuará.\nCuando orientamos nuestra vida hacia Dios, aprendemos a mirarnos con mayor verdad y humildad. Comenzamos a percibir nuestras limitaciones sin desesperación y nuestros dones sin orgullo, comprendiendo que todo es gracia y una oportunidad para servir.\nVivir orientados hacia Dios es aprender a amar mejor: amar sin imponer condiciones, perdonar con sinceridad, acoger con más paciencia. Es permitir que cada gesto, en el trabajo, en la familia, en la comunidad, sea una pequeña oración, una señal de que nuestra vida ha encontrado un rumbo que da sentido a todo."
     }
   ]
 }
