@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 45,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 46,
   "items": [
+    {
+      "id": "pasapalabra_1766711046742",
+      "titulo": "ATENTOS A LA AUTORREFERENCIALIDAD",
+      "fecha": "26/12/2025",
+      "reflexion": "No podemos concentrar todo en nuestro pensamiento, creyendo que nuestros métodos siempre son los mejores. Corremos el riesgo de ser como un espejo frente a otro espejo, sin reflejar una visión más adecuada de la realidad que nos rodea.\nTener cuidado con la autorreferencialidad es un acto de madurez que exige saber cuándo no mirarse a uno mismo y saber valorar el pensamiento y la forma de actuar de los demás.\nLa autorreferencialidad puede ser útil para reconocer cuál es nuestro lugar en un discurso y eliminar la posibilidad de neutralidad ante situaciones cruciales de la vida social. Sin embargo, debe practicarse con amor y respeto por los otros que nos escuchan y, a su vez, tienen algo que decir."
+    },
     {
       "id": "pasapalabra_1766621793339",
       "titulo": "¡MI FIESTA ES ENCONTRARTE, SEÑOR!",
@@ -34,12 +40,6 @@
       "titulo": "DEJARSE SORPRENDER",
       "fecha": "21/12/2025",
       "reflexion": "Cuando damos espacio a lo inesperado, permitimos que la vida nos enseñe algo nuevo. A veces, lo inesperado es precisamente lo que más necesitamos. Una conversación inesperada, un simple gesto de bondad que recibimos, un cambio de rumbo: todo puede convertirse en una señal de gracia especial si estamos atentos y de corazón abierto.\nDejarse sorprender es un acto de humildad y confianza: es reconocer que no lo sabemos todo, que Dios puede trazar mejores caminos que los nuestros.\nTambién es una invitación a la alegría, porque la sorpresa renueva la esperanza y reaviva el encanto de la vida.\nEs en lo inesperado donde la vida y lo divino a menudo se revelan con mayor intensidad."
-    },
-    {
-      "id": "pasapalabra_1766193723708",
-      "titulo": "SERVIR",
-      "fecha": "20/12/2025",
-      "reflexion": "“El que quiera ser grande, que se haga servidor de ustedes.” (Mt. 20,27)\nServir es un acto que sobrepasa el simple cumplimiento de deberes. Es una profunda expresión de amor y humildad.\nCuando servimos, priorizamos el bien del otro por encima de nuestros propios intereses, y es en este gesto que revelamos el verdadero significado de la grandeza humana.\nServir no disminuye a nadie; al contrario, eleva el alma y purifica el corazón. Quien sirve con alegría transforma el entorno que lo rodea, contagiando bondad.\nServir es, por tanto, la forma más hermosa de imitar a Jesús, quien “no vino para ser servido, sino para servir”."
     }
   ]
 }

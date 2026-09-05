@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 37,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 38,
   "items": [
+    {
+      "id": "pasapalabra_1770863134311",
+      "titulo": "AMAR A TODOS",
+      "fecha": "12/02/2026",
+      "reflexion": "Amar a todos es uno de los mayores desafíos, porque somos selectivos con quién creemos que merece nuestro amor.\nAmamos con facilidad a quien nos agrada, a quien piensa como nosotros y quien nos retribuye. Sin embargo, el amor verdadero comienza cuando trasciende estos límites y alcanza también a quien nos hiere, a quien no está de acuerdo, a quien es diferente.\nAmar a todos no significa estar de acuerdo con todo ni aceptar las injusticias. Significa comprender que el amor no distingue entre las personas, incluso cuando sus actitudes nos decepcionan.\nCuando amamos a todos, eliminamos el peso del rencor de nuestro corazón. El amor deja de ser solo un sentimiento y se convierte en una práctica de compasión y misericordia."
+    },
     {
       "id": "pasapalabra_1770770174221",
       "titulo": "BASAR NUESTRAS DECISIONES EN EL AMOR",
@@ -34,12 +40,6 @@
       "titulo": "SER COMPASIVOS",
       "fecha": "07/02/2026",
       "reflexion": "Ser compasivos es permitir que el corazón se acerque al dolor del otro.\nLa compasión nace cuando reconocemos que todos llevamos dificultades y sufrimientos, a veces invisibles, y que un simple gesto puede aliviar una enorme carga.\nSer compasivo exige humildad: reconocer que también somos frágiles y necesitados de misericordia. Cuando miramos al prójimo con esta comprensión y esa sensibilidad, nuestras palabras se vuelven más amables, nuestras actitudes más pacientes y nuestras decisiones más humanas.\nLa compasión rompe las barreras de la indiferencia, sana las heridas internas y nos acerca al amor que Dios nos enseña a vivir cada día."
-    },
-    {
-      "id": "pasapalabra_1770337079223",
-      "titulo": "PERSEVERAR EN LAS PRUEBAS",
-      "fecha": "06/02/2026",
-      "reflexion": "Las dificultades de la vida a menudo nos llevan al límite de nuestras fuerzas, pero es precisamente en estos momentos que somos invitados a seguir adelante, sostenidos por Dios.\nCuando todo parece pesado, perseverar es seguir haciendo lo que es correcto, amando cuando es más difícil, rezando incluso cuando el corazón está cansado.\nLas pruebas pueden convertirse en un camino de madurez interior y fortalecimiento espiritual.\nDios no promete un camino sin obstáculos, sino que garantiza su presencia constante.\nCada paso perseverante, por pequeño que sea, es visto por Él, que transforma el sufrimiento en esperanza. Así, aprendemos que la fe no es la ausencia de lucha, sino la valentía de permanecer firmes, confiando en que, a su debido tiempo, Dios hará brotar nueva vida donde parecía haber solo dolor."
     }
   ]
 }

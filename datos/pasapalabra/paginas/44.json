@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 44,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 45,
   "items": [
+    {
+      "id": "pasapalabra_1767235599607",
+      "titulo": "VIVIR POR UNA PAZ “DESARMADA Y DESARMANTE”",
+      "fecha": "01/01/2026",
+      "reflexion": "La violencia a menudo surge de pequeñas tensiones cotidianas: un gesto duro, una palabra hiriente, un juicio precipitado.\nLa verdadera paz no se impone, se ofrece, como quien extiende la mano sin exigir nada a cambio.\nUna paz desarmada es aquella que no se basa en amenazas, miedos ni controles, como hacen los líderes de naciones consideradas poderosas.\nUna paz desarmante, en cambio, transforma con el ejemplo: su dulzura desmantela defensas, su diálogo desmoviliza hostilidades, su respeto neutraliza la agresión.\nLa paz desarmada y desarmante no es solo la ausencia de conflicto, sino una invitación a que cada uno sea fuente de reconciliación, constructor de puentes, guardian de gestos sencillos que sustentan la vida en común."
+    },
     {
       "id": "pasapalabra_1767144923487",
       "titulo": "TAMBIÉN HOY PUEDO RECOMENZAR",
@@ -34,12 +40,6 @@
       "titulo": "TRANSMITIR LA ALEGRÍA",
       "fecha": "27/12/2025",
       "reflexion": "Transmitir alegría no significa negar lo que duele. Significa no permitir que el dolor lo domine todo. Es mirar la vida con una ternura persistente, esa que no renuncia a encontrarle sentido, incluso cuando el día parece demasiado duro.\nY cuando ofrecemos esta alegría con una palabra  que calma, con una sonrisa que no exige nada a cambio, con un silencio acogedor, ella regresa. Siempre regresa. Porque la alegría compartida es tenaz: crece, se multiplica, encuentra un lugar incluso donde parecía no haber espacio.\nTransmitir alegría es comprender que cada encuentro es un campo fértil. Y que, si dejamos allí una semilla de luz, por pequeña que sea, quizás alguien encuentre la fuerza para florecer cuando más la necesite.\nTransmitir alegría es simple: es presencia, es un gesto, es la elección de ser, sin esfuerzo, una especie de refugio para el mundo."
-    },
-    {
-      "id": "pasapalabra_1766711046742",
-      "titulo": "ATENTOS A LA AUTORREFERENCIALIDAD",
-      "fecha": "26/12/2025",
-      "reflexion": "No podemos concentrar todo en nuestro pensamiento, creyendo que nuestros métodos siempre son los mejores. Corremos el riesgo de ser como un espejo frente a otro espejo, sin reflejar una visión más adecuada de la realidad que nos rodea.\nTener cuidado con la autorreferencialidad es un acto de madurez que exige saber cuándo no mirarse a uno mismo y saber valorar el pensamiento y la forma de actuar de los demás.\nLa autorreferencialidad puede ser útil para reconocer cuál es nuestro lugar en un discurso y eliminar la posibilidad de neutralidad ante situaciones cruciales de la vida social. Sin embargo, debe practicarse con amor y respeto por los otros que nos escuchan y, a su vez, tienen algo que decir."
     }
   ]
 }

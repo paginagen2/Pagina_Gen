@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 19,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 20,
   "items": [
+    {
+      "id": "pasapalabra_1779501615091",
+      "titulo": "VIVIR CON TRANSPARENCIA.",
+      "fecha": "23/05/2026",
+      "reflexion": "Vivir con transparencia es permitir que lo que somos por dentro esté alineado con lo que mostramos al mundo.\nMuchas veces somos tentados a esconder nuestras debilidades, nuestros errores o sentimientos por miedo al juicio. Sin embargo, la verdadera libertad nace cuando somos nosotros mismos delante de Dios y delante de todos.\nLa transparencia no significa exponerlo todo, sino vivir con la verdad en el corazón. Significa actuar con honestidad, reconocer nuestros errores, pedir perdón cuando sea necesario y mostrar nuestras cualidades sin orgullo exagerado.\nVivir con transparencia es ser como una ventana abierta: dejar entrar la luz y permitir que los demás vean la belleza que hay dentro, en la verdad y en la autenticidad."
+    },
     {
       "id": "pasapalabra_1779411957650",
       "titulo": "TÚ SABES, DIOS MÍO, QUE TE QUIERO",
@@ -34,12 +40,6 @@
       "titulo": "*SALIR DE UNO MISMO*",
       "fecha": "18/05/2026",
       "reflexion": "Salir de mí mismo no significa abandonar quien soy, sino sobrepasar mi ego para contemplar la vida que me rodea.\nCuando logro salir de mí, empiezo a comprender mejor a las otras personas, sus dolores y sus historias. Veo que el mundo no gira a mi alrededor, sino que yo debo integrarme en su ciclo y percibir la vida de quienes están a mi lado.\nEsto significa tener empatía, intentar ver el mundo con los ojos del otro.\nAl salir de mí, al sobrepasar mi ego, tengo un encuentro con Dios, además de un encuentro con la humanidad.\nCuriosamente, cuando dejo de mirarme solo a mí mismo, termino descubriendo quién soy realmente. Descubro el verdadero significado de mi existencia."
-    },
-    {
-      "id": "pasapalabra_1778977353712",
-      "titulo": "DIVULGAR NOTICIAS DE ESPERANZA",
-      "fecha": "17/05/2026",
-      "reflexion": "Leer el periódico, ver la televisión o navegar por las noticias en línea, el tema siempre es el mismo: noticias de guerras, conflictos, asesinatos, etc. Son noticias que nos entristecen y desaniman.\nTambién suceden cosas buenas a nuestro alrededor, pero no se difunden mucho, a menos que se conviertan en noticia de última hora, como una fuerte corriente de solidaridad durante algún desastre natural.\nPodemos ser difusores de noticias esperanzadoras, mostrando las cosas buenas que vemos en el mundo. Sin ignorar las dificultades, pero, creyendo que, con nuestra ayuda, con nuestra participación activa, todo puede mejorar.\nNecesitamos urgentemente difundir noticias de esperanza para que el mundo sea más humano, más fraterno y más lleno de luz."
     }
   ]
 }

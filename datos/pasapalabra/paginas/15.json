@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 15,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 16,
   "items": [
+    {
+      "id": "pasapalabra_1781409374025",
+      "titulo": "APRENDER A CONOCERNOS Y VALORARNOS",
+      "fecha": "14/06/2026",
+      "reflexion": "Conocer al otro va más allá de saber su nombre o sus preferencias; se trata de percibir sus cualidades, sus desafíos y lo que lo motiva. Esta atención plena fortalece los vínculos y genera confianza.\nAsimismo, valorar al otro es reconocer su valía, destacar sus contribuciones y cultivar la gratitud por su presencia.\nCuando aprendemos a conocernos y valorarnos mutuamente, la convivencia se vuelve más solidaria y armoniosa. Las diferencias dejan de ser barreras y se convierten en oportunidades para el crecimiento conjunto.\nDe esta manera, creamos un ambiente donde cada persona se siente acogida, respetada y motivada a dar lo mejor de sí misma.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1781314485090",
       "titulo": "REAVIVAR EL DON RECIBIDO",
@@ -34,12 +40,6 @@
       "titulo": "ELEGIR HACER EL BIEN",
       "fecha": "09/06/2026",
       "reflexion": "En todas mis decisiones, siempre existe la posibilidad de elegir hacer el bien.\nEl bien no tiene por qué ser algo extraordinario; a menudo reside en las pequeñas acciones de la vida cotidiana.\nPor ejemplo: responder con amabilidad incluso cuando nos contradicen, ayudar a alguien sin esperar nada a cambio, ofrecer una palabra amable, evitar las críticas innecesarias y promover la paz.\nEl bien hecho con sinceridad ilumina no solo a quien lo recibe, sino también a quien lo practica.\nEl bien que hago puede transformar el entorno que me rodea y llenar de paz los corazones de los demás y el mío.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1780948410175",
-      "titulo": "DEJAR A UN LADO EL ORGULLO",
-      "fecha": "08/06/2026",
-      "reflexion": "El orgullo se manifiesta cuando siempre queremos tener la razón, cuando nos cuesta pedir perdón o cuando sentimos que somos mejores que los demás. El orgullo crea barreras entre nosotros y los demás, y también entre nosotros y Dios.\nJesús nos enseña un camino diferente: el de la humildad.\nLa humildad no disminuye a la persona; al contrario, libera el corazón. Reconocer que necesitamos de Dios y de los demás, saber pedir perdón cuando nos equivocamos, escuchar más que hablar, alegrarnos por el bien del prójimo. Esto es tener libertad, no privación.\nChiara Lubich también enseñó que el verdadero amor nace cuando sabemos ponernos al nivel de los demás, con sencillez y espíritu de servicio."
     }
   ]
 }

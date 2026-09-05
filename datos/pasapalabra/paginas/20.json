@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 20,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 21,
   "items": [
+    {
+      "id": "pasapalabra_1778977353712",
+      "titulo": "DIVULGAR NOTICIAS DE ESPERANZA",
+      "fecha": "17/05/2026",
+      "reflexion": "Leer el periódico, ver la televisión o navegar por las noticias en línea, el tema siempre es el mismo: noticias de guerras, conflictos, asesinatos, etc. Son noticias que nos entristecen y desaniman.\nTambién suceden cosas buenas a nuestro alrededor, pero no se difunden mucho, a menos que se conviertan en noticia de última hora, como una fuerte corriente de solidaridad durante algún desastre natural.\nPodemos ser difusores de noticias esperanzadoras, mostrando las cosas buenas que vemos en el mundo. Sin ignorar las dificultades, pero, creyendo que, con nuestra ayuda, con nuestra participación activa, todo puede mejorar.\nNecesitamos urgentemente difundir noticias de esperanza para que el mundo sea más humano, más fraterno y más lleno de luz."
+    },
     {
       "id": "pasapalabra_1778901328739",
       "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
@@ -34,12 +40,6 @@
       "titulo": "VIVIR LAS DIFICULTADES CON PACIENCIA",
       "fecha": "12/05/2026",
       "reflexion": "La paciencia no elimina las dificultades, pero nos da la serenidad necesaria para superarlas y salir de ellas más fuertes y más sabios.\nLas dificultades son parte del camino de todo ser humano. Aunque causen dolor, cansancio o desánimo, pueden convertirse en oportunidades de crecimiento.\nLa paciencia es una fuerza interior que nos ayuda a sobrellevar los momentos difíciles sin perder la esperanza.\nLa paciencia nos ayuda a esperar, reflexionar y actuar con sabiduría, sin dejar que la ansiedad nos domine.\nQuien ya pasó momentos difíciles aprende a mirar a los demás con más compasión y solidaridad. Cada desafío superado fortalece el corazón y nos prepara para seguir adelante con más valentía y fe."
-    },
-    {
-      "id": "pasapalabra_1778516506041",
-      "titulo": "EMPATIZAR CON LA VIDA DE LOS DEMÁS",
-      "fecha": "11/05/2026",
-      "reflexion": "A menudo vivimos centrados en nuestras propias preocupaciones, proyectos y problemas. Empatizar significa romper con este aislamiento interior y reconocer que la vida del otro también nos importa.\nEmpatizar es compartir. Es amar al otro como le gustaría ser amado: alegrarnos con sus alegrías, sufrir con sus dolores, caminar a su lado sin juzgar.\nCuando las personas viven así, inmediatamente surge un ambiente de confianza, unidad y fraternidad.\nEmpatizar se manifiesta en los pequeños gestos de la vida diaria: escuchar a alguien con atención, ayudar sin esperar nada a cambio, comprender, estar presente e interesarse por todo lo que le preocupa."
     }
   ]
 }

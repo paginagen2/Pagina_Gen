@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 35,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 36,
   "items": [
+    {
+      "id": "pasapalabra_1771806925892",
+      "titulo": "EVITAR LOS CHISMORREOS",
+      "fecha": "23/02/2026",
+      "reflexion": "Hablar es natural, pero hablar en exceso, sin contenido o de forma impulsiva, puede alejarnos de lo esencial.\nA menudo, el chismorreo surge de la ansiedad por llenar el silencio, de la necesidad de aprobación o del deseo de parecer importante.\nEvitar los chismes no significa callar, sino aprender a dar valor a la palabra. La palabras reflexivas edifican, consuelan y guían; las palabras irreflexivas confunden, hieren y dispersan. El silencio, a su vez, no es ausencia, sino un espacio para escuchar.\nQuien cultiva el silencio interior aprende a hablar con más verdad y caridad.\nEvitar los chismes significa elegir menos palabras y más significado; menos prisa y más profundidad."
+    },
     {
       "id": "pasapalabra_1771728515534",
       "titulo": "ENTRENARSE PARA VIVIR EL PRESENTE",
@@ -34,12 +40,6 @@
       "titulo": "HACER DE CADA OBSTÁCULO UN TRAMPOLÍN DE LANZAMIENTO",
       "fecha": "18/02/2026",
       "reflexion": "Los obstáculos que se presentan en nuestro camino no solo existen para detenernos, sino para impulsarnos. \nCada dificultad conlleva una lección, cada desafío encierra la oportunidad de hacernos más fuertes, más conscientes y más preparados para lo que viene después.\nCuando vemos el obstáculo como un trampolín, cambiamos la perspectiva: el problema deja de ser un fin y se convierte en un medio. \nEs en el esfuerzo por superar los obstáculos donde maduramos la fe y fortalecemos la esperanza.\nNo progresamos en la vida por la ausencia de obstáculos, sino por el valor de enfrentarlos. Así, cada obstáculo superado nos eleva un poco más, sostenidos por la fe en Dios y la esperanza."
-    },
-    {
-      "id": "pasapalabra_1771286785001",
-      "titulo": "CONFIANZA EN DIOS",
-      "fecha": "17/02/2026",
-      "reflexion": "Confiar en Dios es caminar sin tener todas las respuestas, sostenidos por la certeza de que no estamos solos.\nLa confianza nace cuando entregamos el control en sus manos y aceptamos que hay un tiempo más grande que el nuestro.\nConfiar en Dios es descansar el corazón, incluso cuando la mente insiste en preocuparse. Es aprender que la fe no elimina los miedos, sino que nos da la valentía para seguir adelante a pesar de ellos.\nConfiar en Dios es una decisión diaria: elegir creer, elegir esperar, elegir avanzar, sabiendo que Él cuida de cada detalle."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-04",
-  "generadoEn": "2026-09-04T07:59:55.304Z",
+  "fechaGeneracion": "2026-09-05",
+  "generadoEn": "2026-09-05T07:36:00.750Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788481903082",
-    "titulo": "TENER EL VALOR DE CAMBIAR",
-    "fecha": "04/09/2026",
+    "id": "pasapalabra_1788569258460",
+    "titulo": "PONER LA CARIDAD EN LA BASE DE CADA ACCIÓN",
+    "fecha": "05/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777044221546",
-    "titulo": "Rocío divino",
+    "id": "meditacion_1775877018331",
+    "titulo": "Todo ha comenzado",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

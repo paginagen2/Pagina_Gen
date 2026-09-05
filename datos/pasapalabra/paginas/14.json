@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 14,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 15,
   "items": [
+    {
+      "id": "pasapalabra_1781914821559",
+      "titulo": "MOSTRAR DULZURA Y SERENIDAD CON LOS DEMÁS",
+      "fecha": "20/06/2026",
+      "reflexion": "Muchas veces, las personas que conocemos llevan cargas invisibles que no podemos percibir a simple vista. Es precisamente ahí donde la dulzura se hace necesaria.\nMostrar dulzura es saber acoger con una mirada serena, con una palabra amable, con una escucha atenta.\nLa calma, a su vez, es fruto de un corazón que confía, un corazón que no se deja dominar por la ansiedad, sino que busca actuar con equilibrio y sabiduría.\nMostrar calma es también elegir no reaccionar impulsivamente, sino responder a todo con amor. Es permitir que la paz que deseamos para nosotros llegue también a quienes nos rodean."
+    },
     {
       "id": "pasapalabra_1781840448396",
       "titulo": "ALABAR A DIOS EN LAS CRIATURAS",
@@ -34,12 +40,6 @@
       "titulo": "CONSTRUIR PUENTES DE AMISTAD",
       "fecha": "15/06/2026",
       "reflexion": "Ya hablamos de esto hace unos meses, pero vamos a profundizar un poco más.\nConstruir puentes de amistad es elegir acercarnos a los demás en lugar de distanciarnos.\nHoy, la amistad se presenta como un camino de encuentro, basado en el respeto, la escucha y la confianza. Cada gesto de atención, cada palabra sincera y cada momento compartido son pilares que construyen este puente.\nLas amistades no nacen hechas; se fortalecen con el tiempo, con  paciencia y cuidado.\nConstruir puentes de amistad también es saber cómo cruzarlos: dar el primer paso, superar los malentendidos y mantener un diálogo vivo. De esta manera, creamos caminos seguros donde circulan el apoyo, la alegría y la solidaridad."
-    },
-    {
-      "id": "pasapalabra_1781409374025",
-      "titulo": "APRENDER A CONOCERNOS Y VALORARNOS",
-      "fecha": "14/06/2026",
-      "reflexion": "Conocer al otro va más allá de saber su nombre o sus preferencias; se trata de percibir sus cualidades, sus desafíos y lo que lo motiva. Esta atención plena fortalece los vínculos y genera confianza.\nAsimismo, valorar al otro es reconocer su valía, destacar sus contribuciones y cultivar la gratitud por su presencia.\nCuando aprendemos a conocernos y valorarnos mutuamente, la convivencia se vuelve más solidaria y armoniosa. Las diferencias dejan de ser barreras y se convierten en oportunidades para el crecimiento conjunto.\nDe esta manera, creamos un ambiente donde cada persona se siente acogida, respetada y motivada a dar lo mejor de sí misma.\nUn abrazo,"
     }
   ]
 }

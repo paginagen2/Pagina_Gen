@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 325,
+  "total": 326,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1788569258460",
+      "titulo": "PONER LA CARIDAD EN LA BASE DE CADA ACCIÓN",
+      "fecha": "05/09/2026",
+      "reflexion": "La caridad no se limita al hecho de donar o ayudar a alguien necesitado. La verdadera caridad se manifiesta en nuestra forma de pensar, hablar y actuar. Está presente en el deseo constante de hacer el bien.\nLa caridad también nos invita a mirar nuestro interior y hacer reflexiones, que nos ayuden a crecer espiritualmente y transformar gradualmente nuestra forma de vida.\nQue podamos hacer de la caridad el fundamento de todo lo que hacemos. Que cada gesto, cada palabra y cada decisión estén inspirados por el amor al prójimo, recordando que es por el amor expresado en nuestras acciones que nos acercamos verdaderamente a Dios."
+    },
     {
       "id": "pasapalabra_1788481903082",
       "titulo": "TENER EL VALOR DE CAMBIAR",
@@ -34,12 +40,6 @@
       "titulo": "ESCUCHAR",
       "fecha": "31/08/2026",
       "reflexion": "Escuchar es un acto de respeto, aceptación y amor. Más allá de oír palabras, se trata de abrir el corazón para comprender la realidad, las alegrías y los dolores del otro, sin juicios y sin prisas.\nCuando escuchamos con atención, fortalecemos los vínculos, fomentamos el diálogo y hacemos que las personas se sientan valoradas. Muchas veces, una escucha sincera es el primer paso para aliviar el peso que alguien carga.\nEscuchar también nos enseña a reconocer que siempre podemos aprender de los demás y responder con mayor sabiduría.\nQue aprendamos a escuchar con el corazón abierto, acogiendo a cada persona con respeto, atención y amor, para que nuestros encuentros sean fuente de esperanza, comprensión y paz."
-    },
-    {
-      "id": "pasapalabra_1788054439915",
-      "titulo": "ESTAR DEL LADO DE LOS MÁS VULNERABLES",
-      "fecha": "30/08/2026",
-      "reflexion": "Estar del lado de los más vulnerables es elegir el camino de la compasión, la justicia y el amor. Es reconocer la dignidad de cada persona y comprender que nadie debe enfrentar solo el peso de las dificultades.\nUn gesto de acogida, una palabra de consuelo o un acto de solidaridad pueden devolver la esperanza a quien más la necesita.\nEstar al lado de los que sufren también transforma nuestro corazón. Aprendemos que la fuerza de una sociedad reside en la forma cómo cuida a sus miembros más vulnerables.\nQue seamos una presencia de amor y esperanza en la vida de los más vulnerables, promoviendo la dignidad, la justicia y la fraternidad en cada encuentro."
     }
   ]
 }
