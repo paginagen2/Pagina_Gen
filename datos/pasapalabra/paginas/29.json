@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 29,
   "tamanioPagina": 6,
-  "total": 326,
+  "total": 327,
   "siguientePagina": 30,
   "items": [
+    {
+      "id": "pasapalabra_1774592389752",
+      "titulo": "ENTREGARNOS POR EL BIEN DE TODOS",
+      "fecha": "27/03/2026",
+      "reflexion": "Cuando nuestra vida deja de girar únicamente en torno a nosotros mismos, adquiere mayor significado. Nos damos cuenta de que nuestras acciones, por pequeñas que parezcan, siempre llegan a alguien más allá de nosotros.\nEntregarse no es anularse. Es poner talentos, tiempo y sensibilidad al servicio de todos, sin esperar reconocimiento constante. Es elegir ser útil antes que ser visible.\nQuien se entrega por el bien de los demás aprende que el verdadero valor no reside en cuánto se tiene, sino en cuánto se da."
+    },
     {
       "id": "pasapalabra_1774495989160",
       "titulo": "AMAR DESINTERESADAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "PRESTAR ATENCIÓN A QUIENES ENCONTRAMOS",
       "fecha": "22/03/2026",
       "reflexion": "En el vertiginoso ritmo de la vida diaria, pasamos de largo ante rostros, historias y sentimientos sin darnos cuenta.\nPrestar atención no es solo ver, sino reconocer al otro como alguien que lleva consigo luchas, sueños, miedos y esperanzas, igual que nosotros.\nA veces, un simple gesto, una palabra amable, un silencio respetuoso, puede ser justo lo que alguien necesita para seguir adelante.\nCuando aprendemos a ver a las personas más allá de las apariencias, ampliamos nuestra sensibilidad, nuestra paciencia y nuestra capacidad de amar.\nPrestar atención a los demás es una invitación a recordar que todos estamos en un camino y que nadie debería pasar desapercibido a nuestro lado."
-    },
-    {
-      "id": "pasapalabra_1774049162922",
-      "titulo": "TENER COMPASIÓN POR LOS NECESITADOS",
-      "fecha": "21/03/2026",
-      "reflexion": "Puedo permitir que el sufrimiento del otro no me sea indiferente. Dejar que su dolor toque mi corazón, y me impulse de la simple observación a la acción concreta, transformando la sensibilidad en cuidado hacia mi prójimo.\nHoy es el otro que necesita; mañana podría ser yo. Esta conciencia me hace más humilde y solidario.\nSer compasivo no se trata solo de dar algo material, sino de ofrecer presencia. A menudo, lo que más le falta al necesitado no es solo pan, sino alguien que lo vea, lo llame por su nombre y reconozca su valor.\nLa compasión es una forma concreta de amor. Nos acerca a Dios y nos humaniza, construyendo una sociedad más justa, fraterna y sensible al sufrimiento humano."
     }
   ]
 }

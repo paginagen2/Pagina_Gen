@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 16,
   "tamanioPagina": 6,
-  "total": 326,
+  "total": 327,
   "siguientePagina": 17,
   "items": [
+    {
+      "id": "pasapalabra_1780969873050",
+      "titulo": "ELEGIR HACER EL BIEN",
+      "fecha": "09/06/2026",
+      "reflexion": "En todas mis decisiones, siempre existe la posibilidad de elegir hacer el bien.\nEl bien no tiene por qué ser algo extraordinario; a menudo reside en las pequeñas acciones de la vida cotidiana.\nPor ejemplo: responder con amabilidad incluso cuando nos contradicen, ayudar a alguien sin esperar nada a cambio, ofrecer una palabra amable, evitar las críticas innecesarias y promover la paz.\nEl bien hecho con sinceridad ilumina no solo a quien lo recibe, sino también a quien lo practica.\nEl bien que hago puede transformar el entorno que me rodea y llenar de paz los corazones de los demás y el mío.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1780948410175",
       "titulo": "DEJAR A UN LADO EL ORGULLO",
@@ -34,12 +40,6 @@
       "titulo": "AYUDAR A LOS POBRES",
       "fecha": "04/06/2026",
       "reflexion": "Ayudar a los pobres no se trata solo de realizar un acto de caridad, sino de reconocer en el otro, a menudo invisible para la sociedad, la misma dignidad que anhelamos para nosotros mismos.\nLa pobreza no es solo la falta de recursos materiales; también puede significar la ausencia de oportunidades, de voz y de esperanza.\nAdemás, esta ayuda nos transforma. Nos enseña gratitud por lo que tenemos, sensibilidad delante de las injusticias y responsabilidad social.\nAl tender la mano a quien lo necesita, comprendemos que la verdadera riqueza no reside en acumular, sino en compartir.\nCuando cuidamos de los más vulnerables, construimos una sociedad más justa."
-    },
-    {
-      "id": "pasapalabra_1783078819484",
-      "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
-      "fecha": "03/06/2026",
-      "reflexion": "La conciencia es como una luz que Dios enciende  dentro de nosotros. No grita, sino que guía.\nMuchas veces, acallamos esta voz con la prisa, el orgullo o el miedo. Pero la conciencia siempre regresa, recordándonos quiénes somos y quiénes podemos ser.\nEscuchar la voz de la conciencia es reconocer los errores, pedir perdón, recomenzar. Es elegir lo correcto, incluso cuando nadie está mirando. Es mantener la coherencia entre lo que decimos y lo que vivimos.\nQuien aprende a escuchar su propia conciencia camina con más serenidad, sabiendo que está en sintonía con la verdad y con el amor."
     }
   ]
 }

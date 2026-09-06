@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 10,
   "tamanioPagina": 6,
-  "total": 326,
+  "total": 327,
   "siguientePagina": 11,
   "items": [
+    {
+      "id": "pasapalabra_1784171574207",
+      "titulo": "RENOVAR EL COMPROMISO DEL AMOR MUTUO",
+      "fecha": "16/07/2026",
+      "reflexion": "Jesús dijo a sus discípulos: “Ámense los unos a los otros como yo los he amado” (Jn. 13,34). Este amor se manifiesta en pequeños gestos cotidianos: una palabra de aliento, un acto de servicio, una visita, una oración por alguien que sufre, un silencio que evita herir.\nRenovar este compromiso también implica superar el egoísmo y la indiferencia.\nAmar concretamente es construir fraternidad y esperanza. Quien ama acerca los corazones y siembra paz.\nEl amor mutuo fortalece a las familias, a las comunidades y a las amistades. Cuando cada persona busca vivir más para los demás que para sí misma, nace una atmósfera de comunión donde todos se sienten amados."
+    },
     {
       "id": "pasapalabra_1784073160765",
       "titulo": "REALIZAR GESTOS SENCILLOS DE AMOR CONCRETO",
@@ -34,12 +40,6 @@
       "titulo": "PROMOVER UNA VERDADERA FRATERNIDAD",
       "fecha": "11/07/2026",
       "reflexion": "Vivir la fraternidad es una decisión diaria de abrir nuestros corazones para acoger, comprender y servir.\nPromover una verdadera fraternidad implica un diálogo sincero, una mano extendida, una palabra de esperanza, la capacidad de compartir alegrías y de cargar juntos los sufrimientos.\nLa verdadera fraternidad nos recuerda que todos somos interdependientes y que cada persona aporta algo único.\nQue cada día sea una oportunidad para sembrar fraternidad mediante acciones sencillas pero sinceras. De esta manera, contribuiremos por un mundo más unido y lleno de esperanza."
-    },
-    {
-      "id": "pasapalabra_1783645978081",
-      "titulo": "COMPROMETERSE EN FAVOR DE LA UNIDAD",
-      "fecha": "10/07/2026",
-      "reflexion": "La unidad no significa pensar igual ni eliminar opiniones diferentes, sino aprender a convivir con respeto, diálogo y comprensión.\nEsforzarse por la unidad también significa ser un instrumento de paz: evitar las palabras que hieren, fomentar la reconciliación, acoger a quienes piensan diferente y cultivar ambientes armoniosos.\nBuscar la unidad es elegir el amor por encima de las divisiones y comprender que la verdadera grandeza reside en la capacidad de unir, no de separar.\nLa verdadera unidad la hace el mismo Jesús, cuando nos amamos como Él nos amó. Él está en medio de nosotros y nos hace una sola cosa."
     }
   ]
 }

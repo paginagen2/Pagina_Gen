@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 51,
   "tamanioPagina": 6,
-  "total": 326,
+  "total": 327,
   "siguientePagina": 52,
   "items": [
+    {
+      "id": "pasapalabra_1763684595799",
+      "titulo": "HECHOS, NO PALABRAS",
+      "fecha": "21/11/2025",
+      "reflexion": "Las palabras tienen poder; pueden inspirar, consolar y guiar. Pero cuando no van acompañadas de acciones, pierden su fuerza y se vuelven vacías.\nEl verdadero valor del testimonio está en los hechos, pues estos revelan quiénes somos realmente y en qué creemos.\nHablar es fácil; actuar exige coraje, coherencia y compromiso.\nEs en los gestos concretos, en la paciencia, en la solidaridad, en la honestidad y en la perseverancia donde se manifiesta la verdad de las intenciones.\nMás que palabras bonitas, el mundo necesita ejemplos. Que nuestras acciones hablen por nosotros y que nuestras palabras solo confirmen lo que ya se ve en nuestros actos."
+    },
     {
       "id": "pasapalabra_1763605720357",
       "titulo": "AYUDARSE TODO LO POSIBLE",
@@ -34,12 +40,6 @@
       "titulo": "DAR AMOR A LOS POBRES",
       "fecha": "16/11/2025",
       "reflexion": "Dar amor a los pobres es más que un gesto de caridad; es un acto de justicia, de reconocimiento de la dignidad que habita en cada ser humano.\nEl verdadero amor no se limita a la compasión distante, sino que se hace presencia, cercanía y compartir.\nCuando miramos a los pobres con los ojos del corazón, descubrimos que no son simplemente personas que carecen de algo, sino personas que revelan nuestra propia fragilidad y nuestra dependencia mutua.\nDar amor a los pobres es aprender a reconocer la presencia de Jesús en quienes sufren, en quienes piden, en quienes esperan.\nAmar a los pobres es compartir tiempo, atención y respeto. Es caminar juntos, sin juzgar, reconociendo que todos somos pobres en algo, todos necesitamos amor y cuidado.\nQuien da amor a los pobres, da amor a Dios mismo, que se hizo pobre para enriquecernos con su presencia y su gracia."
-    },
-    {
-      "id": "pasapalabra_1763224649639",
-      "titulo": "PONER A DISPOSICIÓN LO QUE SE TIENE DE MÁS",
-      "fecha": "15/11/2025",
-      "reflexion": "Vivimos en una sociedad que nos enseña a acumular, a pensar primero en nosotros mismos. Pero el Evangelio, y también la sabiduría humana más profunda, nos recuerda que la verdadera riqueza reside en compartir.\nCuando compartimos lo que tenemos de más, algo en nuestro interior se transforma: nuestros corazones se expanden, nuestra mirada se vuelve más compasiva y la vida adquiere un sentido que el egoísmo jamás podría ofrecer.\nLo que tenemos de más, no nos pertenece solo a nosotros. Es un don que recibimos para hacerlo circular, como un río que, cuando fluye, da vida por donde pasa. Poner a disposición lo que tenemos de más es permitir que la gracia de Dios y la bondad humana continúen su camino a través de nosotros.\nPoner a disposición lo que tenemos de más es, fundamentalmente, reconocer que nada de lo que somos o tenemos tiene sentido si no es para el bien todos."
     }
   ]
 }
