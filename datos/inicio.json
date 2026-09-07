@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-06",
-  "generadoEn": "2026-09-06T07:50:12.823Z",
+  "fechaGeneracion": "2026-09-07",
+  "generadoEn": "2026-09-07T08:11:21.199Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788659159254",
-    "titulo": "DESEAR EL BIEN DE QUIENES ME RODEAN",
-    "fecha": "06/09/2026",
+    "id": "pasapalabra_1788739218504",
+    "titulo": "EL AMOR NOS HACE LIBRES",
+    "fecha": "07/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777044235882",
-    "titulo": "Preferiste el dolor",
+    "id": "meditacion_1777044249785",
+    "titulo": "Generosidad divina",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
