@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-08",
-  "generadoEn": "2026-09-08T07:59:45.613Z",
+  "fechaGeneracion": "2026-09-09",
+  "generadoEn": "2026-09-09T08:03:36.721Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788827834080",
-    "titulo": "RECONOCER EL AMOR QUE RECIBIMOS",
-    "fecha": "08/09/2026",
+    "id": "pasapalabra_1788912078205",
+    "titulo": "SER AGRADECIDOS",
+    "fecha": "09/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777044270467",
-    "titulo": "Inútiles",
+    "id": "meditacion_1775876247135",
+    "titulo": "La dimensión del espíritu",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

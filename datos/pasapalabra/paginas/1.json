@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 329,
+  "total": 330,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1788912078205",
+      "titulo": "SER AGRADECIDOS",
+      "fecha": "09/09/2026",
+      "reflexion": "Cada mirada mía, que contempla y se maravilla de la vida que me rodea, debe tener una mirada de gratitud por el don que se me ha concedido de ser parte de esta inmensa armonía.\nTodo lo que percibo con los sentidos del cuerpo y todo lo que vivo con los sentidos del alma me lleva a entonar un canto de agradecimiento alabando a Dios.\nGracias por todas las alegrías que he tenido y tendré, por todas las bendiciones recibidas.\nTambién estoy agradecido por cada dolor, cada dificultad superada, cada obstáculo vencido, que me han hecho más fuerte y me han dado mayor confianza en el inmenso amor de Dios.\nSer agradecido a Dios por el don del amor que Él sembró en mi corazón."
+    },
     {
       "id": "pasapalabra_1788827834080",
       "titulo": "RECONOCER EL AMOR QUE RECIBIMOS",
@@ -34,12 +40,6 @@
       "titulo": "TENER EL VALOR DE CAMBIAR",
       "fecha": "04/09/2026",
       "reflexion": "El miedo a lo desconocido, a la pérdida o al fracaso puede paralizarnos. Sin embargo, la vida nos invita constantemente a crecer, y todo crecimiento exige algún cambio.\nTener el valor de cambiar no significa no sentir miedo. Significa reconocerlo y aun así dar un paso adelante, confiando en que cada decisión tomada con sabiduría nos acerca a una mejor versión de nosotros mismos.\nEl cambio comienza en el corazón. Ocurre cuando abandonamos viejos hábitos, corregimos actitudes, revisamos conceptos y nos abrimos al aprendizaje. Quienes tienen el valor de cambiar descubren que el cambio nunca es señal de debilidad, sino de madurez."
-    },
-    {
-      "id": "pasapalabra_1788401144524",
-      "titulo": "CONFIAR",
-      "fecha": "03/09/2026",
-      "reflexion": "La confianza nos fortalece ante la incertidumbre y nos ayuda a enfrentar los desafíos sin dejarnos vencer por el miedo.\nConfiamos en Dios, en su providencia y en su amor, seguros de que Él camina con nosotros en todo momento. Aprendemos también a confiar en los demás, valorando el diálogo, la sinceridad y el respeto, pilares fundamentales de las relaciones sólidas y fraternas.\nLa confianza nos invita a perseverar, a mantener viva la esperanza y a creer que cada experiencia nos ayuda a crecer."
     }
   ]
 }
