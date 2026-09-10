@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-09",
-  "generadoEn": "2026-09-09T08:03:36.721Z",
+  "fechaGeneracion": "2026-09-10",
+  "generadoEn": "2026-09-10T08:03:09.802Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1788912078205",
-    "titulo": "SER AGRADECIDOS",
-    "fecha": "09/09/2026",
+    "id": "pasapalabra_1789006282871",
+    "titulo": "DEMOS CON GENEROSIDAD",
+    "fecha": "10/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775876247135",
-    "titulo": "La dimensión del espíritu",
+    "id": "meditacion_1777044285075",
+    "titulo": "Sobre la roca",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
