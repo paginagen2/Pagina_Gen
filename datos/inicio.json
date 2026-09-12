@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-11",
-  "generadoEn": "2026-09-11T07:58:41.517Z",
+  "fechaGeneracion": "2026-09-12",
+  "generadoEn": "2026-09-12T07:51:00.933Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1789092811085",
-    "titulo": "COMPARTIR LAS CARGAS DEL OTRO",
-    "fecha": "11/09/2026",
+    "id": "pasapalabra_1789181779642",
+    "titulo": "ESCUCHAR PROFUNDAMENTE",
+    "fecha": "12/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777043476656",
-    "titulo": "Se transforma en amor",
+    "id": "meditacion_1777044298660",
+    "titulo": "Es la prueba",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
