@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-14",
-  "generadoEn": "2026-09-14T08:48:27.298Z",
+  "fechaGeneracion": "2026-09-15",
+  "generadoEn": "2026-09-15T08:35:33.335Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1789355419038",
-    "titulo": "ELEGIR HACER EL BIEN",
-    "fecha": "14/09/2026",
+    "id": "pasapalabra_1789434364812",
+    "titulo": "ACOMPAÑAR EL DOLOR DEL OTRO",
+    "fecha": "15/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777043498691",
-    "titulo": "Reivindicar la belleza",
+    "id": "meditaciones_1777056371917_aa3bloos9",
+    "titulo": "San Juan de la Cruz",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
