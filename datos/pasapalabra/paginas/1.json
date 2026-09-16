@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 336,
+  "total": 337,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1789517355510",
+      "titulo": "SER LOS PRIMEROS EN AMAR",
+      "fecha": "16/09/2026",
+      "reflexion": "“Amar primero” es uno de los pilares del Arte de Amar, enseñado por Chiara Lubich. Ella nos recuerda que el verdadero amor no espera a ser amado para comenzar; toma la iniciativa, se acerca, acoge y sirve.\nCuántas veces esperamos a que la otra persona cambie, pida disculpas o dé el primer paso, Chiara nos invita a hacer lo contrario: a empezar nosotros mismos.\nAmar primero es vencer al egoísmo. Es elegir amar incluso cuando no es fácil, incluso cuando no hay reconocimiento inmediato. Este amor desinteresado tiene un poder transformador porque toca los corazones y crea unidad.\nQue la enseñanza de Chiara Lubich inspire nuestras actitudes, para que seamos personas que tomen la iniciativa en el amor y siembren fraternidad."
+    },
     {
       "id": "pasapalabra_1789434364812",
       "titulo": "ACOMPAÑAR EL DOLOR DEL OTRO",
@@ -34,12 +40,6 @@
       "titulo": "COMPARTIR LAS CARGAS DEL OTRO",
       "fecha": "11/09/2026",
       "reflexion": "Compartir las cargas de los demás significa estar presente, ofrecer un hombro amigo, una palabra de consuelo y una mano extendida en los momentos de dificultad.\nCuando acogemos el dolor del prójimo con compasión, aligeramos su caminar y fortalecemos los lazos de fraternidad que nos unen.\nNo siempre podemos resolver los problemas de quienes sufren, pero podemos asegurarnos de que no enfrenten sus dificultades solos. La presencia, la escucha y la solidaridad tienen el poder de renovar la esperanza.\n“Ayúdense mutuamente a llevar las cargas, y así cumplirán la Ley de Cristo.” (Gal. 6,2)"
-    },
-    {
-      "id": "pasapalabra_1789006282871",
-      "titulo": "DEMOS CON GENEROSIDAD",
-      "fecha": "10/09/2026",
-      "reflexion": "Dar con generosidad es entregar un poco de nosotros mismos: nuestro tiempo, nuestra atención, nuestra escucha, nuestro cariño y nuestra disposición a servir.\nLa verdadera generosidad nace de la comprensión de que todo lo que poseemos —talentos, oportunidades y recursos— puede ponerse al servicio del bien común.\nCuando damos con alegría, descubrimos que quienes más ganan somos nosotros. La generosidad amplía nuestra capacidad de amar, fortalece los lazos entre las personas y hace el mundo más humano y acogedor.\nAl compartir lo que somos y lo que tenemos, construimos fraternidad y nos convertimos en instrumentos de la bondad de Dios en el mundo."
     }
   ]
 }
