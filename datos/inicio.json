@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-16",
-  "generadoEn": "2026-09-16T08:29:33.465Z",
+  "fechaGeneracion": "2026-09-17",
+  "generadoEn": "2026-09-17T08:34:41.965Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1789517355510",
-    "titulo": "SER LOS PRIMEROS EN AMAR",
-    "fecha": "16/09/2026",
+    "id": "pasapalabra_1789612483371",
+    "titulo": "EXPERIMENTAR EL PERDÓN",
+    "fecha": "17/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777052934743_ol49xog9m",
-    "titulo": "La pequeña semilla",
+    "id": "meditacion_1776186006277",
+    "titulo": "El día sin ocaso",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
