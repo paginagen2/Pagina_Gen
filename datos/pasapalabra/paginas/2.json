@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 2,
   "tamanioPagina": 6,
-  "total": 339,
+  "total": 340,
   "siguientePagina": 3,
   "items": [
+    {
+      "id": "pasapalabra_1789266853281",
+      "titulo": "SER MISERICORDIOSOS",
+      "fecha": "13/09/2026",
+      "reflexion": "Ser misericordioso es permitir que el amor prevalezca sobre el juicio. Es reconocer que todos somos imperfectos, cargamos nuestras debilidades, y por eso nos necesitamos mutuamente.\nLa misericordia nos invita a ver más allá de las apariencias, a comprender antes de condenar, a perdonar antes de guardar rencor y a extender la mano antes de señalar con el dedo.\nJesús nos mostró, con su vida, que la misericordia es un camino hacia la liberación. Enseñó que son “bienaventurados los misericordiosos, porque ellos alcanzarán misericordia”.\nQue hoy podamos ser ser instrumentos de esta misericordia en nuestras palabras, actitudes y decisiones. El amor siempre tiene el poder de restaurar lo que parecía perdido."
+    },
     {
       "id": "pasapalabra_1789181779642",
       "titulo": "ESCUCHAR PROFUNDAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "RECONOCER EL AMOR QUE RECIBIMOS",
       "fecha": "08/09/2026",
       "reflexion": "Muchas veces, estamos tan preocupados por lo que nos falta que no percibimos el amor que ya hemos recibido.\nLa gratitud por el amor de Dios y de nuestros hermanos, nos abre los ojos a bendiciones que, por ser constantes, pueden pasar desapercibidas.\nEl amor recibido no se nos dió para guardarlo, sino para multiplicarlo. Cada gesto de cariño, acogida, comprensión y perdón que recibimos nos invita a hacer lo mismo, convirtiéndonos en instrumentos del amor de Dios.\nQue reconozcamos, con humildad y gratitud, todo el amor que nos rodea. Que esta certeza fortalezca nuestra esperanza e inspire nuestras actitudes y nuestras decisiones, para que seamos un signo de amor en la vida de quienes nos rodean."
-    },
-    {
-      "id": "pasapalabra_1788739218504",
-      "titulo": "EL AMOR NOS HACE LIBRES",
-      "fecha": "07/09/2026",
-      "reflexion": "El amor nos hace libres cuando nos ayuda a superar el egoísmo, el orgullo y el miedo. Nos libera de la necesidad de tener siempre la razón o de esperar algo a cambio. Cuanto más amamos, más descubrimos la alegría de servir y hacer el bien.\nLa libertad que ofrece el amor no consiste en hacer todo lo que queremos, sino en elegir lo que nos hace mejores y contribuye a la felicidad de quien camina a nuestro lado.\nCuando el amor guía nuestras palabras, nuestras acciones y nuestras decisiones, somos libres. Libres para amar con generosidad, perdonar con sinceridad y servir con alegría, haciendo de nuestras vidas un reflejo del amor de Dios."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-18",
-  "generadoEn": "2026-09-18T08:09:40.172Z",
+  "fechaGeneracion": "2026-09-19",
+  "generadoEn": "2026-09-19T07:58:59.865Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1789693828309",
-    "titulo": "HACER CIRCULAR LOS DONES RECIBIDOS",
-    "fecha": "18/09/2026",
+    "id": "pasapalabra_1789789332719",
+    "titulo": "LA PERSEVERANCIA DA FRUTO",
+    "fecha": "19/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777052720581_sfmqvlizm",
-    "titulo": "Te descubrimos amor",
+    "id": "meditacion_1775916029042",
+    "titulo": "Le agrada más",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
