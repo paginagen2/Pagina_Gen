@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-19",
-  "generadoEn": "2026-09-19T07:58:59.865Z",
+  "fechaGeneracion": "2026-09-20",
+  "generadoEn": "2026-09-20T08:30:10.201Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1789789332719",
-    "titulo": "LA PERSEVERANCIA DA FRUTO",
-    "fecha": "19/09/2026",
+    "id": "pasapalabra_1789863969750",
+    "titulo": "CUIDAR LA CREACIÓN",
+    "fecha": "20/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775916029042",
-    "titulo": "Le agrada más",
+    "id": "meditaciones_1777056371814_87kyhbve5",
+    "titulo": "La realidad del amor",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
