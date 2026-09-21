@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-20",
-  "generadoEn": "2026-09-20T08:30:10.201Z",
+  "fechaGeneracion": "2026-09-21",
+  "generadoEn": "2026-09-21T08:50:06.451Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1789863969750",
-    "titulo": "CUIDAR LA CREACIÓN",
-    "fecha": "20/09/2026",
+    "id": "pasapalabra_1789955506147",
+    "titulo": "LA PAZ COMIENZA EN NUESTROS CORAZONES",
+    "fecha": "21/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777056371814_87kyhbve5",
-    "titulo": "La realidad del amor",
+    "id": "meditacion_1776048741931",
+    "titulo": "Paraíso",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
