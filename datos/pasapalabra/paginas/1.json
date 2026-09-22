@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 342,
+  "total": 343,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1790038443555",
+      "titulo": "PRACTICAR EL BIEN",
+      "fecha": "22/09/2026",
+      "reflexion": "Practicar el bien es una elección que se puede hacer cada día. No siempre se trata de grandes acciones; muchas veces el bien se manifiesta en actitudes sencillas, como tender una mano a alguien que lo necesita.\nLa bondad nos hace más humanos, más sensibles y más cercanos a Dios. Cada gesto de amor puede llegar a personas que quizás nunca conozcamos.\nEl mundo necesita menos indiferencia y más personas dispuestas a servir. No debemos esperar la ocasión perfecta para actuar; el momento de practicar el bien es ahora, en las oportunidades que la vida nos presenta.\nEl bien hecho por amor permanece y sigue dando fruto."
+    },
     {
       "id": "pasapalabra_1789955506147",
       "titulo": "LA PAZ COMIENZA EN NUESTROS CORAZONES",
@@ -34,12 +40,6 @@
       "titulo": "EXPERIMENTAR EL PERDÓN",
       "fecha": "17/09/2026",
       "reflexion": "El perdón es uno de los gestos más liberadores de la vida. Guardar rencor ata el corazón al pasado.\nPracticar el perdón no significa olvidar lo sucedido ni fingir que el dolor no existió. Significa elegir no alimentar el resentimiento y permitir que el amor sea más grande que la ofensa.\nMuchas veces esperamos a que el otro cambie o pida disculpas para perdonarlo. Sin embargo, el perdón comienza en nuestro interior, cuando decidimos no dejar que el resentimiento guíe nuestros pensamientos y acciones.\nQue Dios nos conceda la gracia de perdonar y de pedir perdón cuando sea necesario, para que vivamos relaciones más fraternas y llenas de paz."
-    },
-    {
-      "id": "pasapalabra_1789517355510",
-      "titulo": "SER LOS PRIMEROS EN AMAR",
-      "fecha": "16/09/2026",
-      "reflexion": "“Amar primero” es uno de los pilares del Arte de Amar, enseñado por Chiara Lubich. Ella nos recuerda que el verdadero amor no espera a ser amado para comenzar; toma la iniciativa, se acerca, acoge y sirve.\nCuántas veces esperamos a que la otra persona cambie, pida disculpas o dé el primer paso, Chiara nos invita a hacer lo contrario: a empezar nosotros mismos.\nAmar primero es vencer al egoísmo. Es elegir amar incluso cuando no es fácil, incluso cuando no hay reconocimiento inmediato. Este amor desinteresado tiene un poder transformador porque toca los corazones y crea unidad.\nQue la enseñanza de Chiara Lubich inspire nuestras actitudes, para que seamos personas que tomen la iniciativa en el amor y siembren fraternidad."
     }
   ]
 }

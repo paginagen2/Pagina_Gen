@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-21",
-  "generadoEn": "2026-09-21T08:50:06.451Z",
+  "fechaGeneracion": "2026-09-22",
+  "generadoEn": "2026-09-22T08:27:04.387Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1789955506147",
-    "titulo": "LA PAZ COMIENZA EN NUESTROS CORAZONES",
-    "fecha": "21/09/2026",
+    "id": "pasapalabra_1790038443555",
+    "titulo": "PRACTICAR EL BIEN",
+    "fecha": "22/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1776048741931",
-    "titulo": "Paraíso",
+    "id": "meditacion_1776048299272",
+    "titulo": "La eternidad",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
