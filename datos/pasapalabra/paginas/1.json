@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 343,
+  "total": 344,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1790123176609",
+      "titulo": "EL AMOR HACE MILAGROS",
+      "fecha": "23/09/2026",
+      "reflexion": "A menudo esperamos milagros extraordinarios, pero los verdaderos milagros se manifiestan en pequeños actos de amor: una palabra de consuelo, un gesto de cariño, un perdón sincero, una presencia amiga.\nEl amor nos ayuda a superar el egoísmo y nos acerca a Dios y a las personas. ¡Cuántas vidas se renuevan con un simple acto de bondad! ¡Cuántas lágrimas son enjugadas con las manos que se disponen a ayudar!\nEl amor no elimina todas las dificultades, pero da sentido y valor para continuar el camino junto a los demás. Donde hay amor, ocurren milagros silenciosos todos los días.\nEl amor obra milagros cuando se convierte en acción en favor de los demás."
+    },
     {
       "id": "pasapalabra_1790038443555",
       "titulo": "PRACTICAR EL BIEN",
@@ -34,12 +40,6 @@
       "titulo": "HACER CIRCULAR LOS DONES RECIBIDOS",
       "fecha": "18/09/2026",
       "reflexion": "Todo lo que podemos hacer por los demás son dones que Dios nos ha confiado. Tenemos el deber de compartirlos para el bien de todos.\nEsto va desde la competencia profesional hasta los talentos artísticos; desde los dones espirituales hasta la herencia cultural; desde el servicio humanitario hasta los bienes materiales. Son muchos dones que podemos hacer fructificar para el bien de los demás.\nUn don compartido se multiplica. Lo que permanece oculto, o se usa de forma egoísta para beneficio propio, tiende a morir y desaparecer.\nJesús habló varias veces sobre la importancia de ser generosos y dar libremente lo que hemos recibido gratuitamente.\n“Porque a quien tiene, se le dará más todavía y tendrá en abundancia, pero al que no tiene, se le quitará aun lo que tiene.” (Mt. 13,12)"
-    },
-    {
-      "id": "pasapalabra_1789612483371",
-      "titulo": "EXPERIMENTAR EL PERDÓN",
-      "fecha": "17/09/2026",
-      "reflexion": "El perdón es uno de los gestos más liberadores de la vida. Guardar rencor ata el corazón al pasado.\nPracticar el perdón no significa olvidar lo sucedido ni fingir que el dolor no existió. Significa elegir no alimentar el resentimiento y permitir que el amor sea más grande que la ofensa.\nMuchas veces esperamos a que el otro cambie o pida disculpas para perdonarlo. Sin embargo, el perdón comienza en nuestro interior, cuando decidimos no dejar que el resentimiento guíe nuestros pensamientos y acciones.\nQue Dios nos conceda la gracia de perdonar y de pedir perdón cuando sea necesario, para que vivamos relaciones más fraternas y llenas de paz."
     }
   ]
 }

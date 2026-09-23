@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-22",
-  "generadoEn": "2026-09-22T08:27:04.387Z",
+  "fechaGeneracion": "2026-09-23",
+  "generadoEn": "2026-09-23T08:29:10.747Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1790038443555",
-    "titulo": "PRACTICAR EL BIEN",
-    "fecha": "22/09/2026",
+    "id": "pasapalabra_1790123176609",
+    "titulo": "EL AMOR HACE MILAGROS",
+    "fecha": "23/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1776048299272",
-    "titulo": "La eternidad",
+    "id": "meditaciones_1777056372149_36r46587v",
+    "titulo": "Con los pies en la tierra",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
