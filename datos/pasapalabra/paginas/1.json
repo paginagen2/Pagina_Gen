@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 344,
+  "total": 345,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1790213136952",
+      "titulo": "CULTIVAR LA PROPIA INTERIORIDAD",
+      "fecha": "24/09/2026",
+      "reflexion": "Cultivar la interioridad significa dedicar un tiempo para el silencio, para la oración, para la reflexión y para el encuentro con uno mismo y, sobre todo, con Dios. Es en este espacio interior donde encontramos paz, discernimiento y fortaleza para enfrentar la vida con sus dolores y alegrías.\nCuando miramos hacia nuestro interior, descubrimos los dones y la bondad que Dios ha puesto en nosotros. La vida interior no nos aleja del mundo; al contrario, nos hace más atentos, más equilibrados y más capaces de amar sin hacer distinciones.\nCuando cultivamos nuestra propia interioridad, aprendemos a actuar con más sabiduría, a hablar con más delicadeza y a vivir con mayor sentido."
+    },
     {
       "id": "pasapalabra_1790123176609",
       "titulo": "EL AMOR HACE MILAGROS",
@@ -34,12 +40,6 @@
       "titulo": "LA PERSEVERANCIA DA FRUTO",
       "fecha": "19/09/2026",
       "reflexion": "La perseverancia es la fortaleza que nos mantiene seguros, incluso cuando los resultados aún no son visibles. Muchas veces deseamos resultados inmediatos, pero la vida nos enseña que todo lo que es valioso requiere tiempo, cuidado y constancia.\nUna semilla no florece el día que se planta. Crece silenciosamente, echa raíces y, en el momento oportuno, da fruto. Lo mismo nos sucede a nosotros: cada acto de amor y cada nuevo comienzo construye algo nuevo en nuestro interior.\nPerseverar es mantener viva la esperanza cuando surgen dificultades, cansancio o desánimo.\nLos frutos de la perseverancia se manifiestan en la confianza en Dios y en el bien que compartimos a nuestro alrededor. Quien persevera aprende a esperar, a confiar y a caminar con fidelidad."
-    },
-    {
-      "id": "pasapalabra_1789693828309",
-      "titulo": "HACER CIRCULAR LOS DONES RECIBIDOS",
-      "fecha": "18/09/2026",
-      "reflexion": "Todo lo que podemos hacer por los demás son dones que Dios nos ha confiado. Tenemos el deber de compartirlos para el bien de todos.\nEsto va desde la competencia profesional hasta los talentos artísticos; desde los dones espirituales hasta la herencia cultural; desde el servicio humanitario hasta los bienes materiales. Son muchos dones que podemos hacer fructificar para el bien de los demás.\nUn don compartido se multiplica. Lo que permanece oculto, o se usa de forma egoísta para beneficio propio, tiende a morir y desaparecer.\nJesús habló varias veces sobre la importancia de ser generosos y dar libremente lo que hemos recibido gratuitamente.\n“Porque a quien tiene, se le dará más todavía y tendrá en abundancia, pero al que no tiene, se le quitará aun lo que tiene.” (Mt. 13,12)"
     }
   ]
 }
