@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-24",
-  "generadoEn": "2026-09-24T08:21:34.717Z",
+  "fechaGeneracion": "2026-09-25",
+  "generadoEn": "2026-09-25T08:43:59.392Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1790213136952",
-    "titulo": "CULTIVAR LA PROPIA INTERIORIDAD",
-    "fecha": "24/09/2026",
+    "id": "pasapalabra_1790310830954",
+    "titulo": "ACOGER EL MISTERIO DE LA VIDA",
+    "fecha": "25/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259540543_tid60fo2c",
-    "titulo": "Dos cosas secretas",
+    "id": "meditaciones_1777052934344_vrswzxmaa",
+    "titulo": "Imagen de María",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
