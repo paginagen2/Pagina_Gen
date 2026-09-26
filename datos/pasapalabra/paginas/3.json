@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 3,
   "tamanioPagina": 6,
-  "total": 346,
+  "total": 347,
   "siguientePagina": 4,
   "items": [
+    {
+      "id": "pasapalabra_1789355419038",
+      "titulo": "ELEGIR HACER EL BIEN",
+      "fecha": "14/09/2026",
+      "reflexion": "Todos los días somos invitados a hacer elecciones. Algunas parecen pequeñas, otras tienen un gran impacto, pero todas revelan lo que cultivamos en nuestro corazón.\nElegir hacer el bien es decidir que el amor guíe nuestras acciones, incluso cuando sería más fácil actuar con indiferencia.\nJesús nos enseñó que el amor se manifiesta en acciones concretas. Cada oportunidad de servir, perdonar, acoger o consolar es una ocasión para hacer el mundo un poco más semejante al Reino de Dios.\nQue hoy hagamos la elección consciente de hacer el bien en cada encuentro, en cada palabra y en cada acción. Que nuestras actitudes sean señales de esperanza y amor para todos aquellos que  crucen nuestro camino."
+    },
     {
       "id": "pasapalabra_1789266853281",
       "titulo": "SER MISERICORDIOSOS",
@@ -34,12 +40,6 @@
       "titulo": "SER AGRADECIDOS",
       "fecha": "09/09/2026",
       "reflexion": "Cada mirada mía, que contempla y se maravilla de la vida que me rodea, debe tener una mirada de gratitud por el don que se me ha concedido de ser parte de esta inmensa armonía.\nTodo lo que percibo con los sentidos del cuerpo y todo lo que vivo con los sentidos del alma me lleva a entonar un canto de agradecimiento alabando a Dios.\nGracias por todas las alegrías que he tenido y tendré, por todas las bendiciones recibidas.\nTambién estoy agradecido por cada dolor, cada dificultad superada, cada obstáculo vencido, que me han hecho más fuerte y me han dado mayor confianza en el inmenso amor de Dios.\nSer agradecido a Dios por el don del amor que Él sembró en mi corazón."
-    },
-    {
-      "id": "pasapalabra_1788827834080",
-      "titulo": "RECONOCER EL AMOR QUE RECIBIMOS",
-      "fecha": "08/09/2026",
-      "reflexion": "Muchas veces, estamos tan preocupados por lo que nos falta que no percibimos el amor que ya hemos recibido.\nLa gratitud por el amor de Dios y de nuestros hermanos, nos abre los ojos a bendiciones que, por ser constantes, pueden pasar desapercibidas.\nEl amor recibido no se nos dió para guardarlo, sino para multiplicarlo. Cada gesto de cariño, acogida, comprensión y perdón que recibimos nos invita a hacer lo mismo, convirtiéndonos en instrumentos del amor de Dios.\nQue reconozcamos, con humildad y gratitud, todo el amor que nos rodea. Que esta certeza fortalezca nuestra esperanza e inspire nuestras actitudes y nuestras decisiones, para que seamos un signo de amor en la vida de quienes nos rodean."
     }
   ]
 }

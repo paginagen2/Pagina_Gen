@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-25",
-  "generadoEn": "2026-09-25T08:43:59.392Z",
+  "fechaGeneracion": "2026-09-26",
+  "generadoEn": "2026-09-26T08:30:43.889Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1790310830954",
-    "titulo": "ACOGER EL MISTERIO DE LA VIDA",
-    "fecha": "25/09/2026",
+    "id": "pasapalabra_1790386400262",
+    "titulo": "IR AL ENCUENTRO CON EL OTRO DESARMADOS",
+    "fecha": "26/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777052934344_vrswzxmaa",
-    "titulo": "Imagen de María",
+    "id": "meditacion_1775879699389",
+    "titulo": "Milagro divino",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
