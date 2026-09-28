@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-27",
-  "generadoEn": "2026-09-27T09:09:42.642Z",
+  "fechaGeneracion": "2026-09-28",
+  "generadoEn": "2026-09-28T09:38:51.886Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1790472079501",
-    "titulo": "NO CON PALABRAS, SINO CON HECHOS",
-    "fecha": "27/09/2026",
+    "id": "pasapalabra_1790560191802",
+    "titulo": "AYUDAR A LOS MÁS DESFAVORECIDOS",
+    "fecha": "28/09/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777258862382_9mh50rnmt",
-    "titulo": "La llave del enigma",
+    "id": "meditaciones_1777258863242_29nw0702i",
+    "titulo": "Es más fácil que un camello...",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 348,
+  "total": 349,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1790560191802",
+      "titulo": "AYUDAR A LOS MÁS DESFAVORECIDOS",
+      "fecha": "28/09/2026",
+      "reflexion": "El Evangelio nos invita a mirar con atención y amor a los más desfavorecidos: los olvidados, los débiles, los pobres, los enfermos, los que cargan soledad y sufrimiento.\nAcoger a los más desfavorecidos es reconocer la dignidad de cada persona. Es abrir un espacio en el corazón para quien a veces no encuentra lugar en la sociedad. Una mirada de respeto o un gesto de cariño pueden devolver la alegría y la confianza a quien se siente abandonado.\nCuando acogemos a los más desfavorecidos, superamos el egoísmo y descubrimos que el verdadero valor de la vida no reside en ser servidos, sino en servir. Dios se hace presente de modo especial en los pequeños y en los necesitados.\n“El que recibe a uno de estos pequeños en mi Nombre, me recibe a mí” (Mc. 9,37)"
+    },
     {
       "id": "pasapalabra_1790472079501",
       "titulo": "NO CON PALABRAS, SINO CON HECHOS",
@@ -34,12 +40,6 @@
       "titulo": "EL AMOR HACE MILAGROS",
       "fecha": "23/09/2026",
       "reflexion": "A menudo esperamos milagros extraordinarios, pero los verdaderos milagros se manifiestan en pequeños actos de amor: una palabra de consuelo, un gesto de cariño, un perdón sincero, una presencia amiga.\nEl amor nos ayuda a superar el egoísmo y nos acerca a Dios y a las personas. ¡Cuántas vidas se renuevan con un simple acto de bondad! ¡Cuántas lágrimas son enjugadas con las manos que se disponen a ayudar!\nEl amor no elimina todas las dificultades, pero da sentido y valor para continuar el camino junto a los demás. Donde hay amor, ocurren milagros silenciosos todos los días.\nEl amor obra milagros cuando se convierte en acción en favor de los demás."
-    },
-    {
-      "id": "pasapalabra_1790038443555",
-      "titulo": "PRACTICAR EL BIEN",
-      "fecha": "22/09/2026",
-      "reflexion": "Practicar el bien es una elección que se puede hacer cada día. No siempre se trata de grandes acciones; muchas veces el bien se manifiesta en actitudes sencillas, como tender una mano a alguien que lo necesita.\nLa bondad nos hace más humanos, más sensibles y más cercanos a Dios. Cada gesto de amor puede llegar a personas que quizás nunca conozcamos.\nEl mundo necesita menos indiferencia y más personas dispuestas a servir. No debemos esperar la ocasión perfecta para actuar; el momento de practicar el bien es ahora, en las oportunidades que la vida nos presenta.\nEl bien hecho por amor permanece y sigue dando fruto."
     }
   ]
 }
