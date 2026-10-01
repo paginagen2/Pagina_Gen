@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "pdv",
-  "revision": "cca66710b73f03dc",
-  "generatedAt": "2026-09-01T14:42:38.327Z",
+  "revision": "4221342707d38649",
+  "generatedAt": "2026-10-01T19:24:38.297Z",
   "items": [
     {
       "id": "pdv_2026_06",
@@ -449,6 +449,88 @@
       "fechaCreacion": {
         "_seconds": 1787626303,
         "_nanoseconds": 765000000
+      }
+    },
+    {
+      "id": "pdv_2026_10",
+      "version": 2,
+      "slug": "pdv_2026_10",
+      "mes": "Octubre 2026",
+      "periodo": "2026-10-01",
+      "citaPrincipal": "No maltratarás al extranjero ni lo oprimirás, porque ustedes fueron extranjeros en Egipto.",
+      "citaReferencia": "Ex 22, 20",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "texto": "La Palabra de Vida de este mes está tomada del libro del Éxodo, que relata las condiciones cada vez más desesperadas de los israelitas en Egipto. Oprimidos y reducidos a esclavos, claman al cielo pidiendo ayuda. Este clamor llega al corazón de Dios, que decide intervenir, y elige a Moisés como enviado suyo. Después de la liberación tiene lugar la ceremonia que sella la Alianza entre Dios e Israel. El documento que refleja esta relación es el llamado “Código de la Alianza” (Ex 20-23), aceptado por todo el pueblo (cf. Ex 24) y cuya parte más conocida son los diez mandamientos. A estos se añaden otras prescripciones y leyes de diverso tipo, todas relacionadas con el evento extraordinario de la liberación. La frase de este mes proviene de este patrimonio de normas de vida y de comportamiento.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "No maltratarás al extranjero ni lo oprimirás, porque ustedes fueron extranjeros en Egipto.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "El extranjero forma parte de las categorías preferidas y protegidas por Dios, pues está entre los más vulnerables, junto con el pobre, el huérfano y la viuda. La motivación de esta norma apela ante todo a la memoria de todo lo que vivieron los israelitas siendo esclavos en Egipto. La intervención poderosa de Dios en el Éxodo se reproduce continuamente en el Antiguo Testamento. Se trata de un evento que el pueblo ha de tener siempre presente, como algo que se repite de diversos modos en cada generación. Es significativa la frase de Orígenes en su comentario al libro del Éxodo: “Quien oprime al extranjero muestra que aún no ha abandonado Egipto”.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Este mandamiento apela también a la empatía: ponerse en el lugar de los demás ayuda a comprenderlos y a entender qué necesitan. A quien ha pasado por una experiencia difícil le debería resultar más fácil identificarse con el dolor del otro. Pero en el Antiguo Testamento no se trata solo de una experiencia humana: el primero en dar ejemplo de lo que significa entrar en la situación de los demás es Dios mismo.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "No maltratarás al extranjero ni lo oprimirás, porque ustedes fueron extranjeros en Egipto.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "¿Cómo poner en práctica esta Palabra de Vida? Podría ser útil preguntarnos: ¿he experimentado alguna vez ser extranjero? ¿Me he sentido no aceptado, no acogido, incomprendido, fuera de lugar? ¿Qué he aprendido de estas situaciones? ¿Quién es para mí el extranjero? ¿Y quién es el extranjero para Dios? ¿Cómo puedo acogerlo sin reservas, tal como hace el Señor con nosotros? ¿Qué puedo hacer concretamente?",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "reflexion_autor",
+          "texto": "“Con un Dios que no hace distinción entre las personas, ¿cómo no grabarse en el corazón la fraternidad universal? Como hijos del mismo Padre, podemos descubrirnos hermanos y hermanas de cada hombre y mujer con quien nos relacionamos. Por lo tanto, si somos todos hermanos y hermanas, debemos amar a todos, empezando por quien tenemos al lado, sin detenernos. Así, nuestro amor no será platónico y abstracto, sino concreto, a base de servicio. Un amor capaz de ir al encuentro del otro; de entablar un diálogo, de identificarse con sus situaciones de necesidad, de asumir sus cargas y preocupaciones. Hasta que el otro se sienta comprendido y acogido en su diversidad y libre de expresar toda la riqueza que lleva consigo”.",
+          "referencia": "",
+          "titulo": "Escribe Chiara Lubich",
+          "fuente": "Chiara Lubich · Palabra de Vida, mayo de 2006: Palabras de Vida/2 (1991-2006) (ed. F. Ciardi). Madrid: Ciudad Nueva, 2026, p. 351"
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Es la experiencia de Maryam, una joven paquistaní: “En un local, vi cómo el propietario le negaba un té a una señora mayor. Yo solo llevaba en el bolsillo unas rupias (la moneda local), pero me pareció que debía ayudarla, así que me acerqué al dueño y le dije que yo pagaba. Primero me miró dubitativo, pero después de una pausa, sonrió y me dijo: ‘No, no es justo. Si tú, una clienta, estás dispuesta a poner lo poco que tienes para preocuparte por ella, ¡cuánto más generoso debería ser yo como propietario! Para mí es más fácil darle una taza de té gratis que dejar que pagues tú’. Fue una experiencia fuerte. Procurando mostrar amor, primero a la señora y luego al propietario, he visto que un simple gesto de amabilidad puede abrir el corazón de otra persona”.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        }
+      ],
+      "autor": "Augusto Parody Reyes y el equipo de la Palabra de Vida",
+      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/09/PdV-Octubre-2026.mp3",
+      "estado": "publicado",
+      "fechaCreacion": {
+        "_seconds": 1790869212,
+        "_nanoseconds": 294000000
+      },
+      "fechaActualizacion": {
+        "_seconds": 1790869212,
+        "_nanoseconds": 294000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1790869212,
+        "_nanoseconds": 294000000
       }
     }
   ]

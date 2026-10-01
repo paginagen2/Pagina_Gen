@@ -1,118 +1,90 @@
 {
   "schemaVersion": 1,
   "collection": "pdv",
-  "fromRevision": "ceda6eb966fe3bef",
-  "toRevision": "cca66710b73f03dc",
-  "generatedAt": "2026-09-01T14:42:38.327Z",
+  "fromRevision": "cca66710b73f03dc",
+  "toRevision": "4221342707d38649",
+  "generatedAt": "2026-10-01T19:24:38.297Z",
   "upserts": [
     {
-      "id": "pdv_2026_09",
-      "fechaPublicacion": {
-        "_seconds": 1788231600,
-        "_nanoseconds": 0
-      },
+      "id": "pdv_2026_10",
+      "version": 2,
+      "slug": "pdv_2026_10",
+      "mes": "Octubre 2026",
+      "periodo": "2026-10-01",
+      "citaPrincipal": "No maltratarás al extranjero ni lo oprimirás, porque ustedes fueron extranjeros en Egipto.",
+      "citaReferencia": "Ex 22, 20",
       "bloques": [
         {
           "tipo": "parrafo",
-          "texto": "¿Se le puede ordenar a alguien que ame? Si entendemos el amor como un sentimiento, ¡evidentemente es imposible! Pero si más bien lo entendemos como un don de Dios, la cosa cambia.",
-          "referencia": "",
-          "titulo": "",
-          "fuente": ""
-        },
-        {
-          "tipo": "parrafo",
-          "texto": "En la Carta a los Romanos, de la que está tomada la Palabra de Vida, Pablo describe precisamente la relación entre Ley y amor, y afirma que el amor es pleno cumplimiento de la Ley. Poco antes nos ha revelado de dónde proviene este amor: “La prueba de que Dios nos ama es que Cristo, siendo nosotros todavía pecadores, murió por nosotros” (Rm 5, 8). Por su parte, la Primera Carta de Juan dice: “En esto consiste el amor: no en que nosotros hayamos amado a Dios, sino en que él nos amó y nos envió a su Hijo como propiciación por nuestros pecados” (1 Jn 4, 10).",
+          "texto": "La Palabra de Vida de este mes está tomada del libro del Éxodo, que relata las condiciones cada vez más desesperadas de los israelitas en Egipto. Oprimidos y reducidos a esclavos, claman al cielo pidiendo ayuda. Este clamor llega al corazón de Dios, que decide intervenir, y elige a Moisés como enviado suyo. Después de la liberación tiene lugar la ceremonia que sella la Alianza entre Dios e Israel. El documento que refleja esta relación es el llamado “Código de la Alianza” (Ex 20-23), aceptado por todo el pueblo (cf. Ex 24) y cuya parte más conocida son los diez mandamientos. A estos se añaden otras prescripciones y leyes de diverso tipo, todas relacionadas con el evento extraordinario de la liberación. La frase de este mes proviene de este patrimonio de normas de vida y de comportamiento.",
           "referencia": "",
           "titulo": "",
           "fuente": ""
         },
         {
           "tipo": "cita_destacada",
-          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+          "texto": "No maltratarás al extranjero ni lo oprimirás, porque ustedes fueron extranjeros en Egipto.",
           "referencia": "",
           "titulo": "",
           "fuente": ""
         },
         {
           "tipo": "parrafo",
-          "texto": "Nadie puede dar lo que no tiene. Lo había entendido bien Agustín cuando, dirigiéndose directamente a Dios, pedía: “Da lo que mandas y manda lo que quieras”. Hemos recibido el don inestimable del amor de Dios y estamos llamados a no guardárnoslo, sino a ponerlo en circulación. Podemos convertirnos en sujetos en lugar de ser simples destinatarios del amor de Dios: pasar de amados a amantes, y así participar en la vida misma del Padre, del Hijo y del Espíritu Santo: el Amante, el Amado y el Amor.",
+          "texto": "El extranjero forma parte de las categorías preferidas y protegidas por Dios, pues está entre los más vulnerables, junto con el pobre, el huérfano y la viuda. La motivación de esta norma apela ante todo a la memoria de todo lo que vivieron los israelitas siendo esclavos en Egipto. La intervención poderosa de Dios en el Éxodo se reproduce continuamente en el Antiguo Testamento. Se trata de un evento que el pueblo ha de tener siempre presente, como algo que se repite de diversos modos en cada generación. Es significativa la frase de Orígenes en su comentario al libro del Éxodo: “Quien oprime al extranjero muestra que aún no ha abandonado Egipto”.",
           "referencia": "",
           "titulo": "",
           "fuente": ""
         },
         {
           "tipo": "parrafo",
-          "texto": "No tenemos con nadie otra deuda que la del amor mutuo –nos reconforta Pablo–, pues quien ama al otro ha cumplido la Ley (cf. Rm 13, 8).",
+          "texto": "Este mandamiento apela también a la empatía: ponerse en el lugar de los demás ayuda a comprenderlos y a entender qué necesitan. A quien ha pasado por una experiencia difícil le debería resultar más fácil identificarse con el dolor del otro. Pero en el Antiguo Testamento no se trata solo de una experiencia humana: el primero en dar ejemplo de lo que significa entrar en la situación de los demás es Dios mismo.",
           "referencia": "",
           "titulo": "",
           "fuente": ""
         },
         {
           "tipo": "cita_destacada",
-          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
+          "texto": "No maltratarás al extranjero ni lo oprimirás, porque ustedes fueron extranjeros en Egipto.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "¿Cómo poner en práctica esta Palabra de Vida? Podría ser útil preguntarnos: ¿he experimentado alguna vez ser extranjero? ¿Me he sentido no aceptado, no acogido, incomprendido, fuera de lugar? ¿Qué he aprendido de estas situaciones? ¿Quién es para mí el extranjero? ¿Y quién es el extranjero para Dios? ¿Cómo puedo acogerlo sin reservas, tal como hace el Señor con nosotros? ¿Qué puedo hacer concretamente?",
           "referencia": "",
           "titulo": "",
           "fuente": ""
         },
         {
           "tipo": "reflexion_autor",
-          "texto": "“El verdadero amor al prójimo no causa ningún daño” –afirma Chiara Lubich–. “Es decir, nos lleva a vivir todos los mandamientos de Dios sin exclusión, ya que el primer objetivo que tienen es llevarnos a evitar todas las formas del mal en que podríamos caer, ya sea contra nosotros mismos o contra nuestros hermanos y hermanas”. Así entendidos, los mandamientos de la Ley se convierten en un don del amor de Dios más que en una obligación: no constriñen nuestro amor sino que lo liberan plenamente.",
+          "texto": "“Con un Dios que no hace distinción entre las personas, ¿cómo no grabarse en el corazón la fraternidad universal? Como hijos del mismo Padre, podemos descubrirnos hermanos y hermanas de cada hombre y mujer con quien nos relacionamos. Por lo tanto, si somos todos hermanos y hermanas, debemos amar a todos, empezando por quien tenemos al lado, sin detenernos. Así, nuestro amor no será platónico y abstracto, sino concreto, a base de servicio. Un amor capaz de ir al encuentro del otro; de entablar un diálogo, de identificarse con sus situaciones de necesidad, de asumir sus cargas y preocupaciones. Hasta que el otro se sienta comprendido y acogido en su diversidad y libre de expresar toda la riqueza que lleva consigo”.",
           "referencia": "",
-          "titulo": "",
-          "fuente": "Chiara Lubich · Palabra de Vida, septiembre de 1993"
-        },
-        {
-          "tipo": "cita_destacada",
-          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
-          "referencia": "",
-          "titulo": "",
-          "fuente": ""
+          "titulo": "Escribe Chiara Lubich",
+          "fuente": "Chiara Lubich · Palabra de Vida, mayo de 2006: Palabras de Vida/2 (1991-2006) (ed. F. Ciardi). Madrid: Ciudad Nueva, 2026, p. 351"
         },
         {
           "tipo": "parrafo",
-          "texto": "Para alcanzar este “pleno cumplimiento”, el primer paso en el amar al prójimo es no hacerle daño. Pero además hace falta ser creativos en el amor: “No basta con no hacer daño al prójimo –nos recordaba el papa Francisco–; es necesario elegir hacer el bien aprovechando las ocasiones para dar buen testimonio de que somos discípulos de Jesús”.",
+          "texto": "Es la experiencia de Maryam, una joven paquistaní: “En un local, vi cómo el propietario le negaba un té a una señora mayor. Yo solo llevaba en el bolsillo unas rupias (la moneda local), pero me pareció que debía ayudarla, así que me acerqué al dueño y le dije que yo pagaba. Primero me miró dubitativo, pero después de una pausa, sonrió y me dijo: ‘No, no es justo. Si tú, una clienta, estás dispuesta a poner lo poco que tienes para preocuparte por ella, ¡cuánto más generoso debería ser yo como propietario! Para mí es más fácil darle una taza de té gratis que dejar que pagues tú’. Fue una experiencia fuerte. Procurando mostrar amor, primero a la señora y luego al propietario, he visto que un simple gesto de amabilidad puede abrir el corazón de otra persona”.",
           "referencia": "",
           "titulo": "",
-          "fuente": ""
-        },
-        {
-          "tipo": "parrafo",
-          "texto": "¿Cómo vivir entonces esta Palabra de Vida? Volvamos a poner el amor en el centro de nuestra vida. Amemos a los demás concretamente, como los amaría Jesús: Él es la plenitud del amor que se dona completamente a Dios y a la humanidad. De Él podemos aprender la alta medida del amor.",
-          "referencia": "",
-          "titulo": "",
-          "fuente": ""
-        },
-        {
-          "tipo": "cita_destacada",
-          "texto": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
-          "referencia": "",
-          "titulo": "",
-          "fuente": ""
-        },
-        {
-          "tipo": "experiencia",
-          "texto": "En nuestras visitas habituales a un refugio para personas sin hogar, entro en un mundo muy distinto del mío. Sé que lo que cuenta no es tanto lo que siento, sino amar. Un día, un hombre que reflejaba una profunda tristeza me confesó que estaba dispuesto a terminar con todo, que quería incluso morir. Me puse simplemente a escucharlo; luego nos tomamos juntos un bocadillo y un café. Y entendí que escuchar y estar presente era ya un modo de demostrar amor. Cuando llegó el momento de irme, me dio un fuerte abrazo, me sonrió y me dijo que lo que estábamos haciendo era muy importante, no solo para él, sino para todos los que estaban allí. Sentí la fuerza increíble del amor. Quizá no lo haya ‘salvado’, pero su gratitud me llenó de alegría y esto, ya de por sí, es muy potente",
-          "referencia": "",
-          "titulo": "Doris, una chica escocesa, nos cuenta",
           "fuente": ""
         }
       ],
-      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/08/PdV-Septiembre-2026.mp3",
-      "citaReferencia": "Rm 13, 10",
-      "estado": "programado",
-      "autor": "Claudio Cianfaglioni y el equipo de la Palabra de Vida",
-      "periodo": "2026-09-01",
-      "citaPrincipal": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
-      "fechaActualizacion": {
-        "_seconds": 1788273108,
-        "_nanoseconds": 233000000
-      },
-      "mes": "Septiembre 2026",
-      "version": 2,
-      "slug": "pdv_2026_09",
+      "autor": "Augusto Parody Reyes y el equipo de la Palabra de Vida",
+      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/09/PdV-Octubre-2026.mp3",
+      "estado": "publicado",
       "fechaCreacion": {
-        "_seconds": 1787626303,
-        "_nanoseconds": 765000000
+        "_seconds": 1790869212,
+        "_nanoseconds": 294000000
+      },
+      "fechaActualizacion": {
+        "_seconds": 1790869212,
+        "_nanoseconds": 294000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1790869212,
+        "_nanoseconds": 294000000
       }
     }
   ],
