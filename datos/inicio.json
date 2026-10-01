@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-09-30",
-  "generadoEn": "2026-09-30T09:34:56.394Z",
+  "fechaGeneracion": "2026-10-01",
+  "generadoEn": "2026-10-01T10:01:13.238Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1790731658503",
-    "titulo": "ACTUAR CON VALENTÍA",
-    "fecha": "30/09/2026",
+    "id": "pasapalabra_1790817335953",
+    "titulo": "CUIDAR A LAS PERSONAS MAYORES",
+    "fecha": "01/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777258862689_ucdxx3rma",
-    "titulo": "Pasarán los cielos y la tierra",
+    "id": "meditaciones_1777259542574_sj3hr4jb0",
+    "titulo": "Hay quien hace las cosas por amor",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
