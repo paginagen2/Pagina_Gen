@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-01",
-  "generadoEn": "2026-10-01T10:01:13.238Z",
+  "fechaGeneracion": "2026-10-02",
+  "generadoEn": "2026-10-02T09:37:48.822Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,21 +13,21 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1790817335953",
-    "titulo": "CUIDAR A LAS PERSONAS MAYORES",
-    "fecha": "01/10/2026",
+    "id": "pasapalabra_1790913040352",
+    "titulo": "AYUDARSE ENTRE GENERACIONES",
+    "fecha": "02/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259542574_sj3hr4jb0",
-    "titulo": "Hay quien hace las cosas por amor",
+    "id": "meditacion_1775917835009",
+    "titulo": "La voluntad de Dios",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
-    "id": "pdv_2026_09",
-    "mes": "Septiembre 2026",
-    "cita": "El amor no hace mal al prójimo. Por lo tanto, el amor es la plenitud de la Ley.",
-    "href": "pdv/pdv.html?id=pdv_2026_09"
+    "id": "pdv_2026_10",
+    "mes": "Octubre 2026",
+    "cita": "No maltratarás al extranjero ni lo oprimirás, porque ustedes fueron extranjeros en Egipto.",
+    "href": "pdv/pdv.html?id=pdv_2026_10"
   },
   "canal": null,
   "novedades": []
