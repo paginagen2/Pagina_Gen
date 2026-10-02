@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "pasapalabra",
-  "revision": "43f5cff9f38e9eb8",
-  "generatedAt": "2026-08-04T03:39:17.733Z",
+  "revision": "6ff737fb3cabc36f",
+  "generatedAt": "2026-10-02T09:36:29.840Z",
   "items": [
     {
       "id": "pasapalabra_1762910974476",
@@ -3236,6 +3236,17 @@
       "createdAt": {
         "_seconds": 1785806373,
         "_nanoseconds": 461000000
+      }
+    },
+    {
+      "id": "pasapalabra_1790913040352",
+      "fecha": "02/10/2026",
+      "titulo": "AYUDARSE ENTRE GENERACIONES",
+      "reflexion": "Ayudarse entre generaciones es reconocer que cada edad tiene su propia riqueza y que, cuando ponemos nuestros dones al servicio de los demás, la vida de todos, mejora.\nCada generación tiene algo que ofrecer: la generación mayor aporta experiencia, sabiduría y memoria; los más jóvenes, energía, nuevas ideas, creatividad y esperanza.\nAyudarse entre generaciones es saber enseñar, pero también estar dispuestos a aprender.\nLos más jóvenes pueden ayudar a los mayores a enfrentar los cambios del mundo, a superar limitaciones y a mantenerse conectadas. Los mayores, a su vez, pueden transmitir valores, historias y enseñanzas que solo el tiempo es capaz de ofrecer.\nLa solidaridad entre generaciones crea vínculos, reduce la soledad y fortalece la comunidad.",
+      "estado": "publicado",
+      "createdAt": {
+        "_seconds": 1790913040,
+        "_nanoseconds": 352000000
       }
     }
   ]
