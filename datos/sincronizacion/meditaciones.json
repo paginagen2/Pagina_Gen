@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "meditaciones",
-  "revision": "08ee8ffce2c8e4b4",
-  "generatedAt": "2026-08-04T03:39:17.624Z",
+  "revision": "c18005923cd30992",
+  "generatedAt": "2026-10-03T05:38:56.451Z",
   "items": [
     {
       "id": "meditacion_1775844327877",
@@ -331,14 +331,15 @@
     {
       "id": "meditacion_1775917835009",
       "titulo": "La voluntad de Dios",
-      "contenido": "Este trabajar en la voluntad de Dios -incluso aquí en la tierra- es tan hermoso que algunas veces parece demasiado. \"María, déjanos unir nuestra alegría a la que sentían tú y san José cuando, durante treinta años, trabajaron con Jesús en medio de ustedes\"\n\n* * *\n\nNosotros muchas veces no vivimos la vida, porque lo hacemos superficialmente.\n\"Concédenos, Señor, que nos enraicemos en Ti, anclados en todo momento en tu divina voluntad. Poseídos por ella estamos poseídos por Ti: y esto vale\".\n\n***\n\nSi estamos unidos a Dios en su voluntad, nos encontramos unidos entre nosotros.\nY no puede ser de otro modo. Primero, por que la unidad entre nosotros no puede ser más que la resultante de la unión de cada uno con dios; y luego, porque si en algún momento la unidad recíproca se rompiera, dejaríamos de ser cristianos si no pensáramos que es voluntad de Dios recomponerla antes que cualquier otra cosa.\n¿Quién sabrá repetir jamás las infinitas bellezas y novedades, los horizontes interminables que contempla un alma abandonada a la aventura divina da la divina voluntad?",
       "libro": "Meditaciones 2",
       "pagina": "41",
       "autor": "Chiara Lubich",
       "activa": true,
       "Informacion": false,
       "Meditación": true,
-      "Publico": true
+      "Publico": true,
+      "contenido": "Este trabajar en la voluntad de Dios -incluso aquí en la tierra- es tan hermoso que algunas veces parece demasiado. \"María, déjanos unir nuestra alegría a la que sentían tú y san José cuando, durante treinta años, trabajaron con Jesús en medio de ustedes\"\n\n* * *\n\nNosotros muchas veces no vivimos la vida, porque lo hacemos superficialmente.\n\"Concédenos, Señor, que nos enraicemos en Ti, anclados en todo momento en tu divina voluntad. Poseídos por ella estamos poseídos por Ti: y esto vale\".\n\n***\n\nSi estamos unidos a Dios en su voluntad, nos encontramos unidos entre nosotros.\nY no puede ser de otro modo. Primero, porque la unidad entre nosotros no puede ser más que la resultante de la unión de cada uno con Dios; y luego, porque si en algún momento la unidad recíproca se rompiera, dejaríamos de ser cristianos si no pensáramos que es voluntad de Dios recomponerla antes que cualquier otra cosa.\n¿Quién sabrá repetir jamás las infinitas bellezas y novedades, los horizontes interminables que contempla un alma abandonada a la aventura divina da la divina voluntad?",
+      "estado": "publicado"
     },
     {
       "id": "meditacion_1775918228826",
