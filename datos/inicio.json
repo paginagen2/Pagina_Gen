@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-03",
-  "generadoEn": "2026-10-03T09:03:18.781Z",
+  "fechaGeneracion": "2026-10-04",
+  "generadoEn": "2026-10-04T09:37:19.440Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1790987215046",
-    "titulo": "HACERSE PEQUEÑOS",
-    "fecha": "03/10/2026",
+    "id": "pasapalabra_1791078637420",
+    "titulo": "SER INSTRUMENTOS DE PAZ",
+    "fecha": "04/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777258863383_i5gw8p48t",
-    "titulo": "Dos cosas secretas",
+    "id": "meditaciones_1777056890626_wy28sxt54",
+    "titulo": "La vanidad",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
