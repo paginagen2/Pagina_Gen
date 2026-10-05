@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-04",
-  "generadoEn": "2026-10-04T09:37:19.440Z",
+  "fechaGeneracion": "2026-10-05",
+  "generadoEn": "2026-10-05T10:17:51.300Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1791078637420",
-    "titulo": "SER INSTRUMENTOS DE PAZ",
-    "fecha": "04/10/2026",
+    "id": "pasapalabra_1791160966030",
+    "titulo": "HACERSE PRÓJIMO",
+    "fecha": "05/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777056890626_wy28sxt54",
-    "titulo": "La vanidad",
+    "id": "meditaciones_1777055697313_yzn7vigqt",
+    "titulo": "Se ama todavía",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

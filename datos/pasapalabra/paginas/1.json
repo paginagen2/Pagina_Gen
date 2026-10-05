@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 356,
+  "total": 357,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1791160966030",
+      "titulo": "HACERSE PRÓJIMO",
+      "fecha": "05/10/2026",
+      "reflexion": "Muchas veces estamos físicamente cerca de las personas, pero permanecemos distantes. Vemos sus necesidades, sus sufrimientos y sus alegrías, pero no nos dejamos conmover por lo que ellas viven. Hacerse prójimo exige salir de nosotros mismos e ir al encuentro del otro.\nSer prójimo es percibir a quien está solo, comprender a quien sufre en silencio y alegrarse sinceramente con la felicidad del otro.\nJesús nos enseña que la verdadera cercanía nace de la compasión. El prójimo no es solo quien está cerca de mí; es aquel a quien me acerco, especialmente cuando necesita cuidado, atención y amor.\nHacerse prójimo es transformar la presencia en cuidado, el encuentro en acogida y el amor en actitudes concretas.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1791078637420",
       "titulo": "SER INSTRUMENTOS DE PAZ",
@@ -34,12 +40,6 @@
       "titulo": "CUIDAR A LAS PERSONAS MAYORES",
       "fecha": "01/10/2026",
       "reflexion": "Cuidar a las personas mayores significa mirar a aquellos que envejecieron como seres humanos, que aún tienen mucho que ofrecer.\nA medida que los años pasan, pueden surgir limitaciones, soledad y dependencia. En esos momentos, nuestro cuidado se convierte en una expresión concreta de gratitud.\nMuchas veces, lo que más necesita una persona mayor es una conversación, una visita, un abrazo, una palabra amable y la certeza de que no ha sido olvidada.\nCuidar de las personas mayores también nos enseña a recordar que algún día todos necesitaremos cuidados. Por lo tanto, aprendamos a ofrecer hoy lo que nos gustaría recibir mañana: respeto, ternura, atención y amor."
-    },
-    {
-      "id": "pasapalabra_1790731658503",
-      "titulo": "ACTUAR CON VALENTÍA",
-      "fecha": "30/09/2026",
-      "reflexion": "La fe nos impulsa a actuar con valentía y nos hace creer incluso en lo imposible.\nCon Dios creemos contra toda esperanza, superamos cualquier obstáculo, tenemos el valor de interceder en favor de los desesperados, nos atrevemos aspirar a la santidad porque nuestro Dios es Santo.\nCon Dios tenemos el valor de perseverar hasta el final, de no detenernos ante las dificultades, el valor de ir contra la corriente del mundo que quiere arrastrarnos, el valor de ser testigos del amor a toda costa.\nSomos valientes cuando amamos a todos sin hacer distinción; cuando amamos primero sin esperar nada a cambio. Somos valientes cuando amamos sabiendo perdonar.\nSe actúa con valentía cuando nuestro sí es sí y nuestro no es no. (Cf. Mt 5,37)"
     }
   ]
 }

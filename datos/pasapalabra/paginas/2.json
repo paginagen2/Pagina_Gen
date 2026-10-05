@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 2,
   "tamanioPagina": 6,
-  "total": 356,
+  "total": 357,
   "siguientePagina": 3,
   "items": [
+    {
+      "id": "pasapalabra_1790731658503",
+      "titulo": "ACTUAR CON VALENTÍA",
+      "fecha": "30/09/2026",
+      "reflexion": "La fe nos impulsa a actuar con valentía y nos hace creer incluso en lo imposible.\nCon Dios creemos contra toda esperanza, superamos cualquier obstáculo, tenemos el valor de interceder en favor de los desesperados, nos atrevemos aspirar a la santidad porque nuestro Dios es Santo.\nCon Dios tenemos el valor de perseverar hasta el final, de no detenernos ante las dificultades, el valor de ir contra la corriente del mundo que quiere arrastrarnos, el valor de ser testigos del amor a toda costa.\nSomos valientes cuando amamos a todos sin hacer distinción; cuando amamos primero sin esperar nada a cambio. Somos valientes cuando amamos sabiendo perdonar.\nSe actúa con valentía cuando nuestro sí es sí y nuestro no es no. (Cf. Mt 5,37)"
+    },
     {
       "id": "pasapalabra_1790642440412",
       "titulo": "SER MENSAJEROS DEL BIEN",
@@ -34,12 +40,6 @@
       "titulo": "ACOGER EL MISTERIO DE LA VIDA",
       "fecha": "25/09/2026",
       "reflexion": "No todo en la vida puede ser comprendido, explicado o controlado. Hay acontecimientos que nos sorprenden, caminos que no planeamos y situaciones delante de las que solo podemos permanecer en silencio y confiar.\nMuchas veces, queremos comprender inmediatamente el porqué de las cosas. Sin embargo, hay experiencias cuyo significado solo descubrimos con el tiempo. Otras permanecen como preguntas sin respuesta.\nEl misterio también nos enseña a reflexionar. La oportunidad de estar vivos nos recuerda que hay cosas en la vida que sobrepasan a nuestra comprensión.\nAcoger el misterio de la vida significa hacer nuestra parte con responsabilidad, pero también dejar espacio para lo inesperado, para aquello que no depende de nosotros."
-    },
-    {
-      "id": "pasapalabra_1790213136952",
-      "titulo": "CULTIVAR LA PROPIA INTERIORIDAD",
-      "fecha": "24/09/2026",
-      "reflexion": "Cultivar la interioridad significa dedicar un tiempo para el silencio, para la oración, para la reflexión y para el encuentro con uno mismo y, sobre todo, con Dios. Es en este espacio interior donde encontramos paz, discernimiento y fortaleza para enfrentar la vida con sus dolores y alegrías.\nCuando miramos hacia nuestro interior, descubrimos los dones y la bondad que Dios ha puesto en nosotros. La vida interior no nos aleja del mundo; al contrario, nos hace más atentos, más equilibrados y más capaces de amar sin hacer distinciones.\nCuando cultivamos nuestra propia interioridad, aprendemos a actuar con más sabiduría, a hablar con más delicadeza y a vivir con mayor sentido."
     }
   ]
 }
