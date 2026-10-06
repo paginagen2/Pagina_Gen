@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 357,
+  "total": 358,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1791257805227",
+      "titulo": "CENTRARSE EN LO ESENCIAL",
+      "fecha": "06/10/2026",
+      "reflexion": "Centrarse en lo esencial es aprender a distinguir lo que es verdaderamente importante de aquello que solo ocupa nuestro tiempo y atención.\nLo esencial está muchas veces, en las cosas sencillas: amar, servir, perdonar, agradecer, cuidar a las personas que caminan con nosotros y hacer el bien cuando tenemos la oportunidad.\nJesús nos invita a no perdernos en lo secundario, sino a situar el amor en el centro de nuestras decisiones. Cuando tenemos lo esencial ante nuestros ojos, somos capaces de afrontar las dificultades con mayor serenidad y tomar decisiones más coherentes con aquello en que creemos.\nCentrarse en lo esencial es vivir con el corazón centrado en aquello que realmente da sentido a la vida: el amor.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1791160966030",
       "titulo": "HACERSE PRÓJIMO",
@@ -34,12 +40,6 @@
       "titulo": "AYUDARSE ENTRE GENERACIONES",
       "fecha": "02/10/2026",
       "reflexion": "Ayudarse entre generaciones es reconocer que cada edad tiene su propia riqueza y que, cuando ponemos nuestros dones al servicio de los demás, la vida de todos, mejora.\nCada generación tiene algo que ofrecer: la generación mayor aporta experiencia, sabiduría y memoria; los más jóvenes, energía, nuevas ideas, creatividad y esperanza.\nAyudarse entre generaciones es saber enseñar, pero también estar dispuestos a aprender.\nLos más jóvenes pueden ayudar a los mayores a enfrentar los cambios del mundo, a superar limitaciones y a mantenerse conectadas. Los mayores, a su vez, pueden transmitir valores, historias y enseñanzas que solo el tiempo es capaz de ofrecer.\nLa solidaridad entre generaciones crea vínculos, reduce la soledad y fortalece la comunidad."
-    },
-    {
-      "id": "pasapalabra_1790817335953",
-      "titulo": "CUIDAR A LAS PERSONAS MAYORES",
-      "fecha": "01/10/2026",
-      "reflexion": "Cuidar a las personas mayores significa mirar a aquellos que envejecieron como seres humanos, que aún tienen mucho que ofrecer.\nA medida que los años pasan, pueden surgir limitaciones, soledad y dependencia. En esos momentos, nuestro cuidado se convierte en una expresión concreta de gratitud.\nMuchas veces, lo que más necesita una persona mayor es una conversación, una visita, un abrazo, una palabra amable y la certeza de que no ha sido olvidada.\nCuidar de las personas mayores también nos enseña a recordar que algún día todos necesitaremos cuidados. Por lo tanto, aprendamos a ofrecer hoy lo que nos gustaría recibir mañana: respeto, ternura, atención y amor."
     }
   ]
 }
