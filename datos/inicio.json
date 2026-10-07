@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-06",
-  "generadoEn": "2026-10-06T10:05:07.960Z",
+  "fechaGeneracion": "2026-10-07",
+  "generadoEn": "2026-10-07T10:08:15.378Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1791257805227",
-    "titulo": "CENTRARSE EN LO ESENCIAL",
-    "fecha": "06/10/2026",
+    "id": "pasapalabra_1791330610192",
+    "titulo": "VIVIR LA FRATERNIDAD",
+    "fecha": "07/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777044314560",
-    "titulo": "El dulce cordero",
+    "id": "meditacion_1775877102284",
+    "titulo": "Con el omnipotente",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 2,
   "tamanioPagina": 6,
-  "total": 358,
+  "total": 359,
   "siguientePagina": 3,
   "items": [
+    {
+      "id": "pasapalabra_1790913040352",
+      "titulo": "AYUDARSE ENTRE GENERACIONES",
+      "fecha": "02/10/2026",
+      "reflexion": "Ayudarse entre generaciones es reconocer que cada edad tiene su propia riqueza y que, cuando ponemos nuestros dones al servicio de los demás, la vida de todos, mejora.\nCada generación tiene algo que ofrecer: la generación mayor aporta experiencia, sabiduría y memoria; los más jóvenes, energía, nuevas ideas, creatividad y esperanza.\nAyudarse entre generaciones es saber enseñar, pero también estar dispuestos a aprender.\nLos más jóvenes pueden ayudar a los mayores a enfrentar los cambios del mundo, a superar limitaciones y a mantenerse conectadas. Los mayores, a su vez, pueden transmitir valores, historias y enseñanzas que solo el tiempo es capaz de ofrecer.\nLa solidaridad entre generaciones crea vínculos, reduce la soledad y fortalece la comunidad."
+    },
     {
       "id": "pasapalabra_1790817335953",
       "titulo": "CUIDAR A LAS PERSONAS MAYORES",
@@ -34,12 +40,6 @@
       "titulo": "NO CON PALABRAS, SINO CON HECHOS",
       "fecha": "27/09/2026",
       "reflexion": "Es fácil hablar de amor, de solidaridad y de bondad. Las palabras tienen valor, pero solo adquieren verdadera fuerza cuando se transforman en acciones concretas.\nUn pequeño servicio realizado en silencio dice mucho más que largas explicaciones. Son las acciones las que revelan lo que realmente llevamos en el corazón.\nEl verdadero amor se manifiesta en el cuidado diario, en la paciencia con los límites del otro, en la honestidad de nuestras decisiones y en la disposición de servir.\nLa coherencia entre palabra y acción es un testimonio silencioso que ilumina el mundo que nos rodea.\n“Hijitos míos, no amemos solamente con la lengua y de palabra, sino con obras y de verdad.” (1Jn. 3,18)"
-    },
-    {
-      "id": "pasapalabra_1790386400262",
-      "titulo": "IR AL ENCUENTRO CON EL OTRO DESARMADOS",
-      "fecha": "26/09/2026",
-      "reflexion": "Ir al encuentro con el otro desarmado es acercarse sin juzgar y sin la necesidad de vencer. Muchas veces cargamos defensas construidas a partir de experiencias de vida, del miedo a ser heridos o incomprendidos.\nIr desarmado no significa ser ingenuo, sino tener el valor de acoger al otro con respeto y apertura.\nCuando nos acercamos con humildad, creamos un espacio para el diálogo, para la reconciliación y para la paz. Un corazón desarmado no busca dominar; busca servir, cuidar y construir vínculos.\nDebemos deponer las armas del orgullo, de la impaciencia, del prejuicio y de la indiferencia.\nMuchas veces, la mayor fortaleza reside precisamente en la humildad y la sencillez de quienes se acercan en paz."
     }
   ]
 }

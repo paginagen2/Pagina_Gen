@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 358,
+  "total": 359,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1791330610192",
+      "titulo": "VIVIR LA FRATERNIDAD",
+      "fecha": "07/10/2026",
+      "reflexion": "Vivir la fraternidad es reconocer que somos parte de la misma familia humana. Por eso, estamos llamados a cuidarnos mutuamente, compartiendo alegrías, dificultades, esperanzas y responsabilidades.\nLa fraternidad comienza cuando dejamos de mirarnos solo a nosotros mismos y percibimos las necesidades de quien está a nuestro lado.\nSer fraterno también significa aprender a convivir con las diferencias. No siempre pensamos de la misma manera. Aun así, podemos respetar, dialogar y construir relaciones basadas en el amor y en la confianza.\nJesús nos muestra que la fraternidad nace del amor al prójimo y se manifiesta en gestos concretos de cuidado, perdón, solidaridad y servicio."
+    },
     {
       "id": "pasapalabra_1791257805227",
       "titulo": "CENTRARSE EN LO ESENCIAL",
@@ -34,12 +40,6 @@
       "titulo": "HACERSE PEQUEÑOS",
       "fecha": "03/10/2026",
       "reflexion": "La verdadera grandeza nace de la humildad. Quien se hace pequeño logra percibir las necesidades que el orgullo oculta, acoger a cada persona con mayor gentileza y poner sus dones al servicio del bien.\nHacerse pequeño también implica confiar. Es saber que no necesitamos controlarlo todo, tener siempre la razón ni demostrar nuestra importancia. Podemos simplemente hacer el bien, con sencillez, y permitir que Dios guíe aquello que está más allá de nuestras fuerzas.\nEs cuando nos hacemos pequeños que alcanzamos la verdadera grandeza."
-    },
-    {
-      "id": "pasapalabra_1790913040352",
-      "titulo": "AYUDARSE ENTRE GENERACIONES",
-      "fecha": "02/10/2026",
-      "reflexion": "Ayudarse entre generaciones es reconocer que cada edad tiene su propia riqueza y que, cuando ponemos nuestros dones al servicio de los demás, la vida de todos, mejora.\nCada generación tiene algo que ofrecer: la generación mayor aporta experiencia, sabiduría y memoria; los más jóvenes, energía, nuevas ideas, creatividad y esperanza.\nAyudarse entre generaciones es saber enseñar, pero también estar dispuestos a aprender.\nLos más jóvenes pueden ayudar a los mayores a enfrentar los cambios del mundo, a superar limitaciones y a mantenerse conectadas. Los mayores, a su vez, pueden transmitir valores, historias y enseñanzas que solo el tiempo es capaz de ofrecer.\nLa solidaridad entre generaciones crea vínculos, reduce la soledad y fortalece la comunidad."
     }
   ]
 }
