@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-07",
-  "generadoEn": "2026-10-07T10:08:15.378Z",
+  "fechaGeneracion": "2026-10-08",
+  "generadoEn": "2026-10-08T10:23:41.661Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1791330610192",
-    "titulo": "VIVIR LA FRATERNIDAD",
-    "fecha": "07/10/2026",
+    "id": "pasapalabra_1791421284384",
+    "titulo": "SABER PEDIR AYUDA",
+    "fecha": "08/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775877102284",
-    "titulo": "Con el omnipotente",
+    "id": "meditacion_1777043512742",
+    "titulo": "Multiplicar el bien",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
