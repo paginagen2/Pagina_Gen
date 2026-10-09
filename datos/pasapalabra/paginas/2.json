@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 2,
   "tamanioPagina": 6,
-  "total": 360,
+  "total": 361,
   "siguientePagina": 3,
   "items": [
+    {
+      "id": "pasapalabra_1790987215339",
+      "titulo": "HACERSE PEQUEÑOS",
+      "fecha": "03/10/2026",
+      "reflexion": "La verdadera grandeza nace de la humildad. Quien se hace pequeño logra percibir las necesidades que el orgullo oculta, acoger a cada persona con mayor gentileza y poner sus dones al servicio del bien.\nHacerse pequeño también implica confiar. Es saber que no necesitamos controlarlo todo, tener siempre la razón ni demostrar nuestra importancia. Podemos simplemente hacer el bien, con sencillez, y permitir que Dios guíe aquello que está más allá de nuestras fuerzas.\nEs cuando nos hacemos pequeños que alcanzamos la verdadera grandeza."
+    },
     {
       "id": "pasapalabra_1790987215046",
       "titulo": "HACERSE PEQUEÑOS",
@@ -34,12 +40,6 @@
       "titulo": "SER MENSAJEROS DEL BIEN",
       "fecha": "29/09/2026",
       "reflexion": "No es necesario realizar grandes hazañas para ser mensajeros del bien; basta con permitir que nuestras palabras, actitudes y decisiones traigan paz, esperanza y amor a quienes nos rodean.\nEl bien tiene un poder silencioso. Cuando elegimos practicarlo, nos convertimos en instrumentos de Dios en el mundo. Muchas veces no nos damos cuenta del alcance de nuestras acciones, pero cada actitud inspirada por el amor deja una profunda huella en los corazones.\nTambién estamos llamados a llevar el bien a nuestros hogares, a la familia, al trabajo, a la comunidad y a dondequiera que vayamos. El mundo necesita menos críticas destructivas y más personas dispuestas a construir, reconciliar y servir."
-    },
-    {
-      "id": "pasapalabra_1790560191802",
-      "titulo": "AYUDAR A LOS MÁS DESFAVORECIDOS",
-      "fecha": "28/09/2026",
-      "reflexion": "El Evangelio nos invita a mirar con atención y amor a los más desfavorecidos: los olvidados, los débiles, los pobres, los enfermos, los que cargan soledad y sufrimiento.\nAcoger a los más desfavorecidos es reconocer la dignidad de cada persona. Es abrir un espacio en el corazón para quien a veces no encuentra lugar en la sociedad. Una mirada de respeto o un gesto de cariño pueden devolver la alegría y la confianza a quien se siente abandonado.\nCuando acogemos a los más desfavorecidos, superamos el egoísmo y descubrimos que el verdadero valor de la vida no reside en ser servidos, sino en servir. Dios se hace presente de modo especial en los pequeños y en los necesitados.\n“El que recibe a uno de estos pequeños en mi Nombre, me recibe a mí” (Mc. 9,37)"
     }
   ]
 }

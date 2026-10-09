@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 360,
+  "total": 361,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1791514517170",
+      "titulo": "FAVORECER LA COMUNIÓN",
+      "fecha": "09/10/2026",
+      "reflexion": "Para favorecer la comunión, existe una cierta escala de valores.\nLa tolerancia es importante porque favorece la convivencia.\nEl diálogo es importantísimo porque favorece el enriquecimiento recíproco a través de las diferencias.\nLa comunión es fundamental porque nos hace una sola cosa.\nEn realidad, la tolerancia y el diálogo son peldaños que nos llevan a la comunión y, después, a la unidad.\nLa comunión perfecta es aquella que tiene como base la caridad, el amor mutuo.\nLa comunión no se reduce solo a lo material, sino que engloba los talentos, las aptitudes, el tiempo, el trabajo, la escucha, la oración; en fin, todos los aspectos de la vida."
+    },
     {
       "id": "pasapalabra_1791421284384",
       "titulo": "SABER PEDIR AYUDA",
@@ -34,12 +40,6 @@
       "titulo": "SER INSTRUMENTOS DE PAZ",
       "fecha": "04/10/2026",
       "reflexion": "Para que haya paz, puedo hacer muchas cosas y evitar otras tantas.\nPara saber qué hacer, recuerdo el inicio de la oración de Francisco de Asís: \"Señor, haz de mí un instrumento de tu paz. Donde haya odio, que yo lleve el amor; donde haya ofensa, que yo lleve el perdón; donde haya discordia, que yo lleve la unión...\"\nAquello que puedo evitar cuando quiero ser instrumento de paz es una lista interminable de cosas, pero se resume en algunas fundamentales: no tomar partido según las emociones, sino según la verdad y la justicia; no faltar nunca a la caridad; no exponer los defectos de los demás.\nPor último, Dios mismo me sugiere qué hacer ante una controversia: llevar amor a ambas partes y dejar que sea Él quien actúe a través de mí."
-    },
-    {
-      "id": "pasapalabra_1790987215339",
-      "titulo": "HACERSE PEQUEÑOS",
-      "fecha": "03/10/2026",
-      "reflexion": "La verdadera grandeza nace de la humildad. Quien se hace pequeño logra percibir las necesidades que el orgullo oculta, acoger a cada persona con mayor gentileza y poner sus dones al servicio del bien.\nHacerse pequeño también implica confiar. Es saber que no necesitamos controlarlo todo, tener siempre la razón ni demostrar nuestra importancia. Podemos simplemente hacer el bien, con sencillez, y permitir que Dios guíe aquello que está más allá de nuestras fuerzas.\nEs cuando nos hacemos pequeños que alcanzamos la verdadera grandeza."
     }
   ]
 }
