@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 361,
+  "total": 362,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1791590934524",
+      "titulo": "ESCUCHAR PROFUNDAMENTE",
+      "fecha": "10/10/2026",
+      "reflexion": "Cuando escuchamos al otro por amor, la escucha se convierte en un acto de comunión fraterna. Creamos un vacío en nosotros que se llena del otro. Él, a su vez, nos entrega todo lo que está en su corazón en ese momento: angustias y dolores, pero también alegrías y conquistas.\nEscuchar profundamente equivale a establecer una comunión de vida.\nLa escucha implica también una gran actitud de inclusión, de superación de prejuicios y de aceptación de las diferencias.\nEscuchamos profundamente cuando logramos escuchar sin combatir las opiniones contrarias a las nuestras; cuando permitimos que el otro se exprese plenamente.\nPara hoy, nuestro propósito puede ser: “hacernos uno”, escuchando a todos en profundidad."
+    },
     {
       "id": "pasapalabra_1791514517170",
       "titulo": "FAVORECER LA COMUNIÓN",
@@ -34,12 +40,6 @@
       "titulo": "HACERSE PRÓJIMO",
       "fecha": "05/10/2026",
       "reflexion": "Muchas veces estamos físicamente cerca de las personas, pero permanecemos distantes. Vemos sus necesidades, sus sufrimientos y sus alegrías, pero no nos dejamos conmover por lo que ellas viven. Hacerse prójimo exige salir de nosotros mismos e ir al encuentro del otro.\nSer prójimo es percibir a quien está solo, comprender a quien sufre en silencio y alegrarse sinceramente con la felicidad del otro.\nJesús nos enseña que la verdadera cercanía nace de la compasión. El prójimo no es solo quien está cerca de mí; es aquel a quien me acerco, especialmente cuando necesita cuidado, atención y amor.\nHacerse prójimo es transformar la presencia en cuidado, el encuentro en acogida y el amor en actitudes concretas.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1791078637420",
-      "titulo": "SER INSTRUMENTOS DE PAZ",
-      "fecha": "04/10/2026",
-      "reflexion": "Para que haya paz, puedo hacer muchas cosas y evitar otras tantas.\nPara saber qué hacer, recuerdo el inicio de la oración de Francisco de Asís: \"Señor, haz de mí un instrumento de tu paz. Donde haya odio, que yo lleve el amor; donde haya ofensa, que yo lleve el perdón; donde haya discordia, que yo lleve la unión...\"\nAquello que puedo evitar cuando quiero ser instrumento de paz es una lista interminable de cosas, pero se resume en algunas fundamentales: no tomar partido según las emociones, sino según la verdad y la justicia; no faltar nunca a la caridad; no exponer los defectos de los demás.\nPor último, Dios mismo me sugiere qué hacer ante una controversia: llevar amor a ambas partes y dejar que sea Él quien actúe a través de mí."
     }
   ]
 }
