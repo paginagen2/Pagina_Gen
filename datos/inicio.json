@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-10",
-  "generadoEn": "2026-10-10T09:42:29.580Z",
+  "fechaGeneracion": "2026-10-11",
+  "generadoEn": "2026-10-11T09:54:07.708Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1791590934524",
-    "titulo": "ESCUCHAR PROFUNDAMENTE",
-    "fecha": "10/10/2026",
+    "id": "pasapalabra_1791683579527",
+    "titulo": "PONERSE EN EL LUGAR DEL OTRO",
+    "fecha": "11/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777043533095",
-    "titulo": "\"Donde dos o tres...\"",
+    "id": "meditaciones_1777056890770_9ta2k6v4s",
+    "titulo": "Incertidumbre",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
