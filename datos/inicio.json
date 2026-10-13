@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-12",
-  "generadoEn": "2026-10-12T10:37:16.289Z",
+  "fechaGeneracion": "2026-10-13",
+  "generadoEn": "2026-10-13T10:25:19.328Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1791785467435",
-    "titulo": "SERVIR CON LIBERTAD",
-    "fecha": "12/10/2026",
+    "id": "pasapalabra_1791860433519",
+    "titulo": "MIRAR AL CORAZÓN DE LAS PERSONAS",
+    "fecha": "13/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259541681_38ojni5yt",
-    "titulo": "El frío",
+    "id": "meditacion_1777043546470",
+    "titulo": "En \"clausura\"",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
