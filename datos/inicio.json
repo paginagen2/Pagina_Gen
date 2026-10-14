@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-13",
-  "generadoEn": "2026-10-13T10:25:19.328Z",
+  "fechaGeneracion": "2026-10-14",
+  "generadoEn": "2026-10-14T08:35:59.844Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1791860433519",
-    "titulo": "MIRAR AL CORAZÓN DE LAS PERSONAS",
-    "fecha": "13/10/2026",
+    "id": "pasapalabra_1791935439825",
+    "titulo": "ESCUCHAR LA VOZ DE LA CONCIENCIA",
+    "fecha": "14/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777043546470",
-    "titulo": "En \"clausura\"",
+    "id": "meditacion_1777043564200",
+    "titulo": "La auténtica verdad",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
