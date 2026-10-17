@@ -2,9 +2,21 @@
   "schemaVersion": 1,
   "pagina": 3,
   "tamanioPagina": 6,
-  "total": 368,
+  "total": 370,
   "siguientePagina": 4,
   "items": [
+    {
+      "id": "pasapalabra_1791257805227",
+      "titulo": "CENTRARSE EN LO ESENCIAL",
+      "fecha": "06/10/2026",
+      "reflexion": "Centrarse en lo esencial es aprender a distinguir lo que es verdaderamente importante de aquello que solo ocupa nuestro tiempo y atención.\nLo esencial está muchas veces, en las cosas sencillas: amar, servir, perdonar, agradecer, cuidar a las personas que caminan con nosotros y hacer el bien cuando tenemos la oportunidad.\nJesús nos invita a no perdernos en lo secundario, sino a situar el amor en el centro de nuestras decisiones. Cuando tenemos lo esencial ante nuestros ojos, somos capaces de afrontar las dificultades con mayor serenidad y tomar decisiones más coherentes con aquello en que creemos.\nCentrarse en lo esencial es vivir con el corazón centrado en aquello que realmente da sentido a la vida: el amor.\nUn abrazo,"
+    },
+    {
+      "id": "pasapalabra_1791160966030",
+      "titulo": "HACERSE PRÓJIMO",
+      "fecha": "05/10/2026",
+      "reflexion": "Muchas veces estamos físicamente cerca de las personas, pero permanecemos distantes. Vemos sus necesidades, sus sufrimientos y sus alegrías, pero no nos dejamos conmover por lo que ellas viven. Hacerse prójimo exige salir de nosotros mismos e ir al encuentro del otro.\nSer prójimo es percibir a quien está solo, comprender a quien sufre en silencio y alegrarse sinceramente con la felicidad del otro.\nJesús nos enseña que la verdadera cercanía nace de la compasión. El prójimo no es solo quien está cerca de mí; es aquel a quien me acerco, especialmente cuando necesita cuidado, atención y amor.\nHacerse prójimo es transformar la presencia en cuidado, el encuentro en acogida y el amor en actitudes concretas.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1791078637420",
       "titulo": "SER INSTRUMENTOS DE PAZ",
@@ -28,18 +40,6 @@
       "titulo": "AYUDARSE ENTRE GENERACIONES",
       "fecha": "02/10/2026",
       "reflexion": "Ayudarse entre generaciones es reconocer que cada edad tiene su propia riqueza y que, cuando ponemos nuestros dones al servicio de los demás, la vida de todos, mejora.\nCada generación tiene algo que ofrecer: la generación mayor aporta experiencia, sabiduría y memoria; los más jóvenes, energía, nuevas ideas, creatividad y esperanza.\nAyudarse entre generaciones es saber enseñar, pero también estar dispuestos a aprender.\nLos más jóvenes pueden ayudar a los mayores a enfrentar los cambios del mundo, a superar limitaciones y a mantenerse conectadas. Los mayores, a su vez, pueden transmitir valores, historias y enseñanzas que solo el tiempo es capaz de ofrecer.\nLa solidaridad entre generaciones crea vínculos, reduce la soledad y fortalece la comunidad."
-    },
-    {
-      "id": "pasapalabra_1790817335953",
-      "titulo": "CUIDAR A LAS PERSONAS MAYORES",
-      "fecha": "01/10/2026",
-      "reflexion": "Cuidar a las personas mayores significa mirar a aquellos que envejecieron como seres humanos, que aún tienen mucho que ofrecer.\nA medida que los años pasan, pueden surgir limitaciones, soledad y dependencia. En esos momentos, nuestro cuidado se convierte en una expresión concreta de gratitud.\nMuchas veces, lo que más necesita una persona mayor es una conversación, una visita, un abrazo, una palabra amable y la certeza de que no ha sido olvidada.\nCuidar de las personas mayores también nos enseña a recordar que algún día todos necesitaremos cuidados. Por lo tanto, aprendamos a ofrecer hoy lo que nos gustaría recibir mañana: respeto, ternura, atención y amor."
-    },
-    {
-      "id": "pasapalabra_1790731658503",
-      "titulo": "ACTUAR CON VALENTÍA",
-      "fecha": "30/09/2026",
-      "reflexion": "La fe nos impulsa a actuar con valentía y nos hace creer incluso en lo imposible.\nCon Dios creemos contra toda esperanza, superamos cualquier obstáculo, tenemos el valor de interceder en favor de los desesperados, nos atrevemos aspirar a la santidad porque nuestro Dios es Santo.\nCon Dios tenemos el valor de perseverar hasta el final, de no detenernos ante las dificultades, el valor de ir contra la corriente del mundo que quiere arrastrarnos, el valor de ser testigos del amor a toda costa.\nSomos valientes cuando amamos a todos sin hacer distinción; cuando amamos primero sin esperar nada a cambio. Somos valientes cuando amamos sabiendo perdonar.\nSe actúa con valentía cuando nuestro sí es sí y nuestro no es no. (Cf. Mt 5,37)"
     }
   ]
 }
