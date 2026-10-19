@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-18",
-  "generadoEn": "2026-10-18T07:56:49.614Z",
+  "fechaGeneracion": "2026-10-19",
+  "generadoEn": "2026-10-19T08:44:19.118Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1792298100016",
-    "titulo": "UTILIZAR LOS BIENES CON RESPONSABILIDAD",
-    "fecha": "18/10/2026",
+    "id": "pasapalabra_1792378703705",
+    "titulo": "VIVIR CON SOBRIEDAD",
+    "fecha": "19/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777052934603_tgn2chvr6",
-    "titulo": "Pero que Tú no pases",
+    "id": "meditacion_1775878472985",
+    "titulo": "Otro Reino",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
