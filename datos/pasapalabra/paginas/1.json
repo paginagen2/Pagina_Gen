@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 372,
+  "total": 373,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1792462771094",
+      "titulo": "VALORAR CADA MOMENTO",
+      "fecha": "20/10/2026",
+      "reflexion": "Valorar cada momento significa aprender a vivir en el presente con gratitud, sin quedar atrapados en el pasado ni preocuparnos excesivamente por lo que está por venir. Es reconocer que el momento presente trae consigo una oportunidad para amar, ayudar, perdonar, agradecer y hacer el bien, que no se repetirá.\nNo siempre podemos elegir las circunstancias en las que nos encontramos, pero sí podemos elegir cómo vivir cada momento.\nCuando valoramos el tiempo que tenemos a nuestra disposición, descubrimos que la verdadera riqueza no reside en tener más, sino en vivir mejor con lo que ya tenemos.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1792378703705",
       "titulo": "VIVIR CON SOBRIEDAD",
@@ -34,12 +40,6 @@
       "titulo": "CULTIVAR LA PROPIA INTERIORIDAD",
       "fecha": "16/10/2026",
       "reflexion": "En medio de las preocupaciones de la vida, necesitamos encontrar momentos para volver a nuestro interior y reencontrarnos con Dios, que habita en nosotros.\nCultivar la interioridad es alimentar el alma con la oración, el silencio, la Palabra, la gratitud y la confianza en Dios. Es permitir que Él ilumine nuestros pensamientos, sane nuestras inquietudes y fortalezca nuestro corazón.\nCuando nutrimos la vida interior, aprendemos a mirar el mundo con más serenidad y a las personas con más amor.\nQue sepamos guardar silencio para escuchar a Dios, recogernos para encontrarlo y, fortalecidos por su presencia, salir al encuentro de los demás con un corazón renovado."
-    },
-    {
-      "id": "pasapalabra_1792035940896",
-      "titulo": "SER BENÉVOLOS CON TODOS",
-      "fecha": "15/10/2026",
-      "reflexion": "Ser benévolos significa desear siempre el bien del otro. No solo desearlo, sino hacer lo que esté a mi alcance para favorecer su bien.\nHacer el bien a todos, tener actitudes solidarias, rezar por quien necesita oraciones, rezar por quien me persigue, proporcionar el bien de quien me ofende o de quien no me aprecia. Todo esto me acerca más a Dios.\nLas personas benevolentes son muy numerosas. Busco en las redes sociales publicaciones que hablen del bien y personas que lo practiquen, y descubro un mundo nuevo y real, con gente que piensa y actúa en favor del bien.\nLos ejemplos de bondad me impulsan y me llevan a hacer lo mismo."
     }
   ]
 }
