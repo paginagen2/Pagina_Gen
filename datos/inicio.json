@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-20",
-  "generadoEn": "2026-10-20T08:24:29.481Z",
+  "fechaGeneracion": "2026-10-21",
+  "generadoEn": "2026-10-21T08:28:00.810Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1792462771094",
-    "titulo": "VALORAR CADA MOMENTO",
-    "fecha": "20/10/2026",
+    "id": "pasapalabra_1792540835674",
+    "titulo": "PONER NUESTROS TALENTOS AL SERVICIO",
+    "fecha": "21/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1776048370981",
-    "titulo": "Servidores de Dios en el prójimo",
+    "id": "meditaciones_1777052934850_77iv29xpp",
+    "titulo": "Lanzados al infinito",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
