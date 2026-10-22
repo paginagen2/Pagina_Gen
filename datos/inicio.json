@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-21",
-  "generadoEn": "2026-10-21T08:28:00.810Z",
+  "fechaGeneracion": "2026-10-22",
+  "generadoEn": "2026-10-22T08:30:18.058Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1792540835674",
-    "titulo": "PONER NUESTROS TALENTOS AL SERVICIO",
-    "fecha": "21/10/2026",
+    "id": "pasapalabra_1792631396624",
+    "titulo": "ENRAIZARSE EN LA CARIDAD",
+    "fecha": "22/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777052934850_77iv29xpp",
-    "titulo": "Lanzados al infinito",
+    "id": "meditaciones_1777259550708_675ywgybi",
+    "titulo": "La llave del enigma",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

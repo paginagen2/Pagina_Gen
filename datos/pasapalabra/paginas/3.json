@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 3,
   "tamanioPagina": 6,
-  "total": 374,
+  "total": 375,
   "siguientePagina": 4,
   "items": [
+    {
+      "id": "pasapalabra_1791683579527",
+      "titulo": "PONERSE EN EL LUGAR DEL OTRO",
+      "fecha": "11/10/2026",
+      "reflexion": "Ponerse en el lugar del otro es tratar de comprender lo que él siente, lo que vive y lo que tal vez no logre expresar. Y, sobre todo, intentar ayudar como si fuera para mí mismo. Es decir, hacer al otro lo que me gustaría que él hiciera conmigo en la misma situación.\nMuchas veces juzgo con facilidad porque conozco solo una parte de la historia.\nPonerme en el lugar del otro no significa estar de acuerdo con todo, sino tratar de comprender y acoger antes de condenar.\nDios nos enseña a reconocer en el otro a alguien que necesita ser comprendido y amado. Tal vez hoy, alguien cercano necesite menos una solución y más a una persona que simplemente esté dispuesta a caminar a su lado."
+    },
     {
       "id": "pasapalabra_1791590934524",
       "titulo": "ESCUCHAR PROFUNDAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "CENTRARSE EN LO ESENCIAL",
       "fecha": "06/10/2026",
       "reflexion": "Centrarse en lo esencial es aprender a distinguir lo que es verdaderamente importante de aquello que solo ocupa nuestro tiempo y atención.\nLo esencial está muchas veces, en las cosas sencillas: amar, servir, perdonar, agradecer, cuidar a las personas que caminan con nosotros y hacer el bien cuando tenemos la oportunidad.\nJesús nos invita a no perdernos en lo secundario, sino a situar el amor en el centro de nuestras decisiones. Cuando tenemos lo esencial ante nuestros ojos, somos capaces de afrontar las dificultades con mayor serenidad y tomar decisiones más coherentes con aquello en que creemos.\nCentrarse en lo esencial es vivir con el corazón centrado en aquello que realmente da sentido a la vida: el amor.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1791160966030",
-      "titulo": "HACERSE PRÓJIMO",
-      "fecha": "05/10/2026",
-      "reflexion": "Muchas veces estamos físicamente cerca de las personas, pero permanecemos distantes. Vemos sus necesidades, sus sufrimientos y sus alegrías, pero no nos dejamos conmover por lo que ellas viven. Hacerse prójimo exige salir de nosotros mismos e ir al encuentro del otro.\nSer prójimo es percibir a quien está solo, comprender a quien sufre en silencio y alegrarse sinceramente con la felicidad del otro.\nJesús nos enseña que la verdadera cercanía nace de la compasión. El prójimo no es solo quien está cerca de mí; es aquel a quien me acerco, especialmente cuando necesita cuidado, atención y amor.\nHacerse prójimo es transformar la presencia en cuidado, el encuentro en acogida y el amor en actitudes concretas.\nUn abrazo,"
     }
   ]
 }
