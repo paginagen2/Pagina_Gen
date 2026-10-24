@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-23",
-  "generadoEn": "2026-10-23T08:26:29.955Z",
+  "fechaGeneracion": "2026-10-24",
+  "generadoEn": "2026-10-24T08:01:33.657Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1792715683470",
-    "titulo": "BUSCAR LA CONCORDIA",
-    "fecha": "23/10/2026",
+    "id": "pasapalabra_1792802396004",
+    "titulo": "SER PACIENTES",
+    "fecha": "24/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777056370419_w7epzx891",
-    "titulo": "Anticipo de Paraíso",
+    "id": "meditacion_1775918228826",
+    "titulo": "Un rey destronado",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
