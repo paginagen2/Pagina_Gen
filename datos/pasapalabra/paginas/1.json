@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 377,
+  "total": 378,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1792900434481",
+      "titulo": "ACOGER A CADA PERSONA",
+      "fecha": "25/10/2026",
+      "reflexion": "Hay personas que son acogedoras por naturaleza; que acogen a todos con alegría y disponibilidad.\nTodos podemos desarrollar esta capacidad: podemos tener el corazón abierto para acoger a cada persona tal como nos gustaría ser acogidos.\nLa acogida no necesita ser programada; puede formar parte de la vida cotidiana. Es nuestra disponibilidad para el servicio, la escucha, el acompañamiento y la fraternidad.\nAcoger es una forma de amor concreto que hace que los demás se sientan como en casa, en familia.\nSe puede practicar en las relaciones familiares, con los amigos, en el ámbito profesional y en cualquier entorno.\nAcoger a cada persona en su individualidad, para que se sienta amada de manera exclusiva en ese momento preciso de su vida.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1792802396004",
       "titulo": "SER PACIENTES",
@@ -34,12 +40,6 @@
       "titulo": "VALORAR CADA MOMENTO",
       "fecha": "20/10/2026",
       "reflexion": "Valorar cada momento significa aprender a vivir en el presente con gratitud, sin quedar atrapados en el pasado ni preocuparnos excesivamente por lo que está por venir. Es reconocer que el momento presente trae consigo una oportunidad para amar, ayudar, perdonar, agradecer y hacer el bien, que no se repetirá.\nNo siempre podemos elegir las circunstancias en las que nos encontramos, pero sí podemos elegir cómo vivir cada momento.\nCuando valoramos el tiempo que tenemos a nuestra disposición, descubrimos que la verdadera riqueza no reside en tener más, sino en vivir mejor con lo que ya tenemos.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1792378703705",
-      "titulo": "VIVIR CON SOBRIEDAD",
-      "fecha": "19/10/2026",
-      "reflexion": "Entiendo esta frase desde varios aspectos de la vida.\nAnte todo, no acumular lo superfluo, administrar mis posesiones para hacer el bien a los demás, vivir la comunión con todos.\nAcoger a todos con amor en el corazón y difundir la cultura del bien y de la paz.\nHacer que mi unión con Dios preceda a cualquier actividad o acción.\nCuidar mi salud y mi bienestar, para poder amar más y mejor a cada prójimo que encuentre.\nPromover un ambiente saludable en la convivencia con todos, en armonía con el medio ambiente, de modo que mi actuar social sea un testimonio de amor vivido.\nBuscar la Sabiduría de Dios, para comprender mejor los saberes humanos.\nSentirme uno con todos, en la igualdad y en la fraternidad, como hijos de un único Padre.\nEs decir, vivir la sobriedad del amor."
     }
   ]
 }

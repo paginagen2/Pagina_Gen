@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-24",
-  "generadoEn": "2026-10-24T08:01:33.657Z",
+  "fechaGeneracion": "2026-10-25",
+  "generadoEn": "2026-10-25T08:18:47.504Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1792802396004",
-    "titulo": "SER PACIENTES",
-    "fecha": "24/10/2026",
+    "id": "pasapalabra_1792900434481",
+    "titulo": "ACOGER A CADA PERSONA",
+    "fecha": "25/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775918228826",
-    "titulo": "Un rey destronado",
+    "id": "meditacion_1775848345876",
+    "titulo": "Dios",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
