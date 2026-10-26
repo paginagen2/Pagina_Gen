@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 378,
+  "total": 379,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1792978595460",
+      "titulo": "SER LIBRES PARA AMAR",
+      "fecha": "26/10/2026",
+      "reflexion": "Podemos amar a todos con un corazón libre de apegos.\nPero es necesario desprenderse de los bienes materiales, para poseerlos para el bien de todos, superando así el egoísmo; desprenderse de los afectos, para no apoderarse de las personas como posesión personal; desapegarse de las propias ideas, para saber escuchar y valorar el pensamiento del otro; desprenderse de la propia voluntad, para hacer sólo la voluntad de Dios.\nCortemos los lazos que nos atan a la tierra. Seamos libres de cualquier apego que nos impida amar con pureza de corazón, de vivir un amor que está por encima de las cosas materiales, por encima de los afectos y por encima de nosotros mismos, pero muy cerca de Dios."
+    },
     {
       "id": "pasapalabra_1792900434481",
       "titulo": "ACOGER A CADA PERSONA",
@@ -34,12 +40,6 @@
       "titulo": "PONER NUESTROS TALENTOS AL SERVICIO",
       "fecha": "21/10/2026",
       "reflexion": "Ningún talento es insignificante cuando se pone al servicio del bien.\nPoner nuestros talentos al servicio, significa que lo que hemos recibido puede convertirse en una forma de servir. Cuando compartimos nuestras capacidades con generosidad, contribuimos al crecimiento de los demás, para que el mundo que nos rodea sea un lugar mejor.\nA veces, dejamos de ofrecer nuestros dones por miedo a no ser lo suficientemente buenos. Sin embargo, lo importante no es hacer todo a la perfección, sino poner lo que somos y lo que tenemos a disposición. Un gesto sencillo, realizado con amor, puede lograr mucho más de lo que imaginamos.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1792462771094",
-      "titulo": "VALORAR CADA MOMENTO",
-      "fecha": "20/10/2026",
-      "reflexion": "Valorar cada momento significa aprender a vivir en el presente con gratitud, sin quedar atrapados en el pasado ni preocuparnos excesivamente por lo que está por venir. Es reconocer que el momento presente trae consigo una oportunidad para amar, ayudar, perdonar, agradecer y hacer el bien, que no se repetirá.\nNo siempre podemos elegir las circunstancias en las que nos encontramos, pero sí podemos elegir cómo vivir cada momento.\nCuando valoramos el tiempo que tenemos a nuestra disposición, descubrimos que la verdadera riqueza no reside en tener más, sino en vivir mejor con lo que ya tenemos.\nUn abrazo,"
     }
   ]
 }

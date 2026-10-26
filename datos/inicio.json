@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-25",
-  "generadoEn": "2026-10-25T08:18:47.504Z",
+  "fechaGeneracion": "2026-10-26",
+  "generadoEn": "2026-10-26T08:46:31.686Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1792900434481",
-    "titulo": "ACOGER A CADA PERSONA",
-    "fecha": "25/10/2026",
+    "id": "pasapalabra_1792978595460",
+    "titulo": "SER LIBRES PARA AMAR",
+    "fecha": "26/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775848345876",
-    "titulo": "Dios",
+    "id": "meditaciones_1777258862932_91tv3oqzg",
+    "titulo": "Sería como para morirse",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
