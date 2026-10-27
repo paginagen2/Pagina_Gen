@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-26",
-  "generadoEn": "2026-10-26T08:46:31.686Z",
+  "fechaGeneracion": "2026-10-27",
+  "generadoEn": "2026-10-27T08:51:59.889Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1792978595460",
-    "titulo": "SER LIBRES PARA AMAR",
-    "fecha": "26/10/2026",
+    "id": "pasapalabra_1793067742785",
+    "titulo": "CUIDAR LOS PEQUEÑOS DETALLES",
+    "fecha": "27/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777258862932_91tv3oqzg",
-    "titulo": "Sería como para morirse",
+    "id": "meditaciones_1777052721359_urze4mg3z",
+    "titulo": "Si amas a Dios",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

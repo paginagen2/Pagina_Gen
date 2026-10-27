@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 379,
+  "total": 380,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1793067742785",
+      "titulo": "CUIDAR LOS PEQUEÑOS DETALLES",
+      "fecha": "27/10/2026",
+      "reflexion": "La vida está compuesta por pequeños gestos, encuentros y detalles que muchas veces pasan desapercibidos. Una palabra amiga, una sonrisa o una sencilla actitud de cuidado pueden tocar el corazón de alguien.\nEstar atento a las pequeñas cosas es reconocer el valor de lo que parece simple e insignificante. Es percibir las necesidades de quien está a nuestro lado, agradecer por las pequeñas alegrías y acoger cada momento como una oportunidad para hacer el bien.\nCuando prestamos atención a los detalles, descubrimos que los grandes cambios comienzan con pequeñas acciones. El amor verdadero muchas veces, se manifiesta en las cosas más sencillas de la vida cotidiana.\nQue sepamos mirar con mayor atención las cosas más simples y valorar cada pequeña oportunidad para sembrar el bien.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1792978595460",
       "titulo": "SER LIBRES PARA AMAR",
@@ -34,12 +40,6 @@
       "titulo": "ENRAIZARSE EN LA CARIDAD",
       "fecha": "22/10/2026",
       "reflexion": "Así como un árbol necesita de raíces profundas para mantenerse firme contra los vientos, también nosotros necesitamos estar enraizados en el amor para afrontar las dificultades sin perder la esperanza.\nCuando el amor echa raíces en nuestro corazón, deja de depender de las circunstancias y comienza a orientar nuestro modo de vida.\nEnraizarse en la caridad significa también salir de nosotros mismos. No podemos permanecer indiferentes ante las necesidades de los demás.\nCuanto más profundamente estemos enraizados en la caridad, más frutos de paz, fraternidad y solidaridad podremos ofrecer al mundo."
-    },
-    {
-      "id": "pasapalabra_1792540835674",
-      "titulo": "PONER NUESTROS TALENTOS AL SERVICIO",
-      "fecha": "21/10/2026",
-      "reflexion": "Ningún talento es insignificante cuando se pone al servicio del bien.\nPoner nuestros talentos al servicio, significa que lo que hemos recibido puede convertirse en una forma de servir. Cuando compartimos nuestras capacidades con generosidad, contribuimos al crecimiento de los demás, para que el mundo que nos rodea sea un lugar mejor.\nA veces, dejamos de ofrecer nuestros dones por miedo a no ser lo suficientemente buenos. Sin embargo, lo importante no es hacer todo a la perfección, sino poner lo que somos y lo que tenemos a disposición. Un gesto sencillo, realizado con amor, puede lograr mucho más de lo que imaginamos.\nUn abrazo,"
     }
   ]
 }
