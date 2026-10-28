@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 380,
+  "total": 381,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1793146848386",
+      "titulo": "VALORAR LA SINGULARIDAD DE CADA PERSONA",
+      "fecha": "28/10/2026",
+      "reflexion": "Cada persona es única, con su historia, sus dones, sus fragilidades y su propia manera de ver y vivir la vida. No necesitamos ser iguales para caminar juntos; necesitamos aprender a reconocer y respetar el valor que existe en cada uno.\nValorar la singularidad del otro es mirar más allá de las apariencias, acoger las diferencias y reconocer que todos tienen algo especial que ofrecer. Cuando dejamos de comparar y empezamos a apreciar, construimos relaciones más auténticas y humanas.\nCada persona puede contribuir, a su manera, a hacer del mundo un lugar un poco mejor.\nEs importante reconocer el valor de cada persona, respetar sus diferencias y acoger con gratitud la riqueza que cada uno aporta a nuestra vida."
+    },
     {
       "id": "pasapalabra_1793067742785",
       "titulo": "CUIDAR LOS PEQUEÑOS DETALLES",
@@ -34,12 +40,6 @@
       "titulo": "BUSCAR LA CONCORDIA",
       "fecha": "23/10/2026",
       "reflexion": "Buscar la concordia significa elegir el camino que acerca a las personas, incluso cuando existen diferencias.\nMuchas veces, una palabra serena, un gesto de comprensión o la disposición a perdonar pueden transformar un conflicto en una oportunidad de acercamiento.\nBuscar la concordia no significa huir de las dificultades, sino afrontarlas con espíritu de paz. Es anteponer el bien común al orgullo personal y buscar aquello que une, en lugar de alimentar lo que divide.\nDonde existe la disposición a amar, dialogar y perdonar, siempre puede surgir un nuevo camino de concordia y fraternidad.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1792631396624",
-      "titulo": "ENRAIZARSE EN LA CARIDAD",
-      "fecha": "22/10/2026",
-      "reflexion": "Así como un árbol necesita de raíces profundas para mantenerse firme contra los vientos, también nosotros necesitamos estar enraizados en el amor para afrontar las dificultades sin perder la esperanza.\nCuando el amor echa raíces en nuestro corazón, deja de depender de las circunstancias y comienza a orientar nuestro modo de vida.\nEnraizarse en la caridad significa también salir de nosotros mismos. No podemos permanecer indiferentes ante las necesidades de los demás.\nCuanto más profundamente estemos enraizados en la caridad, más frutos de paz, fraternidad y solidaridad podremos ofrecer al mundo."
     }
   ]
 }
