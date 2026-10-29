@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 3,
   "tamanioPagina": 6,
-  "total": 381,
+  "total": 382,
   "siguientePagina": 4,
   "items": [
+    {
+      "id": "pasapalabra_1792210156697",
+      "titulo": "SER GENEROSOS CON LOS MÁS NECESITADOS",
+      "fecha": "17/10/2026",
+      "reflexion": "En un estacionamiento me encontré con un hombre de aspecto sufrido que observaba los autos. Al regresar, entablé una conversación con él y me interesé por su vida. Me contó todo su sufrimiento. Pagué por su servicio con una suma más generosa de lo habitual.\nSe emocionó y dijo que su emoción no se debía al dinero que le había dado, sino al tiempo que le dediqué y al hecho de haber visto en él a un ser humano.\nMuchas veces, quien sufre no necesita solo ayuda, sino a alguien que le haga sentirse amado, respetado y tomado en cuenta.\nQue Dios nos conceda un corazón generoso, capaz de ver la necesidad del otro, de compartir sin esperar recompensa y de transformar nuestra solidaridad en un verdadero gesto de amor."
+    },
     {
       "id": "pasapalabra_1792193737304",
       "titulo": "SER GENEROSOS CON LOS MÁS NECESITADOS",
@@ -34,12 +40,6 @@
       "titulo": "MIRAR AL CORAZÓN DE LAS PERSONAS",
       "fecha": "13/10/2026",
       "reflexion": "Vivimos en un mundo que nos enseña a centrarnos demasiado en las apariencias.\nVer el corazón de las personas es tratar de comprender sus intenciones antes de condenar sus acciones, conocer su dolor antes de criticar sus reacciones y ver su necesidad de amor antes de señalar su debilidad.\nEsto significa recordar que nadie puede ser definido únicamente por su peor momento. Así como deseamos ser comprendidos más allá de nuestros defectos, también debemos ofrecer a los demás esa misma mirada misericordiosa.\nTal vez, al mirar con más amor, descubramos cualidades y sufrimientos que están escondidos detrás de comportamientos que no comprendemos.\nPidamos a Dios una mirada capaz de trascender las apariencias y llegar al corazón de las personas.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1791785467435",
-      "titulo": "SERVIR CON LIBERTAD",
-      "fecha": "12/10/2026",
-      "reflexion": "Podemos quedar atrapados en nuestro egoísmo, en nuestras preocupaciones, en nuestras propias necesidades y en la necesidad de ser reconocidos. Esas ataduras nos impiden percibir quién está a nuestro lado y ofrecer nuestro servicio.\nServir es un gesto de libertad, porque solo sucede cuando dejamos de pensar únicamente en nosotros mismos y nos abrimos a las necesidades de los demás.\nSer libre para servir significa estar disponible: ofrecer nuestro tiempo, nuestra atención, nuestros talentos, nuestra escucha y, sobre todo, nuestro corazón. Es hacer el bien sin esperar aplausos.\nQuien ama verdaderamente no se siente menospreciado al servir. Al contrario, encuentra en el servicio una forma concreta de expresar su amor."
     }
   ]
 }

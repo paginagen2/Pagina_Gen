@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-28",
-  "generadoEn": "2026-10-28T09:32:13.142Z",
+  "fechaGeneracion": "2026-10-29",
+  "generadoEn": "2026-10-29T09:47:09.090Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1793146848386",
-    "titulo": "VALORAR LA SINGULARIDAD DE CADA PERSONA",
-    "fecha": "28/10/2026",
+    "id": "pasapalabra_1793237920297",
+    "titulo": "HACERSE CARGO DE LAS PREOCUPACIONES DEL OTRO",
+    "fecha": "29/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777056890912_vmrfxnjvm",
-    "titulo": "Es el \"cómo\" lo que cuenta",
+    "id": "meditacion_1775916674843",
+    "titulo": "Gratitud",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
