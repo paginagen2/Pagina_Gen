@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-29",
-  "generadoEn": "2026-10-29T09:47:09.090Z",
+  "fechaGeneracion": "2026-10-30",
+  "generadoEn": "2026-10-30T09:52:26.314Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1793237920297",
-    "titulo": "HACERSE CARGO DE LAS PREOCUPACIONES DEL OTRO",
-    "fecha": "29/10/2026",
+    "id": "pasapalabra_1793320327882",
+    "titulo": "SALIR AL ENCUENTRO DEL PRÓJIMO",
+    "fecha": "30/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775916674843",
-    "titulo": "Gratitud",
+    "id": "meditaciones_1777259555643_gmy1bh9f6",
+    "titulo": "Si estamos unidos, Jesús está entre nosotros",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

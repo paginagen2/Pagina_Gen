@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 382,
+  "total": 383,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1793320327882",
+      "titulo": "SALIR AL ENCUENTRO DEL PRÓJIMO",
+      "fecha": "30/10/2026",
+      "reflexion": "Cuando alguien nos pide ayuda, o cuando notamos que alguien necesita de nuestra ayuda, debemos ir a su encuentro con el propósito de vivir junto a él la fe, la esperanza y el amor, pues estas virtudes contienen la creatividad de Dios.\nEl amor nos ayuda a pensar únicamente en el bien del otro, superando obstáculos y venciendo las dificultades.\nLa fe obra el milagro de la perseverancia, de creer en la providencia de Dios y de descubrir el poder de la oración.\nLa esperanza trae al presente las metas futuras; anticipa la felicidad de llegar al destino final, con la confianza de que estamos en el camino más seguro.\nCuando vamos al encuentro del prójimo con la intención de amar, la creatividad del Espíritu Santo nos acompaña."
+    },
     {
       "id": "pasapalabra_1793237920297",
       "titulo": "HACERSE CARGO DE LAS PREOCUPACIONES DEL OTRO",
@@ -34,12 +40,6 @@
       "titulo": "ACOGER A CADA PERSONA",
       "fecha": "25/10/2026",
       "reflexion": "Hay personas que son acogedoras por naturaleza; que acogen a todos con alegría y disponibilidad.\nTodos podemos desarrollar esta capacidad: podemos tener el corazón abierto para acoger a cada persona tal como nos gustaría ser acogidos.\nLa acogida no necesita ser programada; puede formar parte de la vida cotidiana. Es nuestra disponibilidad para el servicio, la escucha, el acompañamiento y la fraternidad.\nAcoger es una forma de amor concreto que hace que los demás se sientan como en casa, en familia.\nSe puede practicar en las relaciones familiares, con los amigos, en el ámbito profesional y en cualquier entorno.\nAcoger a cada persona en su individualidad, para que se sienta amada de manera exclusiva en ese momento preciso de su vida.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1792802396004",
-      "titulo": "SER PACIENTES",
-      "fecha": "24/10/2026",
-      "reflexion": "En un mundo donde a menudo se confunde la rapidez con la eficiencia, la paciencia destaca como una virtud poco común y valiosa. Ser paciente no es solo esperar de forma pasiva, sino poseer la capacidad de mantener la calma y la esperanza, incluso ante la adversidad y los desafíos.\nLa paciencia nos enseña a apreciar el proceso y a valorar cada paso del camino, en lugar de centrarnos únicamente en el destino final. Al desarrollar la paciencia, aprendemos a gestionar mejor las frustraciones y a encontrar soluciones más eficaces a los problemas.\nAl practicar la paciencia, nos volvemos más comprensivos y capaces de escuchar al otro con un interés genuino y sin prisas. Esta actitud fortalece los vínculos de confianza y respeto mutuo.\nUn abrazo,"
     }
   ]
 }
