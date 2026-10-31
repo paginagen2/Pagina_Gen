@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-30",
-  "generadoEn": "2026-10-30T09:52:26.314Z",
+  "fechaGeneracion": "2026-10-31",
+  "generadoEn": "2026-10-31T09:30:08.711Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1793320327882",
-    "titulo": "SALIR AL ENCUENTRO DEL PRÓJIMO",
-    "fecha": "30/10/2026",
+    "id": "pasapalabra_1793403947843",
+    "titulo": "REALIZAR PEQUEÑOS GESTOS PARA MEJORAR NUESTRA CIUDAD",
+    "fecha": "31/10/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259555643_gmy1bh9f6",
-    "titulo": "Si estamos unidos, Jesús está entre nosotros",
+    "id": "meditaciones_1777056373039_m25swkhy9",
+    "titulo": "Detrás del Omnipotente",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
