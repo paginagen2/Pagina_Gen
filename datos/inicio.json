@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-10-31",
-  "generadoEn": "2026-10-31T09:30:08.711Z",
+  "fechaGeneracion": "2026-11-01",
+  "generadoEn": "2026-11-01T10:20:39.979Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1793403947843",
-    "titulo": "REALIZAR PEQUEÑOS GESTOS PARA MEJORAR NUESTRA CIUDAD",
-    "fecha": "31/10/2026",
+    "id": "pasapalabra_1793495331756",
+    "titulo": "ASPIRAR AL AMOR EN CADA ACCIÓN",
+    "fecha": "01/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777056373039_m25swkhy9",
-    "titulo": "Detrás del Omnipotente",
+    "id": "meditaciones_1777258862538_k10zygr9q",
+    "titulo": "Es tan hermosa María",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
