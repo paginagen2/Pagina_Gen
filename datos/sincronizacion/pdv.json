@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "collection": "pdv",
-  "revision": "4221342707d38649",
-  "generatedAt": "2026-10-01T19:24:38.297Z",
+  "revision": "57a66368240d9260",
+  "generatedAt": "2026-11-01T13:06:45.842Z",
   "items": [
     {
       "id": "pdv_2026_06",
@@ -531,6 +531,95 @@
       "fechaPublicacion": {
         "_seconds": 1790869212,
         "_nanoseconds": 294000000
+      }
+    },
+    {
+      "id": "pdv_2026_11",
+      "version": 2,
+      "slug": "pdv_2026_11",
+      "mes": "Noviembre 2026",
+      "periodo": "2026-11-01",
+      "citaPrincipal": "Tengan valor: yo he vencido al mundo.",
+      "citaReferencia": "Jn 16, 33",
+      "bloques": [
+        {
+          "tipo": "parrafo",
+          "texto": "Admitámoslo: en el panorama histórico en que vivimos y del que recibimos noticias cada día más alarmantes, esta Palabra nos parece casi desentonada. En efecto, todo nos lleva a desanimarnos, atrapados entre la inseguridad de situaciones que nos superan y expectativas de rendimiento que nos condicionan.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "El Evangelio de Juan nos habla precisamente en un marco similar, con los apóstoles en torno a Jesús durante la última cena. En esta escena se suceden dramáticamente la fraternidad y la traición, la entrega personal y la oscuridad del mal. Jesús hace un último discurso para prepararlos a la prueba de la pasión, pero les asegura que volverá. Él mismo los pone en guardia: en el mundo podrán verse devastados por tormentas y desilusiones, pero en Él siempre encontrarán paz y vida plena.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Sus palabras son una promesa que da esperanza:",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "Tengan valor: yo he vencido al mundo.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Si las circunstancias externas y nuestras debilidades nos provocan miedo y sufrimiento, Jesús nos invita a confiarnos a Él, a reconocer también hoy los signos de su presencia en nuestra vida, para tener una mirada nueva sobre la realidad.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "reflexion_autor",
+          "texto": "“Si hay una realidad misteriosa en nuestra vida es el dolor. […] Y en muchos casos, quienes tenemos al lado y nos quieren son incapaces de ayudarnos a resolverlo; sin embargo, basta con que alguien lo comparta con nosotros, incluso en silencio. Así lo hizo Jesús: se acercó a cada hombre y a cada mujer, hasta compartir todo lo nuestro. Más aún: cargó con todos nuestros dolores y se hizo dolor con nosotros, hasta gritar: ‘¡Dios mío, Dios mío!, ¿por qué me has abandonado?’ (Mt 27, 46). […] Cada dolor físico, moral o espiritual me recuerda a Él, es una presencia suya, un rostro suyo. Puedo decir: ‘En este dolor te amo a ti, Jesús abandonado. Eres tú quien viene a visitarme y hace suyo mi dolor. ¡Y por eso te quiero, te abrazo!’. Si además estamos atentos a amar, a responder a su gracia, a querer lo que Dios quiere de nosotros en el momento siguiente, a vivir nuestra vida por Él, experimentamos que, en la mayoría de los casos, el dolor desaparece. Y es así porque amar atrae los dones del Espíritu: alegría, luz, paz”.",
+          "referencia": "",
+          "titulo": "Escribe Chiara Lubich",
+          "fuente": "Chiara Lubich · Palabra de Vida, marzo de 2005"
+        },
+        {
+          "tipo": "cita_destacada",
+          "texto": "Tengan valor: yo he vencido al mundo.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "parrafo",
+          "texto": "Incluso en los momentos de oscuridad, dejemos que sea Él mismo en nosotros quien venza al mal con el bien, quien supere la tentación de cerrar el corazón, quien se haga prójimo de los hermanos y les sirva con amor, tanto en las pequeñas acciones cotidianas como en el compromiso social a favor del bien común.",
+          "referencia": "",
+          "titulo": "",
+          "fuente": ""
+        },
+        {
+          "tipo": "experiencia",
+          "texto": "Estaba visitando a mi primo y decidí trepar a un muro del patio, pero se me vino abajo y me aplastó la pierna derecha. En el hospital dije a mis padres que no podía soportar el dolor. Mi padre me dijo con delicadeza: ‘Es como compartir el sufrimiento de Jesús: intenta abrazarlo’. Cuando me desperté, me di cuenta de que mi pierna ya no estaba. Al principio lloré mucho, pero poco a poco sentí una calma interior y confié en que Dios tendría un plan para mí. Gracias al amor y al apoyo de los jóvenes de nuestra comunidad y de otras personas de todo el mundo, ahora tengo una prótesis provisional, y dentro de unos meses tendré una permanente. La vida en casa ha ido volviendo a la normalidad. Ayudo en las tareas domésticas, estoy cerca de mi familia y he podido incluso terminar las clases con muy buenas notas. Todos –mi familia, mis amigos y el personal del hospital– se han quedado impactados de la calma y de la actitud positiva que he procurado mantener",
+          "referencia": "",
+          "titulo": "También el amor recíproco en la comunidad da testimonio de la cercanía del Señor y nos alienta. Es la experiencia del joven Javier, de la República Dominicana:",
+          "fuente": ""
+        }
+      ],
+      "autor": "Letizia Magri y el equipo de la Palabra de Vida",
+      "audioUrl": "https://ciudadnueva.com.ar/wp-content/uploads/2026/10/PdV-Noviembre-2026.mp3",
+      "estado": "publicado",
+      "fechaCreacion": {
+        "_seconds": 1793533186,
+        "_nanoseconds": 349000000
+      },
+      "fechaActualizacion": {
+        "_seconds": 1793533330,
+        "_nanoseconds": 893000000
+      },
+      "fechaPublicacion": {
+        "_seconds": 1793533186,
+        "_nanoseconds": 349000000
       }
     }
   ]

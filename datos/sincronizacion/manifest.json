@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T05:43:56.352Z",
+  "generatedAt": "2026-11-01T13:06:45.842Z",
   "collections": {
     "canciones": {
       "revision": "b6c5eac0304b81ed",
@@ -45,9 +45,9 @@
       "delta": "datos/sincronizacion/pasapalabra.delta.json"
     },
     "pdv": {
-      "revision": "4221342707d38649",
-      "previousRevision": "cca66710b73f03dc",
-      "count": 5,
+      "revision": "57a66368240d9260",
+      "previousRevision": "4221342707d38649",
+      "count": 6,
       "snapshot": "datos/sincronizacion/pdv.json",
       "delta": "datos/sincronizacion/pdv.delta.json"
     }
