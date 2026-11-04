@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-03",
-  "generadoEn": "2026-11-03T10:43:05.935Z",
+  "fechaGeneracion": "2026-11-04",
+  "generadoEn": "2026-11-04T10:45:19.916Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1793673915337",
-    "titulo": "VENCER EL MAL CON EL BIEN",
-    "fecha": "03/11/2026",
+    "id": "pasapalabra_1793753819651",
+    "titulo": "DESAPEGARSE DE LOS BIENES MATERIALES",
+    "fecha": "04/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777056890481_jjc48g3u6",
-    "titulo": "Como la luz de una vela en el sol",
+    "id": "meditaciones_1777259541818_0whoaipm3",
+    "titulo": "Heloi, Heloi, Lama Sabachtani",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
