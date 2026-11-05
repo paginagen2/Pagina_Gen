@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 388,
+  "total": 389,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1793842100382",
+      "titulo": "CONVERTIR NUESTROS CORAZONES",
+      "fecha": "05/11/2026",
+      "reflexion": "Convertir nuestros corazones es permitir que Dios transforme, poco a poco, nuestra forma de vivir.\nMuchas veces, la conversión comienza dentro de nosotros, en las pequeñas situaciones de la vida cotidiana.\nConvertir el corazón significa también saber recomenzar. Cuando fallamos en el amor, no debemos desanimarnos. Podemos recomenzar de inmediato, buscando amar de nuevo, con sencillez y determinación.\nCuando varios corazones se dejan transformar por el amor, nace una comunidad nueva y convertida: más acogedora, más fraterna y más atenta a las necesidades de cada uno.\nQue podamos pedir a Dios un corazón nuevo: libre para amar, humilde para reconocer los propios límites, dispuesto a perdonar y abierto a acoger a cada persona."
+    },
     {
       "id": "pasapalabra_1793753819651",
       "titulo": "DESAPEGARSE DE LOS BIENES MATERIALES",
@@ -34,12 +40,6 @@
       "titulo": "REALIZAR PEQUEÑOS GESTOS PARA MEJORAR NUESTRA CIUDAD",
       "fecha": "31/10/2026",
       "reflexion": "Una ciudad mejor no depende solo de grandes proyectos o de decisiones tomadas por las autoridades. Comienza también en las pequeñas actitudes de cada persona.\nMuchas veces, esperamos que alguien haga algo para mejorar nuestra ciudad, pero olvidamos que nosotros también somos responsables de ella.\nCuando cuidamos una plaza, respetamos una fila, ayudamos a alguien que lo necesita o evitamos actitudes que perjudican al entorno, estamos contribuyendo a una convivencia más humana y armoniosa en nuestra propia ciudad.\nLos pequeños gestos pueden parecer insignificantes cuando se realizan de forma aislada. Sin embargo, cuando muchas personas asumen la responsabilidad por el bien común, ellos adquieren una fuerza capaz de transformar la realidad de cualquier ambiente."
-    },
-    {
-      "id": "pasapalabra_1793320327882",
-      "titulo": "SALIR AL ENCUENTRO DEL PRÓJIMO",
-      "fecha": "30/10/2026",
-      "reflexion": "Cuando alguien nos pide ayuda, o cuando notamos que alguien necesita de nuestra ayuda, debemos ir a su encuentro con el propósito de vivir junto a él la fe, la esperanza y el amor, pues estas virtudes contienen la creatividad de Dios.\nEl amor nos ayuda a pensar únicamente en el bien del otro, superando obstáculos y venciendo las dificultades.\nLa fe obra el milagro de la perseverancia, de creer en la providencia de Dios y de descubrir el poder de la oración.\nLa esperanza trae al presente las metas futuras; anticipa la felicidad de llegar al destino final, con la confianza de que estamos en el camino más seguro.\nCuando vamos al encuentro del prójimo con la intención de amar, la creatividad del Espíritu Santo nos acompaña."
     }
   ]
 }
