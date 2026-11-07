@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 390,
+  "total": 391,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1794011424994",
+      "titulo": "ACTUAR CON HONESTIDAD",
+      "fecha": "07/11/2026",
+      "reflexion": "Actuar con honestidad significa vivir de manera transparente, asegurándonos de que nuestras palabras y acciones estén en armonía.\nNo se trata solo de seguir normas, sino de construir relaciones en las que los demás puedan confiar en nosotros. La confianza nace cuando nos damos cuenta de que podemos ser auténticos unos con otros, sin máscaras y sin intereses ocultos.\nActuar con honestidad también significa reconocer nuestras limitaciones, admitir cuando cometemos errores y tener la humildad de recomenzar. No necesitamos aparentar ser lo que no somos. Podemos mostrarnos ante todos con sencillez, confiando en que somos llamados a crecer juntos.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1793930682061",
       "titulo": "CULTIVAR RELACIONES SINCERAS",
@@ -34,12 +40,6 @@
       "titulo": "DEDICARSE A LO QUE PERMANECE",
       "fecha": "02/11/2026",
       "reflexion": "Todo pasa: preocupaciones, logros, pérdidas, opiniones, bienes materiales e incluso situaciones que hoy parecen graves y mañana ya quedaran atrás.\nEs importante invertir en lo que permanece: el amor que ofrecemos, el bien que hacemos, la persona a la que acogemos, la amistad que cultivamos, la verdad que procuramos vivir y los vínculos que construimos.\nDedicarse a aquello que no pasa es vivir el presente con la mirada puesta en lo esencial. Todo pasa, solo Dios permanece. Por lo tanto, nuestra elección principal debe ser esta: elegir a Dios como Ideal de vida.\nHacer todo con Él, por Él y para Él, para disminuir la importancia de lo que pasa y dedicar más tiempo, energía y corazón a aquello que verdaderamente permanece: el amor de Dios vivido y compartido."
-    },
-    {
-      "id": "pasapalabra_1793495331756",
-      "titulo": "ASPIRAR AL AMOR EN CADA ACCIÓN",
-      "fecha": "01/11/2026",
-      "reflexion": "Muchas veces realizamos nuestras tareas de forma automática: trabajamos, nos ocupamos de la casa, nos relacionamos con personas, tomamos decisiones, ayudamos a alguien. Pero podemos vivir cada una de estas acciones con una intención distinta: teniendo presente el amor.\nEl amor se manifiesta en la atención a los pequeños detalles y también en la disposición para comprender a quien piensa de manera diferente a nosotros.\nCuando anteponemos el amor a nuestras propias preferencias, dejamos de buscar solo lo que nosotros queremos y empezamos a buscar aquello que puede beneficiarnos a todos.\nTener presente el amor significa recomenzar cada vez que nos damos cuenta de que hemos actuado movidos por el egoísmo, las prisas o la indiferencia.\nPodemos transformar incluso una tarea sencilla en una oportunidad para amar.\nUn abrazo,"
     }
   ]
 }

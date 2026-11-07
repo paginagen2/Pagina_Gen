@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-06",
-  "generadoEn": "2026-11-06T10:41:54.469Z",
+  "fechaGeneracion": "2026-11-07",
+  "generadoEn": "2026-11-07T09:54:42.995Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1793930682061",
-    "titulo": "CULTIVAR RELACIONES SINCERAS",
-    "fecha": "06/11/2026",
+    "id": "pasapalabra_1794011424994",
+    "titulo": "ACTUAR CON HONESTIDAD",
+    "fecha": "07/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775878048334",
-    "titulo": "El centro",
+    "id": "meditacion_1777043644050",
+    "titulo": "La simplicidad",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
