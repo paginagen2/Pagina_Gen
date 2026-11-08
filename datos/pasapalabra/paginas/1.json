@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 391,
+  "total": 392,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1794097397445",
+      "titulo": "CUIDAR LOS DETALLES",
+      "fecha": "08/11/2026",
+      "reflexion": "Cuidar los detalles significa fijarse en lo que, a primera vista, puede parecer insignificante: una mirada que pide atención, una palabra que es necesario decir, alguien que está más callado de lo habitual, una necesidad que nadie más ha notado.\nEl amor verdadero busca conocer, comprender y servir.\nJesús nos enseña a reconocer el valor de las pequeñas cosas hechas con amor. No importa tanto la grandiosidad del gesto, sino el amor que lo inspira.\nEstar atentos a los detalles es una forma de decir, a través de nuestras acciones, que nos importan los demás.\nCuando tenemos un corazón atento, capaz de percibir las necesidades de los demás, ningún gesto de amor es pequeño.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1794011424994",
       "titulo": "ACTUAR CON HONESTIDAD",
@@ -34,12 +40,6 @@
       "titulo": "VENCER EL MAL CON EL BIEN",
       "fecha": "03/11/2026",
       "reflexion": "Podemos vencer el mal; pero, antes de querer librar una guerra contra el mal que existe en el mundo que nos rodea, debemos vencer el mal que habita en nuestro interior. Es decir, puedo cambiar el mundo empezando por mí mismo.\nMe corresponde a mí vencer el mal con el bien, procurando amar más, servir más, ser más paciente y tolerante, y actuar con mansedumbre en cualquier situación, sin permitir que la violencia guíe mis pasos.\nSembrar amor en todos los ambientes, cultivando la paz en mi propio corazón y en el de las personas que me rodean, para así cosechar alegría, serenidad, armonía y felicidad.\nSoy capaz de vencer el mal cuando dejo crecer el  bien que existe en mi.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1793583654211",
-      "titulo": "DEDICARSE A LO QUE PERMANECE",
-      "fecha": "02/11/2026",
-      "reflexion": "Todo pasa: preocupaciones, logros, pérdidas, opiniones, bienes materiales e incluso situaciones que hoy parecen graves y mañana ya quedaran atrás.\nEs importante invertir en lo que permanece: el amor que ofrecemos, el bien que hacemos, la persona a la que acogemos, la amistad que cultivamos, la verdad que procuramos vivir y los vínculos que construimos.\nDedicarse a aquello que no pasa es vivir el presente con la mirada puesta en lo esencial. Todo pasa, solo Dios permanece. Por lo tanto, nuestra elección principal debe ser esta: elegir a Dios como Ideal de vida.\nHacer todo con Él, por Él y para Él, para disminuir la importancia de lo que pasa y dedicar más tiempo, energía y corazón a aquello que verdaderamente permanece: el amor de Dios vivido y compartido."
     }
   ]
 }
