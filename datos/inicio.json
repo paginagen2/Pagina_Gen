@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-08",
-  "generadoEn": "2026-11-08T10:08:58.961Z",
+  "fechaGeneracion": "2026-11-09",
+  "generadoEn": "2026-11-09T11:17:47.336Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1794097397445",
-    "titulo": "CUIDAR LOS DETALLES",
-    "fecha": "08/11/2026",
+    "id": "pasapalabra_1794189894247",
+    "titulo": "COMPROMETERSE CON EL BIEN COMÚN",
+    "fecha": "09/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777052721495_xewafh2c8",
-    "titulo": "El mártir",
+    "id": "meditaciones_1777052934072_ot686t3bt",
+    "titulo": "El grano de trigo",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
