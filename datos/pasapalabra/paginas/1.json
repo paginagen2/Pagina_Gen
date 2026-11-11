@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 394,
+  "total": 395,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1794364837655",
+      "titulo": "EXPRESAR LA GRATITUD",
+      "fecha": "11/11/2026",
+      "reflexion": "La gratitud cambia la manera en que vemos la vida. Cuando reconocemos el bien que recibimos, incluso en las pequeñas cosas, el corazón se abre y el alma encuentra serenidad.\nExpresar gratitud no es solo decir “gracias”, sino dejar que el reconocimiento por el amor, por la vida, por la creación y por las personas que caminan a nuestro lado se manifieste a través de nuestras actitudes.\nLa gratitud nos ayuda a ver que nada es fruto exclusivo de nuestro propio esfuerzo, sino también del cuidado de Dios y del apoyo de aquellos que comparten el camino con nosotros.\nCuando cultivamos gratitud, nos volvemos más humildes, más conscientes y más felices.\nQue hoy podamos expresar nuestra gratitud no solo con palabras, sino también mediante gestos de cariño, generosidad y servicio."
+    },
     {
       "id": "pasapalabra_1794273635981",
       "titulo": "SERVIR CON AMOR",
@@ -34,12 +40,6 @@
       "titulo": "CULTIVAR RELACIONES SINCERAS",
       "fecha": "06/11/2026",
       "reflexion": "Las relaciones sinceras nacen cuando nos presentamos delante del otro con verdad, respeto y amor.\nA veces, una palabra verdadera dicha con amor, una petición de perdón o simplemente la disponibilidad para escuchar pueden reconstruir una relación que se estaba debilitando.\nCultivar relaciones sinceras es, por tanto, cultivar la unidad. Cuando existe confianza entre nosotros, podemos compartir alegrías y dificultades, apoyarnos mutuamente y caminar juntos.\nUn corazón transparente y libre es capaz de amar sin máscaras, de escuchar sin prejuicios y de construir relaciones en las que cada persona se sienta verdaderamente acogida.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1793842100382",
-      "titulo": "CONVERTIR NUESTROS CORAZONES",
-      "fecha": "05/11/2026",
-      "reflexion": "Convertir nuestros corazones es permitir que Dios transforme, poco a poco, nuestra forma de vivir.\nMuchas veces, la conversión comienza dentro de nosotros, en las pequeñas situaciones de la vida cotidiana.\nConvertir el corazón significa también saber recomenzar. Cuando fallamos en el amor, no debemos desanimarnos. Podemos recomenzar de inmediato, buscando amar de nuevo, con sencillez y determinación.\nCuando varios corazones se dejan transformar por el amor, nace una comunidad nueva y convertida: más acogedora, más fraterna y más atenta a las necesidades de cada uno.\nQue podamos pedir a Dios un corazón nuevo: libre para amar, humilde para reconocer los propios límites, dispuesto a perdonar y abierto a acoger a cada persona."
     }
   ]
 }
