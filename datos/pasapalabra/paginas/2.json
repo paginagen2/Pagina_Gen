@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 2,
   "tamanioPagina": 6,
-  "total": 395,
+  "total": 396,
   "siguientePagina": 3,
   "items": [
+    {
+      "id": "pasapalabra_1793930682061",
+      "titulo": "CULTIVAR RELACIONES SINCERAS",
+      "fecha": "06/11/2026",
+      "reflexion": "Las relaciones sinceras nacen cuando nos presentamos delante del otro con verdad, respeto y amor.\nA veces, una palabra verdadera dicha con amor, una petición de perdón o simplemente la disponibilidad para escuchar pueden reconstruir una relación que se estaba debilitando.\nCultivar relaciones sinceras es, por tanto, cultivar la unidad. Cuando existe confianza entre nosotros, podemos compartir alegrías y dificultades, apoyarnos mutuamente y caminar juntos.\nUn corazón transparente y libre es capaz de amar sin máscaras, de escuchar sin prejuicios y de construir relaciones en las que cada persona se sienta verdaderamente acogida.\nUn abrazo,"
+    },
     {
       "id": "pasapalabra_1793842100382",
       "titulo": "CONVERTIR NUESTROS CORAZONES",
@@ -34,12 +40,6 @@
       "titulo": "ASPIRAR AL AMOR EN CADA ACCIÓN",
       "fecha": "01/11/2026",
       "reflexion": "Muchas veces realizamos nuestras tareas de forma automática: trabajamos, nos ocupamos de la casa, nos relacionamos con personas, tomamos decisiones, ayudamos a alguien. Pero podemos vivir cada una de estas acciones con una intención distinta: teniendo presente el amor.\nEl amor se manifiesta en la atención a los pequeños detalles y también en la disposición para comprender a quien piensa de manera diferente a nosotros.\nCuando anteponemos el amor a nuestras propias preferencias, dejamos de buscar solo lo que nosotros queremos y empezamos a buscar aquello que puede beneficiarnos a todos.\nTener presente el amor significa recomenzar cada vez que nos damos cuenta de que hemos actuado movidos por el egoísmo, las prisas o la indiferencia.\nPodemos transformar incluso una tarea sencilla en una oportunidad para amar.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1793403947843",
-      "titulo": "REALIZAR PEQUEÑOS GESTOS PARA MEJORAR NUESTRA CIUDAD",
-      "fecha": "31/10/2026",
-      "reflexion": "Una ciudad mejor no depende solo de grandes proyectos o de decisiones tomadas por las autoridades. Comienza también en las pequeñas actitudes de cada persona.\nMuchas veces, esperamos que alguien haga algo para mejorar nuestra ciudad, pero olvidamos que nosotros también somos responsables de ella.\nCuando cuidamos una plaza, respetamos una fila, ayudamos a alguien que lo necesita o evitamos actitudes que perjudican al entorno, estamos contribuyendo a una convivencia más humana y armoniosa en nuestra propia ciudad.\nLos pequeños gestos pueden parecer insignificantes cuando se realizan de forma aislada. Sin embargo, cuando muchas personas asumen la responsabilidad por el bien común, ellos adquieren una fuerza capaz de transformar la realidad de cualquier ambiente."
     }
   ]
 }

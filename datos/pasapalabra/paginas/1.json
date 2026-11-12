@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 395,
+  "total": 396,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1794449456562",
+      "titulo": "VALORAR EL MOMENTO PRESENTE",
+      "fecha": "12/11/2026",
+      "reflexion": "El momento presente vale más que el pasado, porque es en él donde podemos corregir los errores cometidos y perfeccionar las buenas obras realizadas.\nEl momento presente vale más que el futuro, porque en él tenemos la vida en nuestras manos y, momento a momento, podemos construir no solo el futuro próximo, sino nuestra eternidad.\nEl momento presente es valioso porque es en él donde podemos practicar el amor; es en él donde podemos cumplir la voluntad de Dios; es en él donde podemos vivir realmente."
+    },
     {
       "id": "pasapalabra_1794364837655",
       "titulo": "EXPRESAR LA GRATITUD",
@@ -34,12 +40,6 @@
       "titulo": "ACTUAR CON HONESTIDAD",
       "fecha": "07/11/2026",
       "reflexion": "Actuar con honestidad significa vivir de manera transparente, asegurándonos de que nuestras palabras y acciones estén en armonía.\nNo se trata solo de seguir normas, sino de construir relaciones en las que los demás puedan confiar en nosotros. La confianza nace cuando nos damos cuenta de que podemos ser auténticos unos con otros, sin máscaras y sin intereses ocultos.\nActuar con honestidad también significa reconocer nuestras limitaciones, admitir cuando cometemos errores y tener la humildad de recomenzar. No necesitamos aparentar ser lo que no somos. Podemos mostrarnos ante todos con sencillez, confiando en que somos llamados a crecer juntos.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1793930682061",
-      "titulo": "CULTIVAR RELACIONES SINCERAS",
-      "fecha": "06/11/2026",
-      "reflexion": "Las relaciones sinceras nacen cuando nos presentamos delante del otro con verdad, respeto y amor.\nA veces, una palabra verdadera dicha con amor, una petición de perdón o simplemente la disponibilidad para escuchar pueden reconstruir una relación que se estaba debilitando.\nCultivar relaciones sinceras es, por tanto, cultivar la unidad. Cuando existe confianza entre nosotros, podemos compartir alegrías y dificultades, apoyarnos mutuamente y caminar juntos.\nUn corazón transparente y libre es capaz de amar sin máscaras, de escuchar sin prejuicios y de construir relaciones en las que cada persona se sienta verdaderamente acogida.\nUn abrazo,"
     }
   ]
 }
