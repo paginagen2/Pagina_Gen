@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-12",
-  "generadoEn": "2026-11-12T10:53:44.764Z",
+  "fechaGeneracion": "2026-11-13",
+  "generadoEn": "2026-11-13T10:49:08.956Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1794449456562",
-    "titulo": "VALORAR EL MOMENTO PRESENTE",
-    "fecha": "12/11/2026",
+    "id": "pasapalabra_1794527030242",
+    "titulo": "TENER GESTOS DE AMABILIDAD",
+    "fecha": "13/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1777043686803",
-    "titulo": "Iglesia militante",
+    "id": "meditaciones_1777259542355_ce980h7jf",
+    "titulo": "Vigilad",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {

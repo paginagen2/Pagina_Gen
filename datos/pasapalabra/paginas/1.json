@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 396,
+  "total": 397,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1794527030242",
+      "titulo": "TENER GESTOS DE AMABILIDAD",
+      "fecha": "13/11/2026",
+      "reflexion": "La amabilidad puede parecer algo pequeño, pero posee una gran fuerza transformadora.\nRealizar un acto de amabilidad significa salir de nosotros para reconocer al otro, acogerlo y hacerlo sentirse amado.\nNo se trata de realizar grandes acciones, sino de vivir con atención cada oportunidad que la vida nos ofrece para amar.\nLa verdadera amabilidad nace de un corazón que desea hacer el bien y crear, a su alrededor, un ambiente de fraternidad.\nPodemos elegir cada día, al menos un acto concreto de amabilidad y realizarlo con sencillez, de forma gratuita y con amor."
+    },
     {
       "id": "pasapalabra_1794449456562",
       "titulo": "VALORAR EL MOMENTO PRESENTE",
@@ -34,12 +40,6 @@
       "titulo": "CUIDAR LOS DETALLES",
       "fecha": "08/11/2026",
       "reflexion": "Cuidar los detalles significa fijarse en lo que, a primera vista, puede parecer insignificante: una mirada que pide atención, una palabra que es necesario decir, alguien que está más callado de lo habitual, una necesidad que nadie más ha notado.\nEl amor verdadero busca conocer, comprender y servir.\nJesús nos enseña a reconocer el valor de las pequeñas cosas hechas con amor. No importa tanto la grandiosidad del gesto, sino el amor que lo inspira.\nEstar atentos a los detalles es una forma de decir, a través de nuestras acciones, que nos importan los demás.\nCuando tenemos un corazón atento, capaz de percibir las necesidades de los demás, ningún gesto de amor es pequeño.\nUn abrazo,"
-    },
-    {
-      "id": "pasapalabra_1794011424994",
-      "titulo": "ACTUAR CON HONESTIDAD",
-      "fecha": "07/11/2026",
-      "reflexion": "Actuar con honestidad significa vivir de manera transparente, asegurándonos de que nuestras palabras y acciones estén en armonía.\nNo se trata solo de seguir normas, sino de construir relaciones en las que los demás puedan confiar en nosotros. La confianza nace cuando nos damos cuenta de que podemos ser auténticos unos con otros, sin máscaras y sin intereses ocultos.\nActuar con honestidad también significa reconocer nuestras limitaciones, admitir cuando cometemos errores y tener la humildad de recomenzar. No necesitamos aparentar ser lo que no somos. Podemos mostrarnos ante todos con sencillez, confiando en que somos llamados a crecer juntos.\nUn abrazo,"
     }
   ]
 }
