@@ -2,9 +2,21 @@
   "schemaVersion": 1,
   "pagina": 37,
   "tamanioPagina": 6,
-  "total": 397,
+  "total": 399,
   "siguientePagina": 38,
   "items": [
+    {
+      "id": "pasapalabra_1776564342217",
+      "titulo": "CARIDAD ACTIVA",
+      "fecha": "19/04/2026",
+      "reflexion": "“La fe: si no va acompañada de las obras, está completamente muerta.” (Stg. 2,17)\nLa caridad activa significa transformar el sentimiento en acción concreta.\nNo basta con percibir el dolor del otro; es necesario tender la mano, ofrecer tiempo, apoyo y compañía. Es el amor que sale del discurso y se convierte en acción.\nLa verdadera espiritualidad se manifiesta en las pequeñas y grandes acciones de la vida diaria: en la comida compartida, en la palabra de consuelo, en el perdón otorgado, en la visita a quienes se sienten olvidados.\nLa caridad activa es silenciosa, constante y humilde. Como nos enseñó la Madre Teresa de Calcuta: “No todos podemos hacer grandes cosas, pero sí pequeñas cosas con gran amor”.\nNuestras acciones pueden ser la respuesta a la oración de alguien."
+    },
+    {
+      "id": "pasapalabra_1776473142097",
+      "titulo": "ACEPTAR A LOS DEMÁS",
+      "fecha": "18/04/2026",
+      "reflexion": "Aceptar es abrir un espacio en el corazón para que el otro exista tal como es, sin intentar moldearlo a nuestra forma de pensar.\nAceptar es ofrecer presencia antes de ofrecer soluciones. Muchas veces, lo que alguien más necesita, no son consejos, sino comprensión y una mirada sin prejuicios.\nAceptar es extender la mano sin preguntar por qué, es decir \"estoy aquí\" incluso cuando no sabemos exactamente qué decir.\nAceptar es incluso, reconocer el dolor, la alegría, las dudas y los miedos del otro como algo legítimo.\nCuando acogemos, transformamos la soledad en compañía y el sufrimiento en compartir."
+    },
     {
       "id": "pasapalabra_1776389211844",
       "titulo": "RESPETAR A LOS DEMÁS",
@@ -28,18 +40,6 @@
       "titulo": "COMPARTIR NUESTRO SUPERFLUO",
       "fecha": "14/04/2026",
       "reflexion": "Muchas veces acumulamos más de lo que necesitamos: ropa que no usamos, alimentos que sobran, tiempo que desperdiciamos.\nLo que es superfluo para algunos puede ser esencial para otros. Lo que se olvida en un armario puede abrigar a alguien en el frío. El valor que casi no  hace diferencia en nuestro presupuesto puede representar esperanza para quienes atraviesan dificultades.\nCompartir es brindar cuidado, atención y sensibilidad. Al compartir lo que nos sobra, cultivamos la empatía y reducimos las desigualdades.\nCompartir transforma el corazón de quien da: enseña desapego, gratitud y humanidad."
-    },
-    {
-      "id": "pasapalabra_1776040945717",
-      "titulo": "APRENDER DE TODOS",
-      "fecha": "13/04/2026",
-      "reflexion": "Cada persona que cruza nuestro camino lleva con él, conocimiento. Sin importar la edad, la profesión o el nivel de estudio, siempre hay algo que aprender.\nA veces aprendemos de quienes enseñan; otras veces, de quienes se equivocan, de quienes sufren o de quienes sueñan.\nAprendemos con los niños, la sencillez. Con los ancianos, la experiencia. Con los amigos, la lealtad. Con los desafíos, la perseverancia.\nCuando adoptamos una actitud humilde, nos abrimos al aprendizaje.\nLa vida es una gran escuela, y todos somos expertos en algún área. Quien comprende esto, nunca deja de aprender y evolucionar."
-    },
-    {
-      "id": "pasapalabra_1775955990221",
-      "titulo": "SER MISERICORDIOSOS",
-      "fecha": "12/04/2026",
-      "reflexion": "“Felices los misericordiosos, porque obtendrán misericordia.” (Mt. 5,7)\nSer misericordioso es reflejarse en el corazón de Dios.\nTener misericordia es actuar con compasión delante del dolor, de los defectos y de la fragilidad del otro.\nEn Jesucristo vemos el mayor ejemplo de misericordia: Él acogió a los rechazados, perdonó a los pecadores y mostró amor incluso a quienes lo condenaban.\nSer misericordioso no significa estar de acuerdo con el error, sino elegir amar a pesar de ello. Significa mirar a las personas no solo por sus defectos, sino por su humanidad. Todos necesitamos misericordia, y muchas veces, más de lo que imaginamos.\nAl ser misericordiosos, reflejamos el amor de Dios al mundo."
     }
   ]
 }

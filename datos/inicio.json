@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-13",
-  "generadoEn": "2026-11-13T10:49:08.956Z",
+  "fechaGeneracion": "2026-11-14",
+  "generadoEn": "2026-11-14T10:05:22.164Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1794527030242",
-    "titulo": "TENER GESTOS DE AMABILIDAD",
-    "fecha": "13/11/2026",
+    "id": "pasapalabra_1794612979255",
+    "titulo": "REAVIVAR LA ESPERANZA",
+    "fecha": "14/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259542355_ce980h7jf",
-    "titulo": "Vigilad",
+    "id": "meditacion_1775877289544",
+    "titulo": "Como un diamante",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
