@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-14",
-  "generadoEn": "2026-11-14T10:05:22.164Z",
+  "fechaGeneracion": "2026-11-15",
+  "generadoEn": "2026-11-15T10:40:22.644Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1794612979255",
-    "titulo": "REAVIVAR LA ESPERANZA",
-    "fecha": "14/11/2026",
+    "id": "pasapalabra_1794702902628",
+    "titulo": "PONER LOS PROPIOS TALENTOS AL SERVICIO DE LOS DEMÁS",
+    "fecha": "15/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775877289544",
-    "titulo": "Como un diamante",
+    "id": "meditacion_1775879813883",
+    "titulo": "Desborda de luz",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
