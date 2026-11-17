@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-16",
-  "generadoEn": "2026-11-16T10:57:21.062Z",
+  "fechaGeneracion": "2026-11-17",
+  "generadoEn": "2026-11-17T11:40:53.891Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -12,10 +12,15 @@
     "textoEnlace": "Descargar actualización"
   },
   "frase": "\"Que todos sean uno\"",
-  "pasapalabra": null,
+  "pasapalabra": {
+    "id": "pasapalabra_1794886428523",
+    "titulo": "PEDIR PERDÓN",
+    "fecha": "17/11/2026",
+    "href": "pasapalabra/pasapalabra_de_hoy.html"
+  },
   "meditacion": {
-    "id": "meditacion_1776046856427",
-    "titulo": "No se puede",
+    "id": "meditaciones_1777056983626_ipajw3huf",
+    "titulo": "\"Prisa\"",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
