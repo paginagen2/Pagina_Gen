@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-17",
-  "generadoEn": "2026-11-17T11:40:53.891Z",
+  "fechaGeneracion": "2026-11-18",
+  "generadoEn": "2026-11-18T11:28:18.429Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1794886428523",
-    "titulo": "PEDIR PERDÓN",
-    "fecha": "17/11/2026",
+    "id": "pasapalabra_1794962210582",
+    "titulo": "ANIMARSE MUTUAMENTE",
+    "fecha": "18/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777056983626_ipajw3huf",
-    "titulo": "\"Prisa\"",
+    "id": "meditaciones_1777258863523_2d2r3ffgt",
+    "titulo": "Jesús no se quedó en la Tierra",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
