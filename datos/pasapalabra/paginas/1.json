@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 402,
+  "total": 403,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1795054404990",
+      "titulo": "MIRAR CON TERNURA Y COMPASIÓN",
+      "fecha": "19/11/2026",
+      "reflexion": "Mirar con ojos de ternura y compasión, es mirar sin juzgar precipitadamente, sino buscando comprender; que no se limita a ver lo que está ante los ojos, sino que intenta percibir lo que hay en el corazón del otro.\nLa ternura nos hace más atentos a las pequeñas señales: una palabra no dicha, un silencio prolongado, una sonrisa que esconde una preocupación, una persona que simplemente necesita ser acogida.\nTener compasión no significa solo sentir lástima, sino sufrir y caminar junto al otro, poniéndonos, en la medida de lo posible, en su lugar.\nChiara Lubich insistía en un amor concreto, capaz de acercarse a todos, especialmente a quienes más lo necesitan. Mirar con ojos de ternura es, por tanto, dejar que el amor transforme nuestra forma de ver y de relacionarnos."
+    },
     {
       "id": "pasapalabra_1794962210582",
       "titulo": "ANIMARSE MUTUAMENTE",
@@ -34,12 +40,6 @@
       "titulo": "REAVIVAR LA ESPERANZA",
       "fecha": "14/11/2026",
       "reflexion": "El adagio popular “la esperanza es lo último que se pierde” tiene un fondo de verdad.\nEl apóstol Pablo define tres virtudes: la fe, la esperanza y el amor. Virtudes que la Iglesia denomina virtudes teologales, es decir, relacionadas con Dios. Las necesitamos aquí y ahora, mientras estamos en la tierra. De las tres, solo una, el amor, permanecerá para siempre.\nCuando estemos cara a cara con Dios, ya no necesitaremos la fe, ni la esperanza. El amor permanece eternamente porque es la esencia de Dios.\nLa esperanza nos impulsa a amar; por eso es importante y fundamental.\nNos permite ir más allá de nuestras fuerzas, nos da valentía y suple la ausencia de aquello que aún no ha llegado. La fe y la esperanza van de la mano, motivadas por el amor y, a su vez, motivando el amor.\nEl amor, por su parte, fortalece la fe y reaviva la esperanza en nuestro corazón."
-    },
-    {
-      "id": "pasapalabra_1794527030242",
-      "titulo": "TENER GESTOS DE AMABILIDAD",
-      "fecha": "13/11/2026",
-      "reflexion": "La amabilidad puede parecer algo pequeño, pero posee una gran fuerza transformadora.\nRealizar un acto de amabilidad significa salir de nosotros para reconocer al otro, acogerlo y hacerlo sentirse amado.\nNo se trata de realizar grandes acciones, sino de vivir con atención cada oportunidad que la vida nos ofrece para amar.\nLa verdadera amabilidad nace de un corazón que desea hacer el bien y crear, a su alrededor, un ambiente de fraternidad.\nPodemos elegir cada día, al menos un acto concreto de amabilidad y realizarlo con sencillez, de forma gratuita y con amor."
     }
   ]
 }
