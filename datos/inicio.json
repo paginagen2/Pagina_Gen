@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-20",
-  "generadoEn": "2026-11-20T11:18:54.030Z",
+  "fechaGeneracion": "2026-11-21",
+  "generadoEn": "2026-11-21T10:53:01.820Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -12,15 +12,10 @@
     "textoEnlace": "Descargar actualización"
   },
   "frase": "\"Que todos sean uno\"",
-  "pasapalabra": {
-    "id": "pasapalabra_1795132593259",
-    "titulo": "CUIDAR DE LOS MÁS PEQUEÑOS",
-    "fecha": "20/11/2026",
-    "href": "pasapalabra/pasapalabra_de_hoy.html"
-  },
+  "pasapalabra": null,
   "meditacion": {
-    "id": "meditacion_1775879893390",
-    "titulo": "Tu presencia",
+    "id": "meditaciones_1777258861348_zp690x3nh",
+    "titulo": "El atractivo del tiempo moderno",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
