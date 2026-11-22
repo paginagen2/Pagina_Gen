@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-21",
-  "generadoEn": "2026-11-21T10:53:01.820Z",
+  "fechaGeneracion": "2026-11-22",
+  "generadoEn": "2026-11-22T11:03:17.646Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -12,10 +12,15 @@
     "textoEnlace": "Descargar actualización"
   },
   "frase": "\"Que todos sean uno\"",
-  "pasapalabra": null,
+  "pasapalabra": {
+    "id": "pasapalabra_1795316943748",
+    "titulo": "REALIZAR GESTOS CONCRETOS DE CARIDAD",
+    "fecha": "22/11/2026",
+    "href": "pasapalabra/pasapalabra_de_hoy.html"
+  },
   "meditacion": {
-    "id": "meditaciones_1777258861348_zp690x3nh",
-    "titulo": "El atractivo del tiempo moderno",
+    "id": "meditacion_1775845578226",
+    "titulo": "Tu valoras lo que es amor",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
