@@ -2,9 +2,21 @@
   "schemaVersion": 1,
   "pagina": 31,
   "tamanioPagina": 6,
-  "total": 406,
+  "total": 408,
   "siguientePagina": 32,
   "items": [
+    {
+      "id": "pasapalabra_1780365751410",
+      "titulo": "CAMINAR JUNTOS",
+      "fecha": "02/06/2026",
+      "reflexion": "Caminar juntos significa mucho más que solo  ir en la misma dirección; significa compartir la vida.\nEn el camino común, debemos respetar el ritmo del otro, saber esperar, animar y, cuando sea necesario, ofrecer apoyo para que nadie se quede atrás.\nCada persona aporta algo único, y si estamos juntos, el camino se hace más fácil de recorrer.\nCaminar juntos también significa compartir alegrías y dificultades.\nCaminar juntos es una invitación a vivir con espíritu de comunión, fortaleciendo los vínculos fraternos y promoviendo la unidad."
+    },
+    {
+      "id": "pasapalabra_1780284574589",
+      "titulo": "DAR TESTIMONIO DE CERCANÍA",
+      "fecha": "01/06/2026",
+      "reflexion": "Podemos testimoniar la cercanía de varias maneras: nuestra cercanía a Jesús, a sus enseñanzas, especialmente al mandamiento del amor recíproco; y la cercanía entre nosotros, precisamente la práctica de este mandamiento del amor.\nEste es el anuncio que Jesús pidió a sus discípulos que hicieran: el anuncio de la cercanía del Reino de los Cielos.\nPuedo testimoniar esta cercanía como una actitud individual, acogiendo a todos, a los necesitados, a los alejados de Dios; y podemos testimoniar la cercanía entre nosotros, viviendo el amor recíproco, que es también una forma de anunciar el Reino de los Cielos, mostrando cercanía como testimonio."
+    },
     {
       "id": "pasapalabra_1780200139903",
       "titulo": "EL AMOR UNE",
@@ -28,18 +40,6 @@
       "titulo": "TODOS NECESITAMOS SER PERDONADOS",
       "fecha": "28/05/2026",
       "reflexion": "Todos cometemos errores. A veces impulsivamente, otras veces por falta de comprensión, por miedo o por debilidad. Reconocer esto nos hace más humildes y también más capaces de mirar al otro con misericordia.\nNecesitamos ser perdonados, pero también necesitamos aprender a perdonar. El perdón no borra lo sucedido, pero abre un camino nuevo, libera el corazón y alivia el peso que cargamos por causa del resentimiento y de las culpas. Cuando perdono, dejo de alimentar los resentimientos y elijo la paz.\nHoy recuerdo que nadie es perfecto. Así como deseo comprensión para mis errores, puedo ofrecer lo mismo a quienes me rodean.\nEl perdón es un gesto de amor que sana las relaciones y trae ligereza al alma."
-    },
-    {
-      "id": "pasapalabra_1779846549778",
-      "titulo": "HOY ESTOY ATENTO A LAS NECESIDADES DE QUIENES ME RODEAN",
-      "fecha": "27/05/2026",
-      "reflexion": "Hoy intentaré vivir con el corazón más atento. Muchas veces, pasamos de largo junto a las personas sin percibir sus dolores y alegrías. Hoy quiero bajar el ritmo, para escuchar con paciencia y mirar con mayor sensibilidad.\nPrestar atención a las necesidades de quienes me rodean no exige grandes gestos; a veces, basta una palabra de aliento, un gesto de ayuda o simplemente estar presente.\nQue hoy pueda ser un ejemplo de cariño, comprensión y disponibilidad. Que no me encierre en mis propias preocupaciones, sino que tenga el valor de percibir quién me necesita. Después de todo, la atención sincera es una forma sencilla y profunda de amar."
-    },
-    {
-      "id": "pasapalabra_1779769468919",
-      "titulo": "RESALTAR AL OTRO/A",
-      "fecha": "26/05/2026",
-      "reflexion": "“Porque el que se ensalza será humillado, y el que se humilla será ensalzado. (Lc. 14,11)\nResaltar a los demás es un acto silencioso de grandeza. Es elegir iluminar en lugar de competir, reconocer en lugar de menospreciar, valorar en lugar de luchar por el protagonismo.\nEl brillo del otro no apaga el nuestro; al contrario, amplía el entorno donde todos pueden crecer.\nResaltar al otro es tener la seguridad suficiente para no necesitar siempre ser el centro de atención.\nQuien aprende a resaltar a los demás descubre que el liderazgo no se trata de destacarse, sino de visibilizar a los demás."
     }
   ]
 }
