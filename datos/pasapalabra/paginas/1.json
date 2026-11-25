@@ -2,9 +2,15 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 408,
+  "total": 409,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1795571198251",
+      "titulo": "PERSEVERAR EN EL BIEN",
+      "fecha": "25/11/2026",
+      "reflexion": "A veces, ofrecemos ayuda y no somos comprendidos; buscamos dialogar y encontramos resistencia; actuamos con generosidad y recibimos indiferencia. En esos momentos, podemos preguntarnos: ¿vale la pena continuar?\n¡Sí, vale la pena! Porque el bien no pierde su valor cuando no es reconocido. Un gesto de amor, una palabra de esperanza, una actitud de perdón o una mano tendida tienen un gran valor, aunque nunca lleguemos a conocer el alcance de lo que hemos hecho.\nJesús nos enseñó que amar es seguir acogiendo, perdonando, ayudando y construyendo la fraternidad, incluso cuando esto exige sacrificio."
+    },
     {
       "id": "pasapalabra_1795476384985",
       "titulo": "PRESCINDIR DE LO QUE NO ES NECESARIO",
@@ -34,12 +40,6 @@
       "titulo": "CUIDAR DE LOS MÁS PEQUEÑOS",
       "fecha": "20/11/2026",
       "reflexion": "Cuidar significa estar atento a las necesidades del otro, muchas veces incluso antes de que él logre expresarlas.\nEstamos llamados a poner el amor en práctica, acercándonos a cada persona y, de modo especial, a aquellos que más necesitan. Jesús nos enseña a reconocer su presencia precisamente en los pequeños, en los pobres, en los frágiles y en quienes nos necesitan.\nCuidar de los más pequeños significa también crear a nuestro alrededor un ambiente donde nadie se sienta inferior, excluido o dejado de lado. Es ayudar a cada persona a descubrir que tiene valor y que su vida es importante."
-    },
-    {
-      "id": "pasapalabra_1795054404990",
-      "titulo": "MIRAR CON TERNURA Y COMPASIÓN",
-      "fecha": "19/11/2026",
-      "reflexion": "Mirar con ojos de ternura y compasión, es mirar sin juzgar precipitadamente, sino buscando comprender; que no se limita a ver lo que está ante los ojos, sino que intenta percibir lo que hay en el corazón del otro.\nLa ternura nos hace más atentos a las pequeñas señales: una palabra no dicha, un silencio prolongado, una sonrisa que esconde una preocupación, una persona que simplemente necesita ser acogida.\nTener compasión no significa solo sentir lástima, sino sufrir y caminar junto al otro, poniéndonos, en la medida de lo posible, en su lugar.\nChiara Lubich insistía en un amor concreto, capaz de acercarse a todos, especialmente a quienes más lo necesitan. Mirar con ojos de ternura es, por tanto, dejar que el amor transforme nuestra forma de ver y de relacionarnos."
     }
   ]
 }

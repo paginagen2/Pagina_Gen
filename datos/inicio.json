@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-24",
-  "generadoEn": "2026-11-24T13:31:00.712Z",
+  "fechaGeneracion": "2026-11-25",
+  "generadoEn": "2026-11-25T12:35:12.450Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1795476384985",
-    "titulo": "PRESCINDIR DE LO QUE NO ES NECESARIO",
-    "fecha": "24/11/2026",
+    "id": "pasapalabra_1795571198251",
+    "titulo": "PERSEVERAR EN EL BIEN",
+    "fecha": "25/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditaciones_1777259541963_hryr1jzel",
-    "titulo": "Querría dar testimonio",
+    "id": "meditaciones_1777056890340_fzaj6o77q",
+    "titulo": "¿Queda lugar para el aburrimiento?",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
