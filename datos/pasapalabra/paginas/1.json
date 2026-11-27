@@ -2,9 +2,21 @@
   "schemaVersion": 1,
   "pagina": 1,
   "tamanioPagina": 6,
-  "total": 410,
+  "total": 412,
   "siguientePagina": 2,
   "items": [
+    {
+      "id": "pasapalabra_1795744091550",
+      "titulo": "CULTIVAR LA CONFIANZA",
+      "fecha": "27/11/2026",
+      "reflexion": "Cultivar la confianza significa creer que cada persona tiene algo bueno, incluso cuando sus fragilidades y limitaciones se hacen evidentes.\nEs necesario vencer el miedo a la decepción, cumplir la palabra dada y demostrar, con actitudes concretas, que el otro puede contar con nosotros. Cuando nos equivocamos, reconocer nuestras fallas y pedir perdón ayuda a fortalecer los lazos que nos unen.\nEn nuestras familias, amistades y comunidades, estamos llamados a crear entornos donde todos se sientan acogidos, valorados y libres para ser quienes son.\nQue nuestras palabras transmitan sinceridad, nuestras actitudes inspiren seguridad y nuestro amor ayude a hacer brotar la confianza allí donde haya duda o desánimo."
+    },
+    {
+      "id": "pasapalabra_1795729072397",
+      "titulo": "SABER RENUNCIAR",
+      "fecha": "26/11/2026",
+      "reflexion": "Saber renunciar a nuestra idea para mantener la concordia o porque la idea del otro es mejor. Es necesario tener mucha humildad para vivir de esta manera. Cuando logro vivir así, es como si me liberara de mí mismo. Como si consiguiera lo más difícil de hacer: renunciar al propio “yo”.\nPara mantener el amor entre nosotros, debo saber dar mi pensamiento o renunciar a ello.\nMi propósito es amar en la medida en que Jesús amó. Y él dio su propia vida. Delante de esto, renunciar a mi pensamiento es muy poco. No me cuesta nada si el beneficio es mantener la caridad recíproca.\nJesús dijo que quien quiera seguirlo debe renunciar a sí mismo. (Cf. Mt. 16,24)\nSaber renunciar por amor. No por miedo, por imposición o coacción, sino por amor."
+    },
     {
       "id": "pasapalabra_1795655608093",
       "titulo": "SABER RENUNCIAR",
@@ -28,18 +40,6 @@
       "titulo": "DAR CON GENEROSIDAD",
       "fecha": "23/11/2026",
       "reflexion": "Quien da con generosidad aleja de sí muchos pecados: la envidia y, al mismo tiempo, la codicia, porque solo piensa en dar; la soberbia, porque actúa siempre con una actitud de servicio; la avaricia, porque su deseo es tener para compartir; el egoísmo, por ser precisamente su opuesto; la ira, porque solo piensa en el bien del otro.\nQuien es generoso irradia el bien, pues actúa movido por el amor.\nLa generosidad se manifiesta en un gesto sencillo como regalar una sonrisa o un buen día, como en entregar sus propios bienes a los pobres.\nLa generosidad no es algo cuantitativo; es algo que va de corazón a corazón. Por eso, la irradiación del bien que viene de la generosidad es silenciosa, pero eficaz.\nHacer el bien, siendo generoso. Eso es lo que Dios quiere de cada uno de nosotros en este día."
-    },
-    {
-      "id": "pasapalabra_1795316943748",
-      "titulo": "REALIZAR GESTOS CONCRETOS DE CARIDAD",
-      "fecha": "22/11/2026",
-      "reflexion": "Debemos tener unos con otros un amor refinado, que piensa en los detalles, que no pierde oportunidad de servir, que está siempre disponible.\nUn amor que no tiene nada de romántico ni sentimental, sino que es sublime y concreto al mismo tiempo. Un amor que no se cansa y no engaña con palabras, porque se demuestra con hechos, con gestos sencillos, pero que son expresiones concretas de la caridad.\nUn amor destilado por la renuncia al propio “yo”, para vivir proyectado fuera de sí mismo y dar la propia vida.\nUn amor que ama hasta el fin, que se perfecciona y no deja nada sin terminar, que no espera al mañana, porque está completamente en el momento presente."
-    },
-    {
-      "id": "pasapalabra_1795316932740",
-      "titulo": "COMPORTARNOS COMO HERMANOS",
-      "fecha": "21/11/2026",
-      "reflexion": "Comportarnos como hermanos significa sustituir la indiferencia por la atención, la crítica por la comprensión y el egoísmo por la generosidad.\nLa fraternidad no se construye solo con palabras bonitas, sino con pequeños gestos realizados todos los días. Son estos gestos los que hacen que nuestras relaciones sean más fraternas y hacen nacer la paz en los ambientes en los que vivimos.\nCuando nos reconocemos como hermanos, descubrimos que la alegría de uno puede convertirse en la alegría de todos.\nQue aprendamos a comportarnos verdaderamente como hermanos, haciendo del amor nuestro lenguaje y de la solidaridad nuestra forma de vivir. Al fin y al cabo, la fraternidad comienza cuando empezamos a pensar en lo que podemos hacer juntos por el bien de todos."
     }
   ]
 }

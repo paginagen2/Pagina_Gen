@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "fechaGeneracion": "2026-11-26",
-  "generadoEn": "2026-11-26T12:12:46.014Z",
+  "fechaGeneracion": "2026-11-27",
+  "generadoEn": "2026-11-27T12:00:01.405Z",
   "android": {
     "versionCode": 8,
     "versionName": "1.5.2",
@@ -13,14 +13,14 @@
   },
   "frase": "\"Que todos sean uno\"",
   "pasapalabra": {
-    "id": "pasapalabra_1795655608093",
-    "titulo": "SABER RENUNCIAR",
-    "fecha": "26/11/2026",
+    "id": "pasapalabra_1795744091550",
+    "titulo": "CULTIVAR LA CONFIANZA",
+    "fecha": "27/11/2026",
     "href": "pasapalabra/pasapalabra_de_hoy.html"
   },
   "meditacion": {
-    "id": "meditacion_1775916792347",
-    "titulo": "Hijos de Dios",
+    "id": "meditacion_1777044028058",
+    "titulo": "El afán de cada día",
     "href": "meditacion/meditacion_diaria.html"
   },
   "palabraDeVida": {
